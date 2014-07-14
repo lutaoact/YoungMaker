@@ -4,11 +4,11 @@ cloud3edu cloud based education system
 
 ##Client
 ###Prerequisites:
-+ node
-brew install node
++ node  
+`brew install node`
 + npm 
-+ bower
-npm install bower -g
++ bower  
+`npm install bower -g`
 
 ###Downloand node&bower packages
 ```
@@ -26,8 +26,12 @@ grunt test
 ###Contributing
 Sublime is recommended.  
 Otherwise, ignore the IDE related files. E.g. `.idea`  
-Install [EditorConfig](http://editorconfig.org/)
-Install Coffee/Less
+Install [EditorConfig](http://editorconfig.org/)  
+Install Coffee/Less  
+[Package Control](https://sublime.wbond.net/installation#st2)  
+[Editor Config for Sublime](https://github.com/sindresorhus/editorconfig-sublime)  
+[Coffee Syntax for Sublime](https://github.com/jashkenas/coffee-script-tmbundle)  
+
 
 
 

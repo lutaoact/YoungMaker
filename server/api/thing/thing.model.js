@@ -1,12 +1,19 @@
-'use strict';
+(function() {
+  'use strict';
+  var Schema, ThingSchema, mongoose;
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  mongoose = require('mongoose');
 
-var ThingSchema = new Schema({
-  name: String,
-  info: String,
-  active: Boolean
-});
+  Schema = mongoose.Schema;
 
-module.exports = mongoose.model('Thing', ThingSchema);
+  ThingSchema = new Schema({
+    name: String,
+    info: String,
+    active: Boolean
+  });
+
+  module.exports = mongoose.model('Thing', ThingSchema);
+
+}).call(this);
+
+//# sourceMappingURL=thing.model.js.map

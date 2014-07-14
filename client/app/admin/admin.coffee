@@ -7,4 +7,5 @@ angular.module('budweiserApp')
       url: '/admin',
       templateUrl: 'app/admin/admin.html'
       controller: 'AdminCtrl'
+      authenticate:true
     )

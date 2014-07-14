@@ -11,7 +11,6 @@ angular.module('budweiserApp', [
   .config (($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider
     .otherwise('/')
-
     $locationProvider.html5Mode true
     $httpProvider.interceptors.push 'authInterceptor'
   )
@@ -35,5 +34,15 @@ angular.module('budweiserApp', [
   .run (($rootScope, $location, Auth) ->
     # Redirect to login if route requires auth and you're not logged in
     $rootScope.$on '$stateChangeStart', (event, next) ->
+      console.log next
+      ###
+      next.authenticate can be configed in route
+      .state('admin',
+      url: '/admin',
+      templateUrl: 'app/admin/admin.html'
+      controller: 'AdminCtrl'
+      authenticate:true
+      )
+      ###
       $location.path '/login'  if next.authenticate and not Auth.isLoggedIn()
   )

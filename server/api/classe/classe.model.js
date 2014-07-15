@@ -9,8 +9,8 @@
 
   ClasseSchema = new Schema({
     name: {type: String, required: true},
-    organization: {type: Schema.ObjectId, ref: 'Organization'},
-    students: [{type: Schema.ObjectId, ref: 'User'}],
+    organization: {type: Schema.Types.ObjectId, ref: 'Organization'},
+    students: [{type: Schema.Types.ObjectId, ref: 'User'}],
     year_grade: String
   });
 

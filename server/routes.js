@@ -15,6 +15,7 @@ module.exports = function(app) {
   app.use('/api/category', require('./api/category'));
   app.use('/api/classe', require('./api/classe'));
   app.use('/api/organization', require('./api/organization'));
+  app.use('/api/solution', require('./api/solution'));
 
   app.use('/auth', require('./auth'));
 

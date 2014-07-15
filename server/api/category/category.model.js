@@ -1,8 +1,9 @@
 (function() {
   'use strict';
-  var Schema, CategorySchema, mongoose;
+  var Schema, CategorySchema, mongoose, createdModifiedPlugin;
 
   mongoose = require('mongoose');
+  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
 
   Schema = mongoose.Schema;
 
@@ -11,6 +12,7 @@
     // sub_category: [{type: Schema.ObjectId, ref: 'Category'}]
   });
 
+  CategorySchema.plugin(createdModifiedPlugin, {index: true});
   module.exports = mongoose.model('Category', CategorySchema);
 
 }).call(this);

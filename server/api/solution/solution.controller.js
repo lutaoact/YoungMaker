@@ -1,48 +1,48 @@
 
 /*
  * Using Rails-like standard naming convention for endpoints.
- * GET     /category              ->  index
- * POST    /category              ->  create
- * GET     /category/:id          ->  show
- * PUT     /category/:id          ->  update
- * DELETE  /category/:id          ->  destroy
+ * GET     /solutions              ->  index
+ * POST    /solutions              ->  create
+ * GET     /solutions/:id          ->  show
+ * PUT     /solutions/:id          ->  update
+ * DELETE  /solutions/:id          ->  destroy
  */
 
 (function() {
   'use strict';
-  var Category, handleError, _;
+  var Solution, handleError, _;
 
   _ = require('lodash');
 
-  Category = require('./category.model');
+  Solution = require('./solution.model');
 
   exports.index = function(req, res) {
-    return Category.find(function(err, categories) {
+    return Solution.find(function(err, solutions) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(200, categories);
+      return res.json(200, solutions);
     });
   };
 
   exports.show = function(req, res) {
-    return Category.findById(req.params.id, function(err, category) {
+    return Solution.findById(req.params.id, function(err, solution) {
       if (err) {
         return handleError(res, err);
       }
-      if (!category) {
+      if (!solution) {
         return res.send(404);
       }
-      return res.json(category);
+      return res.json(solution);
     });
   };
 
   exports.create = function(req, res) {
-    return Category.create(req.body, function(err, category) {
+    return Solution.create(req.body, function(err, solution) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(201, category);
+      return res.json(201, solution);
     });
   };
 
@@ -50,33 +50,33 @@
     if (req.body._id) {
       delete req.body._id;
     }
-    return Category.findById(req.params.id, function(err, category) {
+    return Solution.findById(req.params.id, function(err, solution) {
       var updated;
       if (err) {
         return handleError(err);
       }
-      if (!category) {
+      if (!solution) {
         return res.send(404);
       }
-      updated = _.merge(category, req.body);
+      updated = _.merge(solution, req.body);
       return updated.save(function(err) {
         if (err) {
           return handleError(err);
         }
-        return res.json(200, category);
+        return res.json(200, solution);
       });
     });
   };
 
   exports.destroy = function(req, res) {
-    return Category.findById(req.params.id, function(err, category) {
+    return Solution.findById(req.params.id, function(err, solution) {
       if (err) {
         return handleError(res, err);
       }
-      if (!category) {
+      if (!solution) {
         return res.send(404);
       }
-      return category.remove(function(err) {
+      return solution.remove(function(err) {
         if (err) {
           return handleError(res, err);
         }
@@ -91,4 +91,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=Category.controller.js.map
+//# sourceMappingURL=Solution.controller.js.map

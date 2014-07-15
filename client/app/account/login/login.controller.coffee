@@ -11,8 +11,13 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
       Auth.login(
         email: $scope.user.email
         password: $scope.user.password
-      ).then(->
-        $location.path '/'
+      ).then(() ->
+        if $location.search().r?
+          $location.url(encodeURIComponent($location.search().r))
+          $location.replace()
+        else
+          $location.url('/')
+          $location.replace()
       ).catch (err) ->
         $scope.errors.other = err.message
 

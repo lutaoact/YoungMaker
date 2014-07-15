@@ -24,7 +24,7 @@ angular.module('budweiserApp', [
     # Intercept 401s and redirect you to login
     responseError: (response) ->
       if response.status is 401
-        $location.path '/login'
+        $location.url('/login?r=' + $location.url())
         # remove any stale tokens
         $cookieStore.remove 'token'
         $q.reject response
@@ -34,7 +34,6 @@ angular.module('budweiserApp', [
   .run (($rootScope, $location, Auth) ->
     # Redirect to login if route requires auth and you're not logged in
     $rootScope.$on '$stateChangeStart', (event, next) ->
-      console.log next
       ###
       next.authenticate can be configed in route
       .state('admin',
@@ -44,5 +43,5 @@ angular.module('budweiserApp', [
       authenticate:true
       )
       ###
-      $location.path '/login'  if next.authenticate and not Auth.isLoggedIn()
+      $location.url('/login?r=' + next.url) if next.authenticate and not Auth.isLoggedIn()
   )

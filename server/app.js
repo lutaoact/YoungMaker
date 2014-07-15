@@ -1,34 +1,44 @@
-/**
- * Main application file
+
+/*
+Main application file
  */
 
-'use strict';
+(function() {
+  'use strict';
+  var app, config, exports, express, mongoose, server, socketio;
 
-// Set default node environment to development
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var express = require('express');
-var mongoose = require('mongoose');
-var config = require('./config/environment');
+  express = require('express');
 
-// Connect to database
-mongoose.connect(config.mongo.uri, config.mongo.options);
+  mongoose = require('mongoose');
 
-// Populate DB with sample data
-if(config.seedDB) { require('./config/seed'); }
+  config = require('./config/environment');
 
-// Setup server
-var app = express();
-var server = require('http').createServer(app);
-var socketio = require('socket.io').listen(server);
-require('./config/socketio')(socketio);
-require('./config/express')(app);
-require('./routes')(app);
+  mongoose.connect(config.mongo.uri, config.mongo.options);
 
-// Start server
-server.listen(config.port, config.ip, function () {
-  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-});
+  if (config.seedDB) {
+    require('./config/seed');
+  }
 
-// Expose app
-exports = module.exports = app;
+  app = express();
+
+  server = require('http').createServer(app);
+
+  socketio = require('socket.io').listen(server);
+
+  require('./config/socketio')(socketio);
+
+  require('./config/express')(app);
+
+  require('./routes')(app);
+
+  server.listen(config.port, config.ip, function() {
+    return console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+  });
+
+  exports = module.exports = app;
+
+}).call(this);
+
+//# sourceMappingURL=app.js.map

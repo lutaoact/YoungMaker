@@ -1,15 +1,27 @@
-'use strict';
+(function() {
+  'use strict';
+  var controller, express, router;
 
-var express = require('express');
-var controller = require('./thing.controller');
+  express = require('express');
 
-var router = express.Router();
+  controller = require('./thing.controller');
 
-router.get('/', controller.index);
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.patch('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+  router = express.Router();
 
-module.exports = router;
+  router.get('/', controller.index);
+
+  router.get('/:id', controller.show);
+
+  router.post('/', controller.create);
+
+  router.put('/:id', controller.update);
+
+  router.patch('/:id', controller.update);
+
+  router["delete"]('/:id', controller.destroy);
+
+  module.exports = router;
+
+}).call(this);
+
+//# sourceMappingURL=index.js.map

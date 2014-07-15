@@ -1,17 +1,31 @@
-'use strict';
+(function() {
+  'use strict';
+  var auth, config, controller, express, router;
 
-var express = require('express');
-var controller = require('./user.controller');
-var config = require('../../config/environment');
-var auth = require('../../auth/auth.service');
+  express = require('express');
 
-var router = express.Router();
+  controller = require('./user.controller');
 
-router.get('/', auth.hasRole('admin'), controller.index);
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
-router.get('/me', auth.isAuthenticated(), controller.me);
-router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
-router.get('/:id', auth.isAuthenticated(), controller.show);
-router.post('/', controller.create);
+  config = require('../../config/environment');
 
-module.exports = router;
+  auth = require('../../auth/auth.service');
+
+  router = express.Router();
+
+  router.get('/', auth.hasRole('admin'), controller.index);
+
+  router["delete"]('/:id', auth.hasRole('admin'), controller.destroy);
+
+  router.get('/me', auth.isAuthenticated(), controller.me);
+
+  router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
+
+  router.get('/:id', auth.isAuthenticated(), controller.show);
+
+  router.post('/', controller.create);
+
+  module.exports = router;
+
+}).call(this);
+
+//# sourceMappingURL=index.js.map

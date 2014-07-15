@@ -4,7 +4,7 @@
 
   express = require('express');
 
-  controller = require('./user.controller');
+  controller = require('./user.controlle');
 
   config = require('../../config/environment');
 

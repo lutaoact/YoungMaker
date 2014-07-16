@@ -1,6 +1,9 @@
 <div class="col-md-12">
   <a class="btn btn-primary" ng-click="login('admin@admin.com','admin')">Admin</a>
   <a class="btn btn-primary" ng-click="login('test@test.com','test')">Test</a>
+  <input class="form-control" placeholder="用户名" ng-model="$storage.user.username">
+  <input class="form-control" placeholder="密码" ng-model="$storage.user.password">
+  <a class="btn btn-primary" ng-click="login($storage.user.username,$storage.user.password)">Login</a>
   <a class="btn btn-primary" ng-click="logout()">Log out</a>
   <br/><label>Authorization</label><div>{{token}}</div>
 </div>

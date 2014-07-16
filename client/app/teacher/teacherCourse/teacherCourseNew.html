@@ -1,3 +1,34 @@
-<div class="col-md-12">
-This is the teacherCourseNew view.
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <form class="form">
+    <div class="form-group">
+      <label for="course-name">课程名称</label>
+      <input class="form-control" id="course-name" placeholder="课程名称">
+    </div>
+    <div class="form-group">
+      <label for="course-cate">课程类别</label>
+      <select ui-select2 ng-model="newLink.link" data-placeholder="选择一个类别" id="course-cate">
+        <option value=""></option>
+        <option ng-repeat="option in categories" value="{{option}}">{{option.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="course-info">课程简介</label>
+      <input class="form-control" id="course-info" placeholder="课程简介">
+    </div>
+    <div class="form-group">
+      <label for="course-thumb">课程图标</label>
+      <input type="file" id="course-thumb">
+      <p class="help-block">Example block-level help text here.</p>
+    </div>
+
+    <button type="submit" class="btn btn-default" ng-click="alert('create')">Submit</button>
+  </form>
 </div>
+
+<footer class="footer">
+  <div class="container">
+    <p><a href="//cloud3edu.com">cloud3edu</a></p>
+  </div>
+</footer>

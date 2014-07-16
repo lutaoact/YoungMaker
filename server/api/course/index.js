@@ -1,14 +1,16 @@
 (function() {
   'use strict';
-  var controller, express, router;
+  var controller, express, router, auth;
 
   express = require('express');
 
   controller = require('./course.controller');
 
+  auth = require('../../auth/auth.service');
+
   router = express.Router();
 
-  router.get('/', controller.index);
+  router.get('/', auth.isAuthenticated(), controller.index);
 
   router.get('/:id', controller.show);
 

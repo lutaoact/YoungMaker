@@ -10,18 +10,28 @@
 
 (function() {
   'use strict';
-  var Organization, handleError, _;
+  var Organization, User, handleError, _;
 
   _ = require('lodash');
 
   Organization = require('./organization.model');
+  User = require('../user/user.model');
 
   exports.index = function(req, res) {
-    return Organization.find(function(err, organizations) {
+    var userId, orgId;
+    userId = req.user.id;
+    User.findOne({_id: userId}, function(err, user) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(200, organizations);
+
+      orgId = user.org_id;
+      return Organization.findOne({_id: orgId}, function(err, organization) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.json(200, organization);
+      });
     });
   };
 

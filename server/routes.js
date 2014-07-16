@@ -11,11 +11,11 @@ module.exports = function(app) {
   // Insert routes below
   app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
-  app.use('/api/course', require('./api/course'));
-  app.use('/api/category', require('./api/category'));
-  app.use('/api/classe', require('./api/classe'));
-  app.use('/api/organization', require('./api/organization'));
-  app.use('/api/solution', require('./api/solution'));
+  app.use('/api/courses', require('./api/course'));
+  app.use('/api/categories', require('./api/category'));
+  app.use('/api/classes', require('./api/classe'));
+  app.use('/api/organizations', require('./api/organization'));
+  app.use('/api/solutions', require('./api/solution'));
 
   app.use('/auth', require('./auth'));
 

@@ -31,8 +31,8 @@ Install Coffee/Less
 [Package Control](https://sublime.wbond.net/installation#st2)  
 [Editor Config for Sublime](https://github.com/sindresorhus/editorconfig-sublime)  
 [Coffee Syntax for Sublime](https://github.com/jashkenas/coffee-script-tmbundle)  
-
-
+HTML/CSS Coding Style: follow [Github Coding Sytle](https://github.com/styleguide/css)  
+JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/node-style-guide)  
 
 
 

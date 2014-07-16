@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'MainCtrl', ($scope, $http, socket) ->
 
   $http.get('/api/things').success (awesomeThings) ->
     $scope.awesomeThings = awesomeThings
+    console.log awesomeThings
     socket.syncUpdates 'thing', $scope.awesomeThings
 
   $scope.addThing = ->

@@ -8,6 +8,8 @@ createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugi
 
 crypto = require 'crypto'
 
+authTypes = ['google']
+
 UserSchema = new Schema
   avatar :
     type : String

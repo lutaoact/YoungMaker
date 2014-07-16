@@ -1,10 +1,11 @@
-'use strict';
+(function() {
+  'use strict';
+  module.exports = {
+    mongo: {
+      uri: 'mongodb://localhost/budweiser-dev'
+    }
+  };
 
-// Development specific configuration
-// ==================================
-module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/budweiser-dev'
-  }
-};
+}).call(this);
+
+//# sourceMappingURL=development.js.map

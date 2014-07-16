@@ -20,7 +20,7 @@ UserSchema = new Schema
     type : String
   org_id :
     type : ObjectId
-  hashed_password :
+  hashedPassword :
     type : String
   provider :
     type : String
@@ -42,7 +42,7 @@ UserSchema
   .set (password) ->
     this._password = password
     this.salt = this.makeSalt()
-    this.hashed_password = this.encryptPassword(password)
+    this.hashedPassword = this.encryptPassword(password)
   .get () ->
     this._password
 
@@ -74,9 +74,9 @@ UserSchema
 
 # Validate empty password
 UserSchema
-  .path 'hashed_password'
-  .validate (hashed_password) ->
-    hashed_password.length
+  .path 'hashedPassword'
+  .validate (hashedPassword) ->
+    hashedPassword.length
   , 'Password cannot be blank'
 
 # Validate email is not taken
@@ -106,7 +106,7 @@ UserSchema
     if  not this.isNew
       next()
 
-    if not validatePresenceOf(this.hashed_password) and authTypes.indexOf(this.provider) is -1
+    if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
       next new Error 'Invalid password'
     else
       next()
@@ -122,7 +122,7 @@ UserSchema.methods =
     @api public
   ###
   authenticate: (plainText) ->
-    this.encryptPassword(plainText) is this.hashed_password
+    this.encryptPassword(plainText) is this.hashedPassword
 
   ###
    Make salt

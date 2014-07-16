@@ -28,7 +28,7 @@
     org_id: {
       type: ObjectId
     },
-    hashed_password: {
+    hashedPassword: {
       type: String
     },
     provider: {
@@ -56,7 +56,7 @@
   UserSchema.virtual('password').set(function(password) {
     this._password = password;
     this.salt = this.makeSalt();
-    return this.hashed_password = this.encryptPassword(password);
+    return this.hashedPassword = this.encryptPassword(password);
   }).get(function() {
     return this._password;
   });
@@ -85,8 +85,8 @@
     return email.length;
   }, 'Email cannot be blank');
 
-  UserSchema.path('hashed_password').validate(function(hashed_password) {
-    return hashed_password.length;
+  UserSchema.path('hashedPassword').validate(function(hashedPassword) {
+    return hashedPassword.length;
   }, 'Password cannot be blank');
 
   UserSchema.path('email').validate(function(value, respond) {
@@ -121,7 +121,7 @@
     if (!this.isNew) {
       next();
     }
-    if (!validatePresenceOf(this.hashed_password) && authTypes.indexOf(this.provider) === -1) {
+    if (!validatePresenceOf(this.hashedPassword) && authTypes.indexOf(this.provider) === -1) {
       return next(new Error('Invalid password'));
     } else {
       return next();
@@ -142,7 +142,7 @@
       @api public
      */
     authenticate: function(plainText) {
-      return this.encryptPassword(plainText) === this.hashed_password;
+      return this.encryptPassword(plainText) === this.hashedPassword;
     },
 
     /*

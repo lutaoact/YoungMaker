@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var ObjectId, Schema, UserSchema, createdModifiedPlugin, crypto, mongoose, validatePresenceOf;
+  var ObjectId, Schema, UserSchema, authTypes, createdModifiedPlugin, crypto, mongoose, validatePresenceOf;
 
   mongoose = require('mongoose');
 
@@ -11,6 +11,8 @@
   createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
 
   crypto = require('crypto');
+
+  authTypes = ['google'];
 
   UserSchema = new Schema({
     avatar: {

@@ -11,7 +11,7 @@
     name: {type: String, required: true},
     organization: {type: Schema.Types.ObjectId, ref: 'Organization'},
     students: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    year_grade: String
+    yearGrade: String
   });
 
   ClasseSchema.plugin(createdModifiedPlugin, {index: true});

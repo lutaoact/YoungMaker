@@ -10,7 +10,7 @@
   OrganizationSchema = new Schema({
     name: {type: String, required: true},
     logo: String,
-    sub_domain: String,
+    subDomain: String,
     background: String, //url
     type: String
   });

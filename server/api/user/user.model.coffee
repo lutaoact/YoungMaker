@@ -20,6 +20,7 @@ UserSchema = new Schema
     type : String
   org_id :
     type : ObjectId
+    ref : 'Organization'
   hashedPassword :
     type : String
   provider :

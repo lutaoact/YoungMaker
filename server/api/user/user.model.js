@@ -26,7 +26,8 @@
       type: String
     },
     org_id: {
-      type: ObjectId
+      type: ObjectId,
+      ref: 'Organization'
     },
     hashedPassword: {
       type: String

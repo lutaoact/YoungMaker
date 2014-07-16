@@ -24,7 +24,8 @@
       type: String
     },
     org_id: {
-      type: ObjectId
+      type: ObjectId,
+      ref: 'Organization'
     },
     hashed_password: {
       type: String
@@ -73,6 +74,7 @@
       'role': this.role
     };
   });
+
 
   /*
     Validations
@@ -153,7 +155,7 @@
 
     /*
       Encrypt password
-
+    
       @param {String} password
       @return {String}
       @api public

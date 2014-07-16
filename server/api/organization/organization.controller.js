@@ -17,22 +17,16 @@
   Organization = require('./organization.model');
   User = require('../user/user.model');
 
-  exports.index = function(req, res) {
+  exports.me = function(req, res) {
     var userId, orgId;
     userId = req.user.id;
-    User.findOne({_id: userId}, function(err, user) {
-      if (err) {
-        return handleError(res, err);
-      }
-
-      orgId = user.org_id;
-      return Organization.findOne({_id: orgId}, function(err, organization) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.json(200, organization);
-      });
-    });
+    User
+    .findOne({_id: userId})
+    .populate('org_id')
+    .exec(function (err, user) {
+      if (err) return handleError(res, err);
+      return res.json(200, user.org_id)
+    })
   };
 
   exports.show = function(req, res) {

@@ -41,7 +41,7 @@
     return newUser.save(function(err, user) {
       var token;
       if (err) {
-        validationError(res, err);
+        return validationError(res, err);
       }
       token = jwt.sign({
         _id: user._id

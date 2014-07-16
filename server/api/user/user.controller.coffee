@@ -24,7 +24,7 @@ exports.create = (req, res, next) ->
   newUser = new User req.body
   newUser.provider = 'local'
   newUser.save (err, user) ->
-    validationError res, err if err
+    return validationError res, err if err
     token = jwt.sign
       _id: user._id,
       config.secrets.session,

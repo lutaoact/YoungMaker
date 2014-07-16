@@ -1,0 +1,26 @@
+<div class="col-md-12">
+  <a class="btn btn-primary" ng-click="login('admin@admin.com','admin')">Admin</a>
+  <a class="btn btn-primary" ng-click="login('test@test.com','test')">Test</a>
+  <a class="btn btn-primary" ng-click="logout()">Log out</a>
+  <br/><label>Authorization</label><div>{{token}}</div>
+</div>
+
+<div class="col-md-12">
+  <input class="col-md-6 input" ng-model="request.url"/>
+  <select class="btn btn-primary" ng-model="request.method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT">PUT</option>
+    <option value="DELETE">DELETE</option>
+  </select>
+  <a class="btn btn-primary" ng-click="send()">Send</a>
+</div>
+<hr/>
+<div class="col-md-12">
+  <label class="col-md-1">json body</label>
+  <textarea ng-model="request.data" class="col-md-8" style="height: 300px;">
+  </textarea>
+</div>
+<div class="col-md-12">
+  <div>{{response|json}}</div>
+</div>

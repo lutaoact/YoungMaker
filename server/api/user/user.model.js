@@ -74,7 +74,6 @@
     };
   });
 
-
   /*
     Validations
    */
@@ -154,7 +153,7 @@
 
     /*
       Encrypt password
-    
+
       @param {String} password
       @return {String}
       @api public

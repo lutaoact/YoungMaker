@@ -1,6 +1,11 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $cookieStore) ->
+angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $cookieStore,$localStorage) ->
+  $scope.$storage = $localStorage;
+  if not $scope.$storage.request
+    $scope.$storage.request = {
+      method:'GET'
+    }
   $scope.token = 'empty'
   $scope.login = (email, password)->
     $http.post('/auth/local',
@@ -16,26 +21,23 @@ angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $coo
   $scope.logout = ()->
     $cookieStore.remove 'token'
     $scope.token = 'empty'
-  $scope.request = {
-    method:'GET'
-  }
   $scope.response = {}
 
   $scope.send = ()->
-    console.log $scope.request
-    if not $scope.request.url
+    console.log $scope.$storage.request
+    if not $scope.$storage.request.url
       $scope.response = 'url required'
       return
-    if $scope.request.data
+    if $scope.$storage.request.data
       try
-        angular.fromJson($scope.request.data)
+        angular.fromJson($scope.$storage.request.data)
       catch error
         $scope.response = error
         return
     $http(
-      url:$scope.request.url
-      method:$scope.request.method
-      data:$scope.request.data
+      url:$scope.$storage.request.url
+      method:$scope.$storage.request.method
+      data:$scope.$storage.request.data
       ).success (data)->
         $scope.response = data
       .error (err)->

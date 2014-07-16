@@ -6,7 +6,8 @@ angular.module('budweiserApp', [
   'ngSanitize',
   'ui.bootstrap',
   'btford.socket-io',
-  'ui.router'
+  'ui.router',
+  'ngStorage'
 ])
   .config (($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider

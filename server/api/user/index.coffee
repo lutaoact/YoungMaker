@@ -1,7 +1,7 @@
 'use strict'
 
 express = require 'express'
-controller = require './user.controlle'
+controller = require './user.controller'
 config = require '../../config/environment'
 auth = require '../../auth/auth.service'
 

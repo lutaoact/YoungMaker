@@ -1,101 +1,148 @@
-'use strict';
+(function() {
+  'use strict';
+  var User, config, jwt, passport, validationError;
 
-var User = require('./user.model');
-var passport = require('passport');
-var config = require('../../config/environment');
-var jwt = require('jsonwebtoken');
+  User = require('./user.model');
 
-var validationError = function(res, err) {
-  return res.json(422, err);
-};
+  passport = require('passport');
 
-/**
- * Get list of users
- * restriction: 'admin'
- */
-exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
-    if(err) return res.send(500, err);
-    res.json(200, users);
-  });
-};
+  config = require('../../config/environment');
 
-/**
- * Creates a new user
- */
-exports.create = function (req, res, next) {
-  var newUser = new User(req.body);
-  newUser.provider = 'local';
-  newUser.role = 'user';
-  newUser.save(function(err, user) {
-    if (err) return validationError(res, err);
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
-  });
-};
+  jwt = require('jsonwebtoken');
 
-/**
- * Get a single user
- */
-exports.show = function (req, res, next) {
-  var userId = req.params.id;
+  validationError = function(res, err) {
+    return res.json(422, err);
+  };
 
-  User.findById(userId, function (err, user) {
-    if (err) return next(err);
-    if (!user) return res.send(401);
-    res.json(user.profile);
-  });
-};
 
-/**
- * Deletes a user
- * restriction: 'admin'
- */
-exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.id, function(err, user) {
-    if(err) return res.send(500, err);
-    return res.send(204);
-  });
-};
+  /*
+    Get list of users
+    restriction: 'admin'
+   */
 
-/**
- * Change a users password
- */
-exports.changePassword = function(req, res, next) {
-  var userId = req.user._id;
-  var oldPass = String(req.body.oldPassword);
-  var newPass = String(req.body.newPassword);
+  exports.index = function(req, res) {
+    return User.find({}, '-salt -hashedPassword', function(err, users) {
+      if (err) {
+        res.send(500, err);
+      }
+      return res.json(200, users);
+    });
+  };
 
-  User.findById(userId, function (err, user) {
-    if(user.authenticate(oldPass)) {
-      user.password = newPass;
-      user.save(function(err) {
-        if (err) return validationError(res, err);
-        res.send(200);
+
+  /*
+    Creates a new user
+   */
+
+  exports.create = function(req, res, next) {
+    var newUser;
+    newUser = new User(req.body);
+    newUser.provider = 'local';
+    return newUser.save(function(err, user) {
+      var token;
+      if (err) {
+        validationError(res, err);
+      }
+      token = jwt.sign({
+        _id: user._id
+      }, config.secrets.session, {
+        expiresInMinutes: 60 * 5
       });
-    } else {
-      res.send(403);
-    }
-  });
-};
+      return res.json({
+        token: token
+      });
+    });
+  };
 
-/**
- * Get my info
- */
-exports.me = function(req, res, next) {
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
-    if (err) return next(err);
-    if (!user) return res.json(401);
-    res.json(user);
-  });
-};
 
-/**
- * Authentication callback
- */
-exports.authCallback = function(req, res, next) {
-  res.redirect('/');
-};
+  /*
+    Get a single user
+   */
+
+  exports.show = function(req, res, next) {
+    var userId;
+    userId = req.params.id;
+    return User.findById(userId, function(err, user) {
+      if (err) {
+        next(err);
+      }
+      if (!user) {
+        res.send(401);
+      }
+      return res.json(user.profile);
+    });
+  };
+
+
+  /*
+    Deletes a user
+    restriction: 'admin'
+   */
+
+  exports.destroy = function(req, res) {
+    return User.findByIdAndRemove(req.params.id, function(err, user) {
+      if (err) {
+        res.send(500, err);
+      }
+      return res.send(204);
+    });
+  };
+
+
+  /*
+    Change a users password
+   */
+
+  exports.changePassword = function(req, res, next) {
+    var newPass, oldPass, userId;
+    userId = req.user._id;
+    oldPass = String(req.body.oldPassword);
+    newPass = String(req.body.newPassword);
+    return User.findById(userId, function(err, user) {
+      if (user.authenticate(oldPass)) {
+        user.password = newPass;
+        return user.save(function(err) {
+          if (err) {
+            validationError(res, err);
+          }
+          return res.send(200);
+        });
+      } else {
+        return res.send(403);
+      }
+    });
+  };
+
+
+  /*
+    Get my info
+   */
+
+  exports.me = function(req, res, next) {
+    var userId;
+    userId = req.user._id;
+    return User.findOne({
+      _id: userId
+    }, '-salt -hashedPassword', function(err, user) {
+      if (err) {
+        next(err);
+      }
+      if (!user) {
+        res.json(401);
+      }
+      return res.json(user);
+    });
+  };
+
+
+  /*
+   Authentication callback
+   */
+
+  exports.authCallback = function(req, res, next) {
+    return res.redirect('/');
+  };
+
+}).call(this);
+
+//# sourceMappingURL=user.controller.js.map

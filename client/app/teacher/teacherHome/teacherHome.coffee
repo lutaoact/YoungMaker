@@ -2,6 +2,6 @@
 
 angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider.state 'teacherHome',
-    url: '/t/home'
+    url: '/t'
     templateUrl: 'app/teacher/teacherHome/teacherHome.html'
     controller: 'TeacherhomeCtrl'

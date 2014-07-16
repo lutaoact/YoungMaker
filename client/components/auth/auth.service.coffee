@@ -20,7 +20,7 @@ angular.module('budweiserApp').factory 'Auth', ($location, $rootScope, $http, Us
     ).success((data) ->
       $cookieStore.put 'token', data.token
       currentUser = User.get()
-      deferred.resolve data
+      deferred.resolve currentUser
       cb()
     ).error ((err) ->
       @logout()

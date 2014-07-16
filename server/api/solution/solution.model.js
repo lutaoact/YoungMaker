@@ -9,7 +9,7 @@
   SolutionSchema = new Schema({
     question_id: String,
     content: String, // url
-    key_points: String,
+    keyPoints: String,
     course: { type: Schema.Types.ObjectId, ref: 'Course' }
     // sub_category: [{type: Schema.ObjectId, ref: 'Solution'}]
   });

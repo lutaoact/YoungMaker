@@ -18,7 +18,7 @@
   User = require('../user/user.model');
 
   exports.me = function(req, res) {
-    var userId, orgId;
+    var userId;
     userId = req.user.id;
     User
     .findOne({_id: userId})

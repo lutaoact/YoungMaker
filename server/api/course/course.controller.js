@@ -17,7 +17,10 @@
   Course = require('./course.model');
 
   exports.index = function(req, res) {
-    return Course.find({'owners': {$in: [req.user.id]}}, function(err, courses) {
+    Course
+      .find({'owners': {$in: [req.user.id]}})
+      .populate('classes', '_id name orgId yearGrade')
+      .exec(function(err, courses) {
       if (err) {
         return handleError(res, err);
       }

@@ -13,7 +13,7 @@
     thumbnail: String,
     info: String,
     owners: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    classes: [{type: Schema.Types.ObjectId, ref: 'Class'}]
+    classes: [{type: Schema.Types.ObjectId, ref: 'Classe'}]
   });
 
   CourseSchema.plugin(createdModifiedPlugin, {index: true});

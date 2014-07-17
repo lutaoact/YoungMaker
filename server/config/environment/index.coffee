@@ -27,7 +27,7 @@ all =
     session: process.env.EXPRESS_SECRET or 'budweiser-secret'
 
   # List of user roles
-  userRoles: ['guest', 'user', 'admin']
+  userRoles: ['guest', 'user', 'admin', 'teacher']
 
   # MongoDB connection options
   mongo:

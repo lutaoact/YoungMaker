@@ -1,3 +1,26 @@
-<div class="col-md-12">
-This is the teacherManager view.
+<div class="container">
+  <div class="form-group clearfix">
+    <div class="btn-group btn-group-sm pull-right">
+      <label class="btn btn-default" ng-show="!isExcelProcessing">
+        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+        导入
+      </label>
+      <label class="btn btn-default disabled" ng-show="isExcelProcessing">
+        <i class="fa fa-spinner fa-spin"></i>导入中
+      </label>
+      <a class="btn btn-default">
+        邀请
+      </a>
+    </div>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="user in users">
+      <strong>{{user.name}}</strong><br>
+      <span class="text-muted">{{user.email}}</span>
+      <div class="pull-right">
+        <span class="status">已注册</span>
+        <a ng-click="delete(user)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+      </div>
+    </li>
+  </ul>
 </div>

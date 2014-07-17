@@ -10,30 +10,40 @@
 
 (function() {
   'use strict';
-  var Classe, handleError, _;
+  var Classe, User, handleError, _;
 
   _ = require('lodash');
 
   Classe = require('./classe.model');
+  User = require('../user/user.model');
 
   exports.index = function(req, res) {
-    return Classe.find(function(err, classes) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.json(200, classes);
+    User
+    .findOne({_id: req.user.id})
+    .exec(function(err, user) {
+      if (err) return handleError(res, err);
+      Classe
+      .find({orgId: user.orgId})
+      .select('_id name orgId yearGrade modified created')
+      .exec(function(err, classes){
+        if (err) return handleError(res, err);
+        return res.json(200, classes)
+      });
     });
   };
 
   exports.show = function(req, res) {
-    return Classe.findById(req.params.id, function(err, classe) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!classe) {
-        return res.send(404);
-      }
-      return res.json(classe);
+    User
+    .findOne({_id: req.user.id})
+    .exec(function(err, user) {
+      if (err) return handleError(res, err);
+      Classe
+      .findById(req.params.id)
+      .where('orgId').equals(user.orgId)
+      .exec(function(err, classe){
+        if (err) return handleError(res, err);
+        return res.json(200, classe)
+      });
     });
   };
 

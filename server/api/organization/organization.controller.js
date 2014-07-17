@@ -1,11 +1,12 @@
 
 /*
  * Using Rails-like standard naming convention for endpoints.
- * GET     /organization             ->  index
- * POST    /organization              ->  create
- * GET     /organization/:id          ->  show
- * PUT     /organization/:id          ->  update
- * DELETE  /organization/:id          ->  destroy
+ * GET     /organizations              ->  index
+ * GET     /organizations{?sub}        ->  get by subdomain
+ * POST    /organizations              ->  create
+ * GET     /organizations/:id          ->  show
+ * PUT     /organizations/:id          ->  update
+ * DELETE  /organizations/:id          ->  destroy
  */
 
 (function() {
@@ -17,15 +18,34 @@
   Organization = require('./organization.model');
   User = require('../user/user.model');
 
+  exports.index = function(req, res) {
+    var subDomain, resFun;
+
+    resFun = function(err, organizations) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.json(200, organizations);
+    }
+
+    subDomain = req.query.sub;
+    if (subDomain) {
+      return Organization.find({'subDomain': subDomain}, resFun);
+    }
+    else { // get all
+      return Organization.find(resFun);
+    }
+  };
+
   exports.me = function(req, res) {
     var userId;
     userId = req.user.id;
     User
     .findOne({_id: userId})
-    .populate('org_id')
-    .exec(function (err, user) {
+    .populate('orgId')
+    .exec(function(err, user) {
       if (err) return handleError(res, err);
-      return res.json(200, user.org_id)
+      return res.json(200, user.orgId)
     })
   };
 

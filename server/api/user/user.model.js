@@ -25,7 +25,7 @@
     name: {
       type: String
     },
-    org_id: {
+    orgId: {
       type: ObjectId,
       ref: 'Organization'
     },

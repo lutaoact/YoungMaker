@@ -10,14 +10,14 @@
 
 (function() {
   'use strict';
-  var Thing, handleError, _;
+  var Course, handleError, _;
 
   _ = require('lodash');
 
-  Thing = require('./course.model');
+  Course = require('./course.model');
 
   exports.index = function(req, res) {
-    return Thing.find(function(err, courses) {
+    return Course.find({'owners': {$in: [req.user.id]}}, function(err, courses) {
       if (err) {
         return handleError(res, err);
       }
@@ -26,7 +26,7 @@
   };
 
   exports.show = function(req, res) {
-    return Thing.findById(req.params.id, function(err, course) {
+    return Course.findById(req.params.id, function(err, course) {
       if (err) {
         return handleError(res, err);
       }
@@ -38,7 +38,8 @@
   };
 
   exports.create = function(req, res) {
-    return Thing.create(req.body, function(err, course) {
+    req.body.owners = [req.user.id]
+    return Course.create(req.body, function(err, course) {
       if (err) {
         return handleError(res, err);
       }
@@ -50,7 +51,7 @@
     if (req.body._id) {
       delete req.body._id;
     }
-    return Thing.findById(req.params.id, function(err, course) {
+    return Course.findById(req.params.id, function(err, course) {
       var updated;
       if (err) {
         return handleError(err);
@@ -69,7 +70,7 @@
   };
 
   exports.destroy = function(req, res) {
-    return Thing.findById(req.params.id, function(err, course) {
+    return Course.findById(req.params.id, function(err, course) {
       if (err) {
         return handleError(res, err);
       }

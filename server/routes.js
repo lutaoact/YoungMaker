@@ -16,6 +16,7 @@ module.exports = function(app) {
   app.use('/api/classes', require('./api/classe'));
   app.use('/api/organizations', require('./api/organization'));
   app.use('/api/solutions', require('./api/solution'));
+  app.use('/api/qiniu', require('./api/qiniu'));
 
   app.use('/auth', require('./auth'));
 

@@ -1,12 +1,10 @@
 (function() {
   'use strict';
-  var auth, config, controller, express, router;
+  var auth, controller, express, router;
 
   express = require('express');
 
   controller = require('./user.controller');
-
-  config = require('../../config/environment');
 
   auth = require('../../auth/auth.service');
 

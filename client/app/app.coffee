@@ -8,7 +8,8 @@ angular.module('budweiserApp', [
   'btford.socket-io',
   'ui.router',
   'ngStorage',
-  'ui.select2'
+  'ui.select2',
+  'angularFileUpload'
 ])
   .config (($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider

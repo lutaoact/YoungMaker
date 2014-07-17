@@ -1,27 +1,59 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, Auth, User,$filter, $timeout) ->
-  $http.get('/api/users').success (users) ->
-    ###$scope.users = $filter('filter')(users, (user)->
-        user._id isnt Auth.getCurrentUser()._id
-      )###
-    # more simplified
-    $scope.users = $filter('filter')(users,{_id:"!" + Auth.getCurrentUser()._id})
+angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, Auth, User,$filter, $timeout,$upload) ->
+  $scope.reloadUsers = ()->
+    $http.get('/api/users').success (users) ->
+      ###$scope.users = $filter('filter')(users, (user)->
+          user._id isnt Auth.getCurrentUser()._id
+        )###
+      # more simplified
+      $scope.users = $filter('filter')(users,{_id:"!" + Auth.getCurrentUser()._id})
 
-  $scope.onFileSelect = (file)->
-    console.log 'in'
+  $scope.isExcelProcessing = false
+
+  $scope.onFileSelect = (files)->
+    if not files? or files.length < 1
+      return
+    #TODO: check file type by name or file type. pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
+    if not /^.*\.(xls|XLS|xlsx|XLSX)$/.test files[0].name
+      $scope.invalid = true
+      return
+    if files[0].size > 50 * 1024 * 1024
+      $scope.invalid = true
+      return
+
     $scope.isExcelProcessing = true
-    $timeout ()->
-      for i in [0..10]
-        do (i)->
-          $scope.users.push
-            name:"xxx"+i
-            email:"xxx" + i + "@xxx.com"
-            role:"teacher"
-            _id: i + "xxx"
-      console.log 'finished'
-      $scope.isExcelProcessing = false
-    , 3000
+    file = files[0]
+    # get upload token
+    console.log file
+    $http.get('/api/qiniu/uptoken')
+    .success (uploadToken)->
+      qiniuParam =
+        'key': uploadToken.random + '/' + encodeURIComponent(file.name)
+        'token': uploadToken.token
+      $scope.upload = $upload.upload
+        url: 'http://up.qiniu.com'
+        method: 'POST'
+        data: qiniuParam
+        withCredentials: false
+        file: file
+        fileFormDataName: 'file'
+      .progress (evt)->
+        $scope.uploadingP = parseInt(100.0 * evt.loaded / evt.total)
+      .success (data) ->
+        # file is uploaded successfully
+        console.log data
+        $scope.excelUrl = data.key
+        $http.post('/api/users/sheet',{key:data.key})
+        .success (result)->
+          console.log result
+          $scope.reloadUsers()
+        .error (error)->
+          console.log error
+        .finally ()->
+          $scope.isExcelProcessing = false
+      .error (response)->
+        console.log response
 
   $scope.delete = (user) ->
     # Check if the user to delete is self.
@@ -31,7 +63,7 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
     angular.forEach $scope.users, (u, i) ->
       $scope.users.splice i, 1  if u is user
 
-  $scope.isExcelProcessing = false
+  $scope.reloadUsers()
 
 
 

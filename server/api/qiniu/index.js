@@ -16,6 +16,8 @@
 
   router.get('/uptoken', auth.isAuthenticated(), controller.uptoken);
 
+  router.get('/signedUrl/:id', auth.isAuthenticated(), controller.signedUrl);
+
   module.exports = router;
 
 }).call(this);

@@ -10,9 +10,11 @@
 
   router = express.Router();
 
+  router.get('/', controller.index); // {?sub}
+
   router.get('/me', auth.isAuthenticated(), controller.me);
 
-  // router.get('/:id', auth.isAuthenticated(), controller.show);
+  router.get('/:id', controller.show);
 
   router.post('/', auth.hasRole('admin'), controller.create);
 

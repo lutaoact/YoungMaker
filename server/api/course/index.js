@@ -10,17 +10,17 @@
 
   router = express.Router();
 
-  router.get('/', auth.isAuthenticated(), controller.index);
+  router.get('/', auth.hasRole('teacher'), controller.index);
 
-  router.get('/:id', controller.show);
+  router.get('/:id', auth.isAuthenticated(), controller.show);
 
-  router.post('/', controller.create);
+  router.post('/', auth.hasRole('teacher'), controller.create);
 
-  router.put('/:id', controller.update);
+  router.put('/:id', auth.hasRole('teacher'), controller.update);
 
-  router.patch('/:id', controller.update);
+  router.patch('/:id', auth.hasRole('teacher'), controller.update);
 
-  router["delete"]('/:id', controller.destroy);
+  // router["delete"]('/:id', controller.destroy);
 
   module.exports = router;
 

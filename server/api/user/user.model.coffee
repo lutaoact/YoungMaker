@@ -18,7 +18,7 @@ UserSchema = new Schema
     lowercase : true
   name :
     type : String
-  org_id :
+  orgId :
     type : ObjectId
     ref : 'Organization'
   hashedPassword :

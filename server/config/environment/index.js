@@ -1,50 +1,38 @@
-'use strict';
+(function() {
+  'use strict';
+  var all, path, requiredProcessEnv, _;
 
-var path = require('path');
-var _ = require('lodash');
+  path = require('path');
 
-function requiredProcessEnv(name) {
-  if(!process.env[name]) {
-    throw new Error('You must set the ' + name + ' environment variable');
-  }
-  return process.env[name];
-}
+  _ = require('lodash');
 
-// All configurations will extend these options
-// ============================================
-var all = {
-  env: process.env.NODE_ENV,
+  requiredProcessEnv = function(name) {
+    if (!process.env[name]) {
+      throw new Error('You must set the ' + name + ' environment variable');
+    }
+    return process.env[name];
+  };
 
-  // Root path of server
-  root: path.normalize(__dirname + '/../../..'),
-
-  // Server port
-  port: process.env.PORT || 9000,
-
-  // Should we populate the DB with sample data?
-  seedDB: true,
-
-  // Secret for session, you will want to change this and make it an environment variable
-  secrets: {
-    session: 'budweiser-secret'
-  },
-
-  // List of user roles
-  userRoles: ['guest', 'user', 'admin'],
-
-  // MongoDB connection options
-  mongo: {
-    options: {
-      db: {
-        safe: true
+  all = {
+    env: process.env.NODE_ENV,
+    root: path.normalize(__dirname + '/../../..'),
+    port: process.env.PORT || 9000,
+    seedDB: false,
+    secrets: {
+      session: process.env.EXPRESS_SECRET || 'budweiser-secret'
+    },
+    userRoles: ['guest', 'user', 'admin', 'teacher'],
+    mongo: {
+      options: {
+        db: {
+          safe: true
+        }
       }
     }
-  },
+  };
 
-};
+  module.exports = _.merge(all, require('./' + process.env.NODE_ENV + '.js') || {});
 
-// Export the config object based on the NODE_ENV
-// ==============================================
-module.exports = _.merge(
-  all,
-  require('./' + process.env.NODE_ENV + '.js') || {});
+}).call(this);
+
+//# sourceMappingURL=index.js.map

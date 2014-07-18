@@ -61,12 +61,21 @@
     });
   };
 
+  // TODO: add org's id to User
   exports.create = function(req, res) {
     return Organization.create(req.body, function(err, organization) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(201, organization);
+      User.findById(req.user.id, function(err, user){
+        if (err) return handleError(res, err);
+
+        user.orgId = organization._id;
+        user.save(function (err){
+          if (err) return handleError(res, err);
+          return res.json(201, organization);
+        });
+      });
     });
   };
 

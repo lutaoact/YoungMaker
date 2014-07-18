@@ -19,7 +19,7 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
           me.$promise.then (data)->
             console.log data
             if data.role is 'admin'
-              $location.url('/')
+              $location.url('/admin')
             else if data.role is 'teacher'
               $location.url('/t')
             else if data.role is 'student'

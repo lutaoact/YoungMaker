@@ -1,11 +1,11 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upload,Restangular) ->
+angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upload,Restangular,Auth) ->
   $scope.message = 'Hello'
   $scope.organization = {}
-
   $scope.isUploading = false
   $scope.logoPreviewUrl = null
+
   $scope.onFileSelect = (files)->
     if not files? or files.length < 1
       return
@@ -24,7 +24,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
     $http.get('/api/qiniu/uptoken')
     .success (uploadToken)->
       qiniuParam =
-        'key': uploadToken.random + '/' + encodeURIComponent(file.name)
+        'key': uploadToken.random + '/' + ['logo', file.name.split('.').pop()].join('.')
         'token': uploadToken.token
       $scope.upload = $upload.upload
         url: 'http://up.qiniu.com'
@@ -38,7 +38,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
       .success (data) ->
         # file is uploaded successfully
         console.log data
-        logoStyle = '?imageView2/2/w/140/h/40'
+        logoStyle ='?imageView2/2/w/140/h/40'
         $scope.organization.logo = data.key + logoStyle
         $http.get('api/qiniu/signedUrl/' + encodeURIComponent(data.key + logoStyle))
         .success (url)->
@@ -47,10 +47,32 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
       .error (response)->
         console.log response
 
-  $scope.saveOrg = (org)->
-    if not org._id
-      #post
-      Restangular.all('organizations').post(org)
-      console.log org
+  $scope.validateRemote = (subDomain, form)->
+    if subDomain is 'tsinghua'
+      form.domain.$setValidity 'duplicated', false
+    else
+      form.domain.$setValidity 'duplicated', true
+
+  $scope.saveOrg = (org,form)->
+    if form.$valid
+      if not org._id
+        #post
+        Restangular.all('organizations').post(org)
+        .then (data)->
+          me = Auth.getCurrentUser()
+          $http.put('api/users/' + me._id ,{orgId:data._id})
+          .success (user)->
+            console.log user
+          .error (err)->
+            console.log err
+        console.log org
+      else
+        #put
+        org.put()
+
+  if Auth.getCurrentUser().orgId
+    Restangular.one('organizations',Auth.getCurrentUser().orgId).get()
+    .then (org)->
+      $scope.organization = org
 
 

@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var User, config, helpers, jwt, passport, path, processExcel, qiniu, qiniuDomain, validationError;
+  var User, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, validationError, xlsx, _;
 
   User = require('./user.model');
 
@@ -15,6 +15,14 @@
   helpers = require('../../common/helpers');
 
   path = require('path');
+
+  _ = require('lodash');
+
+  fs = require('fs');
+
+  http = require('http');
+
+  xlsx = require('node-xlsx');
 
   qiniu.conf.ACCESS_KEY = config.qiniu.access_key;
 
@@ -146,25 +154,58 @@
     });
   };
 
-  processExcel = function(file) {
-    return console.log('start processing excel file ...');
-  };
-
 
   /*
     Bulk import users from excel sheet uploaded by client
    */
 
   exports.bulkImport = function(req, res, next) {
-    var baseUrl, destFile, policy, resourceKey, tempUrl;
+    var baseUrl, destFile, file, policy, request, resourceKey, tempUrl;
     resourceKey = req.body.url;
     baseUrl = qiniu.rs.makeBaseUrl(qiniuDomain, resourceKey);
     policy = new qiniu.rs.GetPolicy();
     tempUrl = policy.makeRequest(baseUrl);
-    destFile = config.tmpDir + path.sep + 'user_list.xls';
-    console.log('tempUrl is ' + tempUrl);
-    console.log('destDir is ' + destFile);
-    return helpers.downloadFile(tempUrl, destFile, processExcel);
+    destFile = config.tmpDir + path.sep + 'user_list.xlsx';
+    file = fs.createWriteStream(destFile);
+    return request = http.get(tempUrl, function(stream) {
+      stream.pipe(file);
+      return file.on('finish', function() {
+        return file.close(function() {
+          var data, obj, userList;
+          console.log('Start parsing file...');
+          obj = xlsx.parse(destFile);
+          data = obj.worksheets[0].data;
+          if (!data) {
+            console.error('Failed to parse user list file or empty file');
+            res.send(500);
+            return;
+          }
+          userList = _.rest(data);
+          _.forEach(userList, function(userItem) {
+            var newUser;
+            console.log('UserItem is ...');
+            console.log(userItem);
+            newUser = new User({
+              name: userItem[0].value,
+              email: userItem[1].value,
+              role: userItem[2].value,
+              password: userItem[1].value
+            });
+            return newUser.save(function(err, user) {
+              if (err) {
+                return validationError(res, err);
+              }
+              return console.log('Created user ' + userItem[0]);
+            });
+          });
+          return res.send(200);
+        });
+      });
+    }).on('error', function(err) {
+      console.error('There is an error while downloading file from ' + url);
+      fs.unlink(dest);
+      return res.send(500);
+    });
   };
 
 

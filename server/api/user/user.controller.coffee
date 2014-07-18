@@ -7,6 +7,10 @@ jwt = require 'jsonwebtoken'
 qiniu = require 'qiniu'
 helpers = require '../../common/helpers'
 path = require 'path'
+_ = require 'lodash'
+fs = require 'fs'
+http = require 'http'
+xlsx = require 'node-xlsx'
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -89,9 +93,6 @@ exports.me = (req, res, next) ->
       res.json 401 if not user
       res.json user
 
-## process excel file
-processExcel = (file) ->
-  console.log 'start processing excel file ...'
 
 ###
   Bulk import users from excel sheet uploaded by client
@@ -104,13 +105,48 @@ exports.bulkImport = (req, res, next) ->
   policy = new qiniu.rs.GetPolicy()
   tempUrl = policy.makeRequest baseUrl
 
-  destFile = config.tmpDir + path.sep + 'user_list.xls'
-
-  console.log 'tempUrl is ' + tempUrl
-  console.log 'destDir is ' +  destFile
+  destFile = config.tmpDir + path.sep + 'user_list.xlsx'
 
   ## download excel sheet and start processing
-  helpers.downloadFile tempUrl, destFile, processExcel
+  file = fs.createWriteStream destFile
+  request = http.get tempUrl, (stream) ->
+    stream.pipe file
+    file.on 'finish', () ->
+      file.close () ->
+        console.log 'Start parsing file...'
+        obj = xlsx.parse destFile
+
+        data = obj.worksheets[0].data
+
+        if not data
+          console.error 'Failed to parse user list file or empty file'
+          res.send 500
+          return
+
+        # real user data starting from second row
+        userList = _.rest data
+
+        _.forEach userList, (userItem) ->
+
+          console.log 'UserItem is ...'
+          console.log userItem
+
+          newUser = new User
+            name : userItem[0].value
+            email : userItem[1].value
+            role   :  userItem[2].value
+            password : userItem[1].value
+
+          newUser.save (err, user) ->
+            return validationError res, err if err
+            console.log 'Created user ' + userItem[0]
+
+        res.send 200
+
+  .on 'error' , (err) ->
+    console.error 'There is an error while downloading file from ' + url
+    fs.unlink dest  # delete the file async
+    res.send 500
 
 
 ###

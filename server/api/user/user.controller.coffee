@@ -4,6 +4,13 @@ User = require './user.model'
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
+qiniu = require 'qiniu'
+helpers = require '../../common/helpers'
+path = require 'path'
+
+qiniu.conf.ACCESS_KEY = config.qiniu.access_key
+qiniu.conf.SECRET_KEY = config.qiniu.secret_key
+qiniuDomain                       = config.qiniu.domain
 
 validationError = (res, err) ->
   res.json 422, err
@@ -81,6 +88,30 @@ exports.me = (req, res, next) ->
       next err if err
       res.json 401 if not user
       res.json user
+
+## process excel file
+processExcel = (file) ->
+  console.log 'start processing excel file ...'
+
+###
+  Bulk import users from excel sheet uploaded by client
+###
+exports.bulkImport = (req, res, next) ->
+  resourceKey = req.body.url
+
+  ## create download URL
+  baseUrl = qiniu.rs.makeBaseUrl qiniuDomain, resourceKey
+  policy = new qiniu.rs.GetPolicy()
+  tempUrl = policy.makeRequest baseUrl
+
+  destFile = config.tmpDir + path.sep + 'user_list.xls'
+
+  console.log 'tempUrl is ' + tempUrl
+  console.log 'destDir is ' +  destFile
+
+  ## download excel sheet and start processing
+  helpers.downloadFile tempUrl, destFile, processExcel
+
 
 ###
  Authentication callback

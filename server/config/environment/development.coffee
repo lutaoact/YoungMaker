@@ -11,5 +11,5 @@ module.exports =
   qiniu:
     access_key : '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_'
     secret_key  : 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv'
-    domain : 'www.cloud3edu.com'
+    domain : 'temp-cloud3edu-com.qiniudn.com'
     bucket_name : 'temp-cloud3edu-com'

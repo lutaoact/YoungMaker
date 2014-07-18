@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var User, config, jwt, passport, validationError;
+  var User, config, helpers, jwt, passport, path, processExcel, qiniu, qiniuDomain, validationError;
 
   User = require('./user.model');
 
@@ -9,6 +9,18 @@
   config = require('../../config/environment');
 
   jwt = require('jsonwebtoken');
+
+  qiniu = require('qiniu');
+
+  helpers = require('../../common/helpers');
+
+  path = require('path');
+
+  qiniu.conf.ACCESS_KEY = config.qiniu.access_key;
+
+  qiniu.conf.SECRET_KEY = config.qiniu.secret_key;
+
+  qiniuDomain = config.qiniu.domain;
 
   validationError = function(res, err) {
     return res.json(422, err);
@@ -132,6 +144,27 @@
       }
       return res.json(user);
     });
+  };
+
+  processExcel = function(file) {
+    return console.log('start processing excel file ...');
+  };
+
+
+  /*
+    Bulk import users from excel sheet uploaded by client
+   */
+
+  exports.bulkImport = function(req, res, next) {
+    var baseUrl, destFile, policy, resourceKey, tempUrl;
+    resourceKey = req.body.url;
+    baseUrl = qiniu.rs.makeBaseUrl(qiniuDomain, resourceKey);
+    policy = new qiniu.rs.GetPolicy();
+    tempUrl = policy.makeRequest(baseUrl);
+    destFile = config.tmpDir + path.sep + 'user_list.xls';
+    console.log('tempUrl is ' + tempUrl);
+    console.log('destDir is ' + destFile);
+    return helpers.downloadFile(tempUrl, destFile, processExcel);
   };
 
 

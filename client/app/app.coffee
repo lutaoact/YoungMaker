@@ -9,7 +9,8 @@ angular.module('budweiserApp', [
   'ui.router',
   'ngStorage',
   'ui.select2',
-  'angularFileUpload'
+  'angularFileUpload',
+  'restangular'
 ])
   .config (($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider
@@ -17,6 +18,9 @@ angular.module('budweiserApp', [
     $locationProvider.html5Mode true
     $httpProvider.interceptors.push 'authInterceptor'
   )
+  .config (RestangularProvider) ->
+    # add a response intereceptor
+    RestangularProvider.setBaseUrl('/api')
   .factory('authInterceptor', ($rootScope, $q, $cookieStore, $location) ->
     # Add authorization token to headers
     request: (config) ->

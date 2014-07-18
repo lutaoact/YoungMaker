@@ -29,7 +29,7 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
     $http.get('/api/qiniu/uptoken')
     .success (uploadToken)->
       qiniuParam =
-        'key': uploadToken.random + '/' + encodeURIComponent(file.name)
+        'key': uploadToken.random + '/' + ['1', file.name.split('.').pop()].join('.')
         'token': uploadToken.token
       $scope.upload = $upload.upload
         url: 'http://up.qiniu.com'

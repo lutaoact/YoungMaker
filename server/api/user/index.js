@@ -22,6 +22,8 @@
 
   router.post('/', controller.create);
 
+  router.post('/sheet', controller.bulkImport);
+
   module.exports = router;
 
 }).call(this);

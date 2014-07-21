@@ -28,10 +28,10 @@ exports.uptoken = (req, res) ->
 ###
 exports.signedUrl = (req, res) ->
 
-  id = decodeURIComponent req.params.id
-  console.log 'key is ' + id
+  key = decodeURIComponent req.params.key
+  console.log 'key is ' + key
 
-  baseUrl = qiniu.rs.makeBaseUrl domain, id
+  baseUrl = qiniu.rs.makeBaseUrl domain, key
   policy = new qiniu.rs.GetPolicy()
   downloadUrl = policy.makeRequest baseUrl
 

@@ -61,7 +61,7 @@ exports.show = (req, res, next) ->
 exports.destroy = (req, res) ->
   User.findByIdAndRemove req.params.id, (err, user) ->
     res.send 500, err if err
-    res.send 204
+    res.send 200, user
 
 ###
   Change a users password
@@ -115,7 +115,8 @@ exports.update = (req, res) ->
   Bulk import users from excel sheet uploaded by client
 ###
 exports.bulkImport = (req, res, next) ->
-  resourceKey = req.body.url
+  resourceKey = req.body.key
+  orgId = req.body.orgId
 
   ## create download URL
   baseUrl = qiniu.rs.makeBaseUrl qiniuDomain, resourceKey
@@ -153,6 +154,7 @@ exports.bulkImport = (req, res, next) ->
             email : userItem[1].value
             role   :  userItem[2].value
             password : userItem[1].value
+            orgId : orgId
 
           newUser.save (err, user) ->
             return validationError res, err if err

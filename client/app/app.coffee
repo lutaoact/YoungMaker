@@ -21,6 +21,9 @@ angular.module('budweiserApp', [
   .config (RestangularProvider) ->
     # add a response intereceptor
     RestangularProvider.setBaseUrl('/api')
+    RestangularProvider.setRestangularFields({
+      id: "_id"
+    })
   .factory('authInterceptor', ($rootScope, $q, $cookieStore, $location) ->
     # Add authorization token to headers
     request: (config) ->

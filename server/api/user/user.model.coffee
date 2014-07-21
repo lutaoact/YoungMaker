@@ -91,9 +91,9 @@ UserSchema
       throw err if err
       if user
         if self.id is user.id
-          respond true
-        respond false
-      respond true
+          return respond true
+        return respond false
+      return respond true
 , 'The specified email address is already in use.'
 
 validatePresenceOf = (value) ->

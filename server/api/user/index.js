@@ -18,6 +18,8 @@
 
   router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 
+  router.put('/:id', auth.hasRole('admin'), controller.update);
+
   router.get('/:id', auth.isAuthenticated(), controller.show);
 
   router.post('/', controller.create);

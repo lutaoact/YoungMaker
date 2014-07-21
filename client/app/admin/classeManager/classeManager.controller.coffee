@@ -1,4 +1,4 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ClassemanagerCtrl', ($scope) ->
+angular.module('budweiserApp').controller 'ClasseManagerCtrl', ($scope) ->
   $scope.message = 'Hello'

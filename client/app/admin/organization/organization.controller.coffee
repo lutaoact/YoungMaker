@@ -40,7 +40,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
         console.log data
         logoStyle ='?imageView2/2/w/140/h/40'
         $scope.organization.logo = data.key + logoStyle
-        $http.get('api/qiniu/signedUrl/' + encodeURIComponent(data.key + logoStyle))
+        $http.get('api/qiniu/signedUrl/' + encodeURIComponent($scope.organization.logo))
         .success (url)->
           $scope.logoPreviewUrl = url
         $scope.isUploading = false
@@ -60,7 +60,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
         Restangular.all('organizations').post(org)
         .then (data)->
           me = Auth.getCurrentUser()
-          $http.put('api/users/' + me._id ,{orgId:data._id})
+          $http.get('api/users/' + me._id)
           .success (user)->
             console.log user
           .error (err)->
@@ -74,5 +74,8 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
     Restangular.one('organizations',Auth.getCurrentUser().orgId).get()
     .then (org)->
       $scope.organization = org
+      $http.get('api/qiniu/signedUrl/' + encodeURIComponent(org.logo))
+        .success (url)->
+          $scope.logoPreviewUrl = url
 
 

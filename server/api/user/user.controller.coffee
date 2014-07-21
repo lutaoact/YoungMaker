@@ -144,6 +144,11 @@ exports.bulkImport = (req, res, next) ->
         # real user data starting from second row
         userList = _.rest data
 
+        importReport =
+          total : 0
+          success : []
+          failure : []
+
         _.forEach userList, (userItem) ->
 
           console.log 'UserItem is ...'
@@ -157,10 +162,17 @@ exports.bulkImport = (req, res, next) ->
             orgId : orgId
 
           newUser.save (err, user) ->
-            return validationError res, err if err
-            console.log 'Created user ' + userItem[0]
+            importReport.total += 1
+            if err
+              console.error 'Failed to save user ' + newUser.name
+              importReport.failure.push err.errors
+            else
+              console.log 'Created user ' + newUser.name
+              importReport.success.push 'Created user ' + newUser.name
 
-        res.send 200
+            # when finish processing user list, send response to client
+            if importReport.total is userList.length
+              res.json 200, importReport
 
   .on 'error' , (err) ->
     console.error 'There is an error while downloading file from ' + url

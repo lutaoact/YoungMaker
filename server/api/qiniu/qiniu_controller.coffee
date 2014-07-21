@@ -33,6 +33,6 @@ exports.signedUrl = (req, res) ->
 
   baseUrl = qiniu.rs.makeBaseUrl domain, key
   policy = new qiniu.rs.GetPolicy()
-  downloadUrl = policy.makeRequest baseUrl
+  downloadUrl = policy.makeRequest(decodeURIComponent(baseUrl))
 
   res.send 200, downloadUrl

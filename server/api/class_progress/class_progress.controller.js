@@ -10,11 +10,12 @@
 
 (function() {
   'use strict';
-  var ClassProgress, handleError, _;
+  var ClassProgress, Course, handleError, _;
 
   _ = require('lodash');
 
   ClassProgress = require('./class_progress.model');
+  Course = require('../course/course.model');
 
   exports.index = function(req, res) {
     return ClassProgress.find(function(err, classProgresses) {
@@ -37,12 +38,24 @@
     });
   };
 
+  // TODO: need to check if classId is in Course.
   exports.create = function(req, res) {
-    return ClassProgress.create(req.body, function(err, classProgress) {
-      if (err) {
-        return handleError(res, err);
+    req.body.userId = req.user.id;
+    if (req.body.lecturesStatus) {
+      delete req.body.lecturesStatus;
+    }
+    Course.findById(req.body.courseId, function(err, course){
+      req.body.lecturesStatus = [];
+      for (var i=0; i<course.lectureAssembly.length; i++) {
+        console.log(course.lectureAssembly[i]);
+        req.body.lecturesStatus.push({'lectureId': course.lectureAssembly[i], 'isFinished': false});
       }
-      return res.json(201, classProgress);
+      return ClassProgress.create(req.body, function(err, classProgress) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.json(201, classProgress);
+      });
     });
   };
 

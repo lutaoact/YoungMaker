@@ -1,24 +1,26 @@
 (function() {
   'use strict';
-  var controller, express, router;
+  var controller, express, router, auth;
 
   express = require('express');
 
   controller = require('./class_progress.controller');
 
+  auth = require('../../auth/auth.service');
+
   router = express.Router();
 
-  router.get('/', controller.index);
+  // router.get('/', controller.index);
 
   router.get('/:id', controller.show);
 
-  router.post('/', controller.create);
+  router.post('/', auth.hasRole('teacher'), controller.create);
 
-  router.put('/:id', controller.update);
+  router.put('/:id', auth.hasRole('teacher'), controller.update);
 
-  router.patch('/:id', controller.update);
+  router.patch('/:id', auth.hasRole('teacher'), controller.update);
 
-  router["delete"]('/:id', controller.destroy);
+  router["delete"]('/:id', auth.hasRole('teacher'), controller.destroy);
 
   module.exports = router;
 

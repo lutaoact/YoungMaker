@@ -61,7 +61,6 @@
     });
   };
 
-  // TODO: add org's id to User
   exports.create = function(req, res) {
     return Organization.create(req.body, function(err, organization) {
       if (err) {

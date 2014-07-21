@@ -50,11 +50,16 @@
     });
   };
 
+  // TODO: support update user list.
   exports.update = function(req, res) {
     if (req.body._id) {
       delete req.body._id;
     }
-    return Course.findById(req.params.id, function(err, course) {
+    //classes can only be added by creating class_progress.
+    if (req.body.classes) {
+      delete req.body.classes;
+    }
+    return Course.findOne({"_id": req.params.id, "owners": {$in: [req.user.id]}}, function(err, course) {
       var updated;
       if (err) {
         return handleError(err);

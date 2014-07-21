@@ -16,7 +16,7 @@
 
   router.get('/uptoken', auth.isAuthenticated(), controller.uptoken);
 
-  router.get('/signedUrl/:id', auth.isAuthenticated(), controller.signedUrl);
+  router.get('/signedUrl/:key', auth.isAuthenticated(), controller.signedUrl);
 
   module.exports = router;
 

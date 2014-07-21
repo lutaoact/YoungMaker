@@ -104,7 +104,7 @@
       if (err) {
         res.send(500, err);
       }
-      return res.send(204);
+      return res.send(200, user);
     });
   };
 
@@ -190,8 +190,9 @@
    */
 
   exports.bulkImport = function(req, res, next) {
-    var baseUrl, destFile, file, policy, request, resourceKey, tempUrl;
-    resourceKey = req.body.url;
+    var baseUrl, destFile, file, orgId, policy, request, resourceKey, tempUrl;
+    resourceKey = req.body.key;
+    orgId = req.body.orgId;
     baseUrl = qiniu.rs.makeBaseUrl(qiniuDomain, resourceKey);
     policy = new qiniu.rs.GetPolicy();
     tempUrl = policy.makeRequest(baseUrl);
@@ -219,7 +220,8 @@
               name: userItem[0].value,
               email: userItem[1].value,
               role: userItem[2].value,
-              password: userItem[1].value
+              password: userItem[1].value,
+              orgId: orgId
             });
             return newUser.save(function(err, user) {
               if (err) {

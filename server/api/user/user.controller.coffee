@@ -93,6 +93,23 @@ exports.me = (req, res, next) ->
       res.json 401 if not user
       res.json user
 
+###
+  Update user
+###
+exports.update = (req, res) ->
+
+  delete req.body._id if _.has req.body, '_id'
+  delete req.body.password if _.has req.body, 'password'
+
+  User.findById req.params.id, (err, user) ->
+
+      return handleError err if err
+      return res.send 404 if not user
+
+      updated = _.merge user , req.body
+      updated.save (err) ->
+        return handleError err if err
+        return res.json 200, user
 
 ###
   Bulk import users from excel sheet uploaded by client

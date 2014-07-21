@@ -156,6 +156,36 @@
 
 
   /*
+    Update user
+   */
+
+  exports.update = function(req, res) {
+    if (_.has(req.body, '_id')) {
+      delete req.body._id;
+    }
+    if (_.has(req.body, 'password')) {
+      delete req.body.password;
+    }
+    return User.findById(req.params.id, function(err, user) {
+      var updated;
+      if (err) {
+        return handleError(err);
+      }
+      if (!user) {
+        return res.send(404);
+      }
+      updated = _.merge(user, req.body);
+      return updated.save(function(err) {
+        if (err) {
+          return handleError(err);
+        }
+        return res.json(200, user);
+      });
+    });
+  };
+
+
+  /*
     Bulk import users from excel sheet uploaded by client
    */
 

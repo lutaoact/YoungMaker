@@ -101,9 +101,9 @@
       }
       if (user) {
         if (self.id === user.id) {
-          respond(true);
+          return respond(true);
         }
-        respond(false);
+        return respond(false);
       }
       return respond(true);
     });

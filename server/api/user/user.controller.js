@@ -202,7 +202,7 @@
       stream.pipe(file);
       return file.on('finish', function() {
         return file.close(function() {
-          var data, obj, userList;
+          var data, importReport, obj, userList;
           console.log('Start parsing file...');
           obj = xlsx.parse(destFile);
           data = obj.worksheets[0].data;
@@ -212,7 +212,12 @@
             return;
           }
           userList = _.rest(data);
-          _.forEach(userList, function(userItem) {
+          importReport = {
+            total: 0,
+            success: [],
+            failure: []
+          };
+          return _.forEach(userList, function(userItem) {
             var newUser;
             console.log('UserItem is ...');
             console.log(userItem);
@@ -224,13 +229,19 @@
               orgId: orgId
             });
             return newUser.save(function(err, user) {
+              importReport.total += 1;
               if (err) {
-                return validationError(res, err);
+                console.error('Failed to save user ' + newUser.name);
+                importReport.failure.push(err.errors);
+              } else {
+                console.log('Created user ' + newUser.name);
+                importReport.success.push('Created user ' + newUser.name);
               }
-              return console.log('Created user ' + userItem[0]);
+              if (importReport.total === userList.length) {
+                return res.json(200, importReport);
+              }
             });
           });
-          return res.send(200);
         });
       });
     }).on('error', function(err) {

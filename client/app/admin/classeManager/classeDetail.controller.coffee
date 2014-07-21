@@ -1,13 +1,27 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, Auth, User,$filter, $timeout,$upload) ->
-  $scope.reloadUsers = ()->
-    $http.get('/api/users').success (users) ->
-      ###$scope.users = $filter('filter')(users, (user)->
-          user._id isnt Auth.getCurrentUser()._id
-        )###
-      # more simplified
-      $scope.users = $filter('filter')(users,{_id:"!" + Auth.getCurrentUser()._id})
+angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Restangular,Auth, $http,$upload) ->
+  $scope.message = 'Hello'
+  $scope.classe = null
+  if $state.params.id and $state.params.id is 'new'
+    $scope.classe = {}
+  else if $state.params.id
+    console.log $state.params.id
+    Restangular.one('classes',$state.params.id).get()
+    .then (classe)->
+      $scope.classe = classe
+
+  $scope.savsClasse = (classe,form)->
+    if form.$valid
+      if not classe._id
+        #post
+        Restangular.all('classes').post(classe)
+        .then (data)->
+          $scope.classe = data
+          console.log $scope.classe
+      else
+        #put
+        classe.put()
 
   $scope.isExcelProcessing = false
 
@@ -44,26 +58,16 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
         # file is uploaded successfully
         console.log data
         $scope.excelUrl = data.key
-        $http.post('/api/users/sheet',{key:data.key,orgId:Auth.getCurrentUser().orgId})
-        .success (result)->
+        $scope.classe.all('students').post({key:$scope.excelUrl})
+        .then (result)->
           console.log result
-          $scope.reloadUsers()
-        .error (error)->
-          console.log error
-        .finally ()->
           $scope.isExcelProcessing = false
+          $scope.reloadUsers()
+        , (error)->
+          console.log error
+          $scope.isExcelProcessing = false
+
       .error (response)->
         console.log response
-
-  $scope.delete = (user) ->
-    # Check if the user to delete is self.
-    if user._id is Auth.getCurrentUser()._id
-      return
-    User.remove id: user._id
-    angular.forEach $scope.users, (u, i) ->
-      $scope.users.splice i, 1  if u is user
-
-  $scope.reloadUsers()
-
 
 

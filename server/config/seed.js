@@ -7,6 +7,7 @@
 
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
+var Category = require('../api/category/category.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -47,3 +48,67 @@ User.find({}).remove(function() {
     }
   );
 });
+
+Category.find({}).remove(function() {
+  Category.create({
+    name:'初一物理',
+  },{
+    name:'初二物理',
+  },{
+    name:'初三物理',
+  },{
+    name:'初一化学',
+  },{
+    name:'初二化学',
+  },{
+    name:'初三化学',
+  },{
+    name:'初一数学',
+  },{
+    name:'初二数学',
+  },{
+    name:'初三数学',
+  },{
+    name:'初一英语',
+  },{
+    name:'初二英语',
+  },{
+    name:'初三英语',
+  },{
+    name:'初一语文',
+  },{
+    name:'初二语文',
+  },{
+    name:'初三语文',
+  },{
+    name:'高一物理',
+  },{
+    name:'高二物理',
+  },{
+    name:'高三物理',
+  },{
+    name:'高一化学',
+  },{
+    name:'高二化学',
+  },{
+    name:'高三化学',
+  },{
+    name:'高一数学',
+  },{
+    name:'高二数学',
+  },{
+    name:'高三数学',
+  },{
+    name:'高一英语',
+  },{
+    name:'高二英语',
+  },{
+    name:'高三英语',
+  },{
+    name:'高一语文',
+  },{
+    name:'高二语文',
+  },{
+    name:'高三语文',
+  })
+})

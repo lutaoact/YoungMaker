@@ -92,7 +92,7 @@ angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $coo
         # file is uploaded successfully
         console.log data
         $scope.excelUrl = data.key
-        $http.post('/api/users/sheet',{key:data.key,orgId:$scope.orgId})
+        $http.post('/api/users/bulk',{key:data.key,orgId:$scope.orgId,type:'teacher'})
         .success (result)->
           console.log result
           $scope.reloadUsers()

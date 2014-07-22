@@ -48,7 +48,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
         console.log response
 
   $scope.validateRemote = (subDomain, form)->
-    if subDomain is 'tsinghua'
+    if subDomain is 'duplicated'
       form.domain.$setValidity 'duplicated', false
     else
       form.domain.$setValidity 'duplicated', true
@@ -62,7 +62,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
           me = Auth.getCurrentUser()
           $http.get('api/users/' + me._id)
           .success (user)->
-            console.log user
+            me.orgId = user.orgId
           .error (err)->
             console.log err
           console.log org

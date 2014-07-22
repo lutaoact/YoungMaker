@@ -323,6 +323,31 @@ Qiniu related apis
         "failure":[]
         }
         
+### Get Students in specified Classe [GET]
+
++ Request (application/json)
+    
+    + Header
+    
+            Auth:xxx
+
+
++ Response 200 (application/json)
+
+        [ { "_id": "53ce27e2fc3f58ce93a864dd", 
+            "name": "t1", 
+            "email": "t1@cloud3edu.com", 
+            "orgId": "53ccb203606200e88b712bf9" }, 
+          { "_id": "53ce27e2fc3f58ce93a864de", 
+            "name": "t2", 
+            "email": "t2@cloud3edu.com", 
+            "orgId": "53ccb203606200e88b712bf9" }, 
+          { "_id": "53ce27e2fc3f58ce93a864df", 
+            "name": "t3", 
+            "email": "t3@cloud3edu.com", 
+            "orgId": "53ccb203606200e88b712bf9" } ]
+        
+        
 # Group Course
 
 ## Course Collection [/api/courses]

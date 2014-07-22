@@ -65,7 +65,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
             console.log user
           .error (err)->
             console.log err
-        console.log org
+          console.log org
       else
         #put
         org.put()

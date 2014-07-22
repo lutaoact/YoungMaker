@@ -1,42 +1,29 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Restangular,Auth, $http,$upload) ->
-  $scope.classe = null
+angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,Restangular,Auth, $http,$upload,$location) ->
+  $scope.lecture = null
+  console.log $state.params
   if $state.params.id and $state.params.id is 'new'
-    $scope.classe = {}
+    $scope.lecture = {courseId:$state.params.courseId}
   else if $state.params.id
-    console.log $state.params.id
-    Restangular.one('classes',$state.params.id).get()
-    .then (classe)->
-      $scope.classe = classe
+    Restangular.one('lectures',$state.params.id).get()
+    .then (lecture)->
+      $scope.lecture = lecture
 
-  $scope.saveClasse = (classe,form)->
-    if form.$valid
-      classe.orgId = Auth.getCurrentUser().orgId
-      if not classe._id
-        #post
-        Restangular.all('classes').post(classe)
-        .then (data)->
-          $scope.classe = data
-          console.log $scope.classe
-      else
-        #put
-        classe.put()
-
-  $scope.isExcelProcessing = false
+  $scope.isPptProcessing = false
 
   $scope.onFileSelect = (files)->
     if not files? or files.length < 1
       return
     #TODO: check file type by name or file type. pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
-    if not /^.*\.(xls|XLS|xlsx|XLSX)$/.test files[0].name
+    if not /^.*\.(ppt|PPT|pptx|PPTX)$/.test files[0].name
       $scope.invalid = true
       return
     if files[0].size > 50 * 1024 * 1024
       $scope.invalid = true
       return
 
-    $scope.isExcelProcessing = true
+    $scope.isPptProcessing = true
     file = files[0]
     # get upload token
     console.log file
@@ -58,16 +45,24 @@ angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Res
         # file is uploaded successfully
         console.log data
         $scope.excelUrl = data.key
-        $scope.classe.all('students').post({key:$scope.excelUrl})
-        .then (result)->
+        $http.post('/api/users/sheet',{key:data.key,orgId:Auth.getCurrentUser().orgId})
+        .success (result)->
           console.log result
-          $scope.isExcelProcessing = false
-          $scope.reloadUsers()
-        , (error)->
+        .error (error)->
           console.log error
-          $scope.isExcelProcessing = false
-
+        .finally ()->
+          $scope.isPptProcessing = false
       .error (response)->
         console.log response
 
+  $scope.saveLecture = (lecture,form)->
+    if form.$valid
+      if not lecture._id
+        #post
+        Restangular.all('lectures').post(lecture)
+        .then (data)->
+          console.log lecture
+      else
+        #put
+        lecture.put()
 

@@ -1,28 +1,33 @@
 
 <div class="container">
-  <form class="form">
+  <form class="form" name="form">
     <div class="form-group">
       <label for="course-name">课程名称</label>
-      <input class="form-control" id="course-name" placeholder="课程名称">
+      <input class="form-control" id="course-name" ng-model="course.name" name="name" placeholder="课程名称">
     </div>
     <div class="form-group">
       <label for="course-cate">课程类别</label>
-      <select ui-select2 ng-model="newLink.link" data-placeholder="选择一个类别" id="course-cate">
+      <select ui-select2 ng-model="course.category" data-placeholder="选择一个类别" name="category" id="course-cate" required>
         <option value=""></option>
-        <option ng-repeat="option in categories" value="{{option}}">{{option.name}}</option>
+        <option ng-repeat="option in categories" value="{{option._id}}">{{option.name}}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="course-info">课程简介</label>
-      <input class="form-control" id="course-info" placeholder="课程简介">
+      <input class="form-control" id="course-info" placeholder="课程简介" ng-model="course.info" name="category">
     </div>
     <div class="form-group">
-      <label for="course-thumb">课程图标</label>
-      <input type="file" id="course-thumb">
-      <p class="help-block">Example block-level help text here.</p>
+      <label class="btn btn-default" ng-show="!isUploading">
+        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+        课程图标
+      </label>
+      <label class="btn btn-default disabled" ng-show="isUploading">
+        <i class="fa fa-spinner fa-spin"></i>上传中
+      </label>
+      <img ng-src="{{logoPreviewUrl}}" ng-show="logoPreviewUrl"></img>
     </div>
 
-    <button type="submit" class="btn btn-default" ng-click="alert('create')">Submit</button>
+    <button type="submit" class="btn btn-default" ng-click="saveCourse(course,form)">Submit</button>
   </form>
 </div>
 

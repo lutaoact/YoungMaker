@@ -47,6 +47,26 @@
     });
   };
 
+  exports.showStudents = function(req, res) {
+    User
+    .findOne({_id: req.user.id})
+    .exec(function(err, user) {
+      if (err) return handleError(res, err);
+      Classe
+      .findById(req.params.id)
+      .where('orgId').equals(user.orgId)
+      .populate({
+        path : 'students',
+        select : '_id name email orgId avatar status'
+      })
+      .exec(function(err, classe){
+        if (err) return handleError(res, err);
+        console.dir(classe)
+        return res.json(200, classe.students)
+      });
+    });
+  };
+
   exports.create = function(req, res) {
     req.body.orgId = req.user.orgId;
     return Classe.create(req.body, function(err, classe) {

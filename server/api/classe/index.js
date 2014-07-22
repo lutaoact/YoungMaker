@@ -14,6 +14,8 @@
 
   router.get('/:id', auth.isAuthenticated(), controller.show);
 
+  router.get('/:id/students', auth.hasRole('admin'), controller.showStudents);
+
   router.post('/', auth.hasRole('admin'), controller.create);
 
   router.put('/:id', auth.hasRole('admin'), controller.update);

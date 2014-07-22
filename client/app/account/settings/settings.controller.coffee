@@ -57,7 +57,7 @@ angular.module('budweiserApp').controller 'SettingsCtrl', ($scope, User, Auth, R
         $scope.me.avatar = data.key + avatarStyle
         $scope.me.put()
         .then (user)->
-          console.log user
+          Auth.getCurrentUser().avatar = user.avatar
           $scope.isUploading = false
       .error (response)->
         console.log response

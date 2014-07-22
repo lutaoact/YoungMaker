@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Res
     Restangular.one('classes',$state.params.id).get()
     .then (classe)->
       $scope.classe = classe
+      $scope.reloadStudents()
 
   $scope.reloadStudents = ()->
     $scope.classe.all('students').getList()
@@ -74,5 +75,6 @@ angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Res
 
       .error (response)->
         console.log response
+
 
 

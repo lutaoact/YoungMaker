@@ -48,6 +48,7 @@
   };
 
   exports.create = function(req, res) {
+    req.body.orgId = req.user.orgId;
     return Classe.create(req.body, function(err, classe) {
       if (err) {
         return handleError(res, err);

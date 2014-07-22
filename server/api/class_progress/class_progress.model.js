@@ -11,11 +11,16 @@
     userId: {type: Schema.Types.ObjectId, ref: 'User'},
     courseId: {type: Schema.Types.ObjectId, ref: 'Course'},
     classId: {type: Schema.Types.ObjectId, ref: 'Class'},
-    lectures: [{
+    // TODO: does lecturesStatus need _id?
+    lecturesStatus: [{
       lectureId: {type: Schema.Types.ObjectId, ref: 'Lecture'},
-      name: String,
+      //name: String,
       isFinished: Boolean
     }],
+    timeTable: [{
+      name: String,
+      time: Date
+    }]
   });
 
   ClassProgressSchema.plugin(createdModifiedPlugin, {index: true});

@@ -24,7 +24,7 @@
 
   router.post('/', controller.create);
 
-  router.post('/sheet', controller.bulkImport);
+  router.post('/bulk', controller.bulkImport);
 
   module.exports = router;
 

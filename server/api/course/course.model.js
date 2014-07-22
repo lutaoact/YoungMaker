@@ -12,7 +12,8 @@
     category: {type: Schema.Types.ObjectId, ref: 'Category'},
     thumbnail: String,
     info: String,
-    owners: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    lectureAssembly: [{type: Schema.Types.ObjectId, ref: 'Lecture'}],
+    owners: [{type: Schema.Types.ObjectId, ref: 'User'}], //Only support one currentlly.
     classes: [{type: Schema.Types.ObjectId, ref: 'Classe'}]
   });
 

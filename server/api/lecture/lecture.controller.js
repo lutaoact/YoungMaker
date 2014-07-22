@@ -103,6 +103,8 @@
     });
   };
 
+  // TODO: support insert lecture to lecture list
+  // TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.
   exports.create = function(req, res) {
     Course
     .findOne({'_id': req.body.courseId, 'owners': {$in: [req.user.id]}})
@@ -114,7 +116,11 @@
         if (err) {
           return handleError(res, err);
         }
-        return res.json(201, lecture);
+        course.lectureAssembly.push(lecture._id);
+        course.save(function(err) {
+          if (err) return handleError(err); // TODO: should use transactions to rollback..
+          return res.json(201, lecture);
+        });
       });
     });
   };
@@ -148,6 +154,7 @@
     });
   };
 
+  // TODO: delete from classe's lectureAssembly & classProgress's lecturesStatus
   exports.destroy = function(req, res) {
     return Lecutre.findById(req.params.id, function(err, lecture) {
       if (err) {

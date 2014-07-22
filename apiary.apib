@@ -1,0 +1,506 @@
+FORMAT: 1A
+HOST: http://www.cloud3edu.com
+
+# cloud3edu API
+Cloud3edu's API Blueprint. Resources should have two ways of display: summary in array, detail in object.  
+Say, `get /resources` should return a list of summary, while, `get /resources/1` returns a detailed object.  
+All url should (not) end with `/`.   
+
+# Group Auth
+## Providor: Local [/auth/local]
+### Login [POST]
++ Request (application/json)
+
+        {"email":"admin@admin.com","password":"admin"}
+
++ Response 200 (application/json)
+
+        {"token":"dasdfqwerzxvaerqwer"}
+
+#Group User
+All apis need token except `post /api/user/`  
+## User Collection [/api/users]
+### Create [POST]
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
+    + Body
+
+            {"email":"admin@admin.com","name":"admin",password":"admin"}
+
++ Response 200 (application/json)
+
+        {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MjA1NjAxZTBlYTNiNzk1MTVkOWQiLCJpYXQiOjE0MDU0OTMzMzQ1MjksImV4cCI6MTQwNTUxMTMzNDUyOX0.tzqgeGa6eSmwYiImb_fcYPjb4jRh3DIYnrsU8J_u41c"}
+
+### Get List [GET]
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
++ Response 200 (application/json)
+
+        [{"_id":"53c6078d01e0ea3b79515d9b","provider":"local","name":"Test User","email":"test@test.com","__v":0,"role":"user"},
+        {"_id":"53c6078d01e0ea3b79515d9c","provider":"local","name":"Admin","email":"admin@admin.com","__v":0,"role":"admin"},
+        {"_id":"53c6205601e0ea3b79515d9d","provider":"local","name":"cage","email":"cage@cage.com","__v":0,"role":"user"}]
+
+## User Password [/api/users/{id}/password]
+### Change Password [PUT]
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
+    + Body
+
+            {"oldPassword":"admin","newPassword":"admin2"}
+
++ Response 200 (application/json)
+
+        OK
+        
+## Update and delete User, show user profile [/api/users/{id}]
+### Change User orgId, avatar [PUT]
+Only admin can change its orgId from empty to valid value.  
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
+    + Body
+
+            {"orgId":"qewrxf",
+            "avatar","xewqr",
+            }
+
++ Response 200 (application/json)
+
+        {"_id":"53c6078d01e0ea3b79515d9c",
+        "provider":"local",
+        "name":"Admin",
+        "email":"admin@admin.com",
+        "__v":0,
+        "orgId":"qewrxf",
+        "avatar","xewqr",
+        "role":"admin"}
+
+### Delete user [DELETE]
+Only admin can delete user.  
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
++ Response 200 (application/json)
+        
+        {"_id":"53c6078d01e0ea3b79515d9c",
+        "provider":"local",
+        "name":"Admin",
+        "email":"admin@admin.com",
+        "__v":0,
+        "orgId":"qewrxf",
+        "avatar","xewqr",
+        "role":"admin"}
+
+
+### Show user profile [GET]
+Show user profile info, including name, role, avatar
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
++ Response 200 (application/json)
+        
+        {
+        "name":"Admin",
+        "avatar","xewqr",
+        "role":"admin"}
+
+## logged-in user info [/api/users/me]
+### Get logged in user information [GET]
++ Request (application/json)
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
++ Response 200 (application/json)
+
+        {"_id":"53c6078d01e0ea3b79515d9c",
+        "provider":"local",
+        "name":"Admin",
+        "email":"admin@admin.com",
+        "__v":0,
+        "orgId":"qewrxf",
+        "avatar","xewqr",
+        "role":"admin"}
+
+## Bulk Users [/api/users/sheet]
+### Import [POST]
++ Request (application/json)
+    
+    + Header
+
+            Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1M2M2MDc4ZDAxZTBlYTNiNzk1MTVkOWMiLCJpYXQiOjE0MDU0ODkwNTIwMzYsImV4cCI6MTQwNTUwNzA1MjAzNn0.SABEI5TfvFExJz0T87eHFKZiEWF1BP-VwYKeI6yZ-sU
+
+    + Body
+
+            {"url":"xxx"}
+
++ Response 200 (application/json)
+
+        OK
+
+
+# Group Qiniu
+Qiniu related apis
+
+## Upload token [/qiniu/uptoken]
+### Get a upload token [GET]
++ Response 200 (application/json)
+
+    + Body
+    
+            { "random": "l2o5rem8", "uptoken": "asdfzxverqwerdadsfadsf" }
+
+## Private Download token [/qiniu/signedUrl/{key}]
+
++ Parameters
+
+    + key (required, string, ``)
+    
+### Get a signed url [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            "some/signed/url"
+
+
+# Group Organization
+
+## Organization Collection [/api/organization{?sub}]
+
+### Get all Organizations [GET]
+
++ Parameters
+
+    + sub (optional, string, ``)
+    
++ Response 200 (application/json)
+
+        [Organization,Organization,Organization]
+
+### Create Organization [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+    
+    + Body
+    
+            {"name":"清华",
+            "subDomain":"tsinghua",
+            "background":"url",
+            "logo":"url",
+            "type":"大学"
+            }
+            
++ Response 200 (application/json)
+        
+        Organization
+
+## Organization Detail [/api/organization/{id}]
+
++ Parameters
+
+    + id (required, string, `me`)
+
+### Get User's Organization [GET]
++ Response 200 (application/json)
+
+        {"_id":"xxxxxx",
+        "name":"清华",
+        "subDomain":"tsinghua",
+        "background":"url",
+        "logo":"url",
+        "type":"大学"
+        } 
+
+
+
+
+# Group Classe
+
+## Classe Collection [/api/classes]
+
+### Get all Classes [GET]
+    
++ Response 200 (application/json)
+
+        [Classe,Classe,Classe]
+
+### Create Classe [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+    
+    + Body
+    
+            {"name":"14届物化班",
+            "yearGrade":"2014届",
+            "students":['afdaf','qwer','dasf']
+            }
+            
++ Response 200 (application/json)
+        
+        {"_id":"xqwerav",
+        "orgId":"aceqwr",
+        "name":"14届物化班",
+        "yearGrade":"2014届",
+        "students":[{"_id":"aeqwraf","name":"张三"},
+            {"_id":"aeqwraf","name":"李四"},
+            {"_id":"aeqwraf","name":"阿毛"}]
+        }
+
+## Classe Detail [/api/classes/{id}]
+
++ Parameters
+
+    + id (required, string, ``)
+
+### Get Classe Detail [GET]
++ Response 200 (application/json)
+
+        {"_id":"xqwerav",
+        "org_id":"aceqwr",
+        "name":"14届物化班",
+        "year-grade":"2014届",
+        "students":[{"_id":"aeqwraf","name":"张三"},
+            {"_id":"aeqwraf","name":"李四"},
+            {"_id":"aeqwraf","name":"阿毛"}]
+        }
+
+
+# Group Course
+
+## Course Collection [/api/courses]
+
+### Get all Courses [GET]
+    
++ Response 200 (application/json)
+
+        [Course,Course,Course]
+
+### Create Course [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+    
+    + Body
+    
+            {"name":"物理1",
+            "category_id":"xzqwersd",
+            "thumbnail":"xxadf",
+            "info":"aswqersac"
+            }
+            
++ Response 200 (application/json)
+        
+        {"_id":"xareqw",
+        "name":"高中物理1",
+        "category_id":"xzqwersd",
+        "category":"高一物理"
+        "thumbnail":"xxadf",
+        "info":"aswqersac"
+        }
+
+## Course Detail [/api/courses/{id}]
+
++ Parameters
+
+    + id (required, string, ``)
+
+### Get Course Detail [GET]
++ Response 200 (application/json)
+
+        {"_id":"xareqw",
+        "name":"高中物理1",
+        "category_id":"xzqwersd",
+        "category":"高一物理"
+        "thumbnail":"xxadf",
+        "info":"aswqersac",
+        "classes":[{"_id":"xafwedsf","name":"高二（1）班"},
+            {"_id":"xafwedsf","name":"高二（2）班"}]
+        }
+        
+# Group Lecture
+
+## Lecture Collection [/api/lectures]
+
+### Get all Lectures [GET]
+    
++ Response 200 (application/json)
+
+        [Lecture,Lecture,Lecture]
+
+### Create Lecture [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+    
+    + Body
+    
+            {"name":"第一课",
+            "courseId":"xzqwersd",
+            "thumbnail":"xxadf",
+            "info":"aswqersac",
+            }
+            
++ Response 200 (application/json)
+        
+        {"_id":"caeqwsdga",
+        "name":"第一课",
+        "courseId":"xzqwersd",
+        "thumbnail":"xxadf",
+        "info":"aswqersac",
+        "slides":[]
+        }
+
+## Lecture Detail [/api/lectures/{id}]
+
++ Parameters
+
+    + id (required, string, ``)
+
+### Get Lecture Detail [GET]
+
++ Response 200 (application/json)
+
+        {"_id":"caeqwsdga",
+        "name":"第一课",
+        "courseId":"xzqwersd",
+        "thumbnail":"xxadf",
+        "info":"aswqersac",
+        "slides":[{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"}]
+        }
+
+### Update Lecture [PUT]
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+    
+    + Body
+    
+            {"name":"第一课",
+            "courseId":"xzqwersd",
+            "thumbnail":"xxadf",
+            "info":"aswqersac",
+            "slides":[{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"}]
+            }
+            
++ Response 200 (application/json)
+        
+        {"_id":"caeqwsdga",
+        "name":"第一课",
+        "courseId":"xzqwersd",
+        "thumbnail":"xxadf",
+        "info":"aswqersac",
+        "slides":[{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"},{"thumb":"asdfc","raw":"qwer"}]
+        }
+
+### Delete Lecture [DELETE]
+This should delete all the slides image and thumbnail in storage.
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+            
++ Response 200 (application/json)
+        
+        OK
+
+# Group ClassProgress
+
+## ClassProgress Collection [/api/ClassProgresses]
+
+### Get all ClassProgresses [GET]
+    
++ Response 200 (application/json)
+
+        [ClassProgress,ClassProgress,ClassProgress]
+
+### Create ClassProgress [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+    
+    + Body
+    
+            {"courseId":"qwerasdferqw",
+            "classeId":"zxcvqwsf",
+            "thumbnail":"xxadf",
+            "info":"aswqersac"
+            }
+            
++ Response 200 (application/json)
+        
+        {"_id":"ewqaxvr",
+        "courseId":"qwerasdferqw",
+        "classeId":"zxcvqwsf",
+        "lectures":[{"lectureId":"axceqrw","name":"力的相互作用","finished":false},
+            {"lectureId":"axceqrw","name":"力的相互作用","finished":false},
+            {"lectureId":"axceqrw","name":"力的相互作用","finished":false},
+            {"lectureId":"axceqrw","name":"力的相互作用","finished":false}],
+        "timeTable":[{"name":"第一课","time":"ISOTime"},
+            {"name":"第二课","time":"ISOTime"},
+            {"name":"第三课","time":"ISOTime"}]
+        }
+
+## ClassProgress Detail [/api/ClassProgress/{id}]
+
++ Parameters
+
+    + id (required, string, ``)
+
+### Get ClassProgress Detail [GET]
++ Response 200 (application/json)
+
+        {"_id":"ewqaxvr",
+        "courseId":"qwerasdferqw",
+        "classeId":"zxcvqwsf",
+        "lectures":[{"lectureId":"axceqrw","name":"力的相互作用","finished":false},
+            {"lectureId":"axceqrw","name":"力的相互作用","finished":false},
+            {"lectureId":"axceqrw","name":"力的相互作用","finished":false},
+            {"lectureId":"axceqrw","name":"力的相互作用","finished":false}],
+        "table_sheet":[{"name":"第一课","time":"ISOTime"},
+            {"name":"第二课","time":"ISOTime"},
+            {"name":"第三课","time":"ISOTime"}]
+        }

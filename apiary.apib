@@ -142,7 +142,8 @@ Show user profile info, including name, role, avatar
         "avatar","xewqr",
         "role":"admin"}
 
-## Bulk Users [/api/users/sheet]
+## Bulk Import Users [/api/users/bulk]
+Import multiple users from a uploaded excel sheet
 ### Import [POST]
 + Request (application/json)
     
@@ -152,11 +153,22 @@ Show user profile info, including name, role, avatar
 
     + Body
 
-            {"url":"xxx"}
+            {
+            "type":"admin|teacher|student",
+            "key" : "wWxs9emwnf/1.xlsx",   # resource key of uploaded excel file from qiniu
+            "orgId" : "organization_id",   # organization ID to which users belong to. 
+            "classeId" : "classe_id"       # Classe ID to which the students belong to. Only needed for student type
+            }
 
 + Response 200 (application/json)
 
-        OK
+    + Body
+    
+            {
+            "total" : 100,  # Total number of users in excel table
+            "success" : ["Black Jack", "Emily Brown", ...],  # Array of imported users name
+            "failure" : [ error, error ] # Array of error object which indicate the cause of the failure on each user item
+            }
 
 
 # Group Qiniu

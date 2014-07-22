@@ -293,7 +293,24 @@ Qiniu related apis
             {"_id":"aeqwraf","name":"阿毛"}]
         }
 
+## Students of Classe [/api/classes/{id}/students]
 
++ Parameters
+
+    + id (required, string, ``)
+
+### Insert Classe Detail [POST]
+
++ Request (application/json)
+
+        {"key":"whatever/students.xlsx"}
+
++ Response 200 (application/json)
+
+        {"counter":100,
+        "failure":[]
+        }
+        
 # Group Course
 
 ## Course Collection [/api/courses]
@@ -351,7 +368,11 @@ Qiniu related apis
         
 # Group Lecture
 
-## Lecture Collection [/api/lectures]
+## Lecture Collection [/api/courses/:courseId/lectures]
+
++ Parameters
+
+    + courseId (required, string)
 
 ### Get all Lectures [GET]
     

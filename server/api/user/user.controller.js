@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var User, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, validationError, xlsx, _;
+  var Classe, User, config, fs, handleError, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, validationError, xlsx, _;
 
   User = require('./user.model');
 
@@ -24,6 +24,8 @@
 
   xlsx = require('node-xlsx');
 
+  Classe = require('../classe/classe.model');
+
   qiniu.conf.ACCESS_KEY = config.qiniu.access_key;
 
   qiniu.conf.SECRET_KEY = config.qiniu.secret_key;
@@ -32,6 +34,10 @@
 
   validationError = function(res, err) {
     return res.json(422, err);
+  };
+
+  handleError = function(res, err) {
+    return res.send(500);
   };
 
 
@@ -169,7 +175,7 @@
     return User.findById(req.params.id, function(err, user) {
       var updated;
       if (err) {
-        return handleError(err);
+        return handleError(res, err);
       }
       if (!user) {
         return res.send(404);
@@ -177,9 +183,34 @@
       updated = _.merge(user, req.body);
       return updated.save(function(err) {
         if (err) {
-          return handleError(err);
+          return handleError(res, err);
         }
         return res.json(200, user);
+      });
+    });
+  };
+
+  updateClasseStudents = function(res, classeId, studentList, importReport) {
+    return Classe.findById(classeId, function(err, classe) {
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!classe) {
+        return res.send(404);
+      }
+      console.log('Found classe with id ');
+      console.dir(classe);
+      classe.students = _.merge(classe.students, studentList);
+      classe.markModified('students');
+      console.log('After merge...');
+      console.dir(classe);
+      return classe.save(function(err, saved) {
+        if (err) {
+          return handleError(res, err);
+        }
+        console.log('After save...');
+        console.dir(saved);
+        return res.json(200, importReport);
       });
     });
   };
@@ -190,9 +221,20 @@
    */
 
   exports.bulkImport = function(req, res, next) {
-    var baseUrl, destFile, file, orgId, policy, request, resourceKey, tempUrl;
+    var baseUrl, classeId, destFile, file, orgId, policy, request, resourceKey, tempUrl, type;
     resourceKey = req.body.key;
     orgId = req.body.orgId;
+    type = req.body.type;
+    classeId = req.body.classeId;
+    if (type == null) {
+      return res.send(400);
+    }
+    if (orgId == null) {
+      return res.send(400);
+    }
+    if (type === 'studnet' && (classeId == null)) {
+      return res.send(400);
+    }
     baseUrl = qiniu.rs.makeBaseUrl(qiniuDomain, resourceKey);
     policy = new qiniu.rs.GetPolicy();
     tempUrl = policy.makeRequest(baseUrl);
@@ -202,21 +244,21 @@
       stream.pipe(file);
       return file.on('finish', function() {
         return file.close(function() {
-          var data, importReport, obj, userList;
+          var importReport, importedUser, obj, userList;
           console.log('Start parsing file...');
           obj = xlsx.parse(destFile);
-          data = obj.worksheets[0].data;
-          if (!data) {
+          userList = obj.worksheets[0].data;
+          if (!userList) {
             console.error('Failed to parse user list file or empty file');
             res.send(500);
             return;
           }
-          userList = _.rest(data);
           importReport = {
             total: 0,
             success: [],
             failure: []
           };
+          importedUser = [];
           return _.forEach(userList, function(userItem) {
             var newUser;
             console.log('UserItem is ...');
@@ -224,7 +266,7 @@
             newUser = new User({
               name: userItem[0].value,
               email: userItem[1].value,
-              role: userItem[2].value,
+              role: type,
               password: userItem[1].value,
               orgId: orgId
             });
@@ -235,10 +277,15 @@
                 importReport.failure.push(err.errors);
               } else {
                 console.log('Created user ' + newUser.name);
-                importReport.success.push('Created user ' + newUser.name);
+                importReport.success.push(newUser.name);
+                importedUser.push(user._id);
               }
               if (importReport.total === userList.length) {
-                return res.json(200, importReport);
+                if (type === 'student') {
+                  return updateClasseStudents(res, classeId, importedUser, importReport);
+                } else {
+                  return res.json(200, importReport);
+                }
               }
             });
           });

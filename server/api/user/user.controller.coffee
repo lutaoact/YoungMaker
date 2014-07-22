@@ -11,6 +11,7 @@ _ = require 'lodash'
 fs = require 'fs'
 http = require 'http'
 xlsx = require 'node-xlsx'
+Classe = require '../classe/classe.model'
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -18,6 +19,9 @@ qiniuDomain                       = config.qiniu.domain
 
 validationError = (res, err) ->
   res.json 422, err
+
+handleError = (res, err) ->
+  res.send 500
 
 ###
   Get list of users
@@ -103,13 +107,35 @@ exports.update = (req, res) ->
 
   User.findById req.params.id, (err, user) ->
 
-      return handleError err if err
+      return handleError res, err if err
       return res.send 404 if not user
 
       updated = _.merge user , req.body
       updated.save (err) ->
-        return handleError err if err
+        return handleError res, err if err
         return res.json 200, user
+
+
+updateClasseStudents = (res, classeId, studentList, importReport) ->
+    Classe.findById classeId, (err, classe) ->
+      return handleError res, err if err
+      return res.send 404 if not classe
+
+      console.log 'Found classe with id '
+      console.dir classe
+
+      classe.students = _.merge classe.students, studentList
+      classe.markModified 'students'
+
+      console.log 'After merge...'
+      console.dir classe
+
+      classe.save (err, saved) ->
+        return handleError res, err if err
+        console.log 'After save...'
+        console.dir saved
+        res.json 200, importReport
+
 
 ###
   Bulk import users from excel sheet uploaded by client
@@ -117,6 +143,18 @@ exports.update = (req, res) ->
 exports.bulkImport = (req, res, next) ->
   resourceKey = req.body.key
   orgId = req.body.orgId
+  type = req.body.type
+  classeId = req.body.classeId
+
+  # do some sanity check
+  if not type?
+    return res.send 400
+
+  if not orgId?
+    return res.send 400
+
+  if type is 'studnet' and not classeId?
+    return res.send 400
 
   ## create download URL
   baseUrl = qiniu.rs.makeBaseUrl qiniuDomain, resourceKey
@@ -134,20 +172,19 @@ exports.bulkImport = (req, res, next) ->
         console.log 'Start parsing file...'
         obj = xlsx.parse destFile
 
-        data = obj.worksheets[0].data
+        userList = obj.worksheets[0].data
 
-        if not data
+        if not userList
           console.error 'Failed to parse user list file or empty file'
           res.send 500
           return
-
-        # real user data starting from second row
-        userList = _.rest data
 
         importReport =
           total : 0
           success : []
           failure : []
+
+        importedUser = []
 
         _.forEach userList, (userItem) ->
 
@@ -157,8 +194,8 @@ exports.bulkImport = (req, res, next) ->
           newUser = new User
             name : userItem[0].value
             email : userItem[1].value
-            role   :  userItem[2].value
-            password : userItem[1].value
+            role   :  type
+            password : userItem[1].value #initial password is the same as email
             orgId : orgId
 
           newUser.save (err, user) ->
@@ -168,11 +205,18 @@ exports.bulkImport = (req, res, next) ->
               importReport.failure.push err.errors
             else
               console.log 'Created user ' + newUser.name
-              importReport.success.push 'Created user ' + newUser.name
+              importReport.success.push newUser.name
+              importedUser.push user._id
 
             # when finish processing user list, send response to client
             if importReport.total is userList.length
-              res.json 200, importReport
+
+              # if type is student, update classe's student list with imported user list
+              if type is 'student'
+                updateClasseStudents res, classeId, importedUser, importReport
+              else
+                res.json 200, importReport
+
 
   .on 'error' , (err) ->
     console.error 'There is an error while downloading file from ' + url

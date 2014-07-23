@@ -1,8 +1,7 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,Restangular,Auth, $http,$upload,$location) ->
+angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,Restangular,Auth, $http,$upload,$location,notify) ->
   $scope.lecture = null
-  console.log $state.params
   if $state.params.id and $state.params.id is 'new'
     $scope.lecture = {courseId:$state.params.courseId}
   else if $state.params.id
@@ -26,7 +25,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
     $scope.isPptProcessing = true
     file = files[0]
     # get upload token
-    console.log file
     $http.get('/api/qiniu/uptoken')
     .success (uploadToken)->
       qiniuParam =
@@ -41,9 +39,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
         fileFormDataName: 'file'
       .progress (evt)->
         $scope.uploadingP = parseInt(100.0 * evt.loaded / evt.total)
+        notify($scope.uploadingP)
       .success (data) ->
         # file is uploaded successfully
-        console.log data
         $scope.excelUrl = data.key
         $http.post('/api/users/sheet',{key:data.key,orgId:Auth.getCurrentUser().orgId})
         .success (result)->
@@ -53,6 +51,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
         .finally ()->
           $scope.isPptProcessing = false
       .error (response)->
+        notify(response)
         console.log response
 
   $scope.saveLecture = (lecture,form)->
@@ -61,7 +60,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
         #post
         Restangular.all('lectures').post(lecture)
         .then (data)->
-          console.log lecture
+          notify({message:'课时已保存',template:'components/alert/success.html'})
+          $state.go('teacher.lectureDetail',{courseId:$state.params.courseId,id:data._id})
       else
         #put
         lecture.put()

@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', ($scope,$st
     console.log error
 
   $scope.deleteLecture = (lecture)->
-    lecture.remove()
+    Restangular.one('lectures',lecture._id).remove()
     .then ()->
       $scope.course.$lectures.splice($scope.course.$lectures.indexOf(lecture),1)
 

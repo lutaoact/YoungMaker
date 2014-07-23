@@ -10,7 +10,8 @@ angular.module('budweiserApp', [
   'ngStorage',
   'ui.select2',
   'angularFileUpload',
-  'restangular'
+  'restangular',
+  'cgNotify'
 ])
   .config (($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider

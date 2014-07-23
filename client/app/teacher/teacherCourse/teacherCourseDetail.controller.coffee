@@ -14,6 +14,11 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', ($scope,$st
   , (error)->
     console.log error
 
+  $scope.deleteLecture = (lecture)->
+    lecture.remove()
+    .then ()->
+      $scope.course.$lectures.splice($scope.course.$lectures.indexOf(lecture),1)
+
   $scope.createKeypoint = (keypoint)->
     $scope.keypoints.push({_id:'new',name:keypoint})
 

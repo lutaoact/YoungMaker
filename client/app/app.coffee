@@ -11,7 +11,8 @@ angular.module('budweiserApp', [
   'ui.select2',
   'angularFileUpload',
   'restangular',
-  'cgNotify'
+  'cgNotify',
+  'ngRepeatReorder'
 ])
   .config (($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
     $urlRouterProvider

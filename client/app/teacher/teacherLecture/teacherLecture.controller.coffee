@@ -2,6 +2,7 @@
 
 angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,Restangular,Auth, $http,$upload,$location,notify) ->
   $scope.lecture = null
+  $scope.$stateParams = $state.params
   if $state.params.id and $state.params.id is 'new'
     $scope.lecture = {courseId:$state.params.courseId}
   else if $state.params.id

@@ -14,6 +14,8 @@
 
   router.get('/:id', auth.isAuthenticated(), controller.show);
 
+  router.get('/:id/lectures', auth.isAuthenticated(), controller.showLectures);
+
   router.post('/', auth.hasRole('teacher'), controller.create);
 
   router.put('/:id', auth.hasRole('teacher'), controller.update);

@@ -29,7 +29,9 @@
   };
 
   exports.show = function(req, res) {
-    return Course.findById(req.params.id, function(err, course) {
+    Course
+      .findById(req.params.id)
+      .exec(function(err, course) {
       if (err) {
         return handleError(res, err);
       }
@@ -38,6 +40,21 @@
       }
       return res.json(course);
     });
+  };
+
+  exports.showLectures = function(req, res) {
+    Course
+      .findById(req.params.id)
+      .populate('lectureAssembly', '_id name')
+      .exec(function(err, course) {
+        if (err) {
+          return handleError(res, err);
+        }
+        if (!course) {
+          return res.send(404);
+        }
+        return res.json(course.lectureAssembly);
+      });
   };
 
   exports.create = function(req, res) {

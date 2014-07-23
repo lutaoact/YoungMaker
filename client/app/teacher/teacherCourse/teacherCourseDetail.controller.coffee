@@ -8,6 +8,9 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', ($scope,$st
   Restangular.one('courses',$state.params.id).get()
   .then (course)->
     $scope.course = course
+    $scope.course.all('lectures').getList()
+    .then (lectures)->
+      $scope.course.$lectures = lectures
   , (error)->
     console.log error
 

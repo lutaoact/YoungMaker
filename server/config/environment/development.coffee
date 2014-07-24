@@ -13,3 +13,4 @@ module.exports =
     secret_key  : 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv'
     domain : 'temp-cloud3edu-com.qiniudn.com'
     bucket_name : 'temp-cloud3edu-com'
+    signed_url_expires : 24 * 60 * 60

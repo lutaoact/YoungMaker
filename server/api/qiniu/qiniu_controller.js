@@ -1,12 +1,14 @@
 (function() {
   'use strict';
-  var bucketName, config, domain, qiniu, randomstring;
+  var bucketName, cache, config, domain, qiniu, randomstring, signedUrlExpires;
 
   qiniu = require('qiniu');
 
   config = require('../../config/environment');
 
   randomstring = require('randomstring');
+
+  cache = require('memory-cache');
 
   qiniu.conf.ACCESS_KEY = config.qiniu.access_key;
 
@@ -15,6 +17,8 @@
   domain = config.qiniu.domain;
 
   bucketName = config.qiniu.bucket_name;
+
+  signedUrlExpires = config.qiniu.signed_url_expires;
 
 
   /*
@@ -38,11 +42,16 @@
    */
 
   exports.signedUrl = function(req, res) {
-    var baseUrl, downloadUrl, key, policy;
+    var baseUrl, cached, downloadUrl, key, policy;
     key = req.params.key;
+    cached = cache.get(key);
+    if (cached) {
+      return res.send(200, cached);
+    }
     baseUrl = qiniu.rs.makeBaseUrl(domain, key);
-    policy = new qiniu.rs.GetPolicy();
+    policy = new qiniu.rs.GetPolicy(signedUrlExpires);
     downloadUrl = policy.makeRequest(decodeURIComponent(baseUrl));
+    cache.put(key, downloadUrl, (signedUrlExpires - 60 * 60) * 1000);
     return res.send(200, downloadUrl);
   };
 

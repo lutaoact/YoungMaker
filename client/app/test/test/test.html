@@ -29,6 +29,12 @@
 </div>
 
 <div class="col-md-12" style="margin-top:100px">
+  timestamp to datetime
+  <input ng-model="timestamp">
+  <div>{{timestamp|uxToLocaleTime}}</div>
+</div>
+
+<div class="col-md-12" style="margin-top:100px">
   <select ui-select2 id="organization-type" name="type" ng-model="orgId" placeholder="机构类型" required>
     <option value=""></option>
     <option ng-repeat="organization in organizations" value="{{organization._id}}">{{organization.name}}</option>

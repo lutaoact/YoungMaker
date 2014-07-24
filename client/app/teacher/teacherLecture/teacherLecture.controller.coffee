@@ -6,7 +6,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
   if $state.params.id and $state.params.id is 'new'
     $scope.lecture = {courseId:$state.params.courseId}
   else if $state.params.id
-    Restangular.one('lectures',$state.params.id).get()
+    Restangular.one('courses',$scope.$stateParams.courseId).one('lectures',$state.params.id).get()
     .then (lecture)->
       $scope.lecture = lecture
 
@@ -59,7 +59,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
     if form.$valid
       if not lecture._id
         #post
-        Restangular.all('lectures').post(lecture)
+        Restangular.one('courses',$scope.$stateParams.courseId).all('lectures').post(lecture)
         .then (data)->
           notify({message:'课时已保存',template:'components/alert/success.html'})
           $state.go('teacher.lectureDetail',{courseId:$state.params.courseId,id:data._id})

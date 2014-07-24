@@ -55,14 +55,14 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', ($scope,$st
       .error (response)->
         console.log response
 
-  $scope.$on 'ngrr-dragend', ($event, $element, $index)->
+  $scope.$on 'ngrr-reordered', ()->
     newLectureAssembly = []
-    for lecture in $scope.course.$lectures
-      newLectureAssembly.push lecture._id
+    for index in [0..($scope.course.$lectures.length - 1)]
+      newLectureAssembly.push $scope.course.$lectures[index]._id
     $scope.course.patch({lectureAssembly:newLectureAssembly})
 
   $scope.deleteLecture = (lecture)->
-    Restangular.one('lectures',lecture._id).remove()
+    $scope.course.one('lectures',lecture._id).remove()
     .then ()->
       $scope.course.$lectures.splice($scope.course.$lectures.indexOf(lecture),1)
 

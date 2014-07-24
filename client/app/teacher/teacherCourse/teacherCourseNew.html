@@ -7,7 +7,7 @@
     </div>
     <div class="form-group">
       <label for="course-cate">课程类别</label>
-      <select ui-select2 ng-model="course.category" data-placeholder="选择一个类别" name="category" id="course-cate" required>
+      <select ui-select2 ng-model="course.categoryId" data-placeholder="选择一个类别" name="category" id="course-cate" required>
         <option value=""></option>
         <option ng-repeat="option in categories" value="{{option._id}}">{{option.name}}</option>
       </select>

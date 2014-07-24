@@ -25,20 +25,20 @@
   <hr/>
   <label>知识点</label>
   <div class="form-group">
-    <label for="keypoints">新增知识点</label>
-    <select ui-select2 ng-model="keypoint" data-placeholder="选择一个知识点" name="keypoints" id="keypoints">
+    <label for="knowledgePoints">新增知识点</label>
+    <select ui-select2 ng-model="knowledgePoint" data-placeholder="选择一个知识点" name="knowledgePoints" id="knowledgePoints" ng-change="addKnowledgePoint(option)">
       <option value=""></option>
-      <option ng-repeat="option in keypoints" value="{{option}}">{{option.name}}</option>
+      <option ng-repeat="option in knowledgePoints" value="{{option._id}}">{{option.name}}</option>
     </select>
-    or <input ng-model="newKeypoint"/>
-    <button class="btn btn-default" ng-click="createKeypoint(newKeypoint)">添加</button>
+    or <input ng-model="newKnowledgePoint"/>
+    <button class="btn btn-default" ng-click="addKnowledgePoint(newKnowledgePoint)">添加</button>
   </div>
   <ul class="list-group">
-    <li class="list-group-item" ng-repeat="keypoint in keypoints">
-      <strong>{{keypoint.name}}</strong><br>
-      <span class="text-muted">{{keypoint._id}}</span>
+    <li class="list-group-item" ng-repeat="knowledgePoint in lecture.$knowledgePoints">
+      <strong>{{knowledgePoint.name}}</strong><br>
+      <span class="text-muted">{{knowledgePoint._id}}</span>
       <div class="pull-right">
-        <a ng-click="delete(keypoint)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+        <a ng-click="deleteKnowledgePonit(knowledgePoint)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
       </div>
     </li>
   </ul>

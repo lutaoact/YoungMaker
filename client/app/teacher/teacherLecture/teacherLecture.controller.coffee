@@ -6,9 +6,18 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
   if $state.params.id and $state.params.id is 'new'
     $scope.lecture = {courseId:$state.params.courseId}
   else if $state.params.id
-    Restangular.one('courses',$scope.$stateParams.courseId).one('lectures',$state.params.id).get()
-    .then (lecture)->
-      $scope.lecture = lecture
+    Restangular.one('courses',$scope.$stateParams.courseId).get()
+    .then (course)->
+      $scope.course = course
+      Restangular.all('knowledge_points').getList({categoryId:course.categoryId})
+      .then (kps)->
+        $scope.knowledgePoints = kps
+      $scope.course.one('lectures',$state.params.id).get()
+      .then (lecture)->
+        $scope.lecture = lecture
+        $scope.lecture.all('knowledge_points').getList()
+        .then (kps)->
+          $scope.lecture.$knowledgePoints = kps
 
   $scope.isPptProcessing = false
 
@@ -55,11 +64,24 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
         notify(response)
         console.log response
 
+  $scope.addKnowledgePoint = (knowledgePoint)->
+    knowledgePoint.categoryId = $scope.course.categoryId
+    $scope.lecture.all('knowledge_points').post(knowledgePoint)
+    .then (kp)->
+      $scope.lecture.$knowledgePoints.push kp
+      console.log kp
+      # $scope.keypoints.push({_id:'new',name:keypoint})
+
+  $scope.deleteKnowledgePonit = (kp)->
+    kp.remove()
+    .then ()->
+      $scope.lecture.$knowledgePoints.splice($scope.lecture.$knowledgePoints.indexOf(kp),1)
+
   $scope.saveLecture = (lecture,form)->
     if form.$valid
       if not lecture._id
         #post
-        Restangular.one('courses',$scope.$stateParams.courseId).all('lectures').post(lecture)
+        $scope.course.all('lectures').post(lecture)
         .then (data)->
           notify({message:'课时已保存',template:'components/alert/success.html'})
           $state.go('teacher.lectureDetail',{courseId:$state.params.courseId,id:data._id})

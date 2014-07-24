@@ -1,11 +1,11 @@
 
 /*
  * Using Rails-like standard naming convention for endpoints.
- * GET     /category              ->  index
- * POST    /category              ->  create
- * GET     /category/:id          ->  show
- * PUT     /category/:id          ->  update
- * DELETE  /category/:id          ->  destroy
+ * GET     /categories              ->  index
+ * POST    /categories              ->  create
+ * GET     /categories/:id          ->  show
+ * PUT     /categories/:id          ->  update
+ * DELETE  /categories/:id          ->  destroy
  */
 
 (function() {

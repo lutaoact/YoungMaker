@@ -15,7 +15,8 @@
     slides: [{
       thumb: String,
       raw: String
-    }]
+    }],
+    knowledgePoints: [{type: Schema.Types.ObjectId, ref: 'KnowledgePoint'}]
     // TODO: define Quesiton DB
     //questions: {type: Schema.Types.ObjectId, ref: 'Question'}
   });

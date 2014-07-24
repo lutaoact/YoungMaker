@@ -9,7 +9,7 @@
 
   CourseSchema = new Schema({
     name: {type: String, required: true},
-    category: {type: Schema.Types.ObjectId, ref: 'Category'},
+    categoryId: {type: Schema.Types.ObjectId, ref: 'Category'},
     thumbnail: String,
     info: String,
     lectureAssembly: [{type: Schema.Types.ObjectId, ref: 'Lecture'}],

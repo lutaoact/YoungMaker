@@ -32,6 +32,10 @@
 
   router["delete"]('/:id/lectures/:lectureId', auth.hasRole('teacher'), controller.destroyLecture);
 
+  router.get('/:id/lectures/:lectureId/knowledge_points', controller.showKnowledgePoints);
+
+  router.post('/:id/lectures/:lectureId/knowledge_points', auth.hasRole('teacher'), controller.createKnowledgePoint);
+
   // router["delete"]('/:id', controller.destroy);
 
   module.exports = router;

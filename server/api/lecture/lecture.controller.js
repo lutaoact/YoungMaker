@@ -10,17 +10,17 @@
 
 (function() {
   'use strict';
-  var Lecutre, Course, handleError, _;
+  var Lecture, Course, handleError, _;
 
   _ = require('lodash');
 
-  Lecutre = require('./lecture.model');
+  Lecture = require('./lecture.model');
   Course = require('../course/course.model');
 
   exports.index = function(req, res) {
     var courseId = req.query.courseId;
     if (courseId) {
-      return Lecutre.findOne({"courseId": courseId}, function(err, lecture) {
+      return Lecture.findOne({"courseId": courseId}, function(err, lecture) {
         if (err) {
           return handleError(res, err);
         }
@@ -63,7 +63,7 @@
   };
 
   exports.show = function(req, res) {
-    return Lecutre.findById(req.params.id, function(err, lecture) {
+    return Lecture.findById(req.params.id, function(err, lecture) {
       if (err) {
         return handleError(res, err);
       }
@@ -111,7 +111,7 @@
       if (err) return handleError(res, err);
       if (!course) return res.send(404);
 
-      return Lecutre.create(req.body, function(err, lecture) {
+      return Lecture.create(req.body, function(err, lecture) {
         if (err) {
           return handleError(res, err);
         }
@@ -128,7 +128,7 @@
     if (req.body._id) {
       delete req.body._id;
     }
-    return Lecutre.findById(req.params.id, function(err, lecture) {
+    return Lecture.findById(req.params.id, function(err, lecture) {
       var updated;
       if (err) {
         return handleError(err);
@@ -155,7 +155,7 @@
 
   // TODO: delete from classe's lectureAssembly & classProgress's lecturesStatus
   exports.destroy = function(req, res) {
-    return Lecutre.findById(req.params.id, function(err, lecture) {
+    return Lecture.findById(req.params.id, function(err, lecture) {
       if (err) {
         return handleError(res, err);
       }
@@ -183,4 +183,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=Lecutre.controller.js.map
+//# sourceMappingURL=Lecture.controller.js.map

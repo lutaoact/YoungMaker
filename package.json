@@ -26,7 +26,8 @@
     "randomstring" : "^1.0.3",
     "node-xlsx" : "^0.4.0",
     "socket.io": "~0.9.16",
-    "socketio-jwt": "^2.0.2"
+    "socketio-jwt": "^2.0.2",
+    "memory-cache" : "^0.0.5"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

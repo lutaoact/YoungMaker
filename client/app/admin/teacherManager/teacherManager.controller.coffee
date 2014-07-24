@@ -44,7 +44,7 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
         # file is uploaded successfully
         console.log data
         $scope.excelUrl = data.key
-        $http.post('/api/users/sheet',{key:data.key,orgId:Auth.getCurrentUser().orgId})
+        $http.post('/api/users/bulk',{key:data.key,orgId:Auth.getCurrentUser().orgId,type:'teacher'})
         .success (result)->
           console.log result
           $scope.reloadUsers()

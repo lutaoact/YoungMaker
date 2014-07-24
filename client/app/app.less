@@ -14,7 +14,32 @@
     color: #000;
     padding: 0.2em 0;
 }
+[ng-repeat-reorder].dragging {
+    z-index: 11;
+    position: absolute;
+}
+.ng-repeat-reorder-parent, [ng-repeat-reorder] {
+z-index: 10;
+position: relative;
+}
+.active-drag-below {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
+.transition {
+-webkit-transition: all 0.13s;
+-moz-transition: all 0.13s;
+-ms-transition: all 0.13s;
+-o-transition: all 0.13s;
+transition: all 0.13s;
+}
+
+.stretch{
+  width: 100%;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .container {
@@ -37,4 +62,5 @@
 @import 'teacher/teacherHome/teacherHome.less';
 @import 'teacher/teacherLecture/teacherLecture.less';
 @import 'test/test/test.less';
+@import 'word/word.less';
 // endinjector

@@ -20,7 +20,7 @@ all =
   port: process.env.PORT or 9000
 
   # Should we populate the DB with sample data?
-  seedDB: true
+  seedDB: false
 
   # Secret for session
   secrets:

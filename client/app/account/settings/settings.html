@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Change Password</h1>
+      <h1>修改密码</h1>
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="changePassword(form)" novalidate>
@@ -12,9 +12,9 @@
           <label>Current Password</label>
 
           <input type="password" name="password" class="form-control" ng-model="user.oldPassword"
-                 mongoose-error/>
+          mongoose-error/>
           <p class="help-block" ng-show="form.password.$error.mongoose">
-              {{ errors.other }}
+            {{ errors.other }}
           </p>
         </div>
 
@@ -22,18 +22,38 @@
           <label>New Password</label>
 
           <input type="password" name="newPassword" class="form-control" ng-model="user.newPassword"
-                 ng-minlength="3"
-                 required/>
+          ng-minlength="3"
+          required/>
           <p class="help-block"
-             ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
-            Password must be at least 3 characters.
-          </p>
-        </div>
+          ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
+          Password must be at least 3 characters.
+        </p>
+      </div>
 
-        <p class="help-block"> {{ message }} </p>
+      <p class="help-block"> {{ message }} </p>
 
-        <button class="btn btn-lg btn-primary" type="submit">Save changes</button>
-      </form>
-    </div>
+      <button class="btn btn-lg btn-primary" type="submit">Save changes</button>
+    </form>
   </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <h1>修改头像</h1>
+  </div>
+  <div class="col-sm-12">
+    <div class="form-group">
+      <img qiniu-key="me.avatar"></img>
+      <label class="btn btn-default" ng-show="!isUploading">
+        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+        修改头像
+      </label>
+      <label class="btn btn-default disabled" ng-show="isUploading">
+        <i class="fa fa-spinner fa-spin"></i>上传中
+      </label>
+    </div>
+
+    <p class="help-block"> {{ message }} </p>
+
+  </div>
+</div>
 </div>

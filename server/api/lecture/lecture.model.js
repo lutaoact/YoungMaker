@@ -16,6 +16,8 @@
       thumb: String,
       raw: String
     }]
+    // TODO: define Quesiton DB
+    //questions: {type: Schema.Types.ObjectId, ref: 'Question'}
   });
 
   LecutreSchema.plugin(createdModifiedPlugin, {index: true});

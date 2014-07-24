@@ -103,7 +103,6 @@
     });
   };
 
-  // TODO: support insert lecture to lecture list
   // TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.
   exports.create = function(req, res) {
     Course

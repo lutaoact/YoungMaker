@@ -9,6 +9,12 @@ angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Res
     Restangular.one('classes',$state.params.id).get()
     .then (classe)->
       $scope.classe = classe
+      $scope.reloadStudents()
+
+  $scope.reloadStudents = ()->
+    $scope.classe.all('students').getList()
+    .then (students)->
+      $scope.classe.students = students
 
   $scope.saveClasse = (classe,form)->
     if form.$valid
@@ -58,16 +64,17 @@ angular.module('budweiserApp').controller 'ClasseDetailCtrl', ($scope,$state,Res
         # file is uploaded successfully
         console.log data
         $scope.excelUrl = data.key
-        $scope.classe.all('students').post({key:$scope.excelUrl})
-        .then (result)->
+        $http.post('/api/users/bulk',{key:$scope.excelUrl,orgId:Auth.getCurrentUser().orgId,type:'student',classeId:$scope.classe._id})
+        .success (result)->
           console.log result
-          $scope.isExcelProcessing = false
-          $scope.reloadUsers()
-        , (error)->
+          $scope.reloadStudents()
+        .error (error)->
           console.log error
+        .finally ()->
           $scope.isExcelProcessing = false
 
       .error (response)->
         console.log response
+
 
 

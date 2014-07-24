@@ -39,8 +39,7 @@
 
   exports.signedUrl = function(req, res) {
     var baseUrl, downloadUrl, key, policy;
-    key = decodeURIComponent(req.params.key);
-    console.log('key is ' + key);
+    key = req.params.key;
     baseUrl = qiniu.rs.makeBaseUrl(domain, key);
     policy = new qiniu.rs.GetPolicy();
     downloadUrl = policy.makeRequest(decodeURIComponent(baseUrl));

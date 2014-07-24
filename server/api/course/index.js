@@ -20,11 +20,11 @@
 
   router.patch('/:id', auth.hasRole('teacher'), controller.update);
 
-  router.get('/:id/lectures/', auth.isAuthenticated(), controller.showLectures);
+  router.get('/:id/lectures', auth.isAuthenticated(), controller.showLectures);
 
   router.get('/:id/lectures/:lectureId', auth.isAuthenticated(), controller.showLecture);
 
-  router.post('/:id/lectures/', auth.hasRole('teacher'), controller.createLecture);
+  router.post('/:id/lectures', auth.hasRole('teacher'), controller.createLecture);
 
   router.put('/:id/lectures/:lectureId', auth.hasRole('teacher'), controller.updateLecture);
 

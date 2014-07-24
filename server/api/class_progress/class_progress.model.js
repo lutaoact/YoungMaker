@@ -11,7 +11,7 @@
     userId: {type: Schema.Types.ObjectId, ref: 'User'},
     courseId: {type: Schema.Types.ObjectId, ref: 'Course'},
     classId: {type: Schema.Types.ObjectId, ref: 'Class'},
-    // TODO: does lecturesStatus need _id?
+    // TODO: does lecturesStatus need _id?; change type to Mix, use dict instead;
     lecturesStatus: [{
       lectureId: {type: Schema.Types.ObjectId, ref: 'Lecture'},
       //name: String,

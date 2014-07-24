@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <dl>
+        <dt>
+          权限
+        </dt>
+        <dd>
+          管理员可以查看编辑所在机构的班级
+        </dd>
+        <dt>
+          创建
+        </dt>
+        <dd>
+          点击‘创建班级’新增班级。班级名称可以重复？
+        </dd>
+        <dt>
+          编辑
+        </dt>
+        <dd>
+          点击班级卡片进入班级修改界面。可以导入学生。
+        </dd>
+        <dt>
+          删除
+        </dt>
+        <dd>
+          不能删除班级
+        </dd>
+      </dl>
+      <div class="row">
+        <div ng-repeat="classe in classes" class="col-xs-12 col-sm-12 col-md-4 classe" style="border:1px solid #888;">
+          <h2>
+            {{classe.name}}
+          </h2>
+          <p>
+            {{classe.yearGrade}}
+          </p>
+          <p>
+            <a class="btn btn-default" href="/admin/classeDetail/{{classe._id}}">编辑</a>
+          </p>
+        </div>
+      </div>
+      <a class="btn btn-primary" type="button" href="/admin/classeDetail/new">添加班级</a>
+    </div>
+  </div>
+</div>

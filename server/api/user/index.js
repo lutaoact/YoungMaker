@@ -1,12 +1,10 @@
 (function() {
   'use strict';
-  var auth, config, controller, express, router;
+  var auth, controller, express, router;
 
   express = require('express');
 
   controller = require('./user.controller');
-
-  config = require('../../config/environment');
 
   auth = require('../../auth/auth.service');
 
@@ -20,9 +18,13 @@
 
   router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 
+  router.put('/:id', auth.hasRole('admin'), controller.update);
+
   router.get('/:id', auth.isAuthenticated(), controller.show);
 
   router.post('/', controller.create);
+
+  router.post('/bulk', controller.bulkImport);
 
   module.exports = router;
 

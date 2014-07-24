@@ -20,7 +20,7 @@ angular.module('budweiserApp').factory 'Auth', ($location, $rootScope, $http, Us
     ).success((data) ->
       $cookieStore.put 'token', data.token
       currentUser = User.get()
-      deferred.resolve data
+      deferred.resolve currentUser
       cb()
     ).error ((err) ->
       @logout()
@@ -97,8 +97,8 @@ angular.module('budweiserApp').factory 'Auth', ($location, $rootScope, $http, Us
   @return {Boolean}
   ###
   isLoggedIn: ->
-    currentUser.hasOwnProperty 'role'
-
+    #To support pasted url navigation
+    currentUser.hasOwnProperty('role') or $cookieStore.get('token')
 
   ###
   Check if a user is an admin

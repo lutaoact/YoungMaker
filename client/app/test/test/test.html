@@ -1,0 +1,58 @@
+<div class="col-md-12">
+  <a class="btn btn-primary" ng-click="login('admin@admin.com','admin')">Admin</a>
+  <a class="btn btn-primary" ng-click="login('test@test.com','test')">Test</a>
+  <input class="form-control" placeholder="用户名" ng-model="$storage.user.username">
+  <input class="form-control" placeholder="密码" ng-model="$storage.user.password">
+  <a class="btn btn-primary" ng-click="login($storage.user.username,$storage.user.password)">Login</a>
+  <a class="btn btn-primary" ng-click="logout()">Log out</a>
+  <br/><label>Authorization</label><div>{{token}}</div>
+</div>
+
+<div class="col-md-12">
+  <input class="col-md-6 input" ng-model="$storage.request.url"/>
+  <select class="btn btn-primary" ng-model="$storage.request.method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT">PUT</option>
+    <option value="DELETE">DELETE</option>
+  </select>
+  <a class="btn btn-primary" ng-click="send()">Send</a>
+</div>
+<hr/>
+<div class="col-md-12">
+  <label class="col-md-1">json body</label>
+  <textarea ng-model="$storage.request.data" class="col-md-8" style="height: 300px;">
+  </textarea>
+</div>
+<div class="col-md-12">
+  <div>{{response|json}}</div>
+</div>
+
+<div class="col-md-12" style="margin-top:100px">
+  timestamp to datetime
+  <input ng-model="timestamp">
+  <div>{{timestamp|uxToLocaleTime}}</div>
+</div>
+
+<div class="col-md-12" style="margin-top:100px">
+  <select ui-select2 id="organization-type" name="type" ng-model="orgId" placeholder="机构类型" required>
+    <option value=""></option>
+    <option ng-repeat="organization in organizations" value="{{organization._id}}">{{organization.name}}</option>
+  </select>
+  <label class="btn btn-default" ng-show="!isExcelProcessing">
+    <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+    导入
+  </label>
+  <label class="btn btn-default disabled" ng-show="isExcelProcessing">
+    <i class="fa fa-spinner fa-spin"></i>导入中
+  </label>
+</div>
+<div class="col-md-12">
+
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="user in users">
+      <strong>{{user.name}}</strong><br>
+      <span class="text-muted">{{user.email}}</span>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+  <form class="form" name="form">
+    <div class="form-group">
+      <label class="btn btn-default" ng-show="!isUploading">
+        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+        <img qiniu-key="course.thumbnail" src="/assets/images/empty.jpg"></img>
+      </label>
+      <label class="btn btn-default disabled" ng-show="isUploading">
+        <i class="fa fa-spinner fa-spin"></i>上传中
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="course-name">课程名称</label>
+      <input class="form-control" id="course-name" name="name" ng-model="course.name" placeholder="课程名称" required>
+    </div>
+    <div class="form-group">
+      <label for="course-info">课程信息</label>
+      <input class="form-control" id="course-info" name="info" ng-model="course.info" placeholder="课程信息">
+    </div>
+
+    <button type="submit" class="btn btn-default" ng-click="saveCourse(course,form)">Submit</button>
+
+  </form>
+  <hr/>
+  <label>知识点</label>
+  <div class="form-group">
+    <label for="keypoints">新增知识点</label>
+    <select ui-select2 ng-model="keypoint" data-placeholder="选择一个知识点" name="keypoints" id="keypoints">
+      <option value=""></option>
+      <option ng-repeat="option in keypoints" value="{{option}}">{{option.name}}</option>
+    </select>
+    or <input ng-model="newKeypoint"/>
+    <button class="btn btn-default" ng-click="createKeypoint(newKeypoint)">添加</button>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="keypoint in keypoints">
+      <strong>{{keypoint.name}}</strong><br>
+      <span class="text-muted">{{keypoint._id}}</span>
+      <div class="pull-right">
+        <a ng-click="delete(keypoint)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+      </div>
+    </li>
+  </ul>
+  <hr/>
+  <label>课时</label>
+  <ul class="list-group" style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
+    <li class="list-group-item stretch" ng-repeat-reorder="lecture in course.$lectures" ng-repeat-reorder-handle="div.drag-point" >
+      <div class="drag-point pull-left" draggable="true"><i class="fa fa-bars"></i></div>
+      <a href="/t/courses/{{course._id}}/lectures/{{lecture._id}}"><strong>{{lecture.name}}</strong></a>
+      <div class="pull-right">
+        <a ng-click="deleteLecture(lecture)" ><span class="glyphicon glyphicon-trash"></span></a>
+      </div>
+    </li>
+  </ul>
+  <a class="btn btn-default" href="/t/courses/{{course._id}}/lectures/new">添加</a>
+</div>

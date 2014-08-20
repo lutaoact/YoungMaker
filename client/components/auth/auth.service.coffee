@@ -1,6 +1,8 @@
 'use strict'
 
-angular.module('budweiserApp').factory 'Auth', ($location, $rootScope, $http, User, $cookieStore, $q) ->
+angular.module('budweiserApp')
+
+.factory 'Auth', ($location, $rootScope, $http, User, $cookieStore, $q) ->
   currentUser = {}
   currentUser = User.get() if $cookieStore.get('token')
 

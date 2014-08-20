@@ -1,10 +1,10 @@
 'use strict'
 
 # 封装主App，用 ngMockE2E 模拟其中的服务器请求
-angular.module('budweiserAppDev', [
+angular.module 'budweiserAppDev', [
   'budweiserApp'
   'ngMockE2E'
-])
+]
 
 # 延迟 $httpbackend 返回结果，模拟服务器请求延时行为
 .config ($provide) ->

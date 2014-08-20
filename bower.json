@@ -29,5 +29,8 @@
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
     "angular-scenario": ">=1.2.*"
+  },
+  "resolutions": {
+    "select2": "~3.5.0"
   }
 }

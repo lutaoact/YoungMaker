@@ -1,38 +1,27 @@
-
-/*
- * Using Rails-like standard naming convention for endpoints.
- * GET     /organizations              ->  index
- * GET     /organizations{?sub}        ->  get by subdomain
- * POST    /organizations              ->  create
- * GET     /organizations/:id          ->  show
- * PUT     /organizations/:id          ->  update
- * DELETE  /organizations/:id          ->  destroy
- */
-
 (function() {
-  'use strict';
+  "use strict";
   var Organization, User, handleError, _;
 
-  _ = require('lodash');
+  _ = require("lodash");
 
-  Organization = require('./organization.model');
-  User = require('../user/user.model');
+  Organization = require("./organization.model");
+
+  User = require("../user/user.model");
 
   exports.index = function(req, res) {
-    var subDomain, resFun;
-
+    var resFun, subDomain;
     resFun = function(err, organizations) {
       if (err) {
         return handleError(res, err);
       }
       return res.json(200, organizations);
-    }
-
+    };
     subDomain = req.query.sub;
     if (subDomain) {
-      return Organization.find({'subDomain': subDomain}, resFun);
-    }
-    else { // get all
+      return Organization.find({
+        subDomain: subDomain
+      }, resFun);
+    } else {
       return Organization.find(resFun);
     }
   };
@@ -40,13 +29,14 @@
   exports.me = function(req, res) {
     var userId;
     userId = req.user.id;
-    User
-    .findOne({_id: userId})
-    .populate('orgId')
-    .exec(function(err, user) {
-      if (err) return handleError(res, err);
-      return res.json(200, user.orgId)
-    })
+    return User.findOne({
+      _id: userId
+    }).populate("orgId").exec(function(err, user) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.json(200, user.orgId);
+    });
   };
 
   exports.show = function(req, res) {
@@ -66,12 +56,15 @@
       if (err) {
         return handleError(res, err);
       }
-      User.findById(req.user.id, function(err, user){
-        if (err) return handleError(res, err);
-
+      return User.findById(req.user.id, function(err, user) {
+        if (err) {
+          return handleError(res, err);
+        }
         user.orgId = organization._id;
-        user.save(function (err){
-          if (err) return handleError(res, err);
+        return user.save(function(err) {
+          if (err) {
+            return handleError(res, err);
+          }
           return res.json(201, organization);
         });
       });
@@ -123,4 +116,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=Organization.controller.js.map
+//# sourceMappingURL=organization.controller.js.map

@@ -1,23 +1,30 @@
 (function() {
-  'use strict';
-  var Schema, OrganizationSchema, mongoose, createdModifiedPlugin;
+  "use strict";
+  var OrganizationSchema, Schema, createdModifiedPlugin, mongoose;
 
-  mongoose = require('mongoose');
-  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
+  mongoose = require("mongoose");
+
+  createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin;
 
   Schema = mongoose.Schema;
 
   OrganizationSchema = new Schema({
-    name: {type: String, required: true},
+    name: {
+      type: String,
+      required: true
+    },
     logo: String,
     subDomain: String,
-    background: String, //url
+    background: String,
     type: String
   });
 
-  OrganizationSchema.plugin(createdModifiedPlugin, {index: true});
-  module.exports = mongoose.model('Organization', OrganizationSchema);
+  OrganizationSchema.plugin(createdModifiedPlugin, {
+    index: true
+  });
+
+  module.exports = mongoose.model("Organization", OrganizationSchema);
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=organization.model.js.map

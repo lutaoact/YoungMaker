@@ -1,68 +1,63 @@
-
-/*
- * Using Rails-like standard naming convention for endpoints.
- * GET     /classe              ->  index
- * POST    /classe              ->  create
- * GET     /classe/:id          ->  show
- * PUT     /classe/:id          ->  update
- * DELETE  /classe/:id          ->  destroy
- */
-
 (function() {
-  'use strict';
+  "use strict";
   var Classe, User, handleError, _;
 
-  _ = require('lodash');
+  _ = require("lodash");
 
-  Classe = require('./classe.model');
-  User = require('../user/user.model');
+  Classe = require("./classe.model");
+
+  User = require("../user/user.model");
 
   exports.index = function(req, res) {
-    User
-    .findOne({_id: req.user.id})
-    .exec(function(err, user) {
-      if (err) return handleError(res, err);
-      Classe
-      .find({orgId: user.orgId})
-      .select('_id name orgId yearGrade modified created')
-      .exec(function(err, classes){
-        if (err) return handleError(res, err);
-        return res.json(200, classes)
+    return User.findOne({
+      _id: req.user.id
+    }).exec(function(err, user) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return Classe.find({
+        orgId: user.orgId
+      }).select("_id name orgId yearGrade modified created").exec(function(err, classes) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.json(200, classes);
       });
     });
   };
 
   exports.show = function(req, res) {
-    User
-    .findOne({_id: req.user.id})
-    .exec(function(err, user) {
-      if (err) return handleError(res, err);
-      Classe
-      .findById(req.params.id)
-      .where('orgId').equals(user.orgId)
-      .exec(function(err, classe){
-        if (err) return handleError(res, err);
-        return res.json(200, classe)
+    return User.findOne({
+      _id: req.user.id
+    }).exec(function(err, user) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return Classe.findById(req.params.id).where("orgId").equals(user.orgId).exec(function(err, classe) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.json(200, classe);
       });
     });
   };
 
   exports.showStudents = function(req, res) {
-    User
-    .findOne({_id: req.user.id})
-    .exec(function(err, user) {
-      if (err) return handleError(res, err);
-      Classe
-      .findById(req.params.id)
-      .where('orgId').equals(user.orgId)
-      .populate({
-        path : 'students',
-        select : '_id name email orgId avatar status'
-      })
-      .exec(function(err, classe){
-        if (err) return handleError(res, err);
-        console.dir(classe)
-        return res.json(200, classe.students)
+    return User.findOne({
+      _id: req.user.id
+    }).exec(function(err, user) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return Classe.findById(req.params.id).where("orgId").equals(user.orgId).populate({
+        path: "students",
+        select: "_id name email orgId avatar status"
+      }).exec(function(err, classe) {
+        if (err) {
+          return handleError(res, err);
+        }
+        console.dir(classe);
+        return res.json(200, classe.students);
       });
     });
   };
@@ -89,7 +84,7 @@
       if (!classe) {
         return res.send(404);
       }
-      updated = _.merge(classe, req.body);
+      updated = _.extend(classe, req.body);
       return updated.save(function(err) {
         if (err) {
           return handleError(err);

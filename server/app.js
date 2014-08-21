@@ -5,17 +5,15 @@ Main application file
 
 (function() {
   'use strict';
-  var app, config, exports, express, mongoose, server, socketio;
+  var app, config, exports, express, server, socketio;
+
+  require('./common/init');
 
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
   express = require('express');
 
-  mongoose = require('mongoose');
-
   config = require('./config/environment');
-
-  mongoose.connect(config.mongo.uri, config.mongo.options);
 
   if (config.seedDB) {
     require('./config/seed');

@@ -6,3 +6,5 @@ client/bower_components
 dist
 server/**/*.map
 .idea
+/server/test.coffee
+/server/test.js

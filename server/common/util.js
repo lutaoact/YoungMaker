@@ -1,4 +1,3 @@
-var _s = require('underscore.string');
 var async = require('async');
 require('./initGlobal');
 
@@ -128,7 +127,6 @@ exports.saveSpecifiedModelData = saveSpecifiedModelData;
 
 function getModel(key) {
 //  return require('../api/' + key + '/' + key + '.model');
-  console.log(key);
-//  return new (require('../api/' + key + '/' + key + '.model')[_u.convertToCamelCase(key)]);
+  return new (require('../api/' + key + '/' + key + '.model')[_u.convertToCamelCase(key)]);
 }
 exports.getModel = getModel;

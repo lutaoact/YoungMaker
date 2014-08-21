@@ -26,11 +26,19 @@ angular.module 'budweiserApp', [
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
+  $httpProvider.interceptors.push 'patchInterceptor'
 
 .config (RestangularProvider) ->
   # add a response intereceptor
   RestangularProvider.setBaseUrl('/api')
   RestangularProvider.setRestangularFields(id: "_id")
+
+# Override patch to put
+.factory 'patchInterceptor', ($location) ->
+  request: (config) ->
+    if config.method is 'PATCH'
+      config.method = 'PUT'
+    config
 
 .factory 'LoginRedirector', ($location) ->
 

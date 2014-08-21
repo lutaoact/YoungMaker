@@ -1,0 +1,28 @@
+<div class="row">
+
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label>
+        昵称
+        <input type="text" class="form-control" ng-blur="patchMe('name')" ng-model="me.name">
+      </label>
+    </div>
+    <div class="form-group">
+      <label>头像</label>
+      <div>
+        <label class="btn btn-default" ng-show="!isUploading">
+          <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+          <img qiniu-key="me.avatar" src="assets/images/empty.jpg"></img>
+        </label>
+        <label class="btn btn-default disabled" ng-show="isUploading">
+          <i class="fa fa-spinner fa-spin"></i>上传中
+        </label>
+      </div>
+    </div>
+
+    <p class="help-block"> {{ message }} </p>
+
+    <button class="btn btn-primary">保存</button>
+
+  </div>
+</div>

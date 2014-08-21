@@ -7,7 +7,7 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http, $q)->
     $scope.$watch 'qiniuKey',(value)->
       deferred = $q.defer()
       if value
-        $http.get('/api/qiniu/signed_url/' + encodeURIComponent(value + if $scope.suffix then $scope.suffix else ''))
+        $http.get('/api/qiniu/signedUrl/' + encodeURIComponent(value + if $scope.suffix then $scope.suffix else ''))
         .success (url)->
           deferred.resolve url
       else

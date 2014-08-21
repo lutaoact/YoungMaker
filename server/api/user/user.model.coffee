@@ -23,13 +23,16 @@ exports.User = BaseModel.subclass
         lowercase : true
       name :
         type : String
+      orgId :
+        type : ObjectId
+        ref : 'Organization'
       hashedPassword :
         type : String
       provider :
         type : String
       role :
         type : String
-        default : 'employee'
+        default : 'student'
       salt :
         type : String
       status :

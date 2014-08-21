@@ -9,6 +9,7 @@
 
 'use strict'
 
+#TODO check auth
 Discussion = ['discussion']
 
 # Get list of discussions

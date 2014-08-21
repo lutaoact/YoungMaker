@@ -8,19 +8,19 @@
  * App-wide Styles
  */
 
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
+ .browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
 }
 [ng-repeat-reorder].dragging {
-    z-index: 11;
-    position: absolute;
+  z-index: 11;
+  position: absolute;
 }
 .ng-repeat-reorder-parent, [ng-repeat-reorder] {
-z-index: 10;
-position: relative;
+  z-index: 10;
+  position: relative;
 }
 .active-drag-below {
   -moz-user-select: none;
@@ -30,15 +30,39 @@ position: relative;
 }
 
 .transition {
--webkit-transition: all 0.13s;
--moz-transition: all 0.13s;
--ms-transition: all 0.13s;
--o-transition: all 0.13s;
-transition: all 0.13s;
+  -webkit-transition: all 0.13s;
+  -moz-transition: all 0.13s;
+  -ms-transition: all 0.13s;
+  -o-transition: all 0.13s;
+  transition: all 0.13s;
 }
 
 .stretch{
   width: 100%;
+}
+
+.loading{
+  position: absolute;
+  overflow: hidden;
+  width:100%;
+  background: red;
+  height: 5px;
+  top:50px;
+  opacity:1;
+  -webkit-transition:all ease .5s;
+  transition:all ease .5s;
+
+  &.ng-hide-remove,
+  &.ng-hide-add.ng-hide-add-active {
+    opacity: 0;
+    display: block !important;
+  }
+
+  &.ng-hide-add,
+  &.ng-hide-remove.ng-hide-remove-active {
+    opacity: 1;
+    display: block !important;
+  }
 }
 
 /* Responsive: Portrait tablets and up */

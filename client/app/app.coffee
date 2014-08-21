@@ -27,10 +27,11 @@ angular.module 'budweiserApp', [
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
   $httpProvider.interceptors.push 'patchInterceptor'
+  $httpProvider.interceptors.push 'loadingInterceptor'
 
 .config (RestangularProvider) ->
   # add a response intereceptor
-  RestangularProvider.setBaseUrl('/api')
+  RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: "_id")
 
 # Override patch to put
@@ -77,6 +78,27 @@ angular.module 'budweiserApp', [
       $q.reject response
     else
       $q.reject response
+
+.factory 'loadingInterceptor', ($rootScope, $q, $cookieStore, $location) ->
+  # remain request numbers
+  numLoadings = 0
+
+  request: (config) ->
+    numLoadings++
+    $rootScope.$loading = true
+    config
+
+  response: (response)->
+    if --numLoadings is 0
+      # Hide loader
+      $rootScope.$loading = false
+    response or $q.when(response)
+
+  # Intercept 401s and redirect you to login
+  responseError: (response) ->
+    if --numLoadings is 0
+      $rootScope.$loading = false
+    $q.reject response
 
 .run ($rootScope, $location, Auth, LoginRedirector) ->
   # Redirect to login if route requires auth and you're not logged in

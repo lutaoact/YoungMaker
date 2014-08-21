@@ -1,0 +1,20 @@
+(function() {
+  global._ = require('lodash');
+
+  global._s = require('underscore.string');
+
+  global._u = require('./util');
+
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+  global.config = require('../config/environment');
+
+  global.logger = require('./logger').logger;
+
+  global.Q = require('q');
+
+  global.Const = require('./Const');
+
+}).call(this);
+
+//# sourceMappingURL=initGlobal.js.map

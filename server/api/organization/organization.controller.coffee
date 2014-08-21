@@ -11,8 +11,8 @@
 "use strict"
 
 _ = require("lodash")
-Organization = require("./organization.model")
-User = require("../user/user.model")
+Organization = _u.getModel "organization"
+User = _u.getModel "user"
 
 exports.index = (req, res) ->
   resFun = (err, organizations) ->

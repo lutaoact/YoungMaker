@@ -9,8 +9,8 @@
 # 
 
 _ = require("lodash")
-Lecture = require("./lecture.model")
-Course = require("../course/course.model")
+Lecture = _u.getModel "lecture"
+Course = _u.getModel "course"
 
 exports.index = (req, res) ->
   courseId = req.query.courseId

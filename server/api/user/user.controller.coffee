@@ -1,6 +1,6 @@
 'use strict'
 
-User = modelMap["user"]
+User = _u.getModel "user"
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
@@ -11,7 +11,7 @@ _ = require 'lodash'
 fs = require 'fs'
 http = require 'http'
 xlsx = require 'node-xlsx'
-UserStat = modelMap["user_stat"]
+#UserStat = _u.getModel "user_stat"
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key

@@ -28,6 +28,10 @@
         name: {
           type: String
         },
+        orgId: {
+          type: ObjectId,
+          ref: 'Organization'
+        },
         hashedPassword: {
           type: String
         },
@@ -36,7 +40,7 @@
         },
         role: {
           type: String,
-          "default": 'employee'
+          "default": 'student'
         },
         salt: {
           type: String
@@ -55,6 +59,11 @@
       return $super();
     }
   });
+
+
+  /*
+  Virtuals
+   */
 
   setupUserSchema = function(UserSchema) {
     var validatePresenceOf;
@@ -138,6 +147,7 @@
 
       /*
         Encrypt password
+        
         @param {String} password
         @return {String}
         @api public

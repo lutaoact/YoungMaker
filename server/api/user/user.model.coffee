@@ -144,31 +144,31 @@ setupUserSchema = (UserSchema) ->
       next()
 
   UserSchema.methods =
-  ###
-    Authenticate - check if the passwords are the same
-    @param {String} plainText
-    @return {Boolean}
-    @api public
-  ###
+    ###
+      Authenticate - check if the passwords are the same
+      @param {String} plainText
+      @return {Boolean}
+      @api public
+    ###
     authenticate: (plainText) ->
       this.encryptPassword(plainText) is this.hashedPassword
 
-  ###
-   Make salt
-   @return {String}
-   @api public
-  ###
+    ###
+     Make salt
+     @return {String}
+     @api public
+    ###
     makeSalt: () ->
       crypto.randomBytes 16
       .toString 'base64'
 
-  ###
-    Encrypt password
-
-    @param {String} password
-    @return {String}
-    @api public
-  ###
+    ###
+      Encrypt password
+  
+      @param {String} password
+      @return {String}
+      @api public
+    ###
     encryptPassword: (password) ->
       '' if  not password or not this.salt
       salt = new Buffer this.salt, 'base64'

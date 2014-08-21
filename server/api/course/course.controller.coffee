@@ -10,9 +10,9 @@
 "use strict"
 
 _ = require("lodash")
-Course = require("./course.model")
-Lecture = require("../lecture/lecture.model")
-KnowledgePoint = require("../knowledge_point/knowledge_point.model")
+Course = _u.getModel "course"
+Lecture = _u.getModel "lecture"
+KnowledgePoint = _u.getModel "knowledge_point"
 ObjectId = require("mongoose").Types.ObjectId
 
 exports.index = (req, res) ->

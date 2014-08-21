@@ -4,9 +4,9 @@
 
   _ = require("lodash");
 
-  KnowledgePoint = require("./knowledge_point.model");
+  KnowledgePoint = _u.getModel("knowledge_point");
 
-  Lecture = require("../lecture/lecture.model");
+  Lecture = _u.getModel("lecture");
 
   exports.index = function(req, res) {
     var conditions;

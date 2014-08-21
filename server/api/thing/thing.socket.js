@@ -5,7 +5,7 @@
 'use strict';
 require('../../common/init');
 
-//var thing = require('./thing.model');
+//var thing = _u.getModel "thing"
 var thing = _u.getModel('thing');
 
 exports.register = function(socket) {

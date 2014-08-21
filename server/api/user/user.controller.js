@@ -1,8 +1,8 @@
 (function() {
   'use strict';
-  var User, UserStat, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, xlsx, _;
+  var User, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, xlsx, _;
 
-  User = modelMap["user"];
+  User = _u.getModel("user");
 
   passport = require('passport');
 
@@ -23,8 +23,6 @@
   http = require('http');
 
   xlsx = require('node-xlsx');
-
-  UserStat = modelMap["user_stat"];
 
   qiniu.conf.ACCESS_KEY = config.qiniu.access_key;
 

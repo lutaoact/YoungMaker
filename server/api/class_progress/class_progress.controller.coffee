@@ -11,8 +11,8 @@
 "use strict"
 _ = require("lodash")
 
-ClassProgress = require("./class_progress.model")
-Course = require("../course/course.model")
+ClassProgress = _u.getModel "class_progress"
+Course = _u.getModel "course"
 
 exports.index = (req, res) ->
   ClassProgress.find (err, classProgresses) ->

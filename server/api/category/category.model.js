@@ -1,26 +1,26 @@
 (function() {
   "use strict";
-  var CategorySchema, Schema, createdModifiedPlugin, mongoose;
+  var BaseModel, Schema, mongoose;
 
   mongoose = require("mongoose");
 
-  createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin;
-
   Schema = mongoose.Schema;
 
-  CategorySchema = new Schema({
-    name: {
-      type: String,
-      required: true,
-      unique: true
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
+
+  exports.Category = BaseModel.subclass({
+    classname: 'Category',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: {
+          type: String,
+          required: true,
+          unique: true
+        }
+      });
+      return $super();
     }
   });
-
-  CategorySchema.plugin(createdModifiedPlugin, {
-    index: true
-  });
-
-  module.exports = mongoose.model("Category", CategorySchema);
 
 }).call(this);
 

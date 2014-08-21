@@ -10,8 +10,8 @@
 "use strict"
 
 _ = require("lodash")
-Classe = require("./classe.model")
-User = require("../user/user.model")
+Classe = _u.getModel "classe"
+User = _u.getModel "user"
 
 exports.index = (req, res) ->
   User.findOne(_id: req.user.id).exec (err, user) ->

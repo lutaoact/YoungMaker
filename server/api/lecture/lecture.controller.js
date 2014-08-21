@@ -3,9 +3,9 @@
 
   _ = require("lodash");
 
-  Lecture = require("./lecture.model");
+  Lecture = _u.getModel("lecture");
 
-  Course = require("../course/course.model");
+  Course = _u.getModel("course");
 
   exports.index = function(req, res) {
     var courseId;

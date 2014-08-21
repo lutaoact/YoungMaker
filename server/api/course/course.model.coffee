@@ -1,33 +1,33 @@
 "use strict"
 
 mongoose = require("mongoose")
-createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin
 Schema = mongoose.Schema
-CourseSchema = new Schema(
-  name:
-    type: String
-    required: true
 
-  categoryId:
-    type: Schema.Types.ObjectId
-    ref: "Category"
+BaseModel = (require '../../common/BaseModel').BaseModel
 
-  thumbnail: String
-  info: String
-  lectureAssembly: [
-    type: Schema.Types.ObjectId
-    ref: "Lecture"
-  ]
-  owners: [
-    type: Schema.Types.ObjectId
-    ref: "User"
-  ]
-  classes: [
-    type: Schema.Types.ObjectId
-    ref: "Classe"
-  ]
-)
-CourseSchema.plugin createdModifiedPlugin,
-  index: true
+exports.Course = BaseModel.subclass
+  classname: 'Course'
+  initialize: ($super) ->
+    @schema = new Schema
+      name:
+        type: String
+        required: true
+      categoryId:
+        type: Schema.Types.ObjectId
+        ref: "category"
+      thumbnail: String
+      info: String
+      lectureAssembly: [
+        type: Schema.Types.ObjectId
+        ref: "lecture"
+      ]
+      owners: [
+        type: Schema.Types.ObjectId
+        ref: "user"
+      ]
+      classes: [
+        type: Schema.Types.ObjectId
+        ref: "classe"
+      ]
 
-module.exports = mongoose.model("Course", CourseSchema)
+    $super()

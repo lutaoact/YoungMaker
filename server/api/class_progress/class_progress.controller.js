@@ -4,9 +4,9 @@
 
   _ = require("lodash");
 
-  ClassProgress = require("./class_progress.model");
+  ClassProgress = _u.getModel("class_progress");
 
-  Course = require("../course/course.model");
+  Course = _u.getModel("course");
 
   exports.index = function(req, res) {
     return ClassProgress.find(function(err, classProgresses) {

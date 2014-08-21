@@ -14,7 +14,7 @@
 
   _ = require('lodash');
 
-  Thing = require('./thing.model');
+  Thing = _u.getModel('thing');
 
   exports.index = function(req, res) {
     return Thing.find(function(err, things) {

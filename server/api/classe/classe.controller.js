@@ -4,9 +4,9 @@
 
   _ = require("lodash");
 
-  Classe = require("./classe.model");
+  Classe = _u.getModel("classe");
 
-  User = require("../user/user.model");
+  User = _u.getModel("user");
 
   exports.index = function(req, res) {
     return User.findOne({

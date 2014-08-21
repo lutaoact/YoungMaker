@@ -11,8 +11,8 @@
 "use strict"
 
 _ = require("lodash")
-KnowledgePoint = require("./knowledge_point.model")
-Lecture = require("../lecture/lecture.model")
+KnowledgePoint = _u.getModel "knowledge_point"
+Lecture = _u.getModel "lecture"
 
 
 exports.index = (req, res) ->

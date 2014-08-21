@@ -4,11 +4,11 @@
 
   _ = require("lodash");
 
-  Course = require("./course.model");
+  Course = _u.getModel("course");
 
-  Lecture = require("../lecture/lecture.model");
+  Lecture = _u.getModel("lecture");
 
-  KnowledgePoint = require("../knowledge_point/knowledge_point.model");
+  KnowledgePoint = _u.getModel("knowledge_point");
 
   ObjectId = require("mongoose").Types.ObjectId;
 

@@ -4,9 +4,9 @@
 
   _ = require("lodash");
 
-  Organization = require("./organization.model");
+  Organization = _u.getModel("organization");
 
-  User = require("../user/user.model");
+  User = _u.getModel("user");
 
   exports.index = function(req, res) {
     var resFun, subDomain;

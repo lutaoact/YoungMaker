@@ -9,7 +9,7 @@
 #
 "use strict"
 _ = require("lodash")
-Category = require("./category.model")
+Category = _u.getModel "category"
 
 exports.index = (req, res) ->
   Category.find (err, categories) ->

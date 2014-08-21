@@ -4,7 +4,7 @@
 
   _ = require("lodash");
 
-  Category = require("./category.model");
+  Category = _u.getModel("category");
 
   exports.index = function(req, res) {
     return Category.find(function(err, categories) {

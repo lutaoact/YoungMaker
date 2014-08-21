@@ -17,3 +17,8 @@ module.exports =
   logger:
     path: '/data/log/budweiser.log'
     level: 'DEBUG'
+
+  local:
+    tempDir : '/temp_node_dir'
+
+  nodejsServer : '115.29.244.232'

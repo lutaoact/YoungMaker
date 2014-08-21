@@ -4,41 +4,76 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
 
-createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin
+#createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin
 
 crypto = require 'crypto'
 
 authTypes = ['google']
 
-UserSchema = new Schema
-  avatar :
-    type : String
-  email :
-    type : String
-    lowercase : true
-  name :
-    type : String
-  orgId :
-    type : ObjectId
-    ref : 'Organization'
-  hashedPassword :
-    type : String
-  provider :
-    type : String
-  role :
-    type : String
-    default : 'student'
-  salt :
-    type : String
-  status :
-    type : String
+BaseModel = (require '../../common/BaseModel').BaseModel
 
-UserSchema.plugin createdModifiedPlugin
+exports.User = BaseModel.subclass
+  classname: 'User'
+  initialize: ($super) ->
+    @schema = new Schema
+      avatar :
+        type : String
+      email :
+        type : String
+        lowercase : true
+      name :
+        type : String
+      hashedPassword :
+        type : String
+      provider :
+        type : String
+      role :
+        type : String
+        default : 'employee'
+      salt :
+        type : String
+      status :
+        type : String
+      resetPasswordToken :
+        type: String
+      resetPasswordExpires :
+        type: Date
+
+    setupUserSchema @schema
+
+    $super()
+
+#UserSchema = new Schema
+#  avatar :
+#    type : String
+#  email :
+#    type : String
+#    lowercase : true
+#  name :
+#    type : String
+#  hashedPassword :
+#    type : String
+#  provider :
+#    type : String
+#  role :
+#    type : String
+#    default : 'employee'
+#  salt :
+#    type : String
+#  status :
+#    type : String
+#  resetPasswordToken :
+#    type: String
+#  resetPasswordExpires :
+#    type: Date
+
 
 ###
 Virtuals
 ###
-UserSchema
+setupUserSchema = (UserSchema) ->
+#  UserSchema.plugin createdModifiedPlugin
+  UserSchema
   .virtual 'password'
   .set (password) ->
     this._password = password
@@ -47,41 +82,37 @@ UserSchema
   .get () ->
     this._password
 
-# Public profile information
-UserSchema
+  # Public profile information
+  UserSchema
   .virtual 'profile'
   .get () ->
-      'name': this.name
-      'role': this.role
-      'avatar' : this.avatar
+    'name': this.name
+    'role': this.role
+    'avatar' : this.avatar
 
-# Non-sensitive info we will be putting in the token
-UserSchema
+  # Non-sensitive info we will be putting in the token
+  UserSchema
   .virtual 'token'
   .get () ->
-      '_id': this._id
-      'role': this.role
+    '_id': this._id
+    'role': this.role
 
-###
-  Validations
-###
-
-# Validate empty email
-UserSchema
+  # Validate empty email
+  UserSchema
   .path 'email'
   .validate (email) ->
     email.length
   , 'Email cannot be blank'
 
-# Validate empty password
-UserSchema
+  # Validate empty password
+  UserSchema
   .path 'hashedPassword'
   .validate (hashedPassword) ->
     hashedPassword.length
   , 'Password cannot be blank'
 
-# Validate email is not taken
-UserSchema
+  # Validate email is not taken
+  UserSchema
   .path 'email'
   .validate (value, respond) ->
     self = this
@@ -94,15 +125,12 @@ UserSchema
           return respond true
         return respond false
       return respond true
-, 'The specified email address is already in use.'
+  , 'The specified email address is already in use.'
 
-validatePresenceOf = (value) ->
-  value && value.length
+  validatePresenceOf = (value) ->
+    value && value.length
 
-###
-  Pre-save hook
-###
-UserSchema
+  UserSchema
   .pre 'save', (next) ->
     if  not this.isNew
       next()
@@ -112,27 +140,24 @@ UserSchema
     else
       next()
 
-###
-  Methods
-###
-UserSchema.methods =
+  UserSchema.methods =
   ###
     Authenticate - check if the passwords are the same
     @param {String} plainText
     @return {Boolean}
     @api public
   ###
-  authenticate: (plainText) ->
-    this.encryptPassword(plainText) is this.hashedPassword
+    authenticate: (plainText) ->
+      this.encryptPassword(plainText) is this.hashedPassword
 
   ###
    Make salt
    @return {String}
    @api public
   ###
-  makeSalt: () ->
-    crypto.randomBytes 16
-    .toString 'base64'
+    makeSalt: () ->
+      crypto.randomBytes 16
+      .toString 'base64'
 
   ###
     Encrypt password
@@ -141,10 +166,10 @@ UserSchema.methods =
     @return {String}
     @api public
   ###
-  encryptPassword: (password) ->
-    '' if  not password or not this.salt
-    salt = new Buffer this.salt, 'base64'
-    crypto.pbkdf2Sync password, salt, 10000, 64
-    .toString 'base64'
+    encryptPassword: (password) ->
+      '' if  not password or not this.salt
+      salt = new Buffer this.salt, 'base64'
+      crypto.pbkdf2Sync password, salt, 10000, 64
+      .toString 'base64'
 
-module.exports = mongoose.model 'User', UserSchema
+#module.exports = mongoose.model 'User', UserSchema

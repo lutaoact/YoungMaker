@@ -1,49 +1,49 @@
 (function() {
   "use strict";
-  var CourseSchema, Schema, createdModifiedPlugin, mongoose;
+  var BaseModel, Schema, mongoose;
 
   mongoose = require("mongoose");
 
-  createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin;
-
   Schema = mongoose.Schema;
 
-  CourseSchema = new Schema({
-    name: {
-      type: String,
-      required: true
-    },
-    categoryId: {
-      type: Schema.Types.ObjectId,
-      ref: "Category"
-    },
-    thumbnail: String,
-    info: String,
-    lectureAssembly: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Lecture"
-      }
-    ],
-    owners: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ],
-    classes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Classe"
-      }
-    ]
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  CourseSchema.plugin(createdModifiedPlugin, {
-    index: true
+  exports.Course = BaseModel.subclass({
+    classname: 'Course',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: {
+          type: String,
+          required: true
+        },
+        categoryId: {
+          type: Schema.Types.ObjectId,
+          ref: "category"
+        },
+        thumbnail: String,
+        info: String,
+        lectureAssembly: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "lecture"
+          }
+        ],
+        owners: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "user"
+          }
+        ],
+        classes: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "classe"
+          }
+        ]
+      });
+      return $super();
+    }
   });
-
-  module.exports = mongoose.model("Course", CourseSchema);
 
 }).call(this);
 

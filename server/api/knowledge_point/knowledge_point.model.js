@@ -1,31 +1,31 @@
 (function() {
   "use strict";
-  var KnowledgePointSchema, Schema, createdModifiedPlugin, mongoose;
+  var BaseModel, Schema, mongoose;
 
   mongoose = require("mongoose");
 
-  createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin;
-
   Schema = mongoose.Schema;
 
-  KnowledgePointSchema = new Schema({
-    name: {
-      type: String,
-      required: true,
-      unique: true
-    },
-    categoryId: {
-      type: Schema.Types.ObjectId,
-      ref: "Lecture"
-    },
-    importance: String
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  KnowledgePointSchema.plugin(createdModifiedPlugin, {
-    index: true
+  exports.KnowledgePoint = BaseModel.subclass({
+    classname: 'KnowledgePoint',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: {
+          type: String,
+          required: true,
+          unique: true
+        },
+        categoryId: {
+          type: Schema.Types.ObjectId,
+          ref: "Lecture"
+        },
+        importance: String
+      });
+      return $super();
+    }
   });
-
-  module.exports = mongoose.model("KnowledgePoint", KnowledgePointSchema);
 
 }).call(this);
 

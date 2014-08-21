@@ -1,18 +1,17 @@
-
 "use strict"
 
 mongoose = require("mongoose")
-createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin
 Schema = mongoose.Schema
 
-CategorySchema = new Schema(
-  name:
-    type: String
-    required: true
-    unique: true
-# sub_category: [{type: Schema.ObjectId, ref: 'Category'}]
-)
-CategorySchema.plugin createdModifiedPlugin, index: true
+BaseModel = (require '../../common/BaseModel').BaseModel
 
-module.exports = mongoose.model("Category", CategorySchema)
-
+exports.Category = BaseModel.subclass
+  classname: 'Category'
+  initialize: ($super) ->
+    @schema = new Schema
+      name:
+        type: String
+        required: true
+        unique: true
+#      sub_category: [{type: Schema.ObjectId, ref: 'Category'}]
+    $super()

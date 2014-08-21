@@ -1,20 +1,20 @@
 "use strict"
 
 mongoose = require("mongoose")
-createdModifiedPlugin = require("mongoose-createdmodified").createdModifiedPlugin
 Schema = mongoose.Schema
 
-OrganizationSchema = new Schema(
-  name:
-    type: String
-    required: true
+BaseModel = (require '../../common/BaseModel').BaseModel
 
-  logo: String
-  subDomain: String
-  background: String # url
-  type: String
-)
-OrganizationSchema.plugin createdModifiedPlugin,
-  index: true
+exports.Organization = BaseModel.subclass
+  classname: 'Organization'
+  initialize: ($super) ->
+    @schema = new Schema
+      name:
+        type: String
+        required: true
+      logo: String
+      subDomain: String
+      background: String # url
+      type: String
 
-module.exports = mongoose.model("Organization", OrganizationSchema)
+    $super()

@@ -1,21 +1,29 @@
 (function() {
-  'use strict';
-  var Schema, SolutionSchema, mongoose;
+  "use strict";
+  var BaseModel, Schema, mongoose;
 
-  mongoose = require('mongoose');
+  mongoose = require("mongoose");
 
   Schema = mongoose.Schema;
 
-  SolutionSchema = new Schema({
-    question_id: String,
-    content: String, // url
-    keyPoints: String,
-    course: { type: Schema.Types.ObjectId, ref: 'Course' }
-    // sub_category: [{type: Schema.ObjectId, ref: 'Solution'}]
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  module.exports = mongoose.model('Solution', SolutionSchema);
+  exports.Solution = BaseModel.subclass({
+    classname: 'Solution',
+    initialize: function($super) {
+      this.schema = new Schema({
+        question_id: String,
+        content: String,
+        keyPoints: String,
+        course: {
+          type: Schema.Types.ObjectId,
+          ref: 'course'
+        }
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=solution.model.js.map

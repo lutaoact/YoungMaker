@@ -2,11 +2,14 @@
 
 mongoose = require('mongoose')
 Schema = mongoose.Schema
+BaseModel = (require '../../common/BaseModel').BaseModel
 
-ThingSchema = new Schema({
-  name: String,
-  info: String,
-  active: Boolean
-})
+exports.Thing = BaseModel.subclass
+  classname: 'Thing'
+  initialize: ($super) ->
+    @schema = new Schema
+      name: String
+      info: String
+      active: Boolean
 
-module.exports = mongoose.model('Thing', ThingSchema)
+    $super()

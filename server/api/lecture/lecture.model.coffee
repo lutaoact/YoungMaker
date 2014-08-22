@@ -23,7 +23,7 @@ exports.Lecture = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "knowledge_point"
       ]
-      quizs: [
+      quizzes: [
         type: Schema.Types.ObjectId
         ref: "question"
       ]

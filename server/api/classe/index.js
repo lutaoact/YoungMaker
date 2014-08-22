@@ -22,6 +22,8 @@
 
   router.patch("/:id", auth.hasRole("admin"), controller.update);
 
+  router["delete"]('/:id', auth.hasRole('admin'), controller.destroy);
+
   module.exports = router;
 
 }).call(this);

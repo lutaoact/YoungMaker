@@ -1,22 +1,23 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ClasseManagerCtrl', (
-  Auth,
+angular.module('budweiserApp')
+
+.controller 'ClasseManagerCtrl', (
   $scope,
-  $state,
-  $location,
-  $rootScope,
   Restangular) ->
 
   angular.extend $scope,
+    classesQ: Restangular.all('classes').getList()
+
+.controller 'ClasseManagerDetailCtrl', (
+  Auth,
+  $scope,
+  $state,
+  Restangular) ->
+
+  angular.extend $scope,
+
     selectedClasse: undefined
-    classes: []
-
-    newClasse: ->
-      $location.search(classe: 'new')
-
-    selectClasse: (classe) ->
-      $location.search(classe: classe._id)
 
     saveClasse: (classe, form) ->
       if !form.$valid then return
@@ -24,34 +25,26 @@ angular.module('budweiserApp').controller 'ClasseManagerCtrl', (
       if not classe._id
         #create new classe
         Restangular.all('classes').post(classe).then (newClasse)->
-          $scope.selectClasse newClasse
+          #TODO refactor
+          $scope.classesQ.$object.push(newClasse)
+          $state.go('admin.classeManager.detail', classeId:newClasse._id)
       else
         #update classe
         classe.put()
 
-  loadClasseStudents = ->
-    if $scope.selectedClasse.students then return
+    deleteClasse: (classe) ->
+      classe.remove().then ->
+        classes = $scope.classesQ.$object
+        index = _.indexOf(classes, classe)
+        classes.splice(index, 1)
+        $state.go('admin.classeManager.detail', classeId:classes[0]._id) if classes[0]?
+
+
+  $scope.classesQ.then ->
+    $scope.selectedClasse = _.find($scope.classesQ.$object, _id:$state.params.classeId) ? {}
+    if !$scope.selectedClasse._id || $scope.selectedClasse.students then return
     $scope.selectedClasse.all('students').getList().then (students) ->
       $scope.selectedClasse.students = students
-
-  applySelectedClasse = ->
-    classe = $location.search()?.classe
-    if classe == 'new'
-      $scope.selectedClasse = {}
-    else
-      $scope.selectedClasse = _.find($scope.classes, _id:classe)
-      if $scope.selectedClasse?
-        loadClasseStudents()
-      else if $scope.classes[0]?
-        $scope.selectClasse($scope.classes[0])
-      else
-        console.log 'Please create new class.'
-
-  $rootScope.$on '$locationChangeSuccess', applySelectedClasse
-
-  Restangular.all('classes').getList().then (classes)->
-    $scope.classes = classes
-    applySelectedClasse()
 
 
   #TODO refactor
@@ -101,3 +94,4 @@ angular.module('budweiserApp').controller 'ClasseManagerCtrl', (
 
       .error (response)->
         console.log response
+

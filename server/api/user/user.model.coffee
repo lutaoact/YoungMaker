@@ -25,14 +25,14 @@ exports.User = BaseModel.subclass
         type : String
       orgId :
         type : ObjectId
-        ref : 'Organization'
+        ref : 'organization'
       hashedPassword :
         type : String
       provider :
         type : String
       role :
         type : String
-        default : 'student'
+        default : 'student'#TODO change role to Number
       salt :
         type : String
       status :

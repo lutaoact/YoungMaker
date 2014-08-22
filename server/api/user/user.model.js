@@ -30,7 +30,7 @@
         },
         orgId: {
           type: ObjectId,
-          ref: 'Organization'
+          ref: 'organization'
         },
         hashedPassword: {
           type: String

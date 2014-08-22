@@ -8,19 +8,19 @@
 
   BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  exports.KnowledgePoint = BaseModel.subclass({
-    classname: 'KnowledgePoint',
+  exports.Schedule = BaseModel.subclass({
+    classname: 'Schedule',
     initialize: function($super) {
       this.schema = new Schema({
-        name: {
-          type: String,
-          required: true,
-          unique: true
-        },
-        categoryId: {
+        classeId: {
           type: Schema.Types.ObjectId,
-          ref: "category"
-        }
+          ref: 'classe'
+        },
+        courseId: {
+          type: Schema.Types.ObjectId,
+          ref: "course"
+        },
+        data: Schema.Types.Mixed
       });
       return $super();
     }
@@ -28,4 +28,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=knowledge_point.model.js.map
+//# sourceMappingURL=schedule.model.js.map

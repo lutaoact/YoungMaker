@@ -16,11 +16,6 @@
           type: String,
           required: true
         },
-        courseId: {
-          type: Schema.Types.ObjectId,
-          required: true,
-          ref: "Course"
-        },
         thumbnail: String,
         info: String,
         slides: [
@@ -29,10 +24,23 @@
             raw: String
           }
         ],
+        media: String,
         knowledgePoints: [
           {
             type: Schema.Types.ObjectId,
-            ref: "KnowledgePoint"
+            ref: "knowledge_point"
+          }
+        ],
+        quizzes: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "question"
+          }
+        ],
+        homeworks: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "question"
           }
         ]
       });

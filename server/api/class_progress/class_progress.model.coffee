@@ -14,17 +14,17 @@ exports.ClassProgress = BaseModel.subclass
     @schema = new Schema
       userId:
         type: Schema.Types.ObjectId
-        ref: "User"
+        ref: "user"
       courseId:
         type: Schema.Types.ObjectId
-        ref: "Course"
+        ref: "course"
       classId:
         type: Schema.Types.ObjectId
-        ref: "Class"
+        ref: "class"
       lecturesStatus: [
         lectureId:
           type: Schema.Types.ObjectId
-          ref: "Lecture"
+          ref: "lecture"
         isFinished: Boolean
       ]
       timeTable: [

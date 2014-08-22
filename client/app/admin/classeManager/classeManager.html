@@ -5,12 +5,12 @@
         <button class="btn btn-link"
                 ui-sref="admin.classeManager.detail({classeId:'new'})">添加班级</button>
       </div>
-      <a ng-repeat="classe in classesQ.$object"
+      <a ng-repeat="classe in classesQ.$object | orderBy:'name'"
          class="list-group-item"
          ui-sref-active="active"
          ui-sref="admin.classeManager.detail({classeId:classe._id})">
         <span class="badge">12</span>
-        {{classe.yearGrade}} {{classe.name}}
+        {{classe.name}}
       </a>
     </div>
     <div class="col-md-10 list-group">

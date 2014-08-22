@@ -18,6 +18,7 @@ angular.module('budweiserApp')
   angular.extend $scope,
 
     selectedClasse: undefined
+    editingClasse: undefined
 
     saveClasse: (classe, form) ->
       if !form.$valid then return
@@ -30,18 +31,20 @@ angular.module('budweiserApp')
           $state.go('admin.classeManager.detail', classeId:newClasse._id)
       else
         #update classe
-        classe.put()
+        classe.put().then ->
+          angular.extend $scope.selectedClasse, classe
 
     deleteClasse: (classe) ->
       classe.remove().then ->
         classes = $scope.classesQ.$object
         index = _.indexOf(classes, classe)
         classes.splice(index, 1)
-        $state.go('admin.classeManager.detail', classeId:classes[0]._id) if classes[0]?
+        $state.go('admin.classeManager')
 
 
   $scope.classesQ.then ->
     $scope.selectedClasse = _.find($scope.classesQ.$object, _id:$state.params.classeId) ? {}
+    $scope.editingClasse = Restangular.copy($scope.selectedClasse)
     if !$scope.selectedClasse._id || $scope.selectedClasse.students then return
     $scope.selectedClasse.all('students').getList().then (students) ->
       $scope.selectedClasse.students = students

@@ -25,8 +25,7 @@
         info: String,
         slides: [
           {
-            thumb: String,
-            raw: String
+            thumb: String
           }
         ],
         knowledgePoints: [

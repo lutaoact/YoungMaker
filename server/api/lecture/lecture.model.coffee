@@ -20,7 +20,6 @@ exports.Lecture = BaseModel.subclass
       info: String
       slides: [
         thumb: String
-        raw: String
       ]
       knowledgePoints: [
         type: Schema.Types.ObjectId

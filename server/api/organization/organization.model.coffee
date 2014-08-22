@@ -14,8 +14,7 @@ exports.Organization = BaseModel.subclass
         type: String
         required: true
       logo: String
-      subDomain: String
-      background: String # url
+      description : String # url
       type: String
 
     $super()

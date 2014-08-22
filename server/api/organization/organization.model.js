@@ -18,8 +18,7 @@
           required: true
         },
         logo: String,
-        subDomain: String,
-        background: String,
+        description: String,
         type: String
       });
       return $super();

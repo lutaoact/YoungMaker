@@ -22,17 +22,17 @@
           classes: {
             $in: [classe._id]
           }
-        }).then(function(course) {
-          if (course == null) {
-            return deferred.resolve(null);
-          } else {
-            if (course._id === courseId) {
-              return deferred.resolve(course);
-            } else {
-              return deferred.resolve(null);
-            }
-          }
         });
+      }
+    }).then(function(course) {
+      if (course == null) {
+        return deferred.resolve(null);
+      } else {
+        if (course._id.toString() === courseId) {
+          return deferred.resolve(course);
+        } else {
+          return deferred.resolve(null);
+        }
       }
     }, function(err) {
       return deferred.reject(err);

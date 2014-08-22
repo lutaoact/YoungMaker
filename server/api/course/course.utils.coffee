@@ -17,14 +17,14 @@ exports.getAuthedCourseById = (userId, courseId, cb) ->
       Course.findOneQ
         classes :
           $in : [classe._id]
-      .then (course) ->
-        if not course?
-          deferred.resolve null
-        else
-          if course._id is courseId
-            deferred.resolve course
-          else
-            deferred.resolve null
+  .then (course) ->
+    if not course?
+      deferred.resolve null
+    else
+      if course._id.toString() is courseId
+        deferred.resolve course
+      else
+        deferred.resolve null
   , (err) ->
     deferred.reject(err)
 

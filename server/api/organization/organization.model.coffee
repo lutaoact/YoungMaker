@@ -9,12 +9,18 @@ exports.Organization = BaseModel.subclass
   classname: 'Organization'
   initialize: ($super) ->
     @schema = new Schema
-      uniqueName: String
+      uniqueName:
+        type : String
+        required : true
+        unique : true
       name:
         type: String
         required: true
       logo: String
       description : String # url
-      type: String
+      type:
+        type: String
+        required : true
+        unique : true
 
     $super()

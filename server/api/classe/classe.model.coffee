@@ -13,10 +13,10 @@ exports.Classe = BaseModel.subclass
         required: true
       orgId:
         type: Schema.Types.ObjectId
-        ref: "Organization"
+        ref: "organization"
       students: [
         type: Schema.Types.ObjectId
-        ref: "User"
+        ref: "user"
       ]
       yearGrade: String
 

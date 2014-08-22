@@ -13,5 +13,5 @@ exports.Category = BaseModel.subclass
         type: String
         required: true
         unique: true
-#      sub_category: [{type: Schema.ObjectId, ref: 'Category'}]
+
     $super()

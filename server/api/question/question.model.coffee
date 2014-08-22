@@ -5,16 +5,18 @@ Schema = mongoose.Schema
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.KnowledgePoint = BaseModel.subclass
-  classname: 'KnowledgePoint'
+exports.Question = BaseModel.subclass
+  classname: 'Question'
   initialize: ($super) ->
     @schema = new Schema
-      name:
-        type: String
-        required: true
-        unique: true
+      orgId:
+        type: Schema.Types.ObjectId
+        ref: "organization"
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"
+      content: Schema.Types.Mixed
+      type: Number
+      solution: String
 
     $super()

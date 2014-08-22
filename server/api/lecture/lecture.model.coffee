@@ -12,20 +12,23 @@ exports.Lecture = BaseModel.subclass
       name:
         type: String
         required: true
-      courseId:
-        type: Schema.Types.ObjectId
-        required: true
-        ref: "Course"
       thumbnail: String
       info: String
       slides: [
         thumb: String
       ]
+      media: String
       knowledgePoints: [
         type: Schema.Types.ObjectId
-        ref: "KnowledgePoint"
+        ref: "knowledge_point"
       ]
-      # TODO: define Quesiton DB
-#      questions: {type: Schema.Types.ObjectId, ref: 'Question'}
+      quizzes: [
+        type: Schema.Types.ObjectId
+        ref: "question"
+      ]
+      homeworks: [
+        type: Schema.Types.ObjectId
+        ref: "question"
+      ]
 
     $super()

@@ -12,6 +12,7 @@
     classname: 'Organization',
     initialize: function($super) {
       this.schema = new Schema({
+        uniqueName: String,
         name: {
           type: String,
           required: true

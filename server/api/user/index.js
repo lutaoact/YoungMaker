@@ -10,7 +10,7 @@
 
   router = express.Router();
 
-  router.get('/', auth.hasRole('admin'), controller.index);
+  router.get('/', auth.hasRole('student'), controller.index);
 
   router["delete"]('/:id', auth.hasRole('admin'), controller.destroy);
 

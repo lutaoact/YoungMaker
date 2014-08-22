@@ -21,7 +21,7 @@
     secrets: {
       session: process.env.EXPRESS_SECRET || 'budweiser-secret'
     },
-    userRoles: ['guest', 'user', 'admin', 'teacher'],
+    userRoles: ['student', 'admin', 'teacher'],
     mongo: {
       options: {
         db: {

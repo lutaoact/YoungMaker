@@ -59,9 +59,6 @@
       if (err) {
         return helpers.validationError(res, err);
       }
-      UserStat.create({
-        "userId": user._id
-      });
       token = jwt.sign({
         _id: user._id
       }, config.secrets.session, {
@@ -169,7 +166,7 @@
       if (!user) {
         return res.json(401);
       }
-      return res.json(user);
+      return res.json(200, user);
     };
   };
 

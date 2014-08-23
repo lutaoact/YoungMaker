@@ -10,21 +10,21 @@
 
 (function() {
   'use strict';
-  var Discussion, getAuthedLectureById, handleError, lectureUtils, withUserInfo;
+  var Discussion, courseUtils, getAuthedCourseById, handleError, withUserInfo;
 
-  Discussion = modelMap['discussion'];
+  Discussion = _u.getModel('discussion');
 
-  lectureUtils = require('../lecture/lecture.utils');
+  courseUtils = require('../course/course.utils');
 
-  getAuthedLectureById = lectureUtils.getAuthedLectureById;
+  getAuthedCourseById = courseUtils.getAuthedCourseById;
 
   exports.index = function(req, res) {
-    return getAuthedLectureById(req.user.id, req.params.lectureId, function(err, lecture) {
+    return getAuthedCourseById(req.user.id, req.params.courseId, function(err, course) {
       var from, limit, _ref;
       if (err) {
         return handleError(res, err);
       }
-      if (!lecture) {
+      if (course == null) {
         return res.send(403);
       }
       from = (_ref = req.query.from) != null ? _ref : 0;
@@ -34,7 +34,7 @@
         limit = req.query.limit;
       }
       return Discussion.find({
-        'lectureId': req.params.lectureId
+        'courseId': req.params.courseId
       }).lean().populate('userId', "_id name avatar").sort({
         'created': -1
       }).limit(limit).skip(from).exec(function(err, discussions) {
@@ -50,38 +50,38 @@
   };
 
   exports.show = function(req, res) {
-    return getAuthedLectureById(req.user.id, req.params.lectureId, function(err, lecture) {
+    return getAuthedCourseById(req.user.id, req.params.courseId, function(err, course) {
       if (err) {
         return handleError(res, err);
       }
-      if (!lecture) {
+      if (course == null) {
         return res.send(403);
       }
       return Discussion.findById(req.params.id, function(err, discussion) {
         if (err) {
           return handleError(res, err);
         }
-        if (!discussion) {
+        if (discussion == null) {
           return res.send(404);
         }
-        return res.json(discussion);
+        return res.json(200, discussion);
       });
     });
   };
 
   exports.create = function(req, res) {
-    return getAuthedLectureById(req.user.id, req.params.lectureId, function(err, lecture) {
+    return getAuthedCourseById(req.user.id, req.params.courseId, function(err, course) {
       if (err) {
         return handleError(res, err);
       }
-      if (!lecture) {
+      if (course == null) {
         return res.send(403);
       }
       if (req.body.voteUpUsers) {
         delete req.body.voteUpUsers;
       }
       req.body.userId = req.user.id;
-      req.body.lectureId = req.params.lectureId;
+      req.body.courseId = req.params.courseId;
       return Discussion.create(req.body, function(err, discussion) {
         var discWithUserInfo;
         if (err) {
@@ -104,14 +104,14 @@
       delete req.body.voteUpUsers;
     }
     return Discussion.findOne({
-      '_id': req.params.id,
-      'userId': req.user.id
+      _id: req.params.id,
+      userId: req.user.id
     }, function(err, discussion) {
       var updated;
       if (err) {
         return handleError(err);
       }
-      if (!discussion) {
+      if (discussion == null) {
         return res.send(404);
       }
       updated = _.merge(discussion, req.body);
@@ -126,13 +126,13 @@
 
   exports.destroy = function(req, res) {
     return Discussion.findOne({
-      '_id': req.params.id,
-      'userId': req.user.id
+      _id: req.params.id,
+      userId: req.user.id
     }, function(err, discussion) {
       if (err) {
         return handleError(res, err);
       }
-      if (!discussion) {
+      if (discussion == null) {
         return res.send(404);
       }
       return discussion.remove(function(err) {
@@ -145,14 +145,14 @@
   };
 
   exports.vote = function(req, res) {
-    var lectureId, userId;
-    lectureId = req.params.lectureId;
+    var courseId, userId;
+    courseId = req.params.courseId;
     userId = req.user.id;
-    return getAuthedLectureById(userId, lectureId, function(err, lecture) {
+    return getAuthedCourseById(userId, courseId, function(err, course) {
       if (err) {
         return handleError(res, err);
       }
-      if (!lecture) {
+      if (course == null) {
         return res.send(403);
       }
       return Discussion.findById(req.params.id, function(err, disc) {
@@ -160,7 +160,7 @@
         if (err) {
           return handleError(res, err);
         }
-        if (!disc) {
+        if (disc == null) {
           return res.send(403);
         }
         if (req.body.vote === '1') {

@@ -36,7 +36,7 @@ exports.create = (req, res) ->
   User.create body, (err, user) ->
     return helpers.validationError res, err if err
     #create UserStat
-    UserStat.create({"userId": user._id})
+    #UserStat.create({"userId": user._id})
     token = jwt.sign
       _id: user._id,
       config.secrets.session,
@@ -101,7 +101,7 @@ exports.me = (req, res, next) ->
   (err, user) -> # donnot ever give out the password or salt
     next err if err
     return res.json 401 if not user
-    res.json user
+    res.json 200, user
 
 ###
   Update user

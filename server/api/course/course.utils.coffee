@@ -1,8 +1,8 @@
 
 Q = require 'q'
 
-Course = modelMap['course']
-Classe = modelMap['classe']
+Course = _u.getModel 'course'
+Classe = _u.getModel 'classe'
 
 # check if a given student has access to a given course
 exports.getAuthedCourseById = (userId, courseId, cb) ->

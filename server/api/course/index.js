@@ -22,6 +22,8 @@
 
   router.patch("/:id", auth.hasRole("teacher"), controller.update);
 
+  router["delete"]('/:id', auth.hasRole('teacher'), controller.destroy);
+
   router.get("/:id/lectures", auth.isAuthenticated(), controller.showLectures);
 
   router.get("/:id/lectures/:lectureId", auth.isAuthenticated(), controller.showLecture);
@@ -37,8 +39,6 @@
   router.get("/:id/lectures/:lectureId/knowledge_points", controller.showKnowledgePoints);
 
   router.post("/:id/lectures/:lectureId/knowledge_points", auth.hasRole("teacher"), controller.createKnowledgePoint);
-
-  router["delete"]('/:id', auth.hasRole('teacher'), controller.destroy);
 
   router.post('/:courseId/discussions', auth.isAuthenticated(), discController.create);
 

@@ -3,9 +3,9 @@
 
   Q = require('q');
 
-  Course = modelMap['course'];
+  Course = _u.getModel('course');
 
-  Classe = modelMap['classe'];
+  Classe = _u.getModel('classe');
 
   exports.getAuthedCourseById = function(userId, courseId, cb) {
     var deferred;

@@ -15,9 +15,9 @@ router.get "/:id/lectures/:lectureId", auth.isAuthenticated(), controller.showLe
 router.post "/:id/lectures", auth.hasRole("teacher"), controller.createLecture
 router.put "/:id/lectures/:lectureId", auth.hasRole("teacher"), controller.updateLecture
 router.patch "/:id/lectures/:lectureId", auth.hasRole("teacher"), controller.updateLecture
-router["delete"] "/:id/lectures/:lectureId", auth.hasRole("teacher"), controller.destroyLecture
+router.delete "/:id/lectures/:lectureId", auth.hasRole("teacher"), controller.destroyLecture
 router.get "/:id/lectures/:lectureId/knowledge_points", controller.showKnowledgePoints
 router.post "/:id/lectures/:lectureId/knowledge_points", auth.hasRole("teacher"), controller.createKnowledgePoint
-#router["delete"]('/:id', controller.destroy)
+router.delete '/:id', auth.hasRole('teacher'), controller.destroy
 
 module.exports = router

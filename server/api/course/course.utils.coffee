@@ -4,7 +4,7 @@ Q = require 'q'
 Course = modelMap['course']
 Classe = modelMap['classe']
 
-# check if a given user has access to a given course
+# check if a given student has access to a given course
 exports.getAuthedCourseById = (userId, courseId, cb) ->
   deferred = do Q.defer
   Classe.findOneQ

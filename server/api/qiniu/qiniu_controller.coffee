@@ -37,10 +37,11 @@ exports.signedUrl = (req, res) ->
   if cached
     return res.send 200, cached
 
-  baseUrl = qiniu.rs.makeBaseUrl domain, key
+  baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
+  # the query should not encode before signature
+  baseUrl += if key.split('?')[1] then ('?' + key.split('?')[1]) else ''
   policy = new qiniu.rs.GetPolicy(signedUrlExpires)
-  downloadUrl = policy.makeRequest(decodeURIComponent(baseUrl))
-
+  downloadUrl = policy.makeRequest(baseUrl)
   # cache expiration is one hour less than signedURL expiration from qiniu
   cache.put key, downloadUrl,  (signedUrlExpires-60*60)*1000
 

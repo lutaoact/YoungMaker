@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location, $window) ->
+angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location, $window, LoginRedirector) ->
   $scope.user = {}
   $scope.errors = {}
   $scope.login = (form) ->
@@ -12,10 +12,7 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
         email: $scope.user.email
         password: $scope.user.password
       ).then (me) ->
-        if $location.search().r?
-          $location.url(encodeURIComponent($location.search().r))
-          $location.replace()
-        else
+        if !LoginRedirector.apply()
           me.$promise.then (data)->
             console.log data
             if data.role is 'admin'

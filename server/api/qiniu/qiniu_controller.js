@@ -57,9 +57,10 @@
     if (cached) {
       return res.send(200, cached);
     }
-    baseUrl = qiniu.rs.makeBaseUrl(domain, key);
+    baseUrl = qiniu.rs.makeBaseUrl(domain, key.split('?')[0]);
+    baseUrl += key.split('?')[1] ? '?' + key.split('?')[1] : '';
     policy = new qiniu.rs.GetPolicy(signedUrlExpires);
-    downloadUrl = policy.makeRequest(decodeURIComponent(baseUrl));
+    downloadUrl = policy.makeRequest(baseUrl);
     cache.put(key, downloadUrl, (signedUrlExpires - 60 * 60) * 1000);
     return res.send(200, downloadUrl);
   };

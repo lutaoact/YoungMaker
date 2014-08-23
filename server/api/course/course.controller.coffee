@@ -75,7 +75,6 @@ exports.create = (req, res) ->
     return handleError(res, err)  if err
     res.json 201, course
 
-
 exports.update = (req, res) ->
   delete req.body._id  if req.body._id
   #classes can only be added by creating class_progress.

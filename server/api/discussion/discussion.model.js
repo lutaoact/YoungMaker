@@ -24,11 +24,14 @@
           ref: 'course',
           required: true
         },
+<<<<<<< HEAD
         lectureId: {
           type: ObjectId,
           ref: 'lecture',
           required: true
         },
+=======
+>>>>>>> master
         content: {
           type: String,
           required: true

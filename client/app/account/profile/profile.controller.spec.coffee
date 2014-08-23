@@ -1,16 +1,16 @@
 'use strict'
 
-describe 'Controller: WordCtrl', ->
+describe 'Controller: ProfileCtrl', ->
 
   # load the controller's module
   beforeEach module('budweiserApp')
-  WordCtrl = undefined
+  ProfileCtrl = undefined
   scope = undefined
 
   # Initialize the controller and a mock scope
   beforeEach inject(($controller, $rootScope) ->
     scope = $rootScope.$new()
-    WordCtrl = $controller('WordCtrl',
+    ProfileCtrl = $controller('ProfileCtrl',
       $scope: scope
     )
   )

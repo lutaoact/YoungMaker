@@ -4,7 +4,7 @@
 
   express = require("express");
 
-  controller = require("./lecture.controller");
+  controller = require("./discussion.controller");
 
   auth = require("../../auth/auth.service");
 
@@ -12,15 +12,17 @@
 
   router.get('/', auth.isAuthenticated(), controller.index);
 
+  router.post('/', auth.isAuthenticated(), controller.create);
+
   router.get('/:id', auth.isAuthenticated(), controller.show);
 
-  router.post('/', auth.hasRole('teacher'), controller.create);
+  router.put('/', auth.isAuthenticated(), controller.update);
 
-  router.put('/:id', auth.hasRole('teacher'), controller.update);
+  router.patch('/', auth.isAuthenticated(), controller.update);
 
-  router.patch('/:id', auth.hasRole('teacher'), controller.update);
+  router["delete"]('/:id', auth.isAuthenticated(), controller.destroy);
 
-  router["delete"]('/:id', auth.hasRole('teacher'), controller.destroy);
+  router.post('/:id/votes', auth.isAuthenticated(), controller.vote);
 
   module.exports = router;
 

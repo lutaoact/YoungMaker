@@ -63,6 +63,39 @@ exports.destroy = (req, res) ->
           return handleError(res, err)  if err
           res.send 204
 
+### copied from course controller, need to implement these logic in above methods
 
+  # insert knowledgePoint id to this Lecture; create a knowledgePoint when _id is not provided
+exports.createKnowledgePoint = (req, res) ->
+  updateLectureKnowledgePoints = (knowledgePoint) ->
+    Lecture.findByIdAndUpdate req.params.lectureId,
+      $push:
+        knowledgePoints: knowledgePoint._id
+    , (err, lecture) ->
+      return handleError(res, err)  if err
+      res.send knowledgePoint
+
+  Course.findOne(
+    _id: req.params.id
+    owners:
+      $in: [req.user.id]
+  ).exec (err, course) ->
+    return handleError(res, err)  if err
+    return res.send(404)  unless course
+    if req.body._id # TODO: validate this _id!
+      updateLectureKnowledgePoints req.body
+    else
+      KnowledgePoint.create req.body, (err, knowledgePoint) ->
+        return handleError(err)  if err
+        updateLectureKnowledgePoints knowledgePoint
+
+
+exports.showKnowledgePoints = (req, res) ->
+  Lecture.findById(req.params.lectureId).populate("knowledgePoints").exec (err, lecture) ->
+    return handleError(res, err)  if err
+    return res.send(404)  unless lecture
+    res.json lecture.knowledgePoints
+
+###
 handleError = (res, err) ->
   res.send 500, err

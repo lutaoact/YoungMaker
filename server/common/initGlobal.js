@@ -5,6 +5,8 @@
 
   global._u = require('./util');
 
+  global.ErrCode = require('./ErrCode');
+
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
   global.config = require('../config/environment');

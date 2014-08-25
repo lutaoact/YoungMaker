@@ -1,61 +1,62 @@
 (function() {
-  var Classe, Course, Q;
+  var BaseUtils;
 
-  Q = require('q');
+  BaseUtils = require('../../common/BaseUtils').BaseUtils;
 
-  Course = _u.getModel('course');
-
-  Classe = _u.getModel('classe');
-
-  exports.getAuthedCourseById = function(user, courseId, cb) {
-    var deferred;
-    deferred = Q.defer();
-    if (user.role === 'teacher') {
-      Course.findOneQ({
+  exports.CourseUtils = BaseUtils.subclass({
+    classname: 'CourseUtils',
+    getAuthedCourseById: function(user, courseId, cb) {
+      switch (user.role) {
+        case 'student':
+          return this.checkStudent(user._id, courseId);
+        case 'teacher':
+          return this.checkTeacher(user._id, courseId);
+      }
+    },
+    checkTeacher: function(teacherId, courseId) {
+      var Course;
+      Course = _u.getModel('course');
+      return Course.findOneQ({
         _id: courseId,
-        owners: {
-          $in: [user.id]
-        }
+        owners: teacherId
       }).then(function(course) {
-        if (course == null) {
-          return deferred.resolve(null);
+        if (course != null) {
+          return course;
         } else {
-          return deferred.resolve(course);
-        }
-      }, function(err) {
-        return deferred.reject(err);
-      });
-    } else if (user.role === 'student') {
-      Classe.findOneQ({
-        students: {
-          $in: [user.id]
-        }
-      }).then(function(classe) {
-        if (classe == null) {
-          return deferred.resolve(null);
-        } else {
-          return Course.findOneQ({
-            classes: {
-              $in: [classe._id]
-            }
+          return Q.reject({
+            errCode: ErrCode.CannotReadThisCourse,
+            errMsg: 'do not have permission on this course'
           });
         }
+      }, function(err) {
+        return Q.reject(err);
+      });
+    },
+    checkStudent: function(studentId, courseId) {
+      var Classe, Course;
+      Classe = _u.getModel('classe');
+      Course = _u.getModel('course');
+      return Classe.findOneQ({
+        students: studentId
+      }).then(function(classe) {
+        return Course.findOneQ({
+          _id: courseId,
+          classes: classe._id
+        });
       }).then(function(course) {
-        if (course == null) {
-          return deferred.resolve(null);
+        if (course != null) {
+          return course;
         } else {
-          if (course._id.toString() === courseId) {
-            return deferred.resolve(course);
-          } else {
-            return deferred.resolve(null);
-          }
+          return Q.reject({
+            errCode: ErrCode.CannotReadThisCourse,
+            errMsg: 'do not have permission on this course'
+          });
         }
       }, function(err) {
-        return deferred.reject(err);
+        return Q.reject(err);
       });
     }
-    return deferred.promise.nodeify(cb);
-  };
+  });
 
 }).call(this);
 

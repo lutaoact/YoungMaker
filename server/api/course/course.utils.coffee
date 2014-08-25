@@ -1,47 +1,44 @@
+BaseUtils = require('../../common/BaseUtils').BaseUtils
 
-Q = require 'q'
+exports.CourseUtils = BaseUtils.subclass
+  classname: 'CourseUtils'
 
-Course = _u.getModel 'course'
-Classe = _u.getModel 'classe'
+  getAuthedCourseById: (user, courseId, cb) ->
+    switch user.role
+      when 'student' then return @checkStudent user._id, courseId
+      when 'teacher' then return @checkTeacher user._id, courseId
 
-# check if a given user has access to a course for a given courseId
-exports.getAuthedCourseById = (user, courseId, cb) ->
-
-  deferred = do Q.defer
-
-  if user.role is 'teacher'
+  checkTeacher: (teacherId, courseId) ->
+    Course = _u.getModel 'course'
     Course.findOneQ
-      _id : courseId
-      owners :
-        $in : [user.id]
+      _id: courseId
+      owners: teacherId
     .then (course) ->
-      if not course?
-        deferred.resolve null
+      if course?
+        return course
       else
-        deferred.resolve course
+        Q.reject
+          errCode: ErrCode.CannotReadThisCourse
+          errMsg: 'do not have permission on this course'
     , (err) ->
-        deferred.reject err
+      Q.reject err
 
-  else if user.role is 'student'
+  checkStudent: (studentId, courseId) ->
+    Classe = _u.getModel 'classe'
+    Course = _u.getModel 'course'
+
     Classe.findOneQ
-      students :
-        $in : [user.id]
+      students: studentId
     .then (classe) ->
-      if not classe?
-        deferred.resolve null
-      else
-        Course.findOneQ
-          classes :
-            $in : [classe._id]
+      Course.findOneQ
+        _id: courseId
+        classes: classe._id
     .then (course) ->
-      if not course?
-        deferred.resolve null
+      if course?
+        return course
       else
-        if course._id.toString() is courseId
-          deferred.resolve course
-        else
-          deferred.resolve null
+        Q.reject
+          errCode: ErrCode.CannotReadThisCourse
+          errMsg: 'do not have permission on this course'
     , (err) ->
-      deferred.reject(err)
-
-  deferred.promise.nodeify cb
+      Q.reject err

@@ -3,64 +3,66 @@
 # to disable, edit config/environment/index.js, and set `seedDB: false`
 
 'use strict'
+require '../common/init'
+AsyncClass = require('../common/AsyncClass').AsyncClass
 
-Thing = require('../api/thing/thing.model')
-User = require('../api/user/user.model')
-Category = require('../api/category/category.model')
+seedData = require './seed_data'
 
-Thing.find({}).remove ->
-  Thing.create(
-    {
-      name : 'Development Tools',
-      info : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Sass, CoffeeScript, and Less.'
-    } ,
-    {
-      name : 'Server and Client integration',
-      info : 'Built with a powerful and fun stack: MongoDB, Express, AngularJS, and Node.'
-    },
-    {
-      name : 'Smart Build System',
-      info : 'Build system ignores `spec` files, allowing you to keep tests alongside code. Automatic injection of scripts and styles into your index.html'
-    },
-    {
-      name : 'Modular Structure',
-      info : 'Best practice client and server structures allow for more code reusability and maximum scalability'
-    },
-    {
-      name : 'Optimized Build',
-      info : 'Build process packs up your templates as a single JavaScript payload, minifies your scripts/css/images, and rewrites asset names for caching.'
-    },
-    {
-      name : 'Deployment Ready',
-      info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
-    }
-  )
+removeAndCreate = (name, data) ->
+  Model = _u.getModel name
 
-User.find({}).remove ->
-  User.create(
-    {
-      provider: 'local',
-      name: 'Test User',
-      email: 'test@test.com',
-      password: 'test'
-    },
-    {
-      provider: 'local',
-      role: 'admin',
-      name: 'Admin',
-      email: 'admin@admin.com',
-      password: 'admin'
-    },
-    {
-      provider: 'local',
-      role: 'teacher',
-      name: 'Teacher',
-      email: 'teacher@teacher.com',
-      password: 'teacher'
-    }
-  )
+  Model.removeQ {}
+  .then () ->
+    Model.createQ data
+  .then (docs) ->
+    return docs
+  , (err) ->
+    Q.reject err
 
-Category.find({}).remove ->
-  Category.create(
-    {name:'初一物理'}, {name:'初二物理'}, {name:'初三物理'}
-  )
+actions = (removeAndCreate name, data for name, data of seedData)
+
+User     = _u.getModel 'user'
+Classe   = _u.getModel 'classe'
+Course   = _u.getModel 'course'
+Category = _u.getModel 'category'
+Organization = _u.getModel 'organization'
+
+orgId = undefined
+ownerId = undefined
+studentId = undefined
+categoryId = undefined
+
+Q.all actions
+.then (results) ->
+  User.findOneQ
+    email: 'teacher@teacher.com'
+.then (user) ->
+  ownerId = user.id
+  Category.findOneQ {}
+.then (category) ->
+  categoryId = category.id
+  Organization.findOneQ
+    uniqueName: 'cloud3'
+.then (organization) ->
+  orgId = organization.id
+  User.findOneQ
+    email: 'student@student.com'
+.then (student) ->
+  studentId = student.id
+  removeAndCreate 'classe',
+    name : 'Class one'
+    orgId : orgId
+    students : [studentId]
+    yearGrade : '2014'
+.then (classe) ->
+  removeAndCreate 'course',
+    name : 'Music 101'
+    categoryId : categoryId
+    thumbnail : 'http://test.com/thumb.jpg'
+    info : 'This is course music 101'
+    owners : [ownerId]
+    classes : [classe._id]
+, (err) ->
+  console.log err
+.finally () ->
+  do process.exit

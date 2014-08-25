@@ -24,7 +24,7 @@ var body = {
     initialize : function() {
         if(_.isEmpty(mongoose)){
 //            mongoose = require('mongoose');
-            mongoose = require('mongoose-q')();
+            mongoose = require('mongoose-q')(null, {spread: true});
             var dbURL = this.dbURL || config.mongo.uri;
             var connection = mongoose.connect(dbURL, config.mongo.options).connection;
 

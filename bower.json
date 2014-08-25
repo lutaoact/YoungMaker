@@ -43,7 +43,7 @@
     "angular-scenario": ">=1.2.*"
   },
   "resolutions": {
-    "select2": "~3.5.0"
+    "select2": "~3.5.0",
     "angular": "~1.2.13"
   }
 }

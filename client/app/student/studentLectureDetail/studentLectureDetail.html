@@ -29,42 +29,12 @@
   <hr/>
   <div class="row">
     <div class="col-md-6">
-      <cool-projector on-change="activeSlide(item.slide)"
-                      disable-animation="true">
+      <cool-projector disable-animation="true">
         <cool-frame ng-repeat="slide in lecture.slides"
                     active="slide.$active">
-          <div ng-switch on="slide.type">
-            <div ng-switch-when="activity" style="height: 310px">
-              <h4>{{slide.content.title}}</h4>
-              <div>{{slide.content.desc}}</div>
-              <div ng-repeat="option in slide.content.options">
-                <label>
-                  <input type="checkbox"
-                         ng-disabled="slide.content.$submitted || state.submitting"
-                         ng-model="option.$selected">
-                  {{option.content}}
-                </label>
-                <span ng-if="slide.content.submitted">
-                  <span ng-if="option.correct"
-                        class="glyphicon glyphicon-ok form-control-feedback">
-                      </span>
-                </span>
-              </div>
-              <button ng-disabled="slide.content.$submitted || state.submitting"
-                      class="btn btn-default"
-                      ng-disabled="state.submitting"
-                      ng-click="saveUserAnswer(slide)">
-                <span ng-if="state.submitting">
-                  <i class="fa fa-spinner fa-spin"></i> 提交中...</span>
-                <span ng-if="!state.submitting" >提交</span>
-              </button>
-            </div>
-            <div ng-switch-default>
-              <img ng-src="{{slide.content.image}}" style="margin:auto;">
-              <div class="carousel-caption">
-                <h4>Slide {{$index}}</h4>
-              </div>
-            </div>
+          <img qiniu-key="slide.thumb" style="margin:auto;">
+          <div class="carousel-caption">
+            <h4>Slide {{$index}}</h4>
           </div>
         </cool-frame>
       </cool-projector>

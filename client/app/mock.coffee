@@ -36,6 +36,9 @@ angular.module 'budweiserAppDev', [
     _id: item
     name: '第' + item + '课'
     info: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, error molestiae reprehenderit soluta qui cupiditate incidunt accusamus cumque aspernatur, architecto praesentium consequuntur, sed consectetur totam aliquid. Harum quo dolorum, nam.'.substr(0,Math.floor(Math.random() * 100) + 100)
+    slides: _.map [1..10], (item)->
+      thumb: "http://lorempixel.com/480/360/?r=#{item}"
+
 
   $httpBackend.whenGET(/^api\/courses$/).respond (method, url, data)->
     console.debug 'Mock get courses'

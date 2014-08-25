@@ -96,9 +96,9 @@ exports.changePassword = (req, res, next) ->
 exports.me = (req, res, next) ->
   userId = req.user._id
   User.findOne
-    _id: userId,
-    '-salt -hashedPassword',
-  (err, user) -> # donnot ever give out the password or salt
+    _id: userId
+    '-salt -hashedPassword'
+  , (err, user) -> # donnot ever give out the password or salt
     next err if err
     return res.json 401 if not user
     res.json 200, user

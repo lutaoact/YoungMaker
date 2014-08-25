@@ -14,7 +14,6 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
       ).then (me) ->
         if !LoginRedirector.apply()
           me.$promise.then (data)->
-            console.log data
             if data.role is 'admin'
               $location.url('/admin')
             else if data.role is 'teacher'

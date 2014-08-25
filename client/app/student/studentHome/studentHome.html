@@ -1,24 +1,9 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-<div class="student">
-  <div class="jumbotron">
-    <div class="text-center">
-      jumbotron
-    </div>
-  </div>
-  <div class="container">
-    <section class="course-list">
-      <ul class="col-md-12 filter-nav clear-fix">
-        <li ng-repeat="filter in filters">
-          <a href="" ng-class="{'active':viewState.currentFilter==filter.name}" ng-click="setFilter(filter.name)">{{filter.name}}</a>
-        </li>
-      </ul>
-      <div class="row">
-        <div class="thumbnail col-md-3" ng-repeat="course in courses">
-          <p class="text-center">{{course.name}}</p>
-        </div>
-      </div>
-    </section>
-  </div>
+<div ng-include="'components/navbar/navbar.html'" class="student"></div>
+
+<div ui-view="" class="student fadeZoom">
+
 </div>
+
+
 
 

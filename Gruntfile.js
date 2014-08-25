@@ -406,7 +406,8 @@ module.exports = function (grunt) {
         }
       },
       dist: [
-        'coffee',
+        'coffee:clientDist',
+        'coffee:server',
         'less',
         'imagemin',
         'svgmin'
@@ -464,6 +465,23 @@ module.exports = function (grunt) {
           src: [
             '{app,components}/**/*.coffee',
             '!{app,components}/**/*.spec.coffee'
+          ],
+          dest: '.tmp',
+          ext:'.js'
+          //rename: function (dest, src) {
+          //    return dest + '/' + src.replace(/\.coffee$/, '.js');
+          //}
+        }]
+      },
+      clientDist: {
+        files: [{
+          expand: true,
+          cwd: 'client',
+          src: [
+            '{app,components}/**/*.coffee',
+            '!{app,components}/**/*.spec.coffee',
+            '!{app,components}/**/*.mock.coffee',
+            '!app/mock.coffee'
           ],
           dest: '.tmp',
           ext:'.js'

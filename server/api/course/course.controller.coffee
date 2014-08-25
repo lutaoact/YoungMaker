@@ -16,32 +16,42 @@ KnowledgePoint = _u.getModel "knowledge_point"
 ObjectId = require("mongoose").Types.ObjectId
 CourseUtils = _u.getUtils 'course'
 
-exports.index = (req, res) ->
+exports.index = (req, res, next) ->
 
   userId = req.user.id
+  console.dir req.user
   role = req.user.role
   switch role
     when 'teacher'
+      console.log 'user is teacher...'
       CourseUtils.getTeacherCourses userId
       .then (courses) ->
-        res.json 200, courses
+        res.json 200, courses || []
       , (err) ->
-        res.json 500, err
+        next err
 
     when 'student'
       CourseUtils.getStudentCourses userId
       .then (courses) ->
-        res.json 200, courses
+        res.json 200, courses || []
       , (err) ->
-        res.json 500, err
+        next err
+
+    when 'admin'
+      Course.findQ {}
+      .then (courses) ->
+        res.json 200, courses || []
+      , (err) ->
+        next err
 
 
-exports.show = (req, res) ->
-  Course.findById(req.params.id).exec (err, course) ->
-    return handleError(res, err)  if err
-    return res.send(404)  unless course
-    res.json course
-
+exports.show = (req, res, next) ->
+  CourseUtils.getAuthedCourseById req.user, req.params.id
+  .then (course) ->
+    res.json 200, course || {}
+  , (err) ->
+    res.json err.status, err
+    #next err
 
 exports.create = (req, res) ->
   req.body.owners = [req.user.id]

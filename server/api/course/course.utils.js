@@ -13,6 +13,8 @@
           return this.checkStudent(user._id, courseId);
         case 'teacher':
           return this.checkTeacher(user._id, courseId);
+        case 'admin':
+          return this.checkAdmin(courseId);
       }
     },
     checkTeacher: function(teacherId, courseId) {
@@ -24,6 +26,7 @@
           return course;
         } else {
           return Q.reject({
+            status: 403,
             errCode: ErrCode.CannotReadThisCourse,
             errMsg: 'do not have permission on this course'
           });
@@ -55,13 +58,20 @@
         return Q.reject(err);
       });
     },
+    checkAdmin: function(courseId) {
+      return Course.findOneQ({
+        _id: courseId
+      }).then(function(course) {
+        return course || {};
+      }, function(err) {
+        return Q.reject(err);
+      });
+    },
     getTeacherCourses: function(teacherId) {
       return Course.find({
         owners: teacherId
-      }).populate('classes', '_id name orgId yearGrade').then(function(courses) {
-        if (courses != null) {
-          return courses;
-        }
+      }).populate('classes', '_id name orgId yearGrade').execQ().then(function(courses) {
+        return courses;
       }, function(err) {
         return Q.reject(err);
       });
@@ -76,10 +86,10 @@
           classes: classe._id
         });
       }).then(function(courses) {
-        if (courses != null) {
-          return courses;
-        }
+        return courses;
       }, function(err) {
+        console.log('Error...');
+        console.dir(err);
         return Q.reject(err);
       });
     }

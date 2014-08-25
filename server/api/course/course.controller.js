@@ -14,35 +14,39 @@
 
   CourseUtils = _u.getUtils('course');
 
-  exports.index = function(req, res) {
+  exports.index = function(req, res, next) {
     var role, userId;
     userId = req.user.id;
+    console.dir(req.user);
     role = req.user.role;
     switch (role) {
       case 'teacher':
+        console.log('user is teacher...');
         return CourseUtils.getTeacherCourses(userId).then(function(courses) {
-          return res.json(200, courses);
+          return res.json(200, courses || []);
         }, function(err) {
-          return res.json(500, err);
+          return next(err);
         });
       case 'student':
         return CourseUtils.getStudentCourses(userId).then(function(courses) {
-          return res.json(200, courses);
+          return res.json(200, courses || []);
         }, function(err) {
-          return res.json(500, err);
+          return next(err);
+        });
+      case 'admin':
+        return Course.findQ({}).then(function(courses) {
+          return res.json(200, courses || []);
+        }, function(err) {
+          return next(err);
         });
     }
   };
 
-  exports.show = function(req, res) {
-    return Course.findById(req.params.id).exec(function(err, course) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!course) {
-        return res.send(404);
-      }
-      return res.json(course);
+  exports.show = function(req, res, next) {
+    return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
+      return res.json(200, course || {});
+    }, function(err) {
+      return res.json(err.status, err);
     });
   };
 

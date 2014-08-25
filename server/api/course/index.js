@@ -10,7 +10,7 @@
 
   router = express.Router();
 
-  router.get("/", auth.hasRole("teacher"), controller.index);
+  router.get("/", auth.isAuthenticated(), controller.index);
 
   router.get("/:id", auth.isAuthenticated(), controller.show);
 

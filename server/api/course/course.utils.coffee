@@ -8,6 +8,7 @@ exports.CourseUtils = BaseUtils.subclass
     switch user.role
       when 'student' then return @checkStudent user._id, courseId
       when 'teacher' then return @checkTeacher user._id, courseId
+      when 'admin' then return @checkAdmin courseId
 
   checkTeacher: (teacherId, courseId) ->
     Course.findOneQ
@@ -18,8 +19,9 @@ exports.CourseUtils = BaseUtils.subclass
         return course
       else
         Q.reject
-          errCode: ErrCode.CannotReadThisCourse
-          errMsg: 'do not have permission on this course'
+          status : 403
+          errCode : ErrCode.CannotReadThisCourse
+          errMsg : 'do not have permission on this course'
     , (err) ->
       Q.reject err
 
@@ -42,12 +44,21 @@ exports.CourseUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
+  checkAdmin : (courseId) ->
+    Course.findOneQ
+      _id: courseId
+    .then (course) ->
+      return course || {}
+    , (err) ->
+      Q.reject err
+
   getTeacherCourses : (teacherId) ->
     Course.find
       owners : teacherId
     .populate 'classes', '_id name orgId yearGrade'
+    .execQ()
     .then (courses) ->
-      return courses if courses?
+      return courses
     , (err) ->
       Q.reject err
 
@@ -56,12 +67,16 @@ exports.CourseUtils = BaseUtils.subclass
     Classe.findOneQ
       students: studentId
     .then (classe) ->
+      #if not classe? then return null
       Course.find
         classes : classe._id
     .then (courses) ->
-      return courses if courses?
+      return courses
     , (err) ->
+      console.log 'Error...'
+      console.dir err
       Q.reject err
+
 
 
 

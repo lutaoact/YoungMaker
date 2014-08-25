@@ -1,29 +1,52 @@
 (function() {
-  'use strict';
-  var Schema, LecutreSchema, mongoose, createdModifiedPlugin;
+  "use strict";
+  var BaseModel, Schema, mongoose;
 
-  mongoose = require('mongoose');
-  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
+  mongoose = require("mongoose");
 
   Schema = mongoose.Schema;
 
-  LecutreSchema = new Schema({
-    name: {type: String, required: true},
-    courseId: {type: Schema.Types.ObjectId, required: true, ref: 'Course'},
-    thumbnail: String,
-    info: String,
-    slides: [{
-      thumb: String,
-      raw: String
-    }],
-    knowledgePoints: [{type: Schema.Types.ObjectId, ref: 'KnowledgePoint'}]
-    // TODO: define Quesiton DB
-    //questions: {type: Schema.Types.ObjectId, ref: 'Question'}
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  LecutreSchema.plugin(createdModifiedPlugin, {index: true});
-  module.exports = mongoose.model('Lecture', LecutreSchema);
+  exports.Lecture = BaseModel.subclass({
+    classname: 'Lecture',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: {
+          type: String,
+          required: true
+        },
+        thumbnail: String,
+        info: String,
+        slides: [
+          {
+            thumb: String
+          }
+        ],
+        media: String,
+        knowledgePoints: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "knowledge_point"
+          }
+        ],
+        quizzes: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "question"
+          }
+        ],
+        homeworks: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "question"
+          }
+        ]
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=lecture.model.js.map

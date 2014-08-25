@@ -1,20 +1,27 @@
 (function() {
-  'use strict';
-  var Schema, CategorySchema, mongoose, createdModifiedPlugin;
+  "use strict";
+  var BaseModel, Schema, mongoose;
 
-  mongoose = require('mongoose');
-  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
+  mongoose = require("mongoose");
 
   Schema = mongoose.Schema;
 
-  CategorySchema = new Schema({
-    name: {type: String, required: true, unique: true},
-    // sub_category: [{type: Schema.ObjectId, ref: 'Category'}]
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  CategorySchema.plugin(createdModifiedPlugin, {index: true});
-  module.exports = mongoose.model('Category', CategorySchema);
+  exports.Category = BaseModel.subclass({
+    classname: 'Category',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: {
+          type: String,
+          required: true,
+          unique: true
+        }
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=category.model.js.map

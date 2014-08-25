@@ -1,6 +1,6 @@
 'use strict'
 
-User = require './user.model'
+User = _u.getModel "user"
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
@@ -11,17 +11,11 @@ _ = require 'lodash'
 fs = require 'fs'
 http = require 'http'
 xlsx = require 'node-xlsx'
-Classe = require '../classe/classe.model'
+#UserStat = _u.getModel "user_stat"
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
 qiniuDomain                       = config.qiniu.domain
-
-validationError = (res, err) ->
-  res.json 422, err
-
-handleError = (res, err) ->
-  res.send 500
 
 ###
   Get list of users
@@ -29,23 +23,26 @@ handleError = (res, err) ->
 ###
 exports.index = (req, res) ->
   User.find {}, '-salt -hashedPassword', (err, users) ->
-    res.send 500, err if err
-    res.json 200, users
+    return res.send 500, err if err
+    return res.json 200, users
 
 ###
   Creates a new user
 ###
-exports.create = (req, res, next) ->
-  newUser = new User req.body
-  newUser.provider = 'local'
-  newUser.save (err, user) ->
-    return validationError res, err if err
+exports.create = (req, res) ->
+  body = req.body
+  body.provider = 'local'
+
+  User.create body, (err, user) ->
+    return helpers.validationError res, err if err
+    #create UserStat
+    #UserStat.create({"userId": user._id})
     token = jwt.sign
       _id: user._id,
       config.secrets.session,
       expiresInMinutes: 60*5
     res.json
-     token: token
+      token: token
 
 ###
   Get a single user
@@ -55,8 +52,17 @@ exports.show = (req, res, next) ->
 
   User.findById userId, (err, user) ->
     next err if err
-    res.send 401 if not user
-    res.json user.profile
+    return res.send 401 if not user
+    return res.json user.profile
+
+###
+  Get a single user by email
+###
+exports.showByEmail = (req, res) ->
+  User.findOne {'email': req.params.email}, (err, user) ->
+    helpers.handleError if err
+    return res.send 404 if not user
+    return res.json user.profile
 
 ###
   Deletes a user
@@ -64,8 +70,8 @@ exports.show = (req, res, next) ->
 ###
 exports.destroy = (req, res) ->
   User.findByIdAndRemove req.params.id, (err, user) ->
-    res.send 500, err if err
-    res.send 200, user
+    return res.send 500, err if err
+    return res.send 200, user
 
 ###
   Change a users password
@@ -79,7 +85,7 @@ exports.changePassword = (req, res, next) ->
     if user.authenticate oldPass
       user.password = newPass
       user.save (err) ->
-        validationError res, err if err
+        return helpers.validationError res, err if err
         res.send 200
     else
       res.send 403
@@ -92,10 +98,10 @@ exports.me = (req, res, next) ->
   User.findOne
     _id: userId,
     '-salt -hashedPassword',
-    (err, user) -> # donnot ever give out the password or salt
-      next err if err
-      res.json 401 if not user
-      res.json user
+  (err, user) -> # donnot ever give out the password or salt
+    next err if err
+    return res.json 401 if not user
+    res.json 200, user
 
 ###
   Update user
@@ -107,34 +113,34 @@ exports.update = (req, res) ->
 
   User.findById req.params.id, (err, user) ->
 
-      return handleError res, err if err
-      return res.send 404 if not user
+    return helpers.handleError res, err if err
+    return res.send 404 if not user
 
-      updated = _.merge user , req.body
-      updated.save (err) ->
-        return handleError res, err if err
-        return res.json 200, user
+    updated = _.merge user , req.body
+    updated.save (err) ->
+      return helpers.handleError res, err if err
+      return res.json 200, user
 
 
 updateClasseStudents = (res, classeId, studentList, importReport) ->
-    Classe.findById classeId, (err, classe) ->
-      return handleError res, err if err
-      return res.send 404 if not classe
+  Classe.findById classeId, (err, classe) ->
+    return helpers.handleError res, err if err
+    return res.send 404 if not classe
 
-      console.log 'Found classe with id '
-      console.dir classe
+    console.log 'Found classe with id '
+    console.dir classe
 
-      classe.students = _.merge classe.students, studentList
-      classe.markModified 'students'
+    classe.students = _.merge classe.students, studentList
+    classe.markModified 'students'
 
-      console.log 'After merge...'
-      console.dir classe
+    console.log 'After merge...'
+    console.dir classe
 
-      classe.save (err, saved) ->
-        return handleError res, err if err
-        console.log 'After save...'
-        console.dir saved
-        res.json 200, importReport
+    classe.save (err, saved) ->
+      return helpers.handleError res, err if err
+      console.log 'After save...'
+      console.dir saved
+      res.json 200, importReport
 
 
 ###
@@ -223,7 +229,64 @@ exports.bulkImport = (req, res, next) ->
     fs.unlink dest  # delete the file async
     res.send 500
 
+exports.forget = (req, res) ->
+  if not req.body.email?
+    return res.send 400
+  crypto = require 'crypto'
+  crypto.randomBytes(21, (err, buf) ->
+    if err
+      return res.send 400
+    token = buf.toString 'hex'
+    conditions = { email: req.body.email.toLowerCase() }
+    fieldsToSet = {
+      resetPasswordToken: token,
+      resetPasswordExpires: Date.now() + 10000000
+    }
+    User.findOneAndUpdate(conditions, fieldsToSet, (err, user) ->
+      if err
+        return res.send 400
+      if !user
+        return res.send 400
 
+      options =
+        from: req.app.config.smtp.from.name+' <'+req.app.config.smtp.from.address+'>'
+        to: user.email
+        subject: 'Reset your '+req.app.config.projectName+' password'
+        textPath: 'users/forgot/email-text'
+        htmlPath: 'users/forgot/email-html'
+        locals:
+          username: user.name
+          resetLink: req.protocol+'://'+req.headers.host+'/login/reset/'+user.email+'/'+token+'/'
+          projectName: req.app.config.projectName
+        success: (message) ->
+          res.send 201
+        error: (err) ->
+          res.json(404, err)
+
+      req.app.utility.sendmail(req, res, options)
+    )
+  )
+
+exports.reset = (req, res) ->
+  if not req.body.password?
+    return res.send 400
+
+  conditions =
+    email: req.params.email.toLowerCase()
+    resetPasswordToken: req.params.token
+    resetPasswordExpires:
+      $gt: Date.now()
+
+  User.findOne(conditions, (err, user) ->
+    if err
+      return res.send 400
+    if !user
+      return res.send 400
+    user.password = req.body.password
+    user.save (err) ->
+      return helpers.validationError res, err if err
+      res.send 200
+  )
 ###
  Authentication callback
 ###

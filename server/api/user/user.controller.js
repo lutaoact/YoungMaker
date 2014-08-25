@@ -1,8 +1,8 @@
 (function() {
   'use strict';
-  var Classe, User, config, fs, handleError, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, validationError, xlsx, _;
+  var User, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, xlsx, _;
 
-  User = require('./user.model');
+  User = _u.getModel("user");
 
   passport = require('passport');
 
@@ -24,21 +24,11 @@
 
   xlsx = require('node-xlsx');
 
-  Classe = require('../classe/classe.model');
-
   qiniu.conf.ACCESS_KEY = config.qiniu.access_key;
 
   qiniu.conf.SECRET_KEY = config.qiniu.secret_key;
 
   qiniuDomain = config.qiniu.domain;
-
-  validationError = function(res, err) {
-    return res.json(422, err);
-  };
-
-  handleError = function(res, err) {
-    return res.send(500);
-  };
 
 
   /*
@@ -49,7 +39,7 @@
   exports.index = function(req, res) {
     return User.find({}, '-salt -hashedPassword', function(err, users) {
       if (err) {
-        res.send(500, err);
+        return res.send(500, err);
       }
       return res.json(200, users);
     });
@@ -60,14 +50,14 @@
     Creates a new user
    */
 
-  exports.create = function(req, res, next) {
-    var newUser;
-    newUser = new User(req.body);
-    newUser.provider = 'local';
-    return newUser.save(function(err, user) {
+  exports.create = function(req, res) {
+    var body;
+    body = req.body;
+    body.provider = 'local';
+    return User.create(body, function(err, user) {
       var token;
       if (err) {
-        return validationError(res, err);
+        return helpers.validationError(res, err);
       }
       token = jwt.sign({
         _id: user._id
@@ -93,7 +83,26 @@
         next(err);
       }
       if (!user) {
-        res.send(401);
+        return res.send(401);
+      }
+      return res.json(user.profile);
+    });
+  };
+
+
+  /*
+    Get a single user by email
+   */
+
+  exports.showByEmail = function(req, res) {
+    return User.findOne({
+      'email': req.params.email
+    }, function(err, user) {
+      if (err) {
+        helpers.handleError;
+      }
+      if (!user) {
+        return res.send(404);
       }
       return res.json(user.profile);
     });
@@ -108,7 +117,7 @@
   exports.destroy = function(req, res) {
     return User.findByIdAndRemove(req.params.id, function(err, user) {
       if (err) {
-        res.send(500, err);
+        return res.send(500, err);
       }
       return res.send(200, user);
     });
@@ -129,7 +138,7 @@
         user.password = newPass;
         return user.save(function(err) {
           if (err) {
-            validationError(res, err);
+            return helpers.validationError(res, err);
           }
           return res.send(200);
         });
@@ -147,17 +156,18 @@
   exports.me = function(req, res, next) {
     var userId;
     userId = req.user._id;
-    return User.findOne({
+    User.findOne({
       _id: userId
-    }, '-salt -hashedPassword', function(err, user) {
+    }, '-salt -hashedPassword');
+    return function(err, user) {
       if (err) {
         next(err);
       }
       if (!user) {
-        res.json(401);
+        return res.json(401);
       }
-      return res.json(user);
-    });
+      return res.json(200, user);
+    };
   };
 
 
@@ -175,7 +185,7 @@
     return User.findById(req.params.id, function(err, user) {
       var updated;
       if (err) {
-        return handleError(res, err);
+        return helpers.handleError(res, err);
       }
       if (!user) {
         return res.send(404);
@@ -183,7 +193,7 @@
       updated = _.merge(user, req.body);
       return updated.save(function(err) {
         if (err) {
-          return handleError(res, err);
+          return helpers.handleError(res, err);
         }
         return res.json(200, user);
       });
@@ -193,7 +203,7 @@
   updateClasseStudents = function(res, classeId, studentList, importReport) {
     return Classe.findById(classeId, function(err, classe) {
       if (err) {
-        return handleError(res, err);
+        return helpers.handleError(res, err);
       }
       if (!classe) {
         return res.send(404);
@@ -206,7 +216,7 @@
       console.dir(classe);
       return classe.save(function(err, saved) {
         if (err) {
-          return handleError(res, err);
+          return helpers.handleError(res, err);
         }
         console.log('After save...');
         console.dir(saved);
@@ -295,6 +305,85 @@
       console.error('There is an error while downloading file from ' + url);
       fs.unlink(dest);
       return res.send(500);
+    });
+  };
+
+  exports.forget = function(req, res) {
+    var crypto;
+    if (req.body.email == null) {
+      return res.send(400);
+    }
+    crypto = require('crypto');
+    return crypto.randomBytes(21, function(err, buf) {
+      var conditions, fieldsToSet, token;
+      if (err) {
+        return res.send(400);
+      }
+      token = buf.toString('hex');
+      conditions = {
+        email: req.body.email.toLowerCase()
+      };
+      fieldsToSet = {
+        resetPasswordToken: token,
+        resetPasswordExpires: Date.now() + 10000000
+      };
+      return User.findOneAndUpdate(conditions, fieldsToSet, function(err, user) {
+        var options;
+        if (err) {
+          return res.send(400);
+        }
+        if (!user) {
+          return res.send(400);
+        }
+        options = {
+          from: req.app.config.smtp.from.name + ' <' + req.app.config.smtp.from.address + '>',
+          to: user.email,
+          subject: 'Reset your ' + req.app.config.projectName + ' password',
+          textPath: 'users/forgot/email-text',
+          htmlPath: 'users/forgot/email-html',
+          locals: {
+            username: user.name,
+            resetLink: req.protocol + '://' + req.headers.host + '/login/reset/' + user.email + '/' + token + '/',
+            projectName: req.app.config.projectName
+          },
+          success: function(message) {
+            return res.send(201);
+          },
+          error: function(err) {
+            return res.json(404, err);
+          }
+        };
+        return req.app.utility.sendmail(req, res, options);
+      });
+    });
+  };
+
+  exports.reset = function(req, res) {
+    var conditions;
+    if (req.body.password == null) {
+      return res.send(400);
+    }
+    conditions = {
+      email: req.params.email.toLowerCase(),
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: {
+        $gt: Date.now()
+      }
+    };
+    return User.findOne(conditions, function(err, user) {
+      if (err) {
+        return res.send(400);
+      }
+      if (!user) {
+        return res.send(400);
+      }
+      user.password = req.body.password;
+      return user.save(function(err) {
+        if (err) {
+          return helpers.validationError(res, err);
+        }
+        return res.send(200);
+      });
     });
   };
 

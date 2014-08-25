@@ -10,7 +10,7 @@
 'use strict'
 
 _ = require('lodash')
-Thing = require('./thing.model')
+Thing = _u.getModel('thing')
 
 # Get list of things
 exports.index = (req, res) ->

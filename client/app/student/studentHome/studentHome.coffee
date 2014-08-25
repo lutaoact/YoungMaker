@@ -1,7 +1,8 @@
 'use strict'
 
 angular.module('budweiserApp').config ($stateProvider) ->
-  $stateProvider.state 'studentHome',
+  $stateProvider.state 'student',
     url: '/s'
     templateUrl: 'app/student/studentHome/studentHome.html'
-    controller: 'StudenthomeCtrl'
+    controller: 'StudentHomeCtrl'
+    abstract: true

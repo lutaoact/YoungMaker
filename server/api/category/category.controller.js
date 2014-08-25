@@ -1,20 +1,10 @@
-
-/*
- * Using Rails-like standard naming convention for endpoints.
- * GET     /categories              ->  index
- * POST    /categories              ->  create
- * GET     /categories/:id          ->  show
- * PUT     /categories/:id          ->  update
- * DELETE  /categories/:id          ->  destroy
- */
-
 (function() {
-  'use strict';
+  "use strict";
   var Category, handleError, _;
 
-  _ = require('lodash');
+  _ = require("lodash");
 
-  Category = require('./category.model');
+  Category = _u.getModel("category");
 
   exports.index = function(req, res) {
     return Category.find(function(err, categories) {
@@ -58,7 +48,7 @@
       if (!category) {
         return res.send(404);
       }
-      updated = _.merge(category, req.body);
+      updated = _.extend(category, req.body);
       return updated.save(function(err) {
         if (err) {
           return handleError(err);
@@ -91,4 +81,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=Category.controller.js.map
+//# sourceMappingURL=category.controller.js.map

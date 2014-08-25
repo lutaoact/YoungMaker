@@ -1,31 +1,49 @@
 (function() {
-  'use strict';
-  var Schema, ClassProgressSchema, mongoose, createdModifiedPlugin;
+  "use strict";
+  var BaseModel, Schema, mongoose;
 
-  mongoose = require('mongoose');
-  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
+  mongoose = require("mongoose");
 
   Schema = mongoose.Schema;
 
-  ClassProgressSchema = new Schema({
-    userId: {type: Schema.Types.ObjectId, ref: 'User'},
-    courseId: {type: Schema.Types.ObjectId, ref: 'Course'},
-    classId: {type: Schema.Types.ObjectId, ref: 'Class'},
-    // TODO: does lecturesStatus need _id?; change type to Mix, use dict instead;
-    lecturesStatus: [{
-      lectureId: {type: Schema.Types.ObjectId, ref: 'Lecture'},
-      //name: String,
-      isFinished: Boolean
-    }],
-    timeTable: [{
-      name: String,
-      time: Date
-    }]
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  ClassProgressSchema.plugin(createdModifiedPlugin, {index: true});
-  module.exports = mongoose.model('ClassProgress', ClassProgressSchema);
+  exports.ClassProgress = BaseModel.subclass({
+    classname: 'ClassProgress',
+    initialize: function($super) {
+      this.schema = new Schema({
+        userId: {
+          type: Schema.Types.ObjectId,
+          ref: "user"
+        },
+        courseId: {
+          type: Schema.Types.ObjectId,
+          ref: "course"
+        },
+        classId: {
+          type: Schema.Types.ObjectId,
+          ref: "class"
+        },
+        lecturesStatus: [
+          {
+            lectureId: {
+              type: Schema.Types.ObjectId,
+              ref: "lecture"
+            },
+            isFinished: Boolean
+          }
+        ],
+        timeTable: [
+          {
+            name: String,
+            time: Date
+          }
+        ]
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=class_progress.model.js.map

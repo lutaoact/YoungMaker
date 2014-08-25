@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 path = require 'path'
 _ = require 'lodash'
@@ -6,7 +6,7 @@ _ = require 'lodash'
 requiredProcessEnv = (name) ->
   if not process.env[name]
     throw new Error 'You must set the ' + name + ' environment variable'
-  process.env[name];
+  process.env[name]
 
 # All configurations will extend these options
 # ============================================
@@ -27,7 +27,7 @@ all =
     session: process.env.EXPRESS_SECRET or 'budweiser-secret'
 
   # List of user roles
-  userRoles: ['guest', 'user', 'admin', 'teacher']
+  userRoles: ['student', 'admin', 'teacher']
 
   # MongoDB connection options
   mongo:

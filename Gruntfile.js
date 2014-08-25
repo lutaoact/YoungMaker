@@ -9,7 +9,9 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
-    injector: 'grunt-asset-injector'
+    injector: 'grunt-asset-injector',
+    replace: 'grunt-replace',
+    processhtml: 'grunt-processhtml'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -377,6 +379,10 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.client %>',
         dest: '.tmp/',
         src: ['{app,components}/**/*.css']
+      },
+      index:{
+        dest: '<%= yeoman.client %>/index.html',
+        src: '<%= yeoman.client %>/index.tmpl.html'
       }
     },
 
@@ -400,7 +406,8 @@ module.exports = function (grunt) {
         }
       },
       dist: [
-        'coffee',
+        'coffee:clientDist',
+        'coffee:server',
         'less',
         'imagemin',
         'svgmin'
@@ -466,6 +473,23 @@ module.exports = function (grunt) {
           //}
         }]
       },
+      clientDist: {
+        files: [{
+          expand: true,
+          cwd: 'client',
+          src: [
+            '{app,components}/**/*.coffee',
+            '!{app,components}/**/*.spec.coffee',
+            '!{app,components}/**/*.mock.coffee',
+            '!app/mock.coffee'
+          ],
+          dest: '.tmp',
+          ext:'.js'
+          //rename: function (dest, src) {
+          //    return dest + '/' + src.replace(/\.coffee$/, '.js');
+          //}
+        }]
+      },
       server: {
         files: [{
           expand: true,
@@ -475,7 +499,7 @@ module.exports = function (grunt) {
           ],
           dest: 'server',
           rename: function (dest, src) {
-              return dest + '/' + src.replace(/\.coffee$/, '.js');
+            return dest + '/' + src.replace(/\.coffee$/, '.js');
           }
         }]
       }
@@ -514,11 +538,11 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-              ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
-               '!{.tmp,<%= yeoman.client %>}/app/app.js',
-               '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
-               '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
-            ]
+            ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
+              '!{.tmp,<%= yeoman.client %>}/app/app.js',
+              '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
+              '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
+          ]
         }
       },
 
@@ -559,6 +583,33 @@ module.exports = function (grunt) {
         }
       }
     },
+    replace: {
+      dist:{
+        options: {
+          patterns: [
+            {
+              match: /budweiserAppDev/g,
+              replacement: 'budweiserApp'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['client/index.html'],dest:'client/'}
+        ]
+      }
+    },
+    processhtml: {
+      options: {
+        data: {
+          message: 'Hello world!'
+        }
+      },
+      dist: {
+        files: {
+          'client/index.html': ['client/index.html']
+        }
+      }
+    },
   });
 
   // Used for delaying livereload until after server has restarted
@@ -585,6 +636,7 @@ module.exports = function (grunt) {
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
+        'copy:index',
         'env:all',
         'injector:less',
         'concurrent:server',
@@ -595,12 +647,31 @@ module.exports = function (grunt) {
       ]);
     }
 
+    if (target === 'mock'){
+      return grunt.task.run([
+        'clean:server',
+        'copy:index',
+        'env:all',
+        'injector:less',
+        'concurrent:server',
+        'injector',
+        'bowerInstall',
+        'autoprefixer',
+        'express:dev',
+        'wait',
+        'open',
+        'watch'
+      ]);
+    }
     grunt.task.run([
       'clean:server',
+      'copy:index',
       'env:all',
       'injector:less',
       'concurrent:server',
       'injector',
+      'replace',
+      'processhtml',
       'bowerInstall',
       'autoprefixer',
       'express:dev',
@@ -627,6 +698,7 @@ module.exports = function (grunt) {
     else if (target === 'client') {
       return grunt.task.run([
         'clean:server',
+        'copy:index',
         'env:all',
         'injector:less',
         'concurrent:test',
@@ -639,6 +711,7 @@ module.exports = function (grunt) {
     else if (target === 'e2e') {
       return grunt.task.run([
         'clean:server',
+        'copy:index',
         'env:all',
         'env:test',
         'injector:less',
@@ -659,9 +732,12 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'copy:index',
     'injector:less',
     'concurrent:dist',
     'injector',
+    'replace',
+    'processhtml',
     'bowerInstall',
     'useminPrepare',
     'autoprefixer',

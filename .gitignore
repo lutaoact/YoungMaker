@@ -5,4 +5,7 @@ public
 client/bower_components
 dist
 server/**/*.map
+client/index.html
 .idea
+/server/test.coffee
+/server/test.js

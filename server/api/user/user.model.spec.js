@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should');
-var User = require('./user.model');
+var User = _u.getModel "user"
 
 var user;
 

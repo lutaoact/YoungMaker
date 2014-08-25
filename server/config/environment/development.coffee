@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 # Development specific configuration
 # ==================================
@@ -14,3 +14,11 @@ module.exports =
     domain : 'temp-cloud3edu-com.qiniudn.com'
     bucket_name : 'temp-cloud3edu-com'
     signed_url_expires : 24 * 60 * 60
+  logger:
+    path: '/data/log/budweiser.log'
+    level: 'DEBUG'
+
+  local:
+    tempDir : '/temp_node_dir'
+
+  nodejsServer : '115.29.244.232'

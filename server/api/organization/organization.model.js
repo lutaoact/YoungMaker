@@ -1,23 +1,38 @@
 (function() {
-  'use strict';
-  var Schema, OrganizationSchema, mongoose, createdModifiedPlugin;
+  "use strict";
+  var BaseModel, Schema, mongoose;
 
-  mongoose = require('mongoose');
-  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
+  mongoose = require("mongoose");
 
   Schema = mongoose.Schema;
 
-  OrganizationSchema = new Schema({
-    name: {type: String, required: true},
-    logo: String,
-    subDomain: String,
-    background: String, //url
-    type: String
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  OrganizationSchema.plugin(createdModifiedPlugin, {index: true});
-  module.exports = mongoose.model('Organization', OrganizationSchema);
+  exports.Organization = BaseModel.subclass({
+    classname: 'Organization',
+    initialize: function($super) {
+      this.schema = new Schema({
+        uniqueName: {
+          type: String,
+          required: true,
+          unique: true
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        logo: String,
+        description: String,
+        type: {
+          type: String,
+          required: true,
+          unique: true
+        }
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=organization.model.js.map

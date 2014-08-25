@@ -1,26 +1,20 @@
-
-/*
- * Using Rails-like standard naming convention for endpoints.
- * GET     /knowledge_points              ->  index
- * POST    /knowledge_points              ->  create
- * GET     /knowledge_points/:id          ->  show
- * PUT     /knowledge_points/:id          ->  update
- * DELETE  /knowledge_points/:id          ->  destroy
- */
-
 (function() {
-  'use strict';
+  "use strict";
   var KnowledgePoint, Lecture, handleError, _;
 
-  _ = require('lodash');
+  _ = require("lodash");
 
-  KnowledgePoint = require('./knowledge_point.model');
-  Lecture = require('../lecture/lecture.model');
+  KnowledgePoint = _u.getModel("knowledge_point");
+
+  Lecture = _u.getModel("lecture");
 
   exports.index = function(req, res) {
-    var conditions = {};
+    var conditions;
+    conditions = {};
     if (req.query.categoryId) {
-      conditions = {categoryId: req.query.categoryId}
+      conditions = {
+        categoryId: req.query.categoryId
+      };
     }
     return KnowledgePoint.find(conditions, function(err, categories) {
       if (err) {
@@ -63,7 +57,7 @@
       if (!knowledgePoint) {
         return res.send(404);
       }
-      updated = _.merge(knowledgePoint, req.body);
+      updated = _.extend(knowledgePoint, req.body);
       return updated.save(function(err) {
         if (err) {
           return handleError(err);
@@ -74,15 +68,16 @@
   };
 
   exports.destroy = function(req, res) {
-    Lecture.find({knowledgePoints: req.params.id},function(err, lectures){
-      if (err) return handleError(res, err);
-      // forbid deleting if it is referenced by Lecture
-      if (lectures.length != 0) {
-        // console.log(lectures);
-        return res.send(400);
+    return Lecture.find({
+      knowledgePoints: req.params.id
+    }, function(err, lectures) {
+      if (err) {
+        return handleError(res, err);
       }
-      else {
-        KnowledgePoint.findById(req.params.id, function(err, knowledgePoint) {
+      if (lectures.length !== 0) {
+        return res.send(400);
+      } else {
+        return KnowledgePoint.findById(req.params.id, function(err, knowledgePoint) {
           if (err) {
             return handleError(res, err);
           }
@@ -100,10 +95,45 @@
     });
   };
 
+
+  /* copied from course controller, need to implement these logic in above methods
+  
+     * insert knowledgePoint id to this Lecture; create a knowledgePoint when _id is not provided
+  exports.createKnowledgePoint = (req, res) ->
+    updateLectureKnowledgePoints = (knowledgePoint) ->
+      Lecture.findByIdAndUpdate req.params.lectureId,
+        $push:
+          knowledgePoints: knowledgePoint._id
+      , (err, lecture) ->
+        return handleError(res, err)  if err
+        res.send knowledgePoint
+  
+    Course.findOne(
+      _id: req.params.id
+      owners:
+        $in: [req.user.id]
+    ).exec (err, course) ->
+      return handleError(res, err)  if err
+      return res.send(404)  unless course
+      if req.body._id # TODO: validate this _id!
+        updateLectureKnowledgePoints req.body
+      else
+        KnowledgePoint.create req.body, (err, knowledgePoint) ->
+          return handleError(err)  if err
+          updateLectureKnowledgePoints knowledgePoint
+  
+  
+  exports.showKnowledgePoints = (req, res) ->
+    Lecture.findById(req.params.lectureId).populate("knowledgePoints").exec (err, lecture) ->
+      return handleError(res, err)  if err
+      return res.send(404)  unless lecture
+      res.json lecture.knowledgePoints
+   */
+
   handleError = function(res, err) {
     return res.send(500, err);
   };
 
 }).call(this);
 
-//# sourceMappingURL=KnowledgePoint.controller.js.map
+//# sourceMappingURL=knowledge_point.controller.js.map

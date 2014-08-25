@@ -1,22 +1,37 @@
 (function() {
-  'use strict';
-  var Schema, ClasseSchema, mongoose, createdModifiedPlugin;
+  "use strict";
+  var BaseModel, Schema, mongoose;
 
-  mongoose = require('mongoose');
-  createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin;
+  mongoose = require("mongoose");
 
   Schema = mongoose.Schema;
 
-  ClasseSchema = new Schema({
-    name: {type: String, required: true},
-    orgId: {type: Schema.Types.ObjectId, ref: 'Organization'},
-    students: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    yearGrade: String
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  ClasseSchema.plugin(createdModifiedPlugin, {index: true});
-  module.exports = mongoose.model('Classe', ClasseSchema);
+  exports.Classe = BaseModel.subclass({
+    classname: 'Classe',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: {
+          type: String,
+          required: true
+        },
+        orgId: {
+          type: Schema.Types.ObjectId,
+          ref: "organization"
+        },
+        students: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "user"
+          }
+        ],
+        yearGrade: String
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 
-//# sourceMappingURL=thing.model.js.map
+//# sourceMappingURL=classe.model.js.map

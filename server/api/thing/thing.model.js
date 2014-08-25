@@ -1,18 +1,24 @@
 (function() {
   'use strict';
-  var Schema, ThingSchema, mongoose;
+  var BaseModel, Schema, mongoose;
 
   mongoose = require('mongoose');
 
   Schema = mongoose.Schema;
 
-  ThingSchema = new Schema({
-    name: String,
-    info: String,
-    active: Boolean
-  });
+  BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  module.exports = mongoose.model('Thing', ThingSchema);
+  exports.Thing = BaseModel.subclass({
+    classname: 'Thing',
+    initialize: function($super) {
+      this.schema = new Schema({
+        name: String,
+        info: String,
+        active: Boolean
+      });
+      return $super();
+    }
+  });
 
 }).call(this);
 

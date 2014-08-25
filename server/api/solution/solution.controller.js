@@ -14,7 +14,7 @@
 
   _ = require('lodash');
 
-  Solution = require('./solution.model');
+  Solution = _u.getModel("solution");
 
   exports.index = function(req, res) {
     return Solution.find(function(err, solutions) {

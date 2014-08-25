@@ -1,4 +1,5 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudenthomeCtrl', ($scope) ->
-  $scope.message = 'Hello'
+angular.module('budweiserApp').controller 'StudentHomeCtrl', ($scope)->
+
+

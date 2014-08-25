@@ -1,0 +1,37 @@
+<form ng-show="editingClasse" class="list-group-item form" name="form">
+  <div class="form-group">
+    <label for="classe-name">班级名称</label>
+    <input class="form-control"
+           id="classe-name"
+           name="name"
+           ng-model="editingClasse.name"
+           placeholder="班级名称"
+           required>
+  </div>
+  <div class="form-group clearfix" ng-show="editingClasse._id">
+    <div class="btn-group btn-group-sm pull-right">
+      <label class="btn btn-default" ng-show="!isExcelProcessing">
+        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
+        导入
+      </label>
+      <label class="btn btn-default disabled" ng-show="isExcelProcessing">
+        <i class="fa fa-spinner fa-spin"></i>导入中
+      </label>
+      <a class="btn btn-default">
+        邀请
+      </a>
+    </div>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="student in selectedClasse.students">
+      <strong>{{student.name}}</strong><br>
+      <span class="text-muted">{{student.email}}</span>
+      <div class="pull-right">
+        <span class="status">{{student.status||'已注册'}}</span>
+        <a ng-click="delete(student)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+      </div>
+    </li>
+  </ul>
+  <button type="submit" class="btn btn-default" ng-click="saveClasse(editingClasse,form)">保存</button>
+  <button type="button" class="btn btn-default" ng-click="deleteClasse(editingClasse)">删除</button>
+</form>

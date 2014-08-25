@@ -39,6 +39,7 @@ exports.CourseUtils = BaseUtils.subclass
         return course
       else
         Q.reject
+          status : 403
           errCode: ErrCode.CannotReadThisCourse
           errMsg: 'do not have permission on this course'
     , (err) ->
@@ -73,8 +74,6 @@ exports.CourseUtils = BaseUtils.subclass
     .then (courses) ->
       return courses
     , (err) ->
-      console.log 'Error...'
-      console.dir err
       Q.reject err
 
 

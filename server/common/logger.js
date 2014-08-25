@@ -17,7 +17,7 @@ log4js.configure({
     ]
 });
 
-var logger = log4js.getLogger('[ALOHA]');
+var logger = log4js.getLogger('[BUDWEISER]');
 logger.setLevel(config.logger.level);
 
 exports.logger = logger;

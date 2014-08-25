@@ -1,16 +1,16 @@
 'use strict'
 
-describe 'Controller: StudentHomeCtrl', ->
+describe 'Controller: StudentCourseListCtrl', ->
 
   # load the controller's module
   beforeEach module('budweiserApp')
-  StudentHomeCtrl = undefined
+  StudentCourseListCtrl = undefined
   scope = undefined
 
   # Initialize the controller and a mock scope
   beforeEach inject(($controller, $rootScope) ->
     scope = $rootScope.$new()
-    StudentHomeCtrl = $controller('StudentHomeCtrl',
+    StudentCourseListCtrl = $controller('StudentCourseListCtrl',
       $scope: scope
     )
   )

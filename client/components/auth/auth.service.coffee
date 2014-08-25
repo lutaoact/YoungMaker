@@ -98,7 +98,7 @@ angular.module('budweiserApp').factory 'Auth', ($location, $rootScope, $http, Us
   ###
   isLoggedIn: ->
     #To support pasted url navigation
-    currentUser.hasOwnProperty('role') or $cookieStore.get('token')
+    currentUser.hasOwnProperty('role')
 
   ###
   Check if a user is an admin

@@ -16,14 +16,41 @@ angular.module 'budweiserAppDev', [
         setTimeout( ->
           callback.apply(_this, _arguments)
         , 800)
+      # url = decodeURIComponent(url?.replace(/\+/g, '%20'))
       $delegate.call(this, method, url, data, interceptor, headers)
     for key of $delegate
       proxy[key] = $delegate[key]
     proxy
 
 .run (
-  $httpBackend
+  $httpBackend, Auth
 ) ->
+
+  courses = _.map ['语文','数学','物理','化学','生物','地理','政治','历史'], (item, index)->
+    _id:index
+    name:item
+    desc:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, error molestiae reprehenderit soluta qui cupiditate incidunt accusamus cumque aspernatur, architecto praesentium consequuntur, sed consectetur totam aliquid. Harum quo dolorum, nam.'.substr(0,Math.floor(Math.random() * 100) + 100)
+
+  lectures = _.map [1..30], (item)->
+    _id:item
+    name: '第' + item + '课'
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, error molestiae reprehenderit soluta qui cupiditate incidunt accusamus cumque aspernatur, architecto praesentium consequuntur, sed consectetur totam aliquid. Harum quo dolorum, nam.'.substr(0,Math.floor(Math.random() * 100) + 100)
+
+  $httpBackend.whenGET(/^api\/courses$/).respond (method, url, data)->
+    if Auth.getCurrentUser().role is 'student'
+      [200, courses.slice(0,3)]
+    else if Auth.getCurrentUser().role is 'teacher'
+      [200, courses.slice(3,3)]
+    else
+      [200, courses]
+
+  $httpBackend.whenGET(/^api\/courses\/[0-9]+$/).respond (method, url, data)->
+    console.log 'get course by id'
+    [200, courses[0]]
+
+  $httpBackend.whenGET(/^api\/lectures?courseId=$/).respond (method, url, data)->
+    console.log 'get lectures by courseId'
+    [200, lectures]
 
   console.debug "Start Mock HttpBackend ..."
 

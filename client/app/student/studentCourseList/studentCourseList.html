@@ -1,0 +1,19 @@
+<div class="jumbotron">
+  <div class="text-center">
+    jumbotron
+  </div>
+</div>
+<div class="container">
+  <section class="course-list">
+    <ul class="col-md-12 filter-nav clear-fix">
+      <li ng-repeat="filter in filters">
+        <a href="" ng-class="{'active':viewState.currentFilter==filter.name}" ng-click="setFilter(filter.name)">{{filter.name}}</a>
+      </li>
+    </ul>
+    <div class="row">
+      <a class="thumbnail col-md-3" ng-repeat="course in courses" ng-href="s/courses/{{course._id}}">
+        <p class="text-center">{{course.name}}</p>
+      </a>
+    </div>
+  </section>
+</div>

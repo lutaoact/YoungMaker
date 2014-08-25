@@ -101,6 +101,10 @@ angular.module 'budweiserApp', [
     $q.reject response
 
 .run ($rootScope, $location, Auth, LoginRedirector) ->
+  if Auth.getCurrentUser().$promise
+    Auth.getCurrentUser().$promise.then ()->
+      LoginRedirector.apply()
+
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, next) ->
-    LoginRedirector.set(url) if next.authenticate and !Auth.isLoggedIn()
+    LoginRedirector.set(next.url) if next.authenticate and !Auth.isLoggedIn()

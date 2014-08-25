@@ -12,16 +12,16 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
         email: $scope.user.email
         password: $scope.user.password
       ).then (me) ->
-        if !LoginRedirector.apply()
-          me.$promise.then (data)->
-            console.log data
-            if data.role is 'admin'
-              $location.url('/admin')
-            else if data.role is 'teacher'
-              $location.url('/t')
-            else if data.role is 'student'
-              $location.url('/s')
-            $location.replace()
+        Auth.getCurrentUser().$promise.then ()->
+          if !LoginRedirector.apply()
+            me.$promise.then (data)->
+              if data.role is 'admin'
+                $location.url('/admin')
+              else if data.role is 'teacher'
+                $location.url('/t')
+              else if data.role is 'student'
+                $location.url('/s')
+              $location.replace()
       .catch (err) ->
         $scope.errors.other = err.message
 

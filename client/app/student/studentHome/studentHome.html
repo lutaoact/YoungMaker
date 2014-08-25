@@ -1,19 +1,9 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-<div class="student">
-  <div class="jumbotron">
-    <div class="text-center">
-      jumbotron
-    </div>
-  </div>
-  <div class="container">
-    <section class="course-list">
-      <ul class="filter-nav">
-        <li ng-repeat="filter in filters">
-          <a href="" ng-class="{'active':viewState.currentFilter==filter.name}" ng-click="setFilter(filter.name)">{{filter.name}}</a>
-        </li>
-      </ul>
-    </section>
-  </div>
+<div ng-include="'components/navbar/navbar.html'" class="student"></div>
+
+<div ui-view="" class="student fadeZoom">
+
 </div>
+
+
 
 

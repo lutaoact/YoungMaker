@@ -51,4 +51,11 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
       .then ()->
         $state.go('student.courseList')
 
+    loadLectures: ()->
+      if $state.params.courseId
+        Restangular.all('lectures').getList({courseId: $state.params.courseId})
+        .then (lectures)->
+          $scope.course.$lectures = lectures
+
   $scope.loadCourse()
+  $scope.loadLectures()

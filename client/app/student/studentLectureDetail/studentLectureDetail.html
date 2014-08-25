@@ -1,0 +1,106 @@
+<div class="container">
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="student.courseList">主页</a>
+    </li>
+    <li>
+      <a ui-sref="student.courseDetail({courseId:course._id})">
+        {{course.name||'某课程'}}
+      </a>
+    </li>
+    <li>
+      <a ui-sref="student.lectureDetail({courseId:course._id,
+          lectureId:lecture._id})">
+        {{lecture.name||'某课时'}}
+      </a>
+    </li>
+  </ol>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="title">
+        {{lecture.name}}
+      </h3>
+      <p class="info">
+        {{lecture.info}}
+      </p>
+    </div>
+  </div>
+  <hr/>
+  <div class="row">
+    <div class="col-md-6">
+      <cool-projector on-change="activeSlide(item.slide)"
+                      disable-animation="true">
+        <cool-frame ng-repeat="slide in lecture.slides"
+                    active="slide.$active">
+          <div ng-switch on="slide.type">
+            <div ng-switch-when="activity" style="height: 310px">
+              <h4>{{slide.content.title}}</h4>
+              <div>{{slide.content.desc}}</div>
+              <div ng-repeat="option in slide.content.options">
+                <label>
+                  <input type="checkbox"
+                         ng-disabled="slide.content.$submitted || state.submitting"
+                         ng-model="option.$selected">
+                  {{option.content}}
+                </label>
+                <span ng-if="slide.content.submitted">
+                  <span ng-if="option.correct"
+                        class="glyphicon glyphicon-ok form-control-feedback">
+                      </span>
+                </span>
+              </div>
+              <button ng-disabled="slide.content.$submitted || state.submitting"
+                      class="btn btn-default"
+                      ng-disabled="state.submitting"
+                      ng-click="saveUserAnswer(slide)">
+                <span ng-if="state.submitting">
+                  <i class="fa fa-spinner fa-spin"></i> 提交中...</span>
+                <span ng-if="!state.submitting" >提交</span>
+              </button>
+            </div>
+            <div ng-switch-default>
+              <img ng-src="{{slide.content.image}}" style="margin:auto;">
+              <div class="carousel-caption">
+                <h4>Slide {{$index}}</h4>
+              </div>
+            </div>
+          </div>
+        </cool-frame>
+      </cool-projector>
+    </div>
+    <div class="col-md-6 col-xs-11">
+      <videogular vg-player-ready="onPlayerReady"
+                  vg-update-time="onUpdateTime">
+        <video class="videoPlayer">
+          <source src="https://d2dq6e731uoz0t.cloudfront.net/b797f2a33802ab921bec143dc0d0138d/as/banner_mix.mp4"
+                  type="video/mp4"/>
+        </video>
+        <vg-poster-image></vg-poster-image>
+        <vg-buffering></vg-buffering>
+        <vg-controls style="height: 50px;">
+          <vg-play-pause-button></vg-play-pause-button>
+          <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+          <vg-scrubBar>
+            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+          </vg-scrubBar>
+          <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+          <vg-volume>
+            <vg-mutebutton></vg-mutebutton>
+            <vg-volumebar></vg-volumebar>
+          </vg-volume>
+          <vg-fullscreenButton></vg-fullscreenButton>
+        </vg-controls>
+      </videogular>
+    </div>
+  </div>
+  <hr/>
+  <label>知识点</label>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="keypoint in keypoints">
+      <strong>{{keypoint.name}}</strong><br>
+      <span class="text-muted">{{keypoint._id}}</span>
+    </li>
+  </ul>
+
+</div>

@@ -1,14 +1,61 @@
 <div class="container">
   <ol class="breadcrumb">
     <li>
-      <a href="/s">主页</a>
+      <a ui-sref="student.courseList">主页</a>
     </li>
     <li>
-      <a ng-href="/s/courses/{{course._id}}">{{course.title||'某课程'}}</a>
+      <a ui-sref="student.courseDetail({courseId:course._id})">
+        {{course.name||'某课程'}}
+      </a>
     </li>
     <li>
       <a class="active">课程信息</a>
     </li>
   </ol>
+  <div class="row">
+    <div class="col-md-4">
+      <img qiniu-key="course.thumbnail" src="/assets/images/empty.jpg">
+    </div>
+
+    <div class="col-md-4">
+      <h3 class="title">
+        {{course.name}}
+        <small>{{course.category}}</small>
+      </h3>
+      <p class="info">
+        {{course.info}}
+      </p>
+    </div>
+    <div class="col-md-4">
+      <div class="thumbnail">
+        <img src="http://lorempixel.com/300/200/people/" alt="">
+        <p>
+          <h5 class="title">
+            {{course.teacher.name||'某老师'}}
+            <small>{{course.teacher.title||'某职称'}}</small>
+          </h5>
+          {{course.teacher.info}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <hr/>
+
+  <label>知识点</label>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="keypoint in keypoints">
+      <strong>{{keypoint.name}}</strong><br>
+      <span class="text-muted">{{keypoint._id}}</span>
+    </li>
+  </ul>
+  <hr/>
+  <label>课时</label>
+  <ul class="list-group">
+    <li class="list-group-item stretch" ng-repeat="lecture in course.$lectures">
+      <a ui-sref="student.lectureDetail({courseId:course._id,lectureId:lecture._id})">
+        <strong>{{lecture.name}}</strong>
+      </a>
+    </li>
+  </ul>
 
 </div>

@@ -1,7 +1,9 @@
 (function() {
-  var BaseUtils;
+  var BaseUtils, Course;
 
   BaseUtils = require('../../common/BaseUtils').BaseUtils;
+
+  Course = _u.getModel('course');
 
   exports.CourseUtils = BaseUtils.subclass({
     classname: 'CourseUtils',
@@ -14,8 +16,6 @@
       }
     },
     checkTeacher: function(teacherId, courseId) {
-      var Course;
-      Course = _u.getModel('course');
       return Course.findOneQ({
         _id: courseId,
         owners: teacherId
@@ -33,9 +33,8 @@
       });
     },
     checkStudent: function(studentId, courseId) {
-      var Classe, Course;
+      var Classe;
       Classe = _u.getModel('classe');
-      Course = _u.getModel('course');
       return Classe.findOneQ({
         students: studentId
       }).then(function(classe) {
@@ -51,6 +50,34 @@
             errCode: ErrCode.CannotReadThisCourse,
             errMsg: 'do not have permission on this course'
           });
+        }
+      }, function(err) {
+        return Q.reject(err);
+      });
+    },
+    getTeacherCourses: function(teacherId) {
+      return Course.find({
+        owners: teacherId
+      }).populate('classes', '_id name orgId yearGrade').then(function(courses) {
+        if (courses != null) {
+          return courses;
+        }
+      }, function(err) {
+        return Q.reject(err);
+      });
+    },
+    getStudentCourses: function(studentId) {
+      var Classe;
+      Classe = _u.getModel('classe');
+      return Classe.findOneQ({
+        students: studentId
+      }).then(function(classe) {
+        return Course.find({
+          classes: classe._id
+        });
+      }).then(function(courses) {
+        if (courses != null) {
+          return courses;
         }
       }, function(err) {
         return Q.reject(err);

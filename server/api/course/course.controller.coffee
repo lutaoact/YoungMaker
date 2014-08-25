@@ -14,13 +14,26 @@ Course = _u.getModel "course"
 Lecture = _u.getModel "lecture"
 KnowledgePoint = _u.getModel "knowledge_point"
 ObjectId = require("mongoose").Types.ObjectId
+CourseUtils = _u.getUtils 'course'
 
 exports.index = (req, res) ->
-  Course.find(owners:
-    $in: [req.user.id]
-  ).populate("classes", "_id name orgId yearGrade").exec (err, courses) ->
-    return handleError(res, err)  if err
-    res.json 200, courses
+
+  userId = req.user.id
+  role = req.user.role
+  switch role
+    when 'teacher'
+      CourseUtils.getTeacherCourses userId
+      .then (courses) ->
+        res.json 200, courses
+      , (err) ->
+        res.json 500, err
+
+    when 'student'
+      CourseUtils.getStudentCourses userId
+      .then (courses) ->
+        res.json 200, courses
+      , (err) ->
+        res.json 500, err
 
 
 exports.show = (req, res) ->

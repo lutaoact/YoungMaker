@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var Course, KnowledgePoint, Lecture, ObjectId, handleError, _;
+  var Course, CourseUtils, KnowledgePoint, Lecture, ObjectId, handleError, _;
 
   _ = require("lodash");
 
@@ -12,17 +12,26 @@
 
   ObjectId = require("mongoose").Types.ObjectId;
 
+  CourseUtils = _u.getUtils('course');
+
   exports.index = function(req, res) {
-    return Course.find({
-      owners: {
-        $in: [req.user.id]
-      }
-    }).populate("classes", "_id name orgId yearGrade").exec(function(err, courses) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.json(200, courses);
-    });
+    var role, userId;
+    userId = req.user.id;
+    role = req.user.role;
+    switch (role) {
+      case 'teacher':
+        return CourseUtils.getTeacherCourses(userId).then(function(courses) {
+          return res.json(200, courses);
+        }, function(err) {
+          return res.json(500, err);
+        });
+      case 'student':
+        return CourseUtils.getStudentCourses(userId).then(function(courses) {
+          return res.json(200, courses);
+        }, function(err) {
+          return res.json(500, err);
+        });
+    }
   };
 
   exports.show = function(req, res) {

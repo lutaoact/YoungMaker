@@ -1,4 +1,5 @@
 BaseUtils = require('../../common/BaseUtils').BaseUtils
+Course = _u.getModel 'course'
 
 exports.CourseUtils = BaseUtils.subclass
   classname: 'CourseUtils'
@@ -9,7 +10,6 @@ exports.CourseUtils = BaseUtils.subclass
       when 'teacher' then return @checkTeacher user._id, courseId
 
   checkTeacher: (teacherId, courseId) ->
-    Course = _u.getModel 'course'
     Course.findOneQ
       _id: courseId
       owners: teacherId
@@ -24,9 +24,8 @@ exports.CourseUtils = BaseUtils.subclass
       Q.reject err
 
   checkStudent: (studentId, courseId) ->
-    Classe = _u.getModel 'classe'
-    Course = _u.getModel 'course'
 
+    Classe = _u.getModel 'classe'
     Classe.findOneQ
       students: studentId
     .then (classe) ->
@@ -42,3 +41,27 @@ exports.CourseUtils = BaseUtils.subclass
           errMsg: 'do not have permission on this course'
     , (err) ->
       Q.reject err
+
+  getTeacherCourses : (teacherId) ->
+    Course.find
+      owners : teacherId
+    .populate 'classes', '_id name orgId yearGrade'
+    .then (courses) ->
+      return courses if courses?
+    , (err) ->
+      Q.reject err
+
+  getStudentCourses : (studentId) ->
+    Classe = _u.getModel 'classe'
+    Classe.findOneQ
+      students: studentId
+    .then (classe) ->
+      Course.find
+        classes : classe._id
+    .then (courses) ->
+      return courses if courses?
+    , (err) ->
+      Q.reject err
+
+
+

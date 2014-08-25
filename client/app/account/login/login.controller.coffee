@@ -27,4 +27,3 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
 
   $scope.loginOauth = (provider) ->
     $window.location.href = '/auth/' + provider
-

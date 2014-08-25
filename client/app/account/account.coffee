@@ -25,20 +25,17 @@ angular.module('budweiserApp')
       url: '/profile',
       templateUrl: 'app/account/profile/profile.html'
       controller: 'ProfileCtrl'
-      redirect: '/settings/profile'
       authenticate:true
     )
     .state('settings.security',
       url: '/security',
       templateUrl: 'app/account/security/security.html'
       controller: 'SecurityCtrl'
-      redirect: '/settings/security'
       authenticate:true
     )
     .state('settings.billing',
       url: '/billing',
       templateUrl: 'app/account/billing/billing.html'
       controller: 'BillingCtrl'
-      redirect: '/settings/billing'
       authenticate:true
     )

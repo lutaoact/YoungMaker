@@ -11,5 +11,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/:classeId'
     templateUrl: 'app/admin/classeManager/classeManager.detail.html'
     controller: 'ClasseManagerDetailCtrl'
-
-t

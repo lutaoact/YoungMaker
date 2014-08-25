@@ -16,7 +16,6 @@ angular.module 'budweiserAppDev', [
         setTimeout( ->
           callback.apply(_this, _arguments)
         , 800)
-      url = decodeURIComponent(url?.replace(/\+/g, '%20'))
       $delegate.call(this, method, url, data, interceptor, headers)
     for key of $delegate
       proxy[key] = $delegate[key]

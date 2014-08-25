@@ -12,3 +12,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/admin/classeManager/classeManager.detail.html'
     controller: 'ClasseManagerDetailCtrl'
 
+t

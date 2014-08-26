@@ -19,7 +19,9 @@ angular.module 'budweiserApp', [
   'com.2fdevs.videogular.plugins.buffering',
   'com.2fdevs.videogular.plugins.poster',
   'highcharts-ng',
-  'ngAnimate'
+  'ngAnimate',
+  'ui.ace',
+  'jsonFormatter'
 ]
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->

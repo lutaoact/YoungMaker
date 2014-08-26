@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $cookieStore,$localStorage,Restangular,$upload) ->
-  $scope.$storage = $localStorage;
+  $scope.$storage = $localStorage
   if not $scope.$storage.request
     $scope.$storage.request = {
       method:'GET'
@@ -103,5 +103,7 @@ angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $coo
       .error (response)->
         console.log response
 
+  $scope.aceOptions =
+    mode: 'json'
 
 

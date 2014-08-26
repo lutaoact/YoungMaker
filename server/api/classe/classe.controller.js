@@ -1,118 +1,95 @@
 (function() {
   "use strict";
-  var Classe, User, handleError, _;
-
-  _ = require("lodash");
+  var Classe;
 
   Classe = _u.getModel("classe");
 
-  User = _u.getModel("user");
-
-  exports.index = function(req, res) {
-    return User.findOne({
-      _id: req.user.id
-    }).exec(function(err, user) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return Classe.find({
-        orgId: user.orgId
-      }).select("_id name orgId yearGrade modified created").exec(function(err, classes) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.json(200, classes);
-      });
+  exports.index = function(req, res, next) {
+    var user;
+    user = req.user;
+    return Classe.findQ({
+      orgId: user.orgId
+    }).then(function(classes) {
+      logger.info(classes);
+      return res.send(classes);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.show = function(req, res) {
-    return User.findOne({
-      _id: req.user.id
-    }).exec(function(err, user) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return Classe.findById(req.params.id).where("orgId").equals(user.orgId).exec(function(err, classe) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.json(200, classe);
-      });
+  exports.show = function(req, res, next) {
+    var classeId, user;
+    user = req.user;
+    classeId = req.params.id;
+    return Classe.findOneQ({
+      _id: classeId,
+      orgId: user.orgId
+    }).then(function(classe) {
+      logger.info(classe);
+      return res.send(classe);
+    }, function(err) {
+      console.log(err);
+      return next(err);
     });
   };
 
-  exports.showStudents = function(req, res) {
-    return User.findOne({
-      _id: req.user.id
-    }).exec(function(err, user) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return Classe.findById(req.params.id).where("orgId").equals(user.orgId).populate({
-        path: "students",
-        select: "_id name email orgId avatar status"
-      }).exec(function(err, classe) {
-        if (err) {
-          return handleError(res, err);
-        }
-        console.dir(classe);
-        return res.json(200, classe.students);
-      });
+  exports.showStudents = function(req, res, next) {
+    var classeId, user;
+    user = req.user;
+    classeId = req.params.id;
+    return Classe.findOne({
+      _id: classeId,
+      orgId: user.orgId
+    }).populate('students').execQ().then(function(classe) {
+      return res.send(classe.students);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.create = function(req, res) {
-    req.body.orgId = req.user.orgId;
-    return Classe.create(req.body, function(err, classe) {
-      if (err) {
-        return handleError(res, err);
-      }
+  exports.create = function(req, res, next) {
+    var body;
+    body = req.body;
+    body.orgId = req.user.orgId;
+    return Classe.createQ(body).then(function(classe) {
+      logger.info(classe);
       return res.json(201, classe);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.update = function(req, res) {
-    if (req.body._id) {
-      delete req.body._id;
+  exports.update = function(req, res, next) {
+    var body, classeId;
+    classeId = req.params.id;
+    body = req.body;
+    if (body._id) {
+      delete body._id;
     }
-    return Classe.findById(req.params.id, function(err, classe) {
+    return Classe.findByIdQ(classeId).then(function(classe) {
       var updated;
-      if (err) {
-        return handleError(err);
-      }
-      if (!classe) {
-        return res.send(404);
-      }
-      updated = _.extend(classe, req.body);
-      return updated.save(function(err) {
-        if (err) {
-          return handleError(err);
-        }
-        return res.json(200, classe);
-      });
+      updated = _.extend(classe, body);
+      return updated.saveQ();
+    }).then(function(res) {
+      var newClasse;
+      newClasse = res[0];
+      logger.info(newClasse);
+      return res.send(newClasse);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.destroy = function(req, res) {
-    return Classe.findById(req.params.id, function(err, classe) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!classe) {
-        return res.send(404);
-      }
-      return classe.remove(function(err) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.send(204);
-      });
+  exports.destroy = function(req, res, next) {
+    var classeId;
+    classeId = req.params.id;
+    return Classe.removeQ({
+      _id: classeId
+    }).then(function() {
+      return res.send(204);
+    }, function(err) {
+      return next(err);
     });
-  };
-
-  handleError = function(res, err) {
-    return res.send(500, err);
   };
 
 }).call(this);

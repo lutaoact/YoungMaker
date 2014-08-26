@@ -20,6 +20,7 @@
     app.use('/api/organizations', require('./api/organization'));
     app.use('/api/solutions', require('./api/solution'));
     app.use('/api/qiniu', require('./api/qiniu'));
+    app.use('/api/slides', require('./api/slide'));
     app.use('/api/lectures', require('./api/lecture'));
     app.use('/api/class_progresses', require('./api/class_progress'));
     app.use('/api/knowledge_points', require('./api/knowledge_point'));

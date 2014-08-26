@@ -1,82 +1,35 @@
 (function() {
   "use strict";
-  var Category, handleError, _;
-
-  _ = require("lodash");
+  var Category;
 
   Category = _u.getModel("category");
 
-  exports.index = function(req, res) {
-    return Category.find(function(err, categories) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.json(200, categories);
+  exports.index = function(req, res, next) {
+    return Category.findQ({}).then(function(categories) {
+      return res.send(categories);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.show = function(req, res) {
-    return Category.findById(req.params.id, function(err, category) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!category) {
-        return res.send(404);
-      }
-      return res.json(category);
-    });
-  };
-
-  exports.create = function(req, res) {
-    return Category.create(req.body, function(err, category) {
-      if (err) {
-        return handleError(res, err);
-      }
+  exports.create = function(req, res, next) {
+    var body;
+    body = req.body;
+    return Category.createQ(body).then(function(category) {
       return res.json(201, category);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.update = function(req, res) {
-    if (req.body._id) {
-      delete req.body._id;
-    }
-    return Category.findById(req.params.id, function(err, category) {
-      var updated;
-      if (err) {
-        return handleError(err);
-      }
-      if (!category) {
-        return res.send(404);
-      }
-      updated = _.extend(category, req.body);
-      return updated.save(function(err) {
-        if (err) {
-          return handleError(err);
-        }
-        return res.json(200, category);
-      });
+  exports.destroy = function(req, res, next) {
+    return Category.removeQ({
+      _id: req.params.id
+    }).then(function() {
+      return res.send(204);
+    }, function(err) {
+      return next(err);
     });
-  };
-
-  exports.destroy = function(req, res) {
-    return Category.findById(req.params.id, function(err, category) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!category) {
-        return res.send(404);
-      }
-      return category.remove(function(err) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.send(204);
-      });
-    });
-  };
-
-  handleError = function(res, err) {
-    return res.send(500, err);
   };
 
 }).call(this);

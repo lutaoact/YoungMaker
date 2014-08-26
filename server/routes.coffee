@@ -1,11 +1,13 @@
 # Main application routes
 
-'use strict';
+'use strict'
 
 errors = require './components/errors'
 
 errorHandler = (err, req, res, next) ->
-  res.json err.status || 500, err
+  logger.error err
+  util = require 'util'
+  res.json err.status || 500, util.inspect err
 
 module.exports = (app) ->
 

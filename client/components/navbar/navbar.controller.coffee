@@ -11,11 +11,6 @@ angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth
         role: 'teacher'
       }
       {
-        title: '课程'
-        link: 'teacher.coursesList'
-        role: 'teacher'
-      }
-      {
         title: '主页'
         link: 'student'
         role: 'student'

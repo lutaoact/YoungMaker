@@ -13,10 +13,11 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
 
   angular.extend $scope,
 
+    categories: Restangular.all('categories').getList().$object
     course: undefined
-    uploadState:
+    state:
       uploading: false
-      progress: ''
+      uploadProgress: ''
 
     deleteLecture: (lecture)->
       Restangular.one('lectures', lecture._id).remove(courseId:$scope.course._id)
@@ -25,7 +26,8 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
         lectures.splice(lectures.indexOf(lecture), 1)
 
     deleteCourse: (course) ->
-      course.remove().then -> $state.go('teacher.home')
+      course.remove().then ->
+        $state.go('teacher.home')
 
     saveCourse: (course, form)->
       unless form.$valid then return
@@ -35,26 +37,25 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
       else
         # create new
         Restangular.all('courses').post(course)
-        .then (newCourse)->
-          $state.go('teacher.coursesDetail', id:newCourse._id)
+        .then (newCourse)-> $scope.course = newCourse
 
     onImageSelect: (files) ->
-      $scope.uploadState.uploading = true
+      $scope.state.uploading = true
       qiniuUtils.uploadFile
         files: files
         validation:
           max: 2*1024*1024
           accept: 'image'
         success: (key) ->
-          $scope.uploadState.uploading = false
+          $scope.state.uploading = false
           logoStyle ='?imageView2/2/w/210/h/140'
           $scope.course.thumbnail = key + logoStyle
           $scope.course?.patch?(thumbnail: $scope.course.thumbnail)
         fail: (error)->
-          $scope.uploadState.uploading = false
+          $scope.state.uploading = false
           notify(error)
         progress: (speed,percentage, evt)->
-          $scope.uploadState.progress = parseInt(100.0 * evt.loaded / evt.total) + '%'
+          $scope.state.uploadProgress = parseInt(100.0 * evt.loaded / evt.total) + '%'
 
   $scope.$on 'ngrr-reordered', ()->
     newLectureAssembly = []

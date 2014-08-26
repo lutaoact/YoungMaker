@@ -6,15 +6,20 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
   $scope
   $state
   $upload
+  notify
+  qiniuUtils
   Restangular
 ) ->
 
   angular.extend $scope,
 
     course: undefined
+    uploadState:
+      uploading: false
+      progress: ''
 
     deleteLecture: (lecture)->
-      $scope.course.one('lectures', lecture._id).remove()
+      Restangular.one('lectures', lecture._id).remove(courseId:$scope.course._id)
       .then ->
         lectures = $scope.course.$lectures
         lectures.splice(lectures.indexOf(lecture), 1)
@@ -22,54 +27,34 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
     saveCourse: (course, form)->
       course.put() if form.$valid
 
+    onImageSelect: (files) ->
+      $scope.uploadState.uploading = true
+      qiniuUtils.uploadFile
+        files: files
+        validation:
+          max: 2*1024*1024
+          accept: 'image'
+        success: (key) ->
+          logoStyle ='?imageView2/2/w/210/h/140'
+          $scope.course.thumbnail = key + logoStyle
+          $scope.course.patch(thumbnail: $scope.course.thumbnail)
+          .then ()->
+            $scope.uploadState.uploading = false
+        fail: (error)->
+          $scope.uploadState.uploading = false
+          notify(error)
+        progress: (speed,percentage, evt)->
+          $scope.uploadState.progress = parseInt(100.0 * evt.loaded / evt.total) + '%'
+
   $scope.$on 'ngrr-reordered', ()->
     newLectureAssembly = []
     for index in [0..($scope.course.$lectures.length - 1)]
       newLectureAssembly.push $scope.course.$lectures[index]._id
     $scope.course.patch({lectureAssembly:newLectureAssembly})
 
+  # load courses
   Restangular.one('courses',$state.params.id).get()
   .then (course)->
     $scope.course = course
     $scope.course.$lectures = Restangular.all('lectures').getList(courseId:course._id).$object
-
-  $scope.onFileSelect = (files)->
-    if not files? or files.length < 1
-      return
-    #TODO: check file type by name or file type. pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
-    if not /^.*\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|bmp|BMP)$/.test files[0].name
-      $scope.invalid = true
-      return
-    if files[0].size > 2 * 1024 * 1024
-      $scope.invalid = true
-      return
-
-    $scope.isUploading = true
-    file = files[0]
-    # get upload token
-    console.log file
-    $http.get('/api/qiniu/uptoken')
-    .success (uploadToken)->
-      qiniuParam =
-        'key': uploadToken.random + '/' + ['thumbnail', file.name.split('.').pop()].join('.')
-        'token': uploadToken.token
-      $scope.upload = $upload.upload
-        url: 'http://up.qiniu.com'
-        method: 'POST'
-        data: qiniuParam
-        withCredentials: false
-        file: file
-        fileFormDataName: 'file'
-      .progress (evt)->
-        $scope.uploadingP = parseInt(100.0 * evt.loaded / evt.total)
-      .success (data) ->
-        # file is uploaded successfully
-        console.log data
-        logoStyle ='?imageView2/2/w/210/h/140'
-        $scope.course.thumbnail = data.key + logoStyle
-        $scope.course.patch({thumbnail:$scope.course.thumbnail})
-        .then ()->
-          $scope.isUploading = false
-      .error (response)->
-        console.log response
 

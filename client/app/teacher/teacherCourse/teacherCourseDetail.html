@@ -1,12 +1,12 @@
 <div class="container">
   <form class="form-horizontal media" name="form" role="form">
     <div class="media-object pull-right">
-      <label class="btn btn-default" ng-show="!isUploading">
-        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
-        <img qiniu-key="course.thumbnail" src="/assets/images/empty.jpg"></img>
+      <label class="btn btn-default" ng-show="!uploadState.uploading">
+        <input type="file" style="display:none;" ng-file-select="onImageSelect($files)"/>
+        <img qiniu-key="course.thumbnail" src="/assets/images/empty.jpg"/>
       </label>
-      <label class="btn btn-default disabled" ng-show="isUploading">
-        <i class="fa fa-spinner fa-spin"></i>上传中
+      <label class="btn btn-default disabled" ng-show="uploadState.uploading">
+        <i class="fa fa-spinner fa-spin"></i>上传中 {{uploadState.progress}}
       </label>
     </div>
     <div class="media-body">
@@ -51,13 +51,20 @@
   <hr/>
   <label>课时</label>
   <ul class="list-group" style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
-    <li class="list-group-item stretch" ng-repeat-reorder="lecture in course.$lectures" ng-repeat-reorder-handle="div.drag-point" >
+    <li class="list-group-item stretch"
+        ng-repeat-reorder="lecture in course.$lectures"
+        ng-repeat-reorder-handle="div.drag-point">
       <div class="drag-point pull-left" draggable="true"><i class="fa fa-bars"></i></div>
-      <a ui-sref="teacher.lecturesDetail({courseId:course._id, id:lecture._id})"><strong>{{lecture.name}}</strong></a>
+      <a ui-sref="teacher.lecturesDetail({courseId:course._id, id:lecture._id})">
+        <strong>{{lecture.name}}</strong>
+      </a>
       <div class="pull-right">
-        <a ng-click="deleteLecture(lecture)" ><span class="glyphicon glyphicon-trash"></span></a>
+        <a ng-click="deleteLecture(lecture)" >
+          <span class="glyphicon glyphicon-trash"></span>
+        </a>
       </div>
     </li>
   </ul>
-  <a class="btn btn-default" ui-sref="teacher.lecturesNew({courseId:course._id})">添加</a>
+  <a class="btn btn-default"
+     ui-sref="teacher.lecturesNew({courseId:course._id})">添加</a>
 </div>

@@ -17,11 +17,9 @@
   exports.index = function(req, res, next) {
     var role, userId;
     userId = req.user.id;
-    console.dir(req.user);
     role = req.user.role;
     switch (role) {
       case 'teacher':
-        console.log('user is teacher...');
         return CourseUtils.getTeacherCourses(userId).then(function(courses) {
           return res.json(200, courses || []);
         }, function(err) {

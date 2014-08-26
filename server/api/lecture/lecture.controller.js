@@ -1,69 +1,32 @@
 (function() {
-  var Course, Lecture, handleError, _;
-
-  _ = require("lodash");
+  var Course, CourseUtils, Lecture, handleError;
 
   Lecture = _u.getModel("lecture");
 
   Course = _u.getModel("course");
 
-  exports.index = function(req, res) {
+  CourseUtils = _u.getUtils('course');
+
+  exports.index = function(req, res, next) {
     var courseId;
     courseId = req.query.courseId;
-    if (courseId) {
-      return Lecture.findOne({
-        courseId: courseId
-      }, function(err, lecture) {
-        if (err) {
-          return handleError(res, err);
-        }
-        if (!lecture) {
-          return res.send(404);
-        }
-        if (req.user.role === "teacher") {
-          Course.findOne({
-            _id: courseId,
-            owners: {
-              $in: [req.user.id]
-            }
-          }, function(err, course) {
-            if (err) {
-              return handleError(res, err);
-            }
-            if (!course) {
-              return res.send(404);
-            }
-            return res.json(200, lecture);
-          });
-        } else if (req.user.role === "student") {
-          Course.findById(courseId).populate({
-            path: "classes",
-            match: {
-              students: {
-                $in: [req.user.id]
-              }
-            }
-          }).exec(function(err, course) {
-            if (err) {
-              return handleError(res, err);
-            }
-            if (!course || 0 === course.classes.length) {
-              return res.send(404);
-            }
-            return res.json(200, lecture);
-          });
-        } else if (req.user.role === "admin") {
-          res.json(200, lecture);
-        } else {
-          res.send(404);
+    return CourseUtils.getAuthedCourseById(req.user, courseId).then(function(course) {
+      return Lecture.findQ({
+        _id: {
+          $in: course.lectureAssembly
         }
       });
-    } else {
+    }).then(function(lectures) {
+      if (lectures != null) {
+        return res.json(200, lectures);
+      }
       return res.send(404);
-    }
+    }, function(err) {
+      return next(err);
+    });
   };
 
-  exports.show = function(req, res) {
+  exports.show = function(req, res, next) {
     return Lecture.findById(req.params.id, function(err, lecture) {
       var courseId;
       if (err) {

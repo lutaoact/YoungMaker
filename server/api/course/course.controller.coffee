@@ -19,11 +19,9 @@ CourseUtils = _u.getUtils 'course'
 exports.index = (req, res, next) ->
 
   userId = req.user.id
-  console.dir req.user
   role = req.user.role
   switch role
     when 'teacher'
-      console.log 'user is teacher...'
       CourseUtils.getTeacherCourses userId
       .then (courses) ->
         res.json 200, courses || []

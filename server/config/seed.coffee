@@ -33,36 +33,54 @@ studentId = undefined
 categoryId = undefined
 mClasse = undefined
 mLecture = undefined
+mTeacher = undefined
+mStudent = undefined
+mAdmin   = undefined
 
-Q.all actions
+Q.all actions                          #加入所有静态数据
 .then (results) ->
-  User.findOneQ
-    email: 'teacher@teacher.com'
-.then (user) ->
-  ownerId = user.id
-  Category.findOneQ {}
-.then (category) ->
-  categoryId = category.id
-  Organization.findOneQ
+  Organization.findOneQ                #根据uniqueName查找organization
     uniqueName: 'cloud3'
 .then (organization) ->
   orgId = organization.id
   User.findOneQ
+    email: 'teacher@teacher.com'
+.then (teacher) ->
+  ownerId = teacher.id
+  mTeacher = teacher
+  mTeacher.orgId = orgId               #为teacher添加orgId字段
+  do mTeacher.saveQ
+.then () ->
+  User.findOneQ
+    email: 'admin@admin.com'
+.then (admin) ->
+  mAdmin = admin
+  mAdmin.orgId = orgId                 #为admin添加orgId字段
+  do mAdmin.saveQ
+.then () ->
+  User.findOneQ
     email: 'student@student.com'
 .then (student) ->
   studentId = student.id
-  removeAndCreate 'classe',
+  mStudent = student
+  mStudent.orgId = orgId               #为student添加orgId字段
+  do mStudent.saveQ
+.then () ->
+  Category.findOneQ {}
+.then (category) ->
+  categoryId = category.id
+  removeAndCreate 'classe',           #创建classe
     name : 'Class one'
     orgId : orgId
     students : [studentId]
     yearGrade : '2014'
 .then (classe) ->
   mClasse = classe
-  removeAndCreate 'lecture',
+  removeAndCreate 'lecture',          #创建lecture
     name : 'lecture 1'
 .then (lecture) ->
   mLecture = lecture
-  removeAndCreate 'course',
+  removeAndCreate 'course',           #创建course
     name : 'Music 101'
     categoryId : categoryId
     thumbnail : 'http://test.com/thumb.jpg'

@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var AsyncClass, Category, Classe, Course, Organization, User, actions, categoryId, data, mClasse, mLecture, name, orgId, ownerId, removeAndCreate, seedData, studentId;
+  var AsyncClass, Category, Classe, Course, Organization, User, actions, categoryId, data, mAdmin, mClasse, mLecture, mStudent, mTeacher, name, orgId, ownerId, removeAndCreate, seedData, studentId;
 
   require('../common/init');
 
@@ -52,25 +52,47 @@
 
   mLecture = void 0;
 
+  mTeacher = void 0;
+
+  mStudent = void 0;
+
+  mAdmin = void 0;
+
   Q.all(actions).then(function(results) {
-    return User.findOneQ({
-      email: 'teacher@teacher.com'
-    });
-  }).then(function(user) {
-    ownerId = user.id;
-    return Category.findOneQ({});
-  }).then(function(category) {
-    categoryId = category.id;
     return Organization.findOneQ({
       uniqueName: 'cloud3'
     });
   }).then(function(organization) {
     orgId = organization.id;
     return User.findOneQ({
+      email: 'teacher@teacher.com'
+    });
+  }).then(function(teacher) {
+    ownerId = teacher.id;
+    mTeacher = teacher;
+    mTeacher.orgId = orgId;
+    return mTeacher.saveQ();
+  }).then(function() {
+    return User.findOneQ({
+      email: 'admin@admin.com'
+    });
+  }).then(function(admin) {
+    mAdmin = admin;
+    mAdmin.orgId = orgId;
+    return mAdmin.saveQ();
+  }).then(function() {
+    return User.findOneQ({
       email: 'student@student.com'
     });
   }).then(function(student) {
     studentId = student.id;
+    mStudent = student;
+    mStudent.orgId = orgId;
+    return mStudent.saveQ();
+  }).then(function() {
+    return Category.findOneQ({});
+  }).then(function(category) {
+    categoryId = category.id;
     return removeAndCreate('classe', {
       name: 'Class one',
       orgId: orgId,

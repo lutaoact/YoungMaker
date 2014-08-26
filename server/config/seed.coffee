@@ -31,6 +31,8 @@ orgId = undefined
 ownerId = undefined
 studentId = undefined
 categoryId = undefined
+mClasse = undefined
+mLecture = undefined
 
 Q.all actions
 .then (results) ->
@@ -55,14 +57,20 @@ Q.all actions
     students : [studentId]
     yearGrade : '2014'
 .then (classe) ->
+  mClasse = classe
+  removeAndCreate 'lecture',
+    name : 'lecture 1'
+.then (lecture) ->
+  mLecture = lecture
   removeAndCreate 'course',
     name : 'Music 101'
     categoryId : categoryId
     thumbnail : 'http://test.com/thumb.jpg'
     info : 'This is course music 101'
     owners : [ownerId]
-    classes : [classe._id]
+    classes : [mClasse._id]
+    lectureAssembly: [mLecture._id]
+.then () ->
+  console.log 'success'
 , (err) ->
   console.log err
-.finally () ->
-  do process.exit

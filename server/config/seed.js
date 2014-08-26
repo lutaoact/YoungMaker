@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var AsyncClass, Category, Classe, Course, Organization, User, actions, categoryId, data, name, orgId, ownerId, removeAndCreate, seedData, studentId;
+  var AsyncClass, Category, Classe, Course, Organization, User, actions, categoryId, data, mClasse, mLecture, name, orgId, ownerId, removeAndCreate, seedData, studentId;
 
   require('../common/init');
 
@@ -48,6 +48,10 @@
 
   categoryId = void 0;
 
+  mClasse = void 0;
+
+  mLecture = void 0;
+
   Q.all(actions).then(function(results) {
     return User.findOneQ({
       email: 'teacher@teacher.com'
@@ -74,18 +78,25 @@
       yearGrade: '2014'
     });
   }).then(function(classe) {
+    mClasse = classe;
+    return removeAndCreate('lecture', {
+      name: 'lecture 1'
+    });
+  }).then(function(lecture) {
+    mLecture = lecture;
     return removeAndCreate('course', {
       name: 'Music 101',
       categoryId: categoryId,
       thumbnail: 'http://test.com/thumb.jpg',
       info: 'This is course music 101',
       owners: [ownerId],
-      classes: [classe._id]
+      classes: [mClasse._id],
+      lectureAssembly: [mLecture._id]
     });
+  }).then(function() {
+    return console.log('success');
   }, function(err) {
     return console.log(err);
-  })["finally"](function() {
-    return process.exit();
   });
 
 }).call(this);

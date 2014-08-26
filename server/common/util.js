@@ -134,3 +134,10 @@ function getUtils(key) {
   return new (require('../api/' + key + '/' + key + '.utils')[_u.convertToCamelCase(key) + 'Utils']);
 }
 exports.getUtils = getUtils;
+
+function findIndex(array, key) {
+  return _.findIndex(array, function(ele) {
+    return ele.toString() === key;
+  });
+}
+exports.findIndex = findIndex;

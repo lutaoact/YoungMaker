@@ -32,6 +32,7 @@ Classe = _u.getModel 'classe'
 #  console.log err
 #  console.log res
 CourseUtils = _u.getUtils 'course'
+LectureUtils = _u.getUtils 'lecture'
 #teacherId = '222222222222222222222222'
 #CourseUtils.checkTeacher teacherId, '53f9b1cd67b02bc1220d556b'
 #.then (course) ->
@@ -39,16 +40,25 @@ CourseUtils = _u.getUtils 'course'
 #, (err) ->
 #  console.log 'this is error'
 #  console.log err
-user =
+student =
   role: 'student'
-  _id: '444444444444444444444444'
+  _id: '53fbf7e19b43e4a2375266ff'
 
-CourseUtils.getAuthedCourseById user, '53f9b1cd67b02bc1220d556b'
-.then (course) ->
-  console.log course
+teacher =
+  role: 'teacher'
+  _id: '53fbf7e19b43e4a2375266fe'
+
+LectureUtils.getAuthedLectureById teacher, '53fbf7e19b43e4a237526708'
+.then (lecture) ->
+  console.log lecture
 , (err) ->
-  console.log 'this is error'
   console.log err
+#CourseUtils.getAuthedCourseById user, '53f9b1cd67b02bc1220d556b'
+#.then (course) ->
+#  console.log course
+#, (err) ->
+#  console.log 'this is error'
+#  console.log err
 #studentId = '444444444444444444444444'
 #CourseUtils.checkStudent studentId, '53f9b1cd67b02bc1220d556c'
 #.then (course) ->

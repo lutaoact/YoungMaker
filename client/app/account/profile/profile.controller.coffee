@@ -36,16 +36,21 @@ angular.module('budweiserApp').controller 'ProfileCtrl', ($scope, User, Auth, Re
 
     onFileSelect: (files)->
       $scope.isUploading = true
-      qiniuUtils.uploadFile files, {max: 5 * 1024 * 1024, accept:'image'}, (key)->
-        # file is uploaded successfully
-        $scope.me.avatar = key
-        $scope.patchMe('avatar')
-        .then (user)->
-          Auth.getCurrentUser().avatar = user.avatar
+      qiniuUtils.uploadFile
+        files: files
+        validation:
+          max: 5 * 1024 * 1024
+          accept: 'image'
+        success: (key)->
+          # file is uploaded successfully
+          $scope.me.avatar = key
+          $scope.patchMe('avatar')
+          .then (user)->
+            Auth.getCurrentUser().avatar = user.avatar
+            $scope.isUploading = false
+        fail: (error)->
           $scope.isUploading = false
-      , (error)->
-        $scope.isUploading = false
-        console.log response
+          console.log response
 
     isUploading: false
 

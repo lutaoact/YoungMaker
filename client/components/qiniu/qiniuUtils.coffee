@@ -1,18 +1,18 @@
 angular.module 'budweiserApp'
 .factory 'qiniuUtils', ($upload, $http,$q)->
-  uploadFile: (files, validation, success, fail, progress)->
-    if not files? or files.length < 1
-      fail?('file not selected')
+  uploadFile: (opts)->
+    if not opts.files? or opts.files.length < 1
+      opts.fail?('file not selected')
       return
-    switch validation.accept or 'all'
+    switch opts.validation.accept or 'all'
       when 'ppt'
-        if not /^(application\/vnd.ms-powerpoint|application\/vnd.openxmlformats-officedocument.presentationml.slideshow|application\/vnd.openxmlformats-officedocument.presentationml.presentation)$/.test files[0].type
-          fail?('invalid file type')
+        if not /^(application\/vnd.ms-powerpoint|application\/vnd.openxmlformats-officedocument.presentationml.slideshow|application\/vnd.openxmlformats-officedocument.presentationml.presentation)$/.test opts.files[0].type
+          opts.fail?('invalid file type')
           return
-    if validation.max and validation.max < files[0].size
-      fail?('size exceeded')
+    if opts.validation.max and opts.validation.max < opts.files[0].size
+      opts.fail?('size exceeded')
       return
-    file = files[0]
+    file = opts.files[0]
     # get upload token
     # TODO: tell qiniu the max size and accept types
     $http.get('/api/qiniu/uptoken')
@@ -31,33 +31,33 @@ angular.module 'budweiserApp'
       .progress (evt)->
         speed = evt.loaded / (moment().valueOf() - start.valueOf())
         percentage = parseInt(100.0 * evt.loaded / evt.total)
-        if progress
-          progress(speed,percentage, evt)
+        if opts.progress
+          opts.progress(speed,percentage, evt)
       .success (data) ->
-        success(data.key)
-      .error fail
-    .error fail
+        opts.success(data.key)
+      .error opts.fail
+    .error opts.fail
 
-  bulkUpload: (files, validation, success, fail, progress)->
-    if not files? or files.length < 1
-      fail?('file not selected')
+  bulkUpload: (opts)->
+    if not opts.files? or opts.files.length < 1
+      opts.fail?('file not selected')
       return
     promises = []
-    for file in files
+    for file in opts.files
       do (file)->
         deferred = $q.defer()
-        switch validation.accept or 'all'
+        switch opts.validation.accept or 'all'
           when 'ppt'
             if not /^(application\/vnd.ms-powerpoint|application\/vnd.openxmlformats-officedocument.presentationml.slideshow|application\/vnd.openxmlformats-officedocument.presentationml.presentation)$/.test file.type
-              fail?('文件： ' + file.name + ' 格式错误')
+              opts.fail?('文件： ' + file.name + ' 格式错误')
               return
           when 'image'
             if not /^image\//.test file.type
               console.log file.type
-              fail?('文件： ' + file.name + ' 格式错误')
+              opts.fail?('文件： ' + file.name + ' 格式错误')
               return
-        if validation.max and validation.max < file.size
-          fail?('文件： ' + file.name + ' 过大')
+        if opts.validation.max and opts.validation.max < file.size
+          opts.fail?('文件： ' + file.name + ' 过大')
           return
         promises.push deferred.promise
         # get upload token
@@ -77,8 +77,8 @@ angular.module 'budweiserApp'
           .progress (evt)->
             speed = evt.loaded / (moment().valueOf() - start.valueOf())
             percentage = parseInt(100.0 * evt.loaded / evt.total)
-            if progress
-              progress(speed,percentage, evt)
+            if opts.progress
+              opts.progress(speed,percentage, evt)
           .success (data) ->
             deferred.resolve data
           .error (response)->
@@ -90,6 +90,6 @@ angular.module 'budweiserApp'
       keys = []
       for data in result
         keys.push data.key
-      success(keys)
-    , fail
+      opts.success(keys)
+    , opts.fail
 

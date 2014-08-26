@@ -1,20 +1,44 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth) ->
-  $scope.menu = [
-    {
-      title: 'Home'
-      link: '/'
-    }
-  ]
-  $scope.isCollapsed = true
-  $scope.isLoggedIn = Auth.isLoggedIn
-  $scope.isAdmin = Auth.isAdmin
-  $scope.getCurrentUser = Auth.getCurrentUser
 
-  $scope.logout = ->
-    Auth.logout()
-    $location.path '/login'
+  angular.extend $scope,
 
-  $scope.isActive = (route) ->
-    route is $location.path()
+    menu: [
+      {
+        title: '主页'
+        link: 'teacher.home'
+        role: 'teacher'
+      }
+      {
+        title: '课程'
+        link: 'teacher.coursesList'
+        role: 'teacher'
+      }
+      {
+        title: '主页'
+        link: 'student'
+        role: 'student'
+      }
+      {
+        title: '课程'
+        link: 'student.coursesList'
+        role: 'student'
+      }
+      {
+        title: '管理组'
+        link: 'admin.classeManager'
+        role: 'admin'
+      }
+    ]
+
+    isCollapsed: true
+    isLoggedIn: Auth.isLoggedIn
+    getCurrentUser: Auth.getCurrentUser
+  
+    logout: ->
+      Auth.logout()
+      $location.path '/login'
+
+    isActive: (route) ->
+      route is $location.path()

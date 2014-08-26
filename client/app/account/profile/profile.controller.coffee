@@ -1,6 +1,7 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ProfileCtrl', ($scope, User, Auth, Restangular,$http,$upload,notify,qiniuUtils) ->
+angular.module('budweiserApp').controller 'ProfileCtrl',
+($scope, User, Auth, Restangular,$http,$upload,notify,qiniuUtils) ->
   angular.extend $scope,
 
     me: null

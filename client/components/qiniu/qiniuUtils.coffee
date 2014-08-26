@@ -8,7 +8,7 @@ angular.module 'budweiserApp'
 
     switch validation?.accept or 'all'
       when 'ppt'
-        if not /^(application\/vnd.ms-powerpoint|application\/vnd.openxmlformats-officedocument.presentationml.slideshow|application\/vnd.openxmlformats-officedocument.presentationml.presentation)$/.test file.type
+        if not /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/.test file.type
           return throwFileEx(file.name)
 
       when 'image'

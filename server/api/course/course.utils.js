@@ -28,7 +28,7 @@
           return Q.reject({
             status: 403,
             errCode: ErrCode.CannotReadThisCourse,
-            errMsg: 'do not have permission on this course'
+            errMsg: 'No course found or no permission to read it'
           });
         }
       }, function(err) {
@@ -52,7 +52,7 @@
           return Q.reject({
             status: 403,
             errCode: ErrCode.CannotReadThisCourse,
-            errMsg: 'do not have permission on this course'
+            errMsg: 'No course found or no permission to read it'
           });
         }
       }, function(err) {

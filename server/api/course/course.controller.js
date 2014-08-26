@@ -81,7 +81,10 @@
 
   exports.destroy = function(req, res, next) {
     return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
-      return course.removeQ({});
+      console.log('Found course to delete');
+      return Course.removeQ({
+        _id: course._id
+      });
     }).then(function() {
       return res.send(204);
     }, function(err) {

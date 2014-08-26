@@ -80,8 +80,10 @@ exports.update = (req, res, next) ->
 exports.destroy = (req, res, next) ->
   CourseUtils.getAuthedCourseById req.user, req.params.id
   .then (course) ->
-    course.removeQ {}
-  .then ->
+    console.log 'Found course to delete'
+    Course.removeQ
+      _id : course._id
+  .then () ->
     res.send 204
   , (err) ->
     next err

@@ -50,48 +50,36 @@
     });
   };
 
-  exports.create = function(req, res) {
+  exports.create = function(req, res, next) {
     req.body.owners = [req.user.id];
-    return Course.create(req.body, function(err, course) {
-      if (err) {
-        return handleError(res, err);
-      }
+    return Course.createQ(req.body).then(function(course) {
       return res.json(201, course);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.update = function(req, res) {
+  exports.update = function(req, res, next) {
     if (req.body._id) {
       delete req.body._id;
     }
-    if (req.body.classes) {
-      delete req.body.classes;
-    }
-    return Course.findOne({
-      _id: req.params.id,
-      owners: {
-        $in: [req.user.id]
-      }
-    }, function(err, course) {
+    return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
       var updated;
-      if (err) {
-        return handleError(err);
-      }
-      if (!course) {
-        return res.send(404);
-      }
       updated = _.extend(course, req.body);
-      updated.markModified("lectureAssembly");
+      updated.markModified('lectureAssembly');
+      updated.markModified('classes');
       return updated.save(function(err) {
         if (err) {
-          return handleError(err);
+          next(err);
         }
-        return res.json(200, course);
+        return res.json(200, updated);
       });
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.destroy = function(req, res) {
+  exports.destroy = function(req, res, next) {
     return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
       return course.removeQ({});
     }).then(function() {

@@ -52,31 +52,32 @@ exports.show = (req, res, next) ->
   , (err) ->
     next err
 
-exports.create = (req, res) ->
+exports.create = (req, res, next) ->
   req.body.owners = [req.user.id]
-  Course.create req.body, (err, course) ->
-    return handleError(res, err)  if err
+  Course.createQ req.body
+  .then (course) ->
     res.json 201, course
+  , (err) ->
+    next err
 
-exports.update = (req, res) ->
+exports.update = (req, res, next) ->
+
+  # keep old id
   delete req.body._id  if req.body._id
-  #classes can only be added by creating class_progress.
-  delete req.body.classes  if req.body.classes
-  Course.findOne
-    _id: req.params.id
-    owners:
-      $in: [req.user.id]
-  , (err, course) ->
-    return handleError(err)  if err
-    return res.send(404)  unless course
-    updated = _.extend(course, req.body)
-    updated.markModified "lectureAssembly"
+
+  CourseUtils.getAuthedCourseById req.user, req.params.id
+  .then (course) ->
+    updated = _.extend course, req.body
+    updated.markModified 'lectureAssembly'
+    updated.markModified 'classes'
     updated.save (err) ->
-      return handleError(err)  if err
-      res.json 200, course
+      next err if err
+      res.json 200, updated
+  , (err) ->
+    next err
 
 
-exports.destroy = (req, res) ->
+exports.destroy = (req, res, next) ->
   CourseUtils.getAuthedCourseById req.user, req.params.id
   .then (course) ->
     course.removeQ {}

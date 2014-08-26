@@ -4,7 +4,7 @@ Course = _u.getModel 'course'
 exports.CourseUtils = BaseUtils.subclass
   classname: 'CourseUtils'
 
-  getAuthedCourseById: (user, courseId, cb) ->
+  getAuthedCourseById: (user, courseId) ->
     switch user.role
       when 'student' then return @checkStudent user._id, courseId
       when 'teacher' then return @checkTeacher user._id, courseId

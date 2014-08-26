@@ -7,7 +7,7 @@
 
   exports.CourseUtils = BaseUtils.subclass({
     classname: 'CourseUtils',
-    getAuthedCourseById: function(user, courseId, cb) {
+    getAuthedCourseById: function(user, courseId) {
       switch (user.role) {
         case 'student':
           return this.checkStudent(user._id, courseId);

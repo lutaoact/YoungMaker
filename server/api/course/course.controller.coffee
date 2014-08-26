@@ -12,7 +12,7 @@
 _ = require("lodash")
 Course = _u.getModel "course"
 Lecture = _u.getModel "lecture"
-KnowledgePoint = _u.getModel "knowledge_point"
+KeyPoint = _u.getModel "key_point"
 ObjectId = require("mongoose").Types.ObjectId
 CourseUtils = _u.getUtils 'course'
 

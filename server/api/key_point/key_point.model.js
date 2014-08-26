@@ -8,8 +8,8 @@
 
   BaseModel = (require('../../common/BaseModel')).BaseModel;
 
-  exports.KnowledgePoint = BaseModel.subclass({
-    classname: 'KnowledgePoint',
+  exports.KeyPoint = BaseModel.subclass({
+    classname: 'KeyPoint',
     initialize: function($super) {
       this.schema = new Schema({
         name: {
@@ -28,4 +28,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=knowledge_point.model.js.map
+//# sourceMappingURL=key_point.model.js.map

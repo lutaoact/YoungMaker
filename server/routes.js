@@ -23,7 +23,7 @@
     app.use('/api/slides', require('./api/slide'));
     app.use('/api/lectures', require('./api/lecture'));
     app.use('/api/class_progresses', require('./api/class_progress'));
-    app.use('/api/knowledge_points', require('./api/knowledge_point'));
+    app.use('/api/key_points', require('./api/key_point'));
     app.use('/auth', require('./auth'));
     app.use(errorHandler);
     app.route('/:url(api|auth|components|app|bower_components|assets)/*').get(errors[404]);

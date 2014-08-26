@@ -1,7 +1,7 @@
 "use strict"
 
 express = require("express")
-controller = require("./knowledge_point.controller")
+controller = require("./key_point.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 

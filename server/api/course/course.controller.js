@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var Course, CourseUtils, KnowledgePoint, Lecture, ObjectId, _;
+  var Course, CourseUtils, KeyPoint, Lecture, ObjectId, _;
 
   _ = require("lodash");
 
@@ -8,7 +8,7 @@
 
   Lecture = _u.getModel("lecture");
 
-  KnowledgePoint = _u.getModel("knowledge_point");
+  KeyPoint = _u.getModel("key_point");
 
   ObjectId = require("mongoose").Types.ObjectId;
 

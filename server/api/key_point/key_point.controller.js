@@ -1,10 +1,10 @@
 (function() {
   "use strict";
-  var KnowledgePoint, Lecture, handleError, _;
+  var KeyPoint, Lecture, handleError, _;
 
   _ = require("lodash");
 
-  KnowledgePoint = _u.getModel("knowledge_point");
+  KeyPoint = _u.getModel("key_point");
 
   Lecture = _u.getModel("lecture");
 
@@ -16,7 +16,7 @@
         categoryId: req.query.categoryId
       };
     }
-    return KnowledgePoint.find(conditions, function(err, categories) {
+    return KeyPoint.find(conditions, function(err, categories) {
       if (err) {
         return handleError(res, err);
       }
@@ -25,23 +25,23 @@
   };
 
   exports.show = function(req, res) {
-    return KnowledgePoint.findById(req.params.id, function(err, knowledgePoint) {
+    return KeyPoint.findById(req.params.id, function(err, keyPoint) {
       if (err) {
         return handleError(res, err);
       }
-      if (!knowledgePoint) {
+      if (!keyPoint) {
         return res.send(404);
       }
-      return res.json(knowledgePoint);
+      return res.json(keyPoint);
     });
   };
 
   exports.create = function(req, res) {
-    return KnowledgePoint.create(req.body, function(err, knowledgePoint) {
+    return KeyPoint.create(req.body, function(err, keyPoint) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(201, knowledgePoint);
+      return res.json(201, keyPoint);
     });
   };
 
@@ -49,27 +49,27 @@
     if (req.body._id) {
       delete req.body._id;
     }
-    return KnowledgePoint.findById(req.params.id, function(err, knowledgePoint) {
+    return KeyPoint.findById(req.params.id, function(err, keyPoint) {
       var updated;
       if (err) {
         return handleError(err);
       }
-      if (!knowledgePoint) {
+      if (!keyPoint) {
         return res.send(404);
       }
-      updated = _.extend(knowledgePoint, req.body);
+      updated = _.extend(keyPoint, req.body);
       return updated.save(function(err) {
         if (err) {
           return handleError(err);
         }
-        return res.json(200, knowledgePoint);
+        return res.json(200, keyPoint);
       });
     });
   };
 
   exports.destroy = function(req, res) {
     return Lecture.find({
-      knowledgePoints: req.params.id
+      keyPoints: req.params.id
     }, function(err, lectures) {
       if (err) {
         return handleError(res, err);
@@ -77,14 +77,14 @@
       if (lectures.length !== 0) {
         return res.send(400);
       } else {
-        return KnowledgePoint.findById(req.params.id, function(err, knowledgePoint) {
+        return KeyPoint.findById(req.params.id, function(err, keyPoint) {
           if (err) {
             return handleError(res, err);
           }
-          if (!knowledgePoint) {
+          if (!keyPoint) {
             return res.send(404);
           }
-          return knowledgePoint.remove(function(err) {
+          return keyPoint.remove(function(err) {
             if (err) {
               return handleError(res, err);
             }
@@ -98,15 +98,15 @@
 
   /* copied from course controller, need to implement these logic in above methods
   
-     * insert knowledgePoint id to this Lecture; create a knowledgePoint when _id is not provided
-  exports.createKnowledgePoint = (req, res) ->
-    updateLectureKnowledgePoints = (knowledgePoint) ->
+     * insert keyPoint id to this Lecture; create a keyPoint when _id is not provided
+  exports.createKeyPoint = (req, res) ->
+    updateLectureKeyPoints = (keyPoint) ->
       Lecture.findByIdAndUpdate req.params.lectureId,
         $push:
-          knowledgePoints: knowledgePoint._id
+          keyPoints: keyPoint._id
       , (err, lecture) ->
         return handleError(res, err)  if err
-        res.send knowledgePoint
+        res.send keyPoint
   
     Course.findOne(
       _id: req.params.id
@@ -116,18 +116,18 @@
       return handleError(res, err)  if err
       return res.send(404)  unless course
       if req.body._id # TODO: validate this _id!
-        updateLectureKnowledgePoints req.body
+        updateLectureKeyPoints req.body
       else
-        KnowledgePoint.create req.body, (err, knowledgePoint) ->
+        KeyPoint.create req.body, (err, keyPoint) ->
           return handleError(err)  if err
-          updateLectureKnowledgePoints knowledgePoint
+          updateLectureKeyPoints keyPoint
   
   
-  exports.showKnowledgePoints = (req, res) ->
-    Lecture.findById(req.params.lectureId).populate("knowledgePoints").exec (err, lecture) ->
+  exports.showKeyPoints = (req, res) ->
+    Lecture.findById(req.params.lectureId).populate("keyPoints").exec (err, lecture) ->
       return handleError(res, err)  if err
       return res.send(404)  unless lecture
-      res.json lecture.knowledgePoints
+      res.json lecture.keyPoints
    */
 
   handleError = function(res, err) {
@@ -136,4 +136,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=knowledge_point.controller.js.map
+//# sourceMappingURL=key_point.controller.js.map

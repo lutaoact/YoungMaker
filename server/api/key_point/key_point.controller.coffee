@@ -1,79 +1,79 @@
 
 #
 # * Using Rails-like standard naming convention for endpoints.
-# * GET     /knowledge_points              ->  index
-# * POST    /knowledge_points              ->  create
-# * GET     /knowledge_points/:id          ->  show
-# * PUT     /knowledge_points/:id          ->  update
-# * DELETE  /knowledge_points/:id          ->  destroy
+# * GET     /key_points              ->  index
+# * POST    /key_points              ->  create
+# * GET     /key_points/:id          ->  show
+# * PUT     /key_points/:id          ->  update
+# * DELETE  /key_points/:id          ->  destroy
 #
 
 "use strict"
 
 _ = require("lodash")
-KnowledgePoint = _u.getModel "knowledge_point"
+KeyPoint = _u.getModel "key_point"
 Lecture = _u.getModel "lecture"
 
 
 exports.index = (req, res) ->
   conditions = {}
   conditions = categoryId: req.query.categoryId  if req.query.categoryId
-  KnowledgePoint.find conditions, (err, categories) ->
+  KeyPoint.find conditions, (err, categories) ->
     return handleError(res, err)  if err
     res.json 200, categories
 
 
 exports.show = (req, res) ->
-  KnowledgePoint.findById req.params.id, (err, knowledgePoint) ->
+  KeyPoint.findById req.params.id, (err, keyPoint) ->
     return handleError(res, err)  if err
-    return res.send(404)  unless knowledgePoint
-    res.json knowledgePoint
+    return res.send(404)  unless keyPoint
+    res.json keyPoint
 
 
 exports.create = (req, res) ->
-  KnowledgePoint.create req.body, (err, knowledgePoint) ->
+  KeyPoint.create req.body, (err, keyPoint) ->
     return handleError(res, err)  if err
-    res.json 201, knowledgePoint
+    res.json 201, keyPoint
 
 
 exports.update = (req, res) ->
   delete req.body._id  if req.body._id
-  KnowledgePoint.findById req.params.id, (err, knowledgePoint) ->
+  KeyPoint.findById req.params.id, (err, keyPoint) ->
     return handleError(err)  if err
-    return res.send(404)  unless knowledgePoint
-    updated = _.extend(knowledgePoint, req.body)
+    return res.send(404)  unless keyPoint
+    updated = _.extend(keyPoint, req.body)
     updated.save (err) ->
       return handleError(err)  if err
-      res.json 200, knowledgePoint
+      res.json 200, keyPoint
 
 
 exports.destroy = (req, res) ->
   Lecture.find
-    knowledgePoints: req.params.id
+    keyPoints: req.params.id
   , (err, lectures) ->
     return handleError(res, err)  if err
     # forbid deleting if it is referenced by Lecture
     unless lectures.length is 0
       res.send 400
     else
-      KnowledgePoint.findById req.params.id, (err, knowledgePoint) ->
+      KeyPoint.findById req.params.id, (err, keyPoint) ->
         return handleError(res, err)  if err
-        return res.send(404)  unless knowledgePoint
-        knowledgePoint.remove (err) ->
+        return res.send(404)  unless keyPoint
+        keyPoint.remove (err) ->
           return handleError(res, err)  if err
           res.send 204
 
 ### copied from course controller, need to implement these logic in above methods
 
-  # insert knowledgePoint id to this Lecture; create a knowledgePoint when _id is not provided
-exports.createKnowledgePoint = (req, res) ->
-  updateLectureKnowledgePoints = (knowledgePoint) ->
+  # insert keyPoint id to this Lecture; create a keyPoint when _id is not provided
+exports.createKeyPoint = (req, res) ->
+  updateLectureKeyPoints = (keyPoint) ->
     Lecture.findByIdAndUpdate req.params.lectureId,
       $push:
-        knowledgePoints: knowledgePoint._id
+        keyPoints: keyPoint._id
     , (err, lecture) ->
       return handleError(res, err)  if err
-      res.send knowledgePoint
+      res.send keyPoint
 
   Course.findOne(
     _id: req.params.id
@@ -83,18 +83,18 @@ exports.createKnowledgePoint = (req, res) ->
     return handleError(res, err)  if err
     return res.send(404)  unless course
     if req.body._id # TODO: validate this _id!
-      updateLectureKnowledgePoints req.body
+      updateLectureKeyPoints req.body
     else
-      KnowledgePoint.create req.body, (err, knowledgePoint) ->
+      KeyPoint.create req.body, (err, keyPoint) ->
         return handleError(err)  if err
-        updateLectureKnowledgePoints knowledgePoint
+        updateLectureKeyPoints keyPoint
 
 
-exports.showKnowledgePoints = (req, res) ->
-  Lecture.findById(req.params.lectureId).populate("knowledgePoints").exec (err, lecture) ->
+exports.showKeyPoints = (req, res) ->
+  Lecture.findById(req.params.lectureId).populate("keyPoints").exec (err, lecture) ->
     return handleError(res, err)  if err
     return res.send(404)  unless lecture
-    res.json lecture.knowledgePoints
+    res.json lecture.keyPoints
 
 ###
 handleError = (res, err) ->

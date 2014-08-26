@@ -65,7 +65,7 @@
       }
       updated = _.extend(lecture, req.body);
       updated.markModified('slides');
-      updated.markModified('knowledgePoints');
+      updated.markModified('keyPoints');
       updated.markModified('quizzes');
       updated.markModified('homeworks');
       return updated.save(function(err) {

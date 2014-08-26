@@ -5,8 +5,8 @@ Schema = mongoose.Schema
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.KnowledgePoint = BaseModel.subclass
-  classname: 'KnowledgePoint'
+exports.KeyPoint = BaseModel.subclass
+  classname: 'KeyPoint'
   initialize: ($super) ->
     @schema = new Schema
       name:

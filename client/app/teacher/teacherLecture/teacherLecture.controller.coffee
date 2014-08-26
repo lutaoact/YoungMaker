@@ -27,33 +27,42 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
     isPptProcessing: false
 
     onPPTSelect: (files)->
-      qiniuUtils.uploadFile files, {max: 50 * 1024 * 1024, accept:'ppt'}
-      , (key)->
-        $scope.excelUrl = key
-        $http.post('/api/users/sheet',{key:key,orgId:Auth.getCurrentUser().orgId})
-        .success (result)->
-          console.log result
-        .error (error)->
+      qiniuUtils.uploadFile
+        files: files
+        validation:
+          max: 50 * 1024 * 1024
+          accept: 'ppt'
+        success: (key)->
+          $scope.excelUrl = key
+          $http.post('/api/users/sheet',{key:key,orgId:Auth.getCurrentUser().orgId})
+          .success (result)->
+            console.log result
+          .error (error)->
+            console.log error
+          .finally ()->
+            $scope.isPptProcessing = false
+        fail: (error)->
+          notify(error)
           console.log error
-        .finally ()->
-          $scope.isPptProcessing = false
-      , (error)->
-        notify(error)
-        console.log error
-      , (speed,percentage, evt)->
-        notify($scope.uploadingP)
+        progress: (speed,percentage, evt)->
+          notify($scope.uploadingP)
 
     slides: []
 
     onImagesSelect: (files)->
-      qiniuUtils.bulkUpload files, {max:10*1024*1024,accept:'image'}, (keys)->
-        $scope.slides = keys
-        # $scope.lecture.patch {slides: keys}
-      , (error)->
-        notify(error)
-        console.log error
-      , (speed,percentage, evt)->
-        notify(speed + ' k/s at ' +  percentage)
+      qiniuUtils.bulkUpload
+        files: files
+        validation:
+          max: 10*1024*1024
+          accept: 'image'
+        success: (keys)->
+          $scope.slides = keys
+          # $scope.lecture.patch {slides: keys}
+        fail: (error)->
+          notify(error)
+          console.log error
+        progress: (speed,percentage, evt)->
+          notify(speed + ' k/s at ' +  percentage)
 
     addKnowledgePoint: (knowledgePoint)->
       if knowledgePoint?

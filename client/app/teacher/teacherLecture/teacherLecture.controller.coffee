@@ -9,15 +9,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
       Restangular.one('courses',$scope.$stateParams.courseId).get()
       .then (course)->
         $scope.course = course
-        Restangular.all('knowledge_points').getList({categoryId:course.categoryId})
-        .then (kps)->
-          $scope.knowledgePoints = kps
         $scope.course.one('lectures',$scope.$stateParams.id).get()
         .then (lecture)->
           $scope.lecture = lecture
-          $scope.lecture.all('knowledge_points').getList()
-          .then (kps)->
-            $scope.lecture.$knowledgePoints = kps
 
   angular.extend $scope,
     lecture: null
@@ -82,17 +76,15 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', ($scope,$state,R
       if form.$valid
         if not lecture._id
           #post
-          $scope.course.all('lectures').post(lecture)
-          .then (data)->
+          Restangular.all('lectures').post(lecture)
+          .then (newLecture)->
             notify({message:'课时已保存',template:'components/alert/success.html'})
-            $state.go('teacher.lectureDetail',{courseId:$scope.$stateParams.courseId,id:data._id})
+            $state.go('teacher.lecturesDetail', courseId: newLecture.courseId, id:newLecture._id)
         else
           #put
           lecture.put()
 
     patchLecture: ()->
-
-
 
   loadCourse()
 

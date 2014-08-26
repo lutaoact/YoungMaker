@@ -1,19 +1,37 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', ($scope,$state,Restangular,Auth, $http,$upload,$location) ->
-  $scope.message = 'Hello'
-  $scope.course = null
-  $scope.keypoints = []
+angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
+  Auth
+  $http
+  $scope
+  $state
+  $upload
+  Restangular
+) ->
 
+  angular.extend $scope,
+
+    course: undefined
+
+    deleteLecture: (lecture)->
+      $scope.course.one('lectures', lecture._id).remove()
+      .then ->
+        lectures = $scope.course.$lectures
+        lectures.splice(lectures.indexOf(lecture), 1)
+
+    saveCourse: (course, form)->
+      course.put() if form.$valid
+
+  $scope.$on 'ngrr-reordered', ()->
+    newLectureAssembly = []
+    for index in [0..($scope.course.$lectures.length - 1)]
+      newLectureAssembly.push $scope.course.$lectures[index]._id
+    $scope.course.patch({lectureAssembly:newLectureAssembly})
 
   Restangular.one('courses',$state.params.id).get()
   .then (course)->
     $scope.course = course
-    $scope.course.all('lectures').getList()
-    .then (lectures)->
-      $scope.course.$lectures = lectures
-  , (error)->
-    console.log error
+    $scope.course.$lectures = Restangular.all('lectures').getList(courseId:course._id).$object
 
   $scope.onFileSelect = (files)->
     if not files? or files.length < 1
@@ -55,42 +73,3 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', ($scope,$st
       .error (response)->
         console.log response
 
-  $scope.$on 'ngrr-reordered', ()->
-    newLectureAssembly = []
-    for index in [0..($scope.course.$lectures.length - 1)]
-      newLectureAssembly.push $scope.course.$lectures[index]._id
-    $scope.course.patch({lectureAssembly:newLectureAssembly})
-
-  $scope.deleteLecture = (lecture)->
-    $scope.course.one('lectures',lecture._id).remove()
-    .then ()->
-      $scope.course.$lectures.splice($scope.course.$lectures.indexOf(lecture),1)
-
-  $scope.createKeypoint = (keypoint)->
-    $scope.keypoints.push({_id:'new',name:keypoint})
-
-  $scope.keypoints = [{
-    _id:'1234'
-    name:'牛顿第一定律'
-    },{
-    _id:'1234'
-    name:'牛顿第二定律'
-    },{
-    _id:'1234'
-    name:'牛顿第三定律'
-    },{
-    _id:'1234'
-    name:'万有引力'
-    },{
-    _id:'1234'
-    name:'声音的发生'
-    },{
-    _id:'1234'
-    name:'声音的传播'
-    },{
-    _id:'1234'
-    name:'光源'
-    },{
-    _id:'1234'
-    name:'光的直线传播'
-    }]

@@ -1,22 +1,31 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherCourseNewCtrl', ($scope,$state,Restangular,Auth, $http,$upload,$location) ->
-  $scope.course = {}
+angular.module('budweiserApp').controller 'TeacherCourseNewCtrl', (
+  Auth
+  $http
+  $scope
+  $state
+  $upload
+  Restangular
+) ->
 
-  $scope.saveCourse = (course,form)->
-    if form.$valid
-      course.orgId = Auth.getCurrentUser().orgId
-      if not course._id
-        #post
-        Restangular.all('courses').post(course)
-        .then (data)->
-          $location.url('t/courses/' + data._id)
-      else
-        #put
-        course.put()
+  angular.extend $scope,
+
+    course: {}
+
+    saveCourse: (course,form)->
+      if form.$valid
+        if not course._id
+          #post
+          course.orgId = Auth.getCurrentUser().orgId
+          Restangular.all('courses').post(course)
+          .then (newCourse)->
+            $state.go('teacher.coursesDetails', id:newCourse._id)
+        else
+          #put
+          course.put()
 
   $scope.logoPreviewUrl = null
-
   $scope.onFileSelect = (files)->
     if not files? or files.length < 1
       return

@@ -21,7 +21,7 @@
     </div>
     <div class="form-group">
       <label class="btn btn-default" ng-show="!isPptProcessing">
-        <input type="file" style="display:none;" ng-file-select="onImagesSelect($files)" multiple accept="image/*"/>
+        <input type="file" style="display:none;" ng-file-select="onImagesSelect($files)" multiple /><!-- accept="image/*" -->
         图片
       </label>
       <label class="btn btn-default disabled" ng-show="isPptProcessing">

@@ -50,7 +50,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl', ($scope, User, Auth, Re
             $scope.isUploading = false
         fail: (error)->
           $scope.isUploading = false
-          console.log response
+          console.log error
 
     isUploading: false
 

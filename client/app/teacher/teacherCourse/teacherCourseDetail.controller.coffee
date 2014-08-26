@@ -24,8 +24,19 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
         lectures = $scope.course.$lectures
         lectures.splice(lectures.indexOf(lecture), 1)
 
+    deleteCourse: (course) ->
+      course.remove().then -> $state.go('teacher.home')
+
     saveCourse: (course, form)->
-      course.put() if form.$valid
+      unless form.$valid then return
+      if course._id?
+        # update exists
+        course.put()
+      else
+        # create new
+        Restangular.all('courses').post(course)
+        .then (newCourse)->
+          $state.go('teacher.coursesDetail', id:newCourse._id)
 
     onImageSelect: (files) ->
       $scope.uploadState.uploading = true
@@ -35,11 +46,10 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
           max: 2*1024*1024
           accept: 'image'
         success: (key) ->
+          $scope.uploadState.uploading = false
           logoStyle ='?imageView2/2/w/210/h/140'
           $scope.course.thumbnail = key + logoStyle
-          $scope.course.patch(thumbnail: $scope.course.thumbnail)
-          .then ()->
-            $scope.uploadState.uploading = false
+          $scope.course?.patch?(thumbnail: $scope.course.thumbnail)
         fail: (error)->
           $scope.uploadState.uploading = false
           notify(error)
@@ -52,9 +62,12 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
       newLectureAssembly.push $scope.course.$lectures[index]._id
     $scope.course.patch({lectureAssembly:newLectureAssembly})
 
-  # load courses
-  Restangular.one('courses',$state.params.id).get()
-  .then (course)->
-    $scope.course = course
-    $scope.course.$lectures = Restangular.all('lectures').getList(courseId:course._id).$object
+  if $state.params.id is 'new'
+    $scope.course = {}
+  else
+    # load courses
+    Restangular.one('courses',$state.params.id).get()
+    .then (course)->
+      $scope.course = course
+      $scope.course.$lectures = Restangular.all('lectures').getList(courseId:course._id).$object
 

@@ -44,27 +44,40 @@
                   ng-click="saveCourse(course,form)">
             保存
           </button>
+          <button type="button"
+                  class="btn btn-link"
+                  ng-if="course && course._id"
+                  ng-click="deleteCourse(course)">
+            删除
+          </button>
+          <a class="btn btn-link"
+             ng-if="course && !course._id"
+             ui-sref="teacher.home">
+            取消
+          </a>
         </div>
       </div>
     </div>
   </form>
   <hr/>
-  <label>课时</label>
-  <ul class="list-group" style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
-    <li class="list-group-item stretch"
-        ng-repeat-reorder="lecture in course.$lectures"
-        ng-repeat-reorder-handle="div.drag-point">
-      <div class="drag-point pull-left" draggable="true"><i class="fa fa-bars"></i></div>
-      <a ui-sref="teacher.lecturesDetail({courseId:course._id, id:lecture._id})">
-        <strong>{{lecture.name}}</strong>
-      </a>
-      <div class="pull-right">
-        <a ng-click="deleteLecture(lecture)" >
-          <span class="glyphicon glyphicon-trash"></span>
+  <div ng-if="course._id">
+    <label>课时</label>
+    <ul class="list-group" style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
+      <li class="list-group-item stretch"
+          ng-repeat-reorder="lecture in course.$lectures"
+          ng-repeat-reorder-handle="div.drag-point">
+        <div class="drag-point pull-left" draggable="true"><i class="fa fa-bars"></i></div>
+        <a ui-sref="teacher.lecturesDetail({courseId:course._id, id:lecture._id})">
+          <strong>{{lecture.name}}</strong>
         </a>
-      </div>
-    </li>
-  </ul>
-  <a class="btn btn-default"
-     ui-sref="teacher.lecturesNew({courseId:course._id})">添加</a>
+        <div class="pull-right">
+          <a ng-click="deleteLecture(lecture)" >
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </div>
+      </li>
+    </ul>
+    <a class="btn btn-default"
+       ui-sref="teacher.lecturesNew({courseId:course._id})">添加</a>
+  </div>
 </div>

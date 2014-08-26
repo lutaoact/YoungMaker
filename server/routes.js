@@ -5,7 +5,10 @@
   errors = require('./components/errors');
 
   errorHandler = function(err, req, res, next) {
-    return res.json(err.status || 500, err);
+    var util;
+    logger.error(err);
+    util = require('util');
+    return res.json(err.status || 500, util.inspect(err));
   };
 
   module.exports = function(app) {

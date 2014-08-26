@@ -352,14 +352,31 @@ Qiniu related apis
 
 ## Course Collection [/api/courses]
 
-### Get all Courses [GET]
+### Get all Courses that user has permission to read[GET]
     
 + Response 200 (application/json)
 
-        [Course,Course,Course]
+        [ 
+          { "_id": "53f758fe7c375e1ca59592dc", 
+            "name": "Music 101", 
+            "categoryId": "53f758fe7c375e1ca59592d9", 
+            "thumbnail": "http://test.com/thumb.jpg", 
+            "info": "This is course music 101", 
+            "__v": 0, 
+            "modified": "2014-08-22T14:51:42.719Z", 
+            "created": "2014-08-22T14:51:42.720Z", 
+            "classes": [ 
+                 { "_id": "53f758fe7c375e1ca59592db", 
+                   "name": "Class one", 
+                   "orgId": "53f758fe7c375e1ca59592da", 
+                   "yearGrade": "2014" } ], 
+            "owners": [ "53d085b46850008f9b91a9fe" ], 
+            "lectureAssembly": [] 
+          } 
+        ]
 
 ### Create Course [POST]
-
+Only teacher can create course
 + Request (application/json)
 
     + Header
@@ -368,41 +385,68 @@ Qiniu related apis
     
     + Body
     
-            {"name":"物理1",
-            "category_id":"xzqwersd",
-            "thumbnail":"xxadf",
-            "info":"aswqersac"
+            { 
+              "name": "Art 101", 
+              "categoryId": "53f758fe7c375e1ca59592d9", 
+              "thumbnail": "http://test.com/thumb.jpg", 
+              "info": "This is course art 101",  
+              "classes": [ "53f758fe7c375e1ca59592db" ], 
+              "lectureAssembly": []
             }
             
 + Response 200 (application/json)
         
-        {"_id":"xareqw",
-        "name":"高中物理1",
-        "category_id":"xzqwersd",
-        "category":"高一物理"
-        "thumbnail":"xxadf",
-        "info":"aswqersac"
-        }
+            { 
+              "__v": 0, 
+              "name": "Art 101", 
+              "categoryId": "53f758fe7c375e1ca59592d9", 
+              "thumbnail": "http://test.com/thumb.jpg", 
+              "info": "This is course art 101", 
+              "modified": "2014-08-26T03:21:56.524Z", 
+              "created": "2014-08-26T03:21:56.524Z", 
+              "_id": "53fbfd54e36b38dc0b5da6ec", 
+              "classes": [ "53f758fe7c375e1ca59592db" ], 
+              "owners": [ "53d085b46850008f9b91a9fe" ], 
+              "lectureAssembly": [] 
+            }
 
-## Course Detail [/api/courses/{id}]
+
+## Get Course Detail or delete course [/api/courses/{id}]
 
 + Parameters
 
-    + id (required, string, ``)
+    + id (required, string, `course id`)
 
 ### Get Course Detail [GET]
+Read course detail if user has permission to it
+
 + Response 200 (application/json)
 
-        {"_id":"xareqw",
-        "name":"高中物理1",
-        "category_id":"xzqwersd",
-        "category":"高一物理"
-        "thumbnail":"xxadf",
-        "info":"aswqersac",
-        "classes":[{"_id":"xafwedsf","name":"高二（1）班"},
-            {"_id":"xafwedsf","name":"高二（2）班"}]
-        }
-        
+            { 
+              "__v": 0, 
+              "name": "Art 101", 
+              "categoryId": "53f758fe7c375e1ca59592d9", 
+              "thumbnail": "http://test.com/thumb.jpg", 
+              "info": "This is course art 101", 
+              "modified": "2014-08-26T03:21:56.524Z", 
+              "created": "2014-08-26T03:21:56.524Z", 
+              "_id": "53fbfd54e36b38dc0b5da6ec", 
+              "classes": [ "53f758fe7c375e1ca59592db" ], 
+              "owners": [ "53d085b46850008f9b91a9fe" ], 
+              "lectureAssembly": [] 
+            }
+            
+### Delete Course [DELETE]
+Only teacher can delete course
++ Request (application/json)
+
+    + Header
+    
+            Auth:xxx
+            
++ Response 204 (application/json)
+
+
 # Group Lecture
 
 ## Lecture Collection [/api/courses/:courseId/lectures]

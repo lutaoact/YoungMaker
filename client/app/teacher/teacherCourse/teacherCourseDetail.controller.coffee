@@ -57,11 +57,8 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
         progress: (speed,percentage, evt)->
           $scope.state.uploadProgress = parseInt(100.0 * evt.loaded / evt.total) + '%'
 
-  $scope.$on 'ngrr-reordered', ()->
-    newLectureAssembly = []
-    for index in [0..($scope.course.$lectures.length - 1)]
-      newLectureAssembly.push $scope.course.$lectures[index]._id
-    $scope.course.patch({lectureAssembly:newLectureAssembly})
+  $scope.$on 'ngrr-reordered', ->
+    $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')
 
   if $state.params.id is 'new'
     $scope.course = {}
@@ -70,5 +67,7 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
     Restangular.one('courses',$state.params.id).get()
     .then (course)->
       $scope.course = course
-      $scope.course.$lectures = Restangular.all('lectures').getList(courseId:course._id).$object
+      Restangular.all('lectures').getList(courseId:course._id)
+      .then (lectures) ->
+        $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
 

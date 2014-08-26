@@ -1,55 +1,59 @@
 <div class="container">
-  <a href="/t/courses/{{$stateParams.courseId}}"><i class="fa fa-arrow-circle-o-left"></i>返回</a>
+  <a ui-sref="teacher.course({id:$state.params.courseId})">
+    <i class="fa fa-arrow-circle-o-left"></i>
+    返回
+  </a>
   <form class="form" name="form">
-    <img qiniu-key="lecture.thumbnail" alt="{{lecture.name}}" class="img-thumbnail">
+    <img qiniu-key="lecture.thumbnail"
+         alt="{{lecture.name}}"
+         class="img-thumbnail">
     <div class="form-group">
       <label for="lecture-name">课时名称</label>
-      <input class="form-control" id="lecture-name" name="name" ng-model="lecture.name" placeholder="课时名称" required>
+      <input class="form-control"
+             id="lecture-name"
+             name="name"
+             ng-model="lecture.name"
+             placeholder="课时名称"
+             required>
     </div>
     <div class="form-group">
       <label for="lecture-info">课时信息</label>
-      <input class="form-control" id="lecture-info" name="info" ng-model="lecture.info" placeholder="课时信息">
+      <input class="form-control"
+             id="lecture-info"
+             name="info"
+             ng-model="lecture.info"
+             placeholder="课时信息">
     </div>
     <div class="form-group">
       <label class="btn btn-default" ng-show="!isPptProcessing">
-        <input type="file" style="display:none;" ng-file-select="onPPTSelect($files)"/>
+        <input type="file"
+               style="display:none;"
+               ng-file-select="onPPTSelect($files)"/>
         PPT
       </label>
       <label class="btn btn-default disabled" ng-show="isPptProcessing">
-        <i class="fa fa-spinner fa-spin"></i>导入中
+        <i class="fa fa-spinner fa-spin"></i>
+        导入中
       </label>
     </div>
     <div class="form-group">
       <label class="btn btn-default" ng-show="!isPptProcessing">
-        <input type="file" style="display:none;" ng-file-select="onImagesSelect($files)" multiple /><!-- accept="image/*" -->
+        <input type="file" style="display:none;"
+               ng-file-select="onImagesSelect($files)"
+               multiple />
         图片
       </label>
       <label class="btn btn-default disabled" ng-show="isPptProcessing">
-        <i class="fa fa-spinner fa-spin"></i>导入中
+        <i class="fa fa-spinner fa-spin"></i>
+        导入中
       </label>
     </div>
     <img ng-repeat="key in slides" qiniu-key="key">
-    <button type="submit" class="btn btn-default" ng-click="saveLecture(lecture,form)">Submit</button>
-
+    <button type="submit"
+            class="btn btn-default"
+            ng-click="saveLecture(lecture, form)">
+      保存
+    </button>
   </form>
   <hr/>
-  <label>知识点</label>
-  <div class="form-group">
-    <label for="knowledgePoints">新增知识点</label>
-    <select ui-select2 ng-model="knowledgePoint" data-placeholder="选择一个知识点" name="knowledgePoints" id="knowledgePoints" ng-change="addKnowledgePoint(option)">
-      <option value=""></option>
-      <option ng-repeat="option in knowledgePoints" value="{{option._id}}">{{option.name}}</option>
-    </select>
-    or <input ng-model="newKnowledgePoint"/>
-    <button class="btn btn-default" ng-click="addKnowledgePoint(newKnowledgePoint)">添加</button>
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="knowledgePoint in lecture.$knowledgePoints">
-      <strong>{{knowledgePoint.name}}</strong><br>
-      <span class="text-muted">{{knowledgePoint._id}}</span>
-      <div class="pull-right">
-        <a ng-click="deleteKnowledgePonit(knowledgePoint)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-      </div>
-    </li>
-  </ul>
 </div>

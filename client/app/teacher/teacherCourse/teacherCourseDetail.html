@@ -86,7 +86,7 @@
           ng-repeat-reorder="lecture in course.$lectures"
           ng-repeat-reorder-handle="div.drag-point">
         <div class="drag-point pull-left" draggable="true"><i class="fa fa-bars"></i></div>
-        <a ui-sref="teacher.lecturesDetail({courseId:course._id, id:lecture._id})">
+        <a ui-sref="teacher.lecture({courseId:course._id, id:lecture._id})">
           <strong>{{lecture.name}}</strong>
         </a>
         <div class="pull-right">
@@ -97,6 +97,6 @@
       </li>
     </ul>
     <a class="btn btn-default"
-       ui-sref="teacher.lecturesNew({courseId:course._id})">添加</a>
+       ui-sref="teacher.lecture({courseId:course._id, id:'new'})">添加</a>
   </div>
 </div>

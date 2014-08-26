@@ -4,10 +4,14 @@
   <div class="row">
     <div class="col-sm-12">
       <h1>Login</h1>
-      <p>重设数据请编辑 <code>server/config/seed.coffee</code>. </p>
-      <p>默认： <code>test@test.com</code> / <code>test</code></p>
-      <p>老师： <code>teacher@teacher.com</code> / <code>teacher</code></p>
-      <p>管理员： <code>admin@admin.com</code> / <code>admin</code></p>
+      <p>重设数据请编辑 <code>server/config/seed.coffee, seed_data.coffee</code>. </p>
+      <p ng-repeat="user in testLoginUsers">
+        <button class="btn btn-default"
+                tooltip="CMD+Click 自动登录 {{user.name}} 用户"
+                ng-click="setLoginUser($event, form, user)">
+          {{user.name}}： <code>{{user.email}}</code> / <code>{{user.password}}</code>
+        </button>
+      </p>
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="login(form)" novalidate>
@@ -39,8 +43,6 @@
             注册
           </a>
         </div>
-
-        
       </form>
     </div>
   </div>

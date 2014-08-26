@@ -4,7 +4,7 @@
 
   express = require('express');
 
-  controller = require('./slide.controller');
+  controller = require('./slide_controller');
 
   auth = require('../../auth/auth.service');
 

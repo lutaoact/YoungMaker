@@ -7,7 +7,7 @@
 
   exports.CourseUtils = BaseUtils.subclass({
     classname: 'CourseUtils',
-    getAuthedCourseById: function(user, courseId, cb) {
+    getAuthedCourseById: function(user, courseId) {
       switch (user.role) {
         case 'student':
           return this.checkStudent(user._id, courseId);
@@ -63,7 +63,14 @@
       return Course.findOneQ({
         _id: courseId
       }).then(function(course) {
-        return course || {};
+        if (course != null) {
+          return course;
+        }
+        return Q.reject({
+          status: 404,
+          errCode: ErrCode.CannotReadThisCourse,
+          errMsg: 'No course found or no permission to read it'
+        });
       }, function(err) {
         return Q.reject(err);
       });
@@ -83,10 +90,14 @@
       return Classe.findOneQ({
         students: studentId
       }).then(function(classe) {
-        return Course.find({
+        console.log('Classe found...');
+        console.dir(classe);
+        return Course.findQ({
           classes: classe._id
         });
       }).then(function(courses) {
+        console.log('Found courses ...');
+        console.dir(courses);
         return courses;
       }, function(err) {
         return Q.reject(err);

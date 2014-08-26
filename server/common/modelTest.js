@@ -1,5 +1,5 @@
 (function() {
-  var Classe, Course, CourseUtils, classe, course, user;
+  var Classe, Course, CourseUtils, LectureUtils, classe, course, student, teacher;
 
   require('./init');
 
@@ -22,15 +22,21 @@
 
   CourseUtils = _u.getUtils('course');
 
-  user = {
+  LectureUtils = _u.getUtils('lecture');
+
+  student = {
     role: 'student',
-    _id: '444444444444444444444444'
+    _id: '53fbf7e19b43e4a2375266ff'
   };
 
-  CourseUtils.getAuthedCourseById(user, '53f9b1cd67b02bc1220d556b').then(function(course) {
-    return console.log(course);
+  teacher = {
+    role: 'teacher',
+    _id: '53fbf7e19b43e4a2375266fe'
+  };
+
+  LectureUtils.getAuthedLectureById(teacher, '53fbf7e19b43e4a237526708').then(function(lecture) {
+    return console.log(lecture);
   }, function(err) {
-    console.log('this is error');
     return console.log(err);
   });
 

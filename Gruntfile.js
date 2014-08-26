@@ -621,7 +621,7 @@ module.exports = function (grunt) {
     setTimeout(function () {
       grunt.log.writeln('Done waiting!');
       done();
-    }, 500);
+    }, 1000);
   });
 
   grunt.registerTask('express-keepalive', 'Keep grunt running', function() {

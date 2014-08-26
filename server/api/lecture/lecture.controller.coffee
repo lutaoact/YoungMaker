@@ -8,49 +8,24 @@
 # * DELETE  /lecture/:id          ->  destroy
 # 
 
-_ = require("lodash")
 Lecture = _u.getModel "lecture"
 Course = _u.getModel "course"
+CourseUtils = _u.getUtils 'course'
 
-exports.index = (req, res) ->
+exports.index = (req, res, next) ->
   courseId = req.query.courseId
-  if courseId
-    Lecture.findOne
-      courseId: courseId
-    , (err, lecture) ->
-      return handleError(res, err)  if err
-      return res.send(404)  unless lecture
-      if req.user.role is "teacher"
-        Course.findOne
-          _id: courseId
-          owners:
-            $in: [req.user.id]
-        , (err, course) ->
-          return handleError(res, err)  if err
-          return res.send(404)  unless course
-          res.json 200, lecture
+  CourseUtils.getAuthedCourseById req.user, courseId
+  .then (course) ->
+    Lecture.findQ
+      _id :
+        $in : course.lectureAssembly
+  .then (lectures) ->
+    return res.json 200, lectures if lectures?
+    return res.send 404
+  , (err) ->
+    next err
 
-      else if req.user.role is "student"
-        Course.findById(courseId).populate(
-          path: "classes"
-          match:
-            students:
-              $in: [req.user.id]
-        ).exec (err, course) ->
-          return handleError(res, err)  if err
-          return res.send(404)  if not course or 0 is course.classes.length
-          res.json 200, lecture
-
-      else if req.user.role is "admin"
-        res.json 200, lecture
-      else
-        res.send 404
-      return
-
-  else
-    res.send 404
-
-exports.show = (req, res) ->
+exports.show = (req, res, next) ->
   Lecture.findById req.params.id, (err, lecture) ->
     return handleError(res, err)  if err
     return res.send(404)  unless lecture

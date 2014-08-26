@@ -21,7 +21,7 @@ exports.CourseUtils = BaseUtils.subclass
         Q.reject
           status : 403
           errCode : ErrCode.CannotReadThisCourse
-          errMsg : 'do not have permission on this course'
+          errMsg : 'No course found or no permission to read it'
     , (err) ->
       Q.reject err
 
@@ -39,8 +39,9 @@ exports.CourseUtils = BaseUtils.subclass
         return course
       else
         Q.reject
+          status : 403
           errCode: ErrCode.CannotReadThisCourse
-          errMsg: 'do not have permission on this course'
+          errMsg : 'No course found or no permission to read it'
     , (err) ->
       Q.reject err
 
@@ -73,10 +74,4 @@ exports.CourseUtils = BaseUtils.subclass
     .then (courses) ->
       return courses
     , (err) ->
-      console.log 'Error...'
-      console.dir err
       Q.reject err
-
-
-
-

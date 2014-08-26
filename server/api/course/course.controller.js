@@ -21,19 +21,19 @@
     switch (role) {
       case 'teacher':
         return CourseUtils.getTeacherCourses(userId).then(function(courses) {
-          return res.json(200, courses || []);
+          return res.send(courses);
         }, function(err) {
           return next(err);
         });
       case 'student':
         return CourseUtils.getStudentCourses(userId).then(function(courses) {
-          return res.json(200, courses || []);
+          return res.send(courses);
         }, function(err) {
           return next(err);
         });
       case 'admin':
         return Course.findQ({}).then(function(courses) {
-          return res.json(200, courses || []);
+          return res.send(courses);
         }, function(err) {
           return next(err);
         });
@@ -42,7 +42,7 @@
 
   exports.show = function(req, res, next) {
     return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
-      return res.json(200, course || {});
+      return res.send(course);
     }, function(err) {
       return next(err);
     });
@@ -70,7 +70,7 @@
         if (err) {
           next(err);
         }
-        return res.json(200, updated);
+        return res.send(updated);
       });
     }, function(err) {
       return next(err);

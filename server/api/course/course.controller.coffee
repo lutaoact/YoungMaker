@@ -24,21 +24,21 @@ exports.index = (req, res, next) ->
     when 'teacher'
       CourseUtils.getTeacherCourses userId
       .then (courses) ->
-        res.json 200, courses || []
+        res.send courses
       , (err) ->
         next err
 
     when 'student'
       CourseUtils.getStudentCourses userId
       .then (courses) ->
-        res.json 200, courses || []
+        res.send courses
       , (err) ->
         next err
 
     when 'admin'
       Course.findQ {}
       .then (courses) ->
-        res.json 200, courses || []
+        res.send courses
       , (err) ->
         next err
 
@@ -46,7 +46,7 @@ exports.index = (req, res, next) ->
 exports.show = (req, res, next) ->
   CourseUtils.getAuthedCourseById req.user, req.params.id
   .then (course) ->
-    res.json 200, course || {}
+    res.send course
   , (err) ->
     next err
 
@@ -70,7 +70,7 @@ exports.update = (req, res, next) ->
     updated.markModified 'classes'
     updated.save (err) ->
       next err if err
-      res.json 200, updated
+      res.send updated
   , (err) ->
     next err
 

@@ -31,9 +31,9 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
       $window.location.href = '/auth/' + provider
 
     testLoginUsers: [
-      name:'Default'
-      email:'test@test.com'
-      password: 'test'
+      name:'Student'
+      email:'student@student.com'
+      password: 'student'
     ,
       name:'Teacher'
       email:'teacher@teacher.com'

@@ -1,14 +1,19 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Courses:</h1>
-      <ul class="nav nav-tabs nav-stacked col-lg-6" ng-repeat="course in courses">
-        <li><a href="/t/courses/{{course._id}}" tooltip="{{course.info}}">{{course.name}}</a></li>
+      <h1 class="page-header">课程：</h1>
+      <ul class="nav nav-tabs nav-stacked col-lg-6"
+          ng-repeat="course in courses">
+        <li>
+          <a ui-sref="teacher.coursesDetail({id:course._id})"
+             tooltip="{{course.info}}">
+            {{course.name}}
+          </a>
+        </li>
       </ul>
     </div>
   </div>
-
-  <a class="btn btn-primary" href="/t/courses/new">Add New</a>
+  <a class="btn btn-primary" ui-sref="teacher.coursesNew">添加课程</a>
 </div>
 
 

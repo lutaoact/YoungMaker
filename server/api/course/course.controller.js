@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var Course, CourseUtils, KnowledgePoint, Lecture, ObjectId, handleError, _;
+  var Course, CourseUtils, KnowledgePoint, Lecture, ObjectId, _;
 
   _ = require("lodash");
 
@@ -46,7 +46,7 @@
     return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
       return res.json(200, course || {});
     }, function(err) {
-      return res.json(err.status, err);
+      return next(err);
     });
   };
 
@@ -92,24 +92,13 @@
   };
 
   exports.destroy = function(req, res) {
-    return Course.findById(req.params.id, function(err, course) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!course) {
-        return res.send(404);
-      }
-      return course.remove(function(err) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.send(204);
-      });
+    return CourseUtils.getAuthedCourseById(req.user, req.params.id).then(function(course) {
+      return course.removeQ({});
+    }).then(function() {
+      return res.send(204);
+    }, function(err) {
+      return next(err);
     });
-  };
-
-  handleError = function(res, err) {
-    return res.send(500, err);
   };
 
 }).call(this);

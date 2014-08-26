@@ -156,10 +156,9 @@
   exports.me = function(req, res, next) {
     var userId;
     userId = req.user._id;
-    User.findOne({
+    return User.findOne({
       _id: userId
-    }, '-salt -hashedPassword');
-    return function(err, user) {
+    }, '-salt -hashedPassword', function(err, user) {
       if (err) {
         next(err);
       }
@@ -167,7 +166,7 @@
         return res.json(401);
       }
       return res.json(200, user);
-    };
+    });
   };
 
 

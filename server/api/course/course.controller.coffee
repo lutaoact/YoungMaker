@@ -50,8 +50,7 @@ exports.show = (req, res, next) ->
   .then (course) ->
     res.json 200, course || {}
   , (err) ->
-    res.json err.status, err
-    #next err
+    next err
 
 exports.create = (req, res) ->
   req.body.owners = [req.user.id]
@@ -78,16 +77,10 @@ exports.update = (req, res) ->
 
 
 exports.destroy = (req, res) ->
-  Course.findById req.params.id, (err, course) ->
-    return handleError(res, err)  if err
-    return res.send(404)  unless course
-    course.remove (err) ->
-      return handleError(res, err)  if err
-      res.send 204
-
-
-
-
-
-handleError = (res, err) ->
-  res.send 500, err
+  CourseUtils.getAuthedCourseById req.user, req.params.id
+  .then (course) ->
+    course.removeQ {}
+  .then ->
+    res.send 204
+  , (err) ->
+    next err

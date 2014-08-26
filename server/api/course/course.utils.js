@@ -50,6 +50,7 @@
           return course;
         } else {
           return Q.reject({
+            status: 403,
             errCode: ErrCode.CannotReadThisCourse,
             errMsg: 'do not have permission on this course'
           });
@@ -88,8 +89,6 @@
       }).then(function(courses) {
         return courses;
       }, function(err) {
-        console.log('Error...');
-        console.dir(err);
         return Q.reject(err);
       });
     }

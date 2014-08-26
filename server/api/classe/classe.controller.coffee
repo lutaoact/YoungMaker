@@ -9,64 +9,77 @@
 #
 "use strict"
 
-_ = require("lodash")
 Classe = _u.getModel "classe"
-User = _u.getModel "user"
 
-exports.index = (req, res) ->
-  User.findOne(_id: req.user.id).exec (err, user) ->
-    return handleError(res, err)  if err
-    Classe.find(orgId: user.orgId).select("_id name orgId yearGrade modified created").exec (err, classes) ->
-      return handleError(res, err)  if err
-      res.json 200, classes
+exports.index = (req, res, next) ->
+  user = req.user
+  Classe.findQ
+    orgId: user.orgId
+  .then (classes) ->
+    logger.info classes
+    res.send classes
+  , (err) ->
+    next err
 
+exports.show = (req, res, next) ->
+  user = req.user
+  classeId = req.params.id
+  Classe.findOneQ
+    _id: classeId
+    orgId: user.orgId
+  .then (classe) ->
+    logger.info classe
+    res.send classe
+  , (err) ->
+    console.log err
+    next err
 
-exports.show = (req, res) ->
-  User.findOne(_id: req.user.id).exec (err, user) ->
-    return handleError(res, err)  if err
-    Classe.findById(req.params.id).where("orgId").equals(user.orgId).exec (err, classe) ->
-      return handleError(res, err)  if err
-      res.json 200, classe
+exports.showStudents = (req, res, next) ->
+  user = req.user
+  classeId = req.params.id
 
+  Classe.findOne
+    _id: classeId
+    orgId: user.orgId
+  .populate 'students'
+  .execQ()
+  .then (classe) ->
+    res.send classe.students
+  , (err) ->
+    next err
 
-exports.showStudents = (req, res) ->
-  User.findOne(_id: req.user.id).exec (err, user) ->
-    return handleError(res, err)  if err
-    Classe.findById(req.params.id).where("orgId").equals(user.orgId).populate(
-      path: "students"
-      select: "_id name email orgId avatar status"
-    ).exec (err, classe) ->
-      return handleError(res, err)  if err
-      console.dir classe
-      res.json 200, classe.students
+exports.create = (req, res, next) ->
+  body = req.body
+  body.orgId = req.user.orgId
 
-
-exports.create = (req, res) ->
-  req.body.orgId = req.user.orgId
-  Classe.create req.body, (err, classe) ->
-    return handleError(res, err)  if err
+  Classe.createQ body
+  .then (classe) ->
+    logger.info classe
     res.json 201, classe
+  , (err) ->
+    next err
 
+exports.update = (req, res, next) ->
+  classeId = req.params.id
+  body = req.body
+  delete body._id if body._id
 
-exports.update = (req, res) ->
-  delete req.body._id  if req.body._id
-  Classe.findById req.params.id, (err, classe) ->
-    return handleError(err)  if err
-    return res.send(404)  unless classe
-    updated = _.extend(classe, req.body)
-    updated.save (err) ->
-      return handleError(err)  if err
-      res.json 200, classe
+  Classe.findByIdQ classeId
+  .then (classe) ->
+    updated = _.extend classe, body
+    do updated.saveQ
+  .then (res) ->
+    newClasse = res[0]
+    logger.info newClasse
+    res.send newClasse
+  , (err) ->
+    next err
 
-
-exports.destroy = (req, res) ->
-  Classe.findById req.params.id, (err, classe) ->
-    return handleError(res, err)  if err
-    return res.send(404)  unless classe
-    classe.remove (err) ->
-      return handleError(res, err)  if err
-      res.send 204
-
-
-handleError = (res, err) ->
-  res.send 500, err
+exports.destroy = (req, res, next) ->
+  classeId = req.params.id
+  Classe.removeQ
+    _id: classeId
+  .then () ->
+    res.send 204
+  , (err) ->
+    next err

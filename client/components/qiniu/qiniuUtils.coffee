@@ -1,19 +1,18 @@
 angular.module 'budweiserApp'
 .factory 'qiniuUtils', ($upload, $http,$q)->
+  rexDict =
+    ppt: /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/
+    image: /^image\//
+    excel: /^application\//
+
   validate = (validation, file)->
     throwFileEx = (fileName)->
       '文件： ' + fileName + ' 格式错误'
     if (validation?.max or Infinity) < file.size
       return '文件： ' + file.name + ' 过大'
 
-    switch validation?.accept or 'all'
-      when 'ppt'
-        if not /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/.test file.type
-          return throwFileEx(file.name)
-
-      when 'image'
-        if not /^image\//.test file.type
-          return throwFileEx(file.name)
+    fileType = validation?.accept or 'all'
+    return throwFileEx(file.name) if rexDict[fileType]?.test file.type is false
 
     true
 

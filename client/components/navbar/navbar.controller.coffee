@@ -1,6 +1,12 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth, $state) ->
+angular.module('budweiserApp').controller 'NavbarCtrl',
+(
+  $scope
+  $location
+  Auth
+  $state
+) ->
 
   angular.extend $scope,
 

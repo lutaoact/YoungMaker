@@ -1,8 +1,32 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'MainCtrl', ($scope) ->
+angular.module('budweiserApp').controller 'MainCtrl',
+(
+  $scope
+  $http
+  Auth
+  $state
+  $location
+) ->
 
   angular.extend $scope,
+    menu: [
+      {
+        title: '主页'
+        link: 'teacher.home'
+        role: 'teacher'
+      }
+      {
+        title: '主页'
+        link: 'student.courseList'
+        role: 'student'
+      }
+      {
+        title: '管理组'
+        link: 'admin.classeManager'
+        role: 'admin'
+      }
+    ]
     brands: null
 
     loadBrands: ()->
@@ -71,6 +95,16 @@ angular.module('budweiserApp').controller 'MainCtrl', ($scope) ->
         title: ['Frontend', 'Backend', 'Designer'][id % 3]
         name: 'Lorem ' + id
         avatar: 'http://lorempixel.com/128/128/people/?id=' + id
+    # Nav bar
+    isLoggedIn: Auth.isLoggedIn
+    getCurrentUser: Auth.getCurrentUser
+
+    logout: ->
+      Auth.logout()
+      $location.path '/login'
+
+    isActive: (route) ->
+      route is $state.current.name
 
   $scope.loadBrands() and
   $scope.loadFeatures() and

@@ -23,14 +23,18 @@
         <li>
           <a href="#footer" du-smooth-scroll offset="50" du-scrollspy>支持</a>
         </li>
+        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+          <a ui-sref="{{item.link}}"
+             ng-if="item.role == getCurrentUser().role">{{item.title}}</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="{active: isActive()}">
-          <a href="/signup">注册</a>
-        </li>
-        <li class="{active: isActive()}">
-          <a ng-href="/login">登陆</a>
-        </li>
+        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">注册</a></li>
+        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">登录</a></li>
+        <li ng-show="isLoggedIn()"><p class="navbar-text">你好，{{ getCurrentUser().name }}</p> </li>
+        <li ng-show="isLoggedIn()"><img qiniu-key="getCurrentUser().avatar" style="width:50px;height:50px;" suffix="?imageView2/1/w/64/h/64"></li>
+        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">退出</a></li>
       </ul>
     </div>
   </div>

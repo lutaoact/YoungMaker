@@ -13,12 +13,13 @@
       </li>
     </ul>
     <div class="row">
-      <a class="thumbnail col-md-3"
-         ng-repeat="course in courses"
-         ng-href="s/courses/{{course._id}}"
-         tooltip="{{course.info}}">
-        <p class="text-center">{{course.name}}</p>
-      </a>
+      <div class="thumbnail col-md-3">
+        <a ng-repeat="course in courses"
+           ng-href="s/courses/{{course._id}}"
+           tooltip="{{course.info}}">
+          <p class="text-center">{{course.name}}</p>
+        </a>
+      </div>
     </div>
   </section>
 </div>

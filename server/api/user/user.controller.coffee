@@ -75,9 +75,20 @@ exports.showByEmail = (req, res, next) ->
   restriction: 'admin'
 ###
 exports.destroy = (req, res, next) ->
-  User.findByIdAndRemoveQ req.params.id
+  userId = req.params.id
+  userObj = undefined
+  User.findByIdAndRemoveQ userId
   .then (user) ->
-    res.send user
+    userObj = user
+    Classe.findOneQ
+      students : userId
+  .then (classe) ->
+    if classe?
+      _.remove classe.students, (item) -> item.toString() is userId
+      classe.markModified 'students'
+      classe.saveQ()
+  .then (classe) ->
+    res.send userObj
   , (err) ->
     next err
 
@@ -142,7 +153,7 @@ updateClasseStudents = (res, next, classeId, studentList, importReport) ->
     return res.send 404 if not classe?
 
     logger.info 'Found classe with id ' + classe.id
-    classe.students = _.merge classe.students, studentList
+    classe.students = _.union classe.students, studentList
     classe.markModified 'students'
     classe.saveQ()
   .then (saved) ->

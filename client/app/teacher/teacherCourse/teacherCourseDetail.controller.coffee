@@ -3,20 +3,34 @@
 angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
   Auth
   $http
+  notify
   $scope
   $state
   $upload
-  notify
+  Classes
   qiniuUtils
+  Categories
   Restangular
 ) ->
 
+  loadCourse = ->
+    if $state.params.id is 'new'
+      $scope.course = {}
+    else
+      # load courses
+      Restangular.one('courses',$state.params.id).get()
+      .then (course)->
+        $scope.course = course
+        Restangular.all('lectures').getList(courseId:course._id)
+        .then (lectures) ->
+          $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
+
+
   angular.extend $scope,
 
-    categories: Restangular.all('categories').getList().$object
+    categories: Categories
+    classes: Classes
     course: undefined
-    classes: []
-    displayNav: 'lectures'
     state:
       uploading: false
       uploadProgress: ''
@@ -74,18 +88,4 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
   $scope.$on 'ngrr-reordered', ->
     $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')
 
-  if $state.params.id is 'new'
-    $scope.course = {}
-  else
-    # load courses
-    Restangular.one('courses',$state.params.id).get()
-    .then (course)->
-      $scope.course = course
-      Restangular.all('lectures').getList(courseId:course._id)
-      .then (lectures) ->
-        $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
-
-  Restangular.all('classes').getList()
-  .then (classes) ->
-    $scope.classes = classes
-
+  loadCourse()

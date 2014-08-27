@@ -1,33 +1,36 @@
 'use strict'
 
 angular.module 'budweiserApp', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'ui.bootstrap',
-  'btford.socket-io',
-  'ui.router',
-  'ngStorage',
-  'ui.select2',
-  'angularFileUpload',
-  'restangular',
-  'cgNotify',
-  'ngRepeatReorder',
-  'com.2fdevs.videogular',
-  'com.2fdevs.videogular.plugins.controls',
-  'com.2fdevs.videogular.plugins.overlayplay',
-  'com.2fdevs.videogular.plugins.buffering',
-  'com.2fdevs.videogular.plugins.poster',
-  'highcharts-ng',
-  'ngAnimate',
-  'ui.ace',
+  'ngCookies'
+  'ngResource'
+  'ngSanitize'
+  'ui.bootstrap'
+  'btford.socket-io'
+  'ui.router'
+  'ngStorage'
+  'ui.select2'
+  'angularFileUpload'
+  'restangular'
+  'cgNotify'
+  'duScroll'
+  'ngRepeatReorder'
+  'com.2fdevs.videogular'
+  'com.2fdevs.videogular.plugins.controls'
+  'com.2fdevs.videogular.plugins.overlayplay'
+  'com.2fdevs.videogular.plugins.buffering'
+  'com.2fdevs.videogular.plugins.poster'
+  'highcharts-ng'
+  'ngAnimate'
+  'ui.ace'
   'jsonFormatter'
 ]
-
+.constant 'configs',
+  baseUrl: ''
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
+  $httpProvider.interceptors.push 'urlInterceptor'
   $httpProvider.interceptors.push 'patchInterceptor'
   $httpProvider.interceptors.push 'loadingInterceptor'
 
@@ -36,6 +39,11 @@ angular.module 'budweiserApp', [
   RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: "_id")
 
+.factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
+  # Add authorization token to headers
+  request: (config) ->
+    config.url = configs.baseUrl + config.url if /^(|\/)(api|auth)/.test config.url
+    config
 # Override patch to put
 .factory 'patchInterceptor', ($location) ->
   request: (config) ->

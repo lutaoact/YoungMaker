@@ -1,4 +1,14 @@
 @btn-primary-border: @base-color;
 .btn{
   .transition(all .3s ease-in-out);
+
+  &,
+  &:active,
+  &.active {
+    &:focus {
+      outline: none;
+      // outline: 1px auto -webkit-focus-ring-color;
+      // outline-offset: -2px;
+    }
+  }
 }

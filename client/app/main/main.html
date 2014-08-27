@@ -1,37 +1,189 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-
-<header class="jumbotron">
+<div class="navbar navbar-default navbar-fixed-top">
   <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-lg-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}<button type="button" class="close" ng-click="deleteThing(thing)">&times;</button></a></li>
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" ng-click="isOpen = !isOpen">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">Cloud3Edu</a>
+    </div>
+    <div collapse="!isOpen" class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#features" du-smooth-scroll offset="50" du-scrollspy>特色</a>
+        </li>
+        <li>
+          <a href="#showcases" du-smooth-scroll offset="50" du-scrollspy>客户案例</a>
+        </li>
+        <li>
+          <a href="#pricing" du-smooth-scroll offset="50" du-scrollspy>价格</a>
+        </li>
+        <li>
+          <a href="#footer" du-smooth-scroll offset="50" du-scrollspy>支持</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="{active: isActive()}">
+          <a href="/signup">注册</a>
+        </li>
+        <li class="{active: isActive()}">
+          <a ng-href="/login">登陆</a>
+        </li>
       </ul>
     </div>
   </div>
-
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new thing here." ng-model="newThing">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="addThing()">Add New</button>
-      </span>
-    </p>
-  </form>
 </div>
 
-<footer class="footer">
+<section class="main-section" id="features">
+
+  <carousel interval="'5000'"  class="brand-cast" disable-animation="true">
+    <slide ng-repeat="brand in brands">
+      <div class="brand" ng-style="{'background-image':'url(' + brand.url + ')'}">
+        <div class="carousel-caption">
+          <div class="title">{{brand.title}}</div>
+        </div>
+      </div>
+    </slide>
+  </carousel>
+
   <div class="container">
-      <p><a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+    <div class="section_header">
+      <h3>
+        Features
+      </h3>
+    </div>
+
+    <div class="row feature" ng-repeat="feature in features">
+      <div class="col-sm-6 image">
+        <img ng-src="{{feature.image}}">
+      </div>
+      <div class="col-sm-6 info">
+        <h3>{{feature.title}}</h3>
+        <p>{{feature.content}}</p>
+      </div>
+    </div>
   </div>
-</footer>
+
+</section>
+
+<section class="main-section" id="showcases">
+  <div class="container">
+    <div class="section_header">
+      <h3>
+        Showcases
+      </h3>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 showcase" ng-repeat="showcase in showcases">
+        <div class="thumbnail thumbnail-kenburn">
+          <div class="overflow-hidden">
+            <img ng-src="{{showcase.thumbnail}}" alt="" class="img-responsive">
+          </div>
+          <div class="caption">
+            <h5>{{showcase.title}}</h5>
+            <p>{{showcase.desc}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="main-section" id="pricing">
+  <div class="container">
+    <div class="section_header">
+      <h3>
+        Pricing
+      </h3>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 plan" ng-repeat="plan in plans" ng-class="{'main':plan.main}">
+        <div class="thumbnail">
+          <h5>{{plan.title}}</h5>
+          <h3>{{plan.price}}<small>/month</small></h3>
+
+          <div class="details">
+            <p ng-repeat="detail in plan.details">
+              <strong>{{detail.sum}}</strong>
+              {{detail.item}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="main-section home-footer" id="footer">
+  <div class="container">
+    <div class="about">
+      <div class="section_header">
+        <h3>
+          About Us
+        </h3>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 staff" ng-repeat="staff in staffs">
+          <div class="avatar" ng-style="{'background-image':'url('+ staff.avatar +')'}">
+          </div>
+          <h6>{{staff.title}}</h6>
+          <h3>{{staff.name}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="contact">
+      <div class="row">
+        <div class="form-main col-sm-6">
+          <div class="section_header">
+            <h3>
+              Contact
+            </h3>
+          </div>
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Name" required="required">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Email" required="required">
+            </div>
+            <div class="form-group">
+              <textarea type="text" class="form-control" placeholder="Message" required="required"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">发表</button>
+          </form>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="section_header">
+            <h3>
+              Follow Us
+            </h3>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 social">
+              <a><i class="fa fa-weixin"></i></a>
+            </div>
+            <div class="col-sm-4 social">
+              <a><i class="fa fa-weibo"></i></a>
+            </div>
+            <div class="col-sm-4 social">
+              <a><i class="fa fa-twitter"></i></a>
+            </div>
+          </div>
+          <div class="footer">
+            &copy;cloud3edu - 沪ICP备 xxx号 - <a href="">合作伙伴们</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+

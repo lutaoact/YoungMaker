@@ -1,21 +1,77 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'MainCtrl', ($scope, $http, socket) ->
-  $scope.awesomeThings = []
+angular.module('budweiserApp').controller 'MainCtrl', ($scope, $http) ->
 
-  $http.get('/api/things').success (awesomeThings) ->
-    $scope.awesomeThings = awesomeThings
-    socket.syncUpdates 'thing', $scope.awesomeThings
+  angular.extend $scope,
+    brands: null
 
-  $scope.addThing = ->
-    return if $scope.newThing is ''
-    $http.post '/api/things',
-      name: $scope.newThing
+    loadBrands: ()->
+      @brands = _.map [1..5], (id) ->
+        _id: id
+        url: 'http://lorempixel.com/1280/720/abstract/?id=' + id
+        title: 'Brand' + id
 
-    $scope.newThing = ''
+    features: null
 
-  $scope.deleteThing = (thing) ->
-    $http.delete '/api/things/' + thing._id
+    loadFeatures: ()->
+      @features = _.map [1..3], (id) ->
+        _id: id
+        image: 'http://lorempixel.com/340/180/cats/?id=' + id
+        title: 'Feature' + id
+        content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Labore facilis ipsum quibusdam officia, error vel, sed
+                  nesciunt totam est soluta officiis alias nemo, quia sit
+                  quisquam ducimus, molestias assumenda quos.
+                  '.substr(0,Math.floor(Math.random() * 100) + 100)
 
-  $scope.$on '$destroy', ->
-    socket.unsyncUpdates 'thing'
+    showcases: null
+
+    loadShowcases: ()->
+      @showcases = _.map [1..6], (id)->
+        _id:id
+        thumbnail: 'http://lorempixel.com/340/180/nature/?id=' + id
+        title: 'Showcase' + id
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Labore facilis ipsum quibusdam officia, error vel, sed
+              nesciunt totam est soluta officiis alias nemo, quia sit
+              quisquam ducimus, molestias assumenda quos.
+              '.substr(0,Math.floor(Math.random() * 100) + 100)
+
+    plans: null
+
+    loadPlans: ()->
+      @plans = _.map [1..3], (id)->
+        _id:id
+        title:'Plan' + id
+        price: '¥' + id * 20
+        details: [
+          {
+            sum: 10 * id
+            item: 'Lectures'
+          }
+          {
+            sum: 10 * id
+            item: 'Gb storage'
+          }
+          {
+            sum: 10 * id
+            item: 'Co-workers'
+          }
+
+        ]
+      @plans[1].main = true
+
+    staffs: null
+
+    loadStaffs: ()->
+      @staffs = _.map [1..6], (id)->
+        _id:id
+        title: ['Frontend', 'Backend', 'Designer'][id % 3]
+        name: 'Lorem ' + id
+        avatar: 'http://lorempixel.com/128/128/people/?id=' + id
+
+  $scope.loadBrands() and
+  $scope.loadFeatures() and
+  $scope.loadShowcases() and
+  $scope.loadPlans() and
+  $scope.loadStaffs()

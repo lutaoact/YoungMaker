@@ -31,5 +31,4 @@ angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth
       $location.path '/login'
 
     isActive: (route) ->
-      console.log $state
       route is $state.current.name

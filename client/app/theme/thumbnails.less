@@ -1,15 +1,17 @@
 
 @thumbnail-padding:           7px;
 
+.overflow-hidden {
+  overflow: hidden;
+}
 .thumbnail {
-  border: none;
   .transition(all .2s ease-in-out);
 
   // Add a hover state for linked versions only
   a&:hover,
   a&:focus,
   a&.active {
-    box-shadow:0 0 0 2px #5fb611;
+    box-shadow:0 0 0 2px @base-color-dark;
   }
 
   &:hover{

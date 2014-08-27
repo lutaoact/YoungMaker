@@ -10,69 +10,62 @@
 #
 "use strict"
 
-_ = require("lodash")
 Organization = _u.getModel "organization"
 User = _u.getModel "user"
 
-exports.index = (req, res) ->
-  resFun = (err, organizations) ->
-    return handleError(res, err)  if err
-    res.json 200, organizations
+exports.index = (req, res, next) ->
+  Organization.findQ {}
+  .then (organizations) ->
+    res.send organizations
+  , (err) ->
+    next err
 
-  subDomain = req.query.sub
-  if subDomain
-    Organization.find
-      subDomain: subDomain
-    , resFun
-  else
-    Organization.find resFun
+exports.me = (req, res, next) ->
+  orgId = req.user.orgId
+  console.log req.user
+  Organization.findOneQ
+    _id: orgId
+  .then (organization) ->
+    res.send organization
+  , (err) ->
+    next err
 
+exports.show = (req, res, next) ->
+  orgId = req.params.id
+  Organization.findByIdQ orgId
+  .then (organization) ->
+    res.send organization
+  , (err) ->
+    next err
 
-exports.me = (req, res) ->
-  userId = req.user.id
-  User.findOne(_id: userId).populate("orgId").exec (err, user) ->
-    return handleError(res, err)  if err
-    res.json 200, user.orgId
+exports.create = (req, res, next) ->
+  body = req.body
+  Organization.createQ body
+  .then (organization) ->
+    res.send 201, organization
+  , (err) ->
+    next err
 
+exports.update = (req, res, next) ->
+  orgId = req.params.id
+  body = req.body
+  delete body._id if body._id
 
-exports.show = (req, res) ->
-  Organization.findById req.params.id, (err, organization) ->
-    return handleError(res, err)  if err
-    return res.send(404)  unless organization
-    res.json organization
+  Organization.findByIdQ orgId
+  .then (organization) ->
+    updated = _.extend organization, body
+    do updated.saveQ
+  .then (result) ->
+    newValue = result[0]
+    res.send newValue
+  , (err) ->
+    next err
 
-
-exports.create = (req, res) ->
-  Organization.create req.body, (err, organization) ->
-    return handleError(res, err)  if err
-    User.findById req.user.id, (err, user) ->
-      return handleError(res, err)  if err
-      user.orgId = organization._id
-      user.save (err) ->
-        return handleError(res, err)  if err
-        res.json 201, organization
-
-
-exports.update = (req, res) ->
-  delete req.body._id  if req.body._id
-  Organization.findById req.params.id, (err, organization) ->
-    return handleError(err)  if err
-    return res.send(404)  unless Organization
-    updated = _.merge(organization, req.body)
-    updated.save (err) ->
-      return handleError(err)  if err
-      res.json 200, organization
-
-
-exports.destroy = (req, res) ->
-  Organization.findById req.params.id, (err, organization) ->
-    return handleError(res, err)  if err
-    return res.send(404)  unless organization
-    organization.remove (err) ->
-      return handleError(res, err)  if err
-      res.send 204
-
-
-handleError = (res, err) ->
-  res.send 500, err
-
+exports.destroy = (req, res, next) ->
+  orgId = req.params.id
+  Organization.removeQ
+    _id: orgId
+  .then () ->
+    res.send 204
+  , (err) ->
+    next err

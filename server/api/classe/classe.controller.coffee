@@ -68,8 +68,8 @@ exports.update = (req, res, next) ->
   .then (classe) ->
     updated = _.extend classe, body
     do updated.saveQ
-  .then (res) ->
-    newClasse = res[0]
+  .then (result) ->
+    newClasse = result[0]
     logger.info newClasse
     res.send newClasse
   , (err) ->

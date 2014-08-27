@@ -28,7 +28,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       thumb: ''
       images: ''
 
-    saveLecture: (lecture,form)->
+    saveLecture: (lecture, form)->
       unless form.$valid then return
       (
         if lecture._id?
@@ -43,6 +43,13 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           message:'课时已保存'
           template:'components/alert/success.html'
         $state.go('teacher.course', id: $state.params.courseId)
+
+    removeSlide: (index) ->
+      $scope.lecture.slides.splice(index, 1)
+      $scope.lecture?.patch?(slides: $scope.lecture.slides)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
+
 
     onThumbSelect: (files) ->
       $scope.uploading.thumb = true

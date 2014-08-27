@@ -103,7 +103,12 @@
                     active="slide.$active">
           <img qiniu-key="slide.thumb" style="margin:auto;">
           <div class="carousel-caption">
-            <h4>第 {{$index+1}} 张</h4>
+            <h4>
+              第 {{$index+1}} 张
+              <a ng-click="removeSlide($index)">
+                <span class="glyphicon glyphicon-trash"></span>
+              </a>
+            </h4>
           </div>
         </cool-frame>
       </cool-projector>

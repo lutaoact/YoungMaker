@@ -78,12 +78,18 @@ Q.all actions                          #加入所有静态数据
   mClasse = classe
   removeAndCreate 'lecture',          #创建lecture
     name : 'lecture 1'
+    thumbnail: 'http://lorempixel.com/200/150'
+    info: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+           Recusandae, error molestiae'
+    slides: _.map [1..10], (item)->
+      thumb: "http://lorempixel.com/480/360/?r=#{item}"
+    media: 'gqaDmRfIab/1.mp4'
 .then (lecture) ->
   mLecture = lecture
   removeAndCreate 'course',           #创建course
     name : 'Music 101'
     categoryId : categoryId
-    thumbnail : 'http://test.com/thumb.jpg'
+    thumbnail : 'http://lorempixel.com/300/300/'
     info : 'This is course music 101'
     owners : [ownerId]
     classes : [mClasse._id]

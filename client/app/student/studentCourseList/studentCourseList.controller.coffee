@@ -1,7 +1,16 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'StudentCourseListCtrl'
-, ($scope, User, Auth, Restangular, $http, $upload, notify) ->
+, (
+  $scope
+  User
+  Auth
+  Restangular
+  $http
+  $upload
+  notify
+  Courses
+) ->
   angular.extend $scope,
     filters: [
       {
@@ -24,12 +33,6 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
     courses: undefined
 
     loadCourses: ()->
-      Restangular.all('courses').getList().then (courses)->
-        $scope.courses = courses
-      , (err)->
-        console.log err
-        notify
-          message: '权限错误'
-          template: 'components/alert/failure.html'
+      $scope.courses = Courses
 
   $scope.loadCourses()

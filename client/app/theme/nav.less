@@ -32,3 +32,37 @@
     }
   }
 }
+.navbar {
+  min-height: 40px;
+  &-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  &-brand{
+    padding: 10px 15px;
+    height: 40px;
+  }
+}
+
+.navbar-default {
+  background: transparent;
+  border: 0;
+  margin-bottom: 0;
+  margin-bottom: 0;
+  .navbar-toggle {
+    background: @white;
+  }
+}
+.navbar-default .navbar-nav > .active > a {
+  background: @white;
+  @shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+  .box-shadow(@shadow);
+}
+
+.navbar-nav > li {
+  background: @black;
+
+  a{
+    padding: 10px;
+  }
+}

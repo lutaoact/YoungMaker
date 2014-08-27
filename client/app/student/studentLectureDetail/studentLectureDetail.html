@@ -42,9 +42,7 @@
     <div class="col-md-6 col-xs-11">
       <videogular vg-player-ready="onPlayerReady"
                   vg-update-time="onUpdateTime">
-        <video class="videoPlayer">
-          <source src="https://d2dq6e731uoz0t.cloudfront.net/b797f2a33802ab921bec143dc0d0138d/as/banner_mix.mp4"
-                  type="video/mp4"/>
+        <video class="videoPlayer" qiniu-key="lecture.media" >
         </video>
         <vg-poster-image></vg-poster-image>
         <vg-buffering></vg-buffering>

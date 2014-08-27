@@ -5,5 +5,12 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/s'
     templateUrl: 'app/student/studentHome/studentHome.html'
     controller: 'StudentHomeCtrl'
+    resolve:
+      Courses: (Restangular)->
+        Restangular.all('courses').getList().then (courses)->
+          return courses
+        , (err)->
+          # handle
+          return []
     abstract: true
     authenticate: true

@@ -12,12 +12,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth
       }
       {
         title: '主页'
-        link: 'student'
-        role: 'student'
-      }
-      {
-        title: '课程'
-        link: 'student.coursesList'
+        link: 'student.courseList'
         role: 'student'
       }
       {
@@ -30,7 +25,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth
     isCollapsed: true
     isLoggedIn: Auth.isLoggedIn
     getCurrentUser: Auth.getCurrentUser
-  
+
     logout: ->
       Auth.logout()
       $location.path '/login'

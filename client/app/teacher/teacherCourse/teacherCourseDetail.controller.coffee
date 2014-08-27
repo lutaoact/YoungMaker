@@ -67,7 +67,7 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
         $scope.course.classes = newCourse.classes
 
 
-    onImageSelect: (files) ->
+    onThumbSelect: (files) ->
       $scope.state.uploading = true
       qiniuUtils.uploadFile
         files: files

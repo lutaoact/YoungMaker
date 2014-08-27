@@ -2,7 +2,7 @@
   <form class="form-horizontal media" name="form" role="form">
     <div class="media-object pull-right">
       <label class="btn btn-default" ng-show="!state.uploading">
-        <input type="file" style="display:none;" ng-file-select="onImageSelect($files)"/>
+        <input type="file" style="display:none;" ng-file-select="onThumbSelect($files)"/>
         <img qiniu-key="course.thumbnail" src="/assets/images/empty.jpg"/>
       </label>
       <label class="btn btn-default disabled" ng-show="state.uploading">

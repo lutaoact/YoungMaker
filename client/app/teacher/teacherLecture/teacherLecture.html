@@ -39,43 +39,42 @@
       </div>
 
       <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10 btn-group">
-          <span>
-            <label class="btn btn-default" ng-show="!uploading.ppt">
-              <input type="file"
-                     style="display:none;"
-                     ng-file-select="onPPTSelect($files)"/>
-              PPT
-            </label>
-            <label class="btn btn-default disabled" ng-show="uploading.ppt">
+        <div class="col-sm-offset-2 col-sm-10">
+          <label class="btn btn-default"
+                 ng-disabled="uploading.ppt">
+            <input type="file"
+                   style="display:none;"
+                   ng-file-select="onPPTSelect($files)"/>
+            <span ng-if="uploading.ppt">
               <i class="fa fa-spinner fa-spin"></i>
-              导入中 {{uploadProgress.ppt}}
-            </label>
-          </span>
-          <span>
-            <label class="btn btn-default" ng-show="!uploading.images">
-              <input type="file" style="display:none;"
-                     ng-file-select="onImagesSelect($files)"
-                     multiple />
-              图片
-            </label>
-            <label class="btn btn-default disabled" ng-show="uploading.images">
+              {{uploadProgress.ppt}}
+            </span>
+            PPT
+          </label>
+
+          <label class="btn btn-default"
+                 ng-disabled="uploading.images">
+            <input type="file" style="display:none;"
+                   ng-file-select="onImagesSelect($files)"
+                   multiple/>
+            <span ng-if="uploading.images">
               <i class="fa fa-spinner fa-spin"></i>
-              导入中 {{uploadProgress.images}}
-            </label>
-          </span>
-          <span>
-            <label class="btn btn-default" ng-show="!uploading.media">
-              <input type="file" style="display:none;"
-                     ng-file-select="onMediaSelect($files)"
-                     multiple />
-              视频
-            </label>
-            <label class="btn btn-default disabled" ng-show="uploading.media">
+              {{uploadProgress.images}}
+            </span>
+            图片
+          </label>
+
+          <label class="btn btn-default"
+                 ng-disabled="uploading.media">
+            <input type="file" style="display:none;"
+                   ng-file-select="onMediaSelect($files)"
+                   multiple />
+            <span ng-if="uploading.media">
               <i class="fa fa-spinner fa-spin"></i>
-              导入中 {{uploadProgress.media}}
-            </label>
-          </span>
+              {{uploadProgress.media}}
+            </span>
+            视频
+          </label>
         </div>
       </div>
 

@@ -11,6 +11,9 @@ _ = require 'lodash'
 fs = require 'fs'
 http = require 'http'
 xlsx = require 'node-xlsx'
+mongoose = require 'mongoose'
+Schema = mongoose.Schema
+ObjectId = Schema.ObjectId
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -84,9 +87,9 @@ exports.destroy = (req, res, next) ->
       students : userId
   .then (classe) ->
     if classe?
-      _.remove classe.students, (item) -> item.toString() is userId
-      classe.markModified 'students'
-      classe.saveQ()
+      classe.updateQ
+        $pull :
+          students : userId
   .then (classe) ->
     res.send userObj
   , (err) ->

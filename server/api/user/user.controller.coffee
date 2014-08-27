@@ -1,77 +1,85 @@
 'use strict'
 
 User = _u.getModel "user"
+Classe = _u.getModel 'classe'
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
 qiniu = require 'qiniu'
-helpers = require '../../common/helpers'
 path = require 'path'
 _ = require 'lodash'
 fs = require 'fs'
 http = require 'http'
 xlsx = require 'node-xlsx'
-#UserStat = _u.getModel "user_stat"
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
-qiniuDomain                       = config.qiniu.domain
+qiniuDomain           = config.qiniu.domain
 
 ###
   Get list of users
   restriction: 'admin'
 ###
-exports.index = (req, res) ->
-  User.find {}, '-salt -hashedPassword', (err, users) ->
-    return res.send 500, err if err
-    return res.json 200, users
+exports.index = (req, res, next) ->
+  User.findQ {}, '-salt -hashedPassword'
+  .then (users) ->
+    res.send users
+  , (err) ->
+    next err
 
 ###
   Creates a new user
 ###
-exports.create = (req, res) ->
+exports.create = (req, res, next) ->
   body = req.body
   body.provider = 'local'
 
-  User.create body, (err, user) ->
-    return helpers.validationError res, err if err
-    #create UserStat
-    #UserStat.create({"userId": user._id})
+  User.createQ body
+  .then (user) ->
     token = jwt.sign
       _id: user._id,
       config.secrets.session,
       expiresInMinutes: 60*5
     res.json
       token: token
+  , (err) ->
+    next err
 
 ###
   Get a single user
 ###
 exports.show = (req, res, next) ->
+
   userId = req.params.id
 
-  User.findById userId, (err, user) ->
-    next err if err
-    return res.send 401 if not user
-    return res.json user.profile
+  User.findByIdQ userId
+  .then (user) ->
+    res.send user.profile
+  , (err) ->
+    next err
 
 ###
   Get a single user by email
 ###
-exports.showByEmail = (req, res) ->
-  User.findOne {'email': req.params.email}, (err, user) ->
-    helpers.handleError if err
-    return res.send 404 if not user
-    return res.json user.profile
+exports.showByEmail = (req, res, next) ->
+  User.findOneQ
+    email : req.params.email
+  .then (user) ->
+    return res.send 404 if not user?
+    res.send user.profile
+  , (err) ->
+    next err
 
 ###
   Deletes a user
   restriction: 'admin'
 ###
-exports.destroy = (req, res) ->
-  User.findByIdAndRemove req.params.id, (err, user) ->
-    return res.send 500, err if err
-    return res.send 200, user
+exports.destroy = (req, res, next) ->
+  User.findByIdAndRemoveQ req.params.id
+  .then (user) ->
+    res.send user
+  , (err) ->
+    next err
 
 ###
   Change a users password
@@ -81,66 +89,69 @@ exports.changePassword = (req, res, next) ->
   oldPass = String req.body.oldPassword
   newPass = String req.body.newPassword
 
-  User.findById userId, (err, user) ->
+  User.findByIdQ userId
+  .then (user) ->
     if user.authenticate oldPass
       user.password = newPass
       user.save (err) ->
-        return helpers.validationError res, err if err
+        return next err if err
         res.send 200
     else
       res.send 403
+  , (err) ->
+    next err
+
 
 ###
   Get my info
 ###
 exports.me = (req, res, next) ->
-  userId = req.user._id
-  User.findOne
+  userId = req.user.id
+  User.findOneQ
     _id: userId
     '-salt -hashedPassword'
-  , (err, user) -> # donnot ever give out the password or salt
-    next err if err
-    return res.json 401 if not user
-    res.json 200, user
+  .then (user) -> # donnot ever give out the password or salt
+    return res.send 401 if not user?
+    res.send user
+  , (err) ->
+    next err
 
 ###
   Update user
 ###
-exports.update = (req, res) ->
+exports.update = (req, res, next) ->
 
-  delete req.body._id if _.has req.body, '_id'
-  delete req.body.password if _.has req.body, 'password'
+  delete req.body._id if req.body._id?
+  delete req.body.password if req.body.password?
 
-  User.findById req.params.id, (err, user) ->
-
-    return helpers.handleError res, err if err
-    return res.send 404 if not user
+  User.findByIdQ req.params.id
+  .then (user) ->
+    return res.send 404 if not user?
 
     updated = _.merge user , req.body
-    updated.save (err) ->
-      return helpers.handleError res, err if err
-      return res.json 200, user
+    updated.saveQ()
+  .then (user) ->
+    res.send user
+  , (err) ->
+    next err
 
 
-updateClasseStudents = (res, classeId, studentList, importReport) ->
-  Classe.findById classeId, (err, classe) ->
-    return helpers.handleError res, err if err
-    return res.send 404 if not classe
+updateClasseStudents = (res, next, classeId, studentList, importReport) ->
+  Classe.findByIdQ classeId
+  .then (classe) ->
+    return res.send 404 if not classe?
 
-    console.log 'Found classe with id '
-    console.dir classe
+    logger.info 'Found classe with id '
 
     classe.students = _.merge classe.students, studentList
     classe.markModified 'students'
+    logger.info 'After merge, classe is: ' + classe
 
-    console.log 'After merge...'
-    console.dir classe
-
-    classe.save (err, saved) ->
-      return helpers.handleError res, err if err
-      console.log 'After save...'
-      console.dir saved
-      res.json 200, importReport
+    classe.saveQ()
+  .then (saved) ->
+    res.send importReport
+  , (err) ->
+    next err
 
 
 ###
@@ -153,24 +164,20 @@ exports.bulkImport = (req, res, next) ->
   classeId = req.body.classeId
 
   # do some sanity check
-  if not type?
-    return res.send 400
-
-  if not orgId?
-    return res.send 400
-
-  if type is 'studnet' and not classeId?
-    return res.send 400
+  if not type? then return res.send 400
+  if not orgId? then return res.send 400
+  if type is 'student' and not classeId? then return res.send 400
 
   ## create download URL
   baseUrl = qiniu.rs.makeBaseUrl qiniuDomain, resourceKey
   policy = new qiniu.rs.GetPolicy()
   tempUrl = policy.makeRequest baseUrl
 
-  destFile = config.tmpDir + path.sep + 'user_list.xlsx'
+  destFile = config.local.tempDir + path.sep + 'user_list.xlsx'
 
   ## download excel sheet and start processing
   file = fs.createWriteStream destFile
+
   request = http.get tempUrl, (stream) ->
     stream.pipe file
     file.on 'finish', () ->
@@ -182,8 +189,7 @@ exports.bulkImport = (req, res, next) ->
 
         if not userList
           console.error 'Failed to parse user list file or empty file'
-          res.send 500
-          return
+          return res.send 500
 
         importReport =
           total : 0
@@ -192,10 +198,10 @@ exports.bulkImport = (req, res, next) ->
 
         importedUser = []
 
-        _.forEach userList, (userItem) ->
+        savePromises = _.map userList, (userItem) ->
 
           console.log 'UserItem is ...'
-          console.log userItem
+          console.dir userItem
 
           newUser = new User
             name : userItem[0].value
@@ -204,89 +210,87 @@ exports.bulkImport = (req, res, next) ->
             password : userItem[1].value #initial password is the same as email
             orgId : orgId
 
-          newUser.save (err, user) ->
-            importReport.total += 1
-            if err
-              console.error 'Failed to save user ' + newUser.name
-              importReport.failure.push err.errors
+          newUser.saveQ()
+
+        Q.allSettled(savePromises)
+        .then (results) ->
+          _.forEach results, (result) ->
+            if result.state is 'fulfilled'
+              user = result.value
+              console.log 'Imported user ' + user.name
+              importReport.success.push user.name
+              importedUser.push user.id
             else
-              console.log 'Created user ' + newUser.name
-              importReport.success.push newUser.name
-              importedUser.push user._id
+              console.error 'Failed to import user ' + user.name
+              importReport.failure.push result.reason
 
-            # when finish processing user list, send response to client
-            if importReport.total is userList.length
-
-              # if type is student, update classe's student list with imported user list
-              if type is 'student'
-                updateClasseStudents res, classeId, importedUser, importReport
-              else
-                res.json 200, importReport
-
+          if type is 'student'
+            updateClasseStudents res, next, classeId, importedUser, importReport
+          else
+            res.send importReport
+        , (err) ->
+          next err
 
   .on 'error' , (err) ->
     console.error 'There is an error while downloading file from ' + url
     fs.unlink dest  # delete the file async
-    res.send 500
+    next err
 
-exports.forget = (req, res) ->
-  if not req.body.email?
-    return res.send 400
+
+exports.forget = (req, res, next) ->
+  if not req.body.email? then return res.send 400
+
   crypto = require 'crypto'
-  crypto.randomBytes(21, (err, buf) ->
-    if err
-      return res.send 400
+  cryptoQ = Q.nbind(crypto.randomBytes)
+
+  cryptoQ(21)
+  .then (buf) ->
     token = buf.toString 'hex'
-    conditions = { email: req.body.email.toLowerCase() }
-    fieldsToSet = {
+    conditions =
+      email: req.body.email.toLowerCase()
+    fieldsToSet =
       resetPasswordToken: token,
       resetPasswordExpires: Date.now() + 10000000
-    }
-    User.findOneAndUpdate(conditions, fieldsToSet, (err, user) ->
-      if err
-        return res.send 400
-      if !user
-        return res.send 400
+    User.findOneAndUpdateQ conditions, fieldsToSet
+  .then (user) ->
+    options =
+      from: req.app.config.smtp.from.name+' <'+req.app.config.smtp.from.address+'>'
+      to: user.email
+      subject: 'Reset your '+req.app.config.projectName+' password'
+      textPath: 'users/forgot/email-text'
+      htmlPath: 'users/forgot/email-html'
+      locals:
+        username: user.name
+        resetLink: req.protocol+'://'+req.headers.host+'/login/reset/'+user.email+'/'+token+'/'
+        projectName: req.app.config.projectName
+      success: (message) ->
+        res.send 201
+      error: (err) ->
+        res.json(404, err)
 
-      options =
-        from: req.app.config.smtp.from.name+' <'+req.app.config.smtp.from.address+'>'
-        to: user.email
-        subject: 'Reset your '+req.app.config.projectName+' password'
-        textPath: 'users/forgot/email-text'
-        htmlPath: 'users/forgot/email-html'
-        locals:
-          username: user.name
-          resetLink: req.protocol+'://'+req.headers.host+'/login/reset/'+user.email+'/'+token+'/'
-          projectName: req.app.config.projectName
-        success: (message) ->
-          res.send 201
-        error: (err) ->
-          res.json(404, err)
+    req.app.utility.sendmail(req, res, options)
 
-      req.app.utility.sendmail(req, res, options)
-    )
-  )
+  , (err) ->
+    next err
 
-exports.reset = (req, res) ->
-  if not req.body.password?
-    return res.send 400
 
-  conditions =
+exports.reset = (req, res, next) ->
+  if not req.body.password? then return res.send 400
+
+  User.findOneQ
     email: req.params.email.toLowerCase()
     resetPasswordToken: req.params.token
     resetPasswordExpires:
       $gt: Date.now()
-
-  User.findOne(conditions, (err, user) ->
-    if err
-      return res.send 400
-    if !user
-      return res.send 400
+  .then (user) ->
+    return res.send 404 if not user?
     user.password = req.body.password
-    user.save (err) ->
-      return helpers.validationError res, err if err
-      res.send 200
-  )
+    user.saveQ()
+  .then (saved) ->
+    res.send 200
+  , (err) ->
+    next err
+
 ###
  Authentication callback
 ###

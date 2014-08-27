@@ -1,8 +1,10 @@
 (function() {
   'use strict';
-  var User, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, xlsx, _;
+  var Classe, User, config, fs, helpers, http, jwt, passport, path, qiniu, qiniuDomain, updateClasseStudents, xlsx, _;
 
   User = _u.getModel("user");
+
+  Classe = _u.getModel('classe');
 
   passport = require('passport');
 
@@ -36,12 +38,11 @@
     restriction: 'admin'
    */
 
-  exports.index = function(req, res) {
-    return User.find({}, '-salt -hashedPassword', function(err, users) {
-      if (err) {
-        return res.send(500, err);
-      }
-      return res.json(200, users);
+  exports.index = function(req, res, next) {
+    return User.findQ({}, '-salt -hashedPassword').then(function(users) {
+      return res.send(users);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -50,15 +51,12 @@
     Creates a new user
    */
 
-  exports.create = function(req, res) {
+  exports.create = function(req, res, next) {
     var body;
     body = req.body;
     body.provider = 'local';
-    return User.create(body, function(err, user) {
+    return User.createQ(body).then(function(user) {
       var token;
-      if (err) {
-        return helpers.validationError(res, err);
-      }
       token = jwt.sign({
         _id: user._id
       }, config.secrets.session, {
@@ -67,6 +65,8 @@
       return res.json({
         token: token
       });
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -78,14 +78,10 @@
   exports.show = function(req, res, next) {
     var userId;
     userId = req.params.id;
-    return User.findById(userId, function(err, user) {
-      if (err) {
-        next(err);
-      }
-      if (!user) {
-        return res.send(401);
-      }
-      return res.json(user.profile);
+    return User.findByIdQ(userId).then(function(user) {
+      return res.send(user.profile);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -94,17 +90,16 @@
     Get a single user by email
    */
 
-  exports.showByEmail = function(req, res) {
-    return User.findOne({
-      'email': req.params.email
-    }, function(err, user) {
-      if (err) {
-        helpers.handleError;
-      }
-      if (!user) {
+  exports.showByEmail = function(req, res, next) {
+    return User.findOneQ({
+      email: req.params.email
+    }).then(function(user) {
+      if (user == null) {
         return res.send(404);
       }
-      return res.json(user.profile);
+      return res.send(user.profile);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -114,12 +109,11 @@
     restriction: 'admin'
    */
 
-  exports.destroy = function(req, res) {
-    return User.findByIdAndRemove(req.params.id, function(err, user) {
-      if (err) {
-        return res.send(500, err);
-      }
-      return res.send(200, user);
+  exports.destroy = function(req, res, next) {
+    return User.findByIdAndRemoveQ(req.params.id).then(function(user) {
+      return res.send(user);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -133,18 +127,20 @@
     userId = req.user._id;
     oldPass = String(req.body.oldPassword);
     newPass = String(req.body.newPassword);
-    return User.findById(userId, function(err, user) {
+    return User.findByIdQ(userId).then(function(user) {
       if (user.authenticate(oldPass)) {
         user.password = newPass;
         return user.save(function(err) {
           if (err) {
-            return helpers.validationError(res, err);
+            return next(err);
           }
           return res.send(200);
         });
       } else {
         return res.send(403);
       }
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -155,17 +151,16 @@
 
   exports.me = function(req, res, next) {
     var userId;
-    userId = req.user._id;
-    return User.findOne({
+    userId = req.user.id;
+    return User.findOneQ({
       _id: userId
-    }, '-salt -hashedPassword', function(err, user) {
-      if (err) {
-        next(err);
+    }, '-salt -hashedPassword').then(function(user) {
+      if (user == null) {
+        return res.send(401);
       }
-      if (!user) {
-        return res.json(401);
-      }
-      return res.json(200, user);
+      return res.send(user);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -174,53 +169,41 @@
     Update user
    */
 
-  exports.update = function(req, res) {
-    if (_.has(req.body, '_id')) {
+  exports.update = function(req, res, next) {
+    if (req.body._id != null) {
       delete req.body._id;
     }
-    if (_.has(req.body, 'password')) {
+    if (req.body.password != null) {
       delete req.body.password;
     }
-    return User.findById(req.params.id, function(err, user) {
+    return User.findByIdQ(req.params.id).then(function(user) {
       var updated;
-      if (err) {
-        return helpers.handleError(res, err);
-      }
-      if (!user) {
+      if (user == null) {
         return res.send(404);
       }
       updated = _.merge(user, req.body);
-      return updated.save(function(err) {
-        if (err) {
-          return helpers.handleError(res, err);
-        }
-        return res.json(200, user);
-      });
+      return updated.saveQ();
+    }).then(function(user) {
+      return res.send(user);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  updateClasseStudents = function(res, classeId, studentList, importReport) {
-    return Classe.findById(classeId, function(err, classe) {
-      if (err) {
-        return helpers.handleError(res, err);
-      }
-      if (!classe) {
+  updateClasseStudents = function(res, next, classeId, studentList, importReport) {
+    return Classe.findByIdQ(classeId).then(function(classe) {
+      if (classe == null) {
         return res.send(404);
       }
-      console.log('Found classe with id ');
-      console.dir(classe);
+      logger.info('Found classe with id ');
       classe.students = _.merge(classe.students, studentList);
       classe.markModified('students');
-      console.log('After merge...');
-      console.dir(classe);
-      return classe.save(function(err, saved) {
-        if (err) {
-          return helpers.handleError(res, err);
-        }
-        console.log('After save...');
-        console.dir(saved);
-        return res.json(200, importReport);
-      });
+      logger.info('After merge, classe is: ' + classe);
+      return classe.saveQ();
+    }).then(function(saved) {
+      return res.send(importReport);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -241,7 +224,7 @@
     if (orgId == null) {
       return res.send(400);
     }
-    if (type === 'studnet' && (classeId == null)) {
+    if (type === 'student' && (classeId == null)) {
       return res.send(400);
     }
     baseUrl = qiniu.rs.makeBaseUrl(qiniuDomain, resourceKey);
@@ -291,7 +274,7 @@
               }
               if (importReport.total === userList.length) {
                 if (type === 'student') {
-                  return updateClasseStudents(res, classeId, importedUser, importReport);
+                  return updateClasseStudents(res, next, classeId, importedUser, importReport);
                 } else {
                   return res.json(200, importReport);
                 }
@@ -307,7 +290,7 @@
     });
   };
 
-  exports.forget = function(req, res) {
+  exports.forget = function(req, res, next) {
     var crypto;
     if (req.body.email == null) {
       return res.send(400);

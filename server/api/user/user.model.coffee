@@ -3,13 +3,8 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
-
-#createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin
-
 crypto = require 'crypto'
-
 authTypes = ['google']
-
 BaseModel = (require '../../common/BaseModel').BaseModel
 
 exports.User = BaseModel.subclass
@@ -45,31 +40,6 @@ exports.User = BaseModel.subclass
     setupUserSchema @schema
 
     $super()
-
-#UserSchema = new Schema
-#  avatar :
-#    type : String
-#  email :
-#    type : String
-#    lowercase : true
-#  name :
-#    type : String
-#  hashedPassword :
-#    type : String
-#  provider :
-#    type : String
-#  role :
-#    type : String
-#    default : 'employee'
-#  salt :
-#    type : String
-#  status :
-#    type : String
-#  resetPasswordToken :
-#    type: String
-#  resetPasswordExpires :
-#    type: Date
-
 
 ###
 Virtuals
@@ -174,5 +144,3 @@ setupUserSchema = (UserSchema) ->
       salt = new Buffer this.salt, 'base64'
       crypto.pbkdf2Sync password, salt, 10000, 64
       .toString 'base64'
-
-#module.exports = mongoose.model 'User', UserSchema

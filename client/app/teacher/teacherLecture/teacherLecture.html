@@ -1,59 +1,133 @@
 <div class="container">
-  <a ui-sref="teacher.course({id:$state.params.courseId})">
-    <i class="fa fa-arrow-circle-o-left"></i>
-    返回
-  </a>
-  <form class="form" name="form">
-    <img qiniu-key="lecture.thumbnail"
-         alt="{{lecture.name}}"
-         class="img-thumbnail">
-    <div class="form-group">
-      <label for="lecture-name">课时名称</label>
-      <input class="form-control"
-             id="lecture-name"
-             name="name"
-             ng-model="lecture.name"
-             placeholder="课时名称"
-             required>
-    </div>
-    <div class="form-group">
-      <label for="lecture-info">课时信息</label>
-      <input class="form-control"
-             id="lecture-info"
-             name="info"
-             ng-model="lecture.info"
-             placeholder="课时信息">
-    </div>
-    <div class="form-group">
-      <label class="btn btn-default" ng-show="!isPptProcessing">
-        <input type="file"
-               style="display:none;"
-               ng-file-select="onPPTSelect($files)"/>
-        PPT
+  <form class="form-horizontal media" name="form" role="form">
+    <div class="media-object pull-right">
+      <label class="btn btn-default" ng-show="!uploading.thumb">
+        <input type="file" style="display:none;" ng-file-select="onThumbSelect($files)"/>
+        <img qiniu-key="lecture.thumbnail" src="/assets/images/empty.jpg"/>
       </label>
-      <label class="btn btn-default disabled" ng-show="isPptProcessing">
-        <i class="fa fa-spinner fa-spin"></i>
-        导入中
+      <label class="btn btn-default disabled" ng-show="state.uploading">
+        <i class="fa fa-spinner fa-spin"></i>上传中 {{uploadProgress.thumb}}
       </label>
     </div>
-    <div class="form-group">
-      <label class="btn btn-default" ng-show="!isPptProcessing">
-        <input type="file" style="display:none;"
-               ng-file-select="onImagesSelect($files)"
-               multiple />
-        图片
-      </label>
-      <label class="btn btn-default disabled" ng-show="isPptProcessing">
-        <i class="fa fa-spinner fa-spin"></i>
-        导入中
-      </label>
+    <div class="media-body">
+      <div class="form-group">
+        <div class="col-sm-2 control-label">
+          <label for="lecture-name">课时名称</label>
+        </div>
+        <div class="col-sm-10">
+          <input class="form-control"
+                 id="lecture-name"
+                 name="name"
+                 ng-model="lecture.name"
+                 placeholder="课时名称"
+                 required>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-2 control-label">
+          <label for="lecture-info">课时信息</label>
+        </div>
+        <div class="col-sm-10">
+          <textarea class="form-control"
+                    id="lecture-info"
+                    name="info"
+                    rows="2"
+                    ng-model="lecture.info"
+                    placeholder="课时信息">
+          </textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10 btn-group">
+          <span>
+            <label class="btn btn-default" ng-show="!uploading.ppt">
+              <input type="file"
+                     style="display:none;"
+                     ng-file-select="onPPTSelect($files)"/>
+              PPT
+            </label>
+            <label class="btn btn-default disabled" ng-show="uploading.ppt">
+              <i class="fa fa-spinner fa-spin"></i>
+              导入中 {{uploadProgress.ppt}}
+            </label>
+          </span>
+          <span>
+            <label class="btn btn-default" ng-show="!uploading.images">
+              <input type="file" style="display:none;"
+                     ng-file-select="onImagesSelect($files)"
+                     multiple />
+              图片
+            </label>
+            <label class="btn btn-default disabled" ng-show="uploading.images">
+              <i class="fa fa-spinner fa-spin"></i>
+              导入中 {{uploadProgress.images}}
+            </label>
+          </span>
+          <span>
+            <label class="btn btn-default" ng-show="!uploading.media">
+              <input type="file" style="display:none;"
+                     ng-file-select="onMediaSelect($files)"
+                     multiple />
+              视频
+            </label>
+            <label class="btn btn-default disabled" ng-show="uploading.media">
+              <i class="fa fa-spinner fa-spin"></i>
+              导入中 {{uploadProgress.media}}
+            </label>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit"
+                  class="btn btn-default"
+                  ng-click="saveLecture(lecture,form)">
+            保存
+          </button>
+          <a class="btn btn-link"
+             ui-sref="teacher.course({id:$state.params.courseId})">
+            <i class="fa fa-arrow-circle-o-left"></i>
+            取消
+          </a>
+        </div>
+      </div>
     </div>
-    <img ng-repeat="key in slides" qiniu-key="key">
-    <button type="submit"
-            class="btn btn-default"
-            ng-click="saveLecture(lecture, form)">
-      保存
-    </button>
   </form>
   <hr/>
+  <div class="row">
+    <div class="col-md-6">
+      <cool-projector disable-animation="true">
+        <cool-frame ng-repeat="slide in lecture.slides"
+                    active="slide.$active">
+          <img qiniu-key="slide.thumb" style="margin:auto;">
+          <div class="carousel-caption">
+            <h4>第 {{$index+1}} 张</h4>
+          </div>
+        </cool-frame>
+      </cool-projector>
+    </div>
+    <div class="col-md-6 col-xs-11">
+      <videogular>
+        <video class="videoPlayer" qiniu-key="lecture.media" >
+        </video>
+        <vg-poster-image></vg-poster-image>
+        <vg-buffering></vg-buffering>
+        <vg-controls style="height: 50px;">
+          <vg-play-pause-button></vg-play-pause-button>
+          <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+          <vg-scrubBar>
+            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+          </vg-scrubBar>
+          <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+          <vg-volume>
+            <vg-mutebutton></vg-mutebutton>
+            <vg-volumebar></vg-volumebar>
+          </vg-volume>
+          <vg-fullscreenButton></vg-fullscreenButton>
+        </vg-controls>
+      </videogular>
+    </div>
+  </div>
 </div>

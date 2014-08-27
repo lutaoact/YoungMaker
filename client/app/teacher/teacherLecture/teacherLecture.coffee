@@ -5,3 +5,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/courses/:courseId/lectures/:id'
     templateUrl: 'app/teacher/teacherLecture/teacherLecture.html'
     controller: 'TeacherLectureCtrl'
+    authenticate: true

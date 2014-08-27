@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var AsyncClass, Category, Classe, Course, Organization, User, actions, categoryId, data, mAdmin, mClasse, mLecture, mStudent, mTeacher, name, orgId, ownerId, removeAndCreate, seedData, studentId;
+  var AsyncClass, Category, Classe, Course, KeyPoint, Organization, User, actions, categoryId, data, mAdmin, mClasse, mKeyPointIds, mKeyPoints, mLecture, mStudent, mTeacher, name, orgId, ownerId, removeAndCreate, seedData, studentId;
 
   require('../common/init');
 
@@ -40,6 +40,8 @@
 
   Organization = _u.getModel('organization');
 
+  KeyPoint = _u.getModel('key_point');
+
   orgId = void 0;
 
   ownerId = void 0;
@@ -57,6 +59,10 @@
   mStudent = void 0;
 
   mAdmin = void 0;
+
+  mKeyPoints = void 0;
+
+  mKeyPointIds = void 0;
 
   Q.all(actions).then(function(results) {
     return Organization.findOneQ({
@@ -90,6 +96,10 @@
     mStudent.orgId = orgId;
     return mStudent.saveQ();
   }).then(function() {
+    return KeyPoint.findQ({});
+  }).then(function(keyPoints) {
+    mKeyPoints = keyPoints;
+    mKeyPointIds = _.pluck(mKeyPoints, '_id');
     return Category.findOneQ({});
   }).then(function(category) {
     categoryId = category.id;
@@ -102,18 +112,33 @@
   }).then(function(classe) {
     mClasse = classe;
     return removeAndCreate('lecture', {
-      name: 'lecture 1'
+      name: 'lecture 1',
+      thumbnail: 'http://lorempixel.com/200/150',
+      info: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, error molestiae',
+      slides: _.map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function(item) {
+        return {
+          thumb: "http://lorempixel.com/480/360/?r=" + item
+        };
+      }),
+      media: 'gqaDmRfIab/1.mp4',
+      keyPoints: mKeyPointIds
     });
   }).then(function(lecture) {
     mLecture = lecture;
     return removeAndCreate('course', {
       name: 'Music 101',
       categoryId: categoryId,
-      thumbnail: 'http://test.com/thumb.jpg',
+      thumbnail: 'http://lorempixel.com/300/300/',
       info: 'This is course music 101',
       owners: [ownerId],
       classes: [mClasse._id],
       lectureAssembly: [mLecture._id]
+    });
+  }).then(function() {
+    return KeyPoint.updateQ({}, {
+      categoryId: categoryId
+    }, {
+      multi: true
     });
   }).then(function() {
     return console.log('success');

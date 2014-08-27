@@ -36,6 +36,7 @@ angular.module 'budweiserAppDev', [
     incidunt accusamus cumque aspernatur, architecto praesentium consequuntur,
     sed consectetur totam aliquid. Harum quo dolorum, nam.
     '.substr(0,Math.floor(Math.random() * 100) + 100)
+    thumbnail: "http://lorempixel.com/480/480/?r=#{index}"
 
   lectures = _.map [1..30], (item)->
     _id: item

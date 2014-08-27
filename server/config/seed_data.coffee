@@ -26,6 +26,11 @@ module.exports =
     email: 'student@student.com'
     password: 'student'
   ]
+  key_point: [
+    name: '三种淡黄色固体'
+  ,
+    name: 'AgBr的光解'
+  ]
   organization: [
     name : 'Cloud3 Edu'
     logo : 'http://cloud3edu.com/logo.jpg'

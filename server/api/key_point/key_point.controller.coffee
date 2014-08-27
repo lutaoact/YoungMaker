@@ -2,67 +2,70 @@
 #
 # * Using Rails-like standard naming convention for endpoints.
 # * GET     /key_points              ->  index
-# * POST    /key_points              ->  create
 # * GET     /key_points/:id          ->  show
-# * PUT     /key_points/:id          ->  update
+# * POST    /key_points              ->  create
 # * DELETE  /key_points/:id          ->  destroy
 #
 
 "use strict"
 
-_ = require("lodash")
 KeyPoint = _u.getModel "key_point"
 Lecture = _u.getModel "lecture"
 
-
-exports.index = (req, res) ->
+exports.index = (req, res, next) ->
   conditions = {}
-  conditions = categoryId: req.query.categoryId  if req.query.categoryId
-  KeyPoint.find conditions, (err, categories) ->
-    return handleError(res, err)  if err
-    res.json 200, categories
+  conditions.categoryId = req.query.categoryId if req.query.categoryId
 
+  KeyPoint.findQ conditions
+  .then (keyPoints) ->
+    res.send keyPoints
+  , (err) ->
+    next err
 
-exports.show = (req, res) ->
-  KeyPoint.findById req.params.id, (err, keyPoint) ->
-    return handleError(res, err)  if err
-    return res.send(404)  unless keyPoint
-    res.json keyPoint
+exports.show = (req, res, next) ->
+  KeyPoint.findByIdQ req.params.id
+  .then (keyPoint) ->
+    res.send keyPoint
+  , (err) ->
+    next err
 
+exports.create = (req, res, next) ->
+  KeyPoint.createQ req.body
+  .then (keyPoint) ->
+    res.send 201, keyPoint
+  , (err) ->
+    next err
 
-exports.create = (req, res) ->
-  KeyPoint.create req.body, (err, keyPoint) ->
-    return handleError(res, err)  if err
-    res.json 201, keyPoint
+exports.searchByKeyword = (req, res, next) ->
+  name = req.params.name
+  escape = name.replace /[{}()^$|.\[\]*?+]/g, '\\$&'
+  regex = new RegExp(escape)
+  logger.info regex
 
+  KeyPoint.findQ
+    name: regex
+  .then (keyPoints) ->
+    res.send keyPoints
+  , (err) ->
+    next err
 
-exports.update = (req, res) ->
-  delete req.body._id  if req.body._id
-  KeyPoint.findById req.params.id, (err, keyPoint) ->
-    return handleError(err)  if err
-    return res.send(404)  unless keyPoint
-    updated = _.extend(keyPoint, req.body)
-    updated.save (err) ->
-      return handleError(err)  if err
-      res.json 200, keyPoint
-
-
-exports.destroy = (req, res) ->
-  Lecture.find
-    keyPoints: req.params.id
-  , (err, lectures) ->
-    return handleError(res, err)  if err
-    # forbid deleting if it is referenced by Lecture
-    unless lectures.length is 0
-      res.send 400
-    else
-      KeyPoint.findById req.params.id, (err, keyPoint) ->
-        return handleError(res, err)  if err
-        return res.send(404)  unless keyPoint
-        keyPoint.remove (err) ->
-          return handleError(res, err)  if err
-          res.send 204
-
+#TODO: will support destroy later
+#exports.destroy = (req, res) ->
+#  Lecture.find
+#    keyPoints: req.params.id
+#  , (err, lectures) ->
+#    return handleError(res, err)  if err
+#    # forbid deleting if it is referenced by Lecture
+#    unless lectures.length is 0
+#      res.send 400
+#    else
+#      KeyPoint.findById req.params.id, (err, keyPoint) ->
+#        return handleError(res, err)  if err
+#        return res.send(404)  unless keyPoint
+#        keyPoint.remove (err) ->
+#          return handleError(res, err)  if err
+#          res.send 204
+#
 ### copied from course controller, need to implement these logic in above methods
 
   # insert keyPoint id to this Lecture; create a keyPoint when _id is not provided
@@ -97,5 +100,3 @@ exports.showKeyPoints = (req, res) ->
     res.json lecture.keyPoints
 
 ###
-handleError = (res, err) ->
-  res.send 500, err

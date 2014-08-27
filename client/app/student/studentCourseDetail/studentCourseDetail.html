@@ -4,23 +4,24 @@
       <a ui-sref="student.courseList">主页</a>
     </li>
     <li>
-      <a ui-sref="student.courseDetail({courseId:course._id})">
+      <a ui-sref="student.courseDetail({courseId:course._id})" class="active">
         {{course.name||'某课程'}}
       </a>
-    </li>
-    <li>
-      <a class="active">课程信息</a>
     </li>
   </ol>
   <div class="row">
     <div class="col-md-4">
-      <img qiniu-key="course.thumbnail" src="/assets/images/empty.jpg">
+      <div qiniu-key="course.thumbnail" source-attr="background-image"
+           suffix="?imageView2/2/w/210/h/140"
+           style="width: 100%;background-size:cover;
+           background-position:center;height: 200px;">
+      </div>
     </div>
 
     <div class="col-md-4">
       <h3 class="title">
         {{course.name}}
-        <small>{{course.category}}</small>
+        <small>{{course.$category.name}}</small>
       </h3>
       <p class="info">
         {{course.info}}

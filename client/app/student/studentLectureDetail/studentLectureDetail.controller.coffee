@@ -73,18 +73,15 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
       seekHashTimestamp()
 
     onUpdateTime: (time) ->
-      unless $scope.lecture? then return
-      activedSlide = _.findLast($scope.lecture.slides, (slide) ->
-        slide.timestamp <= time
-      )
-      if activedSlide?
-        activedSlide.$active = true
-      # active first one
-      else
-        _.first($scope.lecture.slides)?.$active = true
-
-    activeSlide: (slide) ->
-      $scope.mediaPlayerAPI.seekTime slide.timestamp
+      # unless $scope.lecture? then return
+      # activedSlide = _.findLast($scope.lecture.slides, (slide) ->
+      #   slide.timestamp <= time
+      # )
+      # if activedSlide?
+      #   activedSlide.$active = true
+      # # active first one
+      # else
+      #   _.first($scope.lecture.slides)?.$active = true
 
   seekHashTimestamp = ->
     total = $tools.timeStrings2Seconds $location.hash()

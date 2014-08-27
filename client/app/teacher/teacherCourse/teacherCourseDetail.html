@@ -78,25 +78,41 @@
       </div>
     </div>
   </form>
-  <hr/>
+
   <div ng-if="course._id">
-    <label>课时</label>
-    <ul class="list-group" style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
+    <hr/>
+    <span ng-repeat="classe in classes">
+      <a class="btn btn-default"
+         ng-click="selectClasse(classe)"
+         ng-class="{'btn-primary':course.classes.indexOf(classe._id) != -1}">
+        {{classe.name}}
+      </a>
+    </span>
+  </div>
+
+  <hr/>
+
+  <div class="panel panel-default"
+       ng-if="course._id">
+    <div class="panel-heading">
+      <a class="btn btn-default"
+         ng-disabled="!course._id"
+         ui-sref="teacher.lecture({courseId:course._id, id:'new'})">添加新课时</a>
+    </div>
+    <ul class="list-group"
+        style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
       <li class="list-group-item stretch"
           ng-repeat-reorder="lecture in course.$lectures"
           ng-repeat-reorder-handle="div.drag-point">
-        <div class="drag-point pull-left" draggable="true"><i class="fa fa-bars"></i></div>
+        <div class="drag-point fa fa-bars" draggable="true"></div>
         <a ui-sref="teacher.lecture({courseId:course._id, id:lecture._id})">
           <strong>{{lecture.name}}</strong>
         </a>
-        <div class="pull-right">
-          <a ng-click="deleteLecture(lecture)" >
-            <span class="glyphicon glyphicon-trash"></span>
-          </a>
-        </div>
+        <a class="pull-right" ng-click="deleteLecture(lecture)" >
+          <span class="glyphicon glyphicon-trash"></span>
+        </a>
       </li>
     </ul>
-    <a class="btn btn-default"
-       ui-sref="teacher.lecture({courseId:course._id, id:'new'})">添加</a>
   </div>
+
 </div>

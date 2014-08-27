@@ -28,8 +28,7 @@
           safe: true
         }
       }
-    },
-    tmpDir: '/tmp'
+    }
   };
 
   module.exports = _.merge(all, require('./' + process.env.NODE_ENV + '.js') || {});

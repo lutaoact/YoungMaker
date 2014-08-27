@@ -141,12 +141,9 @@ updateClasseStudents = (res, next, classeId, studentList, importReport) ->
   .then (classe) ->
     return res.send 404 if not classe?
 
-    logger.info 'Found classe with id '
-
+    logger.info 'Found classe with id ' + classe.id
     classe.students = _.merge classe.students, studentList
     classe.markModified 'students'
-    logger.info 'After merge, classe is: ' + classe
-
     classe.saveQ()
   .then (saved) ->
     res.send importReport
@@ -158,6 +155,7 @@ updateClasseStudents = (res, next, classeId, studentList, importReport) ->
   Bulk import users from excel sheet uploaded by client
 ###
 exports.bulkImport = (req, res, next) ->
+  console.log 'start importing...'
   resourceKey = req.body.key
   orgId = req.body.orgId
   type = req.body.type
@@ -200,10 +198,7 @@ exports.bulkImport = (req, res, next) ->
 
         savePromises = _.map userList, (userItem) ->
 
-          console.log 'UserItem is ...'
-          console.dir userItem
-
-          newUser = new User
+          newUser = new User.model
             name : userItem[0].value
             email : userItem[1].value
             role   :  type
@@ -216,7 +211,7 @@ exports.bulkImport = (req, res, next) ->
         .then (results) ->
           _.forEach results, (result) ->
             if result.state is 'fulfilled'
-              user = result.value
+              user = result.value[0]
               console.log 'Imported user ' + user.name
               importReport.success.push user.name
               importedUser.push user.id

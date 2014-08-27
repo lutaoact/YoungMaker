@@ -1,0 +1,17 @@
+@nav-tabs-border-color:            @base-color;
+@nav-tabs-active-link-hover-bg:    @base-color;
+@nav-tabs-link-hover-border-color: @base-color;
+@nav-tabs-active-link-hover-color: #fff;
+
+.nav-tabs {
+  border-bottom: 2px solid @nav-tabs-border-color;
+  > li {
+    > a {
+      padding: 5px 15px;
+      &:hover {
+        background-color: @nav-tabs-active-link-hover-bg;
+        color: @nav-tabs-active-link-hover-color;
+      }
+    }
+  }
+}

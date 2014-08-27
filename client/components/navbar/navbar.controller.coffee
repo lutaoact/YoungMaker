@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth) ->
+angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth, $state) ->
 
   angular.extend $scope,
 
@@ -31,4 +31,5 @@ angular.module('budweiserApp').controller 'NavbarCtrl', ($scope, $location, Auth
       $location.path '/login'
 
     isActive: (route) ->
-      route is $location.path()
+      console.log $state
+      route is $state.current.name

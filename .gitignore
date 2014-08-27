@@ -9,3 +9,4 @@ client/index.html
 .idea
 /server/test.coffee
 /server/test.js
+/server/api/**/*.js

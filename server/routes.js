@@ -12,13 +12,11 @@
   };
 
   module.exports = function(app) {
-    app.use('/api/things', require('./api/thing'));
     app.use('/api/users', require('./api/user'));
     app.use('/api/courses', require('./api/course'));
     app.use('/api/categories', require('./api/category'));
     app.use('/api/classes', require('./api/classe'));
     app.use('/api/organizations', require('./api/organization'));
-    app.use('/api/solutions', require('./api/solution'));
     app.use('/api/qiniu', require('./api/qiniu'));
     app.use('/api/slides', require('./api/slide'));
     app.use('/api/lectures', require('./api/lecture'));

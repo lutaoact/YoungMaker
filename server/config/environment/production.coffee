@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 # Production specific configuration
 # =================================

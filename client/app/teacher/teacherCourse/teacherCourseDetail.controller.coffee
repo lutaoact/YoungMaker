@@ -15,12 +15,14 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
 
     categories: Restangular.all('categories').getList().$object
     course: undefined
+    classes: []
+    displayNav: 'lectures'
     state:
       uploading: false
       uploadProgress: ''
 
     deleteLecture: (lecture)->
-      Restangular.one('lectures', lecture._id).remove(courseId:$scope.course._id)
+      lecture.remove(courseId:$scope.course._id)
       .then ->
         lectures = $scope.course.$lectures
         lectures.splice(lectures.indexOf(lecture), 1)
@@ -33,11 +35,23 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
       unless form.$valid then return
       if course._id?
         # update exists
-        course.put()
+        Restangular.copy(course).put()
       else
         # create new
         Restangular.all('courses').post(course)
         .then (newCourse)-> $scope.course = newCourse
+
+    selectClasse: (classe) ->
+      classes = $scope.course.classes
+      $scope.course.patch(classes:
+        if _.contains(classes, classe._id)
+          _.without(classes, classe._id)
+        else
+          _.union(classes, [classe._id])
+      )
+      .then (newCourse) ->
+        $scope.course.classes = newCourse.classes
+
 
     onImageSelect: (files) ->
       $scope.state.uploading = true
@@ -70,4 +84,8 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
       Restangular.all('lectures').getList(courseId:course._id)
       .then (lectures) ->
         $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
+
+  Restangular.all('classes').getList()
+  .then (classes) ->
+    $scope.classes = classes
 

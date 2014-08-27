@@ -16,11 +16,10 @@ exports.Organization = BaseModel.subclass
       name:
         type: String
         required: true
-      logo: String
-      description : String # url
       type:
         type: String
         required : true
-        unique : true
+      logo: String
+      description : String # url
 
     $super()

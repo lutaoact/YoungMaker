@@ -32,18 +32,17 @@ module.exports =
     name: 'AgBr的光解'
   ]
   organization: [
+    uniqueName : 'cloud3'
     name : 'Cloud3 Edu'
     logo : 'http://cloud3edu.com/logo.jpg'
-    uniqueName : 'cloud3'
     description : 'This is a test organization'
     type : 'school'
-  ]
-  thing: [
-    name : 'Development Tools'
-    info : 'Integration with'
   ,
-    name : 'Server and Client integration'
-    info : 'Built with a powerful'
+    uniqueName : 'shangkele'
+    name : 'shang kele'
+    logo : 'http://shangkele.com/logo.jpg'
+    description : 'This is a shangkele organization'
+    type : 'school'
   ]
 
 #console.log module.exports

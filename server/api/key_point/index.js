@@ -10,13 +10,13 @@
 
   router = express.Router();
 
-  router.get("/", controller.index);
+  router.get("/", auth.hasRole("teacher"), controller.index);
 
-  router.get("/:id", controller.show);
+  router.get("/:id", auth.hasRole("teacher"), controller.show);
 
   router.post("/", auth.hasRole("teacher"), controller.create);
 
-  router["delete"]("/:id", auth.hasRole("teacher"), controller.destroy);
+  router.get("/search/:name", auth.hasRole("teacher"), controller.searchByKeyword);
 
   module.exports = router;
 

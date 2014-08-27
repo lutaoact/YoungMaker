@@ -1,97 +1,52 @@
 (function() {
   "use strict";
-  var KeyPoint, Lecture, handleError, _;
-
-  _ = require("lodash");
+  var KeyPoint, Lecture;
 
   KeyPoint = _u.getModel("key_point");
 
   Lecture = _u.getModel("lecture");
 
-  exports.index = function(req, res) {
+  exports.index = function(req, res, next) {
     var conditions;
     conditions = {};
     if (req.query.categoryId) {
-      conditions = {
-        categoryId: req.query.categoryId
-      };
+      conditions.categoryId = req.query.categoryId;
     }
-    return KeyPoint.find(conditions, function(err, categories) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.json(200, categories);
+    return KeyPoint.findQ(conditions).then(function(keyPoints) {
+      return res.send(keyPoints);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.show = function(req, res) {
-    return KeyPoint.findById(req.params.id, function(err, keyPoint) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (!keyPoint) {
-        return res.send(404);
-      }
-      return res.json(keyPoint);
+  exports.show = function(req, res, next) {
+    return KeyPoint.findByIdQ(req.params.id).then(function(keyPoint) {
+      return res.send(keyPoint);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.create = function(req, res) {
-    return KeyPoint.create(req.body, function(err, keyPoint) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.json(201, keyPoint);
+  exports.create = function(req, res, next) {
+    return KeyPoint.createQ(req.body).then(function(keyPoint) {
+      return res.send(201, keyPoint);
+    }, function(err) {
+      return next(err);
     });
   };
 
-  exports.update = function(req, res) {
-    if (req.body._id) {
-      delete req.body._id;
-    }
-    return KeyPoint.findById(req.params.id, function(err, keyPoint) {
-      var updated;
-      if (err) {
-        return handleError(err);
-      }
-      if (!keyPoint) {
-        return res.send(404);
-      }
-      updated = _.extend(keyPoint, req.body);
-      return updated.save(function(err) {
-        if (err) {
-          return handleError(err);
-        }
-        return res.json(200, keyPoint);
-      });
-    });
-  };
-
-  exports.destroy = function(req, res) {
-    return Lecture.find({
-      keyPoints: req.params.id
-    }, function(err, lectures) {
-      if (err) {
-        return handleError(res, err);
-      }
-      if (lectures.length !== 0) {
-        return res.send(400);
-      } else {
-        return KeyPoint.findById(req.params.id, function(err, keyPoint) {
-          if (err) {
-            return handleError(res, err);
-          }
-          if (!keyPoint) {
-            return res.send(404);
-          }
-          return keyPoint.remove(function(err) {
-            if (err) {
-              return handleError(res, err);
-            }
-            return res.send(204);
-          });
-        });
-      }
+  exports.searchByKeyword = function(req, res, next) {
+    var escape, name, regex;
+    name = req.params.name;
+    escape = name.replace(/[{}()^$|.\[\]*?+]/g, '\\$&');
+    regex = new RegExp(escape);
+    logger.info(regex);
+    return KeyPoint.findQ({
+      name: regex
+    }).then(function(keyPoints) {
+      return res.send(keyPoints);
+    }, function(err) {
+      return next(err);
     });
   };
 
@@ -129,10 +84,6 @@
       return res.send(404)  unless lecture
       res.json lecture.keyPoints
    */
-
-  handleError = function(res, err) {
-    return res.send(500, err);
-  };
 
 }).call(this);
 

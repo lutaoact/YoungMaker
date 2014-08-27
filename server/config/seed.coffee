@@ -26,6 +26,7 @@ Classe   = _u.getModel 'classe'
 Course   = _u.getModel 'course'
 Category = _u.getModel 'category'
 Organization = _u.getModel 'organization'
+KeyPoint = _u.getModel 'key_point'
 
 orgId = undefined
 ownerId = undefined
@@ -36,6 +37,8 @@ mLecture = undefined
 mTeacher = undefined
 mStudent = undefined
 mAdmin   = undefined
+mKeyPoints = undefined
+mKeyPointIds = undefined
 
 Q.all actions                          #加入所有静态数据
 .then (results) ->
@@ -66,6 +69,10 @@ Q.all actions                          #加入所有静态数据
   mStudent.orgId = orgId               #为student添加orgId字段
   do mStudent.saveQ
 .then () ->
+  KeyPoint.findQ {}
+.then (keyPoints) ->
+  mKeyPoints = keyPoints
+  mKeyPointIds = _.pluck mKeyPoints, '_id' #取出所有的keyPoints
   Category.findOneQ {}
 .then (category) ->
   categoryId = category.id
@@ -84,6 +91,7 @@ Q.all actions                          #加入所有静态数据
     slides: _.map [1..10], (item)->
       thumb: "http://lorempixel.com/480/360/?r=#{item}"
     media: 'gqaDmRfIab/1.mp4'
+    keyPoints: mKeyPointIds
 .then (lecture) ->
   mLecture = lecture
   removeAndCreate 'course',           #创建course
@@ -94,6 +102,11 @@ Q.all actions                          #加入所有静态数据
     owners : [ownerId]
     classes : [mClasse._id]
     lectureAssembly: [mLecture._id]
+.then () ->
+  KeyPoint.updateQ {},
+    categoryId: categoryId
+  ,
+    multi: true
 .then () ->
   console.log 'success'
 , (err) ->

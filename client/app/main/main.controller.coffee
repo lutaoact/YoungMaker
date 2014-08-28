@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'MainCtrl', ($scope, $http) ->
+angular.module('budweiserApp').controller 'MainCtrl', ($scope) ->
 
   angular.extend $scope,
     brands: null
@@ -18,11 +18,12 @@ angular.module('budweiserApp').controller 'MainCtrl', ($scope, $http) ->
         _id: id
         image: 'http://lorempixel.com/340/180/cats/?id=' + id
         title: 'Feature' + id
-        content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Labore facilis ipsum quibusdam officia, error vel, sed
-                  nesciunt totam est soluta officiis alias nemo, quia sit
-                  quisquam ducimus, molestias assumenda quos.
-                  '.substr(0,Math.floor(Math.random() * 100) + 100)
+        content: """
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Labore facilis ipsum quibusdam officia, error vel, sed
+          nesciunt totam est soluta officiis alias nemo, quia sit
+          quisquam ducimus, molestias assumenda quos.
+        """.substr(0,Math.floor(Math.random() * 100) + 100)
 
     showcases: null
 
@@ -31,11 +32,12 @@ angular.module('budweiserApp').controller 'MainCtrl', ($scope, $http) ->
         _id:id
         thumbnail: 'http://lorempixel.com/340/180/nature/?id=' + id
         title: 'Showcase' + id
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Labore facilis ipsum quibusdam officia, error vel, sed
-              nesciunt totam est soluta officiis alias nemo, quia sit
-              quisquam ducimus, molestias assumenda quos.
-              '.substr(0,Math.floor(Math.random() * 100) + 100)
+        desc: """
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Labore facilis ipsum quibusdam officia, error vel, sed
+          nesciunt totam est soluta officiis alias nemo, quia sit
+          quisquam ducimus, molestias assumenda quos.
+        """.substr(0,Math.floor(Math.random() * 100) + 100)
 
     plans: null
 

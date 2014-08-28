@@ -1,30 +1,29 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'qiniuKey', ($http, $q)->
+angular.module('budweiserApp').directive 'qiniuKey', ($http)->
   restrict: 'A'
-  scope:{qiniuKey:'=',sourceAttr:'@',suffix:'@'}
-  link: ($scope, $element, $attrs) ->
-    $scope.$watch 'qiniuKey',(value)->
-      deferred = $q.defer()
-      if value
-        if /\/\//.test value
-          deferred.resolve value
-        else
-          $http.get('/api/qiniu/signed_url/' + encodeURIComponent(value + ($scope.suffix or '')))
-          .success (url)->
-            deferred.resolve url
-      else
-        deferred.resolve
+  scope:
+    qiniuKey:'='
+    qiniuConf:'@'
+    sourceAttr:'@'
+    suffix:'@'
 
-      setSrc = (url)->
-        if url
+  link: ($scope, $element, $attrs) ->
+    setSource = (url)->
+      switch $scope.sourceAttr
+        when 'background-image'
+          $element.css('background-image','url(' + url + ')')
+        when 'data'
+          $element[0].data = url
+        else
           $element[0].src = url
 
-      deferred.promise.then (url)->
-        switch true
-          when $scope.sourceAttr is undefined or $scope.sourceAttr is '' or $scope.sourceAttr is 'src'
-            setSrc(url)
-          when $scope.sourceAttr is 'background-image'
-            $element.css('background-image','url(' + url + ')')
-          when $scope.sourceAttr is 'data'
-            $element[0].data = url
+    $scope.$watch 'qiniuKey',(key) ->
+      if !key || /\/\//.test(key)
+        setSource(key)
+      else
+        query = if $attrs.qiniuConf? then '?' + $attrs.qiniuConf else  ''
+        suffix = $scope.suffix ? ''
+        $http.get('/api/qiniu/signed_url/' + encodeURIComponent(key + query + suffix))
+        .success setSource
+

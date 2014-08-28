@@ -76,8 +76,7 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
           accept: 'image'
         success: (key) ->
           $scope.state.uploading = false
-          logoStyle ='?imageView2/2/w/210/h/140'
-          $scope.course.thumbnail = key + logoStyle
+          $scope.course.thumbnail = key
           $scope.course?.patch?(thumbnail: $scope.course.thumbnail)
         fail: (error)->
           $scope.state.uploading = false

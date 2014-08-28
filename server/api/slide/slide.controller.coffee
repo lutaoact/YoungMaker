@@ -168,6 +168,7 @@ exports.process = (req, res) ->
 
 ## listen to ppt2pdf event and call cvtPdf2Img
 mediaEvents.mediaProcess.on 'ppt2pdf', (key) ->
+  console.log 'Received ppt2pdf event, image key is ' + key
   # find response obj from slideProcessStatus
   fileName = key.replace /\.pdf$/i, ''
   response = slideProcessStatus[fileName].response

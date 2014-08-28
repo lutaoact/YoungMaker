@@ -78,42 +78,20 @@ exports.destroy = (req, res, next) ->
   , (err) ->
     next err
 
-# call twice can cancel out the vote
 exports.vote = (req, res, next) ->
-  courseId = req.params.courseId
-  userId = req.user.id
-  getAuthedCourseById userId, courseId, (err, course) ->
-    return handleError res, err if err
-    return res.send 403 if not course?
+  discussionId = req.params.id
+  userId = req.user._id
 
-    Discussion.findById req.params.id, (err, disc) ->
-      return handleError res, err if err
-      return res.send 403 if not disc?
+  Discussion.findByIdQ discussionId
+  .then (discussion) ->
+    if discussion.voteUpUsers.indexOf(userId) > -1
+      discussion.voteUpUsers.pull userId
+    else
+      discussion.voteUpUsers.addToSet userId
 
-      if req.body.vote is '1'
-        # vote
-        upIdx = disc.voteUpUsers.indexOf userId
-        if upIdx is -1
-          disc.voteUpUsers.push userId
-          downIdx = disc.voteDownUsers.indexOf userId
-          if downIdx isnt -1
-            disc.voteDownUsers.splice downIdx,1
-            disc.markModified 'voteDownUsers'
-          # undo vote
-        else
-          disc.voteUpUsers.splice upIdx,1
-        disc.markModified 'voteUpUsers'
-        disc.save()
-      else if req.body.vote is '-1'
-        downIdx = disc.voteDownUsers.indexOf userId
-        if downIdx is -1
-          disc.voteDownUsers.push userId
-          upIdx = disc.voteUpUsers.indexOf userId
-          if upIdx isnt -1
-            disc.voteUpUsers.splice upIdx, 1
-            disc.markModified 'voteUpUsers'
-        else
-          disc.voteDownUsers.splice downIdx,1
-        disc.markModified 'voteDownUsers'
-        disc.save()
-      res.json 200, disc
+    do discussion.saveQ
+  .then (result) ->
+    newValue = result[0]
+    res.send newValue
+  , (err) ->
+    next err

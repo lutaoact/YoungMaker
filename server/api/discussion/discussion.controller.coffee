@@ -12,20 +12,13 @@
 Discussion = _u.getModel 'discussion'
 CourseUtils = _u.getUtils 'course'
 
-# Get list of discussions
 exports.index = (req, res, next) ->
-  courseId = req.query.courseId
   user = req.user
+  courseId = req.query.courseId
   from = ~~req.query.from #from参数转为整数
-
-  console.log from
-  console.log req.query
 
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->
-    if not course?
-      return res.send 403
-
     Discussion.find
       courseId: course._id
     .populate 'postBy', '_id name avatar'
@@ -38,37 +31,25 @@ exports.index = (req, res, next) ->
   , (err) ->
     next err
 
-# Get a single discussion
-exports.show = (req, res) ->
-  getAuthedCourseById req.user.id, req.params.courseId, (err, course) ->
-    if err
-      return handleError res, err
-    if not course?
-      return res.send 403
+exports.create = (req, res, next) ->
+  user     = req.user
+  courseId = req.query.courseId
+  body     = req.body
 
-    Discussion.findById req.params.id,  (err, discussion) ->
-      return handleError res, err if err
-      return res.send 404 if not discussion?
-      res.json 200, discussion
+  CourseUtils.getAuthedCourseById user, courseId
+  .then (course) ->
+    #don't post voteUpUsers field, it's illegal, I will override it
+    #新的discussion这个字段值应该为空，所以强制赋为空数组
+    body.voteUpUsers = []
+    body.postBy      = user._id
+    body.courseId    = courseId
 
-
-# Creates a new discussion in the DB.
-exports.create = (req, res) ->
-  getAuthedCourseById req.user.id, req.params.courseId, (err, course) ->
-    return handleError res, err if err
-    return res.send 403 if not course?
-
-    #TODO: why do this?
-    # has permission to add a comment
-    delete req.body.voteUpUsers if req.body.voteUpUsers
-
-    req.body.userId = req.user.id
-    req.body.courseId = req.params.courseId
-    Discussion.create req.body, (err, discussion) ->
-      return handleError(res, err) if err
-      discWithUserInfo = withUserInfo(discussion.toObject(), req.user)
-      res.json 201, discWithUserInfo
-
+    Discussion.createQ body
+  .then (discussion) ->
+    discussion.postBy = user #populate postBy field
+    res.send 201, discussion
+  , (err) ->
+    next err
 
 # Updates an existing discussion in the DB.
 exports.update = (req, res) ->

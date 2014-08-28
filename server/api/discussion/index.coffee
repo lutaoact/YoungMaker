@@ -8,7 +8,6 @@ router = express.Router()
 # discussions
 router.get '/', auth.isAuthenticated(), controller.index
 router.post '/', auth.isAuthenticated(), controller.create
-router.get '/:id', auth.isAuthenticated(), controller.show
 router.put '/', auth.isAuthenticated(), controller.update
 router.patch '/', auth.isAuthenticated(), controller.update
 router.delete '/:id', auth.isAuthenticated(), controller.destroy

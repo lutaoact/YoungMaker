@@ -50,6 +50,12 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
+    removeMedia: ->
+      $scope.lecture.media = null
+      $scope.lecture?.patch?(media: $scope.lecture.media)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
+
 
     onThumbSelect: (files) ->
       $scope.uploading.thumb = true

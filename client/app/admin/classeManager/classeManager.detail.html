@@ -23,7 +23,7 @@
     </div>
   </div>
   <ul class="list-group">
-    <li class="list-group-item" ng-repeat="student in selectedClasse.students">
+    <li class="list-group-item" ng-repeat="student in selectedClasse.$students|filter:{role:'student'}">
       <strong>{{student.name}}</strong><br>
       <span class="text-muted">{{student.email}}</span>
       <div class="pull-right">

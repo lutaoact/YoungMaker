@@ -226,7 +226,7 @@ module.exports = function (grunt) {
       target: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-        exclude: [/bootstrap-sass-official/, /bootstrap.js/, /bootstrap.css/, /font-awesome.css/ ]
+        exclude: [/bootstrap-sass-official/, /bootstrap.js/, /bootstrap.css/, /font-awesome.css/, /select2.css/, /videogular.css/ ]
       }
     },
 
@@ -371,6 +371,20 @@ module.exports = function (grunt) {
           src: [
             'package.json',
             'server/**/*'
+          ]
+        },{
+          expand: true,
+          dest: '<%= yeoman.dist %>/public/app',
+          cwd: '.tmp/concat/app',
+          src: [
+            '**/*.js'
+          ]
+        },{
+          expand: true,
+          dest: '<%= yeoman.dist %>/public/app',
+          cwd: '<%= yeoman.client %>/bower_components/select2',
+          src: [
+            'select2.png'
           ]
         }]
       },
@@ -743,11 +757,11 @@ module.exports = function (grunt) {
     'autoprefixer',
     'ngtemplates',
     'concat',
-    'ngmin',
+    // 'ngmin',
     'copy:dist',
     'cdnify',
     'cssmin',
-    'uglify',
+    // 'uglify',
     'rev',
     'usemin'
   ]);

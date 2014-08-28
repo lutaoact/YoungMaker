@@ -14,7 +14,7 @@
     </div>
   </div>
   <ul class="list-group">
-    <li class="list-group-item" ng-repeat="user in users">
+    <li class="list-group-item" ng-repeat="user in users|filter:{role:'teacher'}">
       <strong>{{user.name}}</strong><br>
       <span class="text-muted">{{user.email}}</span>
       <div class="pull-right">

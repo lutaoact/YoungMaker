@@ -18,6 +18,7 @@ angular.module('budweiserApp')
   Restangular
   qiniuUtils
   notify
+  CurrentUser
 ) ->
 
   angular.extend $scope,
@@ -27,7 +28,7 @@ angular.module('budweiserApp')
 
     saveClasse: (classe, form) ->
       if !form.$valid then return
-      classe.orgId = Auth.getCurrentUser().orgId
+      classe.orgId = CurrentUser.orgId
       if not classe._id
         #create new classe
         Restangular.all('classes').post(classe).then (newClasse)->
@@ -36,8 +37,14 @@ angular.module('budweiserApp')
           $state.go('admin.classeManager.detail', classeId:newClasse._id)
       else
         #update classe
-        classe.put().then ->
-          angular.extend $scope.selectedClasse, classe
+        classe.put().then (data)->
+          angular.extend $scope.selectedClasse, data
+          angular.extend $scope.editingClasse, data
+
+    loadStudents: ()->
+      $scope.selectedClasse.all('students').getList().then (students) ->
+        console.log students
+        $scope.selectedClasse.$students = students
 
     deleteClasse: (classe) ->
       classe.remove().then ->
@@ -46,13 +53,13 @@ angular.module('budweiserApp')
         classes.splice(index, 1)
         $state.go('admin.classeManager')
 
+  console.log CurrentUser
 
   $scope.classesQ.then ->
     $scope.selectedClasse = _.find($scope.classesQ.$object, _id:$state.params.classeId) ? {}
     $scope.editingClasse = Restangular.copy($scope.selectedClasse)
-    if !$scope.selectedClasse._id || $scope.selectedClasse.students then return
-    $scope.selectedClasse.all('students').getList().then (students) ->
-      $scope.selectedClasse.students = students
+    return if !$scope.selectedClasse._id
+    $scope.loadStudents()
 
 
   #TODO refactor
@@ -66,11 +73,10 @@ angular.module('budweiserApp')
         max: 50 * 1024 * 1024
         accept: 'excel'
       success: (key)->
-        $scope.excelUrl = key
-        Restangular.one('users','bulk').post {key:$scope.excelUrl,orgId:Auth.getCurrentUser().orgId,type:'student',classeId:$scope.classe._id}
+        Restangular.one('users').post 'bulk', {key:key,orgId:CurrentUser.orgId,type:'student',classeId:$scope.selectedClasse._id}
         .then (result)->
           console.log result
-          $scope.reloadStudents()
+          $scope.loadStudents()
           $scope.isExcelProcessing = false
         , (error)->
           console.log error

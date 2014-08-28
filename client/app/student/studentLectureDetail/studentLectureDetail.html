@@ -65,9 +65,11 @@
   <hr/>
   <label>知识点</label>
   <ul class="list-group">
-    <li class="list-group-item" ng-repeat="keypoint in keypoints">
-      <strong>{{keypoint.name}}</strong><br>
-      <span class="text-muted">{{keypoint._id}}</span>
+    <li class="list-group-item clearfix" ng-repeat="keypoint in lecture.keypoints">
+      <a href ng-click="seek(keypoint.timestamp)">
+        <div class="pull-left">{{keypoint.kp.name}}</div>
+        <div class="pull-right">{{keypoint.timestamp}}</div>
+      </a>
     </li>
   </ul>
 

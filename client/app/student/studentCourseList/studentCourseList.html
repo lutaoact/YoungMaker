@@ -6,12 +6,12 @@
 <div class="container">
   <section class="course-list">
     <div class="row">
-      <div class="thumbnail col-md-3">
-        <a ng-repeat="course in courses"
-           ng-href="s/courses/{{course._id}}"
-           tooltip="{{course.info}}">
-          <p class="text-center">{{course.name}}</p>
-        </a>
+      <div ng-repeat="course in courses"
+           tooltip="{{course.info}}"
+           class="thumbnail col-md-3">
+          <a ng-href="s/courses/{{course._id}}">
+            <p class="caption text-center">{{course.name}}</p>
+          </a>
       </div>
     </div>
   </section>

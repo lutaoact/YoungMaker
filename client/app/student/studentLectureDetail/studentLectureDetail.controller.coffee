@@ -2,9 +2,16 @@
 
 angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
 , (
-  $scope, $state, Restangular, Auth,
-  $http, $upload, $location, notify,
-  qiniuUtils, $tools
+  $scope
+  $state
+  Restangular
+  Auth,
+  $http
+  $upload
+  $location
+  notify
+  qiniuUtils
+  $tools
 ) ->
 
   loadLecture = ()->
@@ -14,17 +21,11 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
       Restangular.one('lectures',$state.params.lectureId).get()
       .then (lecture)->
         $scope.lecture = lecture
-        # $scope.lecture.all('knowledge_points').getList()
-        # .then (kps)->
-        #   $scope.lecture.$knowledgePoints = kps
 
   loadCourse = ()->
     Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
         $scope.course = course
-        # Restangular.all('knowledge_points').getList({categoryId:course.categoryId})
-        # .then (kps)->
-        #   $scope.knowledgePoints = kps
 
   angular.extend $scope,
     lecture: null
@@ -49,6 +50,9 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
         else
           #put
           lecture.put()
+
+    seek: (timestamp)->
+      $scope.mediaPlayerAPI?.seekTime timestamp if timestamp?
 
     patchLecture: ()->
       if not lecture._id

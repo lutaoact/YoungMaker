@@ -12,6 +12,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
   $state
   Category
 ) ->
+
   angular.extend $scope,
 
     course: null
@@ -23,22 +24,30 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         #post
         Restangular.all('courses').post(course)
         .then (data)->
-          notify({message:'课程已保存',template:'components/alert/success.html'})
-          $state.go('student.courseDetail',{courseId:data._id})
+          notify
+            message:'课程已保存'
+            template:'components/alert/success.html'
+          $state.go 'student.courseDetail',
+            courseId: data._id
       else
         #put
         course.put()
         .then (data)->
           angular.extend course, data
-          notify({message:'课程已保存',template:'components/alert/success.html'})
+          notify
+            message: '课程已保存'
+            template: 'components/alert/success.html'
 
     patchCourse: (course, field)->
       if not course._id
         #post
         Restangular.all('courses').post(course)
         .then (data)->
-          notify({message:'课程已保存',template:'components/alert/success.html'})
-          $state.go('student.courseDetail',{courseId:data._id})
+          notify
+            message: '课程已保存'
+            template: 'components/alert/success.html'
+          $state.go 'student.courseDetail',
+            courseId: data._id
       else
         #put
         patch = {}
@@ -46,7 +55,9 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         course.patch(patch)
         .then (data)->
           angular.extend $scope.course, data
-          notify({message:'课程已保存',template:'components/alert/success.html'})
+          notify
+            message: '课程已保存'
+            template: 'components/alert/success.html'
 
     loadCourse: ()->
       if @$stateParams.courseId and @$stateParams.courseId is 'new'
@@ -62,7 +73,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
     deleteCourse: (course)->
       course.remove()
       .then ()->
-        $state.go('student.courseList')
+        $state.go 'student.courseList'
 
     loadLectures: ()->
       if $state.params.courseId

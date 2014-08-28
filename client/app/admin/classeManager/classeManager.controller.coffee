@@ -43,7 +43,6 @@ angular.module('budweiserApp')
 
     loadStudents: ()->
       $scope.selectedClasse.all('students').getList().then (students) ->
-        console.log students
         $scope.selectedClasse.$students = students
 
     deleteClasse: (classe) ->
@@ -53,10 +52,9 @@ angular.module('budweiserApp')
         classes.splice(index, 1)
         $state.go('admin.classeManager')
 
-  console.log CurrentUser
-
   $scope.classesQ.then ->
-    $scope.selectedClasse = _.find($scope.classesQ.$object, _id:$state.params.classeId) ? {}
+    $scope.selectedClasse = _.find($scope.classesQ.$object,
+      _id: $state.params.classeId) ? {}
     $scope.editingClasse = Restangular.copy($scope.selectedClasse)
     return if !$scope.selectedClasse._id
     $scope.loadStudents()
@@ -73,9 +71,12 @@ angular.module('budweiserApp')
         max: 50 * 1024 * 1024
         accept: 'excel'
       success: (key)->
-        Restangular.one('users').post 'bulk', {key:key,orgId:CurrentUser.orgId,type:'student',classeId:$scope.selectedClasse._id}
+        Restangular.one('users').post 'bulk',
+          key: key
+          orgId: CurrentUser.orgId
+          type: 'student'
+          classeId: $scope.selectedClasse._id
         .then (result)->
-          console.log result
           $scope.loadStudents()
           $scope.isExcelProcessing = false
         , (error)->

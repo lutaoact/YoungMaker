@@ -94,7 +94,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         progress: (speed, percentage, evt)->
           $scope.uploadProgress.ppt = parseInt(100.0 * evt.loaded / evt.total) + '%'
 
-    onImagesSelect: (files)->
+    onImagesSelect: (files) ->
       $scope.uploading.images = true
       qiniuUtils.bulkUpload
         files: files

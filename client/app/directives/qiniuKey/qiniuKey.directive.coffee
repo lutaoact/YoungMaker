@@ -4,9 +4,8 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http)->
   restrict: 'A'
   scope:
     qiniuKey:'='
-    qiniuConf:'@'
-    sourceAttr:'@'
     suffix:'@'
+    sourceAttr:'@'
 
   link: ($scope, $element, $attrs) ->
     setSource = (url)->
@@ -19,11 +18,12 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http)->
           $element[0].src = url
 
     $scope.$watch 'qiniuKey',(key) ->
-      if !key || /\/\//.test(key)
+      if !key
+        return
+      else if /\/\//.test(key)
         setSource(key)
       else
-        query = if $attrs.qiniuConf? then '?' + $attrs.qiniuConf else  ''
         suffix = $scope.suffix ? ''
-        $http.get('/api/qiniu/signed_url/' + encodeURIComponent(key + query + suffix))
+        $http.get('/api/qiniu/signed_url/' + encodeURIComponent(key + suffix))
         .success setSource
 

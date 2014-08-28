@@ -6,9 +6,6 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/classeManager'
     templateUrl: 'app/admin/classeManager/classeManager.html'
     controller: 'ClasseManagerCtrl'
-    resolve:
-      CurrentUser: (Auth)->
-        Auth.getCurrentUser()
 
   .state 'admin.classeManager.detail',
     url: '/:classeId'

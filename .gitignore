@@ -15,3 +15,4 @@ client/index.html
 /server/routes.js
 /server/config/environment/production.js
 /server/config/environment/development.js
+/server/common/Const.js

@@ -10,7 +10,7 @@ exports.Discussion = BaseModel.subclass
   classname: 'Discussion'
   initialize: ($super) ->
     @schema = new Schema
-      userId:
+      postBy:
         type: ObjectId
         ref: 'user'
         required: true
@@ -21,7 +21,6 @@ exports.Discussion = BaseModel.subclass
       lectureId:
         type: ObjectId
         ref: 'lecture'
-        required: true
       content:
         type: String
         required: true
@@ -29,10 +28,6 @@ exports.Discussion = BaseModel.subclass
         type: ObjectId
         ref: 'discussion'
       voteUpUsers:[
-        type: ObjectId
-        ref: 'user'
-      ]
-      voteDownUsers:[
         type: ObjectId
         ref: 'user'
       ]

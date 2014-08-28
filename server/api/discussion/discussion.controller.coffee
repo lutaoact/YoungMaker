@@ -10,36 +10,33 @@
 'use strict'
 
 Discussion = _u.getModel 'discussion'
-courseUtils = require '../course/course.utils'
-getAuthedCourseById = courseUtils.getAuthedCourseById
+CourseUtils = _u.getUtils 'course'
 
 # Get list of discussions
-exports.index = (req, res) ->
-  getAuthedCourseById req.user.id, req.params.courseId, (err, course) ->
-    if err
-      return handleError(res, err)
+exports.index = (req, res, next) ->
+  courseId = req.query.courseId
+  user = req.user
+  from = ~~req.query.from #from参数转为整数
+
+  console.log from
+  console.log req.query
+
+  CourseUtils.getAuthedCourseById user, courseId
+  .then (course) ->
     if not course?
       return res.send 403
 
-    # TODO: validate on query parameters
-    from = req.query.from ? 0
-    if !req.query.limit or req.query.limit>128
-      limit = 36
-    else
-      limit = req.query.limit
-    Discussion
-    .find 'courseId': req.params.courseId
-    .lean()
-    .populate 'userId', "_id name avatar"
-    .sort 'created': -1
-    .limit limit
+    Discussion.find
+      courseId: course._id
+    .populate 'postBy', '_id name avatar'
+    .sort created: -1
+    .limit Const.PageSize.Discussion
     .skip from
-    .exec (err, discussions) ->
-      if err
-        return handleError res, err
-      #rename userId to user
-      discussions.forEach (disc) -> withUserInfo(disc, disc.userId)
-      return res.json 200, discussions
+    .execQ()
+  .then (discussions) ->
+    res.send discussions
+  , (err) ->
+    next err
 
 # Get a single discussion
 exports.show = (req, res) ->
@@ -156,6 +153,3 @@ withUserInfo = (disc, user) ->
     avatar: user.avatar
     name: user.name
   disc
-
-handleError = (res, err) ->
-  return res.send 500, err

@@ -29,6 +29,8 @@ exports.show = (req, res, next) ->
   lectureId = req.params.id
   LectureUtils.getAuthedLectureById req.user, lectureId
   .then (lecture) ->
+    lecture.populateQ 'keyPoints', '_id name categoryId'
+  .then (lecture) ->
     res.send lecture
   , (err) ->
     next err

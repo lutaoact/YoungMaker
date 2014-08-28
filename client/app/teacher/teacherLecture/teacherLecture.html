@@ -6,7 +6,7 @@
         <input type="file" style="display:none;"
                ng-file-select="onThumbSelect($files)"/>
         <img qiniu-key="lecture.thumbnail"
-             qiniu-conf="imageView2/2/w/210/h/140"
+             suffix="?imageView2/2/w/210/h/140"
              ng-show="!uploading.thumb"
              src="/assets/images/empty.jpg"/>
         <span ng-if="uploading.thumb">
@@ -101,23 +101,37 @@
   </form>
   <hr/>
   <div class="row">
-    <div class="col-md-6">
-      <cool-projector disable-animation="true">
-        <cool-frame ng-repeat="slide in lecture.slides"
-                    active="slide.$active">
-          <img qiniu-key="slide.thumb"
-               qiniu-conf="imageView2/2/w/500/h/500"
-               style="margin:auto;">
-          <div class="carousel-caption">
-            <h4>
-              第 {{$index+1}} 张
-              <a ng-click="removeSlide($index)">
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-            </h4>
-          </div>
-        </cool-frame>
-      </cool-projector>
+    <div class="col-md-6 media">
+      <div class="pull-left">
+        <div class="list-group"
+            style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
+          <a class="list-group-item stretch media-object"
+              ng-class="{'active':slide.$active}"
+              ng-click="slide.$active = true"
+              ng-repeat-reorder="slide in lecture.slides"
+              ng-repeat-reorder-handle="div.drag-point">
+            <div class="drag-point fa fa-bars" draggable="true"></div>
+            <img qiniu-key="slide.thumb"
+                 suffix="?imageView2/2/w/40/h/40">
+            <span ng-click="removeSlide($index)" >
+              <span class="glyphicon glyphicon-trash"></span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="media-body">
+        <cool-projector disable-animation="true">
+          <cool-frame ng-repeat="slide in lecture.slides"
+                      active="slide.$active">
+            <img qiniu-key="slide.thumb"
+                 suffix="?imageView2/2/w/500/h/500"
+                 style="margin:auto;">
+            <div class="carousel-caption">
+              <h4>第 {{$index+1}} 张</h4>
+            </div>
+          </cool-frame>
+        </cool-projector>
+      </div>
     </div>
     <div class="col-md-6 col-xs-11">
       <videogular>

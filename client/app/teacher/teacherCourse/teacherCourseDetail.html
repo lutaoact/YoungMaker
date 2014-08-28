@@ -4,7 +4,7 @@
       <label class="btn btn-default" ng-show="!state.uploading">
         <input type="file" style="display:none;" ng-file-select="onThumbSelect($files)"/>
         <img qiniu-key="course.thumbnail"
-             qiniu-conf="imageView2/2/w/210/h/140"
+             suffix="?imageView2/2/w/210/h/140"
              src="/assets/images/empty.jpg"/>
       </label>
       <label class="btn btn-default disabled" ng-show="state.uploading">

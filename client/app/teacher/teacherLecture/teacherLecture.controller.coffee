@@ -131,6 +131,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         progress: (speed,percentage, evt)->
           $scope.uploadProgress.media = parseInt(100.0 * evt.loaded / evt.total) + '%'
 
+
+  $scope.$on 'ngrr-reordered', ->
+    $scope.lecture.patch(slides:$scope.lecture.slides)
+
   if $state.params.id is 'new'
     $scope.lecture = {}
   else

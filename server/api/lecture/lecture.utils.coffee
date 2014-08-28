@@ -15,5 +15,7 @@ exports.LectureUtils = BaseUtils.subclass
       mCourse = course
       CourseUtils.getAuthedCourseById user, mCourse._id
     .then (course) ->
-      Lecture.findOneQ
+      Lecture.findOne
         _id: lectureId
+      .populate 'keyPoints', '_id name categoryId'
+      .execQ()

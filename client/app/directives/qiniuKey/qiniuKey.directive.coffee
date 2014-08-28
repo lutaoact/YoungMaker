@@ -19,7 +19,9 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http)->
           $element[0].src = url
 
     $scope.$watch 'qiniuKey',(key) ->
-      if !key || /\/\//.test(key)
+      if !key
+        return
+      else if /\/\//.test(key)
         setSource(key)
       else
         query = if $attrs.qiniuConf? then '?' + $attrs.qiniuConf else  ''

@@ -105,10 +105,19 @@ module.exports =
         thumb: "http://lorempixel.com/480/360/?r=#{i}"
     )
     media: 'gqaDmRfIab/1.mp4'
-    keyPoints: [
-      _s.sprintf keyPointId, 0
-      _s.sprintf keyPointId, 1
-      _s.sprintf keyPointId, 2
+    keypoints: [
+      {
+        kp: _s.sprintf keyPointId, 0
+        timestamp : 10
+      },
+      {
+        kp: _s.sprintf keyPointId, 1
+        timestamp : 30
+      },
+      {
+        kp: _s.sprintf keyPointId, 2
+        timestamp : 50
+      }
     ]
   ]
   course: [

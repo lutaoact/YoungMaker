@@ -75,7 +75,7 @@ exports.convertToCamelCase = convertToCamelCase;
  * @example UserCard -> user_card
  */
 function convertToSnakeCase(key) {
-    return _.map(key.match(/[A-Z][a-z0-9]+/g), function(s) {
+    return _.map(key.match(/[A-Z][a-z0-9]*/g), function(s) {
         return s.charAt(0).toLowerCase() + s.substr(1);
     }).join('_');
 }

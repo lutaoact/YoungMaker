@@ -9,6 +9,7 @@ lectureId    = '5555555555555555555555%02d'
 courseId     = '6666666666666666666666%02d'
 slideId      = '7777777777777777777777%02d'
 discussionId = '7777777777777777777777%02d'
+questionId   = '8888888888888888888888%02d'
 
 module.exports =
   category: (
@@ -156,5 +157,16 @@ module.exports =
       _s.sprintf userId, 3
     ]
   ]
+  question : [
+    _id : _s.sprintf questionId, 0
+    orgId : _s.sprintf orgId, 0
+    categoryId : _s.sprintf categoryId, 0
+    content :
+      title : "Which animal has long nose?"
+      body : "A: monkey; B: elephant, C: Duck, D: Cow"
+    type : 1
+    solution : "Elephant has long nose and trunk"
+  ]
+
 
 #console.log module.exports

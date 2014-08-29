@@ -6,7 +6,7 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.QuizzAnswer = BaseModel.subclass
+exports.QuizAnswer = BaseModel.subclass
   classname: 'QuizAnswer'
   initialize: ($super) ->
     @schema = new Schema

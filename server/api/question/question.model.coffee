@@ -16,7 +16,13 @@ exports.Question = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "category"
       content: Schema.Types.Mixed
-      type: Number
+#        imageUrl: String
+#        title: String
+#        body: [
+#          desc: String
+#          correct: Bool
+#        ]
+      type: Number #1:choice
       solution: String
 
     $super()

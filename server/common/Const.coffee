@@ -8,3 +8,6 @@ module.exports =
     Discussion: 36
     Lecture: 10
     Course: 10
+
+  QuestionType:
+    Choice: 1

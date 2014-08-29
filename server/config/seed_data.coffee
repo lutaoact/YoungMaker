@@ -8,8 +8,13 @@ classeId     = '4444444444444444444444%02d'
 lectureId    = '5555555555555555555555%02d'
 courseId     = '6666666666666666666666%02d'
 slideId      = '7777777777777777777777%02d'
+<<<<<<< HEAD
 discussionId = '7777777777777777777777%02d'
 questionId   = '8888888888888888888888%02d'
+=======
+discussionId = '8888888888888888888888%02d'
+questionId   = '9999999999999999999999%02d'
+>>>>>>> 8ea9873ef0b3a942aa3db41f83f3b455470466be
 
 module.exports =
   category: (
@@ -107,18 +112,14 @@ module.exports =
     )
     media: 'gqaDmRfIab/1.mp4'
     keypoints: [
-      {
-        kp: _s.sprintf keyPointId, 0
-        timestamp : 10
-      },
-      {
-        kp: _s.sprintf keyPointId, 1
-        timestamp : 30
-      },
-      {
-        kp: _s.sprintf keyPointId, 2
-        timestamp : 50
-      }
+      kp: _s.sprintf keyPointId, 0
+      timestamp : 10
+    ,
+      kp: _s.sprintf keyPointId, 1
+      timestamp : 30
+    ,
+      kp: _s.sprintf keyPointId, 2
+      timestamp : 50
     ]
   ]
   course: [
@@ -157,16 +158,61 @@ module.exports =
       _s.sprintf userId, 3
     ]
   ]
-  question : [
-    _id : _s.sprintf questionId, 0
-    orgId : _s.sprintf orgId, 0
-    categoryId : _s.sprintf categoryId, 0
-    content :
-      title : "Which animal has long nose?"
-      body : "A: monkey; B: elephant, C: Duck, D: Cow"
-    type : 1
-    solution : "Elephant has long nose and trunk"
+  question: [
+    _id: _s.sprintf questionId, 0
+    orgId: _s.sprintf orgId, 0
+    categoryId: _s.sprintf categoryId, 0
+    content:
+      imageUrl: 'http://url.cn/LmqYv5'
+      title: '1 + 1 = ？'
+      body: [
+        desc: '2'
+        correct: true
+      ,
+        desc: '3'
+      ,
+        desc: '4'
+      ,
+        desc: '5'
+      ]
+    type: 1
+    solution: '1 + 1 = 2太简单了，上课了'
+  ,
+    _id: _s.sprintf questionId, 1
+    orgId: _s.sprintf orgId, 0
+    categoryId: _s.sprintf categoryId, 0
+    content:
+      imageUrl: 'http://url.cn/N0Potq'
+      title: 'BrAg光解生成什么'
+      body: [
+        desc: 'Br2 + Ag'
+        correct: true
+      ,
+        desc: 'Ag'
+      ,
+        desc: 'Br2'
+      ]
+    type: 1
+    solution: '连AgBr的光解都不会，高中没读吧'
+  ,
+    _id: _s.sprintf questionId, 2
+    orgId: _s.sprintf orgId, 0
+    categoryId: _s.sprintf categoryId, 1
+    content:
+      imageUrl: 'http://url.cn/N0Potq'
+      title: '这是类别1的问题'
+      body: [
+        desc: '这是答案'
+        correct: true
+      ,
+        desc: '这个不是'
+      ,
+        desc: '这个也不是'
+      ]
+    type: 1
+    solution: '连AgBr的光解都不会，高中没读吧'
   ]
 
-
-#console.log module.exports
+require './seed'
+#console.log module.exports.question[0]
+#console.log module.exports.question[0].content

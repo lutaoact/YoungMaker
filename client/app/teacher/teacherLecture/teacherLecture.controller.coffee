@@ -33,7 +33,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       (
         if lecture._id?
           # update exists
-          lecture.patch(lecture)
+          Restangular.copy(lecture).patch()
         else
           # create new
           Restangular.all('lectures').post(lecture, courseId:$state.params.courseId)

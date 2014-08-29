@@ -59,11 +59,12 @@ angular.module 'budweiserApp', [
   getRedirectUrl = ->
     redirect = $location.search()[redirectKey]
     if !redirect? then return undefined
-    encodeURIComponent redirect
+    redirect
 
   set: (newRedirect) ->
     if getRedirectUrl()? || newRedirect is loginPath then return
-    $location.url "#{loginPath}?#{redirectKey}=#{newRedirect}"
+    redirect = encodeURIComponent newRedirect
+    $location.url "#{loginPath}?#{redirectKey}=#{redirect}"
 
   apply: ->
     if !getRedirectUrl()? then return false

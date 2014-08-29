@@ -50,6 +50,8 @@ angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
       if course._id?
         # update exists
         Restangular.copy(course).put()
+        .then (newCourse) ->
+          course.__v = newCourse.__v
       else
         # create new
         Restangular.all('courses').post(course)

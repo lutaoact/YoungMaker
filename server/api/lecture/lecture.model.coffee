@@ -18,12 +18,12 @@ exports.Lecture = BaseModel.subclass
         thumb: String
       ]
       media: String
-      keypoints: [{
-          kp :
-            type: Schema.Types.ObjectId
-            ref : "key_point"
-          timestamp: Number
-      }]
+      keypoints: [
+        kp :
+          type: Schema.Types.ObjectId
+          ref : "key_point"
+        timestamp: Number
+      ]
       quizzes: [
         type: Schema.Types.ObjectId
         ref: "question"

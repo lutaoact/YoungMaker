@@ -8,8 +8,9 @@ classeId     = '4444444444444444444444%02d'
 lectureId    = '5555555555555555555555%02d'
 courseId     = '6666666666666666666666%02d'
 slideId      = '7777777777777777777777%02d'
-discussionId = '8888888888888888888888%02d'
-questionId   = '9999999999999999999999%02d'
+disTopicId   = '8888888888888888888888%02d'
+disReplyId   = '9999999999999999999999%02d'
+questionId   = 'aaaaaaaaaaaaaaaaaaaaaa%02d'
 
 module.exports =
   category: (
@@ -133,22 +134,42 @@ module.exports =
       _s.sprintf lectureId, 0
     ]
   ]
-  discussion: [
-    _id: _s.sprintf discussionId, 0
+  dis_topic: [
+    _id: _s.sprintf disTopicId, 0
     postBy: _s.sprintf userId, 3
     courseId: _s.sprintf courseId, 0
     lectureId: _s.sprintf lectureId, 0
-    content: 'this is the first discussion'
+    title: 'first dis topic'
+    content: 'this is the first dis topic'
     voteUpUsers: [
       _s.sprintf userId, 3
       _s.sprintf userId, 4
     ]
   ,
-    _id: _s.sprintf discussionId, 1
+    _id: _s.sprintf disTopicId, 1
     postBy: _s.sprintf userId, 4
     courseId: _s.sprintf courseId, 0
     lectureId: _s.sprintf lectureId, 0
-    content: 'this is the second discussion'
+    title: 'second dis topic'
+    content: 'this is the second dis topic'
+    voteUpUsers: [
+      _s.sprintf userId, 3
+    ]
+  ]
+  dis_reply: [
+    _id: _s.sprintf disReplyId, 0
+    postBy: _s.sprintf userId, 3
+    disTopicId: _s.sprintf disTopicId, 0
+    content: 'this is the first dis reply'
+    voteUpUsers: [
+      _s.sprintf userId, 3
+      _s.sprintf userId, 4
+    ]
+  ,
+    _id: _s.sprintf disReplyId, 1
+    postBy: _s.sprintf userId, 4
+    disTopicId: _s.sprintf disTopicId, 0
+    content: 'this is the second dis reply'
     voteUpUsers: [
       _s.sprintf userId, 3
     ]

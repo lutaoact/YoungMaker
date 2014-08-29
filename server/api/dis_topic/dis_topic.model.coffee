@@ -6,8 +6,8 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.Discussion = BaseModel.subclass
-  classname: 'Discussion'
+exports.DisTopic = BaseModel.subclass
+  classname: 'DisTopic'
   initialize: ($super) ->
     @schema = new Schema
       postBy:
@@ -21,12 +21,12 @@ exports.Discussion = BaseModel.subclass
       lectureId:
         type: ObjectId
         ref: 'lecture'
+      title:
+        type: String
+        required: true
       content:
         type: String
         required: true
-      responseTo:
-        type: ObjectId
-        ref: 'discussion'
       voteUpUsers: [
         type: ObjectId
         ref: 'user'

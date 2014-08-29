@@ -189,6 +189,23 @@ module.exports =
       ]
     type: 1
     solution: '连AgBr的光解都不会，高中没读吧'
+  ,
+    _id: _s.sprintf questionId, 2
+    orgId: _s.sprintf orgId, 0
+    categoryId: _s.sprintf categoryId, 1
+    content:
+      imageUrl: 'http://url.cn/N0Potq'
+      title: '这是类别1的问题'
+      body: [
+        desc: '这是答案'
+        correct: true
+      ,
+        desc: '这个不是'
+      ,
+        desc: '这个也不是'
+      ]
+    type: 1
+    solution: '连AgBr的光解都不会，高中没读吧'
   ]
 
 require './seed'

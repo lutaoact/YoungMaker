@@ -21,6 +21,7 @@ module.exports = (app) ->
   app.use '/api/slides', require './api/slide'
   app.use '/api/lectures', require './api/lecture'
   app.use '/api/discussions', require './api/discussion'
+  app.use '/api/questions', require './api/question'
   app.use '/api/class_progresses', require './api/class_progress'
   app.use '/api/key_points', require './api/key_point'
   app.use '/auth', require './auth'

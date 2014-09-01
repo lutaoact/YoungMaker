@@ -207,6 +207,13 @@ module.exports =
     type: 1
     solution: '连AgBr的光解都不会，高中没读吧'
   ]
+  quiz_answer : [
+    userId : _s.sprintf userId, 3
+    lectureId : _s.sprintf lectureId, 0
+    questionId : _s.sprintf questionId, 0
+    result :
+      ["A", "B"]
+  ]
 
 require './seed'
 #console.log module.exports.question[0]

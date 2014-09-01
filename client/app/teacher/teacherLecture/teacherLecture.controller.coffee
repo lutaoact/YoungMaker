@@ -1,11 +1,29 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
+angular.module('budweiserApp')
+
+.filter 'indexToABC', ->
+  (index) -> String.fromCharCode(65+index)
+
+.controller 'QuestionLibraryCtrl', (
+  $scope
+  questions
+  $modalInstance
+) ->
+  angular.extend $scope,
+    questions: questions
+    close: ->
+      $modalInstance.dismiss('close')
+    add: (question) ->
+      $modalInstance.close(question)
+
+.controller 'TeacherLectureCtrl', (
   Auth
   $http
   $scope
   $state
   notify
+  $modal
   $upload
   $location
   qiniuUtils
@@ -143,7 +161,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     seekPlayerTime: (time) ->
       $scope.mediaAPI.seekTime time
 
-    # TODO refactor keypoint ctrl / service
+    # TODO CRUD keypoint logic refactor
     keypointFormatter: ($model) -> $model?.name
 
     addKeypoint: (keypoint) ->
@@ -169,6 +187,20 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
+    # TODO CRUD question logic refactor
+    addFromQuestionLibrary: ->
+      $modal.open
+        templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
+        controller: 'QuestionLibraryCtrl'
+        resolve:
+          questions: -> $scope.course.$questions
+      .result.then (question) ->
+        $scope.lecture.homeworks.push question
+        newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
+        $scope.lecture.patch(homeworks:newHomeWorks)
+        .then (newLecture) ->
+          $scope.lecture.__v = newLecture.__v
+
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch(slides:$scope.lecture.slides)
     .then (newLecture) ->
@@ -185,4 +217,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     Restangular.all('key_points').getList(categoryId:course.categoryId)
     .then (keypoints) ->
       course.$keypoints = keypoints
-
+    Restangular.all('questions').getList(categoryId:course.categoryId)
+    .then (questions) ->
+      course.$questions = questions

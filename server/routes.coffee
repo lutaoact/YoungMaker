@@ -27,6 +27,7 @@ module.exports = (app) ->
   app.use '/api/class_progresses', require './api/class_progress'
   app.use '/api/key_points', require './api/key_point'
   app.use '/api/homework_answers', require './api/homework_answer'
+  app.use '/api/homework_stats', require './api/homework_stats'
   app.use '/api/quiz_answers', require './api/quiz_answer'
   app.use '/auth', require './auth'
   app.use errorHandler

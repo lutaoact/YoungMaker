@@ -22,9 +22,10 @@ exports.QuizAnswer = BaseModel.subclass
         type : ObjectId
         required : true
         ref : 'question'
-      result :
-        type : Schema.Types.Mixed
-        default : {}
-        required : true
+      result : [
+        Schema.Types.Mixed
+        # For choice questions, element should be numbers starting from 0
+        # for example: [0, 3]
+      ]
 
     $super()

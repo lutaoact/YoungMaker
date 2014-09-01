@@ -18,9 +18,10 @@ exports.HomeworkAnswer = BaseModel.subclass
         type : ObjectId
         required : true
         ref : 'lecture'
-      result :
-        type : Schema.Types.Mixed
-        default : {}
-        required : true
+      result : [
+        questionId : ObjectId
+        answer : Schema.Types.Mixed
+      ]
+      submitted : Boolean
 
     $super()

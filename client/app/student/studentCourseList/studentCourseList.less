@@ -43,7 +43,14 @@
 
   .course-list{
     background: #EBEBEB;
-    min-height: 200px;
+    &.limit-height{
+      @media screen and (min-height: 0px) {
+        height: 600px;
+      }
+      @media screen and (min-height: 700px) {
+        height: 1080;
+      }
+    }
   }
 
   .anchor{

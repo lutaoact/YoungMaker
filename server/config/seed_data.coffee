@@ -102,6 +102,15 @@ module.exports =
       _s.sprintf userId, 4
     ]
     yearGrade : '2014'
+  ,
+    _id: _s.sprintf classeId, 1
+    name : 'Class two'
+    orgId: _s.sprintf orgId, 0
+    students : [
+      _s.sprintf userId, 1
+      _s.sprintf userId, 2
+    ]
+    yearGrade : '2015'
   ]
   lecture: [
     _id: _s.sprintf lectureId, 0
@@ -137,6 +146,7 @@ module.exports =
     ]
     classes : [
       _s.sprintf classeId, 0
+      _s.sprintf classeId, 1
     ]
     lectureAssembly: [
       _s.sprintf lectureId, 0

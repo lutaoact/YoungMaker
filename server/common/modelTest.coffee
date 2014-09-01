@@ -33,26 +33,33 @@ Classe = _u.getModel 'classe'
 #  console.log res
 CourseUtils = _u.getUtils 'course'
 LectureUtils = _u.getUtils 'lecture'
-#teacherId = '222222222222222222222222'
+teacher =
+  role: 'teacher'
+  _id: '111111111111111111111102'
+
+courseId = '666666666666666666666600'
+
+CourseUtils.getStudentsNum teacher, courseId
+.then (num) ->
+  console.log num
+, (err) ->
+  console.log err
 #CourseUtils.checkTeacher teacherId, '53f9b1cd67b02bc1220d556b'
 #.then (course) ->
 #  console.log course
 #, (err) ->
 #  console.log 'this is error'
 #  console.log err
-student =
-  role: 'student'
-  _id: '53fbf7e19b43e4a2375266ff'
+#student =
+#  role: 'student'
+#  _id: '53fbf7e19b43e4a2375266ff'
+#
 
-teacher =
-  role: 'teacher'
-  _id: '53fbf7e19b43e4a2375266fe'
-
-LectureUtils.getAuthedLectureById teacher, '53fbf7e19b43e4a237526708'
-.then (lecture) ->
-  console.log lecture
-, (err) ->
-  console.log err
+#LectureUtils.getAuthedLectureById teacher, '53fbf7e19b43e4a237526708'
+#.then (lecture) ->
+#  console.log lecture
+#, (err) ->
+#  console.log err
 #CourseUtils.getAuthedCourseById user, '53f9b1cd67b02bc1220d556b'
 #.then (course) ->
 #  console.log course

@@ -1,5 +1,6 @@
 BaseUtils = require('../../common/BaseUtils').BaseUtils
 Course = _u.getModel 'course'
+Classe = _u.getModel 'classe'
 
 exports.CourseUtils = BaseUtils.subclass
   classname: 'CourseUtils'
@@ -27,7 +28,6 @@ exports.CourseUtils = BaseUtils.subclass
 
   checkStudent: (studentId, courseId) ->
 
-    Classe = _u.getModel 'classe'
     Classe.findOneQ
       students: studentId
     .then (classe) ->
@@ -81,5 +81,25 @@ exports.CourseUtils = BaseUtils.subclass
       console.log 'Found courses ...'
       console.dir courses
       return courses
+    , (err) ->
+      Q.reject err
+
+  getStudentsNum: (user, courseId) ->
+    if user.role isnt 'teacher'
+      return Q.reject
+        status : 403
+        errCode: ErrCode.TeacherCanAccessOnly
+        errMsg : 'teacher can access only'
+
+    @checkTeacher user._id, courseId
+    .then (course) ->
+      Classe.findQ
+        _id:
+          $in: course.classes
+    .then (classes) ->
+      logger.info classes
+      return _.reduce(classes, (sum, classe) ->
+        return sum + classe.students.length
+      , 0)
     , (err) ->
       Q.reject err

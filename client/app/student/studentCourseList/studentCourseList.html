@@ -1,18 +1,89 @@
-<div class="jumbotron">
-  <div class="text-center">
-    jumbotron
-  </div>
-</div>
-<div class="container">
-  <section class="course-list">
-    <div class="row">
-      <div ng-repeat="course in courses"
-           tooltip="{{course.info}}"
-           class="thumbnail col-md-3">
-          <a ng-href="s/courses/{{course._id}}">
-            <p class="caption text-center">{{course.name}}</p>
-          </a>
+<div class="jumbotron timetable"
+     full-screen
+     qiniu-key="'9afunBb7Fz/DSC00591.jpg'"
+     source-attr="background-image">
+  <div class="row content">
+    <div class="col-md-2 text-center">
+      <a href="" class="arrow"><i class="fa fa-chevron-left"></i></a>
+    </div>
+    <div class="col-md-8">
+      <div class="pages">
+        <img style="width:900px;" src="assets/images/timetable.png" alt="">
       </div>
     </div>
-  </section>
+    <div class="col-md-2 text-center">
+      <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
+    </div>
+  </div>
+  <a class="anchor bottom-up inverse" href="#course-list" du-smooth-scroll>
+    <i class="fa fa-chevron-down"></i>
+  </a>
 </div>
+<section class="course-list" id="course-list">
+  <div class="container" >
+    <div class="section-header">
+      <h1>
+        我的课程
+      </h1>
+    </div>
+    <div class="row">
+      <p class="col-md-6 col-md-offset-3 text-center">
+        未来的精英，必会是你我之中， 未来的精英，必会是你我之中！<br/>未来的精英，必会是你我之中未来的精英
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-md-3" ng-repeat="course in courses">
+        <a class="thumbnail course"
+           ui-sref="student.courseDetail({courseId:course._id})"
+           >
+          <div class="back"
+               qiniu-key="course.thumbnail"
+               source-attr="background-image">
+
+          </div>
+          <div class="mask">
+
+
+          </div>
+          <div class="caption">
+            <h4>{{course.name}}</h4>
+          </div>
+          <div class="info">
+            {{course.info}}
+
+          </div>
+
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <a href="">由此展开更多课程</a>
+  </div>
+  <a class="anchor bottom-up inverse" href="#my-rank" du-smooth-scroll>
+    <i class="fa fa-chevron-down"></i>
+  </a>
+</section>
+
+<section class="my-rank" id="my-rank">
+
+  <div class="container" >
+    <div class="section-header">
+      <h1>
+        我的排名
+      </h1>
+    </div>
+    <div class="row">
+      <p class="col-md-6 col-md-offset-3">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Pariatur soluta, molestiae. Laudantium ex id magnam voluptas
+        cupiditate expedita, eum hic nobis excepturi aspernatur modi dolor,
+        praesentium aperiam natus molestiae, voluptatum.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+

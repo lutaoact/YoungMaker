@@ -68,7 +68,7 @@
     <li class="list-group-item clearfix" ng-repeat="keypoint in lecture.keypoints">
       <a href ng-click="seek(keypoint.timestamp)">
         <div class="pull-left">{{keypoint.kp.name}}</div>
-        <div class="pull-right">{{keypoint.timestamp}}</div>
+        <div class="pull-right">{{keypoint.timestamp|toHmmss}}</div>
       </a>
     </li>
   </ul>

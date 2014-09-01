@@ -1,0 +1,40 @@
+<div class="container">
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="forum.home">返回</a>
+    </li>
+    <li>
+      <a ui-sref="forum.course({courseId:course._id})" class="active">
+        {{course.name||'某课程'}}
+      </a>
+    </li>
+    <li>
+      <a href class="active">
+        讨论
+      </a>
+    </li>
+  </ol>
+
+  <section>
+    <ul class="list-group">
+      <li class="thumbnail media col-md-12"
+          ng-repeat="discussion in discussions">
+        <a class="pull-left" href="#">
+          <img class="media-object"
+               qiniu-key="discussion.postBy.avatar"
+               style="width:32px;height:32px;"
+               suffix="?imageView2/1/w/64/h/64">
+          <span>{{discussion.postBy.name}}</span>
+        </a>
+        <div class="media-body">
+          <a ui-sref="forum.discussion({courseId:course._id,
+                      discussionId:discussion._id})">
+            <strong>{{discussion.subject}}</strong>
+            <p>{{discussion.content}}</p>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+</div>

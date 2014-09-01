@@ -22,6 +22,16 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         role: 'student'
       }
       {
+        title: '讨论'
+        link: 'forum.home'
+        role: 'teacher'
+      }
+      {
+        title: '讨论'
+        link: 'forum.home'
+        role: 'student'
+      }
+      {
         title: '管理组'
         link: 'admin.classeManager'
         role: 'admin'

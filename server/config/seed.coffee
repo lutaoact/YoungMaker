@@ -4,9 +4,6 @@
 
 'use strict'
 require '../common/init'
-AsyncClass = require('../common/AsyncClass').AsyncClass
-
-seedData = require './seed_data'
 
 removeAndCreate = (name, data) ->
   Model = _u.getModel name
@@ -19,11 +16,12 @@ removeAndCreate = (name, data) ->
   , (err) ->
     Q.reject err
 
-actions = (removeAndCreate name, data for name, data of seedData)
+module.exports = (seedData) ->
+  actions = (removeAndCreate name, data for name, data of seedData)
 
-Q.all actions
-.then (results) ->
-  logger.info results
-  console.log 'success'
-, (err) ->
-  console.log err
+  Q.all actions
+  .then (results) ->
+    logger.info results
+    console.log 'success'
+  , (err) ->
+    console.log err

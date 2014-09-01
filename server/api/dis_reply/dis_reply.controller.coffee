@@ -1,67 +1,63 @@
-###
- * Using Rails-like standard naming convention for endpoints.
- * GET     /discussions              ->  index
- * POST    /discussions              ->  create
- * GET     /discussions/:id          ->  show
- * PUT     /discussions/:id          ->  update
- * DELETE  /discussions/:id          ->  destroy
- ###
-
 'use strict'
 
-Discussion = _u.getModel 'discussion'
+DisTopic = _u.getModel 'dis_topic'
+DisReply = _u.getModel 'dis_reply'
 CourseUtils = _u.getUtils 'course'
+DisUtils = _u.getUtils 'dis'
 
 exports.index = (req, res, next) ->
   user = req.user
-  courseId = req.query.courseId
+  disTopicId = req.query.disTopicId
   from = ~~req.query.from #from参数转为整数
 
-  CourseUtils.getAuthedCourseById user, courseId
+  DisTopic.findByIdQ disTopicId
+  .then (disTopic) ->
+    CourseUtils.getAuthedCourseById user, disTopic.courseId
   .then (course) ->
-    Discussion.find
-      courseId: course._id
+    DisReply.find
+      disTopicId: disTopicId
     .populate 'postBy', '_id name avatar'
     .sort created: -1
-    .limit Const.PageSize.Discussion
+    .limit Const.PageSize.DisReply
     .skip from
     .execQ()
-  .then (discussions) ->
-    res.send discussions
+  .then (disReplies) ->
+    res.send disReplies
   , (err) ->
     next err
 
 exports.create = (req, res, next) ->
   user     = req.user
-  courseId = req.query.courseId
+  disTopicId = req.query.disTopicId
   body     = req.body
   delete body._id
 
-  CourseUtils.getAuthedCourseById user, courseId
+  DisTopic.findByIdQ disTopicId
+  .then (disTopic) ->
+    CourseUtils.getAuthedCourseById user, disTopic.courseId
   .then (course) ->
     #don't post voteUpUsers field, it's illegal, I will override it
-    #新的discussion这个字段值应该为空，所以强制赋为空数组
+    #新的disReply这个字段值应该为空，所以强制赋为空数组
     body.voteUpUsers = []
     body.postBy      = user._id
-    body.courseId    = courseId
+    body.disTopicId  = disTopicId
 
-    Discussion.createQ body
-  .then (discussion) ->
-    discussion.postBy = user #populate postBy field
-    res.send 201, discussion
+    DisReply.createQ body
+  .then (disReply) ->
+    disReply.postBy = user #populate postBy field
+    res.send 201, disReply
   , (err) ->
     next err
 
 exports.update = (req, res, next) ->
   updateBody = {}
   updateBody.content   = req.body.content   if req.body.content?
-  updateBody.lectureId = req.body.lectureId if req.body.lectureId?
 
-  Discussion.findOneQ
+  DisReply.findOneQ
     _id : req.params.id
     postBy : req.user.id
-  .then (discussion) ->
-    updated = _.extend discussion, updateBody
+  .then (disReply) ->
+    updated = _.extend disReply, updateBody
     do updated.saveQ
   .then (result) ->
     newValue = result[0]
@@ -70,7 +66,7 @@ exports.update = (req, res, next) ->
     next err
 
 exports.destroy = (req, res, next) ->
-  Discussion.removeQ
+  DisReply.removeQ
     _id: req.params.id
     postBy : req.user.id
   .then () ->
@@ -79,17 +75,10 @@ exports.destroy = (req, res, next) ->
     next err
 
 exports.vote = (req, res, next) ->
-  discussionId = req.params.id
+  disReplyId = req.params.id
   userId = req.user._id
 
-  Discussion.findByIdQ discussionId
-  .then (discussion) ->
-    if discussion.voteUpUsers.indexOf(userId) > -1
-      discussion.voteUpUsers.pull userId
-    else
-      discussion.voteUpUsers.addToSet userId
-
-    do discussion.saveQ
+  DisUtils.vote DisReply, disReplyId, userId
   .then (result) ->
     newValue = result[0]
     res.send newValue

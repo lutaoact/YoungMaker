@@ -6,7 +6,7 @@ auth = require '../../auth/auth.service'
 
 router = express.Router()
 
-router.get '/teacher', auth.hasRole('teacher'), controller.process
-router.get '/student', auth.hasRole('student'), controller.process
+router.get '/teacher', auth.hasRole('teacher'), controller.teacherView
+router.get '/student', auth.hasRole('student'), controller.studentView
 
 module.exports = router

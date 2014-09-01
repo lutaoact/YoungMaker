@@ -2,6 +2,7 @@
 
 DisTopic = _u.getModel 'dis_topic'
 CourseUtils = _u.getUtils 'course'
+DisUtils = _u.getUtils 'dis'
 
 exports.index = (req, res, next) ->
   user = req.user
@@ -76,14 +77,7 @@ exports.vote = (req, res, next) ->
   disTopicId = req.params.id
   userId = req.user._id
 
-  DisTopic.findByIdQ disTopicId
-  .then (disTopic) ->
-    if disTopic.voteUpUsers.indexOf(userId) > -1
-      disTopic.voteUpUsers.pull userId
-    else
-      disTopic.voteUpUsers.addToSet userId
-
-    do disTopic.saveQ
+  DisUtils.vote DisTopic, disTopicId, userId
   .then (result) ->
     newValue = result[0]
     res.send newValue

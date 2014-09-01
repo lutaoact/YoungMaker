@@ -5,7 +5,8 @@ module.exports =
     Lecture: 3
 
   PageSize:
-    Discussion: 36
+    DisTopic: 10
+    DisReply: 36
     Lecture: 10
     Course: 10
 

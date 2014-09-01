@@ -17,6 +17,30 @@ angular.module('budweiserApp')
     add: (question) ->
       $modalInstance.close(question)
 
+.controller 'NewQuestionCtrl', (
+  $scope
+  course
+  $modalInstance
+) ->
+  angular.extend $scope,
+    question:
+      solution: ''
+      categoryId: course.categoryId
+      content:
+        title: ''
+        body: [
+          {}
+        ]
+    addOption: ->
+      $scope.question.content.body.push {}
+    removeOption: (index) ->
+      $scope.question.content.body.splice(index, 1)
+    close: ->
+      $modalInstance.dismiss('close')
+    save: (question, form) ->
+      unless form.$valid then return
+      $modalInstance.close(question)
+
 .controller 'TeacherLectureCtrl', (
   Auth
   $http
@@ -188,7 +212,7 @@ angular.module('budweiserApp')
         $scope.lecture.__v = newLecture.__v
 
     # TODO CRUD question logic refactor
-    addFromQuestionLibrary: ->
+    addLibraryQuestion: ->
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
         controller: 'QuestionLibraryCtrl'
@@ -200,6 +224,22 @@ angular.module('budweiserApp')
         $scope.lecture.patch(homeworks:newHomeWorks)
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
+
+    addNewQuestion: ->
+      $modal.open
+        templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
+        controller: 'NewQuestionCtrl'
+        resolve:
+          course: -> $scope.course
+      .result.then (question) ->
+        Restangular.all('questions').post(question)
+        .then (newQuestion) ->
+          $scope.course.$questions.push newQuestion
+          $scope.lecture.homeworks.push newQuestion
+          newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
+          $scope.lecture.patch(homeworks:newHomeWorks)
+          .then (newLecture) ->
+            $scope.lecture.__v = newLecture.__v
 
     removeQuestion: (index) ->
       $scope.lecture.homeworks.splice index, 1

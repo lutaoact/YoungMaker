@@ -91,7 +91,7 @@
             保存
           </button>
           <a class="btn btn-link"
-             ui-sref="teacher.course({id:$state.params.courseId})">
+             ui-sref="teacher.course({id:course_id})">
             <i class="fa fa-arrow-circle-o-left"></i>
             取消
           </a>
@@ -141,7 +141,7 @@
       </div>
     </div>
     <div class="col-md-6 col-xs-11" ng-show="lecture.media">
-      <videogular>
+      <videogular vg-player-ready="onPlayerReady">
         <video class="videoPlayer" qiniu-key="lecture.media">
         </video>
         <vg-poster-image></vg-poster-image>
@@ -167,4 +167,42 @@
       </a>
     </div>
   </div>
+  <hr/>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="input-group">
+        <span class="input-group-addon">知识点</span>
+        <input type="text"
+               typeahead-on-select="addKeypoint($item)"
+               typeahead-input-formatter="keypointFormatter($model)"
+               ng-model="selectedKeypoint"
+               placeholder="查找并且添加知识点"
+               typeahead="keypoint as keypoint.name for keypoint in course.$keypoints | filter:{name:$viewValue} | limitTo:8"
+               class="form-control">
+        <span class="input-group-btn">
+          <button class="btn btn-default"
+                  ng-click="addKeypoint(selectedKeypoint)">添加</button>
+        </span>
+      </div>
+      <div style="height: 20em;">
+        <div class="list-group">
+          <div class="list-group-item" ng-repeat="keypoint in lecture.keypoints">
+            {{keypoint.kp.name}}
+            <div class="pull-right">
+              <a ng-click="removeKeypoint($index)" >
+                <span class="glyphicon glyphicon-remove"></span>
+              </a>
+              <a ng-click="updateKeypoint(keypoint)" >
+                <span class="glyphicon glyphicon-arrow-up"></span>
+              </a>
+              <input type="number"
+                     ng-model="keypoint.timestamp"
+                     ng-blur="saveKeypoints()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
 </div>

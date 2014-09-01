@@ -57,19 +57,27 @@ module.exports =
     password: 'student'
     orgId: _s.sprintf orgId, 0
   ]
-  key_point: [
-    _id: _s.sprintf keyPointId, 0
-    name: '三种淡黄色固体'
-    categoryId: _s.sprintf categoryId, 0
-  ,
-    _id: _s.sprintf keyPointId, 1
-    name: 'AgBr的光解'
-    categoryId: _s.sprintf categoryId, 0
-  ,
-    _id: _s.sprintf keyPointId, 2
-    name: '1+2等于3'
-    categoryId: _s.sprintf categoryId, 1
-  ]
+  key_point: _.map [
+    '力和物体的平衡'
+    '直线运动'
+    '牛顿运动定律'
+    '曲线运动 万有引力'
+    '动量'
+    '机械能'
+    '机械振动和机械波'
+    '分子动理论 热和功 气体'
+    '电场'
+    '稳恒电流'
+    '磁场'
+    '电磁感应'
+    '交变电流'
+    ], (name, index) ->
+      _id: _s.sprintf keyPointId, index
+      name: name
+      categoryId: _s.sprintf categoryId,
+        if index < 5 then 0
+        else if index < 10 then 1
+        else 2
   organization: [
     _id: _s.sprintf orgId, 0
     uniqueName : 'cloud3'
@@ -104,9 +112,9 @@ module.exports =
     slides: (
       for i in [1..10]
         _id: _s.sprintf slideId, i
-        thumb: "http://lorempixel.com/480/360/?r=#{i}"
+        thumb: "9Sb6o3b0yY/306.jpeg"
     )
-    media: 'gqaDmRfIab/1.mp4'
+    media: 'GEoTQHtOEs/Sample 2.mp4'
     keypoints: [
       kp: _s.sprintf keyPointId, 0
       timestamp : 10

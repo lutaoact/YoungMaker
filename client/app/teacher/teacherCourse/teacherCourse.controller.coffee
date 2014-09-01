@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherCourseDetailCtrl', (
+angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   Auth
   $http
   notify

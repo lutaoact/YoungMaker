@@ -14,9 +14,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
   angular.extend $scope,
 
-    slides: []
+    mediaAPI: undefined
+    course: undefined
     lecture: undefined
-    $state: $state
     uploading:
       ppt: false
       thumb: false
@@ -132,17 +132,54 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           $scope.lecture?.patch?(media: $scope.lecture.media)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
-        fail: (error)->
+        fail: (error) ->
           $scope.uploading.media = false
         progress: (speed,percentage, evt)->
           $scope.uploadProgress.media = parseInt(100.0 * evt.loaded / evt.total) + '%'
 
+    onPlayerReady: (api) ->
+      $scope.mediaAPI = api
+
+    # TODO refactor keypoint ctrl / service
+    keypointFormatter: ($model) -> $model?.name
+
+    addKeypoint: (keypoint) ->
+      $scope.lecture.keypoints.push
+        kp : keypoint
+        timestamp: 0
+      $scope.saveKeypoints()
+
+    removeKeypoint: (index) ->
+      $scope.lecture.keypoints.splice(index, 1)
+      $scope.saveKeypoints()
+
+    updateKeypoint: (keypoint) ->
+      currentTime = $scope.mediaAPI.videoElement[0].currentTime
+      keypoint.timestamp = Math.ceil(currentTime)
+      $scope.saveKeypoints()
+
+    saveKeypoints: ->
+      newKeypoints = _.map $scope.lecture.keypoints, (keypoint) ->
+        kp: keypoint.kp._id
+        timestamp: keypoint.timestamp
+      $scope.lecture.patch(keypoints:newKeypoints)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
 
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch(slides:$scope.lecture.slides)
+    .then (newLecture) ->
+      $scope.lecture.__v = newLecture.__v
 
   if $state.params.id is 'new'
     $scope.lecture = {}
   else
     $scope.lecture = Restangular.one('lectures', $state.params.id).get().$object
+
+  Restangular.one('courses', $state.params.courseId).get()
+  .then (course) ->
+    $scope.course = course
+    Restangular.all('key_points').getList(categoryId:course.categoryId)
+    .then (keypoints) ->
+      course.$keypoints = keypoints
 

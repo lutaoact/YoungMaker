@@ -11,6 +11,8 @@ slideId      = '7777777777777777777777%02d'
 disTopicId   = '8888888888888888888888%02d'
 disReplyId   = '9999999999999999999999%02d'
 questionId   = 'aaaaaaaaaaaaaaaaaaaaaa%02d'
+quizAnswerId = 'bbbbbbbbbbbbbbbbbbbbbb%02d'
+hwAnswerId   = 'cccccccccccccccccccccc%02d'
 
 module.exports =
   category: (
@@ -134,6 +136,14 @@ module.exports =
       kp: _s.sprintf keyPointId, 2
       timestamp : 50
     ]
+    quizzes : [
+      _s.sprintf questionId, 0
+    ]
+    homeworks : [
+      _s.sprintf questionId, 1
+      _s.sprintf questionId, 2
+
+    ]
   ]
   course: [
     _id: _s.sprintf courseId, 0
@@ -256,11 +266,24 @@ module.exports =
     solution: '连AgBr的光解都不会，高中没读吧'
   ]
   quiz_answer : [
+    _id : _s.sprintf quizAnswerId, 0
     userId : _s.sprintf userId, 3
     lectureId : _s.sprintf lectureId, 0
     questionId : _s.sprintf questionId, 0
-    result :
-      ["A", "B"]
+    result : [0]
+  ]
+  homework_answer : [
+    _id : _s.sprintf hwAnswerId, 0
+    userId : _s.sprintf userId, 3
+    lectureId : _s.sprintf lectureId, 0
+    result : [
+      questionId : _s.sprintf questionId, 1
+      answer : [0]
+    ,
+      questionId : _s.sprintf questionId, 2
+      answer : [0, 1]
+    ]
+    submitted : true
   ]
 
 require './seed'

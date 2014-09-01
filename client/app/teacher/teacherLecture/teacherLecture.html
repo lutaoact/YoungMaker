@@ -211,12 +211,34 @@
           从习题库中添加
          </button>
       </div>
-      <div class="list-group-item"
-           ng-repeat="question in lecture.homeworks">
-        <input type="text"
-               ng-model="question.content.title"/>
-        {{question.content.body}}
-      </div>
+      <accordion>
+        <accordion-group ng-repeat="question in lecture.homeworks">
+          <accordion-heading >
+            <div>
+              <a class="btn-link">
+                {{question.content.title}}
+              </a>
+              <a class="btn-link pull-right"
+                 ng-click="removeQuestion($index)">
+                删除
+              </a>
+            </div>
+          </accordion-heading>
+          <ul class="nav nav-pills nav-stacked" role="tablist">
+            <li ng-repeat="option in question.content.body"
+                role="presentation">
+              <a>
+                <span>{{$index | indexToABC}}. </span>
+                {{option.desc}}
+                <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
+              </a>
+            </li>
+            <li role="presentation">
+              <div class="alert alert-warning">{{question.solution}}</div>
+            </li>
+          </ul>
+        </accordion-group>
+      </accordion>
     </div>
   </div>
   <hr/>

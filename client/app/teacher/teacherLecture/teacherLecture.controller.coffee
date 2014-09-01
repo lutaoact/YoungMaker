@@ -195,11 +195,19 @@ angular.module('budweiserApp')
         resolve:
           questions: -> $scope.course.$questions
       .result.then (question) ->
-        $scope.lecture.homeworks.push question
+        $scope.lecture.homeworks.push angular.copy(question)
         newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
         $scope.lecture.patch(homeworks:newHomeWorks)
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
+
+    removeQuestion: (index) ->
+      $scope.lecture.homeworks.splice index, 1
+      newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
+      $scope.lecture.patch(homeworks:newHomeWorks)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
+
 
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch(slides:$scope.lecture.slides)

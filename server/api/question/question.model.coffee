@@ -15,7 +15,7 @@ exports.Question = BaseModel.subclass
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"
-      keypoints : [
+      keyPoints : [
         type: Schema.Types.ObjectId
         ref: "key_point"
       ]

@@ -1,7 +1,7 @@
 'use strict'
 
 express = require 'express'
-controller = require './slide.controller'
+controller = require './quiz_stats.controller'
 auth = require '../../auth/auth.service'
 
 router = express.Router()

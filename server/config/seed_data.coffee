@@ -178,6 +178,9 @@ module.exports =
     _id: _s.sprintf questionId, 0
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
+    keypoints : [
+      _s.sprintf keyPointId, 0
+    ]
     content:
       imageUrl: 'http://url.cn/LmqYv5'
       title: '1 + 1 = ？'
@@ -197,6 +200,9 @@ module.exports =
     _id: _s.sprintf questionId, 1
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
+    keypoints : [
+      _s.sprintf keyPointId, 1
+    ]
     content:
       imageUrl: 'http://url.cn/N0Potq'
       title: 'BrAg光解生成什么'
@@ -214,6 +220,9 @@ module.exports =
     _id: _s.sprintf questionId, 2
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 1
+    keypoints : [
+      _s.sprintf keyPointId, 2
+    ]
     content:
       imageUrl: 'http://url.cn/N0Potq'
       title: '这是类别1的问题'

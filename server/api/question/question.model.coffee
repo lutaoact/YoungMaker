@@ -15,6 +15,10 @@ exports.Question = BaseModel.subclass
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"
+      keypoints : [
+        type: Schema.Types.ObjectId
+        ref: "key_point"
+      ]
       content: Schema.Types.Mixed
 #        imageUrl: String
 #        title: String

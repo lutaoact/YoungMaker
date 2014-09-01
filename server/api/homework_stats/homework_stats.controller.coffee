@@ -2,7 +2,7 @@
 
 Course = _u.getModel 'course'
 CourseUtils = _u.getUtils 'course'
-HomeworkAnswer = _u.getUtils 'homework_answer'
+HomeworkAnswer = _u.getModel 'homework_answer'
 
 exports.teacherView = (req, res, next) ->
   courseId = req.query.courseId

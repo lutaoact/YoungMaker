@@ -91,7 +91,7 @@
             保存
           </button>
           <a class="btn btn-link"
-             ui-sref="teacher.course({id:course_id})">
+             ui-sref="teacher.course({id:course._id})">
             <i class="fa fa-arrow-circle-o-left"></i>
             取消
           </a>
@@ -161,16 +161,15 @@
         </vg-controls>
       </videogular>
       <a style="position: absolute; right: -.5em; top: .5em; z-index:999"
-         tooltip="删除这个视频"
          ng-click="removeMedia()" >
-        <span class="glyphicon glyphicon-trash"></span>
+        <span class="glyphicon glyphicon-remove"></span>
       </a>
     </div>
   </div>
   <hr/>
   <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="input-group">
+    <div class="list-group col-md-8 col-md-offset-2">
+      <div class="input-group list-group-item-heading">
         <span class="input-group-addon">知识点</span>
         <input type="text"
                typeahead-on-select="addKeypoint($item)"
@@ -184,22 +183,21 @@
                   ng-click="addKeypoint(selectedKeypoint)">添加</button>
         </span>
       </div>
-      <div style="height: 20em;">
-        <div class="list-group">
-          <div class="list-group-item" ng-repeat="keypoint in lecture.keypoints">
-            <a class="btn-link" ng-click="seekPlayerTime(keypoint.timestamp)">{{keypoint.kp.name}}</a>
-            <div class="pull-right">
-              <a ng-click="removeKeypoint($index)" >
-                <span class="glyphicon glyphicon-remove"></span>
-              </a>
-              <a ng-click="updateKeypoint(keypoint)" >
-                <span class="glyphicon glyphicon-arrow-up"></span>
-              </a>
-              <input type="number"
-                     ng-model="keypoint.timestamp"
-                     ng-blur="saveKeypoints()"/>
-            </div>
-          </div>
+      <div class="list-group-item" ng-repeat="keypoint in lecture.keypoints">
+        <a class="btn-link" ng-click="seekPlayerTime(keypoint.timestamp)">
+          <span class="glyphicon glyphicon-ok"></span>
+          {{keypoint.kp.name}}
+        </a>
+        <div class="pull-right">
+          <a ng-click="removeKeypoint($index)" >
+            <span class="glyphicon glyphicon-remove"></span>
+          </a>
+          <a ng-click="updateKeypoint(keypoint)" >
+            <span class="glyphicon glyphicon-arrow-up"></span>
+          </a>
+          <input type="number"
+                 ng-model="keypoint.timestamp"
+                 ng-blur="saveKeypoints()"/>
         </div>
       </div>
     </div>

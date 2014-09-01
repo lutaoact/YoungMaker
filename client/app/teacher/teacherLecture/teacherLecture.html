@@ -172,32 +172,32 @@
       <div class="input-group list-group-item-heading">
         <span class="input-group-addon">知识点</span>
         <input type="text"
-               typeahead-on-select="addKeypoint($item)"
-               typeahead-input-formatter="keypointFormatter($model)"
-               ng-model="selectedKeypoint"
+               typeahead-on-select="addkeyPoint($item)"
+               typeahead-input-formatter="keyPointFormatter($model)"
+               ng-model="selectedKeyPoint"
                placeholder="查找并且添加知识点"
-               typeahead="keypoint as keypoint.name for keypoint in course.$keypoints | filter:{name:$viewValue} | limitTo:8"
+               typeahead="keyPoint as keyPoint.name for keyPoint in course.$keyPoints | filter:{name:$viewValue} | limitTo:8"
                class="form-control">
         <span class="input-group-btn">
           <button class="btn btn-default"
-                  ng-click="addKeypoint(selectedKeypoint)">添加</button>
+                  ng-click="addkeyPoint(selectedKeyPoint)">添加</button>
         </span>
       </div>
-      <div class="list-group-item" ng-repeat="keypoint in lecture.keypoints">
-        <a class="btn-link" ng-click="seekPlayerTime(keypoint.timestamp)">
+      <div class="list-group-item" ng-repeat="keyPoint in lecture.keyPoints">
+        <a class="btn-link" ng-click="seekPlayerTime(keyPoint.timestamp)">
           <span class="glyphicon glyphicon-ok"></span>
-          {{keypoint.kp.name}}
+          {{keyPoint.kp.name}}
         </a>
         <div class="pull-right">
-          <a ng-click="removeKeypoint($index)" >
+          <a ng-click="removekeyPoint($index)" >
             <span class="glyphicon glyphicon-remove"></span>
           </a>
-          <a ng-click="updateKeypoint(keypoint)" >
+          <a ng-click="updatekeyPoint(keyPoint)" >
             <span class="glyphicon glyphicon-arrow-up"></span>
           </a>
           <input type="number"
-                 ng-model="keypoint.timestamp"
-                 ng-blur="saveKeypoints()"/>
+                 ng-model="keyPoint.timestamp"
+                 ng-blur="savekeyPoints()"/>
         </div>
       </div>
     </div>

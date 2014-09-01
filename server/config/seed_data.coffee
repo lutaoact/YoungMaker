@@ -208,7 +208,7 @@ module.exports =
     _id: _s.sprintf questionId, 0
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
-    keypoints : [
+    keyPoints : [
       _s.sprintf keyPointId, 0
     ]
     content:

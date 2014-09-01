@@ -161,29 +161,29 @@ angular.module('budweiserApp')
     seekPlayerTime: (time) ->
       $scope.mediaAPI.seekTime time
 
-    # TODO CRUD keypoint logic refactor
-    keypointFormatter: ($model) -> $model?.name
+    # TODO CRUD keyPoint logic refactor
+    keyPointFormatter: ($model) -> $model?.name
 
-    addKeypoint: (keypoint) ->
-      $scope.lecture.keypoints.push
-        kp : keypoint
+    addkeyPoint: (keyPoint) ->
+      $scope.lecture.keyPoints.push
+        kp : keyPoint
         timestamp: 0
-      $scope.saveKeypoints()
+      $scope.savekeyPoints()
 
-    removeKeypoint: (index) ->
-      $scope.lecture.keypoints.splice(index, 1)
-      $scope.saveKeypoints()
+    removekeyPoint: (index) ->
+      $scope.lecture.keyPoints.splice(index, 1)
+      $scope.savekeyPoints()
 
-    updateKeypoint: (keypoint) ->
+    updatekeyPoint: (keyPoint) ->
       currentTime = $scope.mediaAPI.videoElement[0].currentTime
-      keypoint.timestamp = Math.ceil(currentTime)
-      $scope.saveKeypoints()
+      keyPoint.timestamp = Math.ceil(currentTime)
+      $scope.savekeyPoints()
 
-    saveKeypoints: ->
-      newKeypoints = _.map $scope.lecture.keypoints, (keypoint) ->
-        kp: keypoint.kp._id
-        timestamp: keypoint.timestamp
-      $scope.lecture.patch(keypoints:newKeypoints)
+    savekeyPoints: ->
+      newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
+        kp: keyPoint.kp._id
+        timestamp: keyPoint.timestamp
+      $scope.lecture.patch(keyPoints:newkeyPoints)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
@@ -215,8 +215,8 @@ angular.module('budweiserApp')
   .then (course) ->
     $scope.course = course
     Restangular.all('key_points').getList(categoryId:course.categoryId)
-    .then (keypoints) ->
-      course.$keypoints = keypoints
+    .then (keyPoints) ->
+      course.$keyPoints = keyPoints
     Restangular.all('questions').getList(categoryId:course.categoryId)
     .then (questions) ->
       course.$questions = questions

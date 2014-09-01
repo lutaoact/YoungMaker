@@ -187,7 +187,7 @@
       <div style="height: 20em;">
         <div class="list-group">
           <div class="list-group-item" ng-repeat="keypoint in lecture.keypoints">
-            {{keypoint.kp.name}}
+            <a class="btn-link" ng-click="seekPlayerTime(keypoint.timestamp)">{{keypoint.kp.name}}</a>
             <div class="pull-right">
               <a ng-click="removeKeypoint($index)" >
                 <span class="glyphicon glyphicon-remove"></span>

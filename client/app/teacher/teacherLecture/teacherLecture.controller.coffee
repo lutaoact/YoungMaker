@@ -140,6 +140,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onPlayerReady: (api) ->
       $scope.mediaAPI = api
 
+    seekPlayerTime: (time) ->
+      $scope.mediaAPI.seekTime time
+
     # TODO refactor keypoint ctrl / service
     keypointFormatter: ($model) -> $model?.name
 

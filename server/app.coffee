@@ -17,7 +17,7 @@ config = require('./config/environment')
 
 # Populate DB with sample data
 if(config.seedDB)
-  require('./config/seed')
+  require('./config/seed_data')
 
 # Setup server
 app = express()

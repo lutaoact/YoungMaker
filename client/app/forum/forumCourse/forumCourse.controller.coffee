@@ -16,7 +16,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     course: null
 
-    discussions: null
+    topics: null
 
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
@@ -30,11 +30,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
 
     loadDiscussions: ()->
-      Restangular.all('discussions').getList({courseId: $state.params.courseId})
-      .then (discussions)->
-        $scope.discussions = discussions
-        $scope.discussions.forEach (discussion)->
-          discussion.postBy.avatar = 'http://lorempixel.com/128/128/people/?id=' + discussion._id
+      Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
+      .then (topics)->
+        $scope.topics = topics
 
   $q.all [
     $scope.loadCourse()

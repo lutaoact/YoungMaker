@@ -1,7 +1,8 @@
 <div class="jumbotron timetable"
      full-screen
      qiniu-key="'9afunBb7Fz/DSC00591.jpg'"
-     source-attr="background-image">
+     source-attr="background-image"
+     id="timetable">
   <div class="row content">
     <div class="col-md-2 text-center">
       <a href="" class="arrow"><i class="fa fa-chevron-left"></i></a>
@@ -19,7 +20,7 @@
     <i class="fa fa-chevron-down"></i>
   </a>
 </div>
-<section class="course-list limit-height" ng-class="{'limit-height':viewState.limitHeight }" id="course-list">
+<section class="course-list" ng-class="{'limit-height':viewState.limitHeight }" id="course-list">
   <div class="container" >
     <div class="section-header">
       <h1>
@@ -57,10 +58,13 @@
       </div>
     </div>
   </div>
-  <div class="text-center">
+  <div class="more text-center" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
     <a href="">由此展开更多课程</a>
   </div>
-  <a class="anchor bottom-up inverse" href="#my-rank" du-smooth-scroll>
+  <a class="anchor bottom-up inverse" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
+    <i class="fa fa-chevron-down"></i>
+  </a>
+  <a class="anchor bottom-up inverse"  ng-show="!viewState.limitHeight" href="#my-rank" du-smooth-scroll>
     <i class="fa fa-chevron-down"></i>
   </a>
 </section>
@@ -84,6 +88,11 @@
 
   </div>
 </section>
+
+<a href="#timetable" du-smooth-scroll class="back-to-top" du-scrollspy>
+  <i class="fa fa-chevron-up"></i>
+</a>
+
 
 
 

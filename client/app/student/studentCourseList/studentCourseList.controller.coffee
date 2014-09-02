@@ -11,6 +11,7 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   notify
   Courses
 ) ->
+
   angular.extend $scope,
     filters: [
       {

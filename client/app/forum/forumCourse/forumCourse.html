@@ -18,19 +18,20 @@
   <section>
     <ul class="list-group">
       <li class="thumbnail media col-md-12"
-          ng-repeat="discussion in discussions">
+          ng-repeat="topic in topics">
         <a class="pull-left" href="#">
           <img class="media-object"
-               qiniu-key="discussion.postBy.avatar"
+               src="http://placehold.it/32x32"
+               qiniu-key="topic.postBy.avatar"
                style="width:32px;height:32px;"
                suffix="?imageView2/1/w/64/h/64">
-          <span>{{discussion.postBy.name}}</span>
+          <span>{{topic.postBy.name}}</span>
         </a>
         <div class="media-body">
-          <a ui-sref="forum.discussion({courseId:course._id,
-                      discussionId:discussion._id})">
-            <strong>{{discussion.subject}}</strong>
-            <p>{{discussion.content}}</p>
+          <a ui-sref="forum.topic({courseId:course._id,
+                      topicId:topic._id})">
+            <strong>{{topic.title}}</strong>
+            <p>{{topic.content}}</p>
           </a>
         </div>
       </li>

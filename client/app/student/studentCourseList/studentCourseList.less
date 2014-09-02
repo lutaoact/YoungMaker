@@ -43,13 +43,27 @@
 
   .course-list{
     background: #EBEBEB;
+    position: relative;
     &.limit-height{
+      overflow: hidden;
       @media screen and (min-height: 0px) {
-        height: 600px;
+        height: 550px;
       }
       @media screen and (min-height: 700px) {
-        height: 1080;
+        height: 915px;
       }
+    }
+    .more{
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      margin-left: -61px;
+    }
+    .anchor{
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -30px;
     }
   }
 
@@ -78,6 +92,29 @@
       color: #FFFFFF;
     }
 
+  }
+
+  .back-to-top{
+    display: block;
+    width: 36px;
+    height: 36px;
+    background: @base-color;
+    color: #FFFFFF;
+    margin: auto;
+    border-radius: 36px;
+    text-align: center;
+    cursor: pointer;
+    .box-shadow(0 2px 2px rgba(0,0,0,0.3));
+    font-size: 20px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    &:hover{
+      .box-shadow(none);
+    }
+    &.active{
+      display: none;
+    }
   }
 
 

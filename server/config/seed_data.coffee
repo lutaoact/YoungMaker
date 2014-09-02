@@ -293,6 +293,12 @@ module.exports =
     lectureId : _s.sprintf lectureId, 0
     questionId : _s.sprintf questionId, 0
     result : [0]
+  ,
+    _id : _s.sprintf quizAnswerId, 1
+    userId : _s.sprintf userId, 4
+    lectureId : _s.sprintf lectureId, 0
+    questionId : _s.sprintf questionId, 1
+    result : [1]
   ]
   homework_answer : [
     _id : _s.sprintf hwAnswerId, 0

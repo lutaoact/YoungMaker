@@ -26,6 +26,7 @@ module.exports =
     name: 'Test User'
     email: 'test@test.com'
     password: 'test'
+    avatar: 'http://lorempixel.com/128/128/people/1'
   ,
     _id: _s.sprintf userId, 1
     provider: 'local'
@@ -34,6 +35,7 @@ module.exports =
     email: 'admin@admin.com'
     password: 'admin'
     orgId: _s.sprintf orgId, 0
+    avatar: 'http://lorempixel.com/128/128/people/2'
   ,
     _id: _s.sprintf userId, 2
     provider: 'local'
@@ -42,6 +44,7 @@ module.exports =
     email: 'teacher@teacher.com'
     password: 'teacher'
     orgId: _s.sprintf orgId, 0
+    avatar: 'http://lorempixel.com/128/128/people/3'
   ,
     _id: _s.sprintf userId, 3
     provider: 'local'
@@ -50,6 +53,7 @@ module.exports =
     email: 'student@student.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
+    avatar: 'http://lorempixel.com/128/128/people/4'
   ,
     _id: _s.sprintf userId, 4
     provider: 'local'
@@ -58,6 +62,7 @@ module.exports =
     email: 'student@student4.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
+    avatar: 'http://lorempixel.com/128/128/people/5'
   ]
   key_point: _.map [
     '力和物体的平衡'
@@ -138,11 +143,13 @@ module.exports =
     ]
     quizzes : [
       _s.sprintf questionId, 0
+      _s.sprintf questionId, 1
+      _s.sprintf questionId, 2
+      _s.sprintf questionId, 3
     ]
     homeworks : [
       _s.sprintf questionId, 1
       _s.sprintf questionId, 2
-
     ]
   ]
   course: [
@@ -206,7 +213,7 @@ module.exports =
     _id: _s.sprintf questionId, 0
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
-    keypoints : [
+    keyPoints : [
       _s.sprintf keyPointId, 0
     ]
     content:
@@ -217,8 +224,10 @@ module.exports =
         correct: true
       ,
         desc: '3'
+        correct: true
       ,
         desc: '4'
+        correct: true
       ,
         desc: '5'
       ]
@@ -241,6 +250,7 @@ module.exports =
         desc: 'Ag'
       ,
         desc: 'Br2'
+        correct: true
       ]
     type: 1
     solution: '连AgBr的光解都不会，高中没读吧'
@@ -264,6 +274,26 @@ module.exports =
       ]
     type: 1
     solution: '连AgBr的光解都不会，高中没读吧'
+  ,
+    _id: _s.sprintf questionId, 3
+    orgId: _s.sprintf orgId, 0
+    categoryId: _s.sprintf categoryId, 1
+    keypoints : [
+      _s.sprintf keyPointId, 2
+    ]
+    content:
+      imageUrl: 'http://url.cn/N0Potq'
+      title: '这是第4个问题'
+      body: [
+        desc: '这是答案'
+        correct: true
+      ,
+        desc: '这个不是'
+      ,
+        desc: '这个也不是'
+      ]
+    type: 1
+    solution: '第4题，很简单'
   ]
   quiz_answer : [
     _id : _s.sprintf quizAnswerId, 0
@@ -271,6 +301,12 @@ module.exports =
     lectureId : _s.sprintf lectureId, 0
     questionId : _s.sprintf questionId, 0
     result : [0]
+  ,
+    _id : _s.sprintf quizAnswerId, 1
+    userId : _s.sprintf userId, 4
+    lectureId : _s.sprintf lectureId, 0
+    questionId : _s.sprintf questionId, 1
+    result : [1]
   ]
   homework_answer : [
     _id : _s.sprintf hwAnswerId, 0
@@ -286,6 +322,6 @@ module.exports =
     submitted : true
   ]
 
-require './seed'
+require('./seed') module.exports
 #console.log module.exports.question[0]
 #console.log module.exports.question[0].content

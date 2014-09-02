@@ -1,0 +1,35 @@
+<section>
+  <div class="container">
+    <div class="section_header">
+      <h3>
+        Trending
+      </h3>
+    </div>
+
+    <div class="list-group">
+      <div class="post" ng-repeat="post in peeks">
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section_header">
+      <h3>
+        讨论板块
+      </h3>
+    </div>
+    <div class="row">
+      <div ng-repeat="course in courses"
+           tooltip="{{course.info}}"
+           class="thumbnail col-md-3">
+        <a ui-sref="forum.course({courseId:course._id})">
+          <p class="caption text-center">{{course.name}}</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

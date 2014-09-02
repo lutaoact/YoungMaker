@@ -29,7 +29,14 @@ exports.show = (req, res, next) ->
   lectureId = req.params.id
   LectureUtils.getAuthedLectureById req.user, lectureId
   .then (lecture) ->
-    lecture.populateQ 'keypoints.kp', '_id name categoryId'
+    options = [
+      path: 'keyPoints.kp'
+    ,
+      path: 'homeworks'
+    ,
+      path: 'quizzes'
+    ]
+    lecture.populateQ options
   .then (lecture) ->
     res.send lecture
   , (err) ->

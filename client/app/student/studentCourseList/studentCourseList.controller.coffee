@@ -11,6 +11,7 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   notify
   Courses
 ) ->
+
   angular.extend $scope,
     filters: [
       {
@@ -26,6 +27,7 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
 
     viewState:
       currentFilter: 'all'
+      limitHeight: true
 
     setFilter: (filter)->
       @viewState.currentFilter = filter
@@ -34,5 +36,6 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
 
     loadCourses: ()->
       $scope.courses = Courses
+
 
   $scope.loadCourses()

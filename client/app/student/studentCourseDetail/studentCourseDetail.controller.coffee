@@ -3,11 +3,7 @@
 angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
 , (
   $scope
-  User
-  Auth
   Restangular
-  $http
-  $upload
   notify
   $state
   Category
@@ -67,8 +63,8 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         .then (course)->
           $scope.course = course
           Category.find course.categoryId
-          .then (category)->
-            $scope.course.$category = category
+        .then (category)->
+          $scope.course.$category = category
 
     deleteCourse: (course)->
       course.remove()

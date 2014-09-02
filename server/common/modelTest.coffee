@@ -1,49 +1,55 @@
 require './init'
-course =
-  name: 'xxxxx'
-  categoryId: '111111111111111111111112'
-  thumbnail: 'yyyy'
-  owners: [
-    '111111111111111111111111'
-    '222222222222222222222222'
-  ]
-
-classe =
-  name: 'classe'
-  orgId: '333333333333333333333333'
-  students: [
-    '444444444444444444444444'
-  ]
-#notice
-#data =
-#  userId: '111111111111111111111111'
-#  type: 1
-#  data:
-#    lectureId: '111111111111111111111112'
-#    discussionId: '111111111111111111111113'
-#  status: 0
-
-Course = _u.getModel 'course'
-Classe = _u.getModel 'classe'
-#Course.save course, (err, res) ->
-#  console.log err
-#  console.log res
-#Classe.save classe, (err, res) ->
-#  console.log err
-#  console.log res
-CourseUtils = _u.getUtils 'course'
-LectureUtils = _u.getUtils 'lecture'
-teacher =
-  role: 'teacher'
-  _id: '111111111111111111111102'
-
-courseId = '666666666666666666666600'
-
-CourseUtils.getStudentsNum teacher, courseId
-.then (num) ->
-  console.log num
+StatsUtils = _u.getUtils 'stats'
+StatsUtils.buildQAMap ['aaaaaaaaaaaaaaaaaaaaaa00', 'aaaaaaaaaaaaaaaaaaaaaa01']
+.then (map) ->
+  console.log map
 , (err) ->
   console.log err
+#course =
+#  name: 'xxxxx'
+#  categoryId: '111111111111111111111112'
+#  thumbnail: 'yyyy'
+#  owners: [
+#    '111111111111111111111111'
+#    '222222222222222222222222'
+#  ]
+#
+#classe =
+#  name: 'classe'
+#  orgId: '333333333333333333333333'
+#  students: [
+#    '444444444444444444444444'
+#  ]
+##notice
+##data =
+##  userId: '111111111111111111111111'
+##  type: 1
+##  data:
+##    lectureId: '111111111111111111111112'
+##    discussionId: '111111111111111111111113'
+##  status: 0
+#
+#Course = _u.getModel 'course'
+#Classe = _u.getModel 'classe'
+##Course.save course, (err, res) ->
+##  console.log err
+##  console.log res
+##Classe.save classe, (err, res) ->
+##  console.log err
+##  console.log res
+#CourseUtils = _u.getUtils 'course'
+#LectureUtils = _u.getUtils 'lecture'
+#teacher =
+#  role: 'teacher'
+#  _id: '111111111111111111111102'
+#
+#courseId = '666666666666666666666600'
+#
+#CourseUtils.getStudentsNum teacher, courseId
+#.then (num) ->
+#  console.log num
+#, (err) ->
+#  console.log err
 #CourseUtils.checkTeacher teacherId, '53f9b1cd67b02bc1220d556b'
 #.then (course) ->
 #  console.log course

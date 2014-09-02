@@ -41,30 +41,6 @@
   width: 100%;
 }
 
-.loading{
-  position: absolute;
-  overflow: hidden;
-  width:100%;
-  background: red;
-  height: 5px;
-  top:50px;
-  opacity:1;
-  -webkit-transition:all ease .5s;
-  transition:all ease .5s;
-
-  &.ng-hide-remove,
-  &.ng-hide-add.ng-hide-add-active {
-    opacity: 0;
-    display: block !important;
-  }
-
-  &.ng-hide-add,
-  &.ng-hide-remove.ng-hide-remove-active {
-    opacity: 1;
-    display: block !important;
-  }
-}
-
 /* Responsive: Portrait tablets and up */
 @media screen and (orientation: portrait) {
   .container {
@@ -132,6 +108,10 @@
 @import 'admin/organization/organization.less';
 @import 'admin/teacherManager/teacherManager.less';
 @import 'directives/coolProjector/coolProjector.less';
+@import 'forum/forum.less';
+@import 'forum/forumCourse/forumCourse.less';
+@import 'forum/forumDiscussion/forumDiscussion.less';
+@import 'forum/forumHome/forumHome.less';
 @import 'main/main.less';
 @import 'student/studentCourseDetail/studentCourseDetail.less';
 @import 'student/studentCourseList/studentCourseList.less';
@@ -142,11 +122,15 @@
 @import 'teacher/teacherHome/teacherHome.less';
 @import 'teacher/teacherLecture/teacherLecture.less';
 @import 'test/test/test.less';
+@import 'theme/avatar.less';
 @import 'theme/buttons.less';
+@import 'theme/footer.less';
 @import 'theme/jumbotron.less';
 @import 'theme/list-group.less';
+@import 'theme/mixin.less';
 @import 'theme/navbar.less';
 @import 'theme/navs.less';
+@import 'theme/pages.less';
 @import 'theme/theme.less';
 @import 'theme/thumbnails.less';
 // endinjector

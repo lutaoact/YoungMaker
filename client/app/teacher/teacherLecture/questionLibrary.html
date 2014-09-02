@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h3 class="modal-title">习题库</h3>
+</div>
+<div class="modal-body">
+  <accordion>
+    <accordion-group ng-repeat="question in questions">
+      <accordion-heading >
+        <div>
+          <a class="btn-link">
+            {{question.content.title}}
+          </a>
+          <a class="btn-link pull-right"
+             ng-click="add(question)">
+            添加此题
+          </a>
+        </div>
+      </accordion-heading>
+      <ul class="nav nav-pills nav-stacked" role="tablist">
+        <li ng-repeat="option in question.content.body"
+            role="presentation">
+          <a>
+            <span>{{$index | indexToABC}}. </span>
+            {{option.desc}}
+            <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
+          </a>
+        </li>
+        <li role="presentation">
+          <div class="alert alert-warning">{{question.solution}}</div>
+        </li>
+      </ul>
+    </accordion-group>
+   </accordion>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" ng-click="close()">关闭</button>
+</div>

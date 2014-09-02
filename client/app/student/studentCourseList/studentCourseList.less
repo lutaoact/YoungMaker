@@ -1,2 +1,214 @@
 .student{
+  .timetable{
+    margin-top: -@navbar-height;
+    padding-top: @navbar-height;
+    background-size: cover;
+    background-position: center;
+    min-height: 600px;
+    position: relative;
+    margin-bottom: 0;
+    .content{
+      position: absolute;
+      top: 50%;
+      margin-top: -180px;
+      width: 100%;
+      left: 0;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .pages{
+      width: 900px;
+    }
+    .arrow{
+      font-size: 60px;
+      color: #FFFFFF;
+      height: 400px;
+      line-height: 400px;
+      i{
+        .text-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+        .transition(all .2s ease-in-out);
+      }
+      &:hover i{
+        .translate3d(0, -3px, 0);
+        .text-shadow(0 5px 3px rgba(0, 0, 0, 0.6));
+      }
+    }
+    .anchor{
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -30px;
+    }
+  }
+
+  .course-list{
+    background: #EBEBEB;
+    position: relative;
+    &.limit-height{
+      overflow: hidden;
+      @media screen and (min-height: 0px) {
+        height: 550px;
+      }
+      @media screen and (min-height: 700px) {
+        height: 915px;
+      }
+    }
+    .more{
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      margin-left: -61px;
+    }
+    .anchor{
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -30px;
+    }
+  }
+
+  .anchor{
+    display: block;
+    width: 60px;
+    height: 32px;
+    background: #FFFFFF;
+    margin: auto;
+    border-radius: 0 0 30px 30px;
+    text-align: center;
+    cursor: pointer;
+    .box-shadow(0 2px 2px rgba(0,0,0,0.3));
+    font-size: 20px;
+    &:hover{
+      .box-shadow(none);
+    }
+
+    &.bottom-up{
+      border-radius: 30px 30px 0 0;
+      .box-shadow(0 -2px 2px rgba(0,0,0,0.3));
+    }
+
+    &.inverse{
+      background: @base-color;
+      color: #FFFFFF;
+    }
+
+  }
+
+  .back-to-top{
+    display: block;
+    width: 36px;
+    height: 36px;
+    background: @base-color;
+    color: #FFFFFF;
+    margin: auto;
+    border-radius: 36px;
+    text-align: center;
+    cursor: pointer;
+    .box-shadow(0 2px 2px rgba(0,0,0,0.3));
+    font-size: 20px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    &:hover{
+      .box-shadow(none);
+    }
+    &.active{
+      display: none;
+    }
+  }
+
+
+  section{
+    padding-top: 50px;
+    .section-header{
+      color: @base-color;
+      text-align: center;
+      > *{
+        display: inline-block;
+      }
+      &:before,
+      &:after{
+        display: inline-block;
+        content: ' ';
+        width: 60px;
+        height: 4px;
+        background: #888888;
+        margin: 10px 25px;
+      }
+    }
+  }
+
+  .thumbnail.course{
+    position: relative;
+    height: 300px;
+    width:200px;
+    margin:30px auto;
+    border:none;
+    border-radius: 0 4px 4px 0;
+    .back{
+      border-radius: 0 4px 4px 0;
+      position: absolute;
+      top:0;
+      left: 0;
+      width:100%;
+      height: 100%;
+      background: @base-color;
+      .transition(all .2s ease-in-out);
+      background-position: center;
+      background-size: cover;
+      .box-shadow(inset 4px 0 0 rgba(120,120,120,0.7));
+    }
+    .mask{
+      border-radius: 0 4px 4px 0;
+      position: absolute;
+      opacity: 0;
+      top:0;
+      left: 0;
+      width:100%;
+      height: 100%;
+      background: @base-color;
+      .transition(all .2s ease-in-out);
+    }
+    .caption{
+      background: rgba(255,255,255,0.7);
+      position: absolute;
+      top:15px;
+      left: 15px;
+      width: 170px;
+      height: 110px;
+      .transition(all .2s ease-in-out);
+    }
+    .info{
+      opacity: 0;
+      position: absolute;
+      top:130px;
+      left: 15px;
+      width: 170px;
+      bottom: 15px;
+      color: #FFFFFF;
+      .transition(all .2s ease-in-out);
+    }
+
+    &:hover{
+      border:none;
+      .back{
+        .blur(3px);
+      }
+      .caption{
+        background: transparent;
+        color: #FFFFFF;
+      }
+      .mask{
+        opacity: 0.7;
+      }
+      .info{
+        opacity: 1;
+      }
+    }
+  }
+
+  .my-rank{
+    background: #FFFFFF;
+    min-height: 600px;
+  }
 }

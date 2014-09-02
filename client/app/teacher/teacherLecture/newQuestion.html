@@ -46,6 +46,10 @@
           <span class="input-group-addon">
             <input type="checkbox" ng-model="option.correct"/>
           </span>
+          <a class="input-group-addon"
+             ng-click="removeOption($index)">
+            <span class="glyphicon glyphicon-trash"/>
+          </a>
         </div>
       </div>
     </div>

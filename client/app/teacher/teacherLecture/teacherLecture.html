@@ -178,9 +178,8 @@
                placeholder="查找并且添加知识点"
                typeahead="keyPoint as keyPoint.name for keyPoint in course.$keyPoints | filter:{name:$viewValue} | limitTo:8"
                class="form-control">
-        <span class="input-group-btn">
-          <button class="btn btn-default"
-                  ng-click="addkeyPoint(selectedKeyPoint)">添加</button>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-search"></span>
         </span>
       </div>
       <div class="list-group-item" ng-repeat="keyPoint in lecture.keyPoints">

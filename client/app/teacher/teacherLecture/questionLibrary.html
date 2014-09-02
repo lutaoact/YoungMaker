@@ -2,8 +2,17 @@
   <h3 class="modal-title">习题库</h3>
 </div>
 <div class="modal-body">
+  <div class="input-group">
+    <input class="form-control"
+           placeholder="搜索习题"
+           ng-model="keyword"/>
+    <span class="input-group-addon">
+      <span class="glyphicon glyphicon-search"></span>
+    </span>
+  </div>
+  <br/>
   <accordion>
-    <accordion-group ng-repeat="question in questions">
+    <accordion-group ng-repeat="question in questions | searchQuestion:keyword">
       <accordion-heading >
         <div>
           <a class="btn-link">

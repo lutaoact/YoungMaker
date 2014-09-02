@@ -5,6 +5,15 @@ angular.module('budweiserApp')
 .filter 'indexToABC', ->
   (index) -> String.fromCharCode(65+index)
 
+.filter 'searchQuestion', ->
+  (items, keyword) ->
+    keyword = _.str.clean(keyword ? '').toLowerCase()
+    _.filter items, (item) ->
+      title = item.content?.title ? ''
+      options = _.map(item.content.body, (option) -> option.desc).toString()
+      text = _.str.clean(title + " " + options).toLowerCase()
+      _.str.include(text, keyword)
+
 .controller 'QuestionLibraryCtrl', (
   $scope
   questions
@@ -15,7 +24,7 @@ angular.module('budweiserApp')
     close: ->
       $modalInstance.dismiss('close')
     add: (question) ->
-      $modalInstance.close(question)
+      $modalInstance.close angular.copy(question)
 
 .controller 'NewQuestionCtrl', (
   $scope
@@ -61,6 +70,7 @@ angular.module('budweiserApp')
       keyPoints:[]
       homeworks:[]
       quizzes:[]
+    questionType: 'quizzes' # quizzes | homeworks
     uploading:
       ppt: false
       thumb: false
@@ -223,16 +233,23 @@ angular.module('budweiserApp')
         $scope.lecture.__v = newLecture.__v
 
     # TODO CRUD question logic refactor
+    setQuestionType: (type) ->
+      $scope.questionType = type
+    getQuestions: ->
+      $scope.lecture[$scope.questionType]
+
     addLibraryQuestion: ->
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
         controller: 'QuestionLibraryCtrl'
         resolve:
-          questions: -> $scope.course.$questions
+          questions: -> $scope.course.$libraryQuestions
       .result.then (question) ->
-        $scope.lecture.homeworks.push angular.copy(question)
-        newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
-        $scope.lecture.patch?(homeworks:newHomeWorks)
+        questions = $scope.getQuestions()
+        questions.push question
+        patch = {}
+        patch[$scope.questionType] = _.map questions, (q) -> q._id
+        $scope.lecture.patch?(patch)
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
 
@@ -245,17 +262,21 @@ angular.module('budweiserApp')
       .result.then (question) ->
         Restangular.all('questions').post(question)
         .then (newQuestion) ->
-          $scope.course.$questions.push newQuestion
-          $scope.lecture.homeworks.push newQuestion
-          newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
-          $scope.lecture.patch?(homeworks:newHomeWorks)
+          $scope.course.$libraryQuestions.push newQuestion
+          questions = $scope.getQuestions()
+          questions.push newQuestion
+          patch = {}
+          patch[$scope.questionType] = _.map questions, (q) -> q._id
+          $scope.lecture.patch?(patch)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
 
     removeQuestion: (index) ->
-      $scope.lecture.homeworks.splice index, 1
-      newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
-      $scope.lecture.patch?(homeworks:newHomeWorks)
+      questions = $scope.getQuestions()
+      questions.splice index, 1
+      patch = {}
+      patch[$scope.questionType] = _.map questions, (q) -> q._id
+      $scope.lecture.patch?(patch)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
@@ -276,4 +297,4 @@ angular.module('budweiserApp')
       course.$keyPoints = keyPoints
     Restangular.all('questions').getList(categoryId:course.categoryId)
     .then (questions) ->
-      course.$questions = questions
+      course.$libraryQuestions = questions

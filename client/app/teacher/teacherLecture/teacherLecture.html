@@ -205,18 +205,25 @@
   <hr/>
   <div class="row">
     <div class="list-group col-md-8 col-md-offset-2">
-      <div class="list-group-item-heading">
-        <button class="btn btn-default"
+      <div class="btn-group pull-right">
+        <button class="btn-link"
                 ng-click="addNewQuestion()">
-          创建习题
+          添加新习题
         </button>
-        <button class="btn btn-default"
+        <button class="btn-link"
                 ng-click="addLibraryQuestion()">
-          从习题库中添加
-         </button>
+          从题库中添加
+        </button>
       </div>
+      <tabset>
+        <tab heading="随堂练习" select="setQuestionType('quizzes')">
+        </tab>
+        <tab heading="课后作业" select="setQuestionType('homeworks')">
+        </tab>
+      </tabset>
+      <div style="padding-top: 5px"></div>
       <accordion>
-        <accordion-group ng-repeat="question in lecture.homeworks">
+        <accordion-group ng-repeat="question in getQuestions()">
           <accordion-heading >
             <div>
               <a class="btn-link">

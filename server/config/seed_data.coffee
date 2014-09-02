@@ -219,8 +219,10 @@ module.exports =
         correct: true
       ,
         desc: '3'
+        correct: true
       ,
         desc: '4'
+        correct: true
       ,
         desc: '5'
       ]
@@ -243,6 +245,7 @@ module.exports =
         desc: 'Ag'
       ,
         desc: 'Br2'
+        correct: true
       ]
     type: 1
     solution: '连AgBr的光解都不会，高中没读吧'

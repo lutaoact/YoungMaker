@@ -14,6 +14,5 @@ angular.module('budweiserApp').directive 'fullScreen', ($window) ->
       $scope.initializeWindowSize()
 
     $scope.$on '$destroy', () ->
-      console.log 'unbind'
       angular.element($window).unbind 'resize', ->
       $scope.initializeWindowSize()

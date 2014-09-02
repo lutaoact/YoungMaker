@@ -7,10 +7,10 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   notify
   $state
   $q
+  $modal
   $sce
   CurrentUser
   focus
-  $document
   $timeout
   textAngularManager
 ) ->

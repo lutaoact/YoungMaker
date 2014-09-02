@@ -18,15 +18,27 @@ angular.module 'budweiserApp'
   $provide.decorator 'taOptions',[
     'taRegisterTool'
     '$delegate'
-    (taRegisterTool, taOptions)->
+    '$modal'
+    (taRegisterTool, taOptions, $modal)->
+
       # $delegate is the taOptions we are decorating
       # register the tool with textAngular
       taRegisterTool 'upload',
         iconclass: "fa fa-image",
-        action: ()->
-          console.log 'upload'
+        action: ($deferred)->
+          selection = rangy.saveSelection(window)
+          self = this
+          $modal.open
+            templateUrl: 'app/forum/imageUpload/imageUpload.html'
+            controller: 'ImageUploadCtrl'
+          .result.then (result)->
+            rangy.restoreSelection(selection)
+            # http://placehold.it/32x32
+            self.$editor().wrapSelection 'insertImage', result, true
+            $deferred.resolve()
+          return false
 
       # add the button to the default toolbar definition
-      taOptions.toolbar[1].push('colourRed');
-      return taOptions;
+      taOptions.toolbar[1].push('upload');
+      return taOptions
     ]

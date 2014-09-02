@@ -31,7 +31,7 @@ angular.module 'budweiserApp'
     $http.get('/api/qiniu/uptoken')
     .success (uploadToken)->
       qiniuParam =
-        'key': uploadToken.random + '/' + utf8.encode(file.name)
+        'key': uploadToken.random + '/' + (opts.rename or utf8.encode(file.name))
         'token': uploadToken.token
       start = moment()
       $upload.upload
@@ -68,7 +68,7 @@ angular.module 'budweiserApp'
         $http.get('/api/qiniu/uptoken')
         .success (uploadToken)->
           qiniuParam =
-            'key': uploadToken.random + '/' + utf8.encode(file.name)
+            'key': uploadToken.random + '/' + (opts.rename or utf8.encode(file.name))
             'token': uploadToken.token
           start = moment()
           $upload.upload

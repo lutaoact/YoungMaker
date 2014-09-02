@@ -32,7 +32,6 @@ exports.uptoken = (req, res) ->
 ###
 exports.signedUrl = (req, res) ->
   key = req.params.key
-
   cached = cache.get key
   if cached
     return res.send 200, cached
@@ -46,6 +45,26 @@ exports.signedUrl = (req, res) ->
   cache.put key, downloadUrl,  (signedUrlExpires-60*60)*1000
 
   res.send 200, downloadUrl
+
+###
+  redirect api/qiniu/images/key to private http://bucket.host/key
+###
+exports.images = (req, res) ->
+  key = decodeURI(req.url.replace(/(\/|)images\//, ''))
+  console.log key
+  cached = cache.get key
+  if cached
+    return res.redirect cached
+
+  baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
+  # the query should not encode before signature
+  baseUrl += if key.split('?')[1] then ('?' + key.split('?')[1]) else ''
+  policy = new qiniu.rs.GetPolicy(signedUrlExpires)
+  downloadUrl = policy.makeRequest(baseUrl)
+  # cache expiration is one hour less than signedURL expiration from qiniu
+  cache.put key, downloadUrl,  (signedUrlExpires-60*60)*1000
+
+  res.redirect downloadUrl
 
 # receive pfop notify from qiniu service
 exports.receiveNotify = (req, res) ->

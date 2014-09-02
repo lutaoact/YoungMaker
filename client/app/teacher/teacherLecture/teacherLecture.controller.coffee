@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
   angular.extend $scope,
 
-    mediaAPI: undefined
+    mediaApi: undefined
     course: undefined
     lecture:
       slides:[]
@@ -153,36 +153,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           $scope.uploadProgress.media = parseInt(100.0 * evt.loaded / evt.total) + '%'
 
     onPlayerReady: (api) ->
-      $scope.mediaAPI = api
-
-    seekPlayerTime: (time) ->
-      $scope.mediaAPI.seekTime time
-
-    # TODO CRUD keyPoint logic refactor
-    keyPointFormatter: ($model) -> $model?.name
-
-    addkeyPoint: (keyPoint) ->
-      $scope.lecture.keyPoints.push
-        kp : keyPoint
-        timestamp: 0
-      $scope.savekeyPoints()
-
-    removekeyPoint: (index) ->
-      $scope.lecture.keyPoints.splice(index, 1)
-      $scope.savekeyPoints()
-
-    updatekeyPoint: (keyPoint) ->
-      currentTime = $scope.mediaAPI.videoElement[0].currentTime
-      keyPoint.timestamp = Math.ceil(currentTime)
-      $scope.savekeyPoints()
-
-    savekeyPoints: ->
-      newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
-        kp: keyPoint.kp._id
-        timestamp: keyPoint.timestamp
-      $scope.lecture.patch?(keyPoints:newkeyPoints)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      $scope.mediaApi = api
 
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch?(slides:$scope.lecture.slides)

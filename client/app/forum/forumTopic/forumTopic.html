@@ -65,11 +65,11 @@
 
     </ul>
   </section>
-  <textarea cols="30" rows="10" focus-on="editor"></textarea>
   <section class="comment" id="comment" is-visible="isEditorVisible">
     <div class="row">
       <div class="col-md-8">
-        <text-angular ng-model="myReply.content" ></text-angular>
+        <!-- name used to retrive text-angular instance -->
+        <text-angular ng-model="myReply.content" name="replyEditor"></text-angular>
       </div>
       <div class="col-md-4">
         <button class="btn btn-primary" ng-click="reply()">回复</button>

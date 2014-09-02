@@ -12,12 +12,15 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   focus
   $document
   $timeout
+  textAngularManager
 ) ->
 
   if not $state.params.courseId or not $state.params.topicId
     return
 
   console.log CurrentUser._id
+
+  editorScope = undefined
 
   angular.extend $scope,
     loading: true
@@ -78,11 +81,13 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
       .then (res)->
         reply.voteUpUsers = res.voteUpUsers
 
+  retrieveEditor = ()->
+    editorScope = editorScope or textAngularManager.retrieveEditor('replyEditor').scope
+    editorScope
+
   $scope.$watch 'isEditorVisible', (value)->
     if value is true
-      console.log 'focus'
-      $timeout ()->
-        focus('editor')
+      retrieveEditor().displayElements.text.trigger('focus');
 
   $q.all [
     $scope.loadCourse()

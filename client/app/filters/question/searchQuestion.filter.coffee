@@ -1,9 +1,4 @@
-angular.module('budweiserApp')
-
-.filter 'indexToABC', ->
-  (index) -> String.fromCharCode(65+index)
-
-.filter 'searchQuestion', ->
+angular.module('budweiserApp').filter 'searchQuestion', ->
   (items, keyword) ->
     keyword = _.str.clean(keyword ? '').toLowerCase()
     _.filter items, (item) ->

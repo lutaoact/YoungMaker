@@ -27,5 +27,7 @@ angular.module('budweiserApp').directive 'isVisible', ($document, $timeout, $win
     # Find element's parent, bind scroll event
     scrollParent = $element.scrollParent?() or $document
     scrollParent.on 'scroll', scrollHandle
+    # should happen at leat once
+    scrollHandle.apply(scrollParent)
 
     scope.$on('$destroy', clear)

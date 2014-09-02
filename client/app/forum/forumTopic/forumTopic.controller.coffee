@@ -18,8 +18,6 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   if not $state.params.courseId or not $state.params.topicId
     return
 
-  console.log CurrentUser._id
-
   editorScope = undefined
 
   angular.extend $scope,
@@ -58,6 +56,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     loadTopic: ()->
       Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
+        topic.$safeContent = $sce.trustAsHtml topic.content
         $scope.topic = topic
 
     initMyReply: ()->

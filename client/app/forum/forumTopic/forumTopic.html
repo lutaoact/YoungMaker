@@ -14,20 +14,19 @@
   </ol>
 
   <section>
-    <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object"
-             qiniu-key="topic.postBy.avatar"
-             style="width:32px;height:32px;"
-             suffix="?imageView2/1/w/64/h/64">
-        <span>{{topic.postBy.name}}</span>
-      </a>
+    <div class="topic-detail">
+      <img class="media-object"
+           qiniu-key="topic.postBy.avatar"
+           style="width:32px;height:32px;"
+           suffix="?imageView2/1/w/64/h/64">
+      <span>{{topic.postBy.name}}</span>
 
       <strong>{{topic.title}}</strong>
 
-      <p>
-        {{topic.content}}
-      </p>
+      <div class="col-md-12" >
+        <div ng-bind-html="topic.$safeContent">
+        </div>
+      </div>
       <div class="col-md-6">
         <a href="#comment"
            du-smooth-scroll
@@ -52,11 +51,12 @@
         <div class="media-body">
           <div class="reply-body" ng-bind-html="reply.$safeContent"></div>
           <span class="pull-right">
-            <a href="" class="icon-btn vote">
-              <i class="fa"
-                 ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
-                 ng-click="toggleVote(reply)"
-                 ></i>
+            <a href="" class="btn vote">
+              <i
+                class="fa"
+                ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
+                ng-click="toggleVote(reply)">
+              </i>
             </a>
             {{reply.voteUpUsers.length||0}}个赞
           </span>
@@ -69,7 +69,11 @@
     <div class="row">
       <div class="col-md-8">
         <!-- name used to retrive text-angular instance -->
-        <text-angular ng-model="myReply.content" name="replyEditor"></text-angular>
+        <text-angular
+          ta-toolbar="[['h1','h2','h3'],['bold','italics','colourRed','upload']]"
+          ng-model="myReply.content"
+          name="replyEditor">
+        </text-angular>
       </div>
       <div class="col-md-4">
         <button class="btn btn-primary" ng-click="reply()">回复</button>

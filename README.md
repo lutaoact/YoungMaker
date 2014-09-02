@@ -24,7 +24,7 @@ grunt test
 `grunt serve`
 
 ###Troubleshooting
-1. After using `grunt serve` and get [Fatal error: spawn EMFILE](https://github.com/gruntjs/grunt/issues/788)
++ After using `grunt serve` and get [Fatal error: spawn EMFILE](https://github.com/gruntjs/grunt/issues/788)  
 Fixed: add `ulimit -S -n 2048` to your `~/.bash_profile`
 
 ###Contributing

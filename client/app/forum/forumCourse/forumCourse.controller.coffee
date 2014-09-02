@@ -18,6 +18,10 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     topics: null
 
+    myTopic: null
+
+    posting: false
+
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
@@ -29,15 +33,33 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         $scope.course.$lectures = lectures
 
 
-    loadDiscussions: ()->
+    loadTopics: ()->
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
       .then (topics)->
         $scope.topics = topics
 
+    initTopic: ()->
+      @myTopic = {} if !@myTopic
+      @myTopic.content = undefined
+      @myTopic.title = undefined
+      @myTopic.lectureId = undefined
+
+    createTopic: ()->
+      # validate
+
+      @posting = true
+      @topics.post @myTopic, {courseId: $state.params.courseId}
+      .then (dis_topic)->
+        $scope.topics.get(dis_topic._id)
+      .then (dis_topic)->
+        $scope.topics.push dis_topic
+        $scope.initTopic()
+        $scope.posting = false
+
   $q.all [
     $scope.loadCourse()
     $scope.loadLectures()
-    $scope.loadDiscussions()
+    $scope.loadTopics()
   ]
   .then ()->
     $scope.loading = false

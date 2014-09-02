@@ -1,0 +1,82 @@
+<div class="container">
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="forum.home">返回</a>
+    </li>
+    <li>
+      <a ui-sref="forum.course({courseId:course._id})">
+        {{course.name||'某课程'}}
+      </a>
+    </li>
+    <li class="active">
+      {{topic.title||'某讨论'}}
+    </li>
+  </ol>
+
+  <section>
+    <div class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object"
+             qiniu-key="topic.postBy.avatar"
+             style="width:32px;height:32px;"
+             suffix="?imageView2/1/w/64/h/64">
+        <span>{{topic.postBy.name}}</span>
+      </a>
+
+      <strong>{{topic.title}}</strong>
+
+      <p>
+        {{topic.content}}
+      </p>
+      <div class="col-md-6">
+        <a href="#comment"
+           du-smooth-scroll
+           class="btn btn-primary">回复</a>
+        <a>
+
+        </a>
+      </div>
+    <div>
+
+    <ul class="list-group">
+      <li class="thumbnail media col-md-12"
+          ng-repeat="reply in replies">
+        <a class="pull-left" href="#">
+          <img class="media-object"
+               src="http://placehold.it/32x32"
+               qiniu-key="reply.postBy.avatar"
+               style="width:32px;height:32px;"
+               suffix="?imageView2/1/w/64/h/64">
+          <span>{{reply.postBy.name}}</span>
+        </a>
+        <div class="media-body">
+          <div class="reply-body" ng-bind-html="reply.$safeContent"></div>
+          <span class="pull-right">
+            <a href="" class="icon-btn vote">
+              <i class="fa"
+                 ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
+                 ng-click="toggleVote(reply)"
+                 ></i>
+            </a>
+            {{reply.voteUpUsers.length||0}}个赞
+          </span>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+  <section class="comment" id="comment" is-visible="isEditorVisible">
+    <div class="row">
+      <div class="col-md-8">
+        <!-- name used to retrive text-angular instance -->
+        <text-angular ng-model="myReply.content" name="replyEditor"></text-angular>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-primary" ng-click="reply()">回复</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+

@@ -23,6 +23,8 @@ angular.module 'budweiserApp', [
   'ngAnimate'
   'ui.ace'
   'jsonFormatter'
+  'textAngular'
+  'focusOn'
 ]
 .constant 'configs',
   baseUrl: ''

@@ -1,16 +1,16 @@
 'use strict'
 
-describe 'Controller: ForumDiscussionCtrl', ->
+describe 'Controller: ForumTopicCtrl', ->
 
   # load the controller's module
   beforeEach module('budweiserApp')
-  ForumDiscussionCtrl = undefined
+  ForumTopicCtrl = undefined
   scope = undefined
 
   # Initialize the controller and a mock scope
   beforeEach inject(($controller, $rootScope) ->
     scope = $rootScope.$new()
-    ForumDiscussionCtrl = $controller('ForumDiscussionCtrl',
+    ForumTopicCtrl = $controller('ForumTopicCtrl',
       $scope: scope
     )
   )

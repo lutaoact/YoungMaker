@@ -4,14 +4,12 @@
       <a ui-sref="forum.home">返回</a>
     </li>
     <li>
-      <a ui-sref="forum.course({courseId:course._id})" class="active">
+      <a ui-sref="forum.course({courseId:course._id})">
         {{course.name||'某课程'}}
       </a>
     </li>
-    <li>
-      <a href class="active">
+    <li class="active">
         讨论
-      </a>
     </li>
   </ol>
 
@@ -19,7 +17,7 @@
     <ul class="list-group">
       <li class="thumbnail media col-md-12"
           ng-repeat="topic in topics">
-        <a class="pull-left" href="#">
+        <a class="pull-left" href="">
           <img class="media-object"
                src="http://placehold.it/32x32"
                qiniu-key="topic.postBy.avatar"
@@ -31,11 +29,36 @@
           <a ui-sref="forum.topic({courseId:course._id,
                       topicId:topic._id})">
             <strong>{{topic.title}}</strong>
-            <p>{{topic.content}}</p>
+
+            <p>{{topic.content|htmlToPlaintext}}</p>
           </a>
+          <span class="pull-right">
+            {{topic.replies||0}}个回复|
+            {{topic.voteUpUsers.length||0}}个赞
+          </span>
         </div>
       </li>
     </ul>
   </section>
 
+  <section class="new-topic">
+    <div class="section-header">
+      <h3>创建新的讨论</h3>
+    </div>
+    <div class="col-md-12">
+      <input class="form-control"
+             ng-model="myTopic.title"
+             placeholder="标题"
+             required>
+    </div>
+    <div class="col-md-12">
+      <text-angular ng-model="myTopic.content"></text-angular>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" ng-click="createTopic()">发表</button>
+    </div>
+  </section>
+
 </div>
+
+

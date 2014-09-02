@@ -184,51 +184,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
-    # TODO CRUD question logic refactor
-    setQuestionType: (type) ->
-      $scope.questionType = type
-
-    getQuestions: ->
-      $scope.lecture[$scope.questionType]
-
-    addLibraryQuestion: ->
-      $modal.open
-        templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
-        controller: 'QuestionLibraryCtrl'
-        resolve:
-          questions: -> $scope.course.$libraryQuestions
-      .result.then addQuestion
-
-    addNewQuestion: ->
-      $modal.open
-        templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
-        controller: 'NewQuestionCtrl'
-        resolve:
-          course: -> $scope.course
-      .result.then (question) ->
-        Restangular.all('questions').post(question)
-        .then (newQuestion) ->
-          $scope.course.$libraryQuestions.push newQuestion
-          addQuestion(newQuestion)
-
-    removeQuestion: (index) ->
-      questions = $scope.getQuestions()
-      questions.splice index, 1
-      saveQuestions(questions)
-
-
-  addQuestion = (question) ->
-    questions = $scope.getQuestions()
-    questions.push question
-    saveQuestions(questions)
-
-  saveQuestions = (questions) ->
-    patch = {}
-    patch[$scope.questionType] = _.map questions, (q) -> q._id
-    $scope.lecture.patch?(patch)
-    .then (newLecture) ->
-      $scope.lecture.__v = newLecture.__v
-
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch?(slides:$scope.lecture.slides)
     .then (newLecture) ->

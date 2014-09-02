@@ -1,0 +1,46 @@
+<div class="list-group col-md-8 col-md-offset-2">
+  <div class="btn-group pull-right">
+    <button class="btn-link"
+            ng-click="addNewQuestion()">
+      添加新习题
+    </button>
+    <button class="btn-link"
+            ng-click="addLibraryQuestion()">
+      从题库中添加
+    </button>
+  </div>
+  <tabset>
+    <tab heading="随堂练习" select="setQuestionType('quizzes')">
+    </tab>
+    <tab heading="课后作业" select="setQuestionType('homeworks')">
+    </tab>
+  </tabset>
+  <div style="padding-top: 5px"></div>
+  <accordion>
+    <accordion-group ng-repeat="question in getQuestions()">
+      <accordion-heading >
+        <div>
+          <a class="btn-link">
+            {{question.content.title}}
+          </a>
+          <a class="glyphicon glyphicon-trash pull-right"
+             ng-click="removeQuestion($index)">
+          </a>
+        </div>
+      </accordion-heading>
+      <ul class="nav nav-pills nav-stacked" role="tablist">
+        <li ng-repeat="option in question.content.body"
+            role="presentation">
+          <a>
+            <span>{{$index | indexToABC}}. </span>
+            {{option.desc}}
+            <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
+          </a>
+        </li>
+        <li role="presentation">
+          <div class="alert alert-warning">{{question.solution}}</div>
+        </li>
+      </ul>
+    </accordion-group>
+  </accordion>
+</div>

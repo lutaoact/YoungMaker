@@ -1,12 +1,12 @@
 angular.module('budweiserApp').controller 'NewQuestionCtrl', (
   $scope
-  course
+  categoryId
   $modalInstance
 ) ->
   angular.extend $scope,
     question:
       solution: ''
-      categoryId: course.categoryId
+      categoryId: categoryId
       content:
         title: ''
         body: [{}]

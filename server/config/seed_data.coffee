@@ -281,7 +281,7 @@ module.exports =
       answer : [0]
     ,
       questionId : _s.sprintf questionId, 2
-      answer : [0, 1]
+      answer : [0]
     ]
     submitted : true
   ]

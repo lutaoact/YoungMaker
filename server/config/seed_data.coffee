@@ -151,6 +151,35 @@ module.exports =
       _s.sprintf questionId, 1
       _s.sprintf questionId, 2
     ]
+  ,
+    _id: _s.sprintf lectureId, 1
+    name : 'lecture 2'
+    thumbnail: 'http://lorempixel.com/200/150'
+    info: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+           Recusandae, error molestiae'
+    slides: (
+      for i in [1..10]
+        _id: _s.sprintf slideId, i
+        thumb: "9Sb6o3b0yY/306.jpeg"
+    )
+    media: 'GEoTQHtOEs/Sample 2.mp4'
+    keypoints: [
+      kp: _s.sprintf keyPointId, 0
+      timestamp : 10
+    ,
+      kp: _s.sprintf keyPointId, 1
+      timestamp : 30
+    ,
+      kp: _s.sprintf keyPointId, 2
+      timestamp : 50
+    ]
+    quizzes : [
+      _s.sprintf questionId, 0
+      _s.sprintf questionId, 1
+    ]
+    homeworks : [
+      _s.sprintf questionId, 1
+    ]
   ]
   course: [
     _id: _s.sprintf courseId, 0
@@ -167,6 +196,7 @@ module.exports =
     ]
     lectureAssembly: [
       _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
     ]
   ]
   dis_topic: [
@@ -305,6 +335,12 @@ module.exports =
     _id : _s.sprintf quizAnswerId, 1
     userId : _s.sprintf userId, 4
     lectureId : _s.sprintf lectureId, 0
+    questionId : _s.sprintf questionId, 1
+    result : [1]
+  ,
+    _id : _s.sprintf quizAnswerId, 2
+    userId : _s.sprintf userId, 4
+    lectureId : _s.sprintf lectureId, 1
     questionId : _s.sprintf questionId, 1
     result : [1]
   ]

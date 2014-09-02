@@ -28,9 +28,7 @@ angular.module('budweiserApp')
       categoryId: course.categoryId
       content:
         title: ''
-        body: [
-          {}
-        ]
+        body: [{}]
     addOption: ->
       $scope.question.content.body.push {}
     removeOption: (index) ->
@@ -58,7 +56,11 @@ angular.module('budweiserApp')
 
     mediaAPI: undefined
     course: undefined
-    lecture: undefined
+    lecture:
+      slides:[]
+      keyPoints:[]
+      homeworks:[]
+      quizzes:[]
     uploading:
       ppt: false
       thumb: false
@@ -71,30 +73,35 @@ angular.module('budweiserApp')
       images: ''
 
     saveLecture: (lecture, form)->
-      unless form.$valid then return
-      (
-        if lecture._id?
-          # update exists
-          Restangular.copy(lecture).patch()
-        else
-          # create new
-          Restangular.all('lectures').post(lecture, courseId:$state.params.courseId)
-      )
-      .then ->
-        notify
-          message:'课时已保存'
-          template:'components/alert/success.html'
-        $state.go('teacher.course', id: $state.params.courseId)
+      unless form?.$valid then return
+
+      editingLecture = angular.extend angular.copy(lecture),
+        keyPoints: _.map lecture.keyPoints, (keyPoint) ->
+          kp: keyPoint.kp._id
+          timestamp: keyPoint.timestamp
+        homeworks: _.map lecture.homeworks, (q) -> q._id
+        quizzes: _.map lecture.quizzes, (q) -> q._id
+
+      if lecture._id?
+        # update exists
+        Restangular.copy(editingLecture).patch()
+        .then (newLecture) ->
+          lecture.__v = newLecture.__v
+      else
+        # create new
+        Restangular.all('lectures').post(editingLecture, courseId:$state.params.courseId)
+        .then ->
+          $state.go('teacher.course', id: $state.params.courseId)
 
     removeSlide: (index) ->
       $scope.lecture.slides.splice(index, 1)
-      $scope.lecture?.patch?(slides: $scope.lecture.slides)
+      $scope.lecture.patch?(slides: $scope.lecture.slides)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
     removeMedia: ->
       $scope.lecture.media = null
-      $scope.lecture?.patch?(media: $scope.lecture.media)
+      $scope.lecture.patch?(media: $scope.lecture.media)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
@@ -110,7 +117,7 @@ angular.module('budweiserApp')
           $scope.uploading.thumb = false
           logoStyle ='?imageView2/2/w/210/h/140'
           $scope.lecture.thumbnail = key + logoStyle
-          $scope.lecture?.patch?(thumbnail: $scope.lecture.thumbnail)
+          $scope.lecture.patch?(thumbnail: $scope.lecture.thumbnail)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
         fail: (error)->
@@ -132,7 +139,7 @@ angular.module('budweiserApp')
             if angular.isArray imageKeys
               $scope.lecture.slides =
                 _.union($scope.lecture.slides, _.map(imageKeys, (key) -> thumb:key))
-              $scope.lecture?.patch?(slides: $scope.lecture.slides)
+              $scope.lecture.patch?(slides: $scope.lecture.slides)
               .then (newLecture) ->
                 $scope.lecture.__v = newLecture.__v
             else
@@ -153,13 +160,17 @@ angular.module('budweiserApp')
           $scope.uploading.images = false
           $scope.lecture.slides =
             _.union($scope.lecture.slides, _.map(keys, (key) -> thumb:key))
-          $scope.lecture?.patch?(slides: $scope.lecture.slides)
+          $scope.lecture.patch?(slides: $scope.lecture.slides)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
         fail: (error)->
           $scope.uploading.images = false
         progress: (speed,percentage, evt)->
-          $scope.uploadProgress.images = parseInt(100.0 * evt.loaded / evt.total) + '%'
+          $scope.uploadProgress.images =
+            if files.length == 1
+              parseInt(100.0 * evt.loaded / evt.total) + '%'
+            else
+              ''
 
     onMediaSelect: (files)->
       $scope.uploading.media = true
@@ -171,7 +182,7 @@ angular.module('budweiserApp')
         success: (key)->
           $scope.uploading.media = false
           $scope.lecture.media = key
-          $scope.lecture?.patch?(media: $scope.lecture.media)
+          $scope.lecture.patch?(media: $scope.lecture.media)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
         fail: (error) ->
@@ -207,7 +218,7 @@ angular.module('budweiserApp')
       newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
         kp: keyPoint.kp._id
         timestamp: keyPoint.timestamp
-      $scope.lecture.patch(keyPoints:newkeyPoints)
+      $scope.lecture.patch?(keyPoints:newkeyPoints)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
@@ -221,7 +232,7 @@ angular.module('budweiserApp')
       .result.then (question) ->
         $scope.lecture.homeworks.push angular.copy(question)
         newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
-        $scope.lecture.patch(homeworks:newHomeWorks)
+        $scope.lecture.patch?(homeworks:newHomeWorks)
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
 
@@ -237,26 +248,24 @@ angular.module('budweiserApp')
           $scope.course.$questions.push newQuestion
           $scope.lecture.homeworks.push newQuestion
           newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
-          $scope.lecture.patch(homeworks:newHomeWorks)
+          $scope.lecture.patch?(homeworks:newHomeWorks)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
 
     removeQuestion: (index) ->
       $scope.lecture.homeworks.splice index, 1
       newHomeWorks = _.map $scope.lecture.homeworks, (q) -> q._id
-      $scope.lecture.patch(homeworks:newHomeWorks)
+      $scope.lecture.patch?(homeworks:newHomeWorks)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
 
   $scope.$on 'ngrr-reordered', ->
-    $scope.lecture.patch(slides:$scope.lecture.slides)
+    $scope.lecture.patch?(slides:$scope.lecture.slides)
     .then (newLecture) ->
       $scope.lecture.__v = newLecture.__v
 
-  if $state.params.id is 'new'
-    $scope.lecture = {}
-  else
+  if $state.params.id isnt 'new'
     $scope.lecture = Restangular.one('lectures', $state.params.id).get().$object
 
   Restangular.one('courses', $state.params.courseId).get()

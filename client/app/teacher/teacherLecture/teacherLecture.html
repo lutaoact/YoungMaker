@@ -93,7 +93,7 @@
           <a class="btn btn-link"
              ui-sref="teacher.course({id:course._id})">
             <i class="fa fa-arrow-circle-o-left"></i>
-            取消
+            返回
           </a>
         </div>
       </div>
@@ -222,9 +222,8 @@
               <a class="btn-link">
                 {{question.content.title}}
               </a>
-              <a class="btn-link pull-right"
+              <a class="glyphicon glyphicon-trash pull-right"
                  ng-click="removeQuestion($index)">
-                删除
               </a>
             </div>
           </accordion-heading>

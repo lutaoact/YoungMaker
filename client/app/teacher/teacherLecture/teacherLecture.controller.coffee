@@ -1,54 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp')
-
-.filter 'indexToABC', ->
-  (index) -> String.fromCharCode(65+index)
-
-.filter 'searchQuestion', ->
-  (items, keyword) ->
-    keyword = _.str.clean(keyword ? '').toLowerCase()
-    _.filter items, (item) ->
-      title = item.content?.title ? ''
-      options = _.map(item.content.body, (option) -> option.desc).toString()
-      text = _.str.clean(title + " " + options).toLowerCase()
-      _.str.include(text, keyword)
-
-.controller 'QuestionLibraryCtrl', (
-  $scope
-  questions
-  $modalInstance
-) ->
-  angular.extend $scope,
-    questions: questions
-    close: ->
-      $modalInstance.dismiss('close')
-    add: (question) ->
-      $modalInstance.close angular.copy(question)
-
-.controller 'NewQuestionCtrl', (
-  $scope
-  course
-  $modalInstance
-) ->
-  angular.extend $scope,
-    question:
-      solution: ''
-      categoryId: course.categoryId
-      content:
-        title: ''
-        body: [{}]
-    addOption: ->
-      $scope.question.content.body.push {}
-    removeOption: (index) ->
-      $scope.question.content.body.splice(index, 1)
-    close: ->
-      $modalInstance.dismiss('close')
-    save: (question, form) ->
-      unless form.$valid then return
-      $modalInstance.close(question)
-
-.controller 'TeacherLectureCtrl', (
+angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Auth
   $http
   $scope
@@ -235,6 +187,7 @@ angular.module('budweiserApp')
     # TODO CRUD question logic refactor
     setQuestionType: (type) ->
       $scope.questionType = type
+
     getQuestions: ->
       $scope.lecture[$scope.questionType]
 
@@ -244,14 +197,7 @@ angular.module('budweiserApp')
         controller: 'QuestionLibraryCtrl'
         resolve:
           questions: -> $scope.course.$libraryQuestions
-      .result.then (question) ->
-        questions = $scope.getQuestions()
-        questions.push question
-        patch = {}
-        patch[$scope.questionType] = _.map questions, (q) -> q._id
-        $scope.lecture.patch?(patch)
-        .then (newLecture) ->
-          $scope.lecture.__v = newLecture.__v
+      .result.then addQuestion
 
     addNewQuestion: ->
       $modal.open
@@ -263,23 +209,25 @@ angular.module('budweiserApp')
         Restangular.all('questions').post(question)
         .then (newQuestion) ->
           $scope.course.$libraryQuestions.push newQuestion
-          questions = $scope.getQuestions()
-          questions.push newQuestion
-          patch = {}
-          patch[$scope.questionType] = _.map questions, (q) -> q._id
-          $scope.lecture.patch?(patch)
-          .then (newLecture) ->
-            $scope.lecture.__v = newLecture.__v
+          addQuestion(newQuestion)
 
     removeQuestion: (index) ->
       questions = $scope.getQuestions()
       questions.splice index, 1
-      patch = {}
-      patch[$scope.questionType] = _.map questions, (q) -> q._id
-      $scope.lecture.patch?(patch)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      saveQuestions(questions)
 
+
+  addQuestion = (question) ->
+    questions = $scope.getQuestions()
+    questions.push question
+    saveQuestions(questions)
+
+  saveQuestions = (questions) ->
+    patch = {}
+    patch[$scope.questionType] = _.map questions, (q) -> q._id
+    $scope.lecture.patch?(patch)
+    .then (newLecture) ->
+      $scope.lecture.__v = newLecture.__v
 
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch?(slides:$scope.lecture.slides)

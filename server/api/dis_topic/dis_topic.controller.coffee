@@ -25,6 +25,13 @@ exports.index = (req, res, next) ->
   , (err) ->
     next err
 
+exports.show = (req, res, next) ->
+  DisTopic.findByIdQ req.params.id
+  .then (disTopic) ->
+    res.send disTopic
+  , (err) ->
+    next err
+
 exports.create = (req, res, next) ->
   user     = req.user
   courseId = req.query.courseId

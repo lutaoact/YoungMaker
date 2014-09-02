@@ -300,7 +300,7 @@ module.exports =
     userId : _s.sprintf userId, 3
     lectureId : _s.sprintf lectureId, 0
     questionId : _s.sprintf questionId, 0
-    result : [0]
+    result : [0..2]
   ,
     _id : _s.sprintf quizAnswerId, 1
     userId : _s.sprintf userId, 4

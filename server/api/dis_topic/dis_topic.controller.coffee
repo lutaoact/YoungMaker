@@ -26,7 +26,9 @@ exports.index = (req, res, next) ->
     next err
 
 exports.show = (req, res, next) ->
-  DisTopic.findByIdQ req.params.id
+  DisTopic.findById req.params.id
+  .populate 'postBy', '_id name avatar'
+  .execQ()
   .then (disTopic) ->
     res.send disTopic
   , (err) ->
@@ -48,7 +50,9 @@ exports.create = (req, res, next) ->
 
     DisTopic.createQ body
   .then (disTopic) ->
-    disTopic.postBy = user #populate postBy field
+    disTopic.populateQ 'postBy', '_id name avatar'
+  .then (disTopic) ->
+    logger.info disTopic
     res.send 201, disTopic
   , (err) ->
     next err
@@ -66,8 +70,11 @@ exports.update = (req, res, next) ->
     updated = _.extend disTopic, updateBody
     do updated.saveQ
   .then (result) ->
+    logger.info result
     newValue = result[0]
-    res.send newValue
+    newValue.populateQ 'postBy', '_id name avatar'
+  .then (newDisTopic) ->
+    res.send newDisTopic
   , (err) ->
     next err
 

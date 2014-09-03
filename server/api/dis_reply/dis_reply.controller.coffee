@@ -32,8 +32,10 @@ exports.create = (req, res, next) ->
   body     = req.body
   delete body._id
 
+  tmpResult = {}
   DisTopic.findByIdQ disTopicId
   .then (disTopic) ->
+    tmpResult.disTopic = disTopic
     CourseUtils.getAuthedCourseById user, disTopic.courseId
   .then (course) ->
     #don't post voteUpUsers field, it's illegal, I will override it
@@ -44,12 +46,17 @@ exports.create = (req, res, next) ->
 
     DisReply.createQ body
   .then (disReply) ->
-    disReply.postBy = user #populate postBy field
+    tmpResult.disReply = disReply
+    tmpResult.disTopic.updateQ {$inc: {repliesNum: 1}}
+  .then (disTopic) ->
+    tmpResult.disReply.populateQ 'postBy', 'name avatar'
+  .then (disReply) ->
     res.send 201, disReply
   , (err) ->
     next err
 
 exports.update = (req, res, next) ->
+  user = req.user
   updateBody = {}
   updateBody.content   = req.body.content   if req.body.content?
 
@@ -61,14 +68,22 @@ exports.update = (req, res, next) ->
     do updated.saveQ
   .then (result) ->
     newValue = result[0]
-    res.send newValue
+    newValue.populateQ 'postBy', 'name avatar'
+  .then (newDisReply) ->
+    res.send newDisReply
   , (err) ->
     next err
 
 exports.destroy = (req, res, next) ->
-  DisReply.removeQ
+  tmpResult = {}
+  DisReply.findOneQ
     _id: req.params.id
     postBy : req.user.id
+  .then (disReply) ->
+    tmpResult.disReply = disReply
+    DisTopic.updateQ {_id: disReply.disTopicId}, {$inc: {repliesNum: -1}}
+  .then () ->
+    do tmpResult.disReply.removeQ
   .then () ->
     res.send 204
   , (err) ->

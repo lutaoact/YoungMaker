@@ -68,23 +68,11 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       .then (newCourse) ->
         $scope.course.classes = newCourse.classes
 
-
-    onThumbSelect: (files) ->
-      $scope.state.uploading = true
-      qiniuUtils.uploadFile
-        files: files
-        validation:
-          max: 2*1024*1024
-          accept: 'image'
-        success: (key) ->
-          $scope.state.uploading = false
-          $scope.course.thumbnail = key
-          $scope.course?.patch?(thumbnail: $scope.course.thumbnail)
-        fail: (error)->
-          $scope.state.uploading = false
-          notify(error)
-        progress: (speed,percentage, evt)->
-          $scope.state.uploadProgress = parseInt(100.0 * evt.loaded / evt.total) + '%'
+    onThumbUploaded: (key) ->
+      $scope.course.thumbnail = key
+      $scope.course?.patch?(thumbnail: $scope.course.thumbnail)
+      .then (newCourse) ->
+        $scope.course.__v = newCourse.__v
 
   $scope.$on 'ngrr-reordered', ->
     $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')

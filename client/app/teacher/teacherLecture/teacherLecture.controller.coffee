@@ -23,16 +23,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       homeworks:[]
       quizzes:[]
     questionType: 'quizzes' # quizzes | homeworks
-    uploading:
-      ppt: false
-      thumb: false
-      media: false
-      images: false
-    uploadProgress:
-      ppt: ''
-      video: ''
-      thumb: ''
-      images: ''
 
     saveLecture: (lecture, form)->
       unless form?.$valid then return
@@ -67,90 +57,36 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
+    onThumbUploaded: (key) ->
+      $scope.lecture.thumbnail = key
+      $scope.lecture.patch?(thumbnail: $scope.lecture.thumbnail)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
 
-    onThumbSelect: (files) ->
-      $scope.uploading.thumb = true
-      qiniuUtils.uploadFile
-        files: files
-        validation:
-          max: 2*1024*1024
-          accept: 'image'
-        success: (key) ->
-          $scope.uploading.thumb = false
-          logoStyle ='?imageView2/2/w/210/h/140'
-          $scope.lecture.thumbnail = key + logoStyle
-          $scope.lecture.patch?(thumbnail: $scope.lecture.thumbnail)
-          .then (newLecture) ->
-            $scope.lecture.__v = newLecture.__v
-        fail: (error)->
-          $scope.uploading.thumb = false
-        progress: (speed,percentage, evt)->
-          $scope.uploadProgress.thumb = parseInt(100.0 * evt.loaded / evt.total) + '%'
-
-    onPPTSelect: (files)->
-      $scope.uploading.ppt = true
-      qiniuUtils.uploadFile
-        files: files
-        validation:
-          max: 50 * 1024 * 1024
-          accept: 'ppt'
-        success: (key)->
-          $http.post('/api/slides/' + encodeURIComponent(key), null, timeout:10*60*1000)
-          .success (imageKeys)->
-            $scope.uploading.ppt = false
-            if angular.isArray imageKeys
-              $scope.lecture.slides =
-                _.union($scope.lecture.slides, _.map(imageKeys, (key) -> thumb:key))
-              $scope.lecture.patch?(slides: $scope.lecture.slides)
-              .then (newLecture) ->
-                $scope.lecture.__v = newLecture.__v
-            else
-              notify(message:'转换失败，请联系info@cloud3edu.com', template:'components/alert/failure.html')
-        fail: (error)->
-          $scope.uploading.ppt = false
-        progress: (speed, percentage, evt)->
-          $scope.uploadProgress.ppt = parseInt(100.0 * evt.loaded / evt.total) + '%'
-
-    onImagesSelect: (files) ->
-      $scope.uploading.images = true
-      qiniuUtils.bulkUpload
-        files: files
-        validation:
-          max: 10*1024*1024
-          accept: 'image'
-        success: (keys)->
-          $scope.uploading.images = false
+    onPPTUploaded: (key) ->
+      $http.post('/api/slides/' + encodeURIComponent(key), null, timeout:10*60*1000)
+      .success (imageKeys)->
+        if angular.isArray imageKeys
           $scope.lecture.slides =
-            _.union($scope.lecture.slides, _.map(keys, (key) -> thumb:key))
+            _.union($scope.lecture.slides, _.map(imageKeys, (key) -> thumb:key))
           $scope.lecture.patch?(slides: $scope.lecture.slides)
           .then (newLecture) ->
             $scope.lecture.__v = newLecture.__v
-        fail: (error)->
-          $scope.uploading.images = false
-        progress: (speed,percentage, evt)->
-          $scope.uploadProgress.images =
-            if files.length == 1
-              parseInt(100.0 * evt.loaded / evt.total) + '%'
-            else
-              ''
+        else
+          notify(message:'转换失败，请联系info@cloud3edu.com', template:'components/alert/failure.html')
 
-    onMediaSelect: (files)->
-      $scope.uploading.media = true
-      qiniuUtils.uploadFile
-        files: files
-        validation:
-          max: 100*1024*1024
-          accept: 'video'
-        success: (key)->
-          $scope.uploading.media = false
-          $scope.lecture.media = key
-          $scope.lecture.patch?(media: $scope.lecture.media)
-          .then (newLecture) ->
-            $scope.lecture.__v = newLecture.__v
-        fail: (error) ->
-          $scope.uploading.media = false
-        progress: (speed,percentage, evt)->
-          $scope.uploadProgress.media = parseInt(100.0 * evt.loaded / evt.total) + '%'
+    onImagesUploaded: (keys) ->
+      $scope.lecture.slides =
+        _.union($scope.lecture.slides, _.map(keys, (key) -> thumb:key))
+      $scope.lecture.patch?(slides: $scope.lecture.slides)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
+
+    onMediaUploaded: (key) ->
+      $scope.lecture.media = key
+      $scope.lecture.patch?(media: $scope.lecture.media)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
 
     onPlayerReady: (api) ->
       $scope.mediaApi = api

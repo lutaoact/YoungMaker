@@ -4,7 +4,6 @@ angular.module('budweiserApp')
 
 .directive 'teacherLectureKeypoints', ->
   restrict: 'EA'
-  transclude: true
   replace: true
   controller: 'TeacherLectureKeypointsCtrl'
   templateUrl: 'app/teacher/teacherLecture/teacherLecture.keyPoints.html'

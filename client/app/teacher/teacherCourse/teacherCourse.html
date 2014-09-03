@@ -1,15 +1,13 @@
 <div class="container">
   <form class="form-horizontal media" name="form" role="form">
     <div class="media-object pull-right">
-      <label class="btn btn-default" ng-show="!state.uploading">
-        <input type="file" style="display:none;" ng-file-select="onThumbSelect($files)"/>
+      <uploader limit="2*1024*1024"
+                on-complete="onThumbUploaded($data)"
+                accept="image">
         <img qiniu-key="course.thumbnail"
              suffix="?imageView2/2/w/210/h/140"
              src="/assets/images/empty.jpg"/>
-      </label>
-      <label class="btn btn-default disabled" ng-show="state.uploading">
-        <i class="fa fa-spinner fa-spin"></i>上传中 {{state.progress}}
-      </label>
+      </uploader>
     </div>
     <div class="media-body">
       <div class="form-group">

@@ -1,18 +1,13 @@
 <div class="container">
   <form class="form-horizontal media" name="form" role="form">
     <div class="media-object pull-right">
-      <label class="thumbnail"
-             ng-disabled="uploading.thumb">
-        <input type="file" style="display:none;"
-               ng-file-select="onThumbSelect($files)"/>
+      <uploader limit="2*1024*1024"
+                on-complete="onThumbUploaded($data)"
+                accept="image">
         <img qiniu-key="lecture.thumbnail"
              suffix="?imageView2/2/w/210/h/140"
-             ng-show="!uploading.thumb"
              src="/assets/images/empty.jpg"/>
-        <span ng-if="uploading.thumb">
-          <i class="fa fa-spinner fa-spin"></i>上传中 {{uploadProgress.thumb}}
-        </span>
-      </label>
+      </uploader>
     </div>
     <div class="media-body">
       <div class="form-group">
@@ -48,41 +43,22 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <label class="btn btn-default"
-                 ng-disabled="uploading.ppt">
-            <input type="file"
-                   style="display:none;"
-                   ng-file-select="onPPTSelect($files)"/>
-            <span ng-if="uploading.ppt">
-              <i class="fa fa-spinner fa-spin"></i>
-              {{uploadProgress.ppt}}
-            </span>
+          <uploader limit="50*1024*1024"
+                    on-complete="onPPTUploaded($data)"
+                    accept="ppt">
             导入PPT
-          </label>
-
-          <label class="btn btn-default"
-                 ng-disabled="uploading.images">
-            <input type="file" style="display:none;"
-                   ng-file-select="onImagesSelect($files)"
-                   multiple/>
-            <span ng-if="uploading.images">
-              <i class="fa fa-spinner fa-spin"></i>
-              {{uploadProgress.images}}
-            </span>
+          </uploader>
+          <uploader limit="10*1024*1024"
+                    multiple="true"
+                    on-complete="onImagesUploaded($data)"
+                    accept="image">
             导入图片
-          </label>
-
-          <label class="btn btn-default"
-                 ng-disabled="uploading.media">
-            <input type="file" style="display:none;"
-                   ng-file-select="onMediaSelect($files)"
-                   multiple />
-            <span ng-if="uploading.media">
-              <i class="fa fa-spinner fa-spin"></i>
-              {{uploadProgress.media}}
-            </span>
+          </uploader>
+          <uploader limit="100*1024*1024"
+                    on-complete="onMediaUploaded($data)"
+                    accept="video">
             导入视频
-          </label>
+          </uploader>
         </div>
       </div>
 

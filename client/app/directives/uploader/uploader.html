@@ -1,0 +1,16 @@
+<label class="btn btn-default"
+       ng-disabled="uploading">
+  <input type="file" style="display:none;"
+         ng-if="!multiple"
+         ng-file-select="onFileSelect($files)"/>
+  <input type="file" style="display:none;"
+         ng-if="multiple"
+         multiple
+         ng-file-select="onFileSelect($files)"/>
+  <span ng-if="uploading">
+    <i class="fa fa-spinner fa-spin"></i>
+     上传中 {{uploadProgress}}
+  </span>
+  <span ng-transclude
+        ng-hide="uploading"></span>
+</label>

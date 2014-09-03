@@ -18,24 +18,22 @@ calCorrectNum = (answer, qaMap) ->
     return sum
   , 0
 
+initStatsResult = ->
+    lectures : []
+    summary : 0
+    totalQ : 0
+    totalCorrect : 0
 
-  #logger.info 'correctness is %j', correctness
-  #_.reduce correctness, (sum, num) -> sum+num
-
-
-lectureStats = (lecture, statsResult, studentsNum, userId) ->
+calLectureStats = (lecture, statsResult, studentsNum, userId) ->
   logger.info 'LectureId is ' + lecture._id
 
-  query = undefined
-  if userId?
-    query = HomeworkAnswer.find
-      userId : userId
-      lectureId : lecture._id
-  else
-    query = HomeworkAnswer.find
-      lectureId : lecture._id
+  condition =
+    lectureId : lecture._id
 
-  query.populate 'result', 'questionId answer'
+  if userId? then condition.userId = userId
+
+  HomeworkAnswer.find condition
+  .populate 'result', 'questionId answer'
   .execQ()
   .then (answers) ->
     if not answers?  # no answer for the lecture
@@ -64,7 +62,7 @@ calStats = (user, courseId, studentsNum, statsResult, userId) ->
   .then (course) ->
     lectures = course.lectureAssembly
     Q.all _.map lectures, (lecture) ->
-      lectureStats lecture, statsResult, studentsNum, userId
+      calLectureStats lecture, statsResult, studentsNum, userId
   .then (statsData) ->
     statsResult.lectures = statsData
     logger.info 'total correctNum is '+ statsResult.totalCorrect
@@ -80,11 +78,7 @@ exports.studentView = (req, res, next) ->
   courseId = req.query.courseId
   me = req.user
 
-  statsResult =
-    lectures : []
-    summary : 0
-    totalQ : 0
-    totalCorrect : 0
+  statsResult = do initStatsResult
 
   calStats me, courseId, 1, statsResult, me.id
   .then (statsResult) ->
@@ -98,11 +92,7 @@ exports.teacherView = (req, res, next) ->
   me = req.user
   userId = req.query.userId
 
-  statsResult =
-    lectures : []
-    summary : 0
-    totalQ : 0
-    totalCorrect : 0
+  statsResult = do initStatsResult
 
   CourseUtils.getStudentsNum req.user, courseId
   .then (num) ->
@@ -114,4 +104,3 @@ exports.teacherView = (req, res, next) ->
     res.json 200, statsResult
   , (err) ->
     next err
-

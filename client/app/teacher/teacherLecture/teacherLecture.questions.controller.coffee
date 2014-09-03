@@ -32,7 +32,7 @@ angular.module('budweiserApp')
     addLibraryQuestion: ->
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
-        controller: 'QuestionLibraryCtrl'
+        controller: 'QuestionLibraryCtrl as ctrl'
         resolve:
           questions: -> $scope.libraryQuestions
       .result.then addQuestion

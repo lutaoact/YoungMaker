@@ -1,3 +1,5 @@
+'use strict'
+
 angular.module('budweiserApp').filter 'searchQuestion', ->
   (items, keyword) ->
     keyword = _.str.clean(keyword ? '').toLowerCase()

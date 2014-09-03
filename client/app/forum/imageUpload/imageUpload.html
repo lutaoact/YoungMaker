@@ -17,9 +17,9 @@
         <input type="file"
         style="display:none;"
         ng-file-select="onFileSelect($files)"/>
-        上传图片
+        选择图片
       </label>
-      <label class="btn btn-default disabled" ng-show="viewState.uploading">
+      <label class="btn btn-default disabled ng-hide" ng-hide="!viewState.uploading">
         <i class="fa fa-spinner fa-spin"></i>上传中 {{viewState.progress}}
       </label>
     </div>

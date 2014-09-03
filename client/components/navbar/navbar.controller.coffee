@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
   $location
   Auth
   $state
+  $rootScope
 ) ->
 
   angular.extend $scope,
@@ -16,21 +17,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         link: 'teacher.home'
         role: 'teacher'
       }
-      {
-        title: '主页'
-        link: 'student.courseList'
-        role: 'student'
-      }
-      {
-        title: '讨论'
-        link: 'forum.home'
-        role: 'teacher'
-      }
-      {
-        title: '讨论'
-        link: 'forum.home'
-        role: 'student'
-      }
+
       {
         title: '管理组'
         link: 'admin.classeManager'

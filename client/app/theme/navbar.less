@@ -8,6 +8,7 @@
 
 // @navbar-default-link-hover-color: @base-color;
 .navbar{
+  overflow: hidden;
   border: none;
   .box-shadow(0 4px 2px rgba(34,30,31, 0.70));
   &-nav {
@@ -57,6 +58,38 @@
     opacity: 1;
     display: block !important;
   }
+}
+
+.sub-nav{
+  @sub-nav-height : 50px;
+  ul, li{
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding-left: 0;
+  }
+  li{
+    a{
+      position: relative;
+      display: block;
+      padding: 0 15px;
+    }
+    height: @sub-nav-height;
+    line-height: @sub-nav-height;
+    .btn-icon{
+      font-size: 20px;
+      height: @sub-nav-height;
+      width: @sub-nav-height;
+      line-height: @sub-nav-height;
+      &:hover{
+        color: white;
+        background: @base-color;
+      }
+    }
+  }
+  height: @sub-nav-height;
+  min-height: @sub-nav-height;
+  .box-shadow(inset 0 0 2px @gray-light);
 }
 
 

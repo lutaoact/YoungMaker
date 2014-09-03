@@ -15,6 +15,10 @@
           <a ui-sref="{{item.link}}"
              ng-if="item.role == getCurrentUser().role">{{item.title}}</a>
         </li>
+        <li ng-repeat="item in additionalMenu" ng-class="{active: isActive(item.link)}">
+          <a ui-sref="{{item.link}}"
+             ng-if="item.role == getCurrentUser().role" ng-bind-html="item.title"></a>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

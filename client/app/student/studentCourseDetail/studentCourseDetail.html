@@ -1,17 +1,112 @@
-<div class="container">
-  <ol class="breadcrumb">
-    <li>
-      <a ui-sref="student.courseList">主页</a>
-    </li>
-    <li>
-      <a ui-sref="student.courseDetail({courseId:course._id})" class="active">
-        {{course.name||'某课程'}}
+<div class="sub-nav">
+  <div class="container">
+
+    <ul class="pull-left">
+      <li>
+        <a ui-sref="student.courseList" class="btn btn-icon">
+          <i class="fa fa-arrow-circle-left"></i>
+        </a>
+      </li>
+    </ul>
+    <ul class="pull-right">
+      <li>
+        <a ui-sref="student.courseList" class="btn btn-icon">
+          <i class="fa fa-bars"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- jumbotron -->
+<section class="jumbotron course-detail" full-screen offset-y="110">
+  <div class="text-center">
+    <div class="thumbnail course text-left">
+      <div class="back"
+           ng-style="{'background-image':'url('+course.thumbnail+')'}"
+           >
+      </div>
+      <div class="caption">
+        <h4>{{course.name}}</h4>
+        <div class="info">
+          {{course.info}}
+        </div>
+      </div>
+    </div>
+    <div class="header">
+      <h2>{{course.name}}<span class="badge">介绍</span></h2>
+    </div>
+    <div class="description">
+      {{course.info}}
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <div class="span4">
+      <div class="avatar" ng-style="{'background-image':'url('+course.thumbnail+')'}">
+      </div>
+      <label>
+        {{course.teacher.name||'某老师'}}
+      </label>
+    </div>
+    <div class="span4">
+      <a class="btn btn-danger btn-lg" >
+        开始学习
       </a>
-    </li>
-  </ol>
+    </div>
+    <div class="span4">
+      <a class="btn" >
+        <i class="fa fa-map-marker"></i>
+        {{course.location||'上课地址'}}
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<!-- lecture list -->
+<section class="course-detail lecture-list" id="lecture-list">
+  <div class="container" >
+    <div class="above-header">
+      <h1>
+        <i class="fa fa-calendar"></i>
+      </h1>
+    </div>
+    <div class="section-header">
+      <h1>
+        我要学的课程
+      </h1>
+    </div>
+    <div class="row">
+      <p class="col-md-6 col-md-offset-3 text-center">
+        前所未有得多媒体教学——Video和教案无限期播放，无论你是要预习还<br/>是要温故知新，这里都能满足你！赶快来学习吧！
+      </p>
+    </div>
+    <div class="list-group">
+      <a class="list-group-item lecture row" ng-repeat="lecture in course.$lectures"
+         ui-sref="student.lectureDetail({courseId:course._id,lectureId:lecture._id})">
+        <div class="col-md-1 text-center number">
+          {{$index + 1}}
+        </div>
+        <div class="col-md-10">
+          <h3 class="title">{{lecture.name}}</h3>
+          <div class="info">
+            {{lecture.info}}
+          </div>
+        </div>
+        <div class="col-md-1 text-center arrow-right">
+          <i class="fa fa-chevron-right"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<div class="container">
+
   <div class="row">
     <div class="col-md-4">
-      <div qiniu-key="course.thumbnail" source-attr="background-image"
+      <div qiniu-key="lecture.thumbnail" source-attr="background-image"
            suffix="?imageView2/2/w/210/h/140"
            style="width: 100%;background-size:cover;
            background-position:center;height: 200px;">

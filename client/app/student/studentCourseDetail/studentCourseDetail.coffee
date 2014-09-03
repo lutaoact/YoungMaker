@@ -6,3 +6,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/student/studentCourseDetail/studentCourseDetail.html'
     controller: 'StudentCourseDetailCtrl'
     authenticate: true
+

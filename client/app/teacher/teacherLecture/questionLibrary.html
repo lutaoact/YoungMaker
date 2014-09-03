@@ -12,7 +12,8 @@
   </div>
   <br/>
   <accordion>
-    <accordion-group ng-repeat="question in questions | searchQuestion:keyword">
+    <accordion-group ng-repeat="question in (ctrl.displayItems = (questions | searchQuestion:keyword))
+                                | paging:itemsPerPage:currentPage">
       <accordion-heading >
         <div>
           <a class="btn-link">
@@ -38,7 +39,15 @@
         </li>
       </ul>
     </accordion-group>
-   </accordion>
+  </accordion>
+  <pagination direction-links="true"
+              boundary-links="false"
+              total-items="ctrl.displayItems.length"
+              items-per-page="itemsPerPage"
+              previous-text="上一页"
+              next-text="下一页"
+              ng-model="currentPage">
+  </pagination>
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" ng-click="close()">关闭</button>

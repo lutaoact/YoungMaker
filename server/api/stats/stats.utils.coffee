@@ -1,9 +1,72 @@
 BaseUtils = require('../../common/BaseUtils').BaseUtils
 Question = _u.getModel 'question'
 CourseUtils = _u.getUtils 'course'
+QuizAnswer = _u.getModel 'quiz_answer'
 
 exports.StatsUtils = BaseUtils.subclass
   classname: 'StatsUtils'
+
+  makeQuizStatsPromiseForSpecifiedLecture: (lecture) ->
+    questionIds = lecture.quizzes
+
+    resolveResult =
+      lectureId: lecture.id
+      name: lecture.name
+      questionsLength: questionIds.length
+      correctNum: 0
+
+    tmpResult = {}
+
+    @buildQAMap questionIds
+    .then (myQAMap) =>
+#      logger.info "myQAMap"
+#      logger.info myQAMap
+      tmpResult.myQAMap = myQAMap
+      QuizAnswer.findQ
+        questionId:
+          $in: questionIds
+        lectureId: lecture._id
+    .then (quizAnswers) =>
+#      logger.info "quizAnswers:"
+#      logger.info quizAnswers
+      tmpResult.quizAnswers = quizAnswers
+      @computeCorrectNumByQuizAnswers(
+        tmpResult.myQAMap, tmpResult.quizAnswers
+      )
+    .then (sum) =>
+      resolveResult.correctNum = sum #更新correctNum
+      return resolveResult
+
+
+  makeQuizStatsPromiseForUser: (user, courseId) ->
+    tmpResult = {}
+
+    @getStatsStudentsNum user, courseId
+    .then (studentsNum) ->
+      tmpResult.studentsNum = studentsNum
+      CourseUtils.getAuthedCourseById user, courseId
+    .then (course) ->
+      course.populateQ 'lectureAssembly', 'name quizzes'
+    .then (course) =>
+      promiseArray = for lecture in course.lectureAssembly
+        @makeQuizStatsPromiseForSpecifiedLecture lecture
+
+      Q.all promiseArray
+    .then (statsArray) =>
+#      logger.info statsArray
+#      logger.info _.indexBy(statsArray, 'lectureId')
+
+      @computeFinalStats(
+        tmpResult.studentsNum
+        _.indexBy statsArray, 'lectureId'
+      )
+
+
+  getStatsStudentsNum: (user, courseId) ->
+    switch user.role
+      when 'teacher' then return CourseUtils.getStudentsNum user, courseId
+      when 'student' then return Q(1) #学生只统计他自己的数值
+
 
   # {questionId: answerString}
   buildQAMap: (questionIds) ->
@@ -22,6 +85,7 @@ exports.StatsUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
+
   computeCorrectNumByQuizAnswers: (myQAMap, quizAnswers) ->
     Q.resolve _.reduce(quizAnswers, (sum, quizAnswer) ->
       if quizAnswer.result.toString() is myQAMap[quizAnswer.questionId]
@@ -29,18 +93,20 @@ exports.StatsUtils = BaseUtils.subclass
       return sum
     , 0)
 
-  computeFinalStats: (studentsNum, middleResult) ->
-    for lectureId, result of middleResult
+
+  computeFinalStats: (studentsNum, statsMap) ->
+#    logger.info "studentsNum: #{studentsNum}"
+    for lectureId, result of statsMap
       result.percent =
         result.correctNum * 100 // (studentsNum * result.questionsLength)
 
-    summary = _.reduce(middleResult, (sum, result) ->
+    summary = _.reduce(statsMap, (sum, result) ->
       sum.questionsLength += result.questionsLength
       sum.correctNum      += result.correctNum
       return sum
     , {questionsLength:0, correctNum: 0})
     summary.percent =
       summary.correctNum * 100 // (studentsNum * summary.questionsLength)
-    middleResult.summary = summary
+    statsMap.summary = summary
 
-    Q.resolve middleResult
+    Q.resolve statsMap

@@ -6,6 +6,19 @@ QuizAnswer = _u.getModel 'quiz_answer'
 exports.StatsUtils = BaseUtils.subclass
   classname: 'StatsUtils'
 
+  makeRealTimeStats: (lectureId, questionId) ->
+    QuizAnswer.findQ
+      lectureId: lectureId
+      questionId: questionId
+    .then (quizAnswers) ->
+      results = _.pluck quizAnswers, 'result'
+      return _.countBy(_.flatten(results), (ele) ->
+        return ele
+      )
+    , (err) ->
+      Q.reject err
+
+
   makeQuizStatsPromiseForSpecifiedLecture: (lecture) ->
     questionIds = lecture.quizzes
 

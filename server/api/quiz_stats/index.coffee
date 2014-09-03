@@ -8,5 +8,6 @@ router = express.Router()
 
 router.get '/my_view', auth.isAuthenticated(), controller.myView
 router.get '/teacher', auth.hasRole('teacher'), controller.studentView
+router.get '/real_time', auth.hasRole('teacher'), controller.realTimeView
 
 module.exports = router

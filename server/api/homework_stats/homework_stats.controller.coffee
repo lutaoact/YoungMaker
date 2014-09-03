@@ -7,23 +7,24 @@ Question = _u.getModel 'question'
 StatsUtils = _u.getUtils 'stats'
 
 calCorrectNum = (answer, qaMap) ->
-  correctness = _.map answer.result, (result) ->
-    questionId = result.questionId
+  _.reduce answer.result, (sum, item) ->
+    questionId = item.questionId
     correctResult = qaMap[questionId]
     logger.info 'QuestionId is' + questionId
     logger.info 'CorrectResult is ' + correctResult
-    myAnswer = result.answer.toString()
+    myAnswer = item.answer.toString()
     logger.info 'My answer is ' + myAnswer
-    return 1 if myAnswer is correctResult
-    return 0
+    return sum+1 if myAnswer is correctResult
+    return sum
+  , 0
 
-  logger.info 'correctness is %j', correctness
-  _.reduce correctness, (sum, num) -> sum+num
+
+  #logger.info 'correctness is %j', correctness
+  #_.reduce correctness, (sum, num) -> sum+num
 
 
 lectureStats = (lecture, statsResult, studentsNum, userId) ->
   logger.info 'LectureId is ' + lecture._id
-  logger.info 'UserId is ' + userId
 
   query = undefined
   if userId?
@@ -41,13 +42,14 @@ lectureStats = (lecture, statsResult, studentsNum, userId) ->
       statsResult.totalQ += lecture.homeworks.length
       {lecture : lecture.name, percentage : 0}
     else
-      correctNum = 0
       qNum = lecture.homeworks.length
       StatsUtils.buildQAMap lecture.homeworks
       .then (qaMap) ->
-        _.forEach answers, (answer) ->
-          correctNum += calCorrectNum answer, qaMap
+        correctNum = _.reduce answers, (correctNum, answer) ->
+          correctNum + calCorrectNum answer, qaMap
+        , 0
 
+        logger.info 'CorrectNum is ' + correctNum
         statsResult.totalQ += lecture.homeworks.length
         statsResult.totalCorrect += correctNum
         percent = Math.floor correctNum/(studentsNum*qNum)*100
@@ -61,11 +63,8 @@ calStats = (user, courseId, studentsNum, statsResult, userId) ->
     course.populateQ 'lectureAssembly', 'name homeworks'
   .then (course) ->
     lectures = course.lectureAssembly
-    calPromises = []
-    _.forEach lectures, (lecture) ->
-      cal = lectureStats lecture, statsResult, studentsNum, userId
-      calPromises.push cal
-    Q.all calPromises
+    Q.all _.map lectures, (lecture) ->
+      lectureStats lecture, statsResult, studentsNum, userId
   .then (statsData) ->
     statsResult.lectures = statsData
     logger.info 'total correctNum is '+ statsResult.totalCorrect

@@ -16,4 +16,4 @@ angular.module('budweiserApp')
 
 .factory 'focus', ($rootScope, $timeout) ->
   (name) -> $timeout ->
-    $rootScope.$broadcast 'focusOn', name
+    $rootScope.$broadcast('focusOn', name) if name?.length > 0

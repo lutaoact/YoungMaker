@@ -11,6 +11,9 @@
         <input class="form-control"
                id="question-title"
                name="name"
+               type="text"
+               focus-on="focusOnTitle"
+               ng-init="focus('focusOnTitle')"
                ng-model="question.content.title"
                placeholder="习题标题"
                required>
@@ -40,8 +43,11 @@
              class="input-group">
           <span class="input-group-addon">{{$index | indexToABC}}</span>
           <input class="form-control"
+                 type="text"
                  ng-model="option.desc"
                  placeholder="选项内容"
+                 focus-on="focusOnOption"
+                 ng-init="focus(optionFocusName)"
                  required/>
           <span class="input-group-addon">
             <input type="checkbox" ng-model="option.correct"/>
@@ -57,7 +63,7 @@
       <div class="col-sm-offset-2 col-sm-10">
         <button type="button"
                 class="btn btn-default"
-                ng-click="addOption()">
+                ng-click="addOption();optionFocusName='focusOnOption'">
           添加选项
         </button>
       </div>

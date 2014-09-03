@@ -3,7 +3,10 @@
 </div>
 <div class="modal-body">
   <div class="input-group">
-    <input class="form-control"
+    <input type="text"
+           class="form-control"
+           focus-me="searchInputFocus"
+           ng-init="searchInputFocus=true"
            placeholder="搜索习题"
            ng-model="keyword"/>
     <span class="input-group-addon">

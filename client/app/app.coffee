@@ -24,7 +24,6 @@ angular.module 'budweiserApp', [
   'ui.ace'
   'jsonFormatter'
   'textAngular'
-  'focusOn'
 ]
 .constant 'configs',
   baseUrl: ''

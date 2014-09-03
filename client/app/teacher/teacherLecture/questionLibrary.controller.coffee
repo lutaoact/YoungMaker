@@ -5,11 +5,11 @@ angular.module('budweiserApp').controller 'QuestionLibraryCtrl', (
 ) ->
 
   angular.extend $scope,
+    keyword: ''
     questions: questions
-
-    displayItems: []
-    itemsPerPage: 6
     currentPage: 1
+    itemsPerPage: 5
+    displayItems: []
 
     close: ->
       $modalInstance.dismiss('close')

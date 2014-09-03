@@ -1,5 +1,4 @@
 angular.module('budweiserApp').controller 'NewQuestionCtrl', (
-  focus
   $scope
   categoryId
   $modalInstance
@@ -11,7 +10,6 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       content:
         title: ''
         body: [{}]
-    focus: focus
 
     addOption: ->
       $scope.question.content.body.push {}

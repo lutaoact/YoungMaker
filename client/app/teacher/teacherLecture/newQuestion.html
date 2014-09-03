@@ -12,8 +12,8 @@
                id="question-title"
                name="name"
                type="text"
-               focus-on="focusOnTitle"
-               ng-init="focus('focusOnTitle')"
+               focus-me="titleInputFocus"
+               ng-init="titleInputFocus=true"
                ng-model="question.content.title"
                placeholder="习题标题"
                required>
@@ -46,8 +46,8 @@
                  type="text"
                  ng-model="option.desc"
                  placeholder="选项内容"
-                 focus-on="focusOnOption"
-                 ng-init="focus(optionFocusName)"
+                 focus-me="optionInputFocus"
+                 ng-init="optionInputFocus=isAddOption"
                  required/>
           <span class="input-group-addon">
             <input type="checkbox" ng-model="option.correct"/>
@@ -63,7 +63,7 @@
       <div class="col-sm-offset-2 col-sm-10">
         <button type="button"
                 class="btn btn-default"
-                ng-click="addOption();optionFocusName='focusOnOption'">
+                ng-click="addOption();isAddOption=true">
           添加选项
         </button>
       </div>

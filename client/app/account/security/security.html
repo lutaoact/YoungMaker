@@ -8,8 +8,13 @@
         <div class="form-group">
           <label>当前密码</label>
 
-          <input type="password" name="password" class="form-control" ng-model="user.oldPassword"
-          mongoose-error/>
+          <input type="password"
+                 name="password"
+                 focus-me="passwordInputFocus"
+                 ng-init="passwordInputFocus=true"
+                 class="form-control"
+                 ng-model="user.oldPassword"
+                 mongoose-error/>
           <p class="help-block" ng-show="form.password.$error.mongoose">
             {{ errors.other }}
           </p>

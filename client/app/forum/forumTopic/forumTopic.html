@@ -14,28 +14,27 @@
   </ol>
 
   <section>
-    <div class="topic-detail">
-      <img class="media-object"
-           qiniu-key="topic.postBy.avatar"
-           style="width:32px;height:32px;"
-           suffix="?imageView2/1/w/64/h/64">
-      <span>{{topic.postBy.name}}</span>
-
-      <strong>{{topic.title}}</strong>
-
-      <div class="col-md-12" >
+    <div class="topic-detail thumbnail media col-md-12">
+      <div class="pull-left">
+        <img class="media-object"
+             ng-src="/api/qiniu/images/{{topic.postBy.avatar}}?imageView2/1/w/64/h/64"
+             style="width:32px;height:32px;">
+        <span>{{topic.postBy.name}}</span>
+      </div>
+      <div class="media-body">
+        <strong>{{topic.title}}</strong>
         <div class="blog" ng-bind-html="topic.$safeContent">
         </div>
-      </div>
-      <div class="col-md-6">
-        <a href="#comment"
-           du-smooth-scroll
-           class="btn btn-primary">回复</a>
-        <a>
+        <div class="pull-right">
+          <a href="#comment"
+             du-smooth-scroll
+             class="btn btn-primary">回复</a>
+          <a>
 
-        </a>
+          </a>
+        </div>
       </div>
-    <div>
+    </div>
 
     <ul class="list-group">
       <li class="thumbnail media col-md-12"

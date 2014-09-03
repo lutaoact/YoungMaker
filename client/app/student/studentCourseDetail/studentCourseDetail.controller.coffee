@@ -99,5 +99,9 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         .then (lectures)->
           $scope.course.$lectures = lectures
 
+    itemsPerPage: 10
+
+    currentPage: 1
+
   $scope.loadCourse()
   $scope.loadLectures()

@@ -33,3 +33,20 @@
 @border-radius-base:          0;
 @border-radius-large:         0;
 @border-radius-small:         0;
+
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Large screen / wide desktop
+// Note: Deprecated @screen-lg and @screen-lg-desktop as of v3.0.1
+@screen-lg:                  992px;
+
+//** Padding between columns. Gets divided in half for the left and right.
+@grid-gutter-width:         30px;
+
+
+// Large screen / wide desktop
+@container-large-desktop:      ((940px + @grid-gutter-width));
+

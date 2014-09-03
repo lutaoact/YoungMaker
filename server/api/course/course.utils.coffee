@@ -97,7 +97,6 @@ exports.CourseUtils = BaseUtils.subclass
         _id:
           $in: course.classes
     .then (classes) ->
-      logger.info classes
       return _.reduce(classes, (sum, classe) ->
         return sum + classe.students.length
       , 0)

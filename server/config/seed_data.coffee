@@ -49,7 +49,7 @@ module.exports =
     _id: _s.sprintf userId, 3
     provider: 'local'
     role: 'student'
-    name: 'Student'
+    name: 'Student3'
     email: 'student@student.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
@@ -58,8 +58,26 @@ module.exports =
     _id: _s.sprintf userId, 4
     provider: 'local'
     role: 'student'
-    name: 'Student'
+    name: 'Student4'
     email: 'student@student4.com'
+    password: 'student'
+    orgId: _s.sprintf orgId, 0
+    avatar: 'http://lorempixel.com/128/128/people/5'
+  ,
+    _id: _s.sprintf userId, 5
+    provider: 'local'
+    role: 'student'
+    name: 'Student5'
+    email: 'student@student5.com'
+    password: 'student'
+    orgId: _s.sprintf orgId, 0
+    avatar: 'http://lorempixel.com/128/128/people/4'
+  ,
+    _id: _s.sprintf userId, 6
+    provider: 'local'
+    role: 'student'
+    name: 'Student6'
+    email: 'student@student6.com'
     password: 'student'
     orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/5'
@@ -114,8 +132,8 @@ module.exports =
     name : 'Class two'
     orgId: _s.sprintf orgId, 0
     students : [
-      _s.sprintf userId, 1
-      _s.sprintf userId, 2
+      _s.sprintf userId, 5
+      _s.sprintf userId, 6
     ]
     yearGrade : '2015'
   ]

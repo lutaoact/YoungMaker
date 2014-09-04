@@ -44,26 +44,4 @@
     <div>{{timestamp|uxToLocaleTime}}</div>
   </div>
 
-  <div class="col-md-12" style="margin-top:100px">
-    <select ui-select2 id="organization-type" name="type" ng-model="orgId" placeholder="机构类型" required>
-      <option value=""></option>
-      <option ng-repeat="organization in organizations" value="{{organization._id}}">{{organization.name}}</option>
-    </select>
-    <label class="btn btn-default" ng-show="!isExcelProcessing">
-      <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
-      导入
-    </label>
-    <label class="btn btn-default disabled" ng-show="isExcelProcessing">
-      <i class="fa fa-spinner fa-spin"></i>导入中
-    </label>
-  </div>
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="user in users">
-        <strong>{{user.name}}</strong><br>
-        <span class="text-muted">{{user.email}}</span>
-      </li>
-    </ul>
-  </div>
-
 </div>

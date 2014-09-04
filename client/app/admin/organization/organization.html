@@ -9,7 +9,7 @@ background: white;">
       <input class="form-control" id="organization-name" name="name" ng-model="organization.name" placeholder="机构名称" required>
     </div>
     <div class="form-group has-feedback" ng-class="{'has-warning':form.domain.$error.duplicated,'has-success':!form.domain.$error.duplicated}">
-      <label for="organization-cate">机构二级域名</label>
+      <label>机构二级域名</label>
       <input class="form-control" id="organization-subdomain" name="domain" ng-model="organization.subDomain" ng-blur="validateRemote(organization.subDomain,form)" placeholder="机构二级域名" required>
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-hide="form.domain.$error.duplicated"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="form.domain.$error.duplicated"></span>
@@ -20,7 +20,7 @@ background: white;">
     </div>
     <div class="form-group">
       <label for="organization-type" >机构类型</label>
-      <select ui-select2 id="organization-type" name="type" placeholder="机构类型" ng-model="organization.type" required>
+      <select id="organization-type" name="type" placeholder="机构类型" ng-model="organization.type" required>
         <option value=""></option>
         <option value="小学">小学</option>
         <option value="初中">初中</option>

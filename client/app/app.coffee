@@ -9,7 +9,6 @@ angular.module 'budweiserApp', [
   'ui.router'
   'ngStorage'
   'ui.select'
-  'ui.select2'
   'angularFileUpload'
   'restangular'
   'cgNotify'

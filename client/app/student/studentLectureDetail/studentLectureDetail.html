@@ -99,7 +99,7 @@
             <a ng-click="viewState.isRichText = !viewState.isRichText " class="toggle">
               <i class="fa" ng-class="{'fa-arrow-down': !viewState.isRichText,'fa-arrow-up': viewState.isRichText}"></i>{{viewState.isRichText?'纯文本':'富文本'}}</a>
           </div>
-          <button class="btn btn-danger rounded pull-right submit">
+          <button class="btn btn-danger btn-xs rounded pull-right submit">
             提交
           </button>
         </div>
@@ -113,69 +113,12 @@
 
 </section>
 
-<div class="container">
-  <!-- <ol class="breadcrumb">
-    <li>
-      <a ui-sref="student.courseList">主页</a>
-    </li>
-    <li>
-      <a ui-sref="student.courseDetail({courseId:course._id})">
-        {{course.name||'某课程'}}
-      </a>
-    </li>
-    <li>
-      <a ui-sref="student.lectureDetail({courseId:course._id,
-          lectureId:lecture._id})">
-        {{lecture.name||'某课时'}}
-      </a>
-    </li>
-  </ol> -->
+<section class="keypoints">
+知识点
+</section>
 
-  <div class="row">
-    <div class="col-md-12">
-      <h3 class="title">
-        {{lecture.name}}
-      </h3>
-      <p class="info">
-        {{lecture.info}}
-      </p>
-    </div>
-  </div>
-  <hr/>
-  <div class="row">
+<section class="quiz-and-homework">
+题目
+</section>
 
-    <div class="col-md-6 col-xs-11">
-      <videogular vg-player-ready="onPlayerReady"
-                  vg-update-time="onUpdateTime">
-        <video class="videoPlayer" qiniu-key="lecture.media" >
-        </video>
-        <vg-poster-image></vg-poster-image>
-        <vg-buffering></vg-buffering>
-        <vg-controls style="height: 50px;">
-          <vg-play-pause-button></vg-play-pause-button>
-          <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
-          <vg-scrubBar>
-            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-          </vg-scrubBar>
-          <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
-          <vg-volume>
-            <vg-mutebutton></vg-mutebutton>
-            <vg-volumebar></vg-volumebar>
-          </vg-volume>
-          <vg-fullscreenButton></vg-fullscreenButton>
-        </vg-controls>
-      </videogular>
-    </div>
-  </div>
-  <hr/>
-  <label>知识点</label>
-  <ul class="list-group">
-    <li class="list-group-item clearfix" ng-repeat="keypoint in lecture.keypoints">
-      <a href ng-click="seek(keypoint.timestamp)">
-        <div class="pull-left">{{keypoint.kp.name}}</div>
-        <div class="pull-right">{{keypoint.timestamp|toHmmss}}</div>
-      </a>
-    </li>
-  </ul>
 
-</div>

@@ -2,9 +2,110 @@ BaseUtils = require('../../common/BaseUtils').BaseUtils
 Question = _u.getModel 'question'
 CourseUtils = _u.getUtils 'course'
 QuizAnswer = _u.getModel 'quiz_answer'
+HomeworkAnswer = _u.getModel 'homework_answer'
 
 exports.StatsUtils = BaseUtils.subclass
   classname: 'StatsUtils'
+
+  makeKPStatsForUser: (user, courseId) ->
+    tmpResult = {}
+#    logger.info tmpResult
+    @getStatsStudentsNum user, courseId
+    .then (studentsNum) ->
+      tmpResult.studentsNum = studentsNum
+#      logger.info tmpResult
+      CourseUtils.getAuthedCourseById user, courseId
+    .then (course) ->
+#      logger.info course
+      course.populateQ 'lectureAssembly', 'name quizzes homeworks'
+    .then (course) =>
+      tmpResult.course = course
+      promiseArray = for lecture in course.lectureAssembly
+        @makeKPStatsForSpecifiedLecture lecture
+
+      Q.all promiseArray
+    .then (statsArray) =>
+#      logger.info statsArray
+#      logger.info tmpResult.course.lectureAssembly
+      return tmpResult
+    , (err) ->
+      Q.reject err
+
+
+  makeKPStatsForSpecifiedLecture: (lecture) ->
+    questionIds = _u.union lecture.quizzes, lecture.homeworks
+#    logger.info "union result"
+#    logger.info questionIds
+    lectureId = lecture.id
+
+    resolveResult =
+      lectureId: lectureId
+      name: lecture.name
+      stats: {}
+
+    tmpResult = {}
+    Question.findQ {_id: {$in: questionIds}}
+    .then (questions) =>
+      tmpResult.questions = questions
+      return @buildQKAsByQuestions questions
+    .then (myQKAs) =>
+#      logger.info "myQKAs"
+#      logger.info myQKAs
+
+#      tmpResult.myQKAs = myQKAs
+#      tmpResult.myKPsCount = @getKPsCountFromQKAs myQKAs
+      tmpResult.myQAMap = _.indexBy myQKAs, 'questionId'
+
+      resolveResult.stats = @transformKPsCountToMap @getKPsCountFromQKAs myQKAs
+      do Q.resolve
+    .then () ->
+      HomeworkAnswer.getByLectureId lectureId
+    .then (homeworkAnswers) ->
+      tmpResult.homeworkAnswers = homeworkAnswers
+      QuizAnswer.getByLectureIdAndQuestionIds lectureId, questionIds
+    .then (quizAnswers) ->
+      tmpResult.quizAnswers = quizAnswers
+
+      logger.info resolveResult
+      logger.info tmpResult
+      return tmpResult
+
+  transformKPsCountToMap: (myKPsCount) ->
+    return _.indexBy (for kpId, count of myKPsCount
+      kpId: kpId
+      total: count
+      correctNum: 0
+      percent: 0
+    ), 'kpId'
+#    return _.reduce(myKPsCount, (result, count, kpId) ->
+#      result.kpId = count
+#      return result
+#    , {})
+
+
+  #KPs: [keyPointId], QKAs [{questionId, keyPointIds, answer}]
+  getKPsCountFromQKAs: (myQKAs) ->
+    allKPs = _.flatten(_.pluck myQKAs, 'kps')
+    return _.countBy allKPs, (ele) ->
+      return ele
+
+
+  #QKA: questionId keyPointIds answer
+  buildQKAsByQuestions: (questions) ->
+    return (for question in questions
+      questionId: question.id
+      kps: question.keyPoints
+      answer: @getAnswerStringFromQuestion question
+    )
+
+
+  getAnswerStringFromQuestion: (question) ->
+    return _.reduce(question.content.body, (corrects, option, index) ->
+      if option.correct is true
+        corrects.push index
+      return corrects
+    , []).toString()
+
 
   makeRealTimeStats: (lectureId, questionId) ->
     QuizAnswer.findQ

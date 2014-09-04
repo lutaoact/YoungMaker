@@ -29,3 +29,6 @@ exports.QuizAnswer = BaseModel.subclass
       ]
 
     $super()
+
+  getByLectureIdAndQuestionIds: (lectureId, questionIds) ->
+    return @findQ {lectureId: lectureId, questionId: {$in: questionIds}}

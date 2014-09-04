@@ -25,3 +25,7 @@ exports.HomeworkAnswer = BaseModel.subclass
       submitted : Boolean
 
     $super()
+
+
+  getByLectureId: (lectureId) ->
+    return @findQ lectureId: lectureId

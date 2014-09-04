@@ -1,7 +1,7 @@
 "use strict"
 
 express = require("express")
-controller = require("./homework_stats.controller")
+controller = require("../homework_stats/homework_stats.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 

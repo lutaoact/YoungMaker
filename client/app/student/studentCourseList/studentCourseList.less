@@ -4,12 +4,13 @@
     padding-top: @navbar-height;
     background-size: cover;
     background-position: center;
-    min-height: 600px;
+    min-height: 300px;
+    height: 600px;
     position: relative;
     margin-bottom: 0;
     .content{
       position: absolute;
-      top: 50%;
+      bottom: 0;
       margin-top: -180px;
       width: 100%;
       left: 0;
@@ -59,7 +60,13 @@
       left: 50%;
       margin-left: -61px;
     }
-    .anchor{
+    .anchor-up{
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: -30px;
+    }
+    .anchor-down{
       position: absolute;
       bottom: 0;
       left: 50%;

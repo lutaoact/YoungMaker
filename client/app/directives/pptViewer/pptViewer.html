@@ -1,0 +1,16 @@
+<div class="ppt-viewer">
+  <div class="slide" ng-repeat="slide in slides" ng-class="{'slide-left':$index<currentIndex,'slide-right':$index>currentIndex,'slide-active':$index==currentIndex,'slide-hide':$index-currentIndex > 1 || $index-currentIndex < -1}">
+    <img ng-src="{{slide.thumb}}" />
+    <div class="slide-caption">
+      {{slide.caption}}
+    </div>
+  </div>
+  <div class="arrows">
+    <a class="prev" ng-click="prev($event)" ng-class="{'btn-disabled':currentIndex<1}">
+      <i class="fa fa-chevron-left"></i>
+    </a>
+    <a class="next" ng-click="next($event)" ng-class="{'btn-disabled':currentIndex>=slides.length-1}">
+      <i class="fa fa-chevron-right"></i>
+    </a>
+  </div>
+</div>

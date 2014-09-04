@@ -1,34 +1,168 @@
 
-@navbar-margin-bottom:  0;
-@navbar-default-link-active-color: @base-color;
-@navbar-default-bg: @base-color;
-@navbar-default-color: #FFFFFF;
-@navbar-default-link-color: #FFFFFF;
-@navbar-height: 60px;
-
 // @navbar-default-link-hover-color: @base-color;
-.navbar{
-  overflow: hidden;
+.bud.navbar{
+  @navbar-margin-bottom:  0;
+  @navbar-default-link-active-color: @base-color;
+  @navbar-default-bg: @base-color;
+  @navbar-default-color: #FFFFFF;
+  @navbar-default-link-color: #FFFFFF;
+  @navbar-height: 60px;
+  @line-height: 30px;
+  @navbar-padding-vertical: ((@navbar-height - @line-height) / 2);
+  @font-size: 14px;
+
+  height: @navbar-height;
+  color: @navbar-default-color;
+  background: @navbar-default-bg;
+  margin-bottom: 0;
   border: none;
-  .box-shadow(0 4px 2px rgba(34,30,31, 0.70));
-  &-nav {
+  // .box-shadow(0 4px 2px rgba(34,30,31, 0.30));
+
+  .navbar-brand{
+    color: @navbar-default-color;
+    padding: @navbar-padding-vertical @navbar-padding-horizontal;
+    height: @navbar-height;
+    line-height: @line-height;
+  }
+
+  &-nav{
+    margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
     > li > a {
-      box-shadow: inset 0 -2px 0 transparent;
+      line-height: @line-height;
+      font-size: @font-size;
+      color: @navbar-default-color;
       &:hover,
-      &:focus,
-      &.active {
-        box-shadow: inset 0 -2px 0 @navbar-default-link-active-color;
+      &:focus{
+        color: @navbar-default-color;
+        box-shadow: inset 0 -2px 0 @navbar-default-color;
       }
     }
+
     > .active > a {
       &,
       &:hover,
       &:focus {
-        box-shadow: inset 0 -2px 0 @navbar-default-link-active-color;
+        box-shadow: inset 0 -2px 0 @navbar-default-color;
+      }
+    }
+
+    @media (max-width: @grid-float-breakpoint-max) {
+      // Dropdowns get custom display when collapsed
+      .open .dropdown-menu {
+        > li > a,
+        .dropdown-header {
+          padding: 5px 15px 5px 25px;
+        }
+        > li > a {
+          line-height: @line-height;
+          &:hover,
+          &:focus {
+            background-image: none;
+          }
+        }
+      }
+    }
+
+    // Uncollapse the nav
+    @media (min-width: @grid-float-breakpoint) {
+      float: left;
+      margin: 0;
+
+      > li {
+        float: left;
+        > a {
+          margin-top:    @navbar-padding-vertical;
+          margin-bottom: @navbar-padding-vertical;
+          margin-left: 15px;
+          margin-right: 15px;
+          padding-top:    0;
+          padding-bottom: 0;
+        }
+      }
+
+      &.navbar-right:last-child {
+        margin-right: -@navbar-padding-horizontal;
+      }
+    }
+
+  }
+
+  .navbar-text {
+    line-height: @line-height;
+    margin-top: @navbar-padding-vertical;
+    margin-bottom: @navbar-padding-vertical;
+    color: @navbar-default-color;
+    font-size: @font-size;
+    @media (min-width: @grid-float-breakpoint) {
+      margin-left: @navbar-padding-horizontal;
+      margin-right: @navbar-padding-horizontal;
+    }
+  }
+  .navbar-btn {
+    margin-top: @navbar-padding-vertical;
+    margin-bottom: @navbar-padding-vertical;
+    &.btn-sm {
+      margin-top: ((@navbar-height - @input-height-small) / 2);
+      margin-bottom: ((@navbar-height - @input-height-small) / 2);
+    }
+    &.btn-xs {
+      margin-top: ((@navbar-height - 22px) / 2);
+      margin-bottom: ((@navbar-height - 22px) / 2);
+    }
+  }
+  .navbar-avatar{
+    .avatar(40px);
+    margin-top: ((@navbar-height - 40px) / 2);
+    margin-bottom: ((@navbar-height - 40px) / 2);
+  }
+  .navbar-toggle{
+    margin: @navbar-padding-vertical @navbar-padding-horizontal;
+  }
+
+  .navbar-collapse {
+    background: @navbar-default-bg;
+    max-height: @navbar-collapse-max-height;
+    overflow-x: visible;
+    padding-right: @navbar-padding-horizontal;
+    padding-left:  @navbar-padding-horizontal;
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    &:extend(.clearfix all);
+    -webkit-overflow-scrolling: touch;
+
+    &.in {
+      overflow-y: auto;
+    }
+
+    @media (min-width: @grid-float-breakpoint) {
+      width: auto;
+      border-top: 0;
+      box-shadow: none;
+
+      &.collapse {
+        display: block !important;
+        height: auto !important;
+        padding-bottom: 0; // Override default setting
+        overflow: visible !important;
+      }
+
+      &.in {
+        overflow-y: visible;
+      }
+
+      // Undo the collapse side padding for navbars with containers to ensure
+      // alignment of right-aligned contents.
+      .navbar-fixed-top &,
+      .navbar-static-top &,
+      .navbar-fixed-bottom & {
+        padding-left: 0;
+        padding-right: 0;
       }
     }
   }
+
 }
+
 
 .main-nav{
   height: @navbar-height;
@@ -37,12 +171,12 @@
   }
 }
 .nav-loading{
-  position: absolute;
+  position: relative;
   overflow: hidden;
   width:100%;
   background: red;
   height: 5px;
-  top:@navbar-height;
+  top: 0;
   opacity:1;
   -webkit-transition:all ease .5s;
   transition:all ease .5s;

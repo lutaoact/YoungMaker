@@ -1,6 +1,6 @@
 <div class="jumbotron timetable"
-     full-screen
      qiniu-key="'9afunBb7Fz/DSC00591.jpg'"
+     suffix="?imageMogr2/blur/35x35"
      source-attr="background-image"
      id="timetable">
   <div class="row content">
@@ -16,16 +16,17 @@
       <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
     </div>
   </div>
-  <a class="anchor bottom-up inverse" href="#course-list" du-smooth-scroll>
-    <i class="fa fa-chevron-down"></i>
-  </a>
+
 </div>
 <section class="course-list" ng-class="{'limit-height':viewState.limitHeight }" id="course-list">
+  <a class="anchor anchor-up" href="#course-list" du-smooth-scroll>
+    <i class="fa fa-chevron-down"></i>
+  </a>
   <div class="container" >
     <div class="section-header">
-      <h1>
+      <h3>
         我的课程
-      </h1>
+      </h3>
     </div>
     <div class="row">
       <p class="col-md-6 col-md-offset-3 text-center">
@@ -34,7 +35,7 @@
     </div>
     <div class="row">
       <div class="col-md-3" ng-repeat="course in courses">
-        <a class="thumbnail course"
+        <a class="bud thumbnail course"
            ui-sref="student.courseDetail({courseId:course._id})"
            >
           <div class="back"
@@ -56,10 +57,10 @@
   <div class="more text-center" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
     <a href="">由此展开更多课程</a>
   </div>
-  <a class="anchor bottom-up inverse" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
+  <a class="anchor anchor-down bottom-up inverse" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
     <i class="fa fa-chevron-down"></i>
   </a>
-  <a class="anchor bottom-up inverse"  ng-show="!viewState.limitHeight" href="#my-rank" du-smooth-scroll>
+  <a class="anchor anchor-down bottom-up inverse"  ng-show="!viewState.limitHeight" href="#my-rank" du-smooth-scroll>
     <i class="fa fa-chevron-down"></i>
   </a>
 </section>
@@ -68,9 +69,9 @@
 
   <div class="container" >
     <div class="section-header">
-      <h1>
+      <h3>
         我的排名
-      </h1>
+      </h3>
     </div>
     <div class="row">
       <p class="col-md-6 col-md-offset-3">

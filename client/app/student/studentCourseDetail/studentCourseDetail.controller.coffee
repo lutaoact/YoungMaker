@@ -99,7 +99,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         .then (lectures)->
           $scope.course.$lectures = lectures
 
-    itemsPerPage: 10
+    itemsPerPage: 5
 
     currentPage: 1
 

@@ -1,11 +1,66 @@
 <div class="sub-nav">
   <div class="container">
-    <a ui-sref="student.courseList" class="btn-icon">
-      <i class="fa fa-arrow-circle-left"></i>
-    </a>
+
+    <ul class="pull-left">
+      <li>
+        <a ui-sref="student.courseDetail({courseId:course._id})" class="btn btn-icon">
+          <i class="fa fa-arrow-circle-left"></i>
+        </a>
+      </li>
+    </ul>
+    <ul class="pull-right">
+      <li>
+        <a ui-sref="student.courseList" class="btn btn-icon">
+          <i class="fa fa-bars"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<section class="lecture-view player" full-screen offset-y="110">
+  <div class="container">
+    <div class="col-xs-10">
+
+      <div ng-switch="viewState.isVideo" class="view">
+        <div ng-switch-when="true" class="video-view">
+          <videogular vg-player-ready="onPlayerReady">
+            <video class="videoPlayer" qiniu-key="lecture.media">
+            </video>
+            <vg-poster-image></vg-poster-image>
+            <vg-buffering></vg-buffering>
+            <vg-controls style="height: 50px;">
+              <vg-play-pause-button></vg-play-pause-button>
+              <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+              <vg-scrubBar>
+                <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+              </vg-scrubBar>
+              <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+              <vg-volume>
+                <vg-mutebutton></vg-mutebutton>
+                <vg-volumebar></vg-volumebar>
+              </vg-volume>
+              <vg-fullscreenButton></vg-fullscreenButton>
+            </vg-controls>
+          </videogular>
+        </div>
+        <div ng-switch-default class="ppt-view">
+          <div ppt-viewer slides="lecture.slides" ng-show="lecture.slides.length > 0">
+          </div>
+          <div class="empty" ng-hide="lecture.slides.length > 0">
+            该课程没有ppt
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-xs-2 hidden-xs">
+      lecture list
+    </div>
   </div>
 
-</div>
+</section>
+
 <div class="container">
   <!-- <ol class="breadcrumb">
     <li>
@@ -36,17 +91,7 @@
   </div>
   <hr/>
   <div class="row">
-    <div class="col-md-6">
-      <cool-projector disable-animation="true">
-        <cool-frame ng-repeat="slide in lecture.slides"
-                    active="slide.$active">
-          <img qiniu-key="slide.thumb" style="margin:auto;">
-          <div class="carousel-caption">
-            <h4>Slide {{$index}}</h4>
-          </div>
-        </cool-frame>
-      </cool-projector>
-    </div>
+
     <div class="col-md-6 col-xs-11">
       <videogular vg-player-ready="onPlayerReady"
                   vg-update-time="onUpdateTime">

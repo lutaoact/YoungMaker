@@ -1,9 +1,10 @@
 .student{
   .course-detail{
     &.jumbotron{
+      height: 500px;
       margin-bottom: 0;
       .transition(all .2s ease-in-out);
-      padding-top: 58px;
+      padding-top: 0;
       @media screen and (max-height: 700px) {
         padding-top: 0;
       }
@@ -54,6 +55,7 @@
             vertical-align: top;
             margin-bottom: 0;
             font-weight: normal;
+            font-size: 18px;
           }
         }
         .avatar{
@@ -76,7 +78,6 @@
         height: 150px;
         overflow: hidden;
         margin: 2px 0;
-        .transition(all .2s ease-in-out);
         border: none;
         padding: 40px;
         .title{
@@ -86,27 +87,27 @@
           .text-overflow();
         }
         .number{
-          font-size: @px2pt*30px;
+          font-size: @pt2px*30px;
           line-height: 70px;
         }
         .arrow-right{
-          font-size: @px2pt*30px;
+          font-size: @pt2px*30px;
           line-height: 70px;
           padding: 0;
         }
         @media screen and (max-width: @screen-xs-min) {
           padding: 0;
           height: 100px;
-          .col-xs-10,
+          .col-xs-9,
           .col-xs-1{
             padding: 0;
           }
           .number{
-            font-size: @px2pt*20px;
+            font-size: @pt2px*20px;
             line-height: 100px;
           }
           .arrow-right{
-            font-size: @px2pt*20px;
+            font-size: @pt2px*20px;
             line-height: 100px;
             float: right;
           }

@@ -18,9 +18,9 @@
   </div>
 </div>
 <!-- jumbotron -->
-<section class="jumbotron course-detail" full-screen offset-y="110">
+<section class="jumbotron course-detail">
   <div class="text-center">
-    <div class="thumbnail course text-left">
+    <div class="bud thumbnail course text-left">
       <div class="back"
            ng-style="{'background-image':'url('+course.thumbnail+')'}"
            >
@@ -54,7 +54,7 @@
       </a>
     </div>
     <div class="span4">
-      <a class="btn" >
+      <a class="btn btn-lg" >
         <i class="fa fa-map-marker"></i>
         {{course.location||'上课地址'}}
       </a>
@@ -72,26 +72,31 @@
       </h1>
     </div>
     <div class="section-header">
-      <h1>
+      <h3>
         我要学的课程
-      </h1>
+      </h3>
     </div>
     <div class="row">
       <p class="col-md-6 col-md-offset-3 text-center">
         前所未有得多媒体教学——Video和教案无限期播放，无论你是要预习还<br/>是要温故知新，这里都能满足你！赶快来学习吧！
       </p>
     </div>
-    <div class="list-group">
-      <a class="list-group-item lecture row fade-repeat" ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
-         ui-sref="student.lectureDetail({courseId:course._id,lectureId:lecture._id})">
+    <div class="bud list-group">
+      <!-- todo: disable-animation="true" animation looks strange -->
+      <a class="bud list-group-item lecture row fade-repeat"
+        ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
+        ui-sref="student.lectureDetail({courseId:course._id,lectureId:lecture._id})">
         <div class="col-xs-1 text-center number">
           {{$index + 1}}
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-9">
           <h3 class="title">{{lecture.name}}</h3>
           <div class="info">
             {{lecture.info}}
           </div>
+        </div>
+        <div class="col-xs-1 text-center arrow-right">
+          <i class="fa fa-star-o" ng-show="lecture.starred"></i>
         </div>
         <div class="col-xs-1 text-center arrow-right">
           <i class="fa fa-chevron-right"></i>
@@ -103,7 +108,7 @@
       total-items="course.$lectures.length"
       items-per-page="itemsPerPage"
       align="false"
-      class="c3e"
+      class="bud"
       ng-model="currentPage">
     </pager>
   </div>

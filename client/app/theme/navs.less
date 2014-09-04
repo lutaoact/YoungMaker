@@ -1,9 +1,18 @@
-@nav-tabs-border-color:            @base-color;
-@nav-tabs-active-link-hover-bg:    @base-color;
-@nav-tabs-link-hover-border-color: @base-color;
-@nav-tabs-active-link-hover-color: #fff;
+.bud.nav {
+  @nav-link-padding: 0;
+  > li {
+    > a {
+      padding: @nav-link-padding;
+    }
+  }
+}
 
-.nav-tabs {
+.bud.nav-tabs {
+  @nav-tabs-border-color:            @base-color;
+  @nav-tabs-active-link-hover-bg:    @base-color;
+  @nav-tabs-link-hover-border-color: @base-color;
+  @nav-tabs-active-link-hover-color: #fff;
+
   border-bottom: 2px solid @nav-tabs-border-color;
   > li {
     > a {

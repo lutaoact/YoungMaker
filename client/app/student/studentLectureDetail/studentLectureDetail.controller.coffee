@@ -12,7 +12,26 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   notify
   qiniuUtils
   $tools
+  $rootScope
 ) ->
+
+  $rootScope.additionalMenu = [
+    {
+      title: '课程主页<i class="fa fa-home"></i>'
+      link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '讨论<i class="fa fa-comments-o"></i>'
+      link: "forum.course({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '统计<i class="fa fa-bar-chart-o"></i>'
+      link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+  ]
 
   loadLecture = ()->
     if $state.params.lectureId and $state.params.lectureId is 'new'
@@ -25,6 +44,9 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   loadCourse = ()->
     Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
+        course.sildes.foreEach (item)->
+
+
         $scope.course = course
 
   angular.extend $scope,

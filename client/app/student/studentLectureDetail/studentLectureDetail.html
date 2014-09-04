@@ -18,10 +18,9 @@
   </div>
 </div>
 
-<section class="lecture-view player" full-screen offset-y="110">
+<section class="lecture-view player">
   <div class="container">
     <div class="col-xs-10">
-
       <div ng-switch="viewState.isVideo" class="view">
         <div ng-switch-when="true" class="video-view">
           <videogular vg-player-ready="onPlayerReady">
@@ -43,6 +42,9 @@
               <vg-fullscreenButton></vg-fullscreenButton>
             </vg-controls>
           </videogular>
+          <div class="empty" ng-show="!lecture.media">
+            该课程没有视频
+          </div>
         </div>
         <div ng-switch-default class="ppt-view">
           <div ppt-viewer slides="lecture.slides" ng-show="lecture.slides.length > 0">
@@ -50,6 +52,56 @@
           <div class="empty" ng-hide="lecture.slides.length > 0">
             该课程没有ppt
           </div>
+        </div>
+      </div>
+
+      <div class="switch">
+        <a class="btn" ng-class="{'active':viewState.isVideo}" ng-click="viewState.isVideo = true">
+          <i class="fa fa-toggle-right"></i><br/>视频教程
+        </a>
+        <a class="btn" ng-class="{'active':!viewState.isVideo}" ng-click="viewState.isVideo = false">
+          <i class="fa fa-file-powerpoint-o"></i><br/>PPT
+        </a>
+      </div>
+
+      <div class="lecture-detail">
+        <div class="clearfix">
+          <h4 class="pull-left">
+            {{lecture.name}}
+            <div class="badge">
+              介绍
+            </div>
+          </h4>
+          <div class="status pull-right">
+            <a class="btn btn-link likes"><i class="fa fa-heart"></i>{{lecture.likes.length||0}}</a>
+            <a class="btn btn-link comments"><i class="fa fa-comment"></i>{{lecture.comments.length||0}}</a>
+            <a class="btn btn-link collect"><i class="fa fa-star"></i>收藏</a>
+          </div>
+        </div>
+        <div class="info">
+          {{lecture.info}}
+        </div>
+        <hr/>
+        <div class="comment clearfix">
+          <div class="avatar-sm pull-left"
+            qiniu-key="me.avatar"
+            source-attr="background-image"
+            suffix="?imageView2/1/w/64/h/64">
+          </div>
+          <div class="comment-input-container">
+            <div class="plan-input" ng-show="!viewState.isRichText">
+              <input class="comment-input" type="text">
+            </div>
+            <text-angular class="bud comment-input" ng-show="viewState.isRichText"
+              ta-toolbar="[['h1','h2','h3'],['bold','italics','colourRed','upload']]"
+              ng-model="myComment.content">
+            </text-angular>
+            <a ng-click="viewState.isRichText = !viewState.isRichText " class="toggle">
+              <i class="fa" ng-class="{'fa-arrow-down': !viewState.isRichText,'fa-arrow-up': viewState.isRichText}"></i>{{viewState.isRichText?'纯文本':'富文本'}}</a>
+          </div>
+          <button class="btn btn-danger rounded pull-right submit">
+            提交
+          </button>
         </div>
       </div>
 

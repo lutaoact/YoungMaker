@@ -24,6 +24,5 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http)->
         setSource(key)
       else
         suffix = $scope.suffix ? ''
-        $http.get('/api/qiniu/signed_url/' + encodeURIComponent(key + suffix))
-        .success setSource
+        setSource('/api/qiniu/images/'+ key + suffix)
 

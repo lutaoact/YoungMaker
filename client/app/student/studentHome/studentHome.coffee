@@ -12,5 +12,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
         , (err)->
           # handle
           return []
+      CurrentUser: (Auth)->
+        Auth.getCurrentUser()
     abstract: true
     authenticate: true

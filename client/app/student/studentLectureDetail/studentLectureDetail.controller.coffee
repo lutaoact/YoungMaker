@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   qiniuUtils
   $tools
   $rootScope
+  CurrentUser
 ) ->
 
   $rootScope.additionalMenu = [
@@ -44,15 +45,14 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   loadCourse = ()->
     Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
-        course.sildes.foreEach (item)->
-
-
         $scope.course = course
 
   angular.extend $scope,
     lecture: null
 
     course: null
+
+    me: CurrentUser
 
     $stateParams: $state.params
 

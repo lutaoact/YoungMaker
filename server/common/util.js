@@ -141,3 +141,10 @@ function findIndex(array, key) {
   });
 }
 exports.findIndex = findIndex;
+
+function union() {
+  return _.uniq(_.union.apply(_, arguments), function(value) {
+    return value.toString()
+  });
+}
+exports.union = union;

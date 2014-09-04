@@ -149,7 +149,7 @@ module.exports =
         thumb: "9Sb6o3b0yY/306.jpeg"
     )
     media: 'GEoTQHtOEs/Sample 2.mp4'
-    keypoints: [
+    keyPoints: [
       kp: _s.sprintf keyPointId, 0
       timestamp : 10
     ,
@@ -181,7 +181,7 @@ module.exports =
         thumb: "9Sb6o3b0yY/306.jpeg"
     )
     media: 'GEoTQHtOEs/Sample 2.mp4'
-    keypoints: [
+    keyPoints: [
       kp: _s.sprintf keyPointId, 0
       timestamp : 10
     ,
@@ -265,6 +265,9 @@ module.exports =
     categoryId: _s.sprintf categoryId, 0
     keyPoints : [
       _s.sprintf keyPointId, 0
+      _s.sprintf keyPointId, 1
+      _s.sprintf keyPointId, 2
+      _s.sprintf keyPointId, 3
     ]
     content:
       imageUrl: 'http://url.cn/LmqYv5'
@@ -287,8 +290,10 @@ module.exports =
     _id: _s.sprintf questionId, 1
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
-    keypoints : [
+    keyPoints : [
       _s.sprintf keyPointId, 1
+      _s.sprintf keyPointId, 5
+      _s.sprintf keyPointId, 6
     ]
     content:
       imageUrl: 'http://url.cn/N0Potq'
@@ -308,8 +313,10 @@ module.exports =
     _id: _s.sprintf questionId, 2
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 1
-    keypoints : [
+    keyPoints : [
       _s.sprintf keyPointId, 2
+      _s.sprintf keyPointId, 3
+      _s.sprintf keyPointId, 4
     ]
     content:
       imageUrl: 'http://url.cn/N0Potq'
@@ -328,7 +335,7 @@ module.exports =
     _id: _s.sprintf questionId, 3
     orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 1
-    keypoints : [
+    keyPoints : [
       _s.sprintf keyPointId, 2
     ]
     content:

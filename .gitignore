@@ -18,3 +18,4 @@ client/index.html
 /server/config/environment/development.js
 /server/common/Const.js
 /server/common/modelTest.js
+/server/common/initGlobal.js

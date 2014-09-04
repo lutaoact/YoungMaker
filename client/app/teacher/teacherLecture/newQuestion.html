@@ -72,8 +72,8 @@
       </div>
       <div class="col-sm-10">
         <div class="input-group">
-          <ui-select ng-model="$parent.selectedKeyPoint"
-                     ng-change="$parent.addkeyPoint($parent.selectedKeyPoint)">
+          <ui-select ng-model="selectedKeyPoint"
+                     on-select="addkeyPoint($item)">
             <ui-select-match placeholder="查找并且添加知识点">
               <span class="text-muted">查找并且添加知识点</span>
             </ui-select-match>

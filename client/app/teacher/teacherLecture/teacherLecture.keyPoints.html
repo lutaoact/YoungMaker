@@ -1,8 +1,8 @@
 <div class="col-md-8 col-md-offset-2">
   <div class="input-group list-group-item-heading">
     <span class="input-group-addon">知识点</span>
-    <ui-select ng-model="$parent.selectedKeyPoint"
-               ng-change="$parent.addkeyPoint($parent.selectedKeyPoint)">
+    <ui-select ng-model="selectedKeyPoint"
+               on-select="addkeyPoint($item)">
       <ui-select-match placeholder="查找并且添加知识点">
         <span class="text-muted">查找并且添加知识点</span>
       </ui-select-match>

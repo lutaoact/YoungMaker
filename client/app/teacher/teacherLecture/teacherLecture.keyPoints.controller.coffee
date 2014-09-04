@@ -21,8 +21,6 @@ angular.module('budweiserApp')
     seekPlayerTime: (time) ->
       $scope.mediaApi.seekTime time
 
-    keyPointFormatter: ($model) -> $model?.name
-
     addkeyPoint: (keyPoint) ->
       $scope.lecture.keyPoints.push
         kp : keyPoint

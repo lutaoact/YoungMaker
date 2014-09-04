@@ -14,8 +14,6 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
         title: ''
         body: [{}]
 
-    keyPointFormatter: ($model) -> $model?.name
-
     addkeyPoint: (keyPoint) ->
       $scope.selectedKeyPoints.push angular.copy(keyPoint)
     removekeyPoint: (index) ->

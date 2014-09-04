@@ -8,6 +8,7 @@ angular.module 'budweiserApp', [
   'btford.socket-io'
   'ui.router'
   'ngStorage'
+  'ui.select'
   'ui.select2'
   'angularFileUpload'
   'restangular'

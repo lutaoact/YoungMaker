@@ -10,6 +10,7 @@ angular.module('budweiserApp')
   scope:
     lecture: '='
     categoryId: '='
+    keyPoints: '='
     libraryQuestions: '='
 
 .controller 'TeacherLectureQuestionsCtrl', (
@@ -22,6 +23,8 @@ angular.module('budweiserApp')
 
     questionType: 'quizzes' # quizzes | homeworks
 
+    getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
+
     setQuestionType: (type) ->
       $scope.questionType = type
 
@@ -33,6 +36,7 @@ angular.module('budweiserApp')
         templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
         controller: 'QuestionLibraryCtrl as ctrl'
         resolve:
+          keyPoints: -> $scope.keyPoints
           questions: -> $scope.libraryQuestions
       .result.then addQuestion
 
@@ -41,6 +45,7 @@ angular.module('budweiserApp')
         templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
         controller: 'NewQuestionCtrl'
         resolve:
+          keyPoints: -> $scope.keyPoints
           categoryId: -> $scope.categoryId
       .result.then (question) ->
         Restangular.all('questions').post(question)

@@ -38,7 +38,12 @@
           </a>
         </li>
         <li role="presentation">
-          <div class="alert alert-warning">{{question.solution}}</div>
+          <div class="alert alert-warning">
+            <b>注解：</b>{{question.solution}}
+            <div ng-if="question.keyPoints.length>0">
+              <b>知识点：</b><span ng-repeat="id in question.keyPoints">{{getKeyPoint(id).name}} </span>
+            </div>
+          </div>
         </li>
       </ul>
     </accordion-group>

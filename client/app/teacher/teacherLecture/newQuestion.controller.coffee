@@ -1,9 +1,12 @@
 angular.module('budweiserApp').controller 'NewQuestionCtrl', (
   $scope
   categoryId
+  keyPoints
   $modalInstance
 ) ->
   angular.extend $scope,
+    keyPoints: keyPoints
+    selectedKeyPoints:[]
     question:
       solution: ''
       categoryId: categoryId
@@ -11,6 +14,12 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
         title: ''
         body: [{}]
 
+    keyPointFormatter: ($model) -> $model?.name
+
+    addkeyPoint: (keyPoint) ->
+      $scope.selectedKeyPoints.push angular.copy(keyPoint)
+    removekeyPoint: (index) ->
+      $scope.selectedKeyPoints.splice(index, 1)
     addOption: ->
       $scope.question.content.body.push {}
     removeOption: (index) ->
@@ -19,4 +28,5 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       $modalInstance.dismiss('close')
     save: (question, form) ->
       unless form.$valid then return
+      question.keyPoints = _.map($scope.selectedKeyPoints, (k) -> k._id)
       $modalInstance.close(question)

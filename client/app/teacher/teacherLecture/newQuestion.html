@@ -10,7 +10,6 @@
       <div class="col-sm-10">
         <input class="form-control"
                id="question-title"
-               name="name"
                type="text"
                focus-me="titleInputFocus"
                ng-init="titleInputFocus=true"
@@ -26,7 +25,6 @@
       <div class="col-sm-10">
         <textarea class="form-control"
                   id="question-solution"
-                  name="name"
                   ng-model="question.solution"
                   rows="2"
                   placeholder="答案注解"
@@ -36,7 +34,7 @@
     </div>
     <div class="form-group">
       <div class="col-sm-2 control-label">
-        <label for="question-solution">选项：</label>
+        <label>选项：</label>
       </div>
       <div class="col-sm-10">
         <div ng-repeat="option in question.content.body"
@@ -66,6 +64,36 @@
                 ng-click="addOption();isAddOption=true">
           添加选项
         </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-2 control-label">
+        <label>知识点：</label>
+      </div>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <input type="text"
+                 typeahead-on-select="addkeyPoint($item)"
+                 typeahead-input-formatter="keyPointFormatter($model)"
+                 ng-model="selectedKeyPoint"
+                 placeholder="查找并且添加知识点"
+                 typeahead="keyPoint as keyPoint.name for keyPoint in keyPoints | filter:{name:$viewValue} | limitTo:8"
+                 class="form-control">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-search"></span>
+          </span>
+        </div>
+        <div class="row-fluid">
+          <span ng-repeat="keyPoint in selectedKeyPoints">
+            <div class="label label-primary"
+                 style="font-size: 1em; line-height:2em; margin-right:.2em">
+              {{keyPoint.name}}
+              <a ng-click="removekeyPoint($index)" >
+                <span class="glyphicon glyphicon-remove"></span>
+              </a>
+            </div>
+          </span>
+        </div>
       </div>
     </div>
   </div>

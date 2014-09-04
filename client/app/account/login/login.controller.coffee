@@ -24,6 +24,8 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
                 else if data.role is 'student'
                   $location.url('/s')
                 $location.replace()
+
+                sockjs = new SockJS '/sockjs'
         .catch (err) ->
           $scope.errors.other = err.message
 

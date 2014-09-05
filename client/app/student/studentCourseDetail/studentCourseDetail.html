@@ -22,7 +22,7 @@
   <div class="text-center">
     <div class="bud thumbnail course text-left">
       <div class="back"
-           ng-style="{'background-image':'url('+course.thumbnail+')'}"
+           qiniu-key="course.thumbnail" source-attr="background-image"
            >
       </div>
       <div class="caption">
@@ -42,7 +42,7 @@
 
   <div class="action-bar">
     <div class="span4">
-      <div class="avatar" ng-style="{'background-image':'url('+course.thumbnail+')'}">
+      <div class="avatar" qiniu-key="course.thumbnail" source-attr="background-image">
       </div>
       <label>
         {{course.teacher.name||'某老师'}}

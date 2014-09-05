@@ -18,7 +18,7 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http)->
           $element[0].src = url
 
     $scope.$watch 'qiniuKey',(key) ->
-      if !key
+      if !key or key is ''
         return
       else if /\/\//.test(key)
         setSource(key)

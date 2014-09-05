@@ -13,17 +13,18 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   SockJSClient
 ) ->
 
-  sockjs = SockJSClient.get()
-  console.debug sockjs
-  console.debug $scope
-  $scope.sockjsData = "test test test"
-  sockjs.onmessage = (msg) ->
-    console.log 'received quiz msg...'
-    console.debug msg
-    msgData = JSON.parse msg.data
-    questionId = msgData.payload.questionId
-    $scope.sockjsData = questionId
-    $scope.$apply()
+
+  # sockjs = SockJSClient.get()
+  # console.debug sockjs
+  # console.debug $scope
+  # $scope.sockjsData = "test test test"
+  # sockjs.onmessage = (msg) ->
+  #   console.log 'received quiz msg...'
+  #   console.debug msg
+  #   msgData = JSON.parse msg.data
+  #   questionId = msgData.payload.questionId
+  #   $scope.sockjsData = questionId
+  #   $scope.$apply()
 
   angular.extend $scope,
     filters: [

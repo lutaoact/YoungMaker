@@ -101,7 +101,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
-    Restangular.all('key_points').getList(categoryId:course.categoryId)
+    Restangular.all('key_points').getList()
     .then (keyPoints) ->
       course.$keyPoints = keyPoints
     Restangular.all('questions').getList(categoryId:course.categoryId)

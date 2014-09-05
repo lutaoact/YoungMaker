@@ -11,6 +11,7 @@ angular.module('budweiserApp')
     lecture: '='
     mediaApi: '='
     keyPoints: '='
+    categoryId: '='
 
 .controller 'TeacherLectureKeypointsCtrl', (
   $scope

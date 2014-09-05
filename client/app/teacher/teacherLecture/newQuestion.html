@@ -77,7 +77,7 @@
             <ui-select-match placeholder="查找并且添加知识点">
               <span class="text-muted">查找并且添加知识点</span>
             </ui-select-match>
-            <ui-select-choices repeat="keyPoint in keyPoints | filter: $select.search">
+            <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | filter:$select.search">
               <span ng-bind-html="keyPoint.name | highlight: $select.search"></span>
             </ui-select-choices>
           </ui-select>

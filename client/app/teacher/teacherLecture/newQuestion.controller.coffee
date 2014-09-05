@@ -7,6 +7,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
   angular.extend $scope,
     keyPoints: keyPoints
     selectedKeyPoints:[]
+    categoryId: categoryId
     question:
       solution: ''
       categoryId: categoryId

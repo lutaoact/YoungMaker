@@ -8,6 +8,8 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
   $state
   Category
   $rootScope
+  $modal
+  Courses
 ) ->
 
   $rootScope.additionalMenu = [
@@ -98,6 +100,18 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         Restangular.all('lectures').getList({courseId: $state.params.courseId})
         .then (lectures)->
           $scope.course.$lectures = lectures
+
+    openQuickNav: ()->
+      $modal.open
+        templateUrl: 'app/student/studentQuickNav/studentQuickNav.html'
+        controller: 'StudentQuickNavCtrl'
+        size: 'lg'
+        resolve:
+          otherCourses: ->
+            Courses.filter((item)->
+              item._id isnt $scope.course._id).slice(0,4)
+
+      .result.then ->
 
     itemsPerPage: 5
 

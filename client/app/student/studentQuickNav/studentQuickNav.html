@@ -1,0 +1,35 @@
+<div class="modal-body student quick-nav-modal">
+  <section>
+    <div class="section-header">
+      <h3>其他课程</h3>
+    </div>
+    <a ng-repeat="course in otherCourses" class="bud thumbnail course text-left">
+      <div class="back"
+           ng-style="{'background-image':'url('+course.thumbnail+')'}"
+           >
+      </div>
+      <div class="caption">
+        <h4>{{course.name}}</h4>
+        <div class="info">
+          {{course.info}}
+        </div>
+      </div>
+    </a>
+    <a ui-sref="student.courseList" class="btn btn-primary btn-sub more">
+      <i class="fa fa-ellipsis-h"></i><br/>
+      全部
+    </a>
+  </section>
+  <section>
+    <div class="section-header">
+      <h3>我的收藏</h3>
+    </div>
+
+  </section>
+  <section>
+    <div class="section-header">
+      <h3>上一次学到</h3>
+    </div>
+  </section>
+</div>
+

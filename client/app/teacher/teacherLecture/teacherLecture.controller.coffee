@@ -22,7 +22,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       keyPoints:[]
       homeworks:[]
       quizzes:[]
-    questionType: 'quizzes' # quizzes | homeworks
 
     saveLecture: (lecture, form)->
       unless form?.$valid then return

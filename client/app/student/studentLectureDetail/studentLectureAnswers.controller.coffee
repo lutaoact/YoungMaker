@@ -6,66 +6,51 @@ angular.module('budweiserApp')
   restrict: 'EA'
   replace: true
   controller: 'StudentLectureAnswersCtrl'
-  templateUrl: 'app/student/teacherLecture/teacherLecture.questions.html'
+  templateUrl: 'app/student/studentLectureDetail/studentLectureAnswers.html'
   scope:
     lecture: '='
-    categoryId: '='
-    keyPoints: '='
-    libraryQuestions: '='
 
 .controller 'StudentLectureAnswersCtrl', (
   $scope
-  $modal
   Restangular
 ) ->
 
   angular.extend $scope,
-
-    questionType: 'quizzes' # quizzes | homeworks
+    displayQuestions: []
 
     getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
 
     setQuestionType: (type) ->
-      $scope.questionType = type
+      $scope.displayQuestions = $scope.lecture?[type]
 
-    getQuestions: ->
-      $scope.lecture?[$scope.questionType]
+    submitAnswer: ->
+      if $scope.displayQuestions is $scope.lecture.homeworks
+        result = _.map $scope.displayQuestions, (question) ->
+          questionId: question._id
+          answer: _.reduce question.content.body, (answer, option, index) ->
+            answer.push(index) if option.$selected
+            answer
+          , []
+        homeworkAnswer =
+          subitted: true
+          result: result
+        Restangular.all('homework_answers').post(homeworkAnswer, lectureId:$scope.lecture._id)
+        .then ->
+          $scope.displayQuestions.$submitted = true
 
-    addLibraryQuestion: ->
-      $modal.open
-        templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
-        controller: 'QuestionLibraryCtrl as ctrl'
-        resolve:
-          keyPoints: -> $scope.keyPoints
-          questions: -> $scope.libraryQuestions
-      .result.then addQuestion
-
-    addNewQuestion: ->
-      $modal.open
-        templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
-        controller: 'NewQuestionCtrl'
-        resolve:
-          keyPoints: -> $scope.keyPoints
-          categoryId: -> $scope.categoryId
-      .result.then (question) ->
-        Restangular.all('questions').post(question)
-        .then (newQuestion) ->
-          $scope.libraryQuestions.push newQuestion
-          addQuestion(newQuestion)
-
-    removeQuestion: (index) ->
-      questions = $scope.getQuestions()
-      questions.splice index, 1
-      saveQuestions(questions)
-
-  addQuestion = (question) ->
-    questions = $scope.getQuestions()
-    questions.push question
-    saveQuestions(questions)
-
-  saveQuestions = (questions) ->
-    patch = {}
-    patch[$scope.questionType] = _.map questions, (q) -> q._id
-    $scope.lecture.patch?(patch)
-    .then (newLecture) ->
-      $scope.lecture.__v = newLecture.__v
+  $scope.$watch 'lecture', ->
+    if !$scope.lecture then return
+    $scope.setQuestionType('quizzes')
+    Restangular.all('key_points').getList()
+    .then (keyPoints) ->
+      $scope.keyPoints = keyPoints
+    Restangular.all('homework_answers').getList(lectureId:$scope.lecture._id)
+    .then (answers)->
+      if answers.length > 0
+        homeworkAnswer = answers[answers.length-1]
+        homeworks = $scope.lecture?.homeworks
+        homeworks.$submitted = true
+        for question in homeworks
+          answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
+          for option, index in question.content.body
+            option.$selected = answer?.indexOf(index) >= 0

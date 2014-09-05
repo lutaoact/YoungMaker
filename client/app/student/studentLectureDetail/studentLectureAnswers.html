@@ -1,10 +1,38 @@
-<div class="list-group col-md-8 col-md-offset-2">
+<div class="col-md-10 col-md-offset-1">
   <tabset>
-    <tab heading="随堂练习" select="setAnswerType('quizzes')">
+    <tab heading="随堂练习" select="setQuestionType('quizzes')">
     </tab>
-    <tab heading="课后作业" select="setAnswerType('homeworks')">
+    <tab heading="课后作业" select="setQuestionType('homeworks')">
     </tab>
   </tabset>
   <div style="padding-top: 5px"></div>
-  Student Answer List...
+  <div class="list-group">
+    <div class="list-group-item"
+         ng-repeat="question in displayQuestions">
+      <h5>{{$index+1}}. {{question.content.title}}</h5>
+      <div class="checkbox"
+           ng-repeat="option in question.content.body">
+        <label ng-class="{'lable label-success':option.correct && displayQuestions.$submitted}">
+          {{$index|indexToABC}}.
+          <input type="checkbox"
+                 ng-disabled="displayQuestions.$submitted"
+                 ng-model="option.$selected">
+          {{option.desc}}
+        </label>
+      </div>
+      <div class="alert alert-warning"
+           ng-if="displayQuestions.$submitted">
+        <b>注解：</b>{{question.solution}}
+        <div ng-if="question.keyPoints.length>0">
+          <b>知识点：</b><span ng-repeat="id in question.keyPoints">{{getKeyPoint(id).name}} </span>
+        </div>
+      </div>
+    </div>
+    <button type="button"
+            ng-disabled="displayQuestions.$submitted || displayQuestions!=lecture.homeworks"
+            class="pull-right btn btn-primary"
+            ng-click="submitAnswer()">
+      <span ng-if="displayQuestions.$submitted">已经</span>提交
+    </button>
+  </div>
 </div>

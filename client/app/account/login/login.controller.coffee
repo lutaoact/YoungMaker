@@ -1,6 +1,28 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location, $window, LoginRedirector) ->
+angular.module('budweiserApp')
+
+.factory 'SockJSClient', ->
+
+  sockJs = undefined
+
+  setup : (userId, role) ->
+    console.debug 'Setup sockjs connect... '
+    sockJs = new SockJS '/sockjs'
+    sockJs.onopen = ->
+      msg =
+        type : 'login'
+        payload:
+          userId : userId
+          role : role
+      sockJs.send JSON.stringify msg
+
+  get : -> sockJs
+
+  send : (msg) ->
+    sockJs.send(msg)
+
+.controller 'LoginCtrl', ($scope, Auth, $location, $window, LoginRedirector, SockJSClient) ->
 
   angular.extend $scope,
     user: {}
@@ -24,8 +46,10 @@ angular.module('budweiserApp').controller 'LoginCtrl', ($scope, Auth, $location,
                 else if data.role is 'student'
                   $location.url('/s')
                 $location.replace()
+                console.debug 'data is ', data
 
-                sockjs = new SockJS '/sockjs'
+                SockJSClient.setup(data._id, data.role)
+
         .catch (err) ->
           $scope.errors.other = err.message
 

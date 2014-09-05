@@ -118,5 +118,6 @@ angular.module 'budweiserApp', [
     LoginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
 
   # Reload Auth
-  Auth.getCurrentUser().$promise?.then LoginRedirector.apply
+  Auth.getCurrentUser().$promise?.then ->
+    LoginRedirector.apply()
 

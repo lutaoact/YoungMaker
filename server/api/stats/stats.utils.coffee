@@ -9,14 +9,11 @@ exports.StatsUtils = BaseUtils.subclass
 
   makeKPStatsForUser: (user, courseId) ->
     tmpResult = {}
-#    logger.info tmpResult
     @getStatsStudentsNum user, courseId
     .then (studentsNum) ->
       tmpResult.studentsNum = studentsNum
-#      logger.info tmpResult
       CourseUtils.getAuthedCourseById user, courseId
     .then (course) ->
-#      logger.info course
       course.populateQ 'lectureAssembly', 'name quizzes homeworks'
     .then (course) =>
       tmpResult.course = course
@@ -25,17 +22,50 @@ exports.StatsUtils = BaseUtils.subclass
 
       Q.all promiseArray
     .then (statsArray) =>
-#      logger.info statsArray
-#      logger.info tmpResult.course.lectureAssembly
-      return tmpResult
+      finalKPStats = @buildFinalKPStats tmpResult.studentsNum, statsArray
+      logger.info JSON.stringify finalKPStats, null, 4
+      return finalKPStats
     , (err) ->
       Q.reject err
 
 
+  buildFinalKPStats: (studentsNum, statsArray) ->
+    courseStats   = {}
+    courseSummary = total:0, correctNum:0, percent: 0
+    for lectureStat in statsArray
+      summary = total:0, correctNum:0, percent: 0
+      for kpId, stat of lectureStat.stats
+        stat.percent = @computePercent studentsNum, stat
+
+        courseStats[kpId] ?= kpId: kpId, total: 0, correctNum: 0, percent: 0
+        courseStats[kpId].total      += stat.total
+        courseStats[kpId].correctNum += stat.correctNum
+
+        summary.total      += stat.total
+        summary.correctNum += stat.correctNum
+
+      summary.percent = @computePercent studentsNum, summary
+      lectureStat.summary = summary
+
+      courseSummary.total      += summary.total
+      courseSummary.correctNum += summary.correctNum
+
+    for kpId, stat of courseStats
+      stat.percent = @computePercent studentsNum, stat
+
+    courseSummary.percent = @computePercent studentsNum, courseSummary
+
+    finalKPStats = _.indexBy statsArray, 'lectureId'
+    finalKPStats.stats = courseStats
+    finalKPStats.summary = courseSummary
+    return finalKPStats
+
+
+  computePercent: (studentsNum, stat) ->
+    return stat.correctNum * 100 // (studentsNum * stat.total)
+
   makeKPStatsForSpecifiedLecture: (lecture) ->
     questionIds = _u.union lecture.quizzes, lecture.homeworks
-#    logger.info "union result"
-#    logger.info questionIds
     lectureId = lecture.id
 
     resolveResult =
@@ -49,12 +79,9 @@ exports.StatsUtils = BaseUtils.subclass
       tmpResult.questions = questions
       return @buildQKAsByQuestions questions
     .then (myQKAs) =>
-#      logger.info "myQKAs"
-#      logger.info myQKAs
-
 #      tmpResult.myQKAs = myQKAs
 #      tmpResult.myKPsCount = @getKPsCountFromQKAs myQKAs
-      tmpResult.myQAMap = _.indexBy myQKAs, 'questionId'
+      tmpResult.myQKAMap = _.indexBy myQKAs, 'questionId'
 
       resolveResult.stats = @transformKPsCountToMap @getKPsCountFromQKAs myQKAs
       do Q.resolve
@@ -63,12 +90,30 @@ exports.StatsUtils = BaseUtils.subclass
     .then (homeworkAnswers) ->
       tmpResult.homeworkAnswers = homeworkAnswers
       QuizAnswer.getByLectureIdAndQuestionIds lectureId, questionIds
-    .then (quizAnswers) ->
+    .then (quizAnswers) =>
       tmpResult.quizAnswers = quizAnswers
 
-      logger.info resolveResult
-      logger.info tmpResult
-      return tmpResult
+      @updateCorrectNumForStats(
+        resolveResult.stats
+        tmpResult.myQKAMap
+        tmpResult.quizAnswers
+        tmpResult.homeworkAnswers
+      )
+
+      return resolveResult
+
+  updateCorrectNumForStats: (stats, myQKAMap, quizAnswers, homeworkAnswers) ->
+    for quizAnswer in quizAnswers
+      if quizAnswer.result.toString() is myQKAMap[quizAnswer.questionId].answer
+        for kp in myQKAMap[quizAnswer.questionId].kps
+          stats[kp].correctNum++
+
+    for homeworkAnswer in homeworkAnswers
+      for one in homeworkAnswer.result
+        if one.answer.toString() is myQKAMap[one.questionId].answer
+          for kp in myQKAMap[one.questionId].kps
+            stats[kp].correctNum++
+
 
   transformKPsCountToMap: (myKPsCount) ->
     return _.indexBy (for kpId, count of myKPsCount
@@ -77,10 +122,6 @@ exports.StatsUtils = BaseUtils.subclass
       correctNum: 0
       percent: 0
     ), 'kpId'
-#    return _.reduce(myKPsCount, (result, count, kpId) ->
-#      result.kpId = count
-#      return result
-#    , {})
 
 
   #KPs: [keyPointId], QKAs [{questionId, keyPointIds, answer}]
@@ -144,11 +185,10 @@ exports.StatsUtils = BaseUtils.subclass
 #      logger.info "quizAnswers:"
 #      logger.info quizAnswers
       tmpResult.quizAnswers = quizAnswers
-      @computeCorrectNumByQuizAnswers(
+      resolveResult.correctNum = @computeCorrectNumByQuizAnswers(#更新correctNum
         tmpResult.myQAMap, tmpResult.quizAnswers
       )
-    .then (sum) =>
-      resolveResult.correctNum = sum #更新correctNum
+
       return resolveResult
 
 
@@ -201,7 +241,7 @@ exports.StatsUtils = BaseUtils.subclass
 
 
   computeCorrectNumByQuizAnswers: (myQAMap, quizAnswers) ->
-    Q.resolve _.reduce(quizAnswers, (sum, quizAnswer) ->
+    return _.reduce(quizAnswers, (sum, quizAnswer) ->
       if quizAnswer.result.toString() is myQAMap[quizAnswer.questionId]
         sum++
       return sum

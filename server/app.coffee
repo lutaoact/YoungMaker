@@ -9,11 +9,7 @@ require './common/init' #init global object
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 express = require('express')
-#mongoose = require('mongoose')
 config = require('./config/environment')
-
-# Connect to database
-#mongoose.connect(config.mongo.uri, config.mongo.options)
 
 # Populate DB with sample data
 if(config.seedDB)
@@ -22,12 +18,16 @@ if(config.seedDB)
 # Setup server
 app = express()
 server = require('http').createServer(app)
-socketio = require('socket.io').listen(server)
-require('./config/socketio')(socketio)
-require('./config/express')(app)
-require('./routes')(app)
+
+# set up sockjs server
+sockjs = require 'sockjs'
+sockjs_server = sockjs.createServer();
+sockjs_server.installHandlers server, {prefix : '/sockjs'}
+require('./config/sockjs_srv').init(sockjs_server)
 
 # Start server
+require('./config/express')(app)
+require('./routes')(app)
 server.listen(config.port, config.ip,  () ->
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'))
 )

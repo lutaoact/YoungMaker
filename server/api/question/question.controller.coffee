@@ -1,5 +1,6 @@
 "use strict"
 
+sockjs_srv = require '../../config/sockjs_srv'
 Question = _u.getModel "question"
 
 exports.index = (req, res, next) ->
@@ -67,3 +68,9 @@ exports.destroy = (req, res, next) ->
     res.send 204
   , (err) ->
     next err
+
+exports.pubQuiz = (req, res, next) ->
+  questionId = req.query.questionId
+  classId = req.query.classId
+  sockjs_srv.broadcastQuiz classId, questionId
+  res.send 200

@@ -3,17 +3,8 @@
     <div class="section-header">
       <h3>其他课程</h3>
     </div>
-    <a ng-repeat="course in otherCourses" class="bud thumbnail course text-left">
-      <div class="back"
-           ng-style="{'background-image':'url('+course.thumbnail+')'}"
-           >
-      </div>
-      <div class="caption">
-        <h4>{{course.name}}</h4>
-        <div class="info">
-          {{course.info}}
-        </div>
-      </div>
+    <a ng-repeat="course in otherCourses" class="course btn" ui-sref="student.courseDetail({courseId: course._id})">
+      <student-course-tile course="course"></student-course-tile>
     </a>
     <a ui-sref="student.courseList" class="btn btn-primary btn-sub more">
       <i class="fa fa-ellipsis-h"></i><br/>

@@ -35,21 +35,9 @@
     </div>
     <div class="row">
       <div class="col-md-3" ng-repeat="course in courses">
-        <a class="bud thumbnail course"
-           ui-sref="student.courseDetail({courseId:course._id})"
-           >
-          <div class="back"
-               qiniu-key="course.thumbnail"
-               source-attr="background-image">
-
-          </div>
-
-          <div class="caption">
-            <h4>{{course.name}}</h4>
-            <div class="info">
-              {{course.info}}
-            </div>
-          </div>
+        <a ui-sref="student.courseDetail({courseId:course._id})">
+          <student-course-tile course="course">
+          </student-course-tile>
         </a>
       </div>
     </div>

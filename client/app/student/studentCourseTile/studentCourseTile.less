@@ -1,0 +1,59 @@
+.book(@width:200px;@height:300px){
+  @book-radius: 0 4px 4px 0;
+  position: relative;
+  height: @height;
+  width: @width;
+  margin:30px auto;
+  border:none;
+  border-radius: @book-radius;
+  overflow: hidden;
+  .back{
+    border-radius: @book-radius;
+    position: absolute;
+    top:0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    .transition(all .2s ease-in-out);
+    background-position: center;
+    background-size: cover;
+    // .box-shadow(inset 4px 0 0 rgba(120,120,120,0.7));
+  }
+  .caption{
+    background: rgba(255,255,255,0.7);
+    position: absolute;
+    top:15px;
+    left: 15px;
+    width: 170px;
+    height: 110px;
+    .transition(all .2s ease-in-out);
+  }
+  .info{
+    display: none;
+    color: #FFFFFF;
+    .transition(all .2s ease-in-out);
+  }
+  &:hover{
+    border:none;
+    .back{
+      .blur(3px);
+    }
+    .caption{
+      border-radius: @book-radius;
+      background: rgba(red(@base-color), green(@base-color), blue(@base-color), .7);
+      color: #FFFFFF;
+      padding: 25px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .info{
+      display: block;
+    }
+  }
+}
+
+.student-course-tile{
+  .book();
+}

@@ -5,7 +5,7 @@
       <ul class="nav nav-tabs nav-stacked col-lg-6"
           ng-repeat="course in courses">
         <li>
-          <a ui-sref="teacher.course({id:course._id})"
+          <a ui-sref="teacher.course({courseId:course._id})"
              tooltip="{{course.info}}">
             {{course.name}}
           </a>
@@ -14,12 +14,7 @@
     </div>
   </div>
   </p>
-  <a type="button" class="btn btn-primary" ui-sref="teacher.course({id:'new'})">添加课程</a>
-  <button type="button"
-          class="btn btn-default"
-          ng-click="testSockJs(course)">
-    Test SockJs
-  </button>
+  <a type="button" class="btn btn-primary" ui-sref="teacher.course({courseId:'new'})">添加课程</a>
 </div>
 
 

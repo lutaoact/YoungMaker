@@ -14,11 +14,11 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
 ) ->
 
   loadCourse = ->
-    if $state.params.id is 'new'
+    if $state.params.courseId is 'new'
       $scope.course = {}
     else
       # load courses
-      Restangular.one('courses',$state.params.id).get()
+      Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
         $scope.course = course
         Restangular.all('lectures').getList(courseId:course._id)

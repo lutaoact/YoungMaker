@@ -95,8 +95,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     .then (newLecture) ->
       $scope.lecture.__v = newLecture.__v
 
-  if $state.params.id isnt 'new'
-    $scope.lecture = Restangular.one('lectures', $state.params.id).get().$object
+  if $state.params.lectureId isnt 'new'
+    $scope.lecture = Restangular.one('lectures', $state.params.lectureId).get().$object
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->

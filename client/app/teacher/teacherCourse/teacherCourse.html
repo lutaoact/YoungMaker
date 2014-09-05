@@ -94,7 +94,7 @@
     <div class="panel-heading">
       <a class="btn btn-default"
          ng-disabled="!course._id"
-         ui-sref="teacher.lecture({courseId:course._id, id:'new'})">添加新课时</a>
+         ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">添加新课时</a>
     </div>
     <ul class="list-group"
         style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative">
@@ -102,7 +102,7 @@
           ng-repeat-reorder="lecture in course.$lectures"
           ng-repeat-reorder-handle="div.drag-point">
         <div class="drag-point fa fa-bars" draggable="true"></div>
-        <a ui-sref="teacher.lecture({courseId:course._id, id:lecture._id})">
+        <a ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
           <strong>{{lecture.name}}</strong>
         </a>
         <a class="pull-right" ng-click="deleteLecture(lecture)" >

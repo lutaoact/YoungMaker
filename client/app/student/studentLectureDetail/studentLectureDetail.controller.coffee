@@ -34,6 +34,9 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
     }
   ]
 
+  $scope.$on '$destroy', ()->
+    $rootScope.additionalMenu = []
+
   loadLecture = ()->
     if $state.params.lectureId and $state.params.lectureId is 'new'
       $scope.lecture = {courseId:$state.params.courseId}

@@ -7,7 +7,40 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   notify
   $state
   $q
+  $rootScope
 ) ->
+
+  $rootScope.additionalMenu = [
+    {
+      title: '课程主页<i class="fa fa-home"></i>'
+      link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '课程主页<i class="fa fa-home"></i>'
+      link: "teacher.courseDetail({courseId:'#{$state.params.courseId}'})"
+      role: 'teacher'
+    }
+    {
+      title: '讨论<i class="fa fa-comments-o"></i>'
+      link: "forum.course({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '统计<i class="fa fa-bar-chart-o"></i>'
+      link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '统计<i class="fa fa-bar-chart-o"></i>'
+      link: "teacher.courseStats({courseId:'#{$state.params.courseId}'})"
+      role: 'teacher'
+    }
+  ]
+
+  $scope.$on '$destroy', ()->
+    $rootScope.additionalMenu = []
+
 
   if not $state.params.courseId
     return

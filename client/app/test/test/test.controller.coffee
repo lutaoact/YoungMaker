@@ -1,109 +1,67 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TestCtrl', ($scope, $http, User, $cookieStore,$localStorage,Restangular,$upload) ->
-  $scope.$storage = $localStorage
-  if not $scope.$storage.request
-    $scope.$storage.request = {
-      method:'GET'
-    }
-  $scope.token = 'empty'
-  $scope.login = (email, password)->
-    $http.post('/auth/local',
-      email: email
-      password: password
-    ).success((data) ->
-      $cookieStore.put 'token', data.token
-      $scope.token = data.token
-      currentUser = User.get()
-    ).error ((err) ->
-      console.log err
-    )
-  $scope.logout = ()->
-    $cookieStore.remove 'token'
-    $scope.token = 'empty'
-  $scope.response = {}
+angular.module('budweiserApp').controller 'TestCtrl', (
+  User
+  $http
+  $scope
+  $upload
+  Restangular
+  $cookieStore
+  $localStorage
+) ->
 
-  $scope.send = ()->
-    console.log $scope.$storage.request
-    if not $scope.$storage.request.url
-      $scope.response = 'url required'
-      return
-    if $scope.$storage.request.data
-      try
-        angular.fromJson($scope.$storage.request.data)
-      catch error
-        $scope.response = error
+
+  angular.extend $scope,
+    methods: [
+      'GET'
+      'POST'
+      'PUT'
+      'PATCH'
+      'DELETE'
+    ]
+    $storage: $localStorage
+    response: {}
+    token: 'empty'
+    aceOptions:
+      mode: 'json'
+
+    send: (method) ->
+      $scope.methods.isOpen = false
+      $scope.$storage.request.method = method if method
+      request = $scope.$storage.request
+      if !request.url
+        $scope.response = 'url required'
         return
-    $http(
-      url:$scope.$storage.request.url
-      method:$scope.$storage.request.method
-      data:$scope.$storage.request.data
-      ).success (data)->
+      if request.data
+        try
+          angular.fromJson(request.data)
+        catch error
+          $scope.response = error
+          return
+
+      console.debug 'Send Request:', request
+
+      $scope.$storage.requests = {} if !$scope.$storage.requests
+      $scope.$storage.requests[request.url] = angular.copy request
+
+      $http(request)
+      .success (data)->
         $scope.response = data
+        console.debug 'Response:', data
       .error (err)->
-        $scope.response = err
+        $scope.response = 'error'
 
-  $scope.organizations = []
+    removeRequest: ->
+      url = $scope.$storage.request.url
+      delete $scope.$storage.requests[url]
+      $scope.setRequest('')
+      $scope.apiInputFocus = true
 
-  Restangular.all('organizations').getList()
-  .then (organizations)->
-    $scope.organizations = organizations
+    setRequest: (url = '') ->
+      $scope.$storage.request =
+        url: url
+        method: 'GET'
 
-  $scope.reloadUsers = ()->
-    $http.get('/api/users').success (users) ->
-      $scope.users = users
+    getRequests: -> _.values $scope.$storage.requests
 
-  $scope.reloadUsers()
-
-  $scope.isExcelProcessing = false
-  $scope.orgId = null
-  $scope.onFileSelect = (files)->
-    console.log $scope.orgId
-    if not files? or files.length < 1
-      return
-    #TODO: check file type by name or file type. pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
-    if not /^.*\.(xls|XLS|xlsx|XLSX)$/.test files[0].name
-      $scope.invalid = true
-      return
-    if files[0].size > 50 * 1024 * 1024
-      $scope.invalid = true
-      return
-    if not $scope.orgId
-      return
-    $scope.isExcelProcessing = true
-    file = files[0]
-    # get upload token
-    console.log file
-    $http.get('/api/qiniu/uptoken')
-    .success (uploadToken)->
-      qiniuParam =
-        'key': uploadToken.random + '/' + ['1', file.name.split('.').pop()].join('.')
-        'token': uploadToken.token
-      $scope.upload = $upload.upload
-        url: 'http://up.qiniu.com'
-        method: 'POST'
-        data: qiniuParam
-        withCredentials: false
-        file: file
-        fileFormDataName: 'file'
-      .progress (evt)->
-        $scope.uploadingP = parseInt(100.0 * evt.loaded / evt.total)
-      .success (data) ->
-        # file is uploaded successfully
-        console.log data
-        $scope.excelUrl = data.key
-        $http.post('/api/users/bulk',{key:data.key,orgId:$scope.orgId,type:'teacher'})
-        .success (result)->
-          console.log result
-          $scope.reloadUsers()
-        .error (error)->
-          console.log error
-        .finally ()->
-          $scope.isExcelProcessing = false
-      .error (response)->
-        console.log response
-
-  $scope.aceOptions =
-    mode: 'json'
-
-
+  $scope.setRequest('') if !$scope.$storage.request

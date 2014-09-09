@@ -1,47 +1,56 @@
-<div class="container">
-  <div class="col-md-12">
-    <a class="btn btn-primary" ng-click="login('admin@admin.com','admin')">Admin</a>
-    <a class="btn btn-primary" ng-click="login('test@test.com','test')">Test</a>
-    <input class="form-control" placeholder="用户名" ng-model="$storage.user.username">
-    <input class="form-control" placeholder="密码" ng-model="$storage.user.password">
-    <a class="btn btn-primary" ng-click="login($storage.user.username,$storage.user.password)">Login</a>
-    <a class="btn btn-primary" ng-click="logout()">Log out</a>
-    <br/><label>Authorization</label><div>{{token}}</div>
-  </div>
+<div ng-include="'components/navbar/navbar.html'"></div>
 
-  <div class="col-md-12">
-    <input class="col-md-6 input" ng-model="$storage.request.url"/>
-    <select class="btn btn-primary" ng-model="$storage.request.method">
-      <option value="GET">GET</option>
-      <option value="POST">POST</option>
-      <option value="PUT">PUT</option>
-      <option value="DELETE">DELETE</option>
-    </select>
-    <a class="btn btn-primary" ng-click="send()">Send</a>
+<form class="form-horizontal container">
+  <h3>测试 API</h3>
+  <div class="input-group">
+    <span class="input-group-addon">
+      <b>API</b>
+    </span>
+    <input class="form-control"
+           ng-model="$storage.request"
+           focus-me="apiInputFocus"
+           ng-init="apiInputFocus=true"
+           ng-change="setRequest($storage.request)"
+           typeahead="request as request.url for request in getRequests() | filter:{url:$viewValue} | limitTo:8"
+           placeholder="输入要测试的API，然后回车"/>
+    <div class="btn-group input-group-btn"
+         dropdown
+         is-open="methods.isOpen"
+         on-toggle="toggleDropDown(open)">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="removeRequest()">Clear</button>
+        <button type="submit" class="btn btn-default" ng-click="send()">{{$storage.request.method}}</button>
+        <button type="button" class="btn btn-default dropdown-toggle">
+          <span class="caret"></span>
+        </button>
+      </div>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="method in methods"><a href ng-click="send(method)">{{method}}</a></li>
+      </ul>
+    </div>
   </div>
   <hr/>
-
-  <h3>json body</h3>
-
-  <div class="col-md-12">
-    <div ui-ace="aceOptions" class="ace-editor" ng-model="$storage.request.data" style="height:300px"></div>
+  <h3 ng-click="showRequestData=!showRequestData"
+      ng-init="showRequestData=$storage.request.data!=null"
+      class="btn-link">
+    Request Json Data:
+  </h3>
+  <div ng-show="showRequestData"
+       class="well well-sm">
+    <div ui-ace="aceOptions"
+         class="ace-editor"
+         ng-model="$storage.request.data"
+         style="height:200px">
+    </div>
   </div>
-  <h3>response</h3>
-  <div class="col-md-12">
-    <tabset class="bud">
-      <tab heading="tree view">
-        <json-formatter json="response" open="1"></json-formatter>
-      </tab>
-      <tab heading="raw">
-        <div>{{response|json}}</div>
-      </tab>
-    </tabset>
-  </div>
-
-  <div class="col-md-12" style="margin-top:100px">
-    timestamp to datetime
-    <input ng-model="timestamp">
-    <div>{{timestamp|uxToLocaleTime}}</div>
-  </div>
-
-</div>
+  <hr/>
+  <h3>Response:</h3>
+  <tabset class="bud">
+    <tab heading="tree view">
+      <json-formatter json="response" open="1"></json-formatter>
+    </tab>
+    <tab heading="raw">
+      <div>{{response|json}}</div>
+    </tab>
+  </tabset>
+</form>

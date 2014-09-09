@@ -22,6 +22,7 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
           password: $scope.user.password
         ).then (me) ->
           Auth.getCurrentUser().$promise.then (me)->
+            socket.setup(me)
             if !loginRedirector.apply()
               if me.role is 'admin'
                 $location.url('/admin')
@@ -30,9 +31,6 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
               else if me.role is 'student'
                 $location.url('/s')
               $location.replace()
-
-            socket.setup(me)
-
         .catch (err) ->
           $scope.errors.other = err.message
 

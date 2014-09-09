@@ -47,6 +47,37 @@
     "angular-mocks": ">=1.2.*",
     "angular-scenario": ">=1.2.*"
   },
+  "overrides": {
+    "highcharts":{
+      "main": [
+        "highcharts.js",
+        "highcharts-more.js",
+        "modules/exporting.js",
+        "modules/drilldown.js"
+      ]
+    },
+    "ace-builds": {
+      "main":[
+      "src-min-noconflict/ace.js"
+      ]
+    },
+    "rangy-official": {
+      "main":[
+      "rangy-core.js",
+      "rangy-classapplier.js",
+      "rangy-highlighter.js",
+      "rangy-selectionsaverestore.js",
+      "rangy-serializer.js",
+      "rangy-textrange.js",
+      "rangy-core.min.js",
+      "rangy-classapplier.min.js",
+      "rangy-highlighter.min.js",
+      "rangy-selectionsaverestore.min.js",
+      "rangy-serializer.min.js",
+      "rangy-textrangemin.min.js"
+      ]
+    }
+  },
   "resolutions": {
     "angular": "1.2.23",
     "json3": "~3.3.1",

@@ -45,18 +45,17 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
-  tmpRes = {}
+  foundCourse = {}
   courseId = req.params.id
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    tmpRes.course = course
+    foundCourse = course
     LearnProgress.findOneQ
       userId: req.user._id
       courseId: courseId
   .then (learnProgress) ->
-    res.send
-      course: tmpRes.course
-      progress: learnProgress?.progress ? []
+    res.send _.extend foundCourse,
+      $progress: learnProgress?.progress ? []
   , (err) ->
     next err
 

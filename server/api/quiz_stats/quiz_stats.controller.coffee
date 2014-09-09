@@ -1,10 +1,7 @@
 'use strict'
 
-CourseUtils = _u.getUtils 'course'
 StatsUtils  = _u.getUtils 'stats'
 LectureUtils = _u.getUtils 'lecture'
-Question    = _u.getModel 'question'
-QuizAnswer  = _u.getModel 'quiz_answer'
 User        = _u.getModel 'user'
 
 exports.show = (req, res, next) ->

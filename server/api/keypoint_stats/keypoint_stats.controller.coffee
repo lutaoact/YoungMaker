@@ -1,16 +1,19 @@
 'use strict'
 
 StatsUtils = _u.getUtils 'stats'
+User       = _u.getModel 'user'
 
-exports.myView = (req, res, next) ->
+exports.show = (req, res, next) ->
   courseId = req.query.courseId
   user = req.user
 
-  StatsUtils.makeKPStatsForUser user, courseId
-  .then (result) ->
-    res.send result
+  (if user.role is 'teacher' and req.query.studentId?
+    User.findByIdQ req.query.studentId
+  else
+    Q(user)
+  ).then (person) ->
+    StatsUtils.makeKPStatsForUser person, courseId
+  .then (finalStats) ->
+    res.send finalStats
   , (err) ->
     next err
-
-exports.studentView = (req, res, next) ->
-  return 1

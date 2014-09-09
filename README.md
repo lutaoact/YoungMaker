@@ -8,7 +8,7 @@ cloud3edu cloud based education system
 `brew install node`
 + npm 
 + bower  
-`npm install bower -g`
+`npm install bower grunt grunt-cli -g`
 
 ###Downloand node&bower packages
 ```

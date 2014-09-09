@@ -1,0 +1,52 @@
+.student-lecture-answers{
+  .bud .nav-tabs{
+    border-bottom: none;
+    margin:auto;
+    text-align: center;
+    >li{
+      float: none;
+      display: inline-block;
+    }
+  }
+  .questions-panel{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #FFFFFF;
+    border:1px solid #dddddd;
+    .list-group{
+      .list-group-item{
+        .indicator{
+          color: #FFFFFF;
+          width: 25px;
+          height: 25px;
+          line-height: 25px;
+          font-size: 16px;
+          text-align: center;
+          &.correct{
+            background: @brand-success;
+          }
+          &.incorrect{
+            background: @brand-danger;
+          }
+        }
+        .checkbox{
+          position: relative;
+        }
+        .label-correct{
+          &:after{
+            position: absolute;
+            content: '';
+            background: rgba(26, 183, 141, 0.3);
+            // IE 9+
+            width: calc(~"100% + 6px");
+            height: calc(~"100% + 6px");
+            left: -6px;
+            top: -3px;
+          }
+        }
+
+      }
+    }
+  }
+
+}

@@ -18,7 +18,7 @@
   </div>
 
 </div>
-<section class="course-list" ng-class="{'limit-height':viewState.limitHeight }" id="course-list">
+<section class="course-list" id="course-list">
   <a class="anchor anchor-up" href="#course-list" du-smooth-scroll>
     <i class="fa fa-chevron-down"></i>
   </a>
@@ -42,13 +42,7 @@
       </div>
     </div>
   </div>
-  <div class="more text-center" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
-    <a href="">由此展开更多课程</a>
-  </div>
-  <a class="anchor anchor-down bottom-up inverse" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
-    <i class="fa fa-chevron-down"></i>
-  </a>
-  <a class="anchor anchor-down bottom-up inverse"  ng-show="!viewState.limitHeight" href="#my-rank" du-smooth-scroll>
+  <a class="anchor anchor-down bottom-up inverse" href="#my-rank" du-smooth-scroll>
     <i class="fa fa-chevron-down"></i>
   </a>
 </section>

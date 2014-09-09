@@ -17,7 +17,8 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     displayQuestions: []
-
+    viewState:
+      pageSize: 10
     getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
 
     setQuestionType: (type) ->

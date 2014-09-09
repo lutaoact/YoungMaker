@@ -1,36 +1,59 @@
-<div class="col-md-10 col-md-offset-1">
-  <tabset>
+<div class="student-lecture-answers">
+  <tabset class="bud container">
+    <!-- hack off the margin by connect </tab><tab> -->
     <tab heading="随堂练习" select="setQuestionType('quizzes')">
-    </tab>
-    <tab heading="课后作业" select="setQuestionType('homeworks')">
+    </tab><tab heading="课后作业" select="setQuestionType('homeworks')">
     </tab>
   </tabset>
-  <div style="padding-top: 5px"></div>
-  <div class="list-group">
-    <div class="list-group-item"
-         ng-repeat="question in displayQuestions">
-      <h5>{{$index+1}}. {{question.content.title}}</h5>
-      <div class="checkbox"
-           ng-repeat="option in question.content.body">
-        <label ng-class="{'lable label-success':option.correct && displayQuestions.$submitted}">
-          {{$index|indexToABC}}.
-          <input type="checkbox"
-                 ng-disabled="displayQuestions.$submitted"
-                 ng-model="option.$selected">
-          {{option.desc}}
-        </label>
-      </div>
-      <div class="alert alert-warning"
-           ng-if="displayQuestions.$submitted">
-        <b>注解：</b>{{question.solution}}
-        <div ng-if="question.keyPoints.length>0">
-          <b>知识点：</b><span ng-repeat="id in question.keyPoints">{{getKeyPoint(id).name}} </span>
+  <div class="questions-panel container">
+    <div class="list-group">
+
+      <div class="list-group-item"
+           ng-repeat="question in displayQuestions|paging:viewState.pageSize:displayQuestions.currentPage||1">
+        <div class="row">
+          <div class="col-xs-1">
+            <h4 class="index text-muted">
+              {{$index + 1 + ((displayQuestions.currentPage||1) - 1) * viewState.pageSize}}
+            </h4>
+            <i class="indicator correct fa fa-check" ng-show="option.correct && displayQuestions.$submitted"></i>
+            <i class="indicator incorrect fa fa-times" ng-show="!option.correct && displayQuestions.$submitted"></i>
+          </div>
+          <div class="col-md-11 col-xs-10">
+            <h5 class="text-primary">{{question.content.title}}</h5>
+            <div class="checkbox text-muted"
+                 ng-repeat="option in question.content.body">
+              <label class="lable" ng-class="{'label-correct':option.correct && displayQuestions.$submitted}">
+                {{$index|indexToABC}}.
+                <input type="checkbox"
+                       ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
+                       ng-model="option.$selected">
+                {{option.desc}}
+              </label>
+            </div>
+            <div class="alert alert-warning"
+                 ng-if="displayQuestions.$submitted">
+              <b>注解：</b>{{question.solution}}
+              <div ng-if="question.keyPoints.length>0">
+                <b>知识点：</b><span ng-repeat="id in question.keyPoints">
+                {{getKeyPoint(id).name}} </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
+    <pager
+      total-items="displayQuestions.length"
+      items-per-page="viewState.pageSize"
+      align="false"
+      class="bud"
+      ng-model="displayQuestions.currentPage">
+    </pager>
     <button type="button"
-            ng-disabled="displayQuestions.$submitted || displayQuestions!=lecture.homeworks"
-            class="pull-right btn btn-primary"
+            ng-show="displayQuestions==lecture.homeworks"
+            ng-disabled="displayQuestions.$submitted"
+            class="pull-right btn btn-danger"
             ng-click="submitAnswer()">
       <span ng-if="displayQuestions.$submitted">已经</span>提交
     </button>

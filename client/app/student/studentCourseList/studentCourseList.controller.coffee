@@ -17,21 +17,6 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
     console.debug 'socket.onmessag:', event
 
   angular.extend $scope,
-    filters: [
-      {
-        name: 'all'
-      }
-      {
-        name: 'read'
-      }
-      {
-        name: 'unread'
-      }
-    ]
-
-    viewState:
-      currentFilter: 'all'
-      limitHeight: true
 
     setFilter: (filter)->
       @viewState.currentFilter = filter

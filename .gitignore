@@ -19,3 +19,4 @@ client/index.html
 /server/common/Const.js
 /server/common/modelTest.js
 /server/common/initGlobal.js
+/server/common/ErrCode.js

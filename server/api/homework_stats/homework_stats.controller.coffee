@@ -68,39 +68,42 @@ calStats = (user, courseId, studentsNum, statsResult, userId) ->
     logger.info 'total correctNum is '+ statsResult.totalCorrect
     logger.info 'totalQ is '+ statsResult.totalQ
     logger.info 'StudentNum is ' + studentsNum
-    statsResult.summary = Math.floor (statsResult.totalCorrect)/((statsResult.totalQ)*studentsNum)*100
+    console.log 'start calculating summary...'
+    statsResult.summary = Math.floor ((statsResult.totalCorrect)/((statsResult.totalQ)*studentsNum))*100
+    console.log 'summary is ' + statsResult.summary
     delete statsResult.totalQ
     delete statsResult.totalCorrect
     statsResult
 
-
-exports.studentView = (req, res, next) ->
-  courseId = req.query.courseId
+exports.show = (req, res, next) ->
   me = req.user
+  role = me.role
 
+  courseId = req.query.courseId
   statsResult = do initStatsResult
 
-  calStats me, courseId, 1, statsResult, me.id
-  .then (statsResult) ->
-    res.json 200, statsResult
-  , (err) ->
-    next err
-
-
-exports.teacherView = (req, res, next) ->
-  courseId = req.query.courseId
-  me = req.user
-  userId = req.query.userId
-
-  statsResult = do initStatsResult
-
-  CourseUtils.getStudentsNum req.user, courseId
-  .then (num) ->
-    if userId? # check one student's stats
-      calStats me, courseId, 1, statsResult, userId
-    else # check all students' stat in this course
-      calStats me, courseId, num, statsResult
-  .then (statsResult) ->
-    res.json 200, statsResult
-  , (err) ->
-    next err
+  switch role
+    when 'student'
+      calStats me, courseId, 1, statsResult, me.id
+      .then (statsResult) ->
+        res.json 200, statsResult
+      , (err) ->
+        next err
+    when 'teacher'
+      studentId = req.query.studentId
+      console.log 'studentId is ' + studentId
+      if studentId?
+        calStats me, courseId, 1, statsResult, studentId
+        .then (statsResult) ->
+          console.dir statsResult
+          res.json 200, statsResult
+        , (err) ->
+          next err
+      else
+        CourseUtils.getStudentsNum me, courseId
+        .then (num) ->
+          calStats me, courseId, num, statsResult
+        .then (statsResult) ->
+          res.json 200, statsResult
+        , (err) ->
+          next err

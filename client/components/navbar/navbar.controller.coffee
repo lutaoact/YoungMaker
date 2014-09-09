@@ -2,11 +2,11 @@
 
 angular.module('budweiserApp').controller 'NavbarCtrl',
 (
-  $scope
-  $location
   Auth
+  $scope
   $state
-  $rootScope
+  socket
+  $location
 ) ->
 
   angular.extend $scope,
@@ -32,6 +32,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
     logout: ->
       Auth.logout()
       $location.path '/login'
+      socket.close()
 
     isActive: (route) ->
       route is $state.current.name

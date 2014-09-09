@@ -5,7 +5,6 @@ angular.module 'budweiserApp', [
   'ngResource'
   'ngSanitize'
   'ui.bootstrap'
-  'btford.socket-io'
   'ui.router'
   'ngStorage'
   'ui.select'
@@ -52,7 +51,7 @@ angular.module 'budweiserApp', [
       config.method = 'PUT'
     config
 
-.factory 'LoginRedirector', ($location) ->
+.factory 'loginRedirector', ($location) ->
 
   redirectKey = 'r'
   loginPath = '/login' #/login?r=xxx
@@ -74,7 +73,7 @@ angular.module 'budweiserApp', [
     true
 
 
-.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, LoginRedirector) ->
+.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
   # Add authorization token to headers
   request: (config) ->
     config.headers = config.headers or {}
@@ -84,14 +83,14 @@ angular.module 'budweiserApp', [
   # Intercept 401s and redirect you to login
   responseError: (response) ->
     if response.status is 401
-      LoginRedirector.set($location.url())
+      loginRedirector.set($location.url())
       # remove any stale tokens
       $cookieStore.remove 'token'
       $q.reject response
     else
       $q.reject response
 
-.factory 'loadingInterceptor', ($rootScope, $q, $cookieStore, $location) ->
+.factory 'loadingInterceptor', ($rootScope, $q) ->
   # remain request numbers
   numLoadings = 0
 
@@ -112,12 +111,13 @@ angular.module 'budweiserApp', [
       $rootScope.$loading = false
     $q.reject response
 
-.run ($rootScope, $location, Auth, LoginRedirector, $state) ->
+.run ($rootScope, $location, Auth, loginRedirector, $state, socket) ->
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    LoginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
+    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
 
   # Reload Auth
-  Auth.getCurrentUser().$promise?.then ->
-    LoginRedirector.apply()
+  Auth.getCurrentUser().$promise?.then (me) ->
+    socket.setup(me)
+    loginRedirector.apply()
 

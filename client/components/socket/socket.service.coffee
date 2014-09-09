@@ -11,7 +11,7 @@ angular.module('budweiserApp').service 'socket', ($timeout) ->
     else angular.noop
 
   setup: (user) ->
-    if socket? then throw 'socket already setup'
+    if socket? then return
     socket = new SockJS '/sockjs'
 #    console.debug 'Setup socket connect... ', socket
     socket.onopen = ->
@@ -30,7 +30,7 @@ angular.module('budweiserApp').service 'socket', ($timeout) ->
   send: ->
     socket?.send?(socket, arguments)
   close: ->
-    socket?.close?(socket, arguments)
-    socket = undefined
+    #TODO server socket close
+    #socket?.close?(socket, arguments)
 
 

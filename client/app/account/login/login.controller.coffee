@@ -20,7 +20,7 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
         Auth.login(
           email: $scope.user.email
           password: $scope.user.password
-        ).then (me) ->
+        ).then ->
           Auth.getCurrentUser().$promise.then (me)->
             socket.setup(me)
             if !loginRedirector.apply()

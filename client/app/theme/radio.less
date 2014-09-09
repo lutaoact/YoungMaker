@@ -1,4 +1,4 @@
-input[type="checkbox"].bud{
+input[type=radio].bud{
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -9,20 +9,20 @@ input[type="checkbox"].bud{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   &:after{
-    // fa-square-o
-    content:"\f096";
+    // The width of ideographic (CJK) characters.
+    content:"\f10c";
   }
   &:checked{
     &:after{
-      // fa-check-square-o
-      content:'\f046';
+      // fa-circle
+      content:'\f192';
     }
   }
   &:focus{
     outline: none;
   }
 
-  &.checkbox-primary{
+  &.radio-primary{
     color: @brand-primary;
   }
 }

@@ -15,6 +15,7 @@ Lecture = _u.getModel "lecture"
 KeyPoint = _u.getModel "key_point"
 ObjectId = require("mongoose").Types.ObjectId
 CourseUtils = _u.getUtils 'course'
+LearnProgress = _u.getModel 'learn_progress'
 
 exports.index = (req, res, next) ->
 
@@ -44,9 +45,18 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
-  CourseUtils.getAuthedCourseById req.user, req.params.id
+  tmpRes = {}
+  courseId = req.params.id
+  CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    res.send course
+    tmpRes.course = course
+    LearnProgress.findOneQ
+      userId: req.user._id
+      courseId: courseId
+  .then (learnProgress) ->
+    res.send
+      course: tmpRes.course
+      progress: learnProgress?.progress ? []
   , (err) ->
     next err
 

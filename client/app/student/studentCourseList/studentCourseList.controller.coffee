@@ -18,9 +18,6 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
 
   angular.extend $scope,
 
-    setFilter: (filter)->
-      @viewState.currentFilter = filter
-
     courses: undefined
 
     loadCourses: ()->

@@ -68,9 +68,7 @@ calStats = (user, courseId, studentsNum, statsResult, userId) ->
     logger.info 'total correctNum is '+ statsResult.totalCorrect
     logger.info 'totalQ is '+ statsResult.totalQ
     logger.info 'StudentNum is ' + studentsNum
-    console.log 'start calculating summary...'
     statsResult.summary = Math.floor ((statsResult.totalCorrect)/((statsResult.totalQ)*studentsNum))*100
-    console.log 'summary is ' + statsResult.summary
     delete statsResult.totalQ
     delete statsResult.totalCorrect
     statsResult
@@ -91,11 +89,9 @@ exports.show = (req, res, next) ->
         next err
     when 'teacher'
       studentId = req.query.studentId
-      console.log 'studentId is ' + studentId
       if studentId?
         calStats me, courseId, 1, statsResult, studentId
         .then (statsResult) ->
-          console.dir statsResult
           res.json 200, statsResult
         , (err) ->
           next err

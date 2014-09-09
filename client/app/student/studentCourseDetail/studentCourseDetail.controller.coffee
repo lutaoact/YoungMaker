@@ -117,5 +117,4 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
 
     currentPage: 1
 
-  $scope.loadCourse()
-  $scope.loadLectures()
+  $scope.loadCourse().then $scope.loadLectures

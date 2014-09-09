@@ -76,7 +76,7 @@
         ng-repeat="lecture in course.$lectures | paging:itemsPerPage:currentPage"
         ui-sref="student.lectureDetail({courseId:course._id,lectureId:lecture._id})">
         <div class="col-xs-1 text-center number">
-          {{$index + 1}}
+          {{$index + 1 + itemsPerPage * ((currentPage||1) - 1)}}
         </div>
         <div class="col-xs-9">
           <h3 class="title">{{lecture.name}}</h3>

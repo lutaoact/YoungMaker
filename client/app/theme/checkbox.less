@@ -1,0 +1,32 @@
+input[type="checkbox"].bud{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  &:after{
+    // fa-square-o
+    // content:'\f096';
+    content:" ";
+    border: 1px solid @gray;
+  }
+  &:checked{
+    &:after{
+      // fa-check-square-o
+      // content:'\f046';
+      content:'\f00c';
+    }
+  }
+  &:focus{
+    outline: none;
+  }
+
+  &.checkbox-primary{
+    color: @brand-primary;
+  }
+
+}

@@ -24,7 +24,7 @@
                  ng-repeat="option in question.content.body">
               <label class="lable" ng-class="{'label-correct':option.correct && displayQuestions.$submitted}">
                 {{$index|indexToABC}}.
-                <input type="checkbox"
+                <input type="checkbox" class="bud checkbox-primary"
                        ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
                        ng-model="option.$selected">
                 {{option.desc}}

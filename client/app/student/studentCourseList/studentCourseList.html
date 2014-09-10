@@ -1,5 +1,5 @@
 <div class="jumbotron timetable"
-     qiniu-key="'9afunBb7Fz/DSC00591.jpg'"
+     qiniu-key="'/assets/images/timetable_back.png'"
      suffix="?imageMogr2/blur/35x35"
      source-attr="background-image"
      id="timetable">
@@ -9,7 +9,21 @@
     </div>
     <div class="col-md-8">
       <div class="pages">
-        <img style="width:900px;" src="assets/images/timetable.png" alt="">
+        <div class="day day-header">
+          <div class="time-span time-span-header">星期</div>
+          <div class="time-span" ng-repeat="duration in [9,10,11,12,13,14,15,16]">
+            {{duration}}
+            <sup>
+              AM
+            </sup>
+          </div>
+        </div>
+        <div class="day" ng-repeat="day in ['一','二','三','四','五']">
+          <div class="time-span time-span-header">{{day}}</div>
+          <div class="time-span" ng-repeat="duration in [9,10,11,12,13,14,15,16]">
+              {{duration}}
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-md-2 text-center">
@@ -67,7 +81,7 @@
   </div>
 </section>
 
-<a href="#timetable" du-smooth-scroll class="back-to-top" du-scrollspy>
+<a href="#timetable" du-smooth-scroll class="back-to-top" du-scrollspy offset="60">
   <i class="fa fa-chevron-up"></i>
 </a>
 

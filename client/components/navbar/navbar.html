@@ -1,3 +1,4 @@
+<!-- navbar-static-top -->
 <div class="bud navbar navbar-default navbar-static-top main-nav" ng-controller="NavbarCtrl">
   <div class="container">
     <div class="navbar-header">
@@ -7,10 +8,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">Cloud3Edu</a>
+      <a href="/" class="navbar-brand">
+        <img style="width:36px;height:36px;" src="/assets/images/logo.png" alt="logo">
+      </a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
-      <ul class="bud nav navbar-nav">
+      <ul class="bud nav navbar-nav navbar-right">
         <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
           <a ui-sref="{{item.link}}"
              ng-if="item.role == getCurrentUser().role">{{item.title}}</a>
@@ -19,9 +22,6 @@
           <a ui-sref="{{item.link}}"
              ng-if="item.role == getCurrentUser().role" ng-bind-html="item.title"></a>
         </li>
-      </ul>
-
-      <ul class="bud nav navbar-nav navbar-right">
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">注册</a></li>
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href ng-click="login()">登录</a></li>
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}"><a href="/settings"  class="navbar-avatar" qiniu-key="getCurrentUser().avatar" suffix="?imageView2/1/w/64/h/64" source-attr="background-image"></a></li>

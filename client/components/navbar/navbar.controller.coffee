@@ -42,4 +42,4 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         $state.go('login')
 
     isActive: (route) ->
-      route is $state.current.name
+      route.replace(/\(.*?\)/g, '') is $state.current.name

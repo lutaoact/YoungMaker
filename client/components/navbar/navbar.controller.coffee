@@ -7,6 +7,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
   $state
   socket
   $location
+  loginRedirector
 ) ->
 
   angular.extend $scope,
@@ -31,8 +32,14 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
 
     logout: ->
       Auth.logout()
-      $location.path '/login'
+      $state.go if $state.current?.name == 'test' then 'test' else 'login'
       socket.close()
+
+    login: ->
+      if $state.current?.name == 'test'
+        loginRedirector.set($state.href($state.current, $state.params))
+      else
+        $state.go('login')
 
     isActive: (route) ->
       route is $state.current.name

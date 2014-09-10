@@ -49,7 +49,7 @@ angular.module('budweiserApp').controller 'TestCtrl', (
         $scope.response = data
         console.debug 'Response:', data
       .error (err)->
-        $scope.response = 'error'
+        $scope.response = err
 
     removeRequest: ->
       url = $scope.$storage.request.url

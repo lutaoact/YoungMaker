@@ -1,10 +1,10 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<form class="form-horizontal container">
+<div class="container">
   <h3>测试 API</h3>
-  <div class="input-group">
+  <form class="form-horizontal input-group">
     <span class="input-group-addon">
-      <b>API</b>
+      <b>Http</b>
     </span>
     <input class="form-control"
            ng-model="$storage.request"
@@ -18,17 +18,46 @@
          is-open="methods.isOpen"
          on-toggle="toggleDropDown(open)">
       <div class="input-group-btn">
-        <button type="button" class="btn btn-default" ng-click="removeRequest()">Clear</button>
-        <button type="submit" class="btn btn-default" ng-click="send()">Send {{$storage.request.method}}</button>
+        <button type="submit"
+                class="btn btn-default"
+                ng-click="send()">Send {{$storage.request.method}}</button>
         <button type="button" class="btn btn-default dropdown-toggle">
           <span class="caret"></span>
+        </button>
+        <button type="button" class="btn btn-default"
+                tooltip="清除这条记录"
+                ng-click="removeRequest()">
+          <span class="glyphicon glyphicon-trash"></span>
         </button>
       </div>
       <ul class="dropdown-menu" role="menu">
         <li ng-repeat="method in methods"><a href ng-click="send(method)">{{method}}</a></li>
       </ul>
     </div>
-  </div>
+  </form>
+  <br/>
+  <form class="form-horizontal input-group">
+    <span class="input-group-addon">
+      <b>Socket</b>
+    </span>
+    <input class="form-control"
+           ng-model="$storage.socketType"
+           placeholder="输入要测试的Socket Type，然后回车"/>
+    <div class="input-group-btn">
+      <button type="submit"
+              class="btn btn-default"
+              ng-click="toggleHandler()">
+        <span ng-show="!hasHandler()">Listen</span>
+        <span ng-show="hasHandler()">Remove</span>
+      </button>
+      <button type="button"
+              class="btn btn-default"
+              ng-click="toggleSocket()">
+        <span ng-show="!hasOpen()">Open</span>
+        <span ng-show="hasOpen()">Close</span>
+      </button>
+    </div>
+  </form>
   <hr/>
   <h3 ng-click="showRequestData=!showRequestData"
       ng-init="showRequestData=$storage.request.data!=null"
@@ -45,12 +74,14 @@
   </div>
   <hr/>
   <h3>Response:</h3>
-  <tabset class="bud">
-    <tab heading="tree view">
+  <tabset>
+    <tab heading="Tree View">
+      <br/>
       <json-formatter json="response" open="1"></json-formatter>
     </tab>
-    <tab heading="raw">
+    <tab heading="Raw">
+      <br/>
       <div>{{response|json}}</div>
     </tab>
   </tabset>
-</form>
+</div>

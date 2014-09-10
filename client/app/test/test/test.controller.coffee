@@ -1,15 +1,15 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TestCtrl', (
-  User
+  Auth
   $http
   $scope
+  socket
   $upload
   Restangular
   $cookieStore
   $localStorage
 ) ->
-
 
   angular.extend $scope,
     methods: [
@@ -25,28 +25,39 @@ angular.module('budweiserApp').controller 'TestCtrl', (
     aceOptions:
       mode: 'json'
 
+    toggleHandler: ->
+      if $scope.hasHandler()
+        socket.resetHandler()
+      else
+        socket.setHandler $scope.$storage.socketType, (data) ->
+          $scope.response = data
+
+    hasHandler: ->
+      socket.hasHandler $scope.$storage.socketType
+
+    hasOpen: ->
+      socket.hasOpen()
+
+    toggleSocket: ->
+      if $scope.hasOpen()
+        socket.close()
+      else
+        Auth.getCurrentUser().$promise?.then socket.setup
+
     send: (method) ->
       $scope.methods.isOpen = false
       $scope.$storage.request.method = method if method
       request = $scope.$storage.request
-      if !request.url
-        $scope.response = 'url required'
-        return
-      if request.data
-        try
-          angular.fromJson(request.data)
-        catch error
-          $scope.response = error
-          return
 
       console.debug 'Send Request:', request
 
       $scope.$storage.requests = {} if !$scope.$storage.requests
       $scope.$storage.requests[request.url] = angular.copy request
 
+      $scope.response = {}
       $http(request)
       .success (data)->
-        $scope.response = data
+        $scope.response = data if !_.isString(data)
         console.debug 'Response:', data
       .error (err)->
         $scope.response = err

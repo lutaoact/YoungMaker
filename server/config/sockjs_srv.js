@@ -68,14 +68,15 @@
   exports.test = function() {
     console.log('Test Socket');
     return _.forEach(_.flatten(_.values(connectManager)), function(au) {
-      var msg;
-      msg = JSON.stringify({
-        data: {
-          message: 'hello world',
-          name: 'tester'
-        }
+      var jsonResult;
+      jsonResult = JSON.stringify({
+        payload: {
+          name: 'tester',
+          message: 'Hello World'
+        },
+        type: 'test'
       });
-      return au.conn.write(msg);
+      return au.conn.write(jsonResult);
     });
   };
 

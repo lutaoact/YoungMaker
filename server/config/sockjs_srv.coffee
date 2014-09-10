@@ -66,11 +66,12 @@ exports.sendNotice = (userId, notice) ->
 exports.test = ->
   console.log 'Test Socket'
   _.forEach _.flatten(_.values connectManager), (au) ->
-    msg = JSON.stringify
-      data:
-        message:'hello world'
-        name:'tester'
-    au.conn.write msg
+    jsonResult = JSON.stringify
+      payload:
+        name: 'tester'
+        message: 'Hello World'
+      type:'test'
+    au.conn.write jsonResult
 
 # broadcast quiz to given class
 exports.broadcastQuiz = (classeId, questionId) ->

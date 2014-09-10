@@ -32,6 +32,7 @@ module.exports = (app) ->
   app.use '/api/quiz_stats', require './api/quiz_stats'
   app.use '/api/keypoint_stats', require './api/keypoint_stats'
   app.use '/api/activities', require './api/activity'
+  app.use '/api/test', require './api/test'
   app.use '/auth', require './auth'
   app.use errorHandler
 

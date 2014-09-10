@@ -65,6 +65,20 @@
     return logger.info("Send notice " + notice + " to user " + userId);
   };
 
+  exports.test = function() {
+    console.log('Test Socket');
+    return _.forEach(_.flatten(_.values(connectManager)), function(au) {
+      var msg;
+      msg = JSON.stringify({
+        data: {
+          message: 'hello world',
+          name: 'tester'
+        }
+      });
+      return au.conn.write(msg);
+    });
+  };
+
   exports.broadcastQuiz = function(classeId, questionId) {
     var audiences;
     logger.info("Broadcast quiz " + questionId + " to class " + classeId);

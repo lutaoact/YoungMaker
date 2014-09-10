@@ -63,6 +63,15 @@ onClose = () ->
 exports.sendNotice = (userId, notice) ->
   logger.info "Send notice #{notice} to user #{userId}"
 
+exports.test = ->
+  console.log 'Test Socket'
+  _.forEach _.flatten(_.values connectManager), (au) ->
+    msg = JSON.stringify
+      data:
+        message:'hello world'
+        name:'tester'
+    au.conn.write msg
+
 # broadcast quiz to given class
 exports.broadcastQuiz = (classeId, questionId) ->
   logger.info "Broadcast quiz #{questionId} to class #{classeId}"

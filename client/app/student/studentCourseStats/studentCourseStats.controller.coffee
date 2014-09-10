@@ -35,63 +35,80 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
     $rootScope.additionalMenu = []
 
   loadQuizStats = ()->
-    Restangular.one('quiz_stats','my_view').get(courseId:$state.params.courseId).then (result)->
+    Restangular.one('quiz_stats','').get(courseId:$state.params.courseId)
+    .then (result)->
+      result.$text = '随堂问题'
       $scope.quizStats = angular.copy(chartConfigs.pieChart)
-      $scope.quizStats.series = [
+      $scope.quizStats.series[0].data = [
         {
-          type:'pie'
-          name:'题目个数'
-          size: '80%'
-          innerSize: '60%'
-          dataLabels:
-            enabled: true
-            formatter: ()->
-              this.percentage + '%'
-          data: [
-            ['答对',result.summary.correctNum ]
-            {
-              name:'答错'
-              y:(result.summary.questionsLength - result.summary.correctNum)
-            }
-          ]
+          name:'正确'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
         }
-      ]
+        {
+          name:'错误'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }]
       $scope.quizStats.title =
-        text: '随堂问题'
+        text: result.$text
+      result
 
   loadHomeworkStats = ()->
-    Restangular.one('homework_stats','student').get(courseId:$state.params.courseId).then (result)->
-      console.log result
+    Restangular.one('homework_stats','').get(courseId:$state.params.courseId)
+    .then (result)->
+      result.$text = '课后习题'
       $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
-      $scope.homeworkStats.series = [
+      $scope.homeworkStats.series[0].data = [
         {
-          type:'pie'
-          name:'课后习题'
-          size: '80%'
-          innerSize: '60%'
-          dataLabels:
-            enabled: true
-            formatter: ()->
-              this.percentage + '%'
-          data: [
-            ['答对',result.summary / 100 ]
-            {
-              name:'答错'
-              y: (100 - result.summary) / 100
-            }
-          ]
+          name:'正确'
+          y: result.summary
+          color: Highcharts.getOptions().colors[2]
         }
-      ]
+        {
+          name:'错误'
+          y: 100 - result.summary
+          color: Highcharts.getOptions().colors[5]
+        }]
       $scope.homeworkStats.title =
-        text: '课后习题'
+        text: result.$text
+      result
 
   loadKeypointStats = ()->
-    Restangular.one('keypoint_stats','my_view').get(courseId:$state.params.courseId).then (result)->
+    Restangular.one('keypoint_stats','').get(courseId:$state.params.courseId)
+    .then (result)->
+      result.$text = '知识点掌握程度'
+      $scope.keypointStats = angular.copy chartConfigs.pieChart
+      $scope.keypointStats.series[0].data = [
+        {
+          name:'掌握'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'未掌握'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }
+      ]
+      $scope.keypointStats.title =
+        text: result.$text
+      result
 
+  loadLectures = ()->
+    Restangular.all('lectures').getList(courseId:$state.params.courseId)
 
   loadStats = ->
-    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats()]).then (results)->
-      console.log results
+    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures()])
+    .then (results)->
+      # Come out the trend chart
+      $scope.trendChart = angular.copy chartConfigs.trendChart
+      $scope.trendChart.xAxis.categories = _.pluck results[3], 'name'
+      $scope.trendChart.series = results.slice(0,3).map (stats, index)->
+        name: stats.$text
+        data: results[3].map (lecture)->
+          stats[lecture._id]?.percent ? 0
+      console.log $scope.trendChart.series, results
 
   chartConfigs =
     trendChart:
@@ -99,52 +116,50 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
         chart:
           type: 'line'
           zoomType: 'x'
+        tooltip:
+          valueSuffix: '%'
       series: [
-        {
-          name:'观看次数'
-          data: [0, 0, 0, 0, 0, 0, 0]
-        }
       ]
       xAxis:
-        type: 'category'
         title:
-          text: '日期'
+          text: '课时'
 
       yAxis:
         title:
-          text: '次数'
-      loading: true
+          text: '百分率(%)'
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }]
       title:
         text: ''
 
+    # Pie Chart template
     pieChart:
       options:
+        # Hide watermark
         credits:
           enabled: false
         plotOptions:
           pie:
             cursor: 'pointer'
+            # For responsive
             dataLabels:
               enabled: false
             showInLegend: true
+        # Show in percentage
+        tooltip:
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
       series: [
         {
           type:'pie'
-          name:'观看情况'
-          data: [
-            ['未观看',12]
-            {
-              name:'正在看'
-              y:30
-              sliced: true
-              selected: true
-            }
-            ['已观看',25]
-          ]
+          name:'百分率'
+          size: '70%'
+          innerSize: '60%'
+          data: []
         }
       ]
-      title:
-        text: '观看人数'
 
     questionChart:
       options:

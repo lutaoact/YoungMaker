@@ -237,14 +237,9 @@ exports.StatsUtils = BaseUtils.subclass
   # {questionId: answerString}
   buildQAMap: (questionIds) ->
     Question.findQ {_id: {$in: questionIds}}
-    .then (questions) ->
-      map = _.reduce(questions, (result, question) ->
-        body = question.content.body
-        result[question.id] = _.reduce(body, (corrects, option, index) ->
-          if option.correct is true
-            corrects.push index
-          return corrects
-        , []).toString()
+    .then (questions) =>
+      map = _.reduce(questions, (result, question) =>
+        result[question.id] = @getAnswerStringFromQuestion question
         return result
       , {})
       return map
@@ -257,6 +252,16 @@ exports.StatsUtils = BaseUtils.subclass
       if quizAnswer.result.toString() is myQAMap[quizAnswer.questionId]
         sum++
       return sum
+    , 0)
+
+
+  computeCorrectNumByHKAnswers: (myQAMap, homeworkAnswers) ->
+    return _.reduce(homeworkAnswers, (sum, hkAnswer) ->
+      return sum + _.reduce(hkAnswer.result, (innerSum, one) ->
+        if one.answer.toString() is myQAMap[one.questionId]
+          innerSum++
+        return innerSum
+      , 0)
     , 0)
 
 

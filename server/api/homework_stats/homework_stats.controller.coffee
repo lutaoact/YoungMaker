@@ -1,105 +1,82 @@
 'use strict'
 
-Course = _u.getModel 'course'
 CourseUtils = _u.getUtils 'course'
 HomeworkAnswer = _u.getModel 'homework_answer'
-Question = _u.getModel 'question'
 StatsUtils = _u.getUtils 'stats'
 
-calCorrectNum = (answer, qaMap) ->
-  _.reduce answer.result, (sum, item) ->
-    questionId = item.questionId
-    correctResult = qaMap[questionId]
-    logger.info 'QuestionId is' + questionId
-    logger.info 'CorrectResult is ' + correctResult
-    myAnswer = item.answer.toString()
-    logger.info 'My answer is ' + myAnswer
-    return sum+1 if myAnswer is correctResult
-    return sum
-  , 0
+calLectureStats = (lecture, summary, studentsNum, userId) ->
+  tmpResult = {}
+  questionIds = lecture.homeworks
 
-initStatsResult = ->
-    lectures : []
-    summary : 0
-    totalQ : 0
-    totalCorrect : 0
-
-calLectureStats = (lecture, statsResult, studentsNum, userId) ->
-  logger.info 'LectureId is ' + lecture._id
+  lectureStat =
+    lectureId: lecture.id
+    name: lecture.name
+    questionsLength: questionIds.length
+    correctNum: 0
+    percent: 0
 
   condition =
     lectureId : lecture._id
-
   if userId? then condition.userId = userId
 
-  HomeworkAnswer.find condition
-  .populate 'result', 'questionId answer'
-  .execQ()
+  HomeworkAnswer.findQ condition
   .then (answers) ->
-    if not answers?  # no answer for the lecture
-      statsResult.totalQ += lecture.homeworks.length
-      {lecture : lecture.name, percentage : 0}
-    else
-      qNum = lecture.homeworks.length
-      StatsUtils.buildQAMap lecture.homeworks
-      .then (qaMap) ->
-        correctNum = _.reduce answers, (correctNum, answer) ->
-          correctNum + calCorrectNum answer, qaMap
-        , 0
+    tmpResult.answers = answers
+    StatsUtils.buildQAMap questionIds
+  .then (qaMap) ->
+    lectureStat.correctNum =
+      StatsUtils.computeCorrectNumByHKAnswers qaMap, tmpResult.answers
 
-        logger.info 'CorrectNum is ' + correctNum
-        statsResult.totalQ += lecture.homeworks.length
-        statsResult.totalCorrect += correctNum
-        percent = Math.floor correctNum/(studentsNum*qNum)*100
-        {lecture : lecture.name, percentage : percent}
+    summary.questionsLength += lectureStat.questionsLength
+    summary.correctNum += lectureStat.correctNum
+    lectureStat.percent =
+      lectureStat.correctNum * 100 //(studentsNum * lectureStat.questionsLength)
+
+    return lectureStat
   , (err) ->
     Q.reject err
 
-calStats = (user, courseId, studentsNum, statsResult, userId) ->
+calStats = (user, courseId, studentsNum, userId) ->
+  finalStats = {}
+  summary =
+    questionsLength: 0
+    correctNum: 0
+    percent: 0
+
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->
     course.populateQ 'lectureAssembly', 'name homeworks'
   .then (course) ->
     lectures = course.lectureAssembly
     Q.all _.map lectures, (lecture) ->
-      calLectureStats lecture, statsResult, studentsNum, userId
+      calLectureStats lecture, summary, studentsNum, userId
   .then (statsData) ->
-    statsResult.lectures = statsData
-    logger.info 'total correctNum is '+ statsResult.totalCorrect
-    logger.info 'totalQ is '+ statsResult.totalQ
-    logger.info 'StudentNum is ' + studentsNum
-    statsResult.summary = Math.floor ((statsResult.totalCorrect)/((statsResult.totalQ)*studentsNum))*100
-    delete statsResult.totalQ
-    delete statsResult.totalCorrect
-    statsResult
+    finalStats = _.indexBy statsData, 'lectureId'
+
+    summary.percent =
+      summary.correctNum * 100 // (summary.questionsLength * studentsNum)
+
+    finalStats.summary = summary
+    return finalStats
 
 exports.show = (req, res, next) ->
   me = req.user
   role = me.role
 
   courseId = req.query.courseId
-  statsResult = do initStatsResult
 
-  switch role
+  (switch role
     when 'student'
-      calStats me, courseId, 1, statsResult, me.id
-      .then (statsResult) ->
-        res.json 200, statsResult
-      , (err) ->
-        next err
+      calStats me, courseId, 1, me.id
     when 'teacher'
       studentId = req.query.studentId
       if studentId?
-        calStats me, courseId, 1, statsResult, studentId
-        .then (statsResult) ->
-          res.json 200, statsResult
-        , (err) ->
-          next err
+        calStats me, courseId, 1, studentId
       else
         CourseUtils.getStudentsNum me, courseId
         .then (num) ->
-          calStats me, courseId, num, statsResult
-        .then (statsResult) ->
-          res.json 200, statsResult
-        , (err) ->
-          next err
+          calStats me, courseId, num
+  ).then (statsResult) ->
+    res.json 200, statsResult
+  , (err) ->
+    next err

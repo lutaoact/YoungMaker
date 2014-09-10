@@ -101,16 +101,26 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
   loadStats = ->
     $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures()])
     .then (results)->
-      # Come out the trend chart
+      # fill the trend chart
       $scope.trendChart = angular.copy chartConfigs.trendChart
       $scope.trendChart.xAxis.categories = _.pluck results[3], 'name'
-      $scope.trendChart.series = results.slice(0,3).map (stats, index)->
+      $scope.trendChart.series = results.slice(0,2).map (stats, index)->
         name: stats.$text
         data: results[3].map (lecture)->
           stats[lecture._id]?.percent ? 0
+      # fill the key points
+      Restangular.several('key_points', _.pluck results[2].stats, 'kpId' ).getList()
+      .then (kps)->
+        console.log kps
+
+      $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
+      $scope.keypointBarChart.xAxis.categories = _.pluck results[2].stats, 'kpId'
+      $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
+
       console.log $scope.trendChart.series, results
 
   chartConfigs =
+    # trend for quiz and homework
     trendChart:
       options:
         chart:
@@ -226,6 +236,32 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
             [Math.random() * 7, Math.random() * 2 + id % 2 * 12 + 7 ]
         }
       ]
+
+    verticalBarChart:
+      options:
+        credits:
+          enabled: false
+        chart:
+          type: 'column'
+        legend:
+          enabled: false
+        plotOptions:
+          series:
+            borderWidth: 0
+            dataLabels:
+              enabled: true
+          column:
+            cursor: 'pointer'
+      xAxis:
+          type: 'category'
+      series: [
+        {
+          name:'掌握度'
+          colorByPoint: true
+        }
+      ]
+      title:
+        text: '知识点统计'
 
   angular.extend $scope,
 

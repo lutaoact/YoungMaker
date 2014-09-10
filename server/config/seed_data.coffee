@@ -216,6 +216,23 @@ module.exports =
       _s.sprintf lectureId, 0
       _s.sprintf lectureId, 1
     ]
+  ,
+    _id: _s.sprintf courseId, 1
+    name : 'Music 102'
+    categoryId: _s.sprintf categoryId, 0
+    thumbnail : 'http://lorempixel.com/300/300/'
+    info : 'This is course music 102'
+    owners : [
+      _s.sprintf userId, 2 #teacher
+    ]
+    classes : [
+      _s.sprintf classeId, 0
+      _s.sprintf classeId, 1
+    ]
+    lectureAssembly: [
+      _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
+    ]
   ]
   dis_topic: [
     _id: _s.sprintf disTopicId, 0

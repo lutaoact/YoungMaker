@@ -21,27 +21,20 @@ exports.index = (req, res, next) ->
 
   userId = req.user.id
   role = req.user.role
-  switch role
+  (switch role
     when 'teacher'
+      logger.info 'teacher'
       CourseUtils.getTeacherCourses userId
-      .then (courses) ->
-        res.send courses
-      , (err) ->
-        next err
-
     when 'student'
+      logger.info 'student'
       CourseUtils.getStudentCourses userId
-      .then (courses) ->
-        res.send courses
-      , (err) ->
-        next err
-
     when 'admin'
+      logger.info 'admin'
       Course.findQ {}
-      .then (courses) ->
-        res.send courses
-      , (err) ->
-        next err
+  ).then (courses) ->
+    res.send courses
+  , (err) ->
+    next err
 
 
 exports.show = (req, res, next) ->

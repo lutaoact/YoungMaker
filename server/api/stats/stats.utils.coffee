@@ -18,7 +18,7 @@ exports.StatsUtils = BaseUtils.subclass
     .then (course) =>
       tmpResult.course = course
       promiseArray = for lecture in course.lectureAssembly
-        @makeKPStatsForSpecifiedLecture lecture
+        @makeKPStatsForSpecifiedLecture lecture, user
 
       Q.all promiseArray
     .then (statsArray) =>
@@ -64,7 +64,7 @@ exports.StatsUtils = BaseUtils.subclass
   computePercent: (studentsNum, stat) ->
     return stat.correctNum * 100 // (studentsNum * stat.total)
 
-  makeKPStatsForSpecifiedLecture: (lecture) ->
+  makeKPStatsForSpecifiedLecture: (lecture, user) ->
     questionIds = _u.union lecture.quizzes, lecture.homeworks
     lectureId = lecture.id
 
@@ -86,10 +86,19 @@ exports.StatsUtils = BaseUtils.subclass
       resolveResult.stats = @transformKPsCountToMap @getKPsCountFromQKAs myQKAs
       do Q.resolve
     .then () ->
-      HomeworkAnswer.getByLectureId lectureId
+      condition = lectureId: lectureId
+      condition.userId = user._id if user.role is 'student'
+
+      HomeworkAnswer.findQ condition
     .then (homeworkAnswers) ->
       tmpResult.homeworkAnswers = homeworkAnswers
-      QuizAnswer.getByLectureIdAndQuestionIds lectureId, questionIds
+      condition =
+        questionId:
+          $in: questionIds
+        lectureId: lectureId
+      condition.userId = user._id if user.role is 'student'
+
+      QuizAnswer.findQ condition
     .then (quizAnswers) =>
       tmpResult.quizAnswers = quizAnswers
 
@@ -161,7 +170,7 @@ exports.StatsUtils = BaseUtils.subclass
       Q.reject err
 
 
-  makeQuizStatsPromiseForSpecifiedLecture: (lecture) ->
+  makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
     questionIds = lecture.quizzes
 
     resolveResult =
@@ -177,10 +186,13 @@ exports.StatsUtils = BaseUtils.subclass
 #      logger.info "myQAMap"
 #      logger.info myQAMap
       tmpResult.myQAMap = myQAMap
-      QuizAnswer.findQ
+      condition =
         questionId:
           $in: questionIds
         lectureId: lecture._id
+      condition.userId = user._id if user.role is 'student'
+
+      QuizAnswer.findQ condition
     .then (quizAnswers) =>
 #      logger.info "quizAnswers:"
 #      logger.info quizAnswers
@@ -203,7 +215,7 @@ exports.StatsUtils = BaseUtils.subclass
       course.populateQ 'lectureAssembly', 'name quizzes'
     .then (course) =>
       promiseArray = for lecture in course.lectureAssembly
-        @makeQuizStatsPromiseForSpecifiedLecture lecture
+        @makeQuizStatsPromiseForSpecifiedLecture lecture, user
 
       Q.all promiseArray
     .then (statsArray) =>

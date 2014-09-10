@@ -48,13 +48,14 @@
               class="btn btn-default"
               ng-click="toggleHandler()">
         <span ng-show="!hasHandler()">Listen</span>
-        <span ng-show="hasHandler()">Remove</span>
+        <span ng-show="hasHandler()">Listening</span>
       </button>
       <button type="button"
               class="btn btn-default"
               ng-click="toggleSocket()">
         <span ng-show="!hasOpen()">Open</span>
         <span ng-show="hasOpen()">Close</span>
+        Socket
       </button>
     </div>
   </form>

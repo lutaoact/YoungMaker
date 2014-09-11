@@ -15,7 +15,7 @@ exports.create = (req, res, next) ->
   .then (activity) ->
     tmpRes.activity = activity
     switch activity.eventType
-      when 'ViewLecture'
+      when Const.Student.ViewLecture
         LearnProgress.updateQ
           userId: activity.userId
           courseId: activity.data.courseId

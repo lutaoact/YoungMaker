@@ -10,6 +10,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
   $rootScope
   $modal
   Courses
+  $q
 ) ->
 
   $rootScope.additionalMenu = [
@@ -100,6 +101,18 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         Restangular.all('lectures').getList({courseId: $state.params.courseId})
         .then (lectures)->
           $scope.course.$lectures = lectures
+          $scope.course.$lectures
+      else
+        $q([])
+
+    loadProgress: ()->
+      if $state.params.courseId
+        Restangular.all('progresses').getList({courseId: $state.params.courseId})
+        .then (progresses)->
+          console.log progresses
+          progresses
+      else
+        $q([])
 
     openQuickNav: ()->
       $modal.open
@@ -117,4 +130,6 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
 
     currentPage: 1
 
-  $scope.loadCourse().then $scope.loadLectures
+  $scope.loadCourse()
+  .then $scope.loadLectures
+  .then $scope.loadProgress

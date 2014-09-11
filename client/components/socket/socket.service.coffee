@@ -40,11 +40,12 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
     handler = {}
 
   send: (data) ->
-    data.payload?.token = $cookieStore.get('token') if $cookieStore.get('token')
+    data.token = $cookieStore.get('token') if $cookieStore.get('token')
     socket?.send(data)
 
   close: ->
     $interval.cancel(heartbeat);
+    heartbeat = undefined
     socket?.close()
     delete socket.onopen
     delete socket.onmessage

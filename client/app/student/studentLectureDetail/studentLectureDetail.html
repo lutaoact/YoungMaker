@@ -17,13 +17,13 @@
     </ul>
   </div>
 </div>
-
 <section class="lecture-view player">
   <div class="container">
     <div class="col-xs-10">
       <div ng-switch="viewState.isVideo" class="view">
         <div ng-switch-when="true" class="video-view">
-          <videogular vg-player-ready="onPlayerReady">
+          <videogular vg-player-ready="onPlayerReady"
+                      vg-update-time="onUpdateTime">
             <video class="videoPlayer" qiniu-key="lecture.media">
             </video>
             <vg-poster-image></vg-poster-image>
@@ -106,22 +106,26 @@
       </div>
 
     </div>
-    <div class="col-xs-2 hidden-xs">
-      lecture list
+    <!-- keyponits -->
+    <div class="col-xs-2 hidden-xs keypoints">
+      <div class="list-group">
+        <a href
+           class="list-group-item"
+           ng-repeat="keypoint in lecture.keyPoints|orderBy:'timestamp'"
+           ng-click="seek(keypoint.timestamp)"
+           ng-class="{'active':isKeypointActive(keypoint)}"
+           ng-disabled="!$scope.mediaPlayerAPI"
+           >
+          {{keypoint.kp.name}}
+        </a>
+      </div>
     </div>
   </div>
 
 </section>
 
-<section class="keypoints">
-知识点
-</section>
-
 <section class="quiz-and-homework">
-  题目
-  <div class="container">
-    <div student-lecture-answers
-         lecture="lecture"></div>
+  <div student-lecture-answers lecture="lecture">
   </div>
 </section>
 

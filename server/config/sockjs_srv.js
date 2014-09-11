@@ -10,7 +10,7 @@
     return Classe.findOneQ({
       students: userId
     }).then(function(classe) {
-      var index;
+      var audience;
       console.log('Found classe for userId ' + userId);
       console.dir(classe);
       console.dir(connectManager);
@@ -26,10 +26,12 @@
         ];
       } else {
         console.log('Already in entry...');
-        index = _.findIndex(connectManager[classe._id], function(item) {
-          return item.userId === userId;
+        audience = _.find(connectManager[classe._id], {
+          userId: userId
         });
-        if (index === -1) {
+        if (audience) {
+          return audience.conn = conn;
+        } else {
           return connectManager[classe._id].push({
             userId: userId,
             role: role,
@@ -63,6 +65,22 @@
 
   exports.sendNotice = function(userId, notice) {
     return logger.info("Send notice " + notice + " to user " + userId);
+  };
+
+  exports.test = function(msg) {
+    console.log("Test Socket: " + msg);
+    console.log(connectManager);
+    return _.forEach(_.flatten(_.values(connectManager)), function(au) {
+      var jsonResult;
+      jsonResult = JSON.stringify({
+        payload: {
+          name: 'tester',
+          message: msg
+        },
+        type: 'test'
+      });
+      return au.conn.write(jsonResult);
+    });
   };
 
   exports.broadcastQuiz = function(classeId, questionId) {

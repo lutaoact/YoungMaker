@@ -1,11 +1,10 @@
 
-// @navbar-default-link-hover-color: @base-color;
 .bud.navbar{
   @navbar-margin-bottom:  0;
-  @navbar-default-link-active-color: @base-color;
-  @navbar-default-bg: @base-color;
-  @navbar-default-color: #FFFFFF;
-  @navbar-default-link-color: #FFFFFF;
+  @navbar-default-link-active-color: #000000;
+  @navbar-default-bg: #FFFFFF;
+  @navbar-default-color: @gray;
+  @navbar-default-link-color: @gray;
   @navbar-height: 60px;
   @line-height: 30px;
   @navbar-padding-vertical: ((@navbar-height - @line-height) / 2);
@@ -16,10 +15,9 @@
   background: @navbar-default-bg;
   margin-bottom: 0;
   border: none;
-  // .box-shadow(0 4px 2px rgba(34,30,31, 0.30));
 
   .navbar-brand{
-    color: @navbar-default-color;
+    color: @base-color;
     padding: @navbar-padding-vertical @navbar-padding-horizontal;
     height: @navbar-height;
     line-height: @line-height;
@@ -34,15 +32,19 @@
       &:hover,
       &:focus{
         color: @navbar-default-color;
-        box-shadow: inset 0 -2px 0 @navbar-default-color;
+        .box-shadow(inset 0 -2px 0 @brand-danger);
+        background-color: @navbar-default-bg;
       }
     }
-
+    > li.active {
+      background-color: @navbar-default-bg;
+    }
     > .active > a {
       &,
       &:hover,
       &:focus {
-        box-shadow: inset 0 -2px 0 @navbar-default-color;
+        .box-shadow(inset 0 -2px 0 @brand-danger);
+        background-color: @navbar-default-bg;
       }
     }
 

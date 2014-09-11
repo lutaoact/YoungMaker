@@ -1,73 +1,50 @@
-# global io 
-
 'use strict'
 
-angular.module('budweiserApp').factory 'socket', (socketFactory) ->
-  retryInterval = 5000
-  retryTimer = undefined
-  clearInterval retryTimer
-  ioSocket = io.connect('',
-    'force new connection': true
-    'max reconnection attempts': Infinity
-    'reconnection limit': 10 * 1000
-    # Send auth token on connection
-    # 'query': 'token=' + Auth.getToken()
-  )
-  
-  retryTimer = setInterval(->
-    ioSocket.connect()  if not ioSocket.socket.connected and not ioSocket.socket.connecting and not ioSocket.socket.reconnecting
-  , retryInterval)
-  socket = socketFactory(ioSocket: ioSocket)
+angular.module('budweiserApp').service 'socket', ($timeout) ->
 
-  socket: socket
+  socket = undefined
+  handler = {}
 
-  ###
-  Register listeners to sync an array with updates on a model
+  setup: (user) ->
+    if socket? then return
+    socket = new SockJS '/sockjs'
+    console.debug 'Setup socket connect... ', socket
 
-  Takes the array we want to sync, the model name that socket updates are sent from,
-  and an optional callback function after new items are updated.
+    socket.onopen = ->
+      msg =
+        type : 'login'
+        payload:
+          userId : user._id
+          role : user.role
+      socket.send JSON.stringify msg
 
-  @param {String} modelName
-  @param {Array} array
-  @param {Function} cb
-  ###
-  syncUpdates: (modelName, array, cb) ->
-    cb = cb or angular.noop
+    socket.onmessage = (event) -> $timeout ->
+      result = angular.fromJson(event.data)
+      console.debug 'Receive socket message... ', result
+      type = result.type
+      payload = result.payload
+      handler[type]?(payload)
 
-    ###
-    Syncs item creation/updates on 'model:save'
-    ###
-    socket.on modelName + ':save', (item) ->
-      oldItem = _.find(array,
-        _id: item._id
-      )
-      index = array.indexOf(oldItem)
-      event = 'created'
+  setHandler: (type, callback) ->
+    handler[type] = callback
 
-      # replace oldItem if it exists
-      # otherwise just add item to the collection
-      if oldItem
-        array.splice index, 1, item
-        event = 'updated'
-      else
-        array.push item
-      cb event, item, array
+  removeHandler: (type) ->
+    delete handler[type]
 
-    ###
-    Syncs removed items on 'model:remove'
-    ###
-    socket.on modelName + ':remove', (item) ->
-      event = 'deleted'
-      _.remove array,
-        _id: item._id
+  hasHandler: (type) -> handler.hasOwnProperty(type)
 
-      cb event, item, array
+  hasOpen: -> socket?
 
-  ###
-  Removes listeners for a models updates on the socket
+  resetHandler: ->
+    handler = {}
 
-  @param modelName
-  ###
-  unsyncUpdates: (modelName) ->
-    socket.removeAllListeners modelName + ':save'
-    socket.removeAllListeners modelName + ':remove'
+  send: (data) ->
+    socket?.send(data)
+
+  close: ->
+    socket?.close()
+    delete socket.onopen
+    delete socket.onmessage
+    socket = undefined
+
+

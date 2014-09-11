@@ -2,13 +2,9 @@
 
 angular.module('socketMock', []).factory 'socket', ->
   socket:
-    connect: ->
+    setup: (user) ->
+    setHandler: ->
+    removeHandler: ->
+    send: ->
+    close: ->
 
-    on: ->
-
-    emit: ->
-
-    receive: ->
-
-  syncUpdates: ->
-  unsyncUpdates: ->

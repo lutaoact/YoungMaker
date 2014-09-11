@@ -28,12 +28,14 @@ saveConnect = (conn, userId, role) ->
       ]
     else
       console.log 'Already in entry...'
-      index = _.findIndex connectManager[classe._id], (item) ->
-        item.userId is userId
-      if index is -1 then connectManager[classe._id].push
-        userId : userId
-        role : role
-        conn : conn
+      audience = _.find connectManager[classe._id], userId:userId
+      if audience
+        audience.conn = conn
+      else
+        connectManager[classe._id].push
+          userId : userId
+          role : role
+          conn : conn
   , (err) ->
     logger.error 'Failed to find classe'
 
@@ -62,6 +64,17 @@ onClose = () ->
 # send notice to given user
 exports.sendNotice = (userId, notice) ->
   logger.info "Send notice #{notice} to user #{userId}"
+
+exports.test = (msg) ->
+  console.log "Test Socket: #{msg}"
+  console.log connectManager
+  _.forEach _.flatten(_.values connectManager), (au) ->
+    jsonResult = JSON.stringify
+      payload:
+        name: 'tester'
+        message: msg
+      type:'test'
+    au.conn.write jsonResult
 
 # broadcast quiz to given class
 exports.broadcastQuiz = (classeId, questionId) ->

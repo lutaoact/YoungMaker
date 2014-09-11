@@ -216,6 +216,23 @@ module.exports =
       _s.sprintf lectureId, 0
       _s.sprintf lectureId, 1
     ]
+  ,
+    _id: _s.sprintf courseId, 1
+    name : 'Music 102'
+    categoryId: _s.sprintf categoryId, 0
+    thumbnail : 'http://lorempixel.com/300/300/'
+    info : 'This is course music 102'
+    owners : [
+      _s.sprintf userId, 2 #teacher
+    ]
+    classes : [
+      _s.sprintf classeId, 0
+      _s.sprintf classeId, 1
+    ]
+    lectureAssembly: [
+      _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
+    ]
   ]
   dis_topic: [
     _id: _s.sprintf disTopicId, 0
@@ -389,6 +406,36 @@ module.exports =
       answer : [0]
     ]
     submitted : true
+  ]
+  learn_progress: [
+    userId: _s.sprintf userId, 3
+    courseId: _s.sprintf courseId, 0
+    progress: [
+      _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
+    ]
+  ,
+    userId: _s.sprintf userId, 3
+    courseId: _s.sprintf courseId, 1
+    progress: [
+      _s.sprintf lectureId, 1
+    ]
+  ]
+  teach_progress: [
+    userId: _s.sprintf userId, 2
+    classeId: _s.sprintf classeId, 0
+    courseId: _s.sprintf courseId, 0
+    progress: [
+      _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
+    ]
+  ,
+    userId: _s.sprintf userId, 2
+    classeId: _s.sprintf classeId, 1
+    courseId: _s.sprintf courseId, 0
+    progress: [
+      _s.sprintf lectureId, 1
+    ]
   ]
 
 require('./seed') module.exports

@@ -77,7 +77,17 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
           lecture.put()
 
     seek: (timestamp)->
-      $scope.mediaPlayerAPI?.seekTime timestamp if timestamp?
+      if $scope.mediaPlayerAPI
+        $scope.mediaPlayerAPI?.seekTime timestamp if timestamp?
+
+    currentTime: 0
+
+    isKeypointActive: (keypoint)->
+      $scope.currentTime >= keypoint.timestamp and ($scope.currentTime < findNextStamp(keypoint)?.timestamp or not findNextStamp(keypoint))
+
+    onUpdateTime: (now,total)->
+      $scope.currentTime = now
+
 
     patchLecture: ()->
       if not lecture._id
@@ -101,20 +111,22 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
       $scope.mediaPlayerAPI = playerAPI
       seekHashTimestamp()
 
-    onUpdateTime: (time) ->
-      # unless $scope.lecture? then return
-      # activedSlide = _.findLast($scope.lecture.slides, (slide) ->
-      #   slide.timestamp <= time
-      # )
-      # if activedSlide?
-      #   activedSlide.$active = true
-      # # active first one
-      # else
-      #   _.first($scope.lecture.slides)?.$active = true
-
   seekHashTimestamp = ->
     total = $tools.timeStrings2Seconds $location.hash()
     $scope.mediaPlayerAPI?.seekTime total if total?
+
+  findNextStamp = (keypoint)->
+    ($scope.lecture.keyPoints.filter (item)->
+      item.timestamp > keypoint.timestamp
+    .sort (a,b)->
+      a.timestamp >= b.timestamp
+    )?[0]
+
+  $scope.$watch 'viewState',(newVal)->
+    # important: free the reference of videogular
+    if not newVal?.isVideo
+      $scope.mediaPlayerAPI = undefined
+  ,true
 
   loadCourse()
 

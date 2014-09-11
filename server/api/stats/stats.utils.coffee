@@ -18,7 +18,7 @@ exports.StatsUtils = BaseUtils.subclass
     .then (course) =>
       tmpResult.course = course
       promiseArray = for lecture in course.lectureAssembly
-        @makeKPStatsForSpecifiedLecture lecture
+        @makeKPStatsForSpecifiedLecture lecture, user
 
       Q.all promiseArray
     .then (statsArray) =>
@@ -64,7 +64,7 @@ exports.StatsUtils = BaseUtils.subclass
   computePercent: (studentsNum, stat) ->
     return stat.correctNum * 100 // (studentsNum * stat.total)
 
-  makeKPStatsForSpecifiedLecture: (lecture) ->
+  makeKPStatsForSpecifiedLecture: (lecture, user) ->
     questionIds = _u.union lecture.quizzes, lecture.homeworks
     lectureId = lecture.id
 
@@ -86,10 +86,19 @@ exports.StatsUtils = BaseUtils.subclass
       resolveResult.stats = @transformKPsCountToMap @getKPsCountFromQKAs myQKAs
       do Q.resolve
     .then () ->
-      HomeworkAnswer.getByLectureId lectureId
+      condition = lectureId: lectureId
+      condition.userId = user._id if user.role is 'student'
+
+      HomeworkAnswer.findQ condition
     .then (homeworkAnswers) ->
       tmpResult.homeworkAnswers = homeworkAnswers
-      QuizAnswer.getByLectureIdAndQuestionIds lectureId, questionIds
+      condition =
+        questionId:
+          $in: questionIds
+        lectureId: lectureId
+      condition.userId = user._id if user.role is 'student'
+
+      QuizAnswer.findQ condition
     .then (quizAnswers) =>
       tmpResult.quizAnswers = quizAnswers
 
@@ -161,7 +170,7 @@ exports.StatsUtils = BaseUtils.subclass
       Q.reject err
 
 
-  makeQuizStatsPromiseForSpecifiedLecture: (lecture) ->
+  makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
     questionIds = lecture.quizzes
 
     resolveResult =
@@ -177,10 +186,13 @@ exports.StatsUtils = BaseUtils.subclass
 #      logger.info "myQAMap"
 #      logger.info myQAMap
       tmpResult.myQAMap = myQAMap
-      QuizAnswer.findQ
+      condition =
         questionId:
           $in: questionIds
         lectureId: lecture._id
+      condition.userId = user._id if user.role is 'student'
+
+      QuizAnswer.findQ condition
     .then (quizAnswers) =>
 #      logger.info "quizAnswers:"
 #      logger.info quizAnswers
@@ -203,7 +215,7 @@ exports.StatsUtils = BaseUtils.subclass
       course.populateQ 'lectureAssembly', 'name quizzes'
     .then (course) =>
       promiseArray = for lecture in course.lectureAssembly
-        @makeQuizStatsPromiseForSpecifiedLecture lecture
+        @makeQuizStatsPromiseForSpecifiedLecture lecture, user
 
       Q.all promiseArray
     .then (statsArray) =>
@@ -225,14 +237,9 @@ exports.StatsUtils = BaseUtils.subclass
   # {questionId: answerString}
   buildQAMap: (questionIds) ->
     Question.findQ {_id: {$in: questionIds}}
-    .then (questions) ->
-      map = _.reduce(questions, (result, question) ->
-        body = question.content.body
-        result[question.id] = _.reduce(body, (corrects, option, index) ->
-          if option.correct is true
-            corrects.push index
-          return corrects
-        , []).toString()
+    .then (questions) =>
+      map = _.reduce(questions, (result, question) =>
+        result[question.id] = @getAnswerStringFromQuestion question
         return result
       , {})
       return map
@@ -245,6 +252,16 @@ exports.StatsUtils = BaseUtils.subclass
       if quizAnswer.result.toString() is myQAMap[quizAnswer.questionId]
         sum++
       return sum
+    , 0)
+
+
+  computeCorrectNumByHKAnswers: (myQAMap, homeworkAnswers) ->
+    return _.reduce(homeworkAnswers, (sum, hkAnswer) ->
+      return sum + _.reduce(hkAnswer.result, (innerSum, one) ->
+        if one.answer.toString() is myQAMap[one.questionId]
+          innerSum++
+        return innerSum
+      , 0)
     , 0)
 
 

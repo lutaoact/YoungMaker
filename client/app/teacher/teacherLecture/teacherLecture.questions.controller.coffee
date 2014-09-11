@@ -58,6 +58,9 @@ angular.module('budweiserApp')
       questions.splice index, 1
       saveQuestions(questions)
 
+    sendQuestion: (question) ->
+      Restangular.all('questions').customPOST(null, 'quiz', questionId:question._id, classId:'444444444444444444444400')
+
   addQuestion = (question) ->
     questions = $scope.getQuestions()
     questions.push question

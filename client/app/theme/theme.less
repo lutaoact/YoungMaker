@@ -8,13 +8,17 @@
 //
 //## Gray and brand colors for use across Bootstrap.
 
-@base-color: #1AB78D;
+@base-color-lighter: lighter(@base-color, 20%);
+@base-color-light: lighter(@base-color, 13.5%);
+@base-color: #5ABDA6;
 @base-color-dark: darken(@base-color, 13.5%); //#5fb611
 @base-color-darker: darken(@base-color, 20%);
 
 @base-text-color: #555;
 
 @base-body-color: #fff;
+
+@gray:                   #606060;
 
 // @font-size-base: 14*0.75pt;
 
@@ -26,7 +30,7 @@
 @brand-success:         #5cb85c;
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
-@brand-danger:          #E6505F;
+@brand-danger:          #E84D50;
 
 @input-border-focus:    @base-color-dark;
 

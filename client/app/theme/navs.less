@@ -7,19 +7,34 @@
   }
 }
 
+.bud>.nav-tabs,
 .bud.nav-tabs {
   @nav-tabs-border-color:            @base-color;
   @nav-tabs-active-link-hover-bg:    @base-color;
   @nav-tabs-link-hover-border-color: @base-color;
   @nav-tabs-active-link-hover-color: #fff;
 
-  border-bottom: 2px solid @nav-tabs-border-color;
+  border-bottom: 1px solid @nav-tabs-border-color;
   > li {
+    border: 1px solid @nav-tabs-border-color;
+    border-bottom: none;
+    padding: 0;
+    &.active,
+    &.active > a{
+      background-color: @nav-tabs-active-link-hover-bg;
+      color: @nav-tabs-active-link-hover-color;
+    }
     > a {
-      padding: 5px 15px;
-      &:hover {
+      border: none;
+      padding: 13px 15px;
+      margin-right: 0;
+      font-size: 24px;
+      &:hover,
+      &:focus {
         background-color: @nav-tabs-active-link-hover-bg;
         color: @nav-tabs-active-link-hover-color;
+        border: none;
+
       }
     }
   }

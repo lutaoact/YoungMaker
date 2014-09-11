@@ -1,27 +1,40 @@
-<div style="position: fixed;top:100px;left: 100px;z-index: 100;">
-  Quiz: {{sockjsData}}
-</div>
 <div class="jumbotron timetable"
-     qiniu-key="'9afunBb7Fz/DSC00591.jpg'"
+     qiniu-key="'/assets/images/timetable_back.png'"
      suffix="?imageMogr2/blur/35x35"
      source-attr="background-image"
      id="timetable">
-  <div class="row content">
-    <div class="col-md-2 text-center">
+  <div class="content hidden-xs clearfix">
+    <div class="text-center pull-left">
       <a href="" class="arrow"><i class="fa fa-chevron-left"></i></a>
     </div>
-    <div class="col-md-8">
-      <div class="pages">
-        <img style="width:900px;" src="assets/images/timetable.png" alt="">
+    <div class="pages pull-left">
+      <div class="day day-header">
+        <div class="time-span time-span-header">星期</div>
+        <div class="time-span" ng-repeat="duration in ['9:00','9:50','11:35','12:25','1:30','2:15','3:25','4:10']">
+          {{duration}}
+          <sup>
+            {{$index>3?'PM':'AM'}}
+          </sup>
+        </div>
+      </div>
+      <div class="day" ng-repeat="day in ['一','二','三','四','五']">
+        <div class="time-span time-span-header">{{day}}</div>
+        <div class="time-span" ng-repeat="duration in [9,10,11,12,13,14,15,16]">
+        </div>
+      </div>
+      <div class="day" ng-repeat="dayevents in week">
+        <div class="time-span time-span-header">{{dayevents}}</div>
+        <div class="time-span" ng-repeat="duration in [9,10,11,12,13,14,15,16]">
+        </div>
       </div>
     </div>
-    <div class="col-md-2 text-center">
+    <div class="text-center pull-left">
       <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
     </div>
   </div>
 
 </div>
-<section class="course-list" ng-class="{'limit-height':viewState.limitHeight }" id="course-list">
+<section class="course-list" id="course-list">
   <a class="anchor anchor-up" href="#course-list" du-smooth-scroll>
     <i class="fa fa-chevron-down"></i>
   </a>
@@ -45,13 +58,7 @@
       </div>
     </div>
   </div>
-  <div class="more text-center" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
-    <a href="">由此展开更多课程</a>
-  </div>
-  <a class="anchor anchor-down bottom-up inverse" ng-click="viewState.limitHeight = false" ng-show="viewState.limitHeight">
-    <i class="fa fa-chevron-down"></i>
-  </a>
-  <a class="anchor anchor-down bottom-up inverse"  ng-show="!viewState.limitHeight" href="#my-rank" du-smooth-scroll>
+  <a class="anchor anchor-down bottom-up inverse" href="#my-rank" du-smooth-scroll>
     <i class="fa fa-chevron-down"></i>
   </a>
 </section>
@@ -76,7 +83,7 @@
   </div>
 </section>
 
-<a href="#timetable" du-smooth-scroll class="back-to-top" du-scrollspy>
+<a href="#timetable" du-smooth-scroll class="back-to-top" du-scrollspy offset="60">
   <i class="fa fa-chevron-up"></i>
 </a>
 

@@ -32,5 +32,5 @@ module.exports =
 
   assetHost :
     images : 'qiniu'
-    slides : 's3' # change to s3 later
+    slides : 'qiniu' # change to s3 later
     videos : 'qiniu'

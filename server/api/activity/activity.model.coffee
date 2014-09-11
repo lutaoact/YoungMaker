@@ -15,7 +15,7 @@ exports.Activity = BaseModel.subclass
         ref: 'user'
         required: true
       eventType:
-        type: String
+        type: Number
         required: true
       data: {}
 

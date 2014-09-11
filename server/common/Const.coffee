@@ -1,4 +1,4 @@
-module.exports =
+Const =
   NoticeType:
     VoteUp: 1
     Comment: 2
@@ -12,3 +12,13 @@ module.exports =
 
   QuestionType:
     Choice: 1
+
+  Student:
+    ViewLecture: 1
+
+  Teacher:
+    ViewLecture: 101
+    EditLecture: 102
+
+module?.exports = Const
+window?.Const = Const

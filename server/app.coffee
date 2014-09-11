@@ -23,7 +23,7 @@ server = require('http').createServer(app)
 sockjs = require 'sockjs'
 sockjs_server = sockjs.createServer()
 sockjs_server.installHandlers server, {prefix : '/sockjs'}
-require('./config/sockjs_srv').init(sockjs_server)
+require('./config/set_sockjs').init(sockjs_server)
 
 # Start server
 require('./config/express')(app)

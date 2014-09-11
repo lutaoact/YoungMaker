@@ -20,3 +20,4 @@ client/index.html
 /server/common/modelTest.js
 /server/common/initGlobal.js
 /server/common/ErrCode.js
+/server/config/set_sockjs.js

@@ -26,8 +26,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
         Restangular.one('progresses').get({courseId: $state.params.courseId})
       .then (result)->
-        result.progress.forEach (lectureId)->
-          (_.find $scope.course.$lectures, _id: lectureId)?.$viewed = true
+        console.log result
         result
 
   angular.extend $scope,

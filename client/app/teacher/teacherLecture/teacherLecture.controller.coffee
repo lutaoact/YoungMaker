@@ -14,15 +14,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $timeout
 ) ->
 
-  $timeout ->
-    console.log 'view'
-    Restangular.all('activities').post
-      eventType: Const.Teacher.ViewLecture
-      data:
-        lectureId: $scope.lecture._id
-        courseId: $scope.course._id
-  , 5000
-
   angular.extend $scope,
 
     mediaApi: undefined

@@ -104,7 +104,6 @@
         <div class="drag-point fa fa-bars" draggable="true"></div>
         <a ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
           <strong>{{lecture.name}}</strong>
-          <i class="fa fa-check primary" ng-show="lecture.$viewed"></i>
         </a>
         <a class="pull-right" ng-click="deleteLecture(lecture)" >
           <span class="glyphicon glyphicon-trash"></span>

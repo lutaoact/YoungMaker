@@ -20,6 +20,7 @@ module.exports =
     secretAccessKey : 'BCgnj181vNGG2VeAR5NG3YIj9QgfqD3o/TnOwY9n'
     region : 'cn-north-1'
     slideBucket : 'slides.cloud3edu.cn'
+    algorithm : 'AWS4-HMAC-SHA256'
 
   logger:
     path: '/data/log/budweiser.log'
@@ -32,5 +33,8 @@ module.exports =
 
   assetHost :
     images : 'qiniu'
-    slides : 'qiniu' # change to s3 later
+    slides : 'qiniu' # change to S3 later
     videos : 'qiniu'
+    uploadImage : 'qiniu'
+    uploadSlide : 'qiniu' # change to S3 later
+    uploadVideo : 'qiniu'

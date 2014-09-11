@@ -28,3 +28,14 @@ exports.TeachProgress = BaseModel.subclass
       ]
 
     $super()
+
+  upsertProgress: (userId, classeId, courseId, lectureId) ->
+    return @updateQ
+      userId: userId
+      classeId: classeId
+      courseId: courseId
+    ,
+      $addToSet:
+        progress: lectureId
+    ,
+      upsert: true

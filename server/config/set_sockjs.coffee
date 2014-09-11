@@ -9,10 +9,8 @@ exports.init = (sockjs_server) ->
   sockjs_server.on 'connection', (conn) ->
     conn.on 'data', (data) ->
       msg = JSON.parse data
-      logger.info msg
       SocketUtils.verify msg.token
       .then (user) ->
-        logger.info global.socketMap
         if global.socketMap[user._id]?
           global.socketMap[user._id].beatAt = _u.time()
         else
@@ -22,6 +20,7 @@ exports.init = (sockjs_server) ->
       , (err) ->
         logger.error err
         conn.write JSON.stringify SocketUtils.buildErrMsg err
+        do conn.close
 
     conn.on 'close', () ->
       logger.info 'some socket is closed'
@@ -32,8 +31,8 @@ exports.init = (sockjs_server) ->
           logger.info "userId: #{userId}, websocket closed"
 
 
-HeartBeatTime = 10 * 60
-#HeartBeatTime = 5
+HeartBeatTime = 10 * 60 #seconds
+#HeartBeatTime = 5 #seconds, for test
 setInterval () ->
   logger.warn 'check connection: starting'
   now = do _u.time

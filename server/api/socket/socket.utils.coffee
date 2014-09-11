@@ -11,9 +11,22 @@ exports.SocketUtils = BaseUtils.subclass
 
     return deferred.promise.nodeify cb
 
+
   $buildErrMsg: (err) ->
     util = require 'util'
     type: 'error'
     payload:
       status: 401
       errMsg: util.inspect err
+
+
+  $sendToGroup: (msg, userIds) ->
+    for userId in userIds
+      @sendToOne msg, userId
+
+
+  $sendToOne: (msg, userId) ->
+    unless global.socketMap[userId]?
+      return logger.warn "userId: #{userId}, socket does not exists"
+
+    global.socketMap[userId].ws.write message

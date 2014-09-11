@@ -24,7 +24,7 @@
         <div ng-switch-when="true" class="video-view">
           <videogular vg-player-ready="onPlayerReady"
                       vg-update-time="onUpdateTime">
-            <video class="videoPlayer" qiniu-key="lecture.media">
+            <video class="videoPlayer" src-key="lecture.media">
             </video>
             <vg-poster-image></vg-poster-image>
             <vg-buffering></vg-buffering>
@@ -84,7 +84,7 @@
         <hr/>
         <div class="comment clearfix">
           <div class="avatar-sm pull-left"
-            qiniu-key="me.avatar"
+            src-key="me.avatar"
             source-attr="background-image"
             suffix="?imageView2/1/w/64/h/64">
           </div>

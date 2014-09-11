@@ -1,7 +1,7 @@
 angular.module('budweiserApp').controller 'ImageUploadCtrl', (
   $scope
   $modalInstance
-  qiniuUtils
+  fileUtils
   notify
   $timeout
 ) ->
@@ -30,7 +30,7 @@ angular.module('budweiserApp').controller 'ImageUploadCtrl', (
 
     confirm: () ->
       $scope.viewState.uploading = true
-      qiniuUtils.uploadFile
+      fileUtils.uploadFile
         files: $scope.files
         validation:
           max: 5*1024*1024

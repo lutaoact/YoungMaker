@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Directive: qiniuKey', ->
+describe 'Directive: srcKey', ->
 
   # load the directive's module
   beforeEach module('budweiserApp')
@@ -12,5 +12,5 @@ describe 'Directive: qiniuKey', ->
   it 'should make hidden element visible', inject(($compile) ->
     element = angular.element('<qiniu-key></qiniu-key>')
     element = $compile(element)(scope)
-    expect(element.text()).toBe 'this is the qiniuKey directive'
+    expect(element.text()).toBe 'this is the srcKey directive'
   )

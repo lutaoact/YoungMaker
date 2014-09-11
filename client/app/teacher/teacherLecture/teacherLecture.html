@@ -4,7 +4,7 @@
       <uploader limit="2*1024*1024"
                 on-complete="onThumbUploaded($data)"
                 accept="image">
-        <img qiniu-key="lecture.thumbnail"
+        <img src-key="lecture.thumbnail"
              suffix="?imageView2/2/w/210/h/140"
              src="/assets/images/empty.jpg"/>
       </uploader>
@@ -97,8 +97,9 @@
               ng-repeat-reorder="slide in lecture.slides"
               ng-repeat-reorder-handle="div.drag-point">
             <div class="drag-point fa fa-bars" draggable="true"></div>
-            <img qiniu-key="slide.thumb"
-                 suffix="?imageView2/2/w/40/h/40">
+            <img src-key="slide.thumb"
+                 suffix="?imageView2/2/w/40/h/40"
+                 style="max-height:40px;max-width:40px">
             <span ng-click="removeSlide($index)">
               <span class="glyphicon glyphicon-trash"></span>
             </span>
@@ -109,9 +110,9 @@
         <cool-projector disable-animation="true">
           <cool-frame ng-repeat="slide in lecture.slides"
                       active="slide.$active">
-            <img qiniu-key="slide.thumb"
+            <img src-key="slide.thumb"
                  suffix="?imageView2/2/w/500/h/500"
-                 style="margin:auto;">
+                 style="margin:auto;max-height:500px;max-width:500px">
             <div class="carousel-caption">
               <h4>第 {{$index+1}} 张</h4>
             </div>
@@ -121,7 +122,7 @@
     </div>
     <div class="col-md-6 col-xs-11" ng-show="lecture.media">
       <videogular vg-player-ready="onPlayerReady">
-        <video class="videoPlayer" qiniu-key="lecture.media">
+        <video class="videoPlayer" src-key="lecture.media">
         </video>
         <vg-poster-image></vg-poster-image>
         <vg-buffering></vg-buffering>

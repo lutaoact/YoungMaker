@@ -1,9 +1,9 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'qiniuKey', ($http)->
+angular.module('budweiserApp').directive 'srcKey', ($http)->
   restrict: 'A'
   scope:
-    qiniuKey:'='
+    srcKey:'='
     suffix:'@'
     sourceAttr:'@'
 
@@ -17,12 +17,20 @@ angular.module('budweiserApp').directive 'qiniuKey', ($http)->
         else
           $element[0].src = url
 
-    $scope.$watch 'qiniuKey',(key) ->
+    utf8_to_b64 = (str) ->
+      btoa(unescape(encodeURIComponent( str )))
+
+    $scope.$watch 'srcKey',(key) ->
       if !key or key is ''
         return
       else if /^(\/\/|\/|http:|https:)/.test(key)
         setSource(key)
       else
         suffix = $scope.suffix ? ''
-        setSource('/api/qiniu/images/'+ key + suffix)
+        src = '/api/assets/images/'+ key + suffix
+        # $http.get src
+        # .success (data, status, header, a)->
+        #   b64 = utf8_to_b64(data)
+        #   setSource('data:'+header('content-type')+';base64,' + b64)
+        setSource(src)
 

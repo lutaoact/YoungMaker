@@ -9,9 +9,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $modal
   $upload
   $location
-  qiniuUtils
   Restangular
   $timeout
+  fileUtils
 ) ->
 
   angular.extend $scope,
@@ -64,16 +64,14 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         $scope.lecture.__v = newLecture.__v
 
     onPPTUploaded: (key) ->
-      $http.post('/api/slides/' + encodeURIComponent(key), null, timeout:10*60*1000)
-      .success (imageKeys)->
-        if angular.isArray imageKeys
-          $scope.lecture.slides =
-            _.union($scope.lecture.slides, _.map(imageKeys, (key) -> thumb:key))
-          $scope.lecture.patch?(slides: $scope.lecture.slides)
-          .then (newLecture) ->
-            $scope.lecture.__v = newLecture.__v
-        else
-          notify(message:'转换失败，请联系info@cloud3edu.com', template:'components/alert/failure.html')
+      $http.post 'http://54.223.144.96:9090/api/convert?key=' + encodeURIComponent(key)
+      .success (slides)->
+        console.log slides.uploadFiles
+        $scope.lecture.slides =
+          _.union($scope.lecture.slides, _.map(slides.uploadFiles, (key) -> thumb:"/api/assets/slides/#{key}"))
+        $scope.lecture.patch?(slides: $scope.lecture.slides)
+        .then (newLecture) ->
+          $scope.lecture.__v = newLecture.__v
 
     onImagesUploaded: (keys) ->
       $scope.lecture.slides =

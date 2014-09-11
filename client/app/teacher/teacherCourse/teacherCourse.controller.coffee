@@ -8,7 +8,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
   $state
   $upload
   Classes
-  qiniuUtils
+  fileUtils
   Categories
   Restangular
 ) ->

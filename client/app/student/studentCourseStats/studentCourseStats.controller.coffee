@@ -7,7 +7,7 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
   $scope
   $state
   $upload
-  qiniuUtils
+  fileUtils
   Restangular
   $q
   $rootScope

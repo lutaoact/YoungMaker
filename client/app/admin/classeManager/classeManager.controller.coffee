@@ -16,7 +16,7 @@ angular.module('budweiserApp')
   $state
   $http
   Restangular
-  qiniuUtils
+  fileUtils
   notify
   CurrentUser
 ) ->
@@ -65,7 +65,7 @@ angular.module('budweiserApp')
 
   $scope.onFileSelect = (files)->
     $scope.isExcelProcessing = true
-    qiniuUtils.uploadFile
+    fileUtils.uploadFile
       files: files
       validation:
         max: 50 * 1024 * 1024

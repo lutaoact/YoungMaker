@@ -1,5 +1,5 @@
 angular.module 'budweiserApp'
-.factory 'qiniuUtils', ($upload, $http,$q)->
+.factory 'fileUtils', ($upload, $http, $q, Restangular)->
   rexDict =
     ppt: /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/
     image: /^image\//
@@ -27,17 +27,13 @@ angular.module 'budweiserApp'
     return opts.fail?(validateResult) unless validateResult is true
 
     # get upload token
-    # TODO: tell qiniu the max size and accept types
-    $http.get('/api/qiniu/uptoken')
-    .success (uploadToken)->
-      qiniuParam =
-        'key': uploadToken.random + '/' + (opts.rename or utf8.encode(file.name))
-        'token': uploadToken.token
+    Restangular.one('assets/upload/images','').get(fileName: file.name)
+    .then (strategy)->
       start = moment()
       $upload.upload
-        url: 'http://up.qiniu.com'
+        url: strategy.url
         method: 'POST'
-        data: qiniuParam
+        data: strategy.formData
         withCredentials: false
         file: file
         fileFormDataName: 'file'
@@ -46,9 +42,9 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
-        opts.success?(data.key)
+        opts.success?(strategy.formData.key, data)
       .error opts.fail
-    .error opts.fail
+    , opts.fail
 
   bulkUpload: (opts)->
 
@@ -65,16 +61,13 @@ angular.module 'budweiserApp'
         deferred = $q.defer()
         promises.push deferred.promise
         # get upload token
-        $http.get('/api/qiniu/uptoken')
-        .success (uploadToken)->
-          qiniuParam =
-            'key': uploadToken.random + '/' + (opts.rename or utf8.encode(file.name))
-            'token': uploadToken.token
+        Restangular.one('assets/upload/slides','').get(fileName: file.name)
+        .then (strategy)->
           start = moment()
           $upload.upload
-            url: 'http://up.qiniu.com'
+            url: strategy.url
             method: 'POST'
-            data: qiniuParam
+            data: strategy.formData
             withCredentials: false
             file: file
             fileFormDataName: 'file'
@@ -83,16 +76,48 @@ angular.module 'budweiserApp'
             percentage = parseInt(100.0 * evt.loaded / evt.total)
             opts.progress?(speed,percentage, evt)
           .success (data) ->
-            deferred.resolve data
+            deferred.resolve strategy.formData.key
           .error (response)->
             deferred.reject()
-        .error ()->
+        , (error)->
+          console.log error
           deferred.reject()
 
     $q.all(promises).then (result)->
       keys = []
       for data in result
-        keys.push data.key
+        keys.push data
       opts.success?(keys)
+    , opts.fail
+
+  uploadSlides: (opts)->
+
+    if not opts.files? or opts.files.length < 1
+      opts.fail?('file not selected')
+      return
+
+    file = opts.files[0]
+    validateResult = validate(opts.validation, file)
+    return opts.fail?(validateResult) unless validateResult is true
+
+    # get upload token
+    # TODO: tell qiniu the max size and accept types
+    Restangular.one('assets/upload/slides','').get(fileName: file.name)
+    .then (strategy)->
+      start = moment()
+      $upload.upload
+        url: strategy.url
+        method: 'POST'
+        data: strategy.formData
+        withCredentials: false
+        file: file
+        fileFormDataName: 'file'
+      .progress (evt)->
+        speed = evt.loaded / (moment().valueOf() - start.valueOf())
+        percentage = parseInt(100.0 * evt.loaded / evt.total)
+        opts.progress?(speed,percentage, evt)
+      .success (data) ->
+        opts.success?(strategy.formData.key, data)
+      .error opts.fail
     , opts.fail
 

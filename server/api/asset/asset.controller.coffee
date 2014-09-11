@@ -1,5 +1,6 @@
 AssetUtils = _u.getUtils 'asset'
 config = require '../../config/environment'
+cache = require 'memory-cache'
 
 imageHost             = config.assetHost.images
 videoHost             = config.assetHost.videos

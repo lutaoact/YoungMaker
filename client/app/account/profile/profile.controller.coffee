@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'ProfileCtrl',
-($scope, User, Auth, Restangular,$http,$upload,notify,qiniuUtils) ->
+($scope, User, Auth, Restangular,$http,$upload,notify,fileUtils) ->
   angular.extend $scope,
 
     me: null
@@ -37,7 +37,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
 
     onFileSelect: (files)->
       $scope.isUploading = true
-      qiniuUtils.uploadFile
+      fileUtils.uploadFile
         files: files
         validation:
           max: 5 * 1024 * 1024

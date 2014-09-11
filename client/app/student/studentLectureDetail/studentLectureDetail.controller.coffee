@@ -10,7 +10,7 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   $upload
   $location
   notify
-  qiniuUtils
+  fileUtils
   $tools
   $rootScope
   CurrentUser

@@ -8,7 +8,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   $state
   $upload
   Classes
-  qiniuUtils
+  fileUtils
   Categories
   Restangular
 ) ->
@@ -186,7 +186,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
 
     onThumbSelect: (files) ->
       $scope.state.uploading = true
-      qiniuUtils.uploadFile
+      fileUtils.uploadFile
         files: files
         validation:
           max: 2*1024*1024

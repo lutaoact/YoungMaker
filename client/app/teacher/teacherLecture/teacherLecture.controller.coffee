@@ -11,6 +11,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $location
   qiniuUtils
   Restangular
+  $timeout
 ) ->
 
   angular.extend $scope,

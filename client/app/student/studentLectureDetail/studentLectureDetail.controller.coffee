@@ -14,6 +14,7 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   $tools
   $rootScope
   CurrentUser
+  $timeout
 ) ->
 
   $rootScope.additionalMenu = [
@@ -44,6 +45,16 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
       Restangular.one('lectures',$state.params.lectureId).get()
       .then (lecture)->
         $scope.lecture = lecture
+        # If student stay over 5 seconds. Send view lecture event.
+        $timeout ->
+          console.log 'view'
+          Restangular.all('activities').post
+            eventType: Const.Student.ViewLecture
+            data:
+              lectureId: $scope.lecture._id
+              courseId: $scope.course._id
+        , 5000
+        $scope.lecture
 
   loadCourse = ()->
     Restangular.one('courses',$state.params.courseId).get()
@@ -87,7 +98,6 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
 
     onUpdateTime: (now,total)->
       $scope.currentTime = now
-
 
     patchLecture: ()->
       if not lecture._id

@@ -2,6 +2,7 @@
 
 Activity = _u.getModel 'activity'
 LearnProgress = _u.getModel 'learn_progress'
+TeachProgress = _u.getModel 'teach_progress'
 
 exports.create = (req, res, next) ->
   user = req.user
@@ -16,14 +17,18 @@ exports.create = (req, res, next) ->
     tmpRes.activity = activity
     switch activity.eventType
       when Const.Student.ViewLecture
-        LearnProgress.updateQ
-          userId: activity.userId
-          courseId: activity.data.courseId
-        ,
-          $addToSet:
-            progress: activity.data.lectureId
-        ,
-          upsert: true
+        LearnProgress.upsertProgress(
+          activity.userId
+          activity.data.courseId
+          activity.data.lectureId
+        )
+      when Const.Teacher.ViewLecture
+        TeachProgress.upsertProgress(
+          activity.userId
+          activity.data.classeId
+          activity.data.courseId
+          activity.data.lectureId
+        )
       else
         Q.reject
           status : 404
@@ -31,5 +36,4 @@ exports.create = (req, res, next) ->
           errMsg : 'there is no matched event type'
   .then () ->
     res.send tmpRes.activity
-  , (err) ->
-    next err
+  , next

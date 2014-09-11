@@ -1,8 +1,9 @@
 'use strict'
 
-angular.module('budweiserApp').service 'socket', ($timeout) ->
+angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $interval) ->
 
   socket = undefined
+  heartbeat = undefined
   handler = {}
 
   setup: (user) ->
@@ -11,12 +12,12 @@ angular.module('budweiserApp').service 'socket', ($timeout) ->
     console.debug 'Setup socket connect... ', socket
 
     socket.onopen = ->
-      msg =
-        type : 'login'
-        payload:
-          userId : user._id
-          role : user.role
-      socket.send JSON.stringify msg
+      heartbeat = $interval ->
+        beat =
+          type: 'beat'
+          token: $cookieStore.get('token') if $cookieStore.get('token')
+        socket.send JSON.stringify beat
+      , 3 * 1000
 
     socket.onmessage = (event) -> $timeout ->
       result = angular.fromJson(event.data)
@@ -39,9 +40,12 @@ angular.module('budweiserApp').service 'socket', ($timeout) ->
     handler = {}
 
   send: (data) ->
+    data.token = $cookieStore.get('token') if $cookieStore.get('token')
     socket?.send(data)
 
   close: ->
+    $interval.cancel(heartbeat);
+    heartbeat = undefined
     socket?.close()
     delete socket.onopen
     delete socket.onmessage

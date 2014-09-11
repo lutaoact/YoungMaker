@@ -61,9 +61,11 @@ exports.AssetUtils = BaseUtils.subclass
     randomStr = randomstring.generate 10
 
     {
-      key : randomStr + '/' + fileName
-      token : token
+
       url : 'http://up.qiniu.com'
+      formData :
+        key : randomStr + '/' + fileName
+        token : token
       fileFormName : 'file'
     }
 
@@ -109,13 +111,14 @@ exports.AssetUtils = BaseUtils.subclass
 
     {
       url : 'http://'+ S3BucketName + ".s3.amazonaws.com.cn"
-      key : keyStartsWith + '/' + fileName
-      acl : 'private'
-      success_action_redirect : ''
-      policy : base64Policy
-      'X-Amz-Credential' : xAmzCredential
-      'X-Amz-Algorithm' : xAmzAlgorithm
-      'X-Amz-Date' : xAmzDate
-      'X-Amz-Signature' : signature
-      keyStartsWith : keyStartsWith
+      formData :
+        key : keyStartsWith + '/' + fileName
+        acl : 'private'
+        success_action_redirect : ''
+        policy : base64Policy
+        'X-Amz-Credential' : xAmzCredential
+        'X-Amz-Algorithm' : xAmzAlgorithm
+        'X-Amz-Date' : xAmzDate
+        'X-Amz-Signature' : signature
+      fileFormName : 'file'
     }

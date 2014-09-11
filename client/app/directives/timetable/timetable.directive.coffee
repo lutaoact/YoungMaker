@@ -7,7 +7,8 @@ angular.module('budweiserApp').directive 'timetable', ->
     eventSouces: '='
     eventClick: '&'
   controller: ($scope)->
-    $scope.onEventClick = ($event, event)->
-      $scope.eventClick() event
-
+    angular.extend $scope,
+      onEventClick: ($event, event)->
+        eventClick() event
+      today: moment()
   link: (scope, element, attrs) ->

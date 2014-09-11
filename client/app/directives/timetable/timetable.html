@@ -18,7 +18,7 @@
           </sup>
         </div>
       </div>
-      <div class="day" ng-repeat="day in ['一','二','三','四','五']">
+      <div class="day" ng-repeat="day in ['一','二','三','四','五']" ng-class="{'today': today.weekday()-1==$index}">
         <div class="time-span time-span-header">{{day}}</div>
         <div class="time-span" ng-repeat="span in ['9:00','9:50','11:35','12:25','1:30','2:15','3:25','4:10']">
         </div>

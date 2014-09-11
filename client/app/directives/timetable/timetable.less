@@ -71,6 +71,17 @@
     height: @cell-height * 5 + @header-height;
     text-align: left;
     .day{
+      &.today{
+        &:before{
+          content: '';
+          position: absolute;
+          left: 0;
+          top:0;
+          width: 20px;
+          background: @brand-danger;
+          height: 100%;
+        }
+      }
       height: @cell-height;
       position: relative;
       .time-span{
@@ -82,6 +93,7 @@
         &.time-span-header{
           line-height: @cell-height;
           width: @header-width;
+          padding-left: 30px;
         }
         sup{
           color: @gray-light;
@@ -94,6 +106,7 @@
         .time-span{
           height: @header-height;
           line-height: @header-height;
+          padding-left: 30px;
           &.time-span-header{
             width: @header-width;
           }

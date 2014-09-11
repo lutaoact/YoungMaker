@@ -15,8 +15,7 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
       heartbeat = $interval ->
         beat =
           type: 'beat'
-          payload:
-            token: $cookieStore.get('token') if $cookieStore.get('token')
+          token: $cookieStore.get('token') if $cookieStore.get('token')
         socket.send JSON.stringify beat
       , 3 * 1000
 

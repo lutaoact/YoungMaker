@@ -10,7 +10,7 @@ exports.init = (sockjs_server) ->
     conn.on 'data', (data) ->
       msg = JSON.parse data
       logger.info msg
-      SocketUtils.verify msg.payload.token
+      SocketUtils.verify msg.token
       .then (user) ->
         logger.info global.socketMap
         if global.socketMap[user._id]?

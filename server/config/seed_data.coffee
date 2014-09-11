@@ -407,6 +407,36 @@ module.exports =
     ]
     submitted : true
   ]
+  learn_progress: [
+    userId: _s.sprintf userId, 3
+    courseId: _s.sprintf courseId, 0
+    progress: [
+      _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
+    ]
+  ,
+    userId: _s.sprintf userId, 3
+    courseId: _s.sprintf courseId, 1
+    progress: [
+      _s.sprintf lectureId, 1
+    ]
+  ]
+  teach_progress: [
+    userId: _s.sprintf userId, 2
+    classeId: _s.sprintf classeId, 0
+    courseId: _s.sprintf courseId, 0
+    progress: [
+      _s.sprintf lectureId, 0
+      _s.sprintf lectureId, 1
+    ]
+  ,
+    userId: _s.sprintf userId, 2
+    classeId: _s.sprintf classeId, 1
+    courseId: _s.sprintf courseId, 0
+    progress: [
+      _s.sprintf lectureId, 1
+    ]
+  ]
 
 require('./seed') module.exports
 #console.log module.exports.question[0]

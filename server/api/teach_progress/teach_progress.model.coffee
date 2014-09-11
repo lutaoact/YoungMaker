@@ -6,13 +6,17 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
-exports.LearnProgress = BaseModel.subclass
-  classname: 'LearnProgress'
+exports.TeachProgress = BaseModel.subclass
+  classname: 'TeachProgress'
   initialize: ($super) ->
     @schema = new Schema
       userId:
         type: ObjectId
         ref: 'user'
+        required: true
+      classeId:
+        type: ObjectId
+        ref: 'classe'
         required: true
       courseId:
         type: ObjectId

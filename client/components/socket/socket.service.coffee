@@ -11,7 +11,7 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
     socket = new SockJS '/sockjs'
     console.debug 'Setup socket connect... ', socket
 
-    socket.onopen = ->
+    socket.onopen =  ->
       heartbeat = $interval ->
         beat =
           type: 'beat'
@@ -25,6 +25,11 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
       type = result.type
       payload = result.payload
       handler[type]?(payload)
+
+    socket.onclose = ( (event) ->
+      @close()
+      console.log event
+    ).bind @
 
   setHandler: (type, callback) ->
     handler[type] = callback

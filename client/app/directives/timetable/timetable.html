@@ -1,0 +1,43 @@
+<div class="jumbotron time-table"
+     qiniu-key="'/assets/images/timetable_back.png'"
+     suffix="?imageMogr2/blur/35x35"
+     source-attr="background-image"
+     id="timetable">
+  <div class="content hidden-xs clearfix">
+    <div class="text-center pull-left">
+      <a href="" class="arrow"><i class="fa fa-chevron-left"></i></a>
+    </div>
+
+    <div class="pages pull-left">
+      <div class="day day-header">
+        <div class="time-span time-span-header">星期</div>
+        <div class="time-span" ng-repeat="duration in ['9:00','9:50','11:35','12:25','1:30','2:15','3:25','4:10']">
+          {{duration}}
+          <sup>
+            {{$index>3?'PM':'AM'}}
+          </sup>
+        </div>
+      </div>
+      <div class="day" ng-repeat="day in ['一','二','三','四','五']">
+        <div class="time-span time-span-header">{{day}}</div>
+        <div class="time-span" ng-repeat="span in ['9:00','9:50','11:35','12:25','1:30','2:15','3:25','4:10']">
+        </div>
+        <div class="event-row">
+          <div class="event-cell" ng-repeat="event in eventSouces[$index]"
+               ng-style="{'width':event.endTime.diff(event.startTime, 'minute')*1.5+'px',
+               'left':(event.startTime.diff(event.startTime.clone().startOf('day'),'minute')-9*60)*1.5 +'px'}"
+               ng-click="onEventClick($event, event)">
+            <div class="title">{{event.title}}</div>
+            <div class="subtitle">{{event.subtitle}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="tip-top-left">
+        <img src="/assets/images/timetable_tip.png" alt="">
+      </div>
+    </div>
+    <div class="text-center pull-left">
+      <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
+    </div>
+  </div>
+</div>

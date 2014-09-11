@@ -11,7 +11,17 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $location
   qiniuUtils
   Restangular
+  $timeout
 ) ->
+
+  $timeout ->
+    console.log 'view'
+    Restangular.all('activities').post
+      eventType: Const.Teacher.ViewLecture
+      data:
+        lectureId: $scope.lecture._id
+        courseId: $scope.course._id
+  , 5000
 
   angular.extend $scope,
 

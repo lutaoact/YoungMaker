@@ -22,9 +22,13 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       .then (course)->
         $scope.course = course
         Restangular.all('lectures').getList(courseId:course._id)
-        .then (lectures) ->
-          $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
-
+      .then (lectures) ->
+        $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
+        Restangular.one('progresses').get({courseId: $state.params.courseId})
+      .then (result)->
+        result.progress.forEach (lectureId)->
+          (_.find $scope.course.$lectures, _id: lectureId)?.$viewed = true
+        result
 
   angular.extend $scope,
 

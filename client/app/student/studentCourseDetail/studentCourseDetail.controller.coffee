@@ -107,12 +107,13 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
 
     loadProgress: ()->
       if $state.params.courseId
-        Restangular.all('progresses').getList({courseId: $state.params.courseId})
-        .then (progresses)->
-          console.log progresses
-          progresses
+        Restangular.one('progresses').get({courseId: $state.params.courseId})
+        .then (result)->
+          result.progress.forEach (lectureId)->
+            (_.find $scope.course.$lectures, _id: lectureId)?.$viewed = true
+          result
       else
-        $q([])
+        $q(null)
 
     openQuickNav: ()->
       $modal.open

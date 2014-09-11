@@ -14,6 +14,13 @@ module.exports =
     domain : 'temp-cloud3edu-com.qiniudn.com'
     bucket_name : 'temp-cloud3edu-com'
     signed_url_expires : 24 * 60 * 60
+
+  aws:
+    accessKeyId : 'AKIAOQO4QDXGFY3APFBQ'
+    secretAccessKey : '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'
+    region : 'cn-north-1'
+    slideBucket : 'slides.cloud3edu.cn'
+
   logger:
     path: '/data/log/budweiser.log'
     level: 'DEBUG'
@@ -22,3 +29,8 @@ module.exports =
     tempDir : '/temp_node_dir'
 
   nodejsServer : '115.29.244.232'
+
+  assetHost :
+    images : 'qiniu'
+    slides : 's3' # change to s3 later
+    videos : 'qiniu'

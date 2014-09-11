@@ -5,6 +5,7 @@ angular.module('budweiserApp').service 'socket', ($timeout) ->
   socket = undefined
   handler = {}
 
+  # todo: heartbeat when alive.
   setup: (user) ->
     if socket? then return
     socket = new SockJS '/sockjs'

@@ -14,6 +14,7 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
   $tools
   $rootScope
   CurrentUser
+  $timeout
 ) ->
 
   $rootScope.additionalMenu = [
@@ -127,6 +128,16 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
     if not newVal?.isVideo
       $scope.mediaPlayerAPI = undefined
   ,true
+
+  # If student stay over 5 seconds. Send view lecture event.
+  $timeout ->
+    console.log 'view'
+    Restangular.all('activities').post
+      eventType: 1
+      data:
+        lectureId: lecture._id
+  , 5000
+
 
   loadCourse()
 

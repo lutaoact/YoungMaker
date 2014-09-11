@@ -11,5 +11,9 @@ exports.SocketUtils = BaseUtils.subclass
 
     return deferred.promise.nodeify cb
 
-  $buildMessage: (msgType, payload, err) ->
-    util = require
+  $buildErrMsg: (err) ->
+    util = require 'util'
+    type: 'error'
+    payload:
+      status: 401
+      errMsg: util.inspect err

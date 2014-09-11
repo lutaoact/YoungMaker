@@ -42,15 +42,10 @@ exports.show = (req, res, next) ->
   courseId = req.params.id
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    foundCourse = course
-    LearnProgress.findOneQ
-      userId: req.user._id
-      courseId: courseId
-  .then (learnProgress) ->
-    res.send _.extend foundCourse,
-      $progress: learnProgress?.progress ? []
-  , (err) ->
-    next err
+    course.populateQ 'owners'
+  .then (course) ->
+    res.send course
+  , next
 
 exports.create = (req, res, next) ->
   req.body.owners = [req.user.id]

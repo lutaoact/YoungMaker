@@ -1,6 +1,6 @@
 <div class="ppt-viewer">
   <div class="slide" ng-repeat="slide in slides" ng-class="{'slide-left':$index<currentIndex,'slide-right':$index>currentIndex,'slide-active':$index==currentIndex,'slide-hide':$index-currentIndex > 1 || $index-currentIndex < -1}">
-    <div class="image-container" src-key="slide.thumb" source-attr="background-image"></div>
+    <div class="image-container" src-key="slide.raw" source-attr="background-image"></div>
     <div class="slide-caption">
       {{slide.caption}}
     </div>

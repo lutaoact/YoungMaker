@@ -17,7 +17,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
       selectedDay: moment()._d
 
       getWeek: ()->
-        m = moment($scope.selectedDay).month()
+        m = ('0' + (moment($scope.selectedDay).month() + 1)).substr(-2,2)
         startDate = moment($scope.selectedDay).startOf('week').date()
         endDate = moment($scope.selectedDay).endOf('week').date()
         "#{m}/#{startDate} - #{m}/#{endDate}"

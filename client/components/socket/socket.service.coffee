@@ -1,9 +1,10 @@
 'use strict'
 
-angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $interval) ->
+angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $interval, $rootScope) ->
 
   socket = undefined
   heartbeat = undefined
+  # TODO: allow multi listen
   handler = {}
 
   setup: (user) ->

@@ -12,6 +12,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Restangular
   $timeout
   fileUtils
+  configs
 ) ->
 
   angular.extend $scope,
@@ -64,7 +65,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         $scope.lecture.__v = newLecture.__v
 
     onPPTUploaded: (key) ->
-      $http.post 'http://54.223.144.96:9090/api/convert?key=' + encodeURIComponent(key)
+      $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
       .success (slides)->
         sortSlides = (a, b)->
           getNum = (str)->

@@ -21,7 +21,7 @@ module.exports = (seedData) ->
 
   Q.all actions
   .then (results) ->
-    logger.info results
-    console.log 'success'
+#    logger.info results
+    console.log 'load data success'
   , (err) ->
     console.log err

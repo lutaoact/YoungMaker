@@ -437,6 +437,9 @@ module.exports =
       _s.sprintf lectureId, 1
     ]
   ]
+  school: [
+    require './xinqiao.json'
+  ]
 
 require('./seed') module.exports
 #console.log module.exports.question[0]

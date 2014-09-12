@@ -4,8 +4,26 @@
      source-attr="background-image"
      id="timetable">
   <div class="content hidden-xs clearfix">
+    <div class="calendar-continer clearfix">
+      <a class="calendar-toggle btn btn-crystal rounded"
+         >
+        <i class="fa fa-calendar"></i>
+      </a>
+      <span class="date-display">{{getWeek()}}</span>
+      <div class="up-down pull-right">
+        <a class="btn btn-crystal rounded fa fa-caret-up"></a>
+        <a class="btn btn-crystal rounded fa fa-caret-down"></a>
+      </div>
+      <div class="overlay">
+
+      </div>
+      <datepicker ng-model="selectedDay" show-weeks="false" class="bud datepicker" style="display:none"></datepicker>
+    </div>
+
     <div class="text-center pull-left">
-      <a href="" class="arrow"><i class="fa fa-chevron-left"></i></a>
+      <a href="" class="arrow">
+        <i class="fa fa-chevron-left"></i>
+      </a>
     </div>
 
     <div class="pages pull-left">
@@ -36,8 +54,12 @@
         <img src="/assets/images/timetable_tip.png" alt="">
       </div>
     </div>
+
     <div class="text-center pull-left">
       <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
     </div>
+
+
+
   </div>
 </div>

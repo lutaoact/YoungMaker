@@ -24,8 +24,11 @@ angular.module 'budweiserApp', [
   'jsonFormatter'
   'textAngular'
 ]
+
 .constant 'configs',
   baseUrl: ''
+  fpUrl: 'http://54.223.144.96:9090/'
+
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode true
@@ -44,6 +47,7 @@ angular.module 'budweiserApp', [
   request: (config) ->
     config.url = configs.baseUrl + config.url if /^(|\/)(api|auth)/.test config.url
     config
+
 # Override patch to put
 .factory 'patchInterceptor', ($location) ->
   request: (config) ->
@@ -71,7 +75,6 @@ angular.module 'budweiserApp', [
     $location.url getRedirectUrl()
     $location.replace()
     true
-
 
 .factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
   # Add authorization token to headers
@@ -115,6 +118,10 @@ angular.module 'budweiserApp', [
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
+
+  # fix bug, the view does not scroll to top when changing view.
+  $rootScope.$on '$stateChangeSuccess', ()->
+    $("html, body").animate({ scrollTop: 0 }, 100)
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->

@@ -16,6 +16,7 @@ exports.Lecture = BaseModel.subclass
       info: String
       slides: [
         thumb: String
+        raw: String
       ]
       media: String
       keyPoints: [

@@ -4,8 +4,26 @@
      source-attr="background-image"
      id="timetable">
   <div class="content hidden-xs clearfix">
+    <div class="calendar-continer clearfix">
+      <a class="calendar-toggle btn btn-crystal rounded"
+         >
+        <i class="fa fa-calendar"></i>
+      </a>
+      <span class="date-display">{{getWeek()}}</span>
+      <div class="up-down pull-right">
+        <a class="btn btn-crystal rounded fa fa-caret-up"></a>
+        <a class="btn btn-crystal rounded fa fa-caret-down"></a>
+      </div>
+      <div class="overlay">
+
+      </div>
+      <datepicker ng-model="selectedDay" show-weeks="false" class="bud datepicker" style="display:none"></datepicker>
+    </div>
+
     <div class="text-center pull-left">
-      <a href="" class="arrow"><i class="fa fa-chevron-left"></i></a>
+      <a href="" class="arrow">
+        <i class="fa fa-chevron-left"></i>
+      </a>
     </div>
 
     <div class="pages pull-left">
@@ -27,8 +45,14 @@
                ng-style="{'width':event.endTime.diff(event.startTime, 'minute')*1.5+'px',
                'left':(event.startTime.diff(event.startTime.clone().startOf('day'),'minute')-9*60)*1.5 +'px'}"
                ng-click="onEventClick($event, event)">
+            <div class="ahead" ng-style="{background: event.color}" ng-show="event.color"></div>
             <div class="title">{{event.title}}</div>
-            <div class="subtitle">{{event.subtitle}}</div>
+            <div class="subtitle">
+              {{event.subtitle}}
+            </div>
+            <div class="class-info" ng-show="event.weeks">
+              <span class="thisweek circle">{{event.currentWeek}}</span><span>/</span><span class="total circle">{{event.weeks}}</span>周
+            </div>
           </div>
         </div>
       </div>
@@ -36,8 +60,12 @@
         <img src="/assets/images/timetable_tip.png" alt="">
       </div>
     </div>
+
     <div class="text-center pull-left">
       <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
     </div>
+
+
+
   </div>
 </div>

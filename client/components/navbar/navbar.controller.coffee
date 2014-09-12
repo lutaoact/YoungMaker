@@ -29,6 +29,8 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
     isCollapsed: true
     isLoggedIn: Auth.isLoggedIn
     getCurrentUser: Auth.getCurrentUser
+    viewState:
+      isOpen: false
 
     logout: ->
       Auth.logout()
@@ -43,3 +45,5 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
 
     isActive: (route) ->
       route.replace(/\(.*?\)/g, '') is $state.current.name
+
+

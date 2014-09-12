@@ -25,7 +25,6 @@ angular.module('budweiserApp')
       $scope.uploading = true
 
       methodName = if $scope.multiple then 'bulkUpload' else if $scope.accept is 'ppt' then 'uploadSlides' else 'uploadFile'
-      console.log $scope.accept, methodName
       fileUtils[methodName]
         files: files
         validation:

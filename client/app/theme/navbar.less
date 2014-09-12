@@ -15,6 +15,7 @@
   background: @navbar-default-bg;
   margin-bottom: 0;
   border: none;
+  .box-shadow(0 0 3px rgba(0,0,0,0.3));
 
   .navbar-brand{
     color: @base-color;
@@ -87,6 +88,10 @@
       }
     }
 
+  }
+
+  .badge{
+    background: @brand-danger;
   }
 
   .navbar-text {
@@ -194,6 +199,10 @@
     opacity: 1;
     display: block !important;
   }
+}
+
+.margin-top{
+  margin-top: 60px;
 }
 
 .sub-nav{

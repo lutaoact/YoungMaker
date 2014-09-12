@@ -12,6 +12,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Restangular
   $timeout
   fileUtils
+  configs
 ) ->
 
   angular.extend $scope,
@@ -64,11 +65,18 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         $scope.lecture.__v = newLecture.__v
 
     onPPTUploaded: (key) ->
-      $http.post 'http://54.223.144.96:9090/api/convert?key=' + encodeURIComponent(key)
+      $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
       .success (slides)->
-        console.log slides.uploadFiles
+        sortSlides = (a, b)->
+          getNum = (str)->
+            parseInt(str.split('-').reverse()[1])
+          getNum(a) > getNum(b)
+        additional = slides.rawPics.sort(sortSlides).map (item, index)->
+          thumb: slides.thumbnails.sort(sortSlides)[index]
+          raw: item
+        console.log additional
         $scope.lecture.slides =
-          _.union($scope.lecture.slides, _.map(slides.uploadFiles, (key) -> thumb:"/api/assets/slides/#{key}"))
+          _.union($scope.lecture.slides, additional)
         $scope.lecture.patch?(slides: $scope.lecture.slides)
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v

@@ -1,6 +1,5 @@
 
 .time-table{
-  // margin-top: -@navbar-height;
   margin-top: 0;
   background-size: cover;
   background-position: center;
@@ -9,7 +8,7 @@
   position: relative;
   margin-bottom: 0;
   position: relative;
-  padding-top: 80px;
+  padding-top: 96px;
   padding-bottom: 0;
   text-align: center;
   &:after{
@@ -27,6 +26,7 @@
     margin-bottom: -4px;
     display: inline-block;
     zoom: 1;
+    position: relative;
     @media screen and (max-width: 1200px){
       zoom: 0.9;
     }
@@ -68,7 +68,7 @@
     @header-width: 114px;
     margin: 0 20px;
     width: @cell-width * 8 + @header-width + 26px;
-    height: @cell-height * 5 + @header-height;
+    height: @cell-height * 5 + @header-height + 30px;
     text-align: left;
     .day{
       &.today{
@@ -79,11 +79,17 @@
           top:0;
           width: 20px;
           background: @brand-danger;
-          height: 100%;
+          height: @cell-height;
         }
       }
       height: @cell-height;
       position: relative;
+      &:nth-child(6){
+        height: @cell-height + 30px;
+        .time-span{
+          height: @cell-height + 30px;
+        }
+      }
       .time-span{
         padding-left: 12px;
         float: left;
@@ -130,6 +136,13 @@
           border: 1px solid @gray-light;
           border-radius: 3px;
           padding: 8px 16px;
+          .ahead{
+            position: absolute;
+            width: 4px;
+            left: 4px;
+            top: 6px;
+            bottom: 6px;
+          }
           .transition(all .2s ease-in-out);
           cursor: pointer;
 
@@ -141,6 +154,25 @@
             background: @gray-light;
             .text-overflow();
             margin-right: auto;
+          }
+          .class-info{
+            font-size: 10px;
+            span{
+              margin-right: 3px;
+              maring-left: 3px;
+            }
+            .circle{
+              color: #FFFFFF;
+              border-radius: 15px;
+              background: #000;
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              text-align: center;
+            }
+            .thisweek{
+              background: @base-color;
+            }
           }
           &:hover{
             height: 100px;
@@ -158,5 +190,95 @@
       left: -160px;
       top: -60px;
     }
+  }
+  .calendar-continer{
+    text-align: left;
+    height: 36px;
+    width: 200px;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: -45px;
+    .calendar-toggle{
+      width: 23px;
+      height: 23px;
+      padding: 1px;
+      float: left;
+    }
+    .date-display{
+      font-size: 18px;
+      float: left;
+      margin-left: 12px;
+    }
+    .up-down{
+      width: 20px;
+      height: 20px;
+      margin-top: -2px;
+      font-size: 0;
+      .btn{
+        font-size: 9px;
+        height: 14px;
+        padding: 0 5px;
+        margin: 0;
+        &.fa{
+          margin:0;
+        }
+      }
+    }
+    .datepicker{
+      z-index: 100;
+      position: absolute;
+      background: #FFFFFF;
+      color: #000000;
+      border: 3px solid @brand-danger;
+      border-radius: 10px;
+      margin-top: 4px;
+      left: 0;
+      top: 36px;
+      .btn{
+        background: transparent;
+        border: none;
+        border-radius: 3px;
+      }
+      .active{
+        color: #000000;
+        background: @gray-lighter;
+      }
+
+      thead>tr:nth-child(1){
+        background: @brand-danger;
+        .btn{
+          color: #FFFFFF;
+        }
+      }
+      &:before{
+        content: '';
+        height: 0;
+        width: 0;
+        left: 14px;
+        top: -12px;
+        position: absolute;
+        border-bottom: 10px solid @brand-danger;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+      }
+    }
+    .overlay{
+      position: fixed;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99;
+    }
+
+    background: #000;
+
+    // wood style
+    // border-radius: 10px 10px 0 0;
+    // background-color: #B38048;
+    // background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc2MDAnIGhlaWdodD0nNCc+Cgk8ZGVmcyBpZD0nZGVmczQnPgoJCTxmaWx0ZXIgeT0nMCcgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSdzUkdCJyBpZD0ndCc+CgkJCTxmZVR1cmJ1bGVuY2UgdHlwZT0nZnJhY3RhbE5vaXNlJyBiYXNlRnJlcXVlbmN5PScuOCAwJyByZXN1bHQ9J291dDEnIG51bU9jdGF2ZXM9JzEnLz4KCQkJPGZlQ29sb3JNYXRyaXggdHlwZT0nc2F0dXJhdGUnIGluPSdvdXQxJyByZXN1bHQ9J291dDInIHZhbHVlcz0nMCcvPgoJCQk8ZmVDb21wb3NpdGUgb3BlcmF0b3I9J2FyaXRobWV0aWMnIGsxPScwJyBrMj0nMC4xNScgazM9JzAnIGs0PScwJyBpbj0nb3V0MicgaW4yPSdvdXQxJy8+CgkJPC9maWx0ZXI+Cgk8L2RlZnM+Cgk8cmVjdCBmaWxsPScjZWRjY2I5JyBmaWxsLW9wYWNpdHk9JzAuMTUwMDAwMDAwMDAwMDAwMDInIHg9JzUlJyB5PSctNSUnIHdpZHRoPScxMCUnIGhlaWdodD0nMTEwJScvPgoJPHJlY3QgZmlsbD0nI2VkY2NiOScgZmlsbC1vcGFjaXR5PScwLjA2JyB4PSc2JScgeT0nLTUlJyB3aWR0aD0nMTAlJyBoZWlnaHQ9JzExMCUnLz4KCTxyZWN0IGZpbGw9JyNlZGNjYjknIGZpbGwtb3BhY2l0eT0nMC4wNicgeD0nNyUnIHk9Jy01JScgd2lkdGg9JzE0JScgaGVpZ2h0PScxMTAlJy8+Cgk8cmVjdCBmaWxsPScjZWRjY2I5JyBmaWxsLW9wYWNpdHk9JzAuMDYnIHg9JzklJyB5PSctNSUnIHdpZHRoPScyMCUnIGhlaWdodD0nMTEwJScvPgoJPHJlY3QgZmlsbD0nI2VkY2NiOScgZmlsbC1vcGFjaXR5PScwLjA2JyB4PScxMSUnIHk9Jy01JScgd2lkdGg9JzEwJScgaGVpZ2h0PScxMTAlJy8+Cgk8cmVjdCBmaWxsPScjZWRjY2I5JyBmaWxsLW9wYWNpdHk9JzAuMTInIHg9JzU1JScgeT0nLTUlJyB3aWR0aD0nNDAlJyBoZWlnaHQ9JzExMCUnLz4KCTxyZWN0IGZpbGw9JyNlZGNjYjknIGZpbGwtb3BhY2l0eT0nMC4wNDUnIHg9JzYyJScgeT0nLTUlJyB3aWR0aD0nMzUlJyBoZWlnaHQ9JzExMCUnLz4KCTxyZWN0IGZpbGw9JyNlZGNjYjknIGZpbGwtb3BhY2l0eT0nMC4xMDUwMDAwMDAwMDAwMDAwMScgeD0nMzglJyB5PSctNSUnIHdpZHRoPScyMCUnIGhlaWdodD0nMTEwJScvPgoJPHJlY3QgZmlsbD0nI2VkY2NiOScgZmlsbC1vcGFjaXR5PScwLjA0NScgeD0nODUlJyB5PSctNSUnIHdpZHRoPSc0MCUnIGhlaWdodD0nMTEwJScvPgoJPHJlY3QgZmlsbD0nI2VkY2NiOScgZmlsbC1vcGFjaXR5PScwLjA3NTAwMDAwMDAwMDAwMDAxJyB4PSc1MiUnIHk9Jy01JScgd2lkdGg9JzQwJScgaGVpZ2h0PScxMTAlJy8+Cgk8cmVjdCBzdHlsZT0nZmlsdGVyOnVybCgjdCknIHg9Jy0xJScgeT0nLTElJyB3aWR0aD0nMTAyJScgaGVpZ2h0PScxMDAlJy8+Cjwvc3ZnPg==');
   }
 }

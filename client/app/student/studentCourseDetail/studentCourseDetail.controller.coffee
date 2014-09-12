@@ -109,7 +109,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
       if $state.params.courseId
         Restangular.one('progresses').get({courseId: $state.params.courseId})
         .then (result)->
-          result.progress.forEach (lectureId)->
+          result?.progress?.forEach (lectureId)->
             (_.find $scope.course.$lectures, _id: lectureId)?.$viewed = true
           result
       else

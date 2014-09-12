@@ -45,8 +45,14 @@
                ng-style="{'width':event.endTime.diff(event.startTime, 'minute')*1.5+'px',
                'left':(event.startTime.diff(event.startTime.clone().startOf('day'),'minute')-9*60)*1.5 +'px'}"
                ng-click="onEventClick($event, event)">
+            <div class="ahead" ng-style="{background: event.color}" ng-show="event.color"></div>
             <div class="title">{{event.title}}</div>
-            <div class="subtitle">{{event.subtitle}}</div>
+            <div class="subtitle">
+              {{event.subtitle}}
+            </div>
+            <div class="class-info" ng-show="event.weeks">
+              <span class="thisweek circle">{{event.currentWeek}}</span><span>/</span><span class="total circle">{{event.weeks}}</span>周
+            </div>
           </div>
         </div>
       </div>

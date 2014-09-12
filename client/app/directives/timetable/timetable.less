@@ -131,6 +131,13 @@
           border: 1px solid @gray-light;
           border-radius: 3px;
           padding: 8px 16px;
+          .ahead{
+            position: absolute;
+            width: 4px;
+            left: 4px;
+            top: 6px;
+            bottom: 6px;
+          }
           .transition(all .2s ease-in-out);
           cursor: pointer;
 
@@ -142,6 +149,25 @@
             background: @gray-light;
             .text-overflow();
             margin-right: auto;
+          }
+          .class-info{
+            font-size: 10px;
+            span{
+              margin-right: 3px;
+              maring-left: 3px;
+            }
+            .circle{
+              color: #FFFFFF;
+              border-radius: 15px;
+              background: #000;
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              text-align: center;
+            }
+            .thisweek{
+              background: @base-color;
+            }
           }
           &:hover{
             height: 100px;

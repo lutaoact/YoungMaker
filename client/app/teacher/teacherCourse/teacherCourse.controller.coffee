@@ -21,6 +21,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
         $scope.course = course
+        course.$classes = _.map(course.classes, (id) -> _.find(Classes, _id:id))
         Restangular.all('lectures').getList(courseId:course._id)
       .then (lectures) ->
         $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
@@ -60,16 +61,21 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         Restangular.all('courses').post(course)
         .then (newCourse)-> $scope.course = newCourse
 
-    selectClasse: (classe) ->
+    addClasse: (classe) ->
       classes = $scope.course.classes
-      $scope.course.patch(classes:
-        if _.contains(classes, classe._id)
-          _.without(classes, classe._id)
-        else
-          _.union(classes, [classe._id])
-      )
-      .then (newCourse) ->
-        $scope.course.classes = newCourse.classes
+      if !_.contains(classes, classe._id)
+        $scope.course.patch classes: _.union(classes, [classe._id])
+        .then (newCourse) ->
+            $scope.course.classes = newCourse.classes
+            $scope.course.$classes = _.map(newCourse.classes, (id) -> _.find(Classes, _id:id))
+
+    removeClasse: (classe) ->
+      classes = $scope.course.classes
+      if _.contains(classes, classe._id)
+        $scope.course.patch classes: _.without(classes, classe._id)
+        .then (newCourse) ->
+          $scope.course.classes = newCourse.classes
+          $scope.course.$classes = _.map(newCourse.classes, (id) -> _.find(Classes, _id:id))
 
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key

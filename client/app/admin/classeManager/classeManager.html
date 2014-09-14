@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container padding-top-20">
   <div class="row">
-    <div class="col-md-2 list-group">
+    <div class="col-md-3 list-group">
       <div class="list-group-item">
         <button class="btn btn-link"
                 ui-sref="admin.classeManager.detail({classeId:'new'})">添加班级</button>
@@ -9,11 +9,11 @@
          class="list-group-item"
          ui-sref-active="active"
          ui-sref="admin.classeManager.detail({classeId:classe._id})">
-        <span class="badge">12</span>
+        <span class="badge">{{classe.students.length}}</span>
         {{classe.name}}
       </a>
     </div>
-    <div class="col-md-10 list-group">
+    <div class="col-md-9 list-group">
       <div ui-view></div>
     </div>
   </div>

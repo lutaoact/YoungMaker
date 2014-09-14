@@ -5,15 +5,14 @@
   <div class="row">
     <div class="col-lg-12">
       <h2 class="page-header">课程：</h2>
-      <ul class="nav nav-tabs nav-stacked"
+      <div class="list-group"
           ng-repeat="course in courses">
-        <li>
-          <a ui-sref="teacher.course({courseId:course._id})"
-             tooltip="{{course.info}}">
-            {{course.name}}
-          </a>
-        </li>
-      </ul>
+        <!--<teacher-course-form class="list-group-item" course="course" categories="categories"></teacher-course-form>-->
+        <a ng-click="toggleLectures(course)"
+           class="list-group-item btn btn-default">
+          {{course.name}}
+        </a>
+      </div>
     </div>
   </div>
   </p>

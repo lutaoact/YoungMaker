@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').config ($stateProvider, $urlRouterProvider) ->
+angular.module('budweiserApp').config ($stateProvider) ->
 
   $stateProvider.state 'teacher.home',
     url: ''

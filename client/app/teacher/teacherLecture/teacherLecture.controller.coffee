@@ -44,7 +44,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         # create new
         Restangular.all('lectures').post(editingLecture, courseId:$state.params.courseId)
         .then ->
-          $state.go('teacher.course', id: $state.params.courseId)
+          $state.go('teacher.course.lectures', courseId: $state.params.courseId)
 
     removeSlide: (index) ->
       $scope.lecture.slides.splice(index, 1)

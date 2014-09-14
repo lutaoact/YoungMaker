@@ -1,34 +1,24 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
-  Auth
+angular.module('budweiserApp').directive 'teacherCourseForm', ->
+  restrict: 'EA'
+  replace: true
+  controller: 'TeacherCourseFormCtrl'
+  templateUrl: 'app/teacher/teacherCourse/teacherCourseForm.html'
+  scope:
+    course: '='
+    categories: '='
+
+angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
-  notify
   $scope
   $state
   $upload
   fileUtils
-  Categories
   Restangular
 ) ->
-  loadCourse = ->
-    if $state.params.courseId is 'new'
-      $scope.course = {}
-    else
-      Restangular.one('courses',$state.params.courseId).get()
-      .then (course)->
-        $scope.course = course
 
   angular.extend $scope,
-    $state: $state
-    categories: Categories
-    course: undefined
-
-    toggleLectures: ->
-      if $state.includes('teacher.course.lectures')
-        $state.go('teacher.course', courseId:$scope.course._id)
-      else
-        $state.go('teacher.course.lectures')
 
     deleteCourse: (course) ->
       course.remove().then ->
@@ -51,7 +41,8 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       else
         # create new
         Restangular.all('courses').post(course)
-        .then (newCourse)-> $scope.course = newCourse
+        .then (newCourse)->
+          $state.go('teacher.course', courseId:newCourse._id)
 
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key
@@ -59,12 +50,41 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       .then (newCourse) ->
         $scope.course.__v = newCourse.__v
 
+angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
+  $http
+  $scope
+  $state
+  $upload
+  fileUtils
+  Categories
+  Restangular
+) ->
+
+  loadCourse = ->
+    if $state.params.courseId is 'new'
+      $scope.course = {}
+    else
+      Restangular.one('courses',$state.params.courseId).get()
+      .then (course)->
+        $scope.course = course
+
+  angular.extend $scope,
+    $state: $state
+    categories: Categories
+    course: undefined
+
+    toggleLectures: ->
+      stateName =
+        if $state.includes('teacher.course.lectures')
+          'teacher.course'
+        else
+          'teacher.course.lectures'
+      $state.go(stateName, $state.params)
+
   loadCourse()
 
 angular.module('budweiserApp').controller 'TeacherLecturesCtrl', (
-  Auth
   $http
-  notify
   $scope
   $state
   $upload

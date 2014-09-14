@@ -21,6 +21,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
         $scope.course = course
+        console.debug course
         course.$classes = _.map(course.classes, (id) -> _.find(Classes, _id:id))
         Restangular.all('lectures').getList(courseId:course._id)
       .then (lectures) ->
@@ -34,7 +35,6 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     categories: Categories
     classes: Classes
     course: undefined
-    user: Auth.getCurrentUser()
     state:
       uploading: false
       uploadProgress: ''
@@ -53,7 +53,11 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
       unless form.$valid then return
       if course._id?
         # update exists
-        Restangular.copy(course).put()
+        course.patch(
+          name: course.name
+          info: course.info
+          categoryId: course.categoryId
+        )
         .then (newCourse) ->
           course.__v = newCourse.__v
       else

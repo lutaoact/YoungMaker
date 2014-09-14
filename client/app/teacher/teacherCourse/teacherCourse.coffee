@@ -16,3 +16,8 @@ angular.module('budweiserApp').config ($stateProvider) ->
         Restangular.all('classes').getList().then (classes) ->
           classes
         , -> []
+  .state 'teacher.course.lectures',
+    url: '/lectures'
+    templateUrl: 'app/teacher/teacherCourse/teacherLectures.html'
+    controller: 'TeacherLecturesCtrl'
+    authenticate: true

@@ -26,7 +26,6 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
         $scope.course.$lectures = _.map($scope.course.lectureAssembly, (id) -> _.find(lectures, _id:id))
         Restangular.one('progresses').get({courseId: $state.params.courseId})
       .then (result)->
-        console.log result
         result
 
   angular.extend $scope,
@@ -34,6 +33,7 @@ angular.module('budweiserApp').controller 'TeacherCourseCtrl', (
     categories: Categories
     classes: Classes
     course: undefined
+    user: Auth.getCurrentUser()
     state:
       uploading: false
       uploadProgress: ''

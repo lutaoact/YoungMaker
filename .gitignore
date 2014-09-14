@@ -17,6 +17,7 @@ client/index.html
 /server/config/environment/production.js
 /server/config/environment/development.js
 /server/common/Const.js
+/server/common/mail/*.js
 /server/common/modelTest.js
 /server/common/initGlobal.js
 /server/common/ErrCode.js

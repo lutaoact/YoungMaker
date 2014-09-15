@@ -1,79 +1,100 @@
 .student{
   .lecture-view{
+    .container{
+      position: relative;
+      border:1px solid #DDDDDD;
+      .box-shadow(0 0 2px #DDDDDD);
+      padding: 0;
+    }
+    .lecture-header{
+      padding: 12px 24px;
+      h3{
+        margin: 0;
+      }
+      hr{
+        margin:15px;
+      }
+    }
+    .key-points{
+      .indicator{
+        width: 90px;
+        height: 60px;
+        padding: 10px 20px;
+        margin-left: 10px;
+        i{
+          font-size: 24px;
+          color: @base-color;
+        }
+      }
+      .list-group{
+        margin-left: 110px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        margin-top: 25px;
+        margin-right: 40px;
+        .key-point{
+          height: 30px;
+          width: 155px;
+          padding: 4px 12px;
+          .text-overflow();
+          background: @gray;
+          color: #FFFFFF;
+          border-radius: 5px;
+          margin: 3px 3px;
+          &.active{
+            background: @base-color;
+          }
+        }
+      }
+    }
     &.player{
       .view{
-        height: 420px;
         .ppt-view{
-          height: 100%;
-          position: relative;
-
+          height: 420px;
           .ppt-viewer{
             height: 100%;
             width: 100%;
           }
         }
         .video-view{
-          height: 100%;
           width: 100%;
+          margin:auto;
         }
       }
 
       .switch{
         position: absolute;
-        left: -49px;
+        left: -61px;
         z-index: 0;
-        top:50px;
-        height: 200px;
-        width: 64px;
+        top: 20px;
+        width: 60px;
         overflow: hidden;
         display: inline-block;
+        padding-top: 1px;
         .btn{
-          width: 64px;
-          height: 100px;
-          background: @gray;
-          color: white;
-          .translate3d(30px,0,0);
+          width: 60px;
+          height: 60px;
+          background: #FFFFFF;
+          color: @gray;
           padding-left: 5px;
           padding-right: 5px;
-          line-height: 20px;
+          border: 1px solid #DDDDDD;
+          border-right: none;
+          margin-top: -1px;
+          &:nth-child(1){
+            border-top-left-radius: 3px;
+          }
+          &:nth-last-child(1){
+            border-bottom-left-radius: 3px;
+          }
           i{
-            font-size: 40px;
-            line-height: 60px;
+            font-size: 25px;
+            line-height: 48px;
           }
           &.active{
-            background: @brand-danger;
-            .translate3d(0,0,0);
+            background: @base-color;
+            color: #FFFFFF;
           }
-        }
-      }
-
-      .lecture-detail{
-        .box-shadow(inset 0 0 2px @gray-light);
-        padding: 10px 30px;
-        .info{
-          // height: 40px;
-          // overflow: hidden;
-        }
-        hr{
-          margin-bottom: 10px;
-          margin-top: 10px;
-        }
-        .comment{
-          position: relative;
-        }
-        .comment-input-container{
-          margin-right: 80px;
-          margin-left: 40px;
-          display: block;
-        }
-        .comment-input{
-          width:100%;
-        }
-        .submit{
-          // position: absolute;
-          // right: 0;
-          // top:0;
-          margin-top: -30px;
         }
       }
 
@@ -84,3 +105,5 @@
     background: @gray-lighter;
   }
 }
+
+

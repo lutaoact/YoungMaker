@@ -68,6 +68,9 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
 
     me: CurrentUser
 
+    viewState:
+      isVideo: true
+
     $stateParams: $state.params
 
     saveLecture: (lecture,form)->
@@ -88,6 +91,7 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
           lecture.put()
 
     seek: (timestamp)->
+      $scope.viewState.isVideo = true
       if $scope.mediaPlayerAPI
         $scope.mediaPlayerAPI?.seekTime timestamp if timestamp?
 
@@ -131,12 +135,6 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
     .sort (a,b)->
       a.timestamp >= b.timestamp
     )?[0]
-
-  $scope.$watch 'viewState',(newVal)->
-    # important: free the reference of videogular
-    if not newVal?.isVideo
-      $scope.mediaPlayerAPI = undefined
-  ,true
 
   loadCourse()
 

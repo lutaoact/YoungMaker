@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherNewCourseCtrl', (
+  Auth
   $scope
   Courses
   Categories
@@ -9,6 +10,7 @@ angular.module('budweiserApp').controller 'TeacherNewCourseCtrl', (
   angular.extend $scope,
     courses: Courses
     categories: Categories
-    course: {}
+    course:
+      owners:[Auth.getCurrentUser()]
     editing: true
 

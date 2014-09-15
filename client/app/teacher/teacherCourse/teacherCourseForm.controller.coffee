@@ -27,7 +27,6 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
       $scope.editing = !$scope.editing
       $state.go('teacher.home') if !course?._id?
 
-
     deleteCourse: (course) ->
       course.remove().then ->
         index = $scope.courses.indexOf(course)

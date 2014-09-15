@@ -14,10 +14,18 @@ exports.SocketUtils = BaseUtils.subclass
 
   $buildErrMsg: (err) ->
     util = require 'util'
-    type: 'error'
-    payload:
-      status: 401
-      errMsg: util.inspect err
+    return JSON.stringify(
+      type: 'error'
+      payload:
+        status: 401
+        errMsg: util.inspect err
+    )
+
+  $quizMsg: (question) ->
+    return JSON.stringify(
+      type: 'quiz'
+      payload: question
+    )
 
 
   $sendToGroup: (msg, userIds) ->
@@ -29,4 +37,4 @@ exports.SocketUtils = BaseUtils.subclass
     unless global.socketMap[userId]?
       return logger.warn "userId: #{userId}, socket does not exists"
 
-    global.socketMap[userId].ws.write message
+    global.socketMap[userId].ws.write msg

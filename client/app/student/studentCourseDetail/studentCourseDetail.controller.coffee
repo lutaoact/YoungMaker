@@ -106,11 +106,14 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
         $q([])
 
     loadProgress: ()->
+      $scope.viewedLectureIndex = 1
       if $state.params.courseId
         Restangular.one('progresses').get({courseId: $state.params.courseId})
         .then (result)->
           result?.progress?.forEach (lectureId)->
-            (_.find $scope.course.$lectures, _id: lectureId)?.$viewed = true
+            viewedLecture = _.find $scope.course.$lectures, _id: lectureId
+            viewedLecture?.$viewed = true
+            $scope.viewedLectureIndex = $scope.course.$lectures.indexOf(viewedLecture) + 1 if $scope.viewedLectureIndex < $scope.course.$lectures.indexOf(viewedLecture) + 1
           result
       else
         $q(null)
@@ -126,6 +129,25 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
               item._id isnt $scope.course._id).slice(0,4)
 
       .result.then ->
+
+    gotoLecture: ()->
+      if !$scope.course.$lectures?.length
+        return
+      viewedLectures = $scope.course.$lectures.filter (x)->
+        x.$viewed
+      if viewedLectures and viewedLectures.length > 0
+        # GOTO that course
+        # TODO: last viewed should not be the last viewed item :(
+        lastViewed = viewedLectures[viewedLectures.length - 1]
+        $state.go 'student.lectureDetail',
+          courseId: $state.params.courseId
+          lectureId: lastViewed._id
+
+      else
+        # Start from first lecture
+        $state.go 'student.lectureDetail',
+          courseId: $state.params.courseId
+          lectureId: $scope.course.$lectures[0]._id
 
     itemsPerPage: 5
 

@@ -22,3 +22,4 @@ client/index.html
 /server/common/initGlobal.js
 /server/common/ErrCode.js
 /server/config/set_sockjs.js
+/server/common/mail/index.js

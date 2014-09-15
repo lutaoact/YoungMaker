@@ -88,15 +88,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
       ]
     ]
 
-    $state: $state
     courses: Courses
     classes: Classes
     categories: Categories
-
-    toggleLectures: (course) ->
-      stateName =
-        if $state.includes('teacher.course.lectures')
-          'teacher.course'
-        else
-          'teacher.course.lectures'
-      $state.go(stateName, courseId:course._id)

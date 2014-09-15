@@ -1,11 +1,12 @@
-<label class="btn btn-default"
-       ng-disabled="uploading">
+<label class="btn btn-default">
   <input type="file" style="display:none;"
          ng-if="!multiple"
+         ng-disabled="uploading"
          ng-file-select="onFileSelect($files)"/>
   <input type="file" style="display:none;"
          ng-if="multiple"
          multiple
+         ng-disabled="uploading"
          ng-file-select="onFileSelect($files)"/>
   <span ng-if="uploading">
     <i class="fa fa-spinner fa-spin"></i>

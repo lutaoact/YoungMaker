@@ -2,13 +2,8 @@
 
 angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider
-  .state 'teacher.course',
-    url: '/courses/:courseId'
-    templateUrl: 'app/teacher/teacherCourse/teacherCourse.html'
-    controller: 'TeacherCourseCtrl'
-    authenticate: true
-  .state 'teacher.course.lectures',
-    url: '/lectures'
-    templateUrl: 'app/teacher/teacherCourse/teacherLectures.html'
-    controller: 'TeacherLecturesCtrl'
+  .state 'teacher.home.newCourse',
+    url: '/course/new'
+    templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
+    controller: 'TeacherNewCourseCtrl'
     authenticate: true

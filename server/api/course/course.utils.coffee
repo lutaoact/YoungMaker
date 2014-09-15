@@ -61,6 +61,7 @@ exports.CourseUtils = BaseUtils.subclass
     Course.find
       owners : teacherId
     .populate 'classes', '_id name orgId yearGrade'
+    .populate 'owners', '_id name'
     .execQ()
     .then (courses) ->
       return courses

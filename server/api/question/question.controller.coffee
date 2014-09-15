@@ -10,9 +10,21 @@ exports.index = (req, res, next) ->
   conditions = orgId: user.orgId
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
+  if req.query.keyPointIds?
+    conditions.keyPoints = {$in: JSON.parse req.query.keyPointIds}
+  if req.query.keyword?
+    keyword = req.query.keyword
+    regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
+    conditions.$or = [
+      'content.title': regex
+    ,
+      'content.body.desc': regex
+    ]
+
+  logger.info conditions
+
   Question.findQ conditions
   .then (questions) ->
-    logger.info questions
     res.send questions
   , (err) ->
     next err
@@ -24,7 +36,6 @@ exports.show = (req, res, next) ->
     _id: questionId
     orgId: user.orgId
   .then (question) ->
-    logger.info question
     res.send question
   , (err) ->
     console.log err
@@ -37,7 +48,6 @@ exports.create = (req, res, next) ->
 
   Question.createQ body
   .then (question) ->
-    logger.info question
     res.json 201, question
   , (err) ->
     next err
@@ -55,7 +65,6 @@ exports.update = (req, res, next) ->
     do updated.saveQ
   .then (result) ->
     newClasse = result[0]
-    logger.info newClasse
     res.send newClasse
   , (err) ->
     next err

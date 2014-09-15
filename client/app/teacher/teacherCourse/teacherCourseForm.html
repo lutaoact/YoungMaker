@@ -51,13 +51,14 @@
     <div class="form-group">
       <div class="col-sm-12 btn-group">
         <button type="button"
+                ng-show="course && course._id"
                 ui-sref="teacher.courseStats({courseId:course._id})"
                 class="btn btn-link">
           统计
         </button>
         <button type="button"
                 class="btn btn-link"
-                ng-click="editing=!editing">
+                ng-click="switchEditing()">
           <span ng-if="editing">返回</span>
           <span ng-if="!editing">编辑</span>
         </button>

@@ -21,7 +21,12 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
 
   angular.extend $scope,
 
-    editing: false
+    editing: !$scope.course._id?
+
+    switchEditing: (course) ->
+      $scope.editing = !$scope.editing
+      $state.go('teacher.home') if !course?._id?
+
 
     deleteCourse: (course) ->
       course.remove().then ->
@@ -43,7 +48,8 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         # create new
         Restangular.all('courses').post(course)
         .then (newCourse)->
-          $state.go('teacher.home', courseId:newCourse._id)
+          $scope.courses.push(newCourse)
+          $state.go('teacher.home')
 
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key

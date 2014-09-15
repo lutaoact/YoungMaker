@@ -5,6 +5,11 @@
   <div class="row">
     <div class="col-lg-12">
       <h2 class="page-header">课程：</h2>
+      <div ui-view class="list-group">
+        <a type="button"
+           class="btn btn-primary"
+           ui-sref="teacher.home.newCourse">添加课程</a>
+      </div>
       <div class="list-group"
           ng-repeat="course in courses">
         <teacher-course-form course="course"
@@ -12,15 +17,10 @@
                              categories="categories"></teacher-course-form>
         <teacher-course-lectures course="course"
                                  classes="classes"></teacher-course-lectures>
-        <!--<a ng-click="toggleLectures(course)"-->
-           <!--class="list-group-item btn btn-default">-->
-          <!--{{course.name}}-->
-        <!--</a>-->
       </div>
     </div>
   </div>
   </p>
-  <a type="button" class="btn btn-primary" ui-sref="teacher.course({courseId:'new'})">添加课程</a>
 </div>
 
 

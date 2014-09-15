@@ -6,7 +6,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   Classes
   Courses
   Categories
-  Restangular
 ) ->
 
   angular.extend $scope,
@@ -89,7 +88,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
       ]
     ]
 
-    $state: $state
     courses: Courses
     classes: Classes
     categories: Categories

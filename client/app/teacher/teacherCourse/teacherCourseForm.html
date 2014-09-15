@@ -13,71 +13,64 @@
   </div>
   <div class="media-body course-detail">
     <div class="form-group">
-      <div class="col-sm-10">
-        <input class="form-control"
-               id="course-name"
-               name="name"
-               type="text"
-               ng-model="course.name"
-               ng-disabled="!editing"
-               placeholder="课程名称"
-               required>
-      </div>
+      <input class="form-control course-title"
+             id="course-name"
+             name="name"
+             type="text"
+             ng-model="course.name"
+             ng-disabled="!editing"
+             placeholder="课程名称"
+             required>
     </div>
     <div class="form-group">
-      <div class="col-sm-10">
-        <ui-select ng-model="course.categoryId"
-                   ng-disabled="!editing">
-          <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
-          <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
-            <span ng-bind-html="option.name | highlight: $select.search"></span>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-    </div>
-    <span ng-repeat="owner in course.owners">{{owner.name}} </span>
-    <div class="form-group">
-      <div class="col-sm-10">
-        <div class="course-info">
-          简介：
-        </div>
-        <textarea class="form-control"
-                  id="course-info"
-                  name="info"
-                  rows="6"
-                  ng-disabled="!editing"
-                  ng-model="course.info"
-                  placeholder="课程信息">
-        </textarea>
-      </div>
+      <ui-select ng-model="course.categoryId"
+                 class="course-control"
+                 ng-disabled="!editing">
+        <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
+          <span ng-bind-html="option.name | highlight: $select.search"></span>
+        </ui-select-choices>
+      </ui-select>
     </div>
     <div class="form-group">
-      <div class="col-sm-12 btn-group">
-        <button type="button"
-                ng-show="course && course._id"
-                ui-sref="teacher.courseStats({courseId:course._id})"
-                class="btn btn-link">
-          统计
-        </button>
-        <button type="button"
-                class="btn btn-link"
-                ng-click="switchEditing(course)">
-          <span ng-if="editing">返回</span>
-          <span ng-if="!editing">编辑</span>
-        </button>
+      <span ng-repeat="owner in course.owners">{{owner.name}} </span>
+    </div>
+    <div class="form-group">
+      <div class="course-info">
+        <span class="label label-default">简介：</span>
+      </div>
+      <textarea class="form-control course-control"
+                id="course-info"
+                ng-disabled="!editing"
+                name="info"
+                rows="6"
+                ng-model="course.info"
+                placeholder="课程信息">
+      </textarea>
+    </div>
+    <div class="form-group pull-right">
+      <span ng-show="!editing">
+        <a class="btn btn-block" ng-click="switchEditing(course)">
+          <i class="fa fa-pencil-square fa-2x"></i>
+        </a>
+      </span>
+      <span ng-show="editing">
         <button type="submit"
-                ng-show="editing"
-                class="btn btn-link"
+                class="btn btn-primary"
                 ng-click="saveCourse(course,form)">
           确认
         </button>
         <button type="button"
-                class="btn btn-link"
-                ng-show="editing && course && course._id"
+                class="btn btn-warning"
+                ng-show="course && course._id"
                 ng-click="deleteCourse(course)">
           删除
         </button>
-      </div>
+        <button class="btn btn-default"
+                ng-click="switchEditing(course)">
+          返回
+        </button>
+      </span>
     </div>
   </div>
 </form>

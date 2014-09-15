@@ -12,29 +12,51 @@
 
     .course-form {
       border-bottom: solid 1px #ddd;
+      .btn.disabled,
+      .btn[disabled],
+      fieldset[disabled] .btn {
+        opacity: 1;
+        border: none
+      }
+      .form-control[disabled] {
+        cursor: text;
+      }
+    }
+    .course-title {
+      font-size: 1.5em;
+      padding: 1.1em;
+    }
+    .course-title[disabled] {
+      background-color: black;
+      padding-left: 1.1em;
+      color: white;
+      border: none;
+    }
+    .course-control[disabled] {
+      padding-left: 0px;
+      background: none;
+      border: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      .caret {
+        display: none;
+      }
+      .form-control {
+        padding-left: 0px;
+      }
     }
     .course-img {
       padding: 0px;
       border: none;
     }
-    .media-object {
-      margin-right: 15px;
-      .btn.disabled,
-      .btn[disabled],
-      fieldset[disabled] .btn {
-        opacity: 1;
-      }
-    }
-    .form-group {
-      margin-right: -50px;
-    }
     .course-detail {
-      margin-top: 15px;
+      padding: 15px 30px 0px 20px;
       height: 100%;
     }
     .course-info {
-      margin-top: 34px;
-      margin-bottom: 15px;
+      margin-top: 25px;
+      margin-bottom: 8px;
     }
     .btn-block {
       padding: 0px;

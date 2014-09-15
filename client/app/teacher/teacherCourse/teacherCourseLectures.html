@@ -1,0 +1,69 @@
+<div>
+  <a style="height: 30px; width: 100%;"
+     ng-click="toggleLectures(course)"
+     class="btn btn-default">
+    <span ng-show="course.$lectures == null"
+          class="glyphicon glyphicon-chevron-down"></span>
+    <span ng-show="course.$lectures != null"
+          class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <div class="row"
+       ng-show="course.$lectures != null">
+    <br/>
+    <div class="col-md-4"
+         ng-if="course._id">
+      <div>
+        <ui-select ng-model="addingClasse"
+                   on-select="addClasse($item)">
+          <ui-select-match placeholder="添加班级"><span class="text-muted">添加班级</span></ui-select-match>
+          <ui-select-choices repeat="classe in classes | filter:{name:$select.search}">
+            <span ng-bind-html="classe.name | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <hr/>
+      <ul class="nav nav-tabs nav-stacked"
+          ng-repeat="classe in course.classes">
+        <li><a>
+          {{classe.name}}
+          <button type="button"
+                  class="close"
+                  ng-click="removeClasse(classe)">&times;</button>
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-8"
+         ng-if="course._id">
+      <div class="form-inline">
+        <label><strong>课时</strong></label>
+        <input type="text"
+               class="form-control"
+               placeholder="搜索"
+               ng-model="keyword"/>
+        <button class="btn btn-primary pull-right"
+                ng-disabled="!course._id"
+                ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">添加</button>
+      </div>
+      <hr/>
+      <ul class="nav nav-tabs nav-stacked"
+          ng-repeat-reorder="lecture in course.$lectures | filter:{name:keyword}"
+          style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative"
+          ng-repeat-reorder-handle="div.drag-point">
+        <li>
+          <a>
+            <strong>{{lecture.name}}</strong>
+            <div class="pull-right">
+              <span class="glyphicon glyphicon-pencil"
+                    ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})" >
+              </span>
+              <div class="drag-point glyphicon glyphicon-sort" draggable="true"></div>
+              <span class="glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)" >
+              </span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

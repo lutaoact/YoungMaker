@@ -1,6 +1,7 @@
 <form class="form-horizontal media" name="form" role="form">
   <div class="media-object pull-left">
     <uploader limit="2*1024*1024"
+              ng-disabled="!editing"
               on-complete="onThumbUploaded($data)"
               accept="image">
       <img src-key="course.thumbnail"
@@ -15,16 +16,16 @@
                id="course-name"
                name="name"
                type="text"
-               focus-me="titleInputFocus"
-               ng-init="titleInputFocus=true"
                ng-model="course.name"
+               ng-disabled="!editing"
                placeholder="课程名称"
                required>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-10">
-        <ui-select ng-model="course.categoryId">
+        <ui-select ng-model="course.categoryId"
+                   ng-disabled="!editing">
           <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
           <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
             <span ng-bind-html="option.name | highlight: $select.search"></span>
@@ -41,29 +42,34 @@
                   id="course-info"
                   name="info"
                   rows="6"
+                  ng-disabled="!editing"
                   ng-model="course.info"
                   placeholder="课程信息">
         </textarea>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-12">
-        <a ui-sref="teacher.courseStats({courseId:course._id})" class="btn btn-primary">
+      <div class="col-sm-12 btn-group">
+        <button type="button"
+                ui-sref="teacher.courseStats({courseId:course._id})"
+                class="btn btn-link">
           统计
-        </a>
+        </button>
+        <button type="button"
+                class="btn btn-link"
+                ng-click="editing=!editing">
+          <span ng-if="editing">返回</span>
+          <span ng-if="!editing">编辑</span>
+        </button>
         <button type="submit"
-                class="btn btn-primary"
+                ng-show="editing"
+                class="btn btn-link"
                 ng-click="saveCourse(course,form)">
           确认
         </button>
         <button type="button"
-                class="btn btn-default"
-                ng-click="cancelCourse()">
-          返回
-        </button>
-        <button type="button"
-                class="btn btn-default"
-                ng-if="course && course._id"
+                class="btn btn-link"
+                ng-show="editing && course && course._id"
                 ng-click="deleteCourse(course)">
           删除
         </button>

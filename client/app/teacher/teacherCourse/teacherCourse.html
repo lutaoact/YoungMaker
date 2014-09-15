@@ -1,13 +1,8 @@
 <div class="container padding-top-20">
   <teacher-course-form course="course"
-                       categories="categories"></teacher-course-form>
-  <a style="height: 30px; width: 100%;"
-     ng-click="toggleLectures()"
-     class="btn btn-default">
-    <span ng-show="!$state.includes('teacher.course.lectures')"
-          class="glyphicon glyphicon-chevron-down"></span>
-    <span ng-show="$state.includes('teacher.course.lectures')"
-          class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <div ui-view></div>
+                       categories="categories">
+  </teacher-course-form>
+  <teacher-course-lectures course="course"
+                           classes="classes">
+  </teacher-course-lectures>
 </div>

@@ -38,11 +38,10 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
-  foundCourse = {}
   courseId = req.params.id
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    course.populateQ 'owners'
+    course.populateQ 'owners classes'
   .then (course) ->
     res.send course
   , next

@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   Classes
   Courses
   Categories
+  Restangular
 ) ->
 
   angular.extend $scope,
@@ -92,11 +93,3 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
     courses: Courses
     classes: Classes
     categories: Categories
-
-    toggleLectures: (course) ->
-      stateName =
-        if $state.includes('teacher.course.lectures')
-          'teacher.course'
-        else
-          'teacher.course.lectures'
-      $state.go(stateName, courseId:course._id)

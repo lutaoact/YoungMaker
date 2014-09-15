@@ -7,11 +7,15 @@
       <h2 class="page-header">课程：</h2>
       <div class="list-group"
           ng-repeat="course in courses">
-        <!--<teacher-course-form class="list-group-item" course="course" categories="categories"></teacher-course-form>-->
-        <a ng-click="toggleLectures(course)"
-           class="list-group-item btn btn-default">
-          {{course.name}}
-        </a>
+        <teacher-course-form course="course"
+                             courses="courses"
+                             categories="categories"></teacher-course-form>
+        <teacher-course-lectures course="course"
+                                 classes="classes"></teacher-course-lectures>
+        <!--<a ng-click="toggleLectures(course)"-->
+           <!--class="list-group-item btn btn-default">-->
+          <!--{{course.name}}-->
+        <!--</a>-->
       </div>
     </div>
   </div>

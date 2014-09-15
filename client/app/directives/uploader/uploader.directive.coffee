@@ -5,6 +5,7 @@ angular.module('budweiserApp')
 .directive 'uploader', ->
   restrict: 'EA'
   transclude: true
+  replace: true
   controller: 'UploadCtrl'
   templateUrl: 'app/directives/uploader/uploader.html'
   scope:

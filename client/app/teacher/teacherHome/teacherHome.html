@@ -3,14 +3,14 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 list-group">
       <h2 class="page-header">课程：</h2>
-      <div ui-view class="list-group">
+      <div ui-view class="list-group-item course-card">
         <a type="button"
            class="btn btn-primary"
            ui-sref="teacher.home.newCourse">添加课程</a>
       </div>
-      <div class="list-group"
+      <div class="list-group-item course-card"
           ng-repeat="course in courses">
         <teacher-course-form course="course"
                              courses="courses"

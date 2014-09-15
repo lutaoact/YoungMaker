@@ -1,13 +1,5 @@
 <div>
-  <a style="height: 30px; width: 100%;"
-     ng-click="toggleLectures(course)"
-     class="btn btn-default">
-    <span ng-show="course.$lectures == null"
-          class="glyphicon glyphicon-chevron-down"></span>
-    <span ng-show="course.$lectures != null"
-          class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <div class="row"
+  <div class="row course-lectures"
        ng-show="course.$lectures != null">
     <br/>
     <div class="col-md-4"
@@ -66,4 +58,11 @@
       </ul>
     </div>
   </div>
+  <a ng-click="toggleLectures(course)"
+     class="btn btn-block">
+    <span ng-show="course.$lectures == null"
+          class="glyphicon glyphicon-chevron-down"></span>
+    <span ng-show="course.$lectures != null"
+          class="glyphicon glyphicon-chevron-up"></span>
+  </a>
 </div>

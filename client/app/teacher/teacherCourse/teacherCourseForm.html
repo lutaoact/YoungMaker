@@ -1,15 +1,17 @@
-<form class="form-horizontal media" name="form" role="form">
+<form class="form-horizontal media course-form" name="form" role="form">
   <div class="media-object pull-left">
     <uploader limit="2*1024*1024"
               ng-disabled="!editing"
+              class="course-img"
               on-complete="onThumbUploaded($data)"
               accept="image">
       <img src-key="course.thumbnail"
-           suffix="?imageView2/2/w/700/h/400"
-           src="/assets/images/empty.jpg"/>
+           width="700"
+           height="400"
+           suffix="?imageView2/2/w/700/h/400"/>
     </uploader>
   </div>
-  <div class="media-body">
+  <div class="media-body course-detail">
     <div class="form-group">
       <div class="col-sm-10">
         <input class="form-control"
@@ -34,10 +36,11 @@
       </div>
     </div>
     <span ng-repeat="owner in course.owners">{{owner.name}} </span>
-    <div style="height: 80px"/>
-    简介：
     <div class="form-group">
       <div class="col-sm-10">
+        <div class="course-info">
+          简介：
+        </div>
         <textarea class="form-control"
                   id="course-info"
                   name="info"

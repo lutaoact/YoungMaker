@@ -9,6 +9,8 @@ cloud3edu cloud based education system
 + npm 
 + bower  
 `npm install bower grunt grunt-cli -g`
++ redis  
+`brew install redis`
 
 ###Downloand node&bower packages
 ```
@@ -21,6 +23,8 @@ grunt build
 grunt test
 ```
 ###Run
+start redis server at localhost:6379, then
+
 `grunt serve`
 
 ###Troubleshooting

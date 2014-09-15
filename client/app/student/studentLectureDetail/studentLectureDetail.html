@@ -43,10 +43,10 @@
     </div>
 
     <div class="switch">
-      <a class="btn" ng-class="{'active':viewState.isVideo}" ng-click="viewState.isVideo = true">
+      <a class="btn" ng-class="{'active':viewState.isVideo,'selected':viewState.isVideo}" ng-click="viewState.isVideo = true">
         <i class="fa fa-toggle-right"></i><br/>
       </a>
-      <a class="btn" ng-class="{'active':!viewState.isVideo}" ng-click="viewState.isVideo = false">
+      <a class="btn" ng-class="{'active':!viewState.isVideo,'selected':!viewState.isVideo}" ng-click="viewState.isVideo = false">
         <i class="fa fa-file-powerpoint-o"></i><br/>
       </a>
       <a class="btn" ng-class="{'active':viewState.showDiscussion}" ng-click="viewState.showDiscussion = !viewState.showDiscussion">

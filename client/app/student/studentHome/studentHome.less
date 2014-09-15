@@ -1,4 +1,32 @@
-
 .student{
-
+  section{
+    padding-top: 50px;
+    background: #FFFFFF;
+    &:nth-child(even){
+      background: #EBEBEB;
+    }
+    .above-header{
+      color: @base-color;
+      text-align: center;
+      h1{
+        font-size: 60px;
+      }
+    }
+    .section-header{
+      color: @base-color;
+      text-align: center;
+      > *{
+        display: inline-block;
+      }
+      &:before,
+      &:after{
+        display: inline-block;
+        content: ' ';
+        width: 60px;
+        height: 4px;
+        background: #888888;
+        margin: 10px 25px;
+      }
+    }
+  }
 }

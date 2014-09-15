@@ -1,6 +1,8 @@
 .student{
   .lecture-view{
+    padding-bottom: 50px;
     .container{
+      background: #FFFFFF;
       position: relative;
       border:1px solid #DDDDDD;
       .box-shadow(0 0 2px #DDDDDD);
@@ -95,6 +97,17 @@
             background: @base-color;
             color: #FFFFFF;
           }
+          &.selected{
+            &:before{
+              position: absolute;
+              right: 0;
+              top: 50%;
+              margin-top: -3px;
+              border-right: 6px solid #FFFFFF;
+              border-top: 3px solid transparent;
+              border-bottom: 3px solid transparent;
+            }
+          }
         }
       }
 
@@ -102,7 +115,6 @@
   }
 
   .quiz-and-homework{
-    background: @gray-lighter;
   }
 }
 

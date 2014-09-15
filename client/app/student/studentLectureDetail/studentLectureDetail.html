@@ -44,19 +44,19 @@
 
     <div class="switch">
       <a class="btn" ng-class="{'active':viewState.isVideo,'selected':viewState.isVideo}" ng-click="viewState.isVideo = true">
-        <i class="fa fa-toggle-right"></i><br/>
+        <i class="fa fa-toggle-right"></i>
       </a>
       <a class="btn" ng-class="{'active':!viewState.isVideo,'selected':!viewState.isVideo}" ng-click="viewState.isVideo = false">
-        <i class="fa fa-file-powerpoint-o"></i><br/>
+        <i class="fa fa-file-powerpoint-o"></i>
       </a>
-      <a class="btn" ng-class="{'active':viewState.showDiscussion}" ng-click="viewState.showDiscussion = !viewState.showDiscussion">
-        <i class="fa fa-comment-o"></i><br/>
+      <a class="btn" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()">
+        <i class="fa fa-comment-o"></i>
       </a>
-      <a class="btn" ng-class="{'active':viewState.showDiscussion}" ng-click="viewState.showDiscussion = !viewState.showDiscussion">
-        <i class="fa fa-heart"></i><br/>
+      <a class="btn sub" ng-class="{'active':lecture.$liked}" ng-click="lecture.$liked = !lecture.$liked">
+        <i class="fa fa-heart"></i>
       </a>
-      <a class="btn" ng-class="{'active':viewState.showDiscussion}" ng-click="viewState.showDiscussion = !viewState.showDiscussion">
-        <i class="fa fa-star"></i><br/>
+      <a class="btn sub" ng-class="{'active':lecture.$collected}" ng-click="lecture.$collected = !lecture.$collected">
+        <i class="fa fa-star"></i>
       </a>
     </div>
 
@@ -87,4 +87,7 @@
   </div>
 </section>
 
+<div class="mask" ng-show="viewState.showDiscussion" ng-click="viewState.showDiscussion = false"></div>
+<div ng-if="viewState.discussPanelnitialized" ng-include="'app/forum/forumCourse/forumCourse.html'" ng-controller="ForumCourseCtrl" ng-show="viewState.showDiscussion" class="sider">
+</div>
 

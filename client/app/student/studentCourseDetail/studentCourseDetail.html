@@ -1,28 +1,9 @@
-<div class="sub-nav">
-  <div class="container">
-
-    <ul class="pull-left">
-      <li>
-        <a ui-sref="student.courseList" class="btn btn-icon">
-          <i class="fa fa-arrow-circle-left"></i>
-        </a>
-      </li>
-    </ul>
-    <ul class="pull-right">
-      <li>
-        <a ng-click="openQuickNav()" class="btn btn-icon">
-          <i class="fa fa-bars"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
 <!-- jumbotron -->
 <section class="jumbotron course-detail">
   <div class="text-center">
     <div class="course text-left" student-course-tile course="course"></div>
     <div class="header">
-      <h2>{{course.name}}<span class="badge">介绍</span></h2>
+      <h2>{{course.name}}</h2>
     </div>
     <div class="description">
       {{course.info}}

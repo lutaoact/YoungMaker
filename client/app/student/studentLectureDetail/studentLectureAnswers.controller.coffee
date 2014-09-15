@@ -48,10 +48,15 @@ angular.module('budweiserApp')
     Restangular.all('homework_answers').getList(lectureId:$scope.lecture._id)
     .then (answers)->
       if answers.length > 0
+        # TODO: api only return the object
+        # check null
         homeworkAnswer = answers[answers.length-1]
         homeworks = $scope.lecture?.homeworks
         homeworks.$submitted = true
         for question in homeworks
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
+          question.$correct = answer.every (item)->
+            question.content.body[item].correct
+
           for option, index in question.content.body
             option.$selected = answer?.indexOf(index) >= 0

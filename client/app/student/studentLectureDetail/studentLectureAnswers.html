@@ -15,8 +15,8 @@
             <h4 class="index text-muted">
               {{$index + 1 + ((displayQuestions.currentPage||1) - 1) * viewState.pageSize}}
             </h4>
-            <i class="indicator correct fa fa-check" ng-show="option.correct && displayQuestions.$submitted"></i>
-            <i class="indicator incorrect fa fa-times" ng-show="!option.correct && displayQuestions.$submitted"></i>
+            <i class="indicator correct fa fa-check" ng-show="question.$correct && displayQuestions.$submitted"></i>
+            <i class="indicator incorrect fa fa-times" ng-show="!question.$correct && displayQuestions.$submitted"></i>
           </div>
           <div class="col-md-11 col-xs-10">
             <h5 class="text-primary">{{question.content.title}}</h5>

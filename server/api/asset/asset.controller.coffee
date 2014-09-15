@@ -1,6 +1,6 @@
 AssetUtils = _u.getUtils 'asset'
 config = require '../../config/environment'
-cache = require 'memory-cache'
+redisClient = require '../../common/redisClient'
 
 imageHost             = config.assetHost.images
 videoHost             = config.assetHost.videos
@@ -9,97 +9,66 @@ uploadSlideHost       = config.assetHost.uploadSlide
 uploadImageHost       = config.assetHost.uploadImage
 uploadVideoHost       = config.assetHost.uploadVideo
 
+retrieveAsset = (key, assetHost, res) ->
+
+  # check cache first
+  redisClient.q.get key
+  .then (cached) ->
+    if cached? then return res.redirect cached
+
+    logger.info "No cache found for #{key}"
+    logger.info 'Asset host is ' + assetHost
+    switch assetHost
+      when 'qiniu'
+        AssetUtils.getAssetFromQiniu key, res
+      when 's3'
+        AssetUtils.getAssetFromS3 key, res
+      else
+        res.send 404, 'asset host not found'
+
+
+uploadAsset = (assetHost, req, res) ->
+
+  fileName = req.query.fileName
+
+  switch assetHost
+    when 'qiniu'
+      console.log 'upload host is qiniu'
+      params = AssetUtils.genQiniuUpParams fileName
+      res.send 200, params
+    when 's3'
+      console.log 'upload host is S3'
+      params = AssetUtils.genS3UpParams fileName
+      res.send 200, params
+    else
+      res.send 404, "Asset host #{assetHost} not found"
+
+
 ###
   redirect api/assets/images/key to asset host URL
 ###
 exports.getImages = (req, res) ->
-
-  # check cache first
   key = decodeURI(req.url.replace(/(\/|)images\//, ''))
   logger.info 'Key is ' + key
-  cached = cache.get key
-  if cached? then return res.redirect cached
-
-  logger.info 'Image host is ' + imageHost
-  switch imageHost
-    when 'qiniu'
-      AssetUtils.getAssetFromQiniu key, res
-    else # only support qiniu for now
-      res.send 404, 'asset host not found'
-
+  retrieveAsset key, imageHost, res
 
 exports.getVideos = (req, res) ->
-
-  # check cache first
   key = decodeURI(req.url.replace(/(\/|)videos\//, ''))
   logger.info 'Key is ' + key
-  cached = cache.get key
-  if cached? then return res.redirect cached
-
-  logger.info 'Video host is ' + videoHost
-  switch videoHost
-    when 'qiniu'
-      AssetUtils.getAssetFromQiniu key, res
-    else # only support qiniu for now
-      res.send 404, 'asset host not found'
-
+  retrieveAsset key, videoHost, res
 
 exports.getSlides = (req, res) ->
-  # check cache first
   key = decodeURI(req.url.replace(/(\/|)slides\//, ''))
   logger.info 'Key is ' + key
-  cached = cache.get key
-  if cached? then return res.redirect cached
-
-  logger.info 'Slide host is ' + slideHost
-  switch slideHost
-    when 'qiniu'
-      AssetUtils.getAssetFromQiniu key, res
-    when 's3'
-      AssetUtils.getAssetFromS3 key, res
-    else # only support qiniu for now
-      res.send 404, 'asset host not found'
+  retrieveAsset key, slideHost, res
 
 
 exports.uploadImage = (req, res) ->
-  console.log 'start generating upload image params...'
-
-  fileName = req.query.fileName
-  switch uploadImageHost
-    when 'qiniu'
-      console.log 'upload image host is qiniu'
-      params = AssetUtils.genQiniuUpParams fileName
-      res.send 200, params
-    else
-      res.send 404, "Asset host #{uploadImageHost} not found"
-
+  uploadAsset uploadImageHost, req, res
 
 exports.uploadVideo = (req, res) ->
-  console.log 'start generating upload video params...'
-  fileName = req.query.fileName
-
-  switch uploadVideoHost
-    when 'qiniu'
-      console.log 'upload video host is qiniu'
-      params = AssetUtils.genQiniuUpParams fileName
-      res.send 200, params
-    else
-      res.send 404, "Asset host #{uploadVideoHost} not found"
-
+  uploadAsset uploadVideoHost, req, res
 
 exports.uploadSlide = (req, res) ->
-  console.log 'start generating upload slide params...'
-  fileName = req.query.fileName
-
-  switch uploadSlideHost
-    when 's3'
-      console.log 'upload slide host is S3'
-      params = AssetUtils.genS3UpParams fileName
-      res.send 200, params
-    when 'qiniu'
-      console.log 'upload slide host is qiniu'
-      params = AssetUtils.genQiniuUpParams fileName
-      res.send 200, params
-    else
-      res.send 404, "Asset host #{uploadSlideHost} not found"
+  uploadAsset uploadSlideHost, req, res
 

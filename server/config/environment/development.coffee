@@ -38,3 +38,7 @@ module.exports =
     uploadImage : 'qiniu'
     uploadSlide : 'qiniu' # change to S3 later
     uploadVideo : 'qiniu'
+
+  redis :
+    port : 6379
+    host : "localhost"

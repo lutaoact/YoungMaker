@@ -1,11 +1,11 @@
 qiniu = require 'qiniu'
 config = require '../../config/environment'
 randomstring = require 'randomstring'
-cache = require 'memory-cache'
 path = require 'path'
 fs = require 'fs'
 http = require 'http'
 mediaEvents = require '../../common/media_process_event'
+redisClient = require '../../common/redisClient'
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -32,9 +32,9 @@ exports.uptoken = (req, res) ->
 ###
 exports.signedUrl = (req, res) ->
   key = req.params.key
-  cached = cache.get key
-  if cached
-    return res.send 200, cached
+  redisClient.q.get key
+  .then (cached) ->
+    return res.send 200, cached if cached?
 
   baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
   # the query should not encode before signature
@@ -42,29 +42,10 @@ exports.signedUrl = (req, res) ->
   policy = new qiniu.rs.GetPolicy(signedUrlExpires)
   downloadUrl = policy.makeRequest(baseUrl)
   # cache expiration is one hour less than signedURL expiration from qiniu
-  cache.put key, downloadUrl,  (signedUrlExpires-60*60)*1000
+  redisClient.q.set key, downloadUrl, 'EX', (signedUrlExpires-60*60)
 
   res.send 200, downloadUrl
 
-###
-  redirect api/qiniu/images/key to private http://bucket.host/key
-###
-exports.images = (req, res) ->
-  key = decodeURI(req.url.replace(/(\/|)images\//, ''))
-  console.log key
-  cached = cache.get key
-  if cached
-    return res.redirect cached
-
-  baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
-  # the query should not encode before signature
-  baseUrl += if key.split('?')[1] then ('?' + key.split('?')[1]) else ''
-  policy = new qiniu.rs.GetPolicy(signedUrlExpires)
-  downloadUrl = policy.makeRequest(baseUrl)
-  # cache expiration is one hour less than signedURL expiration from qiniu
-  cache.put key, downloadUrl,  (signedUrlExpires-60*60)*1000
-
-  res.redirect downloadUrl
 
 # receive pfop notify from qiniu service
 exports.receiveNotify = (req, res) ->

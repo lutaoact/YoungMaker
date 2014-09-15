@@ -2,10 +2,10 @@ BaseUtils = require('../../common/BaseUtils').BaseUtils
 qiniu = require 'qiniu'
 config = require '../../config/environment'
 randomstring = require 'randomstring'
-cache = require 'memory-cache'
 AWS = require 'aws-sdk'
 moment = require 'moment'
 crypto = require 'crypto'
+redisClient = require '../../common/redisClient'
 
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
@@ -32,7 +32,9 @@ exports.AssetUtils = BaseUtils.subclass
     downloadUrl = policy.makeRequest(baseUrl)
 
     # cache expiration is one hour less than signedURL expiration from qiniu
-    cache.put key, downloadUrl,  (signedUrlExpires-60*60)*1000
+    redisClient.q.set key, downloadUrl, 'EX', (signedUrlExpires-60*60)
+    .then (result) ->
+      logger.info "Set #{key}:#{downloadUrl} to redis"
     res.redirect downloadUrl
 
 
@@ -47,11 +49,12 @@ exports.AssetUtils = BaseUtils.subclass
     # use s3 SDK to sign URL
     s3.getSignedUrl 'getObject', params, (err, url) ->
       if err
-        console.dir err
         return res.send 500, 'Failed to sign URL for S3 asset'
 
       logger.info 'Signed S3 URL is ' + url
-      cache.put key, url, (signedUrlExpires-60*60)*1000
+      redisClient.q.set key, url, 'EX', (signedUrlExpires-60*60)
+      .then (result) ->
+        logger.info "Set #{key}:#{url} to redis"
       res.redirect url
 
 
@@ -61,7 +64,6 @@ exports.AssetUtils = BaseUtils.subclass
     randomStr = randomstring.generate 10
 
     {
-
       url : 'http://up.qiniu.com'
       formData :
         key : randomStr + '/' + fileName

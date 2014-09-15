@@ -9,7 +9,6 @@ auth = require '../../auth/auth.service'
 router = express.Router()
 
 router.get '/uptoken', auth.isAuthenticated(), controller.uptoken
-router.get '/images/*', controller.images
 router.get '/signed_url/:key', auth.isAuthenticated(), controller.signedUrl
 router.get '/download/:key', auth.isAuthenticated(), controller.downloadFile
 router.post '/upload', auth.isAuthenticated(), controller.uploadFile

@@ -23,3 +23,4 @@ client/index.html
 /server/common/ErrCode.js
 /server/config/set_sockjs.js
 /server/common/mail/index.js
+dump.rdb

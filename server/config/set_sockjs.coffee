@@ -19,7 +19,7 @@ exports.init = (sockjs_server) ->
 #        routes[msg.type] user, msg.payload #if we need more, uncomment this line
       , (err) ->
         logger.error err
-        conn.write JSON.stringify SocketUtils.buildErrMsg err
+        conn.write SocketUtils.buildErrMsg err
         do conn.close
 
     conn.on 'close', () ->

@@ -1,7 +1,8 @@
 "use strict"
 
-sockjs_srv = require '../../config/sockjs_srv'
 Question = _u.getModel "question"
+Classe = _u.getModel 'classe'
+SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
   categoryId = req.query.categoryId
@@ -81,5 +82,16 @@ exports.destroy = (req, res, next) ->
 exports.pubQuiz = (req, res, next) ->
   questionId = req.query.questionId
   classId = req.query.classId
-  sockjs_srv.broadcastQuiz classId, questionId
-  res.send 200
+  tmpResult = {}
+  Question.findByIdQ questionId
+  .then (question) ->
+    tmpResult.question = question
+    Classe.findByIdQ classId
+  .then (classe) ->
+    SocketUtils.sendToGroup(
+      SocketUtils.quizMsg tmpResult.question
+      classe.students
+    )
+
+    res.send 200
+  , next

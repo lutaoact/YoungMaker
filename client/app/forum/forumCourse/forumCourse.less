@@ -1,0 +1,48 @@
+.forum{
+  .title-row{
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 3px;
+  }
+  .form-group{
+    margin-bottom: 3px;
+  }
+  .input-group{
+    border: none;
+    .input-group-addon{
+      border: none;
+      background: transparent;
+      color: @gray;
+    }
+    .form-control{
+      border: none;
+      .box-shadow(none);
+    }
+
+  }
+  .search{
+    padding-left: 0;
+  }
+  .dropdown-toggle{
+    background-color: transparent;
+  }
+  .topic-list{
+    width: 42%;
+    float: left;
+  }
+  .topic-detail{
+    margin-left: 43%;
+  }
+  .thumbnail.topic{
+    &.selected{
+      &:before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        bottom: 4px;
+        width: 4px;
+        background: @base-color;
+      }
+    }
+  }
+}

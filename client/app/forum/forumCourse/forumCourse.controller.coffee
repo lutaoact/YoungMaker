@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $state
   $q
   $rootScope
+  $sce
 ) ->
 
   $rootScope.additionalMenu = [
@@ -55,6 +56,8 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     posting: false
 
+    selectedTopic: undefined
+
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
@@ -90,9 +93,21 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         $scope.initTopic()
         $scope.posting = false
 
+    viewTopic: (topic)->
+      Restangular.one('dis_topics', topic._id).get()
+      .then (topic)->
+        topic.$safeContent = $sce.trustAsHtml topic.content
+        $scope.selectedTopic = topic
+        Restangular.all('dis_replies').getList({disTopicId: topic._id})
+      .then (replies)->
+        replies.forEach (reply)->
+          reply.$safeContent = $sce.trustAsHtml reply.content
+        $scope.selectedTopic.$replies = replies
+
+
+
   $q.all [
-    $scope.loadCourse()
-    $scope.loadLectures()
+    $scope.loadCourse().then $scope.loadLectures
     $scope.loadTopics()
   ]
   .then ()->

@@ -69,6 +69,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
     loadTopics: ()->
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
       .then (topics)->
+        console.log topics
         $scope.topics = topics
 
     initTopic: ()->

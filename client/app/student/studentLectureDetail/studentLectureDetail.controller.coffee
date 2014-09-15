@@ -70,6 +70,9 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
 
     viewState:
       isVideo: true
+      # Should not set to ```false```, once it is set to ```true```,
+      # because ```ng-if="false"``` will destroy the controller and view
+      discussPanelnitialized: false
 
     $stateParams: $state.params
 
@@ -124,6 +127,10 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
     onPlayerReady: (playerAPI) ->
       $scope.mediaPlayerAPI = playerAPI
       seekHashTimestamp()
+
+    toggleDiscussionPanel: ()->
+      @viewState.discussPanelnitialized = true
+      @viewState.showDiscussion = !@viewState.showDiscussion
 
   seekHashTimestamp = ->
     total = $tools.timeStrings2Seconds $location.hash()

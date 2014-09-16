@@ -15,18 +15,17 @@ credentials =
   timeout: 20000
 
 
-exports.sendPwdResetMail = (senderName, receiverName, receiverEmail, resetLink) ->
+exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
   locals =
-    senderName: senderName
     username: receiverName
     resetLink: resetLink
 
   htmlOutput = pwdResetFn locals
 
   message =
-    from: senderName + ' <' + credentials.user + '>'
+    from: "学之方" + ' <' + credentials.user + '>'
     to: receiverEmail
-    subject: "password reset link"
+    subject: "学之方 -- 找回密码邮件"
     attachment: [{data: htmlOutput, alternative:true}]
 
   server = emailjs.server.connect credentials

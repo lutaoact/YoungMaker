@@ -1,11 +1,11 @@
-h3 Forgot your password?
+h3 亲爱的#{username}:
 p
-  | We received a request to reset the password for your account (#{username}).
-p
-  | To reset your password, click on the link below (or copy and paste the URL into your browser):
+  | 请点击以下链接输入你新的密码：
 p
   a(href='#{resetLink}') #{resetLink}
 p
-  | Thanks,
-  br
-  | #{senderName}
+  | 如果你的email程序不支持链接点击，请将上面的地址拷贝至你的浏览器(例如IE)的地址栏进入学之方。
+p
+  | 学之方 http://www.cloud3edu.com
+p
+  | (这是一封自动产生的email，请勿回复。)

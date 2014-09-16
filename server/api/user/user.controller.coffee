@@ -251,6 +251,7 @@ exports.forget = (req, res, next) ->
 
   crypto = require 'crypto'
   cryptoQ = Q.nbind(crypto.randomBytes)
+  token = null
 
   cryptoQ(21)
   .then (buf) ->
@@ -262,23 +263,11 @@ exports.forget = (req, res, next) ->
       resetPasswordExpires: Date.now() + 10000000
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
-    options =
-      from: req.app.config.smtp.from.name+' <'+req.app.config.smtp.from.address+'>'
-      to: user.email
-      subject: 'Reset your '+req.app.config.projectName+' password'
-      textPath: 'users/forgot/email-text'
-      htmlPath: 'users/forgot/email-html'
-      locals:
-        username: user.name
-        resetLink: req.protocol+'://'+req.headers.host+'/login/reset/'+user.email+'/'+token+'/'
-        projectName: req.app.config.projectName
-      success: (message) ->
-        res.send 201
-      error: (err) ->
-        res.json(404, err)
-
-    req.app.utility.sendmail(req, res, options)
-
+    sendPwdResetMail = require('../../common/mail').sendPwdResetMail
+    resetLink = req.protocol+'://'+req.headers.host+'/accounts/resetpassword?email='+user.email+'&token='+token
+    sendPwdResetMail user.name, user.email, resetLink
+  .done () ->
+    res.send 200
   , (err) ->
     next err
 
@@ -287,8 +276,8 @@ exports.reset = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
   User.findOneQ
-    email: req.params.email.toLowerCase()
-    resetPasswordToken: req.params.token
+    email: req.query.email.toLowerCase()
+    resetPasswordToken: req.query.token
     resetPasswordExpires:
       $gt: Date.now()
   .then (user) ->

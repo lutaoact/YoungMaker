@@ -9,8 +9,8 @@ router = express.Router()
 router.get '/', auth.hasRole('admin'), controller.index
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.get '/me', auth.isAuthenticated(), controller.me
-router.post '/forget', controller.forget
-router.post '/reset/:email/:token', controller.reset
+router.post '/forgetpassword', controller.forget
+router.post '/resetpassword', controller.reset
 router.put '/:id/password', auth.isAuthenticated(), controller.changePassword
 router.put '/:id', auth.isAuthenticated(), controller.update
 router.patch '/:id', auth.isAuthenticated(), controller.update

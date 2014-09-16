@@ -82,6 +82,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       .then (topics)->
         console.log topics
         $scope.topics = topics
+        $scope.viewTopic(topics[0]) if topics[0]
 
     initTopic: ()->
       @myTopic = {} if !@myTopic
@@ -103,8 +104,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     viewTopic: (topic)->
       $scope.selectedTopic = undefined
-      $timeout ->
-        console.log $document.scrollTop(340)
       Restangular.one('dis_topics', topic._id).get()
       .then (topic)->
         topic.$safeContent = $sce.trustAsHtml topic.content
@@ -114,11 +113,11 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         replies.forEach (reply)->
           reply.$safeContent = $sce.trustAsHtml reply.content
         $scope.selectedTopic.$replies = replies
+        $document.scrollTop(340)
 
     clientHeight: undefined
 
     onImgUploaded: (key)->
-      console.log key
       @imagesToInsert ?= []
       @imagesToInsert.push
         url: "/api/assets/images/#{key}"
@@ -129,10 +128,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     replyTo: (topic, reply)->
       # validate
-      console.log 'reply'
       @replying = true
-      @imagesToInsert.forEach (image)->
-        reply.content += "<img src=\"#{image.url}\">"
+      @imagesToInsert?.forEach (image)->
+        reply.content += "<img class=\"sm\" src=\"#{image.url}\">"
       topic.$replies.post reply, {disTopicId: topic._id}
       .then (dis_reply)->
         dis_reply.$safeContent = $sce.trustAsHtml dis_reply.content
@@ -150,8 +148,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       .then (res)->
         reply.voteUpUsers = res.voteUpUsers
 
-
-
   setclientHeight = ()->
     $scope.clientHeight =
       "min-height": $window.innerHeight
@@ -159,8 +155,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   setclientHeight()
 
   handle = angular.element($window).bind 'resize', setclientHeight
-
-  console.log handle
 
   $scope.$on '$destroy', ->
     angular.element($window).unbind 'resize', setclientHeight

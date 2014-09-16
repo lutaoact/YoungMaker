@@ -15,6 +15,7 @@ angular.module('budweiserApp').directive 'isVisible', ($document, $timeout, $win
 
     topOffset = 0
     bottomOffset = 0
+    lastState = undefined
     if scope.adjustOffsetTop
       topOffset = scope.adjustOffsetTop
     if scope.adjustOffsetBottom
@@ -22,7 +23,10 @@ angular.module('budweiserApp').directive 'isVisible', ($document, $timeout, $win
     scrollHandle = ()->
       elemTop = $element[0].getBoundingClientRect().top
       $timeout () ->
-        scope.isVisible = elemTop < $window.innerHeight + topOffset && (bottomOffset - elemTop) < 0
+        currentState = elemTop < $window.innerHeight + topOffset && (bottomOffset - elemTop) < 0
+        if currentState isnt lastState
+          lastState = currentState
+          scope.isVisible = lastState
 
     # Find element's parent, bind scroll event
     scrollParent = $element.scrollParent?() or $document

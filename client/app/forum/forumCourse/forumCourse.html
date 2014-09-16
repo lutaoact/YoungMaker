@@ -108,7 +108,7 @@
 
       <hr>
       <div class="replies">
-        <h5 class="base-color">{{selectedTopic.replies||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
+        <h5 class="base-color">{{selectedTopic.$replies.length||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
 
         <div class="new-reply">
           <div class="new-reply-left">
@@ -119,8 +119,15 @@
                  suffix="?imageView2/1/w/64/h/64">
             </div>
           </div>
-          <div class="new-reply-right">
-            <textarea msd-elastic class="form-control reply-input" row="1" placeholder="请输入您要回复的内容..." ng-model="newReply.content">
+          <div class="new-reply-right" is-visible="viewState.newReplyVisible">
+            <textarea
+              id="new-reply"
+              msd-elastic
+              class="form-control reply-input"
+              row="1"
+              placeholder="请输入您要回复的内容..."
+              ng-model="newReply.content"
+              focus-me="viewState.newReplyVisible">
             </textarea>
             <div class="reply-tools">
               <div class="image-to-insert" ng-repeat="image in imagesToInsert">
@@ -141,10 +148,10 @@
         </div>
 
         <ul class="list-group ">
-          <li class="bud thumbnail media col-md-12"
+          <li class="bud thumbnail media col-md-12 reply"
               ng-repeat="reply in selectedTopic.$replies">
             <a class="pull-left" href>
-              <div class="media-object avatar-md"
+              <div class="media-object avatar-sm"
                    source-attr="background-image"
                    src="http://placehold.it/32x32"
                    src-key="reply.postBy.avatar"
@@ -153,7 +160,7 @@
             </a>
             <div class="media-body">
 
-              <h5 class="base-color">{{reply.postBy.name}}<small>|{{reply.created|timeToTimeAgo}}</small></h5>
+              <h5 class="base-color reply-author-name">{{reply.postBy.name}}<small>|</small><small>{{reply.created|timeToTimeAgo}}</small><a href ng-show="reply.postBy._id == me._id" class="pull-right">删除</a></h5>
 
               <div class="reply-body blog" ng-bind-html="reply.$safeContent"></div>
               <span class="pull-right">
@@ -169,6 +176,13 @@
             </div>
           </li>
         </ul>
+
+        <a class="btn form-control btn-primary btn-lg rounded"
+          style="margin: 20px 0;border-radius: 3px; height: 49px;"
+          href="#new-reply"
+          du-smooth-scroll offset="200">
+          快速回复该帖
+        </a>
       </div>
 
     </div>

@@ -109,9 +109,11 @@
         }
         .image-to-insert{
           display: inline-block;
-          vertical-align: bottom;
+          vertical-align: top;
+          max-width: 31%;
+          margin-left: 10px;
           img{
-            max-width: 170px;
+            max-width: 100%;
             max-height: 107px;
           }
         }
@@ -122,6 +124,22 @@
           margin: 5px 0;
         }
       }
+
+      .list-group{
+        .media.reply{
+          margin: 0;
+          border-top: none;
+          border-left: none;
+          border-right: none;
+          padding: 10px;
+          .reply-author-name{
+            small{
+              margin-left: 16px;
+            }
+          }
+        }
+      }
+
     }
   }
   .media.topic{

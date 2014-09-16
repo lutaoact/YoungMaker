@@ -9,6 +9,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $q
   $rootScope
   $sce
+  $document
+  $window
+  $timeout
 ) ->
 
   $rootScope.additionalMenu = [
@@ -94,6 +97,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         $scope.posting = false
 
     viewTopic: (topic)->
+      $scope.selectedTopic = undefined
+      $timeout ->
+        console.log $document.scrollTop(340)
       Restangular.one('dis_topics', topic._id).get()
       .then (topic)->
         topic.$safeContent = $sce.trustAsHtml topic.content
@@ -104,7 +110,20 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
           reply.$safeContent = $sce.trustAsHtml reply.content
         $scope.selectedTopic.$replies = replies
 
+    clientHeight: undefined
 
+  setclientHeight = ()->
+    $scope.clientHeight =
+      "min-height": $window.innerHeight
+
+  setclientHeight()
+
+  handle = angular.element($window).bind 'resize', setclientHeight
+
+  console.log handle
+
+  $scope.$on '$destroy', ->
+    angular.element($window).unbind 'resize', setclientHeight
 
   $q.all [
     $scope.loadCourse().then $scope.loadLectures

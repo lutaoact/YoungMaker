@@ -28,11 +28,29 @@
   .topic-list{
     width: 42%;
     float: left;
+    background: #FFFFFF;
+    &.fixed{
+      position: fixed;
+      top: 60px;
+      bottom: 140px;
+      overflow-y: auto;
+      width: calc(~"940px*0.42");
+    }
   }
   .topic-detail{
     margin-left: 43%;
+    min-height: 700px;
   }
-  .thumbnail.topic{
+  .media.topic{
+    margin: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 20px 15px 20px 20px;
+    height: 89px;
+    &:hover{
+      background: @gray-lighter;
+    }
     &.selected{
       &:before{
         content: '';
@@ -44,5 +62,30 @@
         background: @base-color;
       }
     }
+    .badge{
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      height: 20px;
+      min-width: 20px;
+      font-size: 13px;
+      margin-top: -10px;
+      border-radius: 10px;
+      display: inline-block;
+      padding: 4px 7px;
+      background: @gray-light;
+      color: @gray;
+    }
+  }
+  .tags{
+    tag{
+      color: #FFFFFF;
+      display: inline;
+      font-size: 12px;
+      background: @gray;
+    }
+  }
+  .avatar-md{
+    margin-top: 3px;
   }
 }

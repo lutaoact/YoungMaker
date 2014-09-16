@@ -4,7 +4,7 @@
     <br/>
     <div class="col-md-4"
          ng-if="course._id">
-      <div>
+      <div class="from-inline">
         <ui-select ng-model="addingClasse"
                    on-select="addClasse($item)">
           <ui-select-match placeholder="添加班级"><span class="text-muted">添加班级</span></ui-select-match>
@@ -28,9 +28,9 @@
     <div class="col-md-8"
          ng-if="course._id">
       <div class="form-inline">
-        <label><strong>课时</strong></label>
+        <label class="title">课时</label>
         <input type="text"
-               class="form-control"
+               class="form-control width-percent-60"
                placeholder="搜索"
                ng-model="keyword"/>
         <button class="btn btn-primary pull-right"
@@ -38,24 +38,26 @@
                 ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">添加</button>
       </div>
       <hr/>
-      <ul class="nav nav-tabs nav-stacked"
-          ng-repeat-reorder="lecture in course.$lectures | filter:{name:keyword}"
-          style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative"
-          ng-repeat-reorder-handle="div.drag-point">
-        <li>
-          <a>
-            <strong>{{lecture.name}}</strong>
-            <div class="pull-right">
+      <div class="scrollable-content">
+        <ul class="nav nav-tabs nav-stacked"
+            ng-repeat-reorder="lecture in course.$lectures | filter:{name:keyword}"
+            style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative"
+            ng-repeat-reorder-handle="div.drag-point">
+          <li>
+            <a>
+              <strong>{{lecture.name}}</strong>
+              <div class="pull-right">
               <span class="glyphicon glyphicon-pencil"
                     ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})" >
               </span>
-              <div class="drag-point glyphicon glyphicon-sort" draggable="true"></div>
+                <div class="drag-point glyphicon glyphicon-sort" draggable="true"></div>
               <span class="glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)" >
               </span>
-            </div>
-          </a>
-        </li>
-      </ul>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <a ng-click="toggleLectures(course)"

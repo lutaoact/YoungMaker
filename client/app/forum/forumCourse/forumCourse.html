@@ -1,47 +1,139 @@
-<div class="container">
-  <ol class="breadcrumb">
-    <li>
-      <a ui-sref="forum.home">返回</a>
-    </li>
-    <li>
-      <a ui-sref="forum.course({courseId:course._id})">
-        {{course.name||'某课程'}}
-      </a>
-    </li>
-    <li class="active">
-        讨论
-    </li>
-  </ol>
+<section>
+  <div class="jumbotron bud">
+    <div class="container">
+      <h2>
+        {{course.name}}
+        <small><i class="fa fa-book"></i></small>
+      </h2>
+      <div>{{course.info}}</div>
+    </div>
+  </div>
+</section>
 
-  <section>
+<div class="forum container">
+
+  <div class="clearfix title-row">
+    <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
+    <button class="bud btn btn-danger pull-right">
+      <i class="fa fa-plus"></i>新讨论
+    </button>
+  </div>
+
+  <div class="clearfix title-row">
+    <div class="form-group pull-left col-xs-6 search">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input class="form-control" type="text" placeholder="查询">
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group" dropdown is-open="status.isopen">
+        <button type="button" class="btn dropdown-toggle">
+          全部<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">全部</a></li>
+          <li><a href="#">我的帖子</a></li>
+          <li><a href="#">我回复的</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <ul class="list-group topic-list">
+    <div class="clearfix title-row">
+      <h4 class="pull-left">主题</h4>
+      <h5 class="pull-right">
+        <small>排序</small>
+        <i class="fa fa-clock-o" ng-click="sort('update')"></i>
+        <i class="fa fa-heart" ng-click="sort('heat')"></i>
+      </h5>
+    </div>
+    <li class="bud thumbnail media col-md-12 topic"
+        ng-repeat="topic in topics"
+        ng-class="{'selected':topic._id==selectedTopic._id}">
+      <a class="pull-left" href>
+        <img class="media-object"
+             src="http://placehold.it/32x32"
+             src-key="topic.postBy.avatar"
+             style="width:32px;height:32px;"
+             suffix="?imageView2/1/w/64/h/64">
+        <span>{{topic.postBy.name}}</span>
+      </a>
+      <div class="media-body">
+        <a ng-click="viewTopic(topic)" href>
+          <strong>{{topic.title}}</strong>
+
+          <p>{{topic.content|htmlToPlaintext}}</p>
+        </a>
+        <span class="pull-right">
+          {{topic.replies||0}}个回复|
+          {{topic.voteUpUsers.length||0}}个赞
+        </span>
+      </div>
+    </li>
+  </ul>
+
+  <div class="topic-detail" ng-show="selectedTopic">
+    <div class="title-row" style="padding-top: 0.1px;">
+      <h4>内容</h4>
+    </div>
+    <div class="bud thumbnail media">
+      <div class="pull-left">
+        <img class="media-object"
+             suffix="?imageView2/1/w/64/h/64"
+             src-key="selectedTopic.postBy.avatar"
+             style="width:32px;height:32px;">
+        <span>{{selectedTopic.postBy.name}}</span>
+      </div>
+      <div class="media-body">
+        <strong>{{selectedTopic.title}}</strong>
+        <div class="blog" ng-bind-html="selectedTopic.$safeContent">
+        </div>
+        <div class="pull-right">
+          <a href="#comment"
+             du-smooth-scroll
+             class="btn btn-primary">回复</a>
+          <a>
+
+          </a>
+        </div>
+      </div>
+    </div>
+
     <ul class="list-group">
       <li class="bud thumbnail media col-md-12"
-          ng-repeat="topic in topics">
-        <a class="pull-left" href="">
+          ng-repeat="reply in selectedTopic.$replies">
+        <a class="pull-left" href="#">
           <img class="media-object"
                src="http://placehold.it/32x32"
-               src-key="topic.postBy.avatar"
+               src-key="reply.postBy.avatar"
                style="width:32px;height:32px;"
                suffix="?imageView2/1/w/64/h/64">
-          <span>{{topic.postBy.name}}</span>
+          <span>{{reply.postBy.name}}</span>
         </a>
         <div class="media-body">
-          <a ui-sref="forum.topic({courseId:course._id,
-                      topicId:topic._id})">
-            <strong>{{topic.title}}</strong>
-
-            <p>{{topic.content|htmlToPlaintext}}</p>
-          </a>
+          <div class="reply-body blog" ng-bind-html="reply.$safeContent"></div>
           <span class="pull-right">
-            {{topic.replies||0}}个回复|
-            {{topic.voteUpUsers.length||0}}个赞
+            <a href="" class="btn vote">
+              <i
+                class="fa"
+                ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
+                ng-click="toggleVote(reply)">
+              </i>
+            </a>
+            {{reply.voteUpUsers.length||0}}个赞
           </span>
         </div>
       </li>
-    </ul>
-  </section>
 
-  <section class="new-topic">
+    </ul>
+
+  </div>
+
+
+
+  <section class="new-topic col-xs-12">
     <div class="section-header">
       <h3>创建新的讨论</h3>
     </div>

@@ -34,6 +34,7 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
 
     saveCourse: (course, form)->
       unless form.$valid then return
+      $scope.editing = false
       if course._id?
         # update exists
         course.patch(

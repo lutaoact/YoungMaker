@@ -12,10 +12,14 @@ exports.School = BaseModel.subclass
       name:
         type: String
         required: true
+      overview: [
+        desc: String
+      ]
       majors: [
         name: String
         desc: String
         detail: String
+        picUrl: String
       ]
       institues: [
         name: String
@@ -24,6 +28,8 @@ exports.School = BaseModel.subclass
       leaders: [
         desc: String
         detail: String
+        picUrlIndex: String
+        picUrlDetail: String
       ]
       histories: [
         year: String

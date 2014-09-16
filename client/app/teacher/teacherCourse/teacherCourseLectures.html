@@ -1,4 +1,12 @@
 <div>
+  <a ng-click="toggleLectures(course)"
+     ng-show="course._id"
+     class="btn btn-block">
+    <span ng-show="course.$lectures == null"
+          class="glyphicon glyphicon-chevron-down"></span>
+    <span ng-show="course.$lectures != null"
+          class="glyphicon glyphicon-chevron-up"></span>
+  </a>
   <div class="row course-lectures"
        ng-show="course.$lectures != null">
     <br/>
@@ -59,11 +67,4 @@
       </div>
     </div>
   </div>
-  <a ng-click="toggleLectures(course)"
-     class="btn btn-block">
-    <span ng-show="course.$lectures == null"
-          class="glyphicon glyphicon-chevron-down"></span>
-    <span ng-show="course.$lectures != null"
-          class="glyphicon glyphicon-chevron-up"></span>
-  </a>
 </div>

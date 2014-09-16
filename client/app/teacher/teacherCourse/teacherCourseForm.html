@@ -49,11 +49,11 @@
       </textarea>
     </div>
     <div class="form-group pull-right btn-group">
-      <span ng-show="!editing">
+      <div ng-show="!editing">
         <a class="btn btn-block" ng-click="switchEditing(course)">
-          <i class="fa fa-pencil-square fa-2x"></i>
+          <i class="glyphicon glyphicon-edit fa-2x"></i>
         </a>
-      </span>
+      </div>
       <span ng-show="editing">
         <button type="submit"
                 class="btn btn-primary"

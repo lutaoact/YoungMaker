@@ -35,10 +35,10 @@
 
     <div class="col-md-8"
          ng-if="course._id">
-      <div class="form-inline">
+      <div class="form-inline lecture-list-header">
         <label class="title">课时</label>
         <input type="text"
-               class="form-control width-percent-60"
+               class="form-control search"
                placeholder="搜索"
                ng-model="keyword"/>
         <button class="btn btn-primary pull-right"
@@ -51,15 +51,17 @@
             ng-show="filter(lecture, keyword)"
             ng-repeat-reorder="lecture in course.$lectures"
             style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative"
-            ng-repeat-reorder-handle="div.drag-point">
+            ng-repeat-reorder-handle="button.drag-point">
           <li>
-            <a>
-              <strong>{{lecture.name}}</strong>
+            <a href class="name">
+              {{lecture.name}}
               <div class="pull-right">
-                <span class="glyphicon glyphicon-pencil"
-                      ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})"></span>
-                <div class="drag-point glyphicon glyphicon-sort" draggable="true"></div>
-                <span class="glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)"></span>
+                <button type="button" class="btn btn-default glyphicon glyphicon-pencil"
+                      ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+                </button>
+                <button type="button" class="btn btn-default drag-point glyphicon glyphicon-sort" draggable="true"></button>
+                <button type="button" class="btn btn-default glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)">
+                </button>
               </div>
             </a>
           </li>

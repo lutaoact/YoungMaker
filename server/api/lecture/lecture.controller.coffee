@@ -17,13 +17,10 @@ exports.index = (req, res, next) ->
   courseId = req.query.courseId
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    Lecture.findQ
-      _id :
-        $in : course.lectureAssembly
-  .then (lectures) ->
-    return res.send lectures
-  , (err) ->
-    next err
+    course.populateQ 'lectureAssembly'
+  .then (course) ->
+    return res.send course.lectureAssembly
+  , next
 
 exports.show = (req, res, next) ->
   lectureId = req.params.id

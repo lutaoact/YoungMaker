@@ -17,6 +17,13 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
   angular.extend $scope,
 
+    filter: (lecture, keyword) ->
+      keyword = keyword ? ''
+      name = lecture?.name ? ''
+      content = lecture?.info ? ''
+      text = _.str.clean(name + ' ' + content).toLowerCase()
+      _.str.include(text, keyword)
+
     toggleLectures: (course) ->
       if !course._id? then return
       if course.$lectures?
@@ -51,5 +58,5 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         .then (newCourse) ->
           $scope.course.classes = newCourse.classes
 
-  $scope.$on 'ngrr-reordered', ->
+  $scope.$on 'ngrr-reordered', (event, data) ->
     $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')

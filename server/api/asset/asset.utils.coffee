@@ -109,11 +109,15 @@ exports.AssetUtils = BaseUtils.subclass
     console.log 'Policy is ' + policyStr
 
     base64Policy = new Buffer(policyStr).toString 'base64'
-
+    base64Policy = base64Policy.replace new RegExp('\n', 'g'), ''
+    base64Policy = base64Policy.replace new RegExp('\r', 'g'), ''
     signature = crypto.createHmac('sha256', AWS.config.secretAccessKey)
     .update(base64Policy)
     .digest('base64')
 
+    signature = signature.replace new RegExp('\n', 'g'), ''
+    signature = signature.replace new RegExp('\r', 'g'), ''
+    
     {
       url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3BucketName 
       formData :

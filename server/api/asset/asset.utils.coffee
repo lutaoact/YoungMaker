@@ -77,7 +77,10 @@ exports.AssetUtils = BaseUtils.subclass
     xAmzCredential = AWS.config.accessKeyId + '/' + currentDate +
       '/' + AWS.config.region + '/s3/aws4_request'
     currentTime = moment()
-    xAmzDate = currentTime.toISOString()
+    
+    # AWS only takes something like 20120325T120000Z
+    xAmzDate = currentTime.utc().format 'YYYYMMDDTHHmmss'
+    xAmzDate += 'Z'
 
     xAmzAlgorithm = AWSAlgorithm
     keyStartsWith = randomstring.generate 10
@@ -112,7 +115,7 @@ exports.AssetUtils = BaseUtils.subclass
     .digest('base64')
 
     {
-      url : 'http://'+ S3BucketName + ".s3.amazonaws.com.cn"
+      url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3BucketName 
       formData :
         key : keyStartsWith + '/' + fileName
         acl : 'private'

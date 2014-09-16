@@ -1,4 +1,12 @@
 <div>
+  <a ng-click="toggleLectures(course)"
+     ng-show="course._id"
+     class="btn btn-block toggle-lectures">
+    <span ng-show="course.$lectures == null"
+          class="glyphicon glyphicon-chevron-down"></span>
+    <span ng-show="course.$lectures != null"
+          class="glyphicon glyphicon-chevron-up"></span>
+  </a>
   <div class="row course-lectures"
        ng-show="course.$lectures != null">
     <br/>
@@ -27,10 +35,10 @@
 
     <div class="col-md-8"
          ng-if="course._id">
-      <div class="form-inline">
+      <div class="form-inline lecture-list-header">
         <label class="title">课时</label>
         <input type="text"
-               class="form-control width-percent-60"
+               class="form-control search"
                placeholder="搜索"
                ng-model="keyword"/>
         <button class="btn btn-primary pull-right"
@@ -38,32 +46,25 @@
                 ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">添加</button>
       </div>
       <hr/>
-      <div class="lecture-list">
-        <ul class="nav nav-tabs nav-stacked"
-            ng-show="filter(lecture, keyword)"
-            ng-repeat-reorder="lecture in course.$lectures"
-            style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative"
-            ng-repeat-reorder-handle="div.drag-point">
-          <li>
-            <a>
-              <strong>{{lecture.name}}</strong>
-              <div class="pull-right">
-                <span class="glyphicon glyphicon-pencil"
-                      ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})"></span>
-                <div class="drag-point glyphicon glyphicon-sort" draggable="true"></div>
-                <span class="glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)"></span>
-              </div>
-            </a>
-          </li>
-        </ul>
+      <div class="list-group lecture-list">
+        <a class="list-group-item name stretch"
+           ng-show="filter(lecture, keyword)"
+           href
+           ng-repeat-reorder="lecture in course.$lectures"
+           ng-repeat-reorder-handle="button.drag-point"
+           ng-mouseover="overLecture=lecture"
+           ng-mouseleave="overLecture=undefined">
+          {{lecture.name}}
+          <div class="pull-right" ng-show="overLecture==lecture">
+            <button type="button" class="btn btn-default glyphicon glyphicon-pencil"
+                  ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+            </button>
+            <button type="button" class="btn btn-default drag-point glyphicon glyphicon-sort" draggable="true"></button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)">
+            </button>
+          </div>
+        </a>
       </div>
     </div>
   </div>
-  <a ng-click="toggleLectures(course)"
-     class="btn btn-block">
-    <span ng-show="course.$lectures == null"
-          class="glyphicon glyphicon-chevron-down"></span>
-    <span ng-show="course.$lectures != null"
-          class="glyphicon glyphicon-chevron-up"></span>
-  </a>
 </div>

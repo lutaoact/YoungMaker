@@ -16,6 +16,7 @@ angular.module('budweiserApp').directive 'teacherCourseForm', ->
 angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
+  $modal
   $state
   $upload
   fileUtils
@@ -32,8 +33,15 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         $scope.cancelCallback?($course:course)
 
     deleteCourse: (course) ->
-      course.remove().then ->
-        $scope.deleteCallback?($course:course)
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除课程'
+          message: -> "确认要删除课程'#{course.name}吗'？"
+      .result.then ->
+        course.remove().then ->
+          $scope.deleteCallback?($course:course)
 
     saveCourse: (course, form)->
       unless form.$valid then return

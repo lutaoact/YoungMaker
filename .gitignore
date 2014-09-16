@@ -24,3 +24,4 @@ client/index.html
 /server/config/set_sockjs.js
 /server/common/mail/index.js
 dump.rdb
+npm-debug.log

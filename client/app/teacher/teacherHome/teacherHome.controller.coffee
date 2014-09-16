@@ -100,7 +100,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
 
     createCallback: (course) ->
       delete $scope.newCourse
-      course.$lectures = []
       $scope.courses.push course
 
     cancelCallback: ->

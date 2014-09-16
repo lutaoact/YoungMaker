@@ -49,11 +49,12 @@
       </textarea>
     </div>
     <div class="form-group pull-right btn-group">
-      <span ng-show="!editing">
-        <a class="btn btn-block" ng-click="switchEditing(course)">
-          <i class="fa fa-pencil-square fa-2x"></i>
-        </a>
-      </span>
+      <div ng-show="!editing">
+        <button type="button"
+                class="btn btn-default glyphicon glyphicon-pencil course-btn"
+                ng-click="switchEditing(course)">
+        </button>
+      </div>
       <span ng-show="editing">
         <button type="submit"
                 class="btn btn-primary"
@@ -68,7 +69,8 @@
         </button>
         <button class="btn btn-default"
                 ng-click="switchEditing(course)">
-          返回
+          <span ng-if="!course._id">取消</span>
+          <span ng-if="course._id">返回</span>
         </button>
       </span>
     </div>

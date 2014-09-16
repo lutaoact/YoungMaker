@@ -29,14 +29,8 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       if course.$lectures?
         delete course.$lectures
         delete course.$progress
-      else
-        # load course
-        Restangular.all('lectures').getList(courseId:course._id)
-        .then (lectures) ->
-          course.$lectures = _.map(course.lectureAssembly, (id) -> _.find(lectures, _id:id))
-        Restangular.one('progresses').get({courseId: course._id})
-        .then (progress)->
-          course.$progress = progress
+      else reloadLectures(course)
+
 
     deleteLecture: (lecture)->
       lecture.remove(courseId:$scope.course._id)
@@ -58,5 +52,17 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         .then (newCourse) ->
           $scope.course.classes = newCourse.classes
 
-  $scope.$on 'ngrr-reordered', (event, data) ->
+  reloadLectures = (course) ->
+    if !course._id? then return
+    # load course
+    Restangular.all('lectures').getList(courseId:course._id)
+    .then (lectures) ->
+      course.$lectures = lectures
+    Restangular.one('progresses').get({courseId: course._id})
+    .then (progress)->
+      course.$progress = progress
+
+  reloadLectures($scope.course) if $scope.course?.$lectures?
+
+  $scope.$on 'ngrr-reordered', ->
     $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')

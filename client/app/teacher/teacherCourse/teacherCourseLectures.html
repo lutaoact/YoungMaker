@@ -1,7 +1,7 @@
 <div>
   <a ng-click="toggleLectures(course)"
      ng-show="course._id"
-     class="btn btn-block">
+     class="btn btn-block toggle-lectures">
     <span ng-show="course.$lectures == null"
           class="glyphicon glyphicon-chevron-down"></span>
     <span ng-show="course.$lectures != null"
@@ -46,26 +46,24 @@
                 ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">添加</button>
       </div>
       <hr/>
-      <div class="lecture-list">
-        <ul class="nav nav-tabs nav-stacked"
-            ng-show="filter(lecture, keyword)"
-            ng-repeat-reorder="lecture in course.$lectures"
-            style="-webkit-user-select: none;-user-select: none;-moz-user-select: none;position:relative"
-            ng-repeat-reorder-handle="button.drag-point">
-          <li>
-            <a href class="name">
-              {{lecture.name}}
-              <div class="pull-right">
-                <button type="button" class="btn btn-default glyphicon glyphicon-pencil"
-                      ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
-                </button>
-                <button type="button" class="btn btn-default drag-point glyphicon glyphicon-sort" draggable="true"></button>
-                <button type="button" class="btn btn-default glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)">
-                </button>
-              </div>
-            </a>
-          </li>
-        </ul>
+      <div class="list-group lecture-list">
+        <a class="list-group-item name stretch"
+           ng-show="filter(lecture, keyword)"
+           href
+           ng-repeat-reorder="lecture in course.$lectures"
+           ng-repeat-reorder-handle="button.drag-point"
+           ng-mouseover="overLecture=lecture"
+           ng-mouseleave="overLecture=undefined">
+          {{lecture.name}}
+          <div class="pull-right" ng-show="overLecture==lecture">
+            <button type="button" class="btn btn-default glyphicon glyphicon-pencil"
+                  ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+            </button>
+            <button type="button" class="btn btn-default drag-point glyphicon glyphicon-sort" draggable="true"></button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)">
+            </button>
+          </div>
+        </a>
       </div>
     </div>
   </div>

@@ -42,6 +42,7 @@
     "rangy-official": "~1.3.0-alpha.20140827",
     "sockjs": "~0.3",
     "angular-elastic": "~2.4.0",
+    "holderjs": "~2.4.0",
     "ngSticky": "~1.7.0"
   },
   "devDependencies": {

@@ -27,6 +27,9 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
 
     editing: !$scope.course._id?
 
+    getHolderText: (editing) ->
+      if editing then "700x400" else "未上传课程封面"
+
     switchEditing: (course) ->
       $scope.editing = !$scope.editing
       if !$scope.editing

@@ -4,6 +4,7 @@
          width="700"
          height="400"
          ng-disabled="editing"
+         holder-src="holder.js/700x400/:#9c9c99:#bbb/text:{{getHolderText(editing)}}"
          suffix="?imageView2/2/w/700/h/400"/>
     <uploader limit="2*1024*1024"
               ng-if="editing"
@@ -11,7 +12,7 @@
               on-complete="onThumbUploaded($data)"
               accept="image">
       <span class="glyphicon glyphicon-picture"></span>
-      上传图片
+      上传封面
     </uploader>
   </div>
   <div class="media-body course-detail">

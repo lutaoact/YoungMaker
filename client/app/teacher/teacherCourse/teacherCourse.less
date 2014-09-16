@@ -79,14 +79,13 @@
         margin-top: 50px;
         margin-bottom: 10px;
       }
-      .btn-block {
-        padding: 0px;
-      }
+    }
+    .btn-block {
+      padding: 0px;
     }
     .course-lectures {
       min-height: 370px;
       margin: 0px;
-      padding-bottom: 10px;
       hr {
         margin-top: 10px;
         margin-bottom: 1px;
@@ -114,15 +113,22 @@
         }
       }
       .lecture-list {
-        max-height: 294px;
-        overflow: auto;
+        max-height: 288px;
+        overflow: scroll;
+        margin-top: -1px;
         padding-right: 8px;
+        -webkit-user-select:none;
+        -user-select:none;
+        -moz-user-select:none;
+        position:relative;
         .name {
           color: #555555;
           font-weight: bold;
           font-size: 14px;
           padding-left: 1px;
           padding-right: 5px;
+          border-left: none;
+          border-right: none;
         }
         .btn-default {
           color: #fff;

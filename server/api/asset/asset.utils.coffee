@@ -105,18 +105,36 @@ exports.AssetUtils = BaseUtils.subclass
           'x-amz-date' : xAmzDate
         ]
 
+    # following signature algorithm is based on
+    # http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-authentication-HTTPPOST.html
     policyStr = JSON.stringify policy
     console.log 'Policy is ' + policyStr
 
     base64Policy = new Buffer(policyStr).toString 'base64'
-    base64Policy = base64Policy.replace new RegExp('\n', 'g'), ''
-    base64Policy = base64Policy.replace new RegExp('\r', 'g'), ''
-    signature = crypto.createHmac('sha256', AWS.config.secretAccessKey)
-    .update(base64Policy)
-    .digest('base64')
+    
+    kSecret = 'AWS4' + AWS.config.secretAccessKey
 
-    signature = signature.replace new RegExp('\n', 'g'), ''
-    signature = signature.replace new RegExp('\r', 'g'), ''
+    kDate = crypto.createHmac 'sha256', new Buffer(kSecret)
+    .update(xAmzDate.substring(0,8))
+    .digest()
+    
+    kRegion = crypto.createHmac 'sha256', kDate
+    .update(AWS.config.region)
+    .digest()
+
+    kService = crypto.createHmac 'sha256', kRegion
+    .update('s3') 
+    .digest()
+    
+    kSigning = crypto.createHmac 'sha256', kService
+    .update('aws4_request') 
+    .digest()
+    
+    signature = crypto.createHmac 'sha256', kSigning
+    .update(base64Policy)
+    .digest('hex')
+    
+    console.log 'signature is ' + signature
     
     {
       url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3BucketName 

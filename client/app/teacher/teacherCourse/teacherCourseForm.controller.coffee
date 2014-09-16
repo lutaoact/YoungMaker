@@ -7,8 +7,11 @@ angular.module('budweiserApp').directive 'teacherCourseForm', ->
   templateUrl: 'app/teacher/teacherCourse/teacherCourseForm.html'
   scope:
     course: '='
-    courses: '='
     categories: '='
+    deleteCallback: '&'
+    cancelCallback: '&'
+    updateCallback: '&'
+    createCallback: '&'
 
 angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
@@ -25,12 +28,12 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
 
     switchEditing: (course) ->
       $scope.editing = !$scope.editing
-      $state.go('teacher.home') if !course?._id?
+      if !$scope.editing
+        $scope.cancelCallback?($course:course)
 
     deleteCourse: (course) ->
       course.remove().then ->
-        index = $scope.courses.indexOf(course)
-        $scope.courses.splice(index, 1)
+        $scope.deleteCallback?($course:course)
 
     saveCourse: (course, form)->
       unless form.$valid then return
@@ -44,12 +47,12 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         )
         .then (newCourse) ->
           course.__v = newCourse.__v
+          $scope.updateCallback?($course:newCourse)
       else
         # create new
         Restangular.all('courses').post(course)
         .then (newCourse)->
-          $scope.courses.push(newCourse)
-          $state.go('teacher.home')
+          $scope.createCallback?($course:newCourse)
 
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key

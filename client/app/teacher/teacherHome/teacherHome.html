@@ -11,20 +11,32 @@
     <div class="section-header" id="course-list-header">
       <h3>课程列表</h3>
     </div>
-    <div ui-view class="row">
+    <div class="row">
       <div class="pull-right">
         <a type="button"
            class="btn"
-           ui-sref="teacher.home.newCourse">
+           ng-disabled="newCourse"
+           ng-click="createNewCourse()">
           <i class="fa fa-file-text-o fa-3x"></i>
         </a>
       </div>
+      <div ng-if="newCourse"
+           class="col-md-12 list-group-item course-card">
+        <teacher-course-form course="newCourse"
+                             create-callback="createCallback($course)"
+                             cancel-callback="cancelCallback()"
+                             categories="categories">
+        </teacher-course-form>
+        <teacher-course-lectures course="newCourse"
+                                 classes="classes">
+        </teacher-course-lectures>
+      </div>
     </div>
     <div class="row"
-         ng-repeat="course in courses">
+         ng-repeat="course in courses | orderBy:'created':true">
       <div class="col-md-12 list-group-item course-card">
         <teacher-course-form course="course"
-                             courses="courses"
+                             delete-callback="deleteCallback($course)"
                              categories="categories"></teacher-course-form>
         <teacher-course-lectures course="course"
                                  classes="classes"></teacher-course-lectures>

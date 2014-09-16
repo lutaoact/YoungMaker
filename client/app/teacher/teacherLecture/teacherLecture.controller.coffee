@@ -8,11 +8,11 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   notify
   $modal
   $upload
-  $location
-  Restangular
+  configs
   $timeout
   fileUtils
-  configs
+  $location
+  Restangular
 ) ->
 
   angular.extend $scope,

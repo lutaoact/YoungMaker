@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
+  Auth
   $scope
   $state
   Classes
@@ -88,6 +89,25 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
       ]
     ]
 
+    newCourse: undefined
     courses: Courses
     classes: Classes
     categories: Categories
+
+    createNewCourse: ->
+      $scope.newCourse =
+        owners:[Auth.getCurrentUser()]
+
+    createCallback: (course) ->
+      delete $scope.newCourse
+      course.$lectures = []
+      $scope.courses.push course
+
+    cancelCallback: ->
+      delete $scope.newCourse
+
+    deleteCallback: (course) ->
+      index = $scope.courses.indexOf(course)
+      $scope.courses.splice(index, 1)
+
+

@@ -24,7 +24,6 @@ angular.module 'budweiserApp', [
   'jsonFormatter'
   'textAngular'
   'monospaced.elastic'
-  'sticky'
 ]
 
 .constant 'configs',

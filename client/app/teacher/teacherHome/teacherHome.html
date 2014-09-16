@@ -16,8 +16,21 @@
         <button type="button"
            class="btn btn-default course-btn"
            ng-disabled="newCourse"
+           ng-if="courses.length > 0"
            ng-click="createNewCourse()">
           <i class="fa fa-file-text-o fa-3x"></i>
+          <label>添加课程</label>
+        </button>
+      </div>
+      <div class="col-md-12 list-group-item course-card course-card-new"
+           ng-if="courses.length == 0"
+           ng-hide="newCourse">
+        <button type="button"
+                class="btn btn-default course-btn"
+                ng-click="createNewCourse()">
+          <i class="fa fa-file-text-o fa-3x"></i>
+          <label>添加新课程</label>
+          <i class="plus">+</i>
         </button>
       </div>
       <div ng-if="newCourse"

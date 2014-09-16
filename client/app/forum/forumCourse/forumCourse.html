@@ -52,7 +52,7 @@
     <li class="bud thumbnail media col-md-12 topic"
         ng-repeat="topic in topics"
         ng-class="{'selected':topic._id==selectedTopic._id}"
-        ng-click="viewTopic(topic)">
+        >
       <div class="pull-left" href>
         <div class="media-object avatar-md"
              source-attr="background-image"
@@ -62,16 +62,11 @@
         </div>
         <!-- <span>{{topic.postBy.name}}</span> -->
       </div>
-      <div class="media-body">
+      <div class="media-body" ng-click="viewTopic(topic)">
         <div class="pull-left">
           <strong>{{topic.title}}</strong>
           <div class="tags">
-            <tag>
-              第一课
-            </tag>
-            <tag>
-              牛顿一定律
-            </tag>
+            <tag>第一课</tag><tag>牛顿一定律</tag>
           </div>
         </div>
       </div>
@@ -86,57 +81,96 @@
       <div class="title-row" style="padding-top: 0.1px;">
         <h4>内容</h4>
       </div>
-      <div class="bud thumbnail media">
-        <div class="pull-left">
-          <div class="media-object avatar-md"
-               source-attr="background-image"
-               suffix="?imageView2/1/w/64/h/64"
-               src-key="selectedTopic.postBy.avatar">
+      <div class="bud article">
+
+        <div class="article-header">
+          <div class="article-header-left">
+            <h3 class="article-title">{{selectedTopic.title}}
+            </h3>
+            <div class="post-time">{{selectedTopic.modified|date:'yyyy/MM/dd'}}</div>
+            <div class="comment-count"><i class="fa fa-comments"></i>{{selectedTopic.replies||0}}</div>
           </div>
-          <span>{{selectedTopic.postBy.name}}</span>
-        </div>
-        <div class="media-body">
-          <strong>{{selectedTopic.title}}</strong>
-          <div class="blog" ng-bind-html="selectedTopic.$safeContent">
-          </div>
-          <div class="pull-right">
-            <div href="#comment"
-               du-smooth-scroll
-               class="btn btn-primary">
-              回复
+          <div class="article-header-right">
+            <div class="media-object avatar-md"
+                 source-attr="background-image"
+                 suffix="?imageView2/1/w/64/h/64"
+                 src-key="selectedTopic.postBy.avatar">
             </div>
+            <h6 class="poster-name">{{selectedTopic.postBy.name}}</h6>
+          </div>
+        </div>
+
+        <div class="article-body">
+          <div class="blog" ng-bind-html="selectedTopic.$safeContent">
           </div>
         </div>
       </div>
 
-      <ul class="list-group">
-        <li class="bud thumbnail media col-md-12"
-            ng-repeat="reply in selectedTopic.$replies">
-          <a class="pull-left" href>
-            <div class="media-object avatar-md"
+      <hr>
+      <div class="replies">
+        <h5 class="base-color">{{selectedTopic.replies||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
+
+        <div class="new-reply">
+          <div class="new-reply-left">
+            <div class="media-object avatar-sm"
                  source-attr="background-image"
                  src="http://placehold.it/32x32"
-                 src-key="reply.postBy.avatar"
+                 src-key="me.avatar"
                  suffix="?imageView2/1/w/64/h/64">
             </div>
-            <span>{{reply.postBy.name}}</span>
-          </a>
-          <div class="media-body">
-            <div class="reply-body blog" ng-bind-html="reply.$safeContent"></div>
-            <span class="pull-right">
-              <a href="" class="btn vote">
-                <i
-                  class="fa"
-                  ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
-                  ng-click="toggleVote(reply)">
-                </i>
-              </a>
-              {{reply.voteUpUsers.length||0}}个赞
-            </span>
           </div>
-        </li>
+          <div class="new-reply-right">
+            <textarea msd-elastic class="form-control reply-input" row="1" placeholder="请输入您要回复的内容..." ng-model="newReply.content">
+            </textarea>
+            <div class="reply-tools">
+              <div class="image-to-insert" ng-repeat="image in imagesToInsert">
+                <img ng-src="{{image.url}}" alt="">
+              </div>
+              <uploader limit="2*1024*1024"
+                        ng-disabled="replying"
+                        class="new-img"
+                        on-complete="onImgUploaded($data)"
+                        accept="image">
+                <i class="fa fa-photo"></i>
+              </uploader>
+            </div>
+            <div>
+              <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(selectedTopic, newReply)">提交</button>
+            </div>
+          </div>
+        </div>
 
-      </ul>
+        <ul class="list-group ">
+          <li class="bud thumbnail media col-md-12"
+              ng-repeat="reply in selectedTopic.$replies">
+            <a class="pull-left" href>
+              <div class="media-object avatar-md"
+                   source-attr="background-image"
+                   src="http://placehold.it/32x32"
+                   src-key="reply.postBy.avatar"
+                   suffix="?imageView2/1/w/64/h/64">
+              </div>
+            </a>
+            <div class="media-body">
+
+              <h5 class="base-color">{{reply.postBy.name}}<small>|{{reply.created|timeToTimeAgo}}</small></h5>
+
+              <div class="reply-body blog" ng-bind-html="reply.$safeContent"></div>
+              <span class="pull-right">
+                <a href="" class="btn vote">
+                  <i
+                    class="fa"
+                    ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
+                    ng-click="toggleVote(reply)">
+                  </i>
+                </a>
+                {{reply.voteUpUsers.length||0}}个赞
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 

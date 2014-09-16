@@ -12,6 +12,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $document
   $window
   $timeout
+  CurrentUser
 ) ->
 
   $rootScope.additionalMenu = [
@@ -59,7 +60,11 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     posting: false
 
+    me: CurrentUser
+
     selectedTopic: undefined
+
+    imagesToInsert: undefined
 
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
@@ -111,6 +116,41 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         $scope.selectedTopic.$replies = replies
 
     clientHeight: undefined
+
+    onImgUploaded: (key)->
+      console.log key
+      @imagesToInsert ?= []
+      @imagesToInsert.push
+        url: "/api/assets/images/#{key}"
+        key: key
+
+    newReply: {}
+    replying: false
+
+    replyTo: (topic, reply)->
+      # validate
+      console.log 'reply'
+      @replying = true
+      @imagesToInsert.forEach (image)->
+        reply.content += "<img src=\"#{image.url}\">"
+      topic.$replies.post reply, {disTopicId: topic._id}
+      .then (dis_reply)->
+        dis_reply.$safeContent = $sce.trustAsHtml dis_reply.content
+        topic.$replies.splice 0, 0, dis_reply
+        $scope.initMyReply()
+        $scope.replying = false
+        $scope.imagesToInsert = undefined
+
+    initMyReply: ()->
+      @newReply = {} if !@newReply
+      @newReply.content = ''
+
+    toggleVote: (reply)->
+      reply.one('vote').post()
+      .then (res)->
+        reply.voteUpUsers = res.voteUpUsers
+
+
 
   setclientHeight = ()->
     $scope.clientHeight =

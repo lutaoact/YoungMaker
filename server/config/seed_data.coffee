@@ -437,6 +437,19 @@ module.exports =
       _s.sprintf lectureId, 1
     ]
   ]
+  schedule: [
+    courseId: _s.sprintf courseId, 0
+    classeId: _s.sprintf classeId, 1
+    start: new Date('2014-09-03T10:00:00.000+08:00')
+    end  : new Date('2014-09-03T11:40:00.000+08:00')
+    until: new Date('2014-12-31T11:40:00.000+08:00')
+  ,
+    courseId: _s.sprintf courseId, 0
+    classeId: _s.sprintf classeId, 0
+    start: new Date('2014-09-03T14:00:00.000+08:00')
+    end  : new Date('2014-09-03T15:40:00.000+08:00')
+    until: new Date('2014-12-31T00:00:00.000+08:00')
+  ]
   school: [
     require './xinqiao.json'
   ]

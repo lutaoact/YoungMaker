@@ -1,8 +1,9 @@
 Const =
   NoticeType:
-    VoteUp: 1
-    Comment: 2
-    Lecture: 3
+    TopicVoteUp: 1
+    ReplyVoteUp: 2
+    Comment: 3
+    Lecture: 4
 
   PageSize:
     DisTopic: 10

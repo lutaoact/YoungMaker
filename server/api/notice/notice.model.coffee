@@ -21,9 +21,12 @@ exports.Notice = BaseModel.subclass
           lectureId:
              type: ObjectId
              ref: 'lecture'
-          discussionId:
+          disTopicId:
              type: ObjectId
-             ref: 'discussion'
+             ref: 'dis_topic'
+          disReplyId:
+             type: ObjectId
+             ref: 'dis_reply'
         status: Number
 
       $super()

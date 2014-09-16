@@ -1,47 +1,64 @@
 Notice = _u.getModel 'notice'
 
-addNotice = (userId, fromWhom, type, discussionId) ->
-  data =
-    userId: userId
-    fromWhom: fromWhom
-    type: type
-    data:
-      discussionId: discussionId
-    status: 0
+class NoticeUtils
+  addNotice: (userId, fromWhom, type, discussionId) ->
+    data =
+      userId: userId
+      fromWhom: fromWhom
+      type: type
+      data:
+        discussionId: discussionId
+      status: 0
 
-  save = Q.nbind Notice.save, Notice
-  save data
-  .then (notice) ->
-    return Q(notice)
-  , (err) ->
-    return Q.reject err
+    Notice.createQ data
 
-exports.addLectureNotices = (userIds, lectureIds) ->
-  data =
-    type: Const.NoticeType.Lecture
-    data: {}
-    status: 0
+  addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->
+    return @addNotice userId, fromWhom, Const.NoticeType.TopicVoteUp, disTopicId
 
-  save = Q.nbind Notice.save, Notice
-  result = []
-  for userId in userIds
-    data.userId = userId
-    for lectureId in lectureIds
-      data.data.lectureId = lectureId
-      result.push save data
+#module.exports = NoticeUtils
+exports.NoticeUtils = NoticeUtils
+#addNotice = (userId, fromWhom, type, discussionId) ->
+#  data =
+#    userId: userId
+#    fromWhom: fromWhom
+#    type: type
+#    data:
+#      discussionId: discussionId
+#    status: 0
+#
+#  save = Q.nbind Notice.save, Notice
+#  save data
+#  .then (notice) ->
+#    return Q(notice)
+#  , (err) ->
+#    return Q.reject err
 
-  Q.all result
-  .then (datas) ->
-    return Q(datas)
-  , (err) ->
-    return Q.reject err
-
-
-exports.addVoteUpNotice = (userId, fromWhom, discussionId) ->
-  return addNotice userId, fromWhom, Const.NoticeType.VoteUp, discussionId
-
-exports.addCommentNotice = (userId, fromWhom, discussionId) ->
-  return addNotice userId, fromWhom, Const.NoticeType.Comment, discussionId
+#exports.addLectureNotices = (userIds, lectureIds) ->
+#  data =
+#    type: Const.NoticeType.Lecture
+#    data: {}
+#    status: 0
+#
+#  save = Q.nbind Notice.save, Notice
+#  result = []
+#  for userId in userIds
+#    data.userId = userId
+#    for lectureId in lectureIds
+#      data.data.lectureId = lectureId
+#      result.push save data
+#
+#  Q.all result
+#  .then (datas) ->
+#    return Q(datas)
+#  , (err) ->
+#    return Q.reject err
+#
+#
+#exports.addVoteUpNotice = (userId, fromWhom, discussionId) ->
+#  return addNotice userId, fromWhom, Const.NoticeType.VoteUp, discussionId
+#
+#exports.addCommentNotice = (userId, fromWhom, discussionId) ->
+#  return addNotice userId, fromWhom, Const.NoticeType.Comment, discussionId
 
 #### test code for addLectureNotices ####
 #userIds = ['111111111111111111111111', '111111111111111111111113', '111111111111111111111112']

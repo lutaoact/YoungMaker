@@ -1,14 +1,17 @@
 <form class="form-horizontal media course-form" name="form" role="form">
   <div class="media-object pull-left">
+    <img src-key="course.thumbnail"
+         width="700"
+         height="400"
+         ng-disabled="editing"
+         suffix="?imageView2/2/w/700/h/400"/>
     <uploader limit="2*1024*1024"
-              ng-disabled="!editing"
-              class="course-img"
+              ng-if="editing"
+              class="course-img btn-danger"
               on-complete="onThumbUploaded($data)"
               accept="image">
-      <img src-key="course.thumbnail"
-           width="700"
-           height="400"
-           suffix="?imageView2/2/w/700/h/400"/>
+      <span class="glyphicon glyphicon-picture"></span>
+      上传图片
     </uploader>
   </div>
   <div class="media-body course-detail">

@@ -55,12 +55,18 @@
     <div class="form-group pull-right btn-group">
       <div ng-show="!editing">
         <button type="button"
+                du-smooth-scroll
+                href="#course-{{course._id}}"
+                offset="60"
                 class="btn btn-default glyphicon glyphicon-pencil course-btn"
                 ng-click="switchEditing(course)">
         </button>
       </div>
       <span ng-show="editing">
         <button type="submit"
+                du-smooth-scroll
+                href="#course-{{course._id}}"
+                offset="60"
                 class="btn btn-primary"
                 ng-click="saveCourse(course,form)">
           确认
@@ -72,6 +78,9 @@
           删除
         </button>
         <button class="btn btn-default"
+                du-smooth-scroll
+                href="#course-{{course._id}}"
+                offset="60"
                 ng-click="switchEditing(course)">
           <span ng-if="!course._id">取消</span>
           <span ng-if="course._id">返回</span>

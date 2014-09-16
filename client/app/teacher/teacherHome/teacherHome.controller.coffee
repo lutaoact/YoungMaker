@@ -6,6 +6,9 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   $state
   Classes
   Courses
+  $location
+  $timeout
+  $document
   Categories
 ) ->
 
@@ -109,4 +112,10 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
       index = $scope.courses.indexOf(course)
       $scope.courses.splice(index, 1)
 
+    navToCourse: (id) -> $timeout ->
+      hash = $location.hash() ? ''
+      if hash == id
+        element = document.querySelector('#'+hash)
+        courseEle = angular.element(element)
+        $document.scrollToElement(courseEle, -60, 0)
 

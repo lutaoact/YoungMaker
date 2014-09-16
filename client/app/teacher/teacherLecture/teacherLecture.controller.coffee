@@ -10,6 +10,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $upload
   configs
   $timeout
+  $location
   fileUtils
   $location
   Restangular

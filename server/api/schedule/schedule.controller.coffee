@@ -40,7 +40,7 @@ exports.create = (req, res, next) ->
 
 exports.upsert = (req, res, next) ->
   body = req.body
-  delete body
+  delete body._id
 
   conditon =
     courseId: body.courseId

@@ -65,15 +65,14 @@ exports.show = (req, res, next) ->
       res.send 404
 
 exports.update = (req, res, next) ->
-  userId = req.user.id
-  quizAnswerId = req.body.quizAnswerId
-
+  quizAnswerId = req.params.id
+  console.log quizAnswerId
   tmpResult = {}
   QuizAnswer.findByIdQ quizAnswerId
   .then (quizAnswer) ->
     tmpResult.quizAnswer = quizAnswer
     LectureUtils.getAuthedLectureById req.user, quizAnswer.lectureId
-  .then (lecture) ->
+  .then ->
     tmpResult.quizAnswer.result = req.body.result
     do tmpResult.quizAnswer.saveQ
   .then (result) ->

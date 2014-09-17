@@ -3,17 +3,22 @@
 </div>
 <div class="modal-body">
   <h4>Q: {{question.content.title}}</h4>
-  <ul class="nav nav-pills nav-stacked" role="tablist">
-    <li ng-repeat="option in question.content.body"
-        role="presentation">
-      <a>
-        <span>{{$index | indexToABC}}. </span>
+    <div class="checkbox"
+         ng-repeat="option in question.content.body">
+      <label ng-class="{'label-success':option.correct && submitted}">
+        {{$index|indexToABC}}.
+        <input type="checkbox" class="bud checkbox-primary"
+               ng-disabled="submitted"
+               ng-model="option.$selected">
         {{option.desc}}
-        <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
-      </a>
-    </li>
-  </ul>
+      </label>
+    </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" ng-click="confirm(question)">提交</button>
+  <button type="button"
+          class="btn btn-danger"
+          ng-click="confirm(question)">
+    <span ng-if="!submitted">提交</span>
+    <span ng-if="submitted">返回</span>
+  </button>
 </div>

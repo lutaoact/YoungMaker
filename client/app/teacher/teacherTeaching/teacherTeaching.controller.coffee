@@ -20,7 +20,9 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
           keyPoints: -> $scope.keyPoints
       .result.then ->
         console.debug 'push question', quizze
-        Restangular.all('questions').customPOST null, 'quiz',
+        Restangular.all('questions').customPOST
           questionId: quizze._id
+          lectureId: $scope.lecture._id
           classId: $state.params.classeId
+        , 'quiz'
 

@@ -21,3 +21,22 @@ exports.show = (req, res, next) ->
   .then (progress) ->
     res.send progress
   , next
+
+exports.upsert = (req, res, next) ->
+  user = req.user
+  body = req.body
+
+  condition =
+    userId: user._id
+    courseId: body.courseId
+
+  (switch user.role
+    when 'teacher'
+      condition.classeId = body.classeId
+      TeachProgress
+    when 'student'
+      LearnProgress
+  ).updateQ condition, {progress: body.progress}, upsert: true
+  .then (progress) ->
+    res.send progress
+  , next

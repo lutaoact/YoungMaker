@@ -81,7 +81,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
     loadTopics: ()->
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
       .then (topics)->
-        console.log topics
+        # pull out the tags in content
+        topics.forEach (topic)->
+          topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/)?.join()
         $scope.topics = topics
         $scope.viewTopic(topics[0]) if topics[0]
 

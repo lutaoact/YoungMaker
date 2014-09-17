@@ -9,7 +9,6 @@ angular.module('budweiserApp').directive 'srcKey', ($http)->
 
   link: ($scope, $element, $attrs) ->
     setSource = (url)->
-      console.log url
       switch $scope.sourceAttr
         when 'background-image'
           $element.css('background-image','url(' + url + ')')

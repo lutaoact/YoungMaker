@@ -65,8 +65,7 @@
       <div class="media-body" ng-click="viewTopic(topic)">
         <div class="pull-left">
           <strong>{{topic.title}}</strong>
-          <div class="tags">
-            <tag>第一课</tag><tag>牛顿一定律</tag>
+          <div class="tags" compile-html="topic.$tags">
           </div>
         </div>
       </div>

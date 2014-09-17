@@ -1,5 +1,6 @@
-<div class="modal-header">
-  <h3 class="modal-title">新的提问</h3>
+<div class="modal-header forum">
+  <h4 class="modal-title">新的提问</h4>
+  <a href ng-click="close()" class="btn btn-crystal rounded close"><i class="fa fa-times"></i></a>
 </div>
 <div class="modal-body forum">
   <div class="clearfix title-row row">
@@ -38,11 +39,11 @@
   <div class="title-row">
     <textarea row="10"
       msd-elastic
-      class="form-control reply-input"
+      class="form-control topic-input"
       placeholder="请输入内容..."
       ng-model="myTopic.content">
     </textarea>
-    <div class="reply-tools">
+    <div class="topic-tools">
       <div class="image-to-insert" ng-repeat="image in imagesToInsert">
         <img ng-src="{{image.url}}" alt="">
       </div>
@@ -57,8 +58,8 @@
   </div>
 
 </div>
-<div class="modal-footer">
-  <button class="btn btn-primary" ng-click="create()"
+<div class="forum modal-footer">
+  <button class="btn btn-danger" ng-click="create()"
   ng-disabled="!myTopic.title||!myTopic.content">提交</button>
-  <button class="btn btn-warning" ng-click="close()">取消</button>
+  <button class="btn btn-default" ng-click="close()">取消</button>
 </div>

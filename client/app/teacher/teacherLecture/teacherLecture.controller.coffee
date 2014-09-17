@@ -72,8 +72,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
             parseInt(str.split('-').reverse()[1])
           getNum(a) > getNum(b)
         additional = slides.rawPics.sort(sortSlides).map (item, index)->
-          thumb: slides.thumbnails.sort(sortSlides)[index]
-          raw: item
+          thumb: "/api/assets/slides/#{slides.thumbnails.sort(sortSlides)[index]}"
+          raw: "/api/assets/slides/#{item}"
         console.log additional
         $scope.lecture.slides =
           _.union($scope.lecture.slides, additional)

@@ -53,6 +53,7 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
     $interval.cancel(heartbeat);
     heartbeat = undefined
     socket?.close()
+    # TODO: is this required to delete properties before setting it undefined
     delete socket.onopen
     delete socket.onmessage
     socket = undefined

@@ -23,7 +23,7 @@
       </div>
       <div class="media-body">
         <strong>{{topic.title}}</strong>
-        <div class="blog" ng-bind-html="topic.$safeContent">
+        <div class="blog" ng-bind-html="topic.content">
         </div>
         <div class="pull-right">
           <a href="#comment"
@@ -48,7 +48,7 @@
           <span>{{reply.postBy.name}}</span>
         </a>
         <div class="media-body">
-          <div class="reply-body blog" ng-bind-html="reply.$safeContent"></div>
+          <div class="reply-body blog" ng-bind-html="reply.content"></div>
           <span class="pull-right">
             <a href="" class="btn vote">
               <i

@@ -38,7 +38,7 @@ angular.module('budweiserApp').controller 'ImageUploadCtrl', (
         rename: 'index'
         success: (key) ->
           $scope.viewState.uploading = false
-          result = "/api/qiniu/images/#{key}" + '-blog'
+          result = "/api/assets/images/#{key}" + '-blog'
           $modalInstance.close result
         fail: (error)->
           $scope.viewState.uploading = false

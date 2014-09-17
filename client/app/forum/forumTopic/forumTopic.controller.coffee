@@ -50,13 +50,13 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
       Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
       .then (replies)->
         replies.forEach (reply)->
-          reply.$safeContent = $sce.trustAsHtml reply.content
+          reply.$unsafeContent = $sce.trustAsHtml reply.content
         $scope.replies = replies
 
     loadTopic: ()->
       Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
-        topic.$safeContent = $sce.trustAsHtml topic.content
+        topic.$unsafeContent = $sce.trustAsHtml topic.content
         $scope.topic = topic
 
     initMyReply: ()->

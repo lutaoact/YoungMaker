@@ -8,12 +8,21 @@ angular.module('budweiserApp').config ($stateProvider) ->
     resolve:
       Courses: (Restangular)->
         Restangular.all('courses').getList().then (courses)->
-          return courses
+          courses
         , (err)->
           # handle
-          return []
+          []
       CurrentUser: (Auth)->
         Auth.getCurrentUser()
+
+      AllKeypoints: (Restangular)->
+        Restangular.all('key_points').getList()
+        .then (data)->
+          data
+        , (err)->
+          # handle
+          console.log err
+          []
 
     abstract: true
     authenticate: true

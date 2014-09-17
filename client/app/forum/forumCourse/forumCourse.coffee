@@ -5,3 +5,5 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/courses/:courseId'
     templateUrl: 'app/forum/forumCourse/forumCourse.html'
     controller: 'ForumCourseCtrl'
+
+

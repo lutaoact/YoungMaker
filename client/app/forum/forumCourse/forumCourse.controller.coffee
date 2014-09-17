@@ -13,8 +13,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $window
   $timeout
   CurrentUser
+  $modal
+  AllKeypoints
 ) ->
-
   $rootScope.additionalMenu = [
     {
       title: '课程主页<i class="fa fa-home"></i>'
@@ -46,7 +47,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $scope.$on '$destroy', ()->
     $rootScope.additionalMenu = []
 
-
   if not $state.params.courseId
     return
   angular.extend $scope,
@@ -69,6 +69,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
+        $scope.keypoints = AllKeypoints.filter (x) -> x._id is course.categoryId
         $scope.course = course
 
     loadLectures: ()->
@@ -84,34 +85,29 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         $scope.topics = topics
         $scope.viewTopic(topics[0]) if topics[0]
 
-    initTopic: ()->
-      @myTopic = {} if !@myTopic
-      @myTopic.content = undefined
-      @myTopic.title = undefined
-      @myTopic.lectureId = undefined
-
     createTopic: ()->
       # validate
-
-      @posting = true
-      @topics.post @myTopic, {courseId: $state.params.courseId}
-      .then (dis_topic)->
-        $scope.topics.get(dis_topic._id)
-      .then (dis_topic)->
-        $scope.topics.push dis_topic
-        $scope.initTopic()
-        $scope.posting = false
+      $modal.open
+        templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
+        controller: 'DiscussionComposerPopupCtrl'
+        resolve:
+          keypoints: -> $scope.keypoints
+          course: -> $scope.course
+          lectures: -> $scope.course.$lectures
+          topics: -> $scope.topics
+      .result.then (dis_topic)->
+        $scope.topics.splice 0, 0, dis_topic
 
     viewTopic: (topic)->
       $scope.selectedTopic = undefined
       Restangular.one('dis_topics', topic._id).get()
       .then (topic)->
-        topic.$safeContent = $sce.trustAsHtml topic.content
+        topic.$unsafeContent = $sce.trustAsHtml topic.content
         $scope.selectedTopic = topic
         Restangular.all('dis_replies').getList({disTopicId: topic._id})
       .then (replies)->
         replies.forEach (reply)->
-          reply.$safeContent = $sce.trustAsHtml reply.content
+          reply.$unsafeContent = $sce.trustAsHtml reply.content
         $scope.selectedTopic.$replies = replies
         $document.scrollTop(340)
 
@@ -120,7 +116,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
     onImgUploaded: (key)->
       @imagesToInsert ?= []
       @imagesToInsert.push
-        url: "/api/assets/images/#{key}"
+        url: "/api/assets/images/#{key}-blog"
         key: key
 
     newReply: {}
@@ -133,7 +129,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         reply.content += "<img class=\"sm\" src=\"#{image.url}\">"
       topic.$replies.post reply, {disTopicId: topic._id}
       .then (dis_reply)->
-        dis_reply.$safeContent = $sce.trustAsHtml dis_reply.content
+        dis_reply.$unsafeContent = $sce.trustAsHtml dis_reply.content
         topic.$replies.splice 0, 0, dis_reply
         $scope.initMyReply()
         $scope.replying = false

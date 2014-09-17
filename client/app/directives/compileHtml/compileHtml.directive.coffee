@@ -1,10 +1,16 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'compileHtml', ($timeout, $compile)->
+angular.module('budweiserApp').directive 'compileHtml', ($timeout, $compile, $sce, $parse)->
   restrict: 'A'
-  link: (scope, element, attrs) ->
-    $timeout ->
-      element.on 'load', (event)->
-        console.log event
-      console.log element.html()
+  compile: (tElement) ->
+    (scope, element, attr) ->
+      element.data('$binding', attr.compileHtml);
+      parsed = $parse(attr.compileHtml);
+
+      getStringValue = () ->
+        (parsed(scope) or '').toString();
+
+      scope.$watch getStringValue, (value) ->
+        element.html($sce.getTrustedHtml(parsed(scope)) or '')
+        $compile(element.contents())(scope)
 

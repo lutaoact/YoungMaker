@@ -126,7 +126,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       # validate
       @replying = true
       @imagesToInsert?.forEach (image)->
-        reply.content += "<img class=\"sm\" src=\"#{image.url}\">"
+        reply.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
       topic.$replies.post reply, {disTopicId: topic._id}
       .then (dis_reply)->
         dis_reply.$unsafeContent = $sce.trustAsHtml dis_reply.content

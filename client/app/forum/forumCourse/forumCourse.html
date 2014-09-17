@@ -101,7 +101,7 @@
         </div>
 
         <div class="article-body">
-          <div class="blog" ng-bind-html="selectedTopic.content" compile-html>
+          <div class="blog" compile-html="selectedTopic.content" >
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@
 
               <h5 class="base-color reply-author-name">{{reply.postBy.name}}<small>|</small><small>{{reply.created|timeToTimeAgo}}</small><a href ng-show="reply.postBy._id == me._id" class="pull-right">删除</a></h5>
 
-              <div class="reply-body blog" ng-bind-html="reply.content" compile-html></div>
+              <div class="reply-body blog" compile-html="reply.content" ></div>
               <span class="pull-right">
                 <a href="" class="btn vote">
                   <i

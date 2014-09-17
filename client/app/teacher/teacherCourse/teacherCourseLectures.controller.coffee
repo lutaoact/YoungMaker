@@ -12,6 +12,7 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
 angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $http
   $scope
+  $state
   Restangular
 ) ->
 
@@ -31,8 +32,12 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         delete course.$progress
       else reloadLectures(course)
 
-    getActiveClasse: ->
-      _.find($scope.course.classes, $active:true)
+    startTeaching: (course, lecture) ->
+      classe = _.find(course.classes, $active:true)
+      $state.go 'teacher.teaching',
+        courseId:course._id
+        lectureId:lecture._id
+        classeId: classe._id
 
     deleteLecture: (lecture)->
       lecture.remove(courseId:$scope.course._id)

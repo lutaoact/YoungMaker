@@ -14,6 +14,7 @@ exports.School = BaseModel.subclass
         required: true
       overview: [
         desc: String
+        picUrl: String
       ]
       majors: [
         name: String

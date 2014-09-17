@@ -1,60 +1,49 @@
-<section>
-  <div class="jumbotron bud">
-    <div class="container">
-      <h2>
-        {{course.name}}
-        <small><i class="fa fa-book"></i></small>
-      </h2>
-      <div>{{course.info}}</div>
-    </div>
-  </div>
-</section>
-
 <div class="container">
+  <div ng-hide="showTopic">
+    <div class="clearfix title-row">
+      <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
+      <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
+        <i class="fa fa-plus"></i>新讨论
+      </button>
+    </div>
 
-  <div class="clearfix title-row">
-    <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
-    <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
-      <i class="fa fa-plus"></i>新讨论
-    </button>
+    <topic-list topics="topics" on-topic-click="viewTopic">
+    </topic-list>
   </div>
 
-  <topic-list topics="topics" on-topic-click="viewTopic" fix-when-reach-top fixed-class="fixed" offset="290">
-  </topic-list>
-
-  <div class="topic-detail" ng-style="clientHeight">
-    <div ng-show="selectedTopic">
+  <div class="topic-detail" ng-style="clientHeight" ng-show="showTopic">
+    <div ng-show="currentTopic">
       <div class="title-row" style="padding-top: 0.1px;">
-        <h4>内容</h4>
+        <h4 class="btn base-color" ng-click="backToList()"><i class="fa fa-chevron-left"></i></h4>
       </div>
       <div class="bud article">
 
         <div class="article-header">
           <div class="article-header-left">
-            <h3 class="article-title">{{selectedTopic.title}}
+            <h3 class="article-title">{{currentTopic.title}}
             </h3>
-            <div class="post-time">{{selectedTopic.modified|date:'yyyy/MM/dd'}}</div>
-            <div class="comment-count"><i class="fa fa-comments"></i>{{selectedTopic.replies||0}}</div>
+            <div class="post-time">{{currentTopic.modified|date:'yyyy/MM/dd'}}</div>
+            <div class="comment-count"><i class="fa fa-comments"></i>{{currentTopic.replies||0}}</div>
           </div>
           <div class="article-header-right">
             <div class="media-object avatar-md"
                  source-attr="background-image"
                  suffix="?imageView2/1/w/64/h/64"
-                 src-key="selectedTopic.postBy.avatar">
+                 src-key="currentTopic.postBy.avatar">
             </div>
-            <h6 class="poster-name">{{selectedTopic.postBy.name}}</h6>
+            <h6 class="poster-name">{{currentTopic.postBy.name}}</h6>
           </div>
         </div>
 
         <div class="article-body">
-          <div class="blog" compile-html="selectedTopic.content" >
+          <div class="blog" compile-html="currentTopic.content" >
           </div>
         </div>
       </div>
 
       <hr>
       <div class="replies">
-        <h5 class="base-color">{{selectedTopic.$replies.length||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
+        <h5 class="base-color">{{currentTopic.$replies.length||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
 
         <div class="new-reply">
           <div class="new-reply-left">
@@ -88,14 +77,14 @@
               </uploader>
             </div>
             <div>
-              <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(selectedTopic, newReply)">提交</button>
+              <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(currentTopic, newReply)">提交</button>
             </div>
           </div>
         </div>
 
         <ul class="list-group ">
           <li class="bud thumbnail media col-md-12 reply"
-              ng-repeat="reply in selectedTopic.$replies">
+              ng-repeat="reply in currentTopic.$replies">
             <a class="pull-left" href>
               <div class="media-object avatar-sm"
                    source-attr="background-image"

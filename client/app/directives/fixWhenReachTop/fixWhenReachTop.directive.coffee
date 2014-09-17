@@ -2,25 +2,17 @@
 
 angular.module('budweiserApp').directive 'fixWhenReachTop', ($timeout, $window, $document)->
   restrict: 'A'
-  scope:
-    offset: '@'
-    fixedClass: '@'
   link: (scope, element, attrs) ->
     $timeout ->
-      scope.offset ?= 0
-      scope.fixedClass ?= 'fixed'
-
       clear = () ->
         # unbind event handle
         scrollParent.off 'scroll',scrollHandle
-
       scrollHandle = ()->
         scrollTop = window.pageYOffset or $document.scrollTop()
-        if scrollTop > scope.offset
-          element.addClass scope.fixedClass
+        if scrollTop > parseInt(attrs.offset)
+          element.addClass (attrs.fixedClass or 'fixed')
         else
-          element.removeClass scope.fixedClass
-
+          element.removeClass (attrs.fixedClass or 'fixed')
       # Find element's parent, bind scroll event
       scrollParent = $document
       scrollParent.on 'scroll', scrollHandle

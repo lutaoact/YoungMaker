@@ -20,19 +20,35 @@
     width: calc(~"940px*0.42");
     float: left;
     background: #FFFFFF;
-    .transition();
+    @media screen and (max-width: @screen-sm-min) {
+      width: 100%;
+    }
     &.fixed{
       position: fixed;
       top: 60px;
-      .translate3d(-10px,10px,0);
-      bottom: 140px;
+      .translate3d(-10px,10px,10px);
+      bottom: 20px;
       overflow-y: auto;
       width: calc(~"940px*0.42");
       border: 1px solid @gray-light;
       .box-shadow(2px 2px 5px 2px @gray-light);
+      @media screen and (max-width: @screen-md-min) {
+        width: calc(~"700px*0.42");
+        left: 20px;
+      }
+      @media screen and (max-width: @screen-sm-min) {
+        width: 100%;
+        position: static;
+        .translate3d(0,0,0);
+        .box-shadow(none);
+      }
     }
   }
+
   .topic-detail{
+    @media screen and (max-width: @screen-sm-min) {
+      margin-left: 0;
+    }
     margin-left: 43%;
     min-height: 700px;
     .article{

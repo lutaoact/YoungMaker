@@ -1,5 +1,7 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<div ng-include="'components/navbar/navbar.html'"
+     ng-hide="$state.includes('teacher.teaching')"></div>
 
 <div ui-view class="fadeZoom margin-top teacher"></div>
 
-<div ng-include="'components/footer/footer.html'"></div>
+<div ng-include="'components/footer/footer.html'"
+     ng-hide="$state.includes('teacher.teaching')"></div>

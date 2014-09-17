@@ -1,1 +1,36 @@
-Teacher teaching view...
+<div class="container">
+  <div class="row">
+    <div class="dropdown pull-right">
+      <button class="btn btn-default dropdown-toggle"
+              data-toggle="dropdown"
+              id="teachingTools">
+        <i class="glyphicon glyphicon-align-justify fa-2x"></i>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="teachingTools">
+        <li><h4 style="text-align: center;">随堂练习</h4></li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation" ng-repeat="quizze in lecture.quizzes">
+          <a href role="menuitem" ng-click="pushQuestion(quizze)">
+            <b>{{$index|indexToABC}} {{quizze.content.title}}</b>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-12">
+      <h3><a href="/t#course-{{$state.params.courseId}}">{{lecture.name}}</a></h3>
+      <cool-projector disable-animation="true"
+                      style="width: 940px; height: 600px;">
+        <cool-frame ng-repeat="slide in lecture.slides"
+                    active="slide.$active">
+          <img src-key="slide.raw"
+               width="940"
+               height="600"
+               suffix="?imageView2/2/w/940/h/600">
+          <div class="carousel-caption">
+            <h4>第 {{$index+1}} 张</h4>
+          </div>
+        </cool-frame>
+      </cool-projector>
+    </div>
+  </div>
+</div>

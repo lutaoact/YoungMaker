@@ -130,5 +130,8 @@ angular.module 'budweiserApp', [
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->
     socket.setup(me)
+    if me.role == 'student'
+      socket.setHandler 'quiz',(data) ->
+        console.debug 'student please answer the question', data
     loginRedirector.apply()
 

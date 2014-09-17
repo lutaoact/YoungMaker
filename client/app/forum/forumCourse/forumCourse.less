@@ -17,15 +17,19 @@
     background-color: transparent;
   }
   .topic-list{
-    width: 42%;
+    width: calc(~"940px*0.42");
     float: left;
     background: #FFFFFF;
+    .transition();
     &.fixed{
       position: fixed;
       top: 60px;
+      .translate3d(-10px,10px,0);
       bottom: 140px;
       overflow-y: auto;
       width: calc(~"940px*0.42");
+      border: 1px solid @gray-light;
+      .box-shadow(2px 2px 5px 2px @gray-light);
     }
   }
   .topic-detail{

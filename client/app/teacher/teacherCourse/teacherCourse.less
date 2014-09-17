@@ -128,10 +128,10 @@
       padding: 0px;
     }
     .course-lectures {
-      min-height: 370px;
-      margin: 0px;
+      min-height: 365px;
+      margin: -15px 0px 15px 0px;
       hr {
-        margin-top: 10px;
+        margin-top: 5px;
         margin-bottom: 1px;
         border: 0;
         border-top: 4px solid #999;
@@ -141,25 +141,32 @@
         height: 2em;
         line-height: 1em;
       }
-      .lecture-list-header {
+      .lectures-header {
         .title {
           font-size: 18px;
           margin-right: 15px;
           margin-left: 5px;
-          line-height: 1em;
           font-weight: bold;
         }
-        .search {
+        .search-lecture {
           width: 60%;
+        }
+        .search-class {
+          margin-left: -50px;
         }
         .btn {
           padding: 2px 15px 2px 15px;
         }
       }
+      li {
+        border-bottom: 1px solid #ddd;
+      }
       .lecture-list {
-        max-height: 288px;
+        max-height: 305px;
         overflow: scroll;
         margin-top: -1px;
+        margin-bottom: 0px;
+        padding: 0px;
         padding-right: 8px;
         -webkit-user-select:none;
         -user-select:none;

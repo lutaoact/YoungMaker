@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
 ) ->
   angular.extend $scope,
     $state: $state
+    keyPoints: Restangular.all('key_points').getList().$object
     lecture: Restangular.one('lectures', $state.params.lectureId).get().$object
 
     pushQuestion: (quizze) ->
@@ -16,6 +17,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
         controller: 'PushQuestionCtrl'
         resolve:
           question: -> quizze
+          keyPoints: -> $scope.keyPoints
       .result.then ->
         console.debug 'push question', quizze
         Restangular.all('questions').customPOST null, 'quiz',

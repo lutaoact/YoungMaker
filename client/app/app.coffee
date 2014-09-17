@@ -118,7 +118,15 @@ angular.module 'budweiserApp', [
       $rootScope.$loading = false
     $q.reject response
 
-.run ($rootScope, $location, Auth, loginRedirector, $state, socket) ->
+.run (
+  Auth
+  $modal
+  $state
+  socket
+  $location
+  $rootScope
+  loginRedirector
+) ->
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
@@ -129,9 +137,14 @@ angular.module 'budweiserApp', [
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->
-    socket.setup(me)
-    if me.role == 'student'
-      socket.setHandler 'quiz',(data) ->
-        console.debug 'student please answer the question', data
     loginRedirector.apply()
+    socket.setup(me)
+    #TODO refactor to SocketHandlerConfig
+    if me.role == 'student'
+      socket.setHandler 'quiz',(question) ->
+        $modal.open
+          templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
+          controller: 'ReceiveQuestionCtrl'
+          resolve:
+            question: -> question
 

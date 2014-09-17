@@ -8,7 +8,7 @@ router = express.Router()
 
 router.get '/', auth.hasRole('teacher'), controller.index
 router.get '/:id', auth.isAuthenticated(), controller.show
-router.post '/', auth.hasRole('student'), controller.create
+router.put '/', auth.hasRole('student'), controller.update
 router.delete '/:id', auth.hasRole('teacher'), controller.destroy
 router.delete '/', auth.hasRole('teacher'), controller.deleteByLectureId
 

@@ -64,23 +64,21 @@ exports.show = (req, res, next) ->
     else
       res.send 404
 
-exports.create = (req, res, next) ->
+exports.update = (req, res, next) ->
   userId = req.user.id
-  lectureId = req.query.lectureId
+  quizAnswerId = req.body.quizAnswerId
 
-  LectureUtils.getAuthedLectureById req.user, lectureId
+  tmpResult = {}
+  QuizAnswer.findByIdQ quizAnswerId
+  .then (quizAnswer) ->
+    tmpResult.quizAnswer = quizAnswer
+    LectureUtils.getAuthedLectureById req.user, quizAnswer.lectureId
   .then (lecture) ->
-
-    body = req.body
-    delete body._id
-
-    body.userId = userId
-    body.lectureId = lectureId
-    QuizAnswer.createQ body
-    .then (answer) ->
-      res.send 201, answer
-    , (err) ->
-      next err
+    tmpResult.quizAnswer.result = req.body.result
+    do tmpResult.quizAnswer.saveQ
+  .then (result) ->
+    res.send result[0]
+  , next
 
 exports.destroy = (req, res, next) ->
   QuizAnswer.removeQ

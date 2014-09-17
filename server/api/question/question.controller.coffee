@@ -2,6 +2,7 @@
 
 Question = _u.getModel "question"
 Classe = _u.getModel 'classe'
+QuizAnswer = _u.getModel 'quiz_answer'
 SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
@@ -80,18 +81,36 @@ exports.destroy = (req, res, next) ->
     next err
 
 exports.pubQuiz = (req, res, next) ->
-  questionId = req.query.questionId
-  classId = req.query.classId
+  user = req.user
+  {questionId, classId, lectureId} = req.body
+
   tmpResult = {}
-  Question.findByIdQ questionId
+  Classe.findByIdQ classId
+  .then (classe) ->
+    tmpResult.classe = classe
+    QuizAnswer.findQ
+      lectureId: lectureId
+      questionId: questionId
+      userId: $in: tmpResult.classe.students
+  .then (quizAnswers) ->
+    tmpResult.quizAnswers = quizAnswers
+    tmpResult.userAnswerMap = _.indexBy quizAnswers, 'userId'
+
+    noAnswerStudentIds = _.filter tmpResult.classe.students, (studentId) ->
+      return not tmpResult.userAnswerMap[studentId]?
+
+    QuizAnswer.createNewAnswers noAnswerStudentIds, lectureId, questionId
+  .then (newAnswers) ->
+    return tmpResult.quizAnswers.concat newAnswers
+  .then (allAnswers) ->
+    tmpResult.allAnswers = allAnswers
+    Question.findByIdQ questionId
   .then (question) ->
     tmpResult.question = question
-    Classe.findByIdQ classId
-  .then (classe) ->
-    SocketUtils.sendToGroup(
-      SocketUtils.quizMsg tmpResult.question
-      classe.students
+    SocketUtils.sendQuizMsg(
+      tmpResult.allAnswers
+      tmpResult.question
     )
-
+  .then () ->
     res.send 200
   , next

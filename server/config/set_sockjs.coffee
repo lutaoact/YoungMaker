@@ -1,6 +1,5 @@
 'use strict'
 
-global.socketMap = {}
 routes = require('../api/socket/').routes
 
 SocketUtils = _u.getUtils 'socket'

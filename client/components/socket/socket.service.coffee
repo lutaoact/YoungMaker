@@ -1,16 +1,19 @@
 'use strict'
 
-angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $interval, $rootScope) ->
+angular.module('budweiserApp').service 'socket', (
+  $timeout
+  $interval
+  $cookieStore
+) ->
 
   socket = undefined
   heartbeat = undefined
   # TODO: allow multi listen
   handler = {}
 
-  setup: (user) ->
+  setup: ->
     if socket? then return
     socket = new SockJS '/sockjs'
-    console.debug 'Setup socket connect... ', socket
 
     socket.onopen =  ->
       heartbeat = $interval ->
@@ -22,14 +25,14 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
 
     socket.onmessage = (event) -> $timeout ->
       result = angular.fromJson(event.data)
-      console.debug 'Receive socket message... ', result
+      console.debug 'Receive socket message', result
       type = result.type
       payload = result.payload
       handler[type]?(payload)
 
     socket.onclose = ( (event) ->
       @close()
-      console.log event
+      console.debug event
     ).bind @
 
   setHandler: (type, callback) ->
@@ -50,13 +53,13 @@ angular.module('budweiserApp').service 'socket', ($timeout, $cookieStore, $inter
     socket?.send(data)
 
   close: ->
-    $interval.cancel(heartbeat);
+    if !socket? then return
+    $interval.cancel(heartbeat)
     heartbeat = undefined
-    socket?.close()
     @resetHandler()
-    # TODO: is this required to delete properties before setting it undefined
     delete socket.onopen
     delete socket.onmessage
+    socket?.close()
     socket = undefined
 
 

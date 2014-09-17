@@ -118,11 +118,29 @@ angular.module 'budweiserApp', [
       $rootScope.$loading = false
     $q.reject response
 
+.service 'socketHandler', (
+  socket
+  $modal
+) ->
+
+  init: (me) ->
+    socket.setup()
+    if me?
+      socket.setHandler 'notify', (data) ->
+        console.debug 'new message ', data
+    if me?.role is 'student'
+      socket.setHandler 'quiz', (data) ->
+        $modal.open
+          templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
+          controller: 'ReceiveQuestionCtrl'
+          resolve:
+            question: -> data
+
 .run (
   Auth
   $modal
   $state
-  socket
+  socketHandler
   $location
   $rootScope
   loginRedirector
@@ -138,13 +156,5 @@ angular.module 'budweiserApp', [
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->
     loginRedirector.apply()
-    socket.setup(me)
-    #TODO refactor to SocketHandlerConfig
-    if me.role == 'student'
-      socket.setHandler 'quiz',(question) ->
-        $modal.open
-          templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
-          controller: 'ReceiveQuestionCtrl'
-          resolve:
-            question: -> question
+    socketHandler.init(me)
 

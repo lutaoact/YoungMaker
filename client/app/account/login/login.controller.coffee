@@ -2,10 +2,10 @@
 
 angular.module('budweiserApp').controller 'LoginCtrl', (
   Auth
-  socket
   $scope
   $window
   $location
+  socketHandler
   loginRedirector
 ) ->
 
@@ -22,7 +22,7 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
           password: $scope.user.password
         ).then ->
           Auth.getCurrentUser().$promise.then (me)->
-            socket.setup(me)
+            socketHandler.init(me)
             if !loginRedirector.apply()
               if me.role is 'admin'
                 $location.url('/admin')

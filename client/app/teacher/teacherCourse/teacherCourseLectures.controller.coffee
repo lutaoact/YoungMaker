@@ -31,6 +31,8 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         delete course.$progress
       else reloadLectures(course)
 
+    getActiveClasse: ->
+      _.find($scope.course.classes, $active:true)
 
     deleteLecture: (lecture)->
       lecture.remove(courseId:$scope.course._id)

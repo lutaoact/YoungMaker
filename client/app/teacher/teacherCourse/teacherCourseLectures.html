@@ -66,7 +66,7 @@
            ng-repeat-reorder-handle="button.drag-point"
            ng-mouseover="overLecture=lecture"
            ng-mouseleave="overLecture=undefined">
-          <span ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id})"
+          <span ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:getActiveClasse()._id})"
                 class="btn btn-link"
                 tooltip="点击开始上课">
             {{lecture.name}}

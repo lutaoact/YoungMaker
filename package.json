@@ -38,7 +38,9 @@
     "sockjs": "^0.3.9",
     "static-favicon": "~1.0.1",
     "underscore.string": "^2.3.3",
-    "redis": "^0.12.1"
+    "redis": "^0.12.1",
+    "path" : "^0.4.9",
+    "stack-trace" : "^0.0.9"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

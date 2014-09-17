@@ -1,23 +1,52 @@
-//var config = require('config');
-var log4js = require('log4js');
+(function() {
+  var getCallerFile, log4js, logger, path, stackTrace;
 
-log4js.configure({
+  log4js = require('log4js');
+
+  path = require('path');
+
+  stackTrace = require('stack-trace');
+
+  getCallerFile = function() {
+    var base, dir, ext, file, frame, line;
+    frame = stackTrace.get()[8];
+    file = path.relative(process.cwd(), frame.getFileName());
+    dir = path.dirname(file);
+    ext = path.extname(file);
+    base = path.basename(file, ext);
+    line = frame.getLineNumber();
+    return "" + dir + "/" + base + ext + "#" + line;
+  };
+
+  log4js.configure({
     appenders: [
-        { type: 'console' },
-        { type: 'file', filename: config.logger.path, category: '[ALOHA]' },
-        {
-            type        : 'file' ,
-            filename    : '/data/log/dmp.log',
-            layout      : {
-                type    : 'pattern',
-                pattern : "%m%n",
-            },
-            category    : 'DMP',
+      {
+        type: 'console',
+        layout: {
+          type: 'pattern',
+          pattern: "%d{ISO8601} %x{filename} %[%-5p%] - %c %m",
+          tokens: {
+            filename: getCallerFile
+          }
         }
+      }, {
+        type: 'file',
+        filename: config.logger.path,
+        layout: {
+          type: 'pattern',
+          pattern: "%d{ISO8601} %x{filename} %[%-5p%] - %c %m"
+        },
+        category: 'BUDWEISER'
+      }
     ]
-});
+  });
 
-var logger = log4js.getLogger('[BUDWEISER]');
-logger.setLevel(config.logger.level);
+  logger = log4js.getLogger('[BUDWEISER]');
 
-exports.logger = logger;
+  logger.setLevel(config.logger.level);
+
+  exports.logger = logger;
+
+}).call(this);
+
+//# sourceMappingURL=logger.js.map

@@ -16,7 +16,6 @@ exports.index = (req, res, next) ->
   Classe.findQ
     orgId: user.orgId
   .then (classes) ->
-    logger.info classes
     res.send classes
   , (err) ->
     next err

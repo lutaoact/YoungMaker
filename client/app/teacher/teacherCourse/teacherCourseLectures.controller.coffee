@@ -39,16 +39,16 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         lectures.splice(lectures.indexOf(lecture), 1)
 
     addClasse: (classe) ->
-      classes = $scope.course.classes
-      if !_.contains(classes, classe._id)
-        $scope.course.patch classes: _.union(classes, [classe._id])
+      classeIds = _.pluck($scope.course.classes, '_id')
+      if !_.contains(classeIds, classe._id)
+        $scope.course.patch classes: _.union(classeIds, [classe._id])
         .then (newCourse) ->
           $scope.course.classes = newCourse.classes
 
     removeClasse: (classe) ->
-      classes = $scope.course.classes
-      if _.contains(classes, classe._id)
-        $scope.course.patch classes: _.without(classes, classe._id)
+      classeIds = _.pluck($scope.course.classes, '_id')
+      if _.contains(classeIds, classe._id)
+        $scope.course.patch classes:_.without(classeIds, classe._id)
         .then (newCourse) ->
           $scope.course.classes = newCourse.classes
 

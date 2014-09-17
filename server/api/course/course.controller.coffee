@@ -66,7 +66,9 @@ exports.update = (req, res, next) ->
     updated.markModified 'classes'
     updated.save (err) ->
       next err if err
-      res.send updated
+    course.populateQ 'owners classes'
+    .then (course) ->
+      res.send course
   , (err) ->
     next err
 

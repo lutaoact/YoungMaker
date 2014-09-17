@@ -25,15 +25,20 @@
         </ui-select>
       </div>
       <hr/>
-      <ul class="nav nav-tabs nav-stacked"
-          ng-repeat="classe in course.classes">
-        <li><a>
-          {{classe.name}}
-          <button type="button"
-                  class="close"
-                  ng-click="removeClasse(classe)">&times;</button>
-        </a></li>
-      </ul>
+
+      <tabset vertical="true" type="pills">
+        <tab ng-repeat="classe in course.classes"
+             active="classe.$active">
+          <tab-heading>
+            <span ng-click="selectedClasse=classe">
+              {{classe.name}}
+              <button type="button"
+                      class="close"
+                      ng-click="removeClasse(classe)">&times;</button>
+            </span>
+          </tab-heading>
+        </tab>
+      </tabset>
     </div>
 
     <div class="col-md-8"
@@ -52,18 +57,25 @@
       <div class="list-group lecture-list">
         <a class="list-group-item name stretch"
            ng-show="filter(lecture, keyword)"
-           href
            ng-repeat-reorder="lecture in course.$lectures"
            ng-repeat-reorder-handle="button.drag-point"
            ng-mouseover="overLecture=lecture"
            ng-mouseleave="overLecture=undefined">
-          {{lecture.name}}
+          <span ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id})"
+                class="btn btn-link"
+                tooltip="点击开始上课">
+            {{lecture.name}}
+          </span>
           <div class="pull-right" ng-show="overLecture==lecture">
             <button type="button" class="btn btn-default glyphicon glyphicon-pencil"
-                  ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+                    ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
             </button>
-            <button type="button" class="btn btn-default drag-point glyphicon glyphicon-sort" draggable="true"></button>
-            <button type="button" class="btn btn-default glyphicon glyphicon-remove" ng-click="deleteLecture(lecture)">
+            <button type="button"
+                    class="btn btn-default drag-point glyphicon glyphicon-sort"
+                    draggable="true"></button>
+            <button type="button"
+                    class="btn btn-default glyphicon glyphicon-remove"
+                    ng-click="deleteLecture(lecture)">
             </button>
           </div>
         </a>

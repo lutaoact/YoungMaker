@@ -12,11 +12,21 @@ exports.Schedule = BaseModel.subclass
       courseId:
         type: Schema.Types.ObjectId
         ref: "course"
+        required: true
       classeId:
         type: Schema.Types.ObjectId
         ref: "classe"
-      start: Date
-      end: Date
-      until: Date
+        required: true
+      start:
+        type: Date
+        required: true
+      end:
+        type: Date
+        required: true
+      until:
+        type: Date
+        required: true
+
+    @schema.index {courseId: 1, classeId: 1}, {unique: true}
 
     $super()

@@ -28,3 +28,29 @@ exports.index = (req, res, next) ->
   ).then (schedules) ->
     res.send schedules
   , next
+
+exports.create = (req, res, next) ->
+  body = req.body
+  delete body._id
+
+  Schedule.createQ body
+  .then (schedule) ->
+    res.send schedule
+  , next
+
+exports.upsert = (req, res, next) ->
+  body = req.body
+  delete body
+
+  conditon =
+    courseId: body.courseId
+    classeId: body.classeId
+
+  Schedule.updateQ conditon, {
+      start: body.start
+      end: body.end
+      until: body.until
+  }, {upsert: true}
+  .then () ->
+    res.send body
+  , next

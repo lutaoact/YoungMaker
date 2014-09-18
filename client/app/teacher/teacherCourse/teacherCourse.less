@@ -1,4 +1,7 @@
 .teacher {
+  .hand-point {
+    cursor: pointer;
+  }
   .drag-point {
     cursor:move;
   }
@@ -136,18 +139,23 @@
     .toggle-lectures {
       position: relative;
       padding-top: 8px;
+      border-top: 1px solid #ddd;
       .anchor-up{
         top: auto;
       }
     }
     .course-lectures {
-      min-height: 365px;
+      min-height: 375px;
       margin: 0px;
-      hr {
+      .hr-title {
         margin-top: 5px;
         margin-bottom: 1px;
         border: 0;
         border-top: 4px solid #999;
+      }
+      .hr-title-sub {
+        margin-top: 5px;
+        margin-bottom: 1px;
       }
       .form-control {
         border-radius: 2em;
@@ -156,6 +164,7 @@
       }
       .lectures-header {
         .title {
+          color: black;
           font-size: 18px;
           margin-right: 15px;
           margin-left: 5px;
@@ -175,7 +184,7 @@
         border-bottom: 1px solid #ddd;
       }
       .lecture-list {
-        max-height: 305px;
+        max-height: 303px;
         overflow: scroll;
         margin-top: -1px;
         margin-bottom: 0px;
@@ -218,6 +227,20 @@
           background-color: rosybrown;
           border-color: rosybrown;
         }
+      }
+      .classe-list {
+        height: 230px;
+      }
+      .course-title {
+        font-size: 1.5em;
+        padding: 10px 0px 10px 0px;
+        text-align: center;
+        background-color: black;
+        border-color: black;
+        font-weight: normal;
+        color: white;
+        margin: 10px;
+        width: calc(~"100% - 20px");
       }
     }
     img {

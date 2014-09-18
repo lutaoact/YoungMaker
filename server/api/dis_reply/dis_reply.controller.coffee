@@ -4,6 +4,8 @@ DisTopic = _u.getModel 'dis_topic'
 DisReply = _u.getModel 'dis_reply'
 CourseUtils = _u.getUtils 'course'
 DisUtils = _u.getUtils 'dis'
+NoticeUtils = _u.getUtils 'notice'
+SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
   user = req.user
@@ -93,9 +95,19 @@ exports.vote = (req, res, next) ->
   disReplyId = req.params.id
   userId = req.user._id
 
+  tmpResult = {}
   DisUtils.vote DisReply, disReplyId, userId
   .then (result) ->
-    newValue = result[0]
-    res.send newValue
+    tmpResult.newDis = result[0]
+    NoticeUtils.addReplyVoteUpNotice(
+      tmpResult.newDis.postBy
+      userId
+      tmpResult.newDis._id
+    )
+  .then (notice) ->
+    SocketUtils.sendToOne userId, SocketUtils.noticeMsg notice
+    do Q.resolve
+  .then () ->
+    res.send tmpResult.newDis
   , (err) ->
     next err

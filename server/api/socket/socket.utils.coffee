@@ -29,16 +29,22 @@ exports.SocketUtils = BaseUtils.subclass
         answer: answer
     )
 
+  $noticeMsg: (notice) ->
+    return JSON.stringify(
+      type: 'notice'
+      payload: notice
+    )
+
   $sendQuizMsg: (answers, question) ->
     for answer in answers
-      @sendToOne @quizMsg(answer, question), answer.userId
+      @sendToOne answer.userId, @quizMsg(answer, question)
 
-  $sendToGroup: (msg, userIds) ->
+  $sendToGroup: (userIds, msg) ->
     for userId in userIds
-      @sendToOne msg, userId
+      @sendToOne userId, msg
 
 
-  $sendToOne: (msg, userId) ->
+  $sendToOne: (userId, msg) ->
     unless global.socketMap[userId]?
       return logger.warn "userId: #{userId}, socket does not exists"
 

@@ -1,6 +1,9 @@
 BaseUtils = require('../../common/BaseUtils').BaseUtils
 Course = _u.getModel 'course'
 Classe = _u.getModel 'classe'
+redisClient = require '../../common/redisClient'
+
+courseCacheExpires = 24*60*60
 
 exports.CourseUtils = BaseUtils.subclass
   classname: 'CourseUtils'
@@ -12,38 +15,58 @@ exports.CourseUtils = BaseUtils.subclass
       when 'admin' then return @checkAdmin courseId
 
   checkTeacher: (teacherId, courseId) ->
-    Course.findOneQ
-      _id: courseId
-      owners: teacherId
-    .then (course) ->
-      if course?
+    key = teacherId + ':' + courseId
+    
+    redisClient.q.get key
+    .then (cached) ->
+      if cached?
+        logger.info "Found course in cache for key #{key}"
+        course = JSON.parse cached
+        course = Course.newModel course
         return course
-      else
-        Q.reject
-          status : 403
-          errCode : ErrCode.CannotReadThisCourse
-          errMsg : 'No course found or no permission to read it'
-    , (err) ->
-      Q.reject err
+      
+      Course.findOneQ
+        _id: courseId
+        owners: teacherId
+      .then (course) ->
+        if course?
+          logger.info "Put course into cache for key #{key}"
+          redisClient.q.set key, JSON.stringify(course.toJSON()), 'EX', courseCacheExpires
+          return course
+        else
+          Q.reject
+            status : 403
+            errCode : ErrCode.CannotReadThisCourse
+            errMsg : 'No course found or no permission to read it'
 
   checkStudent: (studentId, courseId) ->
 
-    Classe.findOneQ
-      students: studentId
-    .then (classe) ->
-      Course.findOneQ
-        _id: courseId
-        classes: classe._id
-    .then (course) ->
-      if course?
+    key = studentId + ':' + courseId
+    
+    redisClient.q.get key
+    .then (cached) ->
+      if cached?
+        logger.info "Found course in cache for key #{key}"
+        course = JSON.parse cached
+        course = Course.newModel course
         return course
-      else
-        Q.reject
-          status : 403
-          errCode: ErrCode.CannotReadThisCourse
-          errMsg : 'No course found or no permission to read it'
-    , (err) ->
-      Q.reject err
+          
+      Classe.findOneQ
+        students: studentId
+      .then (classe) ->
+        Course.findOneQ
+          _id: courseId
+          classes: classe._id
+      .then (course) ->
+        if course?
+          logger.info "Put course into cache for key #{key}"
+          redisClient.q.set key, JSON.stringify(course.toJSON()), 'EX', courseCacheExpires
+          return course
+        else
+          Q.reject
+            status : 403
+            errCode: ErrCode.CannotReadThisCourse
+            errMsg : 'No course found or no permission to read it'
 
   checkAdmin : (courseId) ->
     Course.findOneQ
@@ -73,14 +96,9 @@ exports.CourseUtils = BaseUtils.subclass
     Classe.findOneQ
       students: studentId
     .then (classe) ->
-      console.log 'Classe found...'
-      console.dir classe
-      #if not classe? then return null
       Course.findQ
         classes : classe._id
     .then (courses) ->
-      console.log 'Found courses ...'
-      console.dir courses
       return courses
     , (err) ->
       Q.reject err

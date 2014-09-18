@@ -3,6 +3,8 @@
 DisTopic = _u.getModel 'dis_topic'
 CourseUtils = _u.getUtils 'course'
 DisUtils = _u.getUtils 'dis'
+NoticeUtils = _u.getUtils 'notice'
+SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
   user = req.user
@@ -91,9 +93,18 @@ exports.vote = (req, res, next) ->
   disTopicId = req.params.id
   userId = req.user._id
 
+  tmpResult = {}
   DisUtils.vote DisTopic, disTopicId, userId
   .then (result) ->
-    newValue = result[0]
-    res.send newValue
+    tmpResult.newDis = result[0]
+    NoticeUtils.addTopicVoteUpNotice(
+      tmpResult.newDis.postBy
+      userId
+      tmpResult.newDis._id
+    )
+  .then (notice) ->
+    SocketUtils.sendDisNotice notice
+  .then () ->
+    res.send tmpResult.newDis
   , (err) ->
     next err

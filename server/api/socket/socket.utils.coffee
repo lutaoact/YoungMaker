@@ -35,6 +35,9 @@ exports.SocketUtils = BaseUtils.subclass
       payload: notice
     )
 
+  $sendDisNotice: (notice) ->
+    @sendToOne notice.userId, @noticeMsg notice
+
   $sendQuizMsg: (answers, question) ->
     for answer in answers
       @sendToOne answer.userId, @quizMsg(answer, question)

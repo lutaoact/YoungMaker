@@ -53,7 +53,16 @@ exports.create = (req, res, next) ->
   .then (disTopic) ->
     tmpResult.disReply.populateQ 'postBy', 'name avatar'
   .then (disReply) ->
-    res.send 201, disReply
+    tmpResult.disReply = disReply
+    NoticeUtils.addTopicCommentNotice(
+      tmpResult.disTopic.postBy
+      user._id
+      tmpResult.disTopic._id
+    )
+  .then (notice) ->
+    SocketUtils.sendDisNotice notice
+  .then () ->
+    res.send 201, tmpResult.disReply
   , (err) ->
     next err
 
@@ -105,7 +114,7 @@ exports.vote = (req, res, next) ->
       tmpResult.newDis._id
     )
   .then (notice) ->
-    SocketUtils.sendToOne userId, SocketUtils.noticeMsg notice
+    SocketUtils.sendDisNotice notice
     do Q.resolve
   .then () ->
     res.send tmpResult.newDis

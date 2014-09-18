@@ -80,6 +80,8 @@ exports.destroy = (req, res, next) ->
   , (err) ->
     next err
 
+#找出指定班级中的所有学生，查看他们的quiz_answer记录，若没有，则新增
+#然后将question和answer通过socket发送给每一个学生
 exports.pubQuiz = (req, res, next) ->
   user = req.user
   {questionId, classId, lectureId} = req.body

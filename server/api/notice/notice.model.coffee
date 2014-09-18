@@ -18,13 +18,13 @@ exports.Notice = BaseModel.subclass
           ref: 'user'
         type: Number
         data:
-          lectureId:
+          lecture:
              type: ObjectId
              ref: 'lecture'
-          disTopicId:
+          disTopic:
              type: ObjectId
              ref: 'dis_topic'
-          disReplyId:
+          disReply:
              type: ObjectId
              ref: 'dis_reply'
         status: Number

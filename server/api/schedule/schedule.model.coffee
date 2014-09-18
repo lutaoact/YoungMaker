@@ -9,11 +9,11 @@ exports.Schedule = BaseModel.subclass
   classname: 'Schedule'
   initialize: ($super) ->
     @schema = new Schema
-      courseId:
+      course:
         type: Schema.Types.ObjectId
         ref: "course"
         required: true
-      classeId:
+      classe:
         type: Schema.Types.ObjectId
         ref: "classe"
         required: true
@@ -27,6 +27,6 @@ exports.Schedule = BaseModel.subclass
         type: Date
         required: true
 
-    @schema.index {courseId: 1, classeId: 1}, {unique: true}
+    @schema.index {course: 1, classe: 1}, {unique: true}
 
     $super()

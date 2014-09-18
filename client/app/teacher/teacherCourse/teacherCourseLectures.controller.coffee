@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $http
   $scope
   $state
+  $document
   Restangular
 ) ->
 
@@ -25,12 +26,19 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       text = _.str.clean(name + ' ' + content).toLowerCase()
       _.str.include(text, keyword)
 
+
     toggleLectures: (course) ->
       if !course._id? then return
-      if course.$lectures?
-        delete course.$lectures
-        delete course.$progress
-      else reloadLectures(course)
+      targetElementId =
+        if course.$lectures?
+          delete course.$lectures
+          delete course.$progress
+          'course-' + course._id
+        else
+          reloadLectures(course)
+          'lectures-' + course._id
+      targetElement = angular.element(document.getElementById(targetElementId))
+      $document.scrollToElement(targetElement, 60, 500)
 
     startTeaching: (course, lecture) ->
       classe = _.find(course.classes, $active:true)

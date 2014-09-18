@@ -21,3 +21,10 @@ exports.Classe = BaseModel.subclass
       yearGrade: String
 
     $super()
+
+  getAllStudents: (classeIds) ->
+    @findQ _id: $in: classeIds
+    .then (classes) ->
+      return _.reduce classes, (studentIds, classe) ->
+        return studentIds.concat classe.students
+      , []

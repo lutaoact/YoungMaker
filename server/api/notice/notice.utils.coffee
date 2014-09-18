@@ -26,21 +26,17 @@ class NoticeUtils
     return @addNotice userId, fromWhom, Const.NoticeType.ReplyVoteUp, disReplyId
 
   #userId，有新的lecture发布了哦，赶紧去看吧
-  buildLectureNotices: (userIds, lectureIds) ->
-    datas = []
-    for userId in userIds
-      datas = datas.concat(
-        for lectureId in lectureIds
-          userId: userId
-          type: Const.NoticeType.Lecture
-          status: 0
-          data:
-            lecture: lectureId
-      )
-    return datas
+  buildLectureNotices: (userIds, lectureId) ->
+    return (for userId in userIds
+      userId: userId
+      type: Const.NoticeType.Lecture
+      status: 0
+      data:
+        lecture: lectureId
+    )
 
-  addLectureNotices: (userIds, lectureIds) ->
-    datas = @buildLectureNotices userIds, lectureIds
+  addLectureNotices: (userIds, lectureId) ->
+    datas = @buildLectureNotices userIds, lectureId
 
     Notice.createQ datas
 

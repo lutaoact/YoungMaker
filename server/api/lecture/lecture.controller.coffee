@@ -12,6 +12,9 @@ Lecture = _u.getModel "lecture"
 Course = _u.getModel "course"
 CourseUtils = _u.getUtils 'course'
 LectureUtils = _u.getUtils 'lecture'
+Classe = _u.getModel 'classe'
+NoticeUtils = _u.getUtils 'notice'
+SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
@@ -43,16 +46,23 @@ exports.show = (req, res, next) ->
 # TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.
 exports.create = (req, res, next) ->
   courseId = req.query.courseId
-  courseObj = {}
+  tmpResult = {}
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    courseObj = course
+    tmpResult.course = course
     Lecture.createQ req.body
   .then (lecture) ->
-    courseObj.lectureAssembly.push lecture._id
-    courseObj.save (err) ->
-      next err if err #TODO: should rollback creating lecture part
-      res.send lecture
+    tmpResult.lecture = lecture
+    tmpResult.course.lectureAssembly.push lecture._id
+    do tmpResult.course.saveQ #TODO: should rollback creating lecture part
+  .then () ->
+    Classe.getAllStudents tmpResult.course.classes
+  .then (studentIds) ->
+    NoticeUtils.addLectureNotices studentIds, tmpResult.lecture._id
+  .then (notices) ->
+    SocketUtils.sendNotices notices
+  .then () ->
+    res.send tmpResult.lecture
   , (err) ->
     next err
 

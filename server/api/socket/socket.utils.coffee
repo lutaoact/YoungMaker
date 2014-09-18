@@ -38,6 +38,10 @@ exports.SocketUtils = BaseUtils.subclass
   $sendDisNotice: (notice) ->
     @sendToOne notice.userId, @noticeMsg notice
 
+  $sendNotices: (notices) ->
+    for notice in notices
+      @sendToOne notice.userId, @noticeMsg notice
+
   $sendQuizMsg: (answers, question) ->
     for answer in answers
       @sendToOne answer.userId, @quizMsg(answer, question)

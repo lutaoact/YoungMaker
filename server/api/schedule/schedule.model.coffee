@@ -27,6 +27,4 @@ exports.Schedule = BaseModel.subclass
         type: Date
         required: true
 
-    @schema.index {course: 1, classe: 1}, {unique: true}
-
     $super()

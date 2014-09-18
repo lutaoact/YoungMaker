@@ -15,6 +15,11 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
 
   $rootScope.additionalMenu = [
     {
+      title: '主页'
+      link: 'student.courseList'
+      role: 'student'
+    }
+    {
       title: '课程主页<i class="fa fa-home"></i>'
       link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
       role: 'student'

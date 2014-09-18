@@ -19,6 +19,11 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
 
   $rootScope.additionalMenu = [
     {
+      title: '主页'
+      link: 'student.courseList'
+      role: 'student'
+    }
+    {
       title: '课程主页<i class="fa fa-home"></i>'
       link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
       role: 'student'
@@ -46,7 +51,7 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
       .then (lecture)->
         $scope.lecture = lecture
         # If student stay over 5 seconds. Send view lecture event.
-        $timeout ->
+        handleViewEvent = $timeout ->
           console.log 'view'
           Restangular.all('activities').post
             eventType: Const.Student.ViewLecture
@@ -54,6 +59,8 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
               lectureId: $scope.lecture._id
               courseId: $scope.course._id
         , 5000
+        $scope.$on '$destroy', ()->
+          $timeout.cancel handleViewEvent
         $scope.lecture
 
   loadCourse = ()->

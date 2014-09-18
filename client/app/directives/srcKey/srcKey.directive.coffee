@@ -11,7 +11,7 @@ angular.module('budweiserApp').directive 'srcKey', ($http)->
     setSource = (url)->
       switch $scope.sourceAttr
         when 'background-image'
-          $element.css('background-image','url(' + url + ')')
+          $element.css('background-image','url(\'' + url + '\')')
         when 'data'
           $element[0].data = url
         else

@@ -24,6 +24,8 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     create: ()->
       @imagesToInsert?.forEach (image)->
         $scope.myTopic.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
+      if @myTopic.$lecture or @myTopic.$keypoint
+        @myTopic.content = '<br/>' + @myTopic.content
       if @myTopic.$lecture
         @myTopic.lectureId = @myTopic.$lecture._id
         @myTopic.content = "<div class=\"tag\" href=\"lecture\" src=\"#{$scope.myTopic.$lecture._id}\">#{$scope.myTopic.$lecture.name}</div>" + @myTopic.content

@@ -13,7 +13,6 @@ angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
   viewer = undefined
 
   open: (options)->
-    console.log options.rawSrc
     if !viewer
       $http.get('app/directives/imageZoom/imageZoomViewer.html')
       .success (template)->

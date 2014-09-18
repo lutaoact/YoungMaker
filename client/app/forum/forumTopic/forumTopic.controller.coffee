@@ -8,7 +8,6 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   $state
   $q
   $modal
-  $sce
   CurrentUser
   focus
   $timeout
@@ -50,13 +49,11 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
       Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
       .then (replies)->
         replies.forEach (reply)->
-          reply.$unsafeContent = $sce.trustAsHtml reply.content
         $scope.replies = replies
 
     loadTopic: ()->
       Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
-        topic.$unsafeContent = $sce.trustAsHtml topic.content
         $scope.topic = topic
 
     initMyReply: ()->

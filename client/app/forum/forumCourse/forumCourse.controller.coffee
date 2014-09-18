@@ -8,7 +8,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $state
   $q
   $rootScope
-  $sce
   $document
   $window
   $timeout
@@ -104,47 +103,14 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       $scope.selectedTopic = undefined
       Restangular.one('dis_topics', topic._id).get()
       .then (topic)->
-        topic.$unsafeContent = $sce.trustAsHtml topic.content
         $scope.selectedTopic = topic
         Restangular.all('dis_replies').getList({disTopicId: topic._id})
       .then (replies)->
         replies.forEach (reply)->
-          reply.$unsafeContent = $sce.trustAsHtml reply.content
         $scope.selectedTopic.$replies = replies
         $document.scrollTop(340)
 
     clientHeight: undefined
-
-    onImgUploaded: (key)->
-      @imagesToInsert ?= []
-      @imagesToInsert.push
-        url: "/api/assets/images/#{key}-blog"
-        key: key
-
-    newReply: {}
-    replying: false
-
-    replyTo: (topic, reply)->
-      # validate
-      @replying = true
-      @imagesToInsert?.forEach (image)->
-        reply.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
-      topic.$replies.post reply, {disTopicId: topic._id}
-      .then (dis_reply)->
-        dis_reply.$unsafeContent = $sce.trustAsHtml dis_reply.content
-        topic.$replies.splice 0, 0, dis_reply
-        $scope.initMyReply()
-        $scope.replying = false
-        $scope.imagesToInsert = undefined
-
-    initMyReply: ()->
-      @newReply = {} if !@newReply
-      @newReply.content = ''
-
-    toggleVote: (reply)->
-      reply.one('vote').post()
-      .then (res)->
-        reply.voteUpUsers = res.voteUpUsers
 
   setclientHeight = ()->
     $scope.clientHeight =

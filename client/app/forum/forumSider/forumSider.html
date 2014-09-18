@@ -6,123 +6,16 @@
         <i class="fa fa-plus"></i>新讨论
       </button>
     </div>
-
     <topic-list topics="topics" on-topic-click="viewTopic">
     </topic-list>
   </div>
 
-  <div class="topic-detail" ng-style="clientHeight" ng-show="showTopic">
-    <div ng-show="currentTopic">
-      <div class="title-row" style="padding-top: 0.1px;">
-        <h4 class="btn base-color" ng-click="backToList()"><i class="fa fa-chevron-left"></i></h4>
-      </div>
-      <div class="bud article">
-
-        <div class="article-header">
-          <div class="article-header-left">
-            <h3 class="article-title">{{currentTopic.title}}
-            </h3>
-            <div class="post-time">{{currentTopic.modified|date:'yyyy/MM/dd'}}</div>
-            <div class="comment-count"><i class="fa fa-comments"></i>{{currentTopic.replies||0}}</div>
-          </div>
-          <div class="article-header-right">
-            <div class="media-object avatar-md"
-                 source-attr="background-image"
-                 suffix="?imageView2/1/w/64/h/64"
-                 src-key="currentTopic.postBy.avatar">
-            </div>
-            <h6 class="poster-name">{{currentTopic.postBy.name}}</h6>
-          </div>
-        </div>
-
-        <div class="article-body">
-          <div class="blog" compile-html="currentTopic.content" >
-          </div>
-        </div>
-      </div>
-
-      <hr>
-      <div class="replies">
-        <h5 class="base-color">{{currentTopic.$replies.length||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
-
-        <div class="new-reply">
-          <div class="new-reply-left">
-            <div class="media-object avatar-sm"
-                 source-attr="background-image"
-                 src="http://placehold.it/32x32"
-                 src-key="me.avatar"
-                 suffix="?imageView2/1/w/64/h/64">
-            </div>
-          </div>
-          <div class="new-reply-right" is-visible="viewState.newReplyVisible">
-            <textarea
-              id="new-reply"
-              msd-elastic
-              class="form-control reply-input"
-              row="10"
-              placeholder="请输入您要回复的内容..."
-              ng-model="newReply.content"
-              focus-me="viewState.newReplyVisible">
-            </textarea>
-            <div class="reply-tools">
-              <div class="image-to-insert" ng-repeat="image in imagesToInsert">
-                <img ng-src="{{image.url}}" alt="">
-              </div>
-              <uploader limit="2*1024*1024"
-                        ng-disabled="replying"
-                        class="new-img"
-                        on-complete="onImgUploaded($data)"
-                        accept="image">
-                <i class="fa fa-photo"></i>
-              </uploader>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(currentTopic, newReply)">提交</button>
-            </div>
-          </div>
-        </div>
-
-        <ul class="list-group ">
-          <li class="bud thumbnail media col-md-12 reply"
-              ng-repeat="reply in currentTopic.$replies">
-            <a class="pull-left" href>
-              <div class="media-object avatar-sm"
-                   source-attr="background-image"
-                   src="http://placehold.it/32x32"
-                   src-key="reply.postBy.avatar"
-                   suffix="?imageView2/1/w/64/h/64">
-              </div>
-            </a>
-            <div class="media-body">
-
-              <h5 class="base-color reply-author-name">{{reply.postBy.name}}<small>|</small><small>{{reply.created|timeToTimeAgo}}</small><a href ng-show="reply.postBy._id == me._id" class="pull-right">删除</a></h5>
-
-              <div class="reply-body blog" compile-html="reply.content" ></div>
-              <span class="pull-right">
-                <a href="" class="btn vote">
-                  <i
-                    class="fa"
-                    ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
-                    ng-click="toggleVote(reply)">
-                  </i>
-                </a>
-                {{reply.voteUpUsers.length||0}}个赞
-              </span>
-            </div>
-          </li>
-        </ul>
-
-        <a class="btn form-control btn-primary btn-lg rounded"
-          style="margin: 20px 0;border-radius: 3px; height: 49px;"
-          href="#new-reply"
-          du-smooth-scroll offset="200">
-          快速回复该帖
-        </a>
-      </div>
-
-    </div>
+  <div class="title-row" style="padding-top: 0.1px;">
+    <h4 class="btn base-color" ng-click="backToList()"><i class="fa fa-chevron-left"></i></h4>
   </div>
+  <topic-detail topic="currentTopic" ng-show="showTopic">
 
+  </topic-detail>
 </div>
 
 

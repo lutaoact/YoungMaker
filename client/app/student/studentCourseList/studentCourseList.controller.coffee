@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   notify
   $upload
   Courses
+  Restangular
 ) ->
 
   angular.extend $scope,
@@ -20,6 +21,33 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
 
     startCourse: (event)->
       console.log event
+
+    loadTimetable: ()->
+      Restangular.all('schedules').getList()
+      .then (schedules)->
+        # Compose this week
+        eventSouces = [1..5].map -> []
+        today = moment()
+        weekStart = today.clone().isoWeekday(1)
+        weekEnd = today.clone().isoWeekday(5)
+        schedules.forEach (schedule)->
+          if moment(schedule.start).isAfter weekEnd or moment(schedule.until).isBefore weekStart
+            # not shown
+            console.log 'out of date'
+          else
+            isoWeekday =  moment(schedule.start).isoWeekday() # 1,2...7
+            event = {}
+            event.title = schedules.course.name
+            event.$course = schedules.course
+            event.startTime = moment(schedule.start).weeks(today.weeks())
+            event.currentWeek = today.weeks() - moment(schedule.start).weeks()
+            event.weeks = moment(schedule.until).weeks() - moment(schedule.start).weeks()
+            event.endTime = moment(schedule.end).weeks(today.weeks())
+            eventSouces[isoWeekday - 1].push event
+            # Test
+            $scope.eventSouces[isoWeekday - 1].push event
+
+
 
     eventSouces: [
       [
@@ -123,3 +151,4 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
     ]
 
   $scope.loadCourses()
+  $scope.loadTimetable()

@@ -24,17 +24,17 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     create: ()->
       @imagesToInsert?.forEach (image)->
         $scope.myTopic.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
+      @myTopic.content = @myTopic.content.replace /\r?\n/g, '<br/>'
       if @myTopic.$lecture or @myTopic.$keypoint
         @myTopic.content = '<br/>' + @myTopic.content
+      if @myTopic.$keypoint
+        @myTopic.content = "<div class=\"tag\" href=\"keypoint\" src=\"#{$scope.myTopic.$keypoint._id}\">#{$scope.myTopic.$keypoint.name}</div>" + @myTopic.content
       if @myTopic.$lecture
         @myTopic.lectureId = @myTopic.$lecture._id
         @myTopic.content = "<div class=\"tag\" href=\"lecture\" src=\"#{$scope.myTopic.$lecture._id}\">#{$scope.myTopic.$lecture.name}</div>" + @myTopic.content
-      if @myTopic.$keypoint
-        @myTopic.content = "<div class=\"tag\" href=\"keypoint\" src=\"#{$scope.myTopic.$keypoint._id}\">#{$scope.myTopic.$keypoint.name}</div>" + @myTopic.content
       topics.post @myTopic, {courseId: course._id}
       .then (dis_topic)->
         $scope.imagesToInsert = undefined
-        console.log dis_topic
         $modalInstance.close dis_topic
 
     imagesToInsert: undefined

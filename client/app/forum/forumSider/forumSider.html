@@ -10,8 +10,8 @@
     </topic-list>
   </div>
 
-  <div class="title-row" style="padding-top: 0.1px;">
-    <h4 class="btn base-color" ng-click="backToList()"><i class="fa fa-chevron-left"></i></h4>
+  <div class="title-row" ng-show="showTopic">
+    <h4 class="btn" ng-click="backToList()"><i class="fa fa-chevron-left base-color"></i>返回列表</h4>
   </div>
   <topic-detail topic="currentTopic" ng-show="showTopic">
 

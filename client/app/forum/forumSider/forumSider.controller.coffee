@@ -47,7 +47,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
       .then (topics)->
         # pull out the tags in content
         topics.forEach (topic)->
-          topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/)?.join()
+          topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/g)?.join('')
         $scope.topics = topics
 
     createTopic: ()->
@@ -61,6 +61,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
           lectures: -> $scope.course.$lectures
           topics: -> $scope.topics
       .result.then (dis_topic)->
+        dis_topic.$tags = (dis_topic.content.match /<div\s+class="tag\W.*?<\/div>/g)?.join('')
         $scope.topics.splice 0, 0, dis_topic
 
     viewTopic: (topic)->

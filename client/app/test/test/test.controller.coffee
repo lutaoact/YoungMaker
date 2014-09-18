@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'TestCtrl', (
   Restangular
   $cookieStore
   $localStorage
+  $tools
 ) ->
 
   angular.extend $scope,
@@ -74,5 +75,9 @@ angular.module('budweiserApp').controller 'TestCtrl', (
         method: 'GET'
 
     getRequests: -> _.values $scope.$storage.requests
+
+    genColor: (str)->
+      $scope.nameColor = $tools.genColor(str)
+
 
   $scope.setRequest('') if !$scope.$storage.request

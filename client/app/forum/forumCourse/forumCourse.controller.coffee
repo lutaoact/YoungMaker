@@ -93,6 +93,8 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         # pull out the tags in content
         topics.forEach (topic)->
           topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/)?.join()
+          topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
+        console.log(_.pluck topics, '$heat')
         $scope.topics = topics
         $scope.viewTopic(topics[0]) if topics[0]
 
@@ -118,7 +120,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       .then (replies)->
         replies.forEach (reply)->
         $scope.selectedTopic.$replies = replies
-        $document.scrollTop(340)
+        $document.scrollToElement(angular.element('.article'), 60, 200);
 
     clientHeight: undefined
 

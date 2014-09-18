@@ -7,7 +7,7 @@
           <h3 class="article-title">{{topic.title}}
           </h3>
           <div class="post-time">{{topic.modified|date:'yyyy/MM/dd'}}</div>
-          <div class="comment-count"><i class="fa fa-comments"></i>{{topic.replies||0}}</div>
+          <div class="comment-count"><i class="fa fa-comments"></i>{{topic.$replies.length||0}}</div>
         </div>
         <div class="article-header-right">
           <div class="media-object avatar-md"

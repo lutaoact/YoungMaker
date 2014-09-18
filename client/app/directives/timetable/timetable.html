@@ -21,7 +21,7 @@
     </div>
 
     <div class="text-center pull-left">
-      <a href="" class="arrow">
+      <a href class="arrow" ng-click="prev()">
         <i class="fa fa-chevron-left"></i>
       </a>
     </div>
@@ -29,7 +29,7 @@
     <div class="pages pull-left">
       <div class="day day-header">
         <div class="time-span time-span-header">星期</div>
-        <div class="time-span" ng-repeat="duration in ['9:00','9:50','11:35','12:25','1:30','2:15','3:25','4:10']">
+        <div class="time-span" ng-repeat="duration in ['9:00','10:00','11:00','12:00','1:00','2:00','3:00','4:00']">
           {{duration}}
           <sup>
             {{$index>3?'PM':'AM'}}
@@ -38,13 +38,14 @@
       </div>
       <div class="day" ng-repeat="day in ['一','二','三','四','五']" ng-class="{'today': today.weekday()-1==$index}">
         <div class="time-span time-span-header">{{day}}</div>
-        <div class="time-span" ng-repeat="span in ['9:00','9:50','11:35','12:25','1:30','2:15','3:25','4:10']">
+        <div class="time-span" ng-repeat="span in ['9:00','10:00','11:00','12:00','1:00','2:00','3:00','4:00']">
         </div>
         <div class="event-row">
           <div class="event-cell" ng-repeat="event in eventSouces[$index]"
-               ng-style="{'width':event.endTime.diff(event.startTime, 'minute')*1.5+'px',
-               'left':(event.startTime.diff(event.startTime.clone().startOf('day'),'minute')-9*60)*1.5 +'px'}"
-               ng-click="onEventClick($event, event)">
+               ng-style="{'width':event.endTime.diff(event.startTime, 'minute')*94/60+'px',
+               'left':(event.startTime.diff(event.startTime.clone().startOf('day'),'minute')-9*60)*94/60 +'px'}"
+               ng-click="onEventClick($event, event)"
+               tooltip="{{event.startTime.format('LT')+'-'+event.endTime.format('LT')}}">
             <div class="ahead" ng-style="{background: event.color}" ng-show="event.color"></div>
             <div class="title">{{event.title}}</div>
             <div class="subtitle">
@@ -62,7 +63,7 @@
     </div>
 
     <div class="text-center pull-left">
-      <a href="" class="arrow"><i class="fa fa-chevron-right"></i></a>
+      <a href class="arrow" ng-click="next()"><i class="fa fa-chevron-right"></i></a>
     </div>
 
 

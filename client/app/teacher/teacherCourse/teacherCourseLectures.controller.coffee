@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $http
   $scope
   $state
+  $modal
   $document
   Restangular
 ) ->
@@ -55,11 +56,18 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       .then (progress) ->
         $scope.progressMap[classe._id] = progress
 
-    deleteLecture: (lecture)->
-      lecture.remove(courseId:$scope.course._id)
-      .then ->
-        lectures = $scope.course.$lectures
-        lectures.splice(lectures.indexOf(lecture), 1)
+    deleteLecture: (lecture) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除课时'
+          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"吗？"""
+      .result.then ->
+        lecture.remove(courseId:$scope.course._id)
+        .then ->
+          lectures = $scope.course.$lectures
+          lectures.splice(lectures.indexOf(lecture), 1)
 
     addClasse: (classe) ->
       classeIds = _.pluck($scope.course.classes, '_id')

@@ -41,7 +41,7 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课程'
-          message: -> "确认要删除课程'#{course.name}吗'？"
+          message: -> "确认要删除《#{course.name}》吗？"
       .result.then ->
         course.remove().then ->
           $scope.deleteCallback?($course:course)

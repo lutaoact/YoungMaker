@@ -10,8 +10,8 @@ exports.index = (req, res, next) ->
     when 'teacher'
       Course.findQ owners: user._id
       .then (courses) ->
-        Schedule.find courseId: $in: _.pluck courses, '_id'
-        .populate 'courseId classeId'
+        Schedule.find course: $in: _.pluck courses, '_id'
+        .populate 'course classe'
         .execQ()
     when 'student'
       tmpRes = {}
@@ -21,9 +21,9 @@ exports.index = (req, res, next) ->
         Course.findQ classes: classe._id
       .then (courses) ->
         Schedule.find
-          courseId: $in: _.pluck courses, '_id'
-          classeId: tmpRes.classe._id
-        .populate 'courseId classeId'
+          course: $in: _.pluck courses, '_id'
+          classe: tmpRes.classe._id
+        .populate 'course classe'
         .execQ()
   ).then (schedules) ->
     res.send schedules
@@ -43,8 +43,8 @@ exports.upsert = (req, res, next) ->
   delete body._id
 
   conditon =
-    courseId: body.courseId
-    classeId: body.classeId
+    course: body.course
+    classe: body.classe
 
   Schedule.updateQ conditon, {
       start: body.start

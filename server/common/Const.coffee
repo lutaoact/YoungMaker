@@ -5,6 +5,12 @@ Const =
     Comment: 3
     Lecture: 4
 
+  NoticeRef:
+    1: 'disTopic'
+    2: 'disReply'
+    3: 'disTopic'
+    4: 'lecture'
+
   PageSize:
     DisTopic: 10
     DisReply: 36

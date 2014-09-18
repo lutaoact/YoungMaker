@@ -1,86 +1,47 @@
 Notice = _u.getModel 'notice'
 
 class NoticeUtils
-  addNotice: (userId, fromWhom, type, discussionId) ->
+  addNotice: (userId, fromWhom, type, objectId) ->
     data =
       userId: userId
       fromWhom: fromWhom
       type: type
-      data:
-        discussionId: discussionId
+      data: {}
       status: 0
+
+    data.data[Const.NoticeRef[type]] = objectId
 
     Notice.createQ data
 
+  #fromWhom给userId的disTopicId评论了
+  addTopicCommentNotice: (userId, fromWhom, disTopicId) ->
+    return @addNotice userId, fromWhom, Const.NoticeType.TopicVoteUp, disTopicId
+
+  #fromWhom给userId的disTopicId点赞了
   addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->
     return @addNotice userId, fromWhom, Const.NoticeType.TopicVoteUp, disTopicId
 
-#module.exports = NoticeUtils
+  #fromWhom给userId的disReplyId点赞了
+  addReplyVoteUpNotice: (userId, fromWhom, disReplyId) ->
+    return @addNotice userId, fromWhom, Const.NoticeType.ReplyVoteUp, disReplyId
+
+  buildLectureNotices: (userIds, lectureIds) ->
+    datas = []
+    for userId in userIds
+      datas = datas.concat(
+        for lectureId in lectureIds
+          userId: userId
+          type: Const.NoticeType.Lecture
+          status: 0
+          data:
+            lecture: lectureId
+      )
+    return datas
+
+  addLectureNotices: (userIds, lectureIds) ->
+    datas = @buildLectureNotices userIds, lectureIds
+    console.log datas
+
+    Notice.createQ datas
+
 exports.NoticeUtils = NoticeUtils
-#addNotice = (userId, fromWhom, type, discussionId) ->
-#  data =
-#    userId: userId
-#    fromWhom: fromWhom
-#    type: type
-#    data:
-#      discussionId: discussionId
-#    status: 0
-#
-#  save = Q.nbind Notice.save, Notice
-#  save data
-#  .then (notice) ->
-#    return Q(notice)
-#  , (err) ->
-#    return Q.reject err
-
-#exports.addLectureNotices = (userIds, lectureIds) ->
-#  data =
-#    type: Const.NoticeType.Lecture
-#    data: {}
-#    status: 0
-#
-#  save = Q.nbind Notice.save, Notice
-#  result = []
-#  for userId in userIds
-#    data.userId = userId
-#    for lectureId in lectureIds
-#      data.data.lectureId = lectureId
-#      result.push save data
-#
-#  Q.all result
-#  .then (datas) ->
-#    return Q(datas)
-#  , (err) ->
-#    return Q.reject err
-#
-#
-#exports.addVoteUpNotice = (userId, fromWhom, discussionId) ->
-#  return addNotice userId, fromWhom, Const.NoticeType.VoteUp, discussionId
-#
-#exports.addCommentNotice = (userId, fromWhom, discussionId) ->
-#  return addNotice userId, fromWhom, Const.NoticeType.Comment, discussionId
-
-#### test code for addLectureNotices ####
-#userIds = ['111111111111111111111111', '111111111111111111111113', '111111111111111111111112']
-#lectureIds = ['222222222222222222222222', '222222222222222222222223', '222222222222222222222222']
-#exports.addLectureNotices userIds, lectureIds
-#.then (notice) ->
-#  console.log notice
-#, (err) ->
-#  console.log err
-
-#### test code for addCommentNotice and addVoteUpNotice ####
-#userId = '53ec4b92c080c9762a2b6b17'
-#fromWhom = '322222222222222222222222'
-#discussionId = '422222222222222222222222'
-#
-#exports.addCommentNotice userId, fromWhom, discussionId
-#.then (notice) ->
-#  console.log notice
-#, (err) ->
-#  console.log err
-#exports.addVoteUpNotice userId, fromWhom, discussionId
-#.then (notice) ->
-#  console.log notice
-#, (err) ->
-#  console.log err

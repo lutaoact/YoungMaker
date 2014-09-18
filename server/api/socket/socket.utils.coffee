@@ -21,12 +21,17 @@ exports.SocketUtils = BaseUtils.subclass
         errMsg: util.inspect err
     )
 
-  $quizMsg: (question) ->
+  $quizMsg: (answer, question) ->
     return JSON.stringify(
       type: 'quiz'
-      payload: question
+      payload:
+        question: question
+        answer: answer
     )
 
+  $sendQuizMsg: (answers, question) ->
+    for answer in answers
+      @sendToOne @quizMsg(answer, question), answer.userId
 
   $sendToGroup: (msg, userIds) ->
     for userId in userIds

@@ -1,5 +1,6 @@
 global._  = require 'lodash'
 global._s = require 'underscore.string'
+global.socketMap = {}
 global._u = require './util'
 global.ErrCode = require './ErrCode'
 

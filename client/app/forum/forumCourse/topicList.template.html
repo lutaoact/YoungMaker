@@ -1,0 +1,56 @@
+<div class="bud topic-list">
+  <div class="clearfix title-row">
+    <div class="form-group pull-left col-xs-6 search">
+      <div class="bud input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input class="form-control" type="text" placeholder="查询">
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group" dropdown is-open="status.isopen">
+        <button type="button" class="btn dropdown-toggle">
+          全部<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">全部</a></li>
+          <li><a href="#">我的帖子</a></li>
+          <li><a href="#">我回复的</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <ul class="list-group">
+    <div class="clearfix title-row">
+      <h4 class="pull-left">主题</h4>
+      <h5 class="pull-right">
+        <small>排序</small>
+        <i class="fa fa-clock-o" ng-click="sort('update')"></i>
+        <i class="fa fa-heart" ng-click="sort('heat')"></i>
+      </h5>
+    </div>
+    <li class="bud thumbnail media col-md-12 topic"
+        ng-repeat="topic in topics"
+        ng-class="{'selected':topic._id==selectedTopic._id}"
+        >
+      <div class="pull-left" href>
+        <div class="media-object avatar-md"
+             source-attr="background-image"
+             src="http://placehold.it/32x32"
+             src-key="topic.postBy.avatar"
+             suffix="?imageView2/1/w/64/h/64">
+        </div>
+        <!-- <span>{{topic.postBy.name}}</span> -->
+      </div>
+      <div class="media-body" ng-click="selectTopic(topic)">
+        <div class="pull-left">
+          <strong>{{topic.title}}</strong>
+          <div class="tags" compile-html="topic.$tags">
+          </div>
+        </div>
+      </div>
+      <span class="badge">
+        {{topic.replies||0}}
+      </span>
+    </li>
+  </ul>
+</div>

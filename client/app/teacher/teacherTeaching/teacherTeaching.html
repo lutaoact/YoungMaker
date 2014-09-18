@@ -1,30 +1,44 @@
-<div class="container">
+<div class="container-fluid" style="margin-top:-60px">
   <div class="row">
-    <div class="dropdown pull-right">
-      <button class="btn btn-default dropdown-toggle"
-              data-toggle="dropdown"
-              id="teachingTools">
-        <i class="glyphicon glyphicon-align-justify fa-2x"></i>
-      </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="teachingTools">
-        <li><h4 style="text-align: center;">随堂练习</h4></li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation" ng-repeat="quizze in lecture.quizzes">
-          <a href role="menuitem" ng-click="pushQuestion(quizze)">
-            <b>{{$index|indexToABC}} {{quizze.content.title}}</b>
-          </a>
-        </li>
-      </ul>
+    <div class="col-md-12 " style="z-index:1; height: 50px; margin-bottom: -50px">
+      <h3 style="text-align: center">
+        <a href="/t#course-{{$state.params.courseId}}">{{lecture.name}}</a>
+      </h3>
+      <div class="pull-right dropdown" style="margin-top: -45px">
+        <button class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown"
+                id="teachingTools">
+          <i class="glyphicon glyphicon-align-justify fa-2x"></i>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="teachingTools">
+          <li>
+            <a>
+              <h4>随堂练习</h4>
+              <span>目前共有{{lecture.quizzes.length}}个随堂问题</span>
+            </a>
+          </li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation" ng-repeat="quizze in lecture.quizzes">
+            <a href role="menuitem" ng-click="pushQuestion(quizze)">
+              <b>{{$index+1}}. {{quizze.content.title}}</b>
+            </a>
+          </li>
+          <li role="presentation" class="divider"></li>
+          <li><a href="/t#course-{{$state.params.courseId}}">退出</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="col-md-12">
-      <h3><a href="/t#course-{{$state.params.courseId}}">{{lecture.name}}</a></h3>
+  </div>
+  <div class="row">
+    <div class="col-md-12"
+         style="padding: 0px;">
       <cool-projector disable-animation="true"
-                      style="width: 940px; height: 600px;">
+                      style="width: 100%; height: 100%;">
         <cool-frame ng-repeat="slide in lecture.slides"
                     active="slide.$active">
           <img src-key="slide.raw"
-               width="940"
-               height="600"
+               width="100%"
+               height="100%"
                suffix="?imageView2/2/w/940/h/600">
           <div class="carousel-caption">
             <h4>第 {{$index+1}} 张</h4>

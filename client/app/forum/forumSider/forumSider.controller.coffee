@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ForumCourseCtrl',
+angular.module('budweiserApp').controller 'ForumSiderCtrl',
 (
   $scope
   Restangular
@@ -12,10 +12,10 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $document
   $window
   $timeout
-  CurrentUser
   $modal
-  AllKeypoints
+  Auth
 ) ->
+
   $rootScope.additionalMenu = [
     {
       title: '课程主页<i class="fa fa-home"></i>'
@@ -60,16 +60,18 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
     posting: false
 
-    me: CurrentUser
+    me: Auth.getCurrentUser()
 
-    selectedTopic: undefined
+    currentTopic: undefined
 
     imagesToInsert: undefined
 
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
-        $scope.keypoints = AllKeypoints.filter (x) -> x._id is course.categoryId
+        Restangular.all('key_points').getList(categoryId: course.categoryId)
+        .then (keypoints)->
+          $scope.keypoints = keypoints
         $scope.course = course
 
     loadLectures: ()->
@@ -85,7 +87,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         topics.forEach (topic)->
           topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/)?.join()
         $scope.topics = topics
-        $scope.viewTopic(topics[0]) if topics[0]
 
     createTopic: ()->
       # validate
@@ -101,17 +102,21 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         $scope.topics.splice 0, 0, dis_topic
 
     viewTopic: (topic)->
-      $scope.selectedTopic = undefined
+      $scope.currentTopic = undefined
+      $scope.showTopic = true
       Restangular.one('dis_topics', topic._id).get()
       .then (topic)->
         topic.$unsafeContent = $sce.trustAsHtml topic.content
-        $scope.selectedTopic = topic
+        $scope.currentTopic = topic
         Restangular.all('dis_replies').getList({disTopicId: topic._id})
       .then (replies)->
         replies.forEach (reply)->
           reply.$unsafeContent = $sce.trustAsHtml reply.content
-        $scope.selectedTopic.$replies = replies
-        $document.scrollTop(340)
+        $scope.currentTopic.$replies = replies
+
+    backToList: ()->
+      $scope.currentTopic = undefined
+      $scope.showTopic = false
 
     clientHeight: undefined
 

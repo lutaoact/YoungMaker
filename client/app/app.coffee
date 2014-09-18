@@ -134,7 +134,8 @@ angular.module 'budweiserApp', [
           templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
           controller: 'ReceiveQuestionCtrl'
           resolve:
-            question: -> data
+            answer: -> data.answer
+            question: -> data.question
 
 .run (
   Auth

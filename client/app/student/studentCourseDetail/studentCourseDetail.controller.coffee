@@ -113,13 +113,12 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
     loadProgress: ()->
       $scope.viewedLectureIndex = 1
       if $state.params.courseId
-        Restangular.one('progresses').get({courseId: $state.params.courseId})
-        .then (result)->
-          result?.progress?.forEach (lectureId)->
+        Restangular.all('progresses').getList({courseId: $state.params.courseId})
+        .then (progress)->
+          progress?.forEach (lectureId)->
             viewedLecture = _.find $scope.course.$lectures, _id: lectureId
             viewedLecture?.$viewed = true
             $scope.viewedLectureIndex = $scope.course.$lectures.indexOf(viewedLecture) + 1 if $scope.viewedLectureIndex < $scope.course.$lectures.indexOf(viewedLecture) + 1
-          result
       else
         $q(null)
 

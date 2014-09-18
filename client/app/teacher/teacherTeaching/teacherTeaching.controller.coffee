@@ -6,7 +6,9 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $modal
   Restangular
 ) ->
+
   angular.extend $scope,
+
     $state: $state
     keyPoints: Restangular.all('key_points').getList().$object
     lecture: Restangular.one('lectures', $state.params.lectureId).get().$object
@@ -25,4 +27,11 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
           lectureId: $scope.lecture._id
           classId: $state.params.classeId
         , 'quiz'
+
+  Restangular.all('activities').post
+    eventType: Const.Teacher.ViewLecture
+    data:
+      lectureId: $state.params.lectureId
+      courseId: $state.params.courseId
+      classeId: $state.params.classeId
 

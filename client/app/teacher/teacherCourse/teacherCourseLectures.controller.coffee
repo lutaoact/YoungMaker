@@ -19,6 +19,9 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
   angular.extend $scope,
 
+    progressMap: {}
+    activeProgressKey: undefined
+
     filter: (lecture, keyword) ->
       keyword = keyword ? ''
       name = lecture?.name ? ''
@@ -26,13 +29,11 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       text = _.str.clean(name + ' ' + content).toLowerCase()
       _.str.include(text, keyword)
 
-
     toggleLectures: (course) ->
       if !course._id? then return
       targetElementId =
         if course.$lectures?
           delete course.$lectures
-          delete course.$progress
           'course-' + course._id
         else
           reloadLectures(course)
@@ -43,9 +44,16 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     startTeaching: (course, lecture) ->
       classe = _.find(course.classes, $active:true)
       $state.go 'teacher.teaching',
-        courseId:course._id
-        lectureId:lecture._id
+        courseId: course._id
         classeId: classe._id
+        lectureId: lecture._id
+
+    selectClasse: (classe) ->
+      $scope.activeProgressKey = classe._id
+      if $scope.progressMap.hasOwnProperty(classe._id) then return
+      Restangular.all('progresses').getList({courseId: $scope.course._id, classeId: classe._id})
+      .then (progress) ->
+        $scope.progressMap[classe._id] = progress
 
     deleteLecture: (lecture)->
       lecture.remove(courseId:$scope.course._id)
@@ -73,9 +81,6 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     Restangular.all('lectures').getList(courseId:course._id)
     .then (lectures) ->
       course.$lectures = lectures
-    Restangular.one('progresses').get({courseId: course._id})
-    .then (progress)->
-      course.$progress = progress
 
   reloadLectures($scope.course) if $scope.course?.$lectures?
 

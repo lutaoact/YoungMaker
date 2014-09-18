@@ -1,15 +1,4 @@
-<div>
-  <a ng-click="toggleLectures(course)"
-     ng-show="course._id"
-     du-smooth-scroll
-     href="#course-{{course._id}}"
-     offset="60"
-     class="btn btn-block toggle-lectures">
-    <span ng-show="course.$lectures == null"
-          class="glyphicon glyphicon-chevron-down"></span>
-    <span ng-show="course.$lectures != null"
-          class="glyphicon glyphicon-chevron-up"></span>
-  </a>
+<div id="lectures-{{course._id}}" >
   <div class="row course-lectures"
        ng-show="course.$lectures != null">
     <br/>
@@ -87,4 +76,14 @@
       </div>
     </div>
   </div>
+  <a ng-click="toggleLectures(course)"
+     ng-show="course._id"
+     class="btn btn-block toggle-lectures">
+    <span class="anchor anchor-up">
+      <i ng-show="course.$lectures == null"
+         class="fa fa-chevron-down"></i>
+      <i ng-show="course.$lectures != null"
+         class="fa fa-chevron-up"></i>
+    </span>
+  </a>
 </div>

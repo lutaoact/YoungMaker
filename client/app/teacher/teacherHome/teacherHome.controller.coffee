@@ -97,9 +97,12 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
     classes: Classes
     categories: Categories
 
-    createNewCourse: ->
-      $scope.newCourse =
-        owners:[Auth.getCurrentUser()]
+    switchNewCourse: (create = true) ->
+      if create
+        $scope.newCourse =
+          owners:[Auth.getCurrentUser()]
+      else
+        $scope.newCourse = undefined
 
     createCallback: (course) ->
       delete $scope.newCourse
@@ -112,10 +115,9 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
       index = $scope.courses.indexOf(course)
       $scope.courses.splice(index, 1)
 
-    navToCourse: (id) -> $timeout ->
-      hash = $location.hash() ? ''
-      if hash == id
-        element = document.querySelector('#'+hash)
-        courseEle = angular.element(element)
-        $document.scrollToElement(courseEle, -60, 0)
+    navToCourse: (courseId) -> $timeout ->
+      id = $location.hash() ? ''
+      if id.indexOf(courseId) != -1
+        courseEle = angular.element(document.getElementById(id))
+        $document.scrollToElement(courseEle, 60, 500)
 

@@ -25,6 +25,7 @@ class NoticeUtils
   addReplyVoteUpNotice: (userId, fromWhom, disReplyId) ->
     return @addNotice userId, fromWhom, Const.NoticeType.ReplyVoteUp, disReplyId
 
+  #userId，有新的lecture发布了哦，赶紧去看吧
   buildLectureNotices: (userIds, lectureIds) ->
     datas = []
     for userId in userIds
@@ -40,7 +41,6 @@ class NoticeUtils
 
   addLectureNotices: (userIds, lectureIds) ->
     datas = @buildLectureNotices userIds, lectureIds
-    console.log datas
 
     Notice.createQ datas
 

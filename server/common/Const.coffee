@@ -24,7 +24,7 @@ Const =
     ViewLecture: 1
 
   Teacher:
-    ViewLecture: 101
+    ViewLecture: 101 # start teaching view
     EditLecture: 102
 
 module?.exports = Const

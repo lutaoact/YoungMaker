@@ -16,41 +16,7 @@
   .dropdown-toggle{
     background-color: transparent;
   }
-  .topic-list{
-    width: calc(~"940px*0.42");
-    float: left;
-    background: #FFFFFF;
-    border-right: 2px solid @gray-light;
-    @media screen and (max-width: @screen-sm-min) {
-      width: 100%;
-    }
-    &.fixed{
-      position: fixed;
-      top: 62px;
-      bottom: 0;
-      left: 0;
-      overflow-y: auto;
-      width: calc(~"940px*0.42");
-      @media screen and (max-width: @screen-md-min) {
-        width: calc(~"700px*0.42");
-        left: 0;
-      }
-      @media screen and (max-width: @screen-sm-min) {
-        width: 100%;
-        position: static;
-      }
-    }
-  }
 
-  .topic-detail{
-    @media screen and (max-width: @screen-sm-min) {
-      margin-left: 0;
-      clear: both;
-    }
-    margin-left: 43%;
-    min-height: 700px;
-  }
-  
   .avatar-md{
     margin-top: 3px;
   }

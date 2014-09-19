@@ -38,6 +38,9 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
 
   $scope.$on '$destroy', ()->
     $rootScope.additionalMenu = []
+    $rootScope.navInSub = false
+
+  $rootScope.navInSub = true
 
   angular.extend $scope,
 

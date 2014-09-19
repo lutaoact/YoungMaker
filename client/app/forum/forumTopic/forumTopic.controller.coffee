@@ -12,10 +12,55 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   focus
   $timeout
   textAngularManager
+  $rootScope
 ) ->
 
   if not $state.params.courseId or not $state.params.topicId
     return
+
+  $rootScope.additionalMenu = [
+    {
+      title: '主页'
+      link: 'student.courseList'
+      role: 'student'
+    }
+    {
+      title: '主页'
+      link: 'teacher.home'
+      role: 'teacher'
+    }
+    {
+      title: '课程主页<i class="fa fa-home"></i>'
+      link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '课程主页<i class="fa fa-home"></i>'
+      link: "teacher.courseDetail({courseId:'#{$state.params.courseId}'})"
+      role: 'teacher'
+    }
+    {
+      title: '讨论<i class="fa fa-comments-o"></i>'
+      link: "forum.course({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '统计<i class="fa fa-bar-chart-o"></i>'
+      link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
+      role: 'student'
+    }
+    {
+      title: '统计<i class="fa fa-bar-chart-o"></i>'
+      link: "teacher.courseStats({courseId:'#{$state.params.courseId}'})"
+      role: 'teacher'
+    }
+  ]
+
+  $scope.$on '$destroy', ()->
+    $rootScope.additionalMenu = []
+    $rootScope.navInSub = false
+
+  $rootScope.navInSub = true
 
   editorScope = undefined
 
@@ -24,13 +69,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
 
     course: null
 
-    replies: null
-
     topic: null
-
-    myReply: null
-
-    replying: false
 
     me: CurrentUser
 
@@ -44,53 +83,18 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
       .then (lectures)->
         $scope.course.$lectures = lectures
 
-
-    loadReplies: ()->
-      Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
-      .then (replies)->
-        replies.forEach (reply)->
-        $scope.replies = replies
-
     loadTopic: ()->
       Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
         $scope.topic = topic
-
-    initMyReply: ()->
-      @myReply = {} if !@myReply
-      @myReply.content = ''
-
-    reply: ()->
-      # validate
-
-      @replying = true
-      @replies.post @myReply, {disTopicId: $state.params.topicId}
-      .then (dis_reply)->
-        $scope.replies.get(dis_reply._id)
-      .then (dis_reply)->
-        $scope.replies.push dis_reply
-        $scope.initMyReply()
-        $scope.replying = false
-
-    toggleVote: (reply)->
-      reply.one('vote').post()
-      .then (res)->
-        reply.voteUpUsers = res.voteUpUsers
-
-  retrieveEditor = ()->
-    editorScope = editorScope or textAngularManager.retrieveEditor('replyEditor').scope
-    editorScope
-
-  $scope.$watch 'isEditorVisible', (value)->
-    if value is true
-      retrieveEditor().displayElements.text.trigger('focus');
+        Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
+      .then (replies)->
+        replies.forEach (reply)->
+        $scope.topic.$replies = replies
 
   $q.all [
-    $scope.loadCourse()
-    $scope.loadLectures()
-    $scope.loadReplies()
+    $scope.loadCourse().then $scope.loadLectures()
     $scope.loadTopic()
   ]
   .then ()->
     $scope.loading = false
-    $scope.initMyReply()

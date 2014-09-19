@@ -8,12 +8,12 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
   $state
   $q
   $rootScope
-  $document
   $window
   $timeout
   CurrentUser
   $modal
   AllKeypoints
+  Tag
 ) ->
   $rootScope.additionalMenu = [
     {
@@ -55,6 +55,9 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
 
   $scope.$on '$destroy', ()->
     $rootScope.additionalMenu = []
+    $rootScope.navInSub = false
+
+  $rootScope.navInSub = true
 
   if not $state.params.courseId
     return
@@ -92,11 +95,10 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       .then (topics)->
         # pull out the tags in content
         topics.forEach (topic)->
-          topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/)?.join()
+          topic.$tags = (Tag.genTags topic.content)
           topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
         console.log(_.pluck topics, '$heat')
         $scope.topics = topics
-        $scope.viewTopic(topics[0]) if topics[0]
 
     createTopic: ()->
       # validate
@@ -109,31 +111,13 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
           lectures: -> $scope.course.$lectures
           topics: -> $scope.topics
       .result.then (dis_topic)->
+        dis_topic.$tags = (Tag.genTags dis_topic.content)
         $scope.topics.splice 0, 0, dis_topic
 
     viewTopic: (topic)->
-      $scope.selectedTopic = undefined
-      Restangular.one('dis_topics', topic._id).get()
-      .then (topic)->
-        $scope.selectedTopic = topic
-        Restangular.all('dis_replies').getList({disTopicId: topic._id})
-      .then (replies)->
-        replies.forEach (reply)->
-        $scope.selectedTopic.$replies = replies
-        $document.scrollToElement(angular.element('.article'), 60, 200);
-
-    clientHeight: undefined
-
-  setclientHeight = ()->
-    $scope.clientHeight =
-      "min-height": $window.innerHeight
-
-  setclientHeight()
-
-  handle = angular.element($window).bind 'resize', setclientHeight
-
-  $scope.$on '$destroy', ->
-    angular.element($window).unbind 'resize', setclientHeight
+      $state.go 'forum.topic',
+        courseId: $scope.course._id
+        topicId: topic._id
 
   $q.all [
     $scope.loadCourse().then $scope.loadLectures

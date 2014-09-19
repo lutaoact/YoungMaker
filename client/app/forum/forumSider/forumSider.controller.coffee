@@ -8,11 +8,11 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
   $state
   $q
   $rootScope
-  $document
   $window
   $timeout
   $modal
   Auth
+  Tag
 ) ->
 
   if not $state.params.courseId
@@ -47,7 +47,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
       .then (topics)->
         # pull out the tags in content
         topics.forEach (topic)->
-          topic.$tags = (topic.content.match /<div\s+class="tag\W.*?<\/div>/g)?.join('')
+          topic.$tags = (Tag.genTags topic.content)
         $scope.topics = topics
 
     createTopic: ()->
@@ -61,7 +61,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
           lectures: -> $scope.course.$lectures
           topics: -> $scope.topics
       .result.then (dis_topic)->
-        dis_topic.$tags = (dis_topic.content.match /<div\s+class="tag\W.*?<\/div>/g)?.join('')
+        dis_topic.$tags = (Tag.genTags dis_topic.content)
         $scope.topics.splice 0, 0, dis_topic
 
     viewTopic: (topic)->

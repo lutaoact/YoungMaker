@@ -11,12 +11,24 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
   $modalInstance
 ) ->
 
+#  TODO 是不是可以不用了，直线用socket推送过来的answers算
+#  updateRealTimeStats = ->
+#    Restangular.all('quiz_stats')
+#    .customGET('real_time', {lectureId:lecture._id, questionId:question._id})
+#    .then (data) ->
+#      console.debug 'real_time', data
+
+  makeQuestionStats = ->
+    results = _.pluck $scope.answers, 'result'
+    _.countBy(_.flatten(results), (ele) -> ele)
+
   angular.extend $scope,
     pushed: false
     classe: classe
     lecture: lecture
     question: question
     answers: []
+    questionStats: {}
 
     getKeyPoint: (id) -> _.find(keyPoints, _id:id)
 
@@ -37,4 +49,4 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
                answer.lectureId is lecture._id &&
                classe.students.indexOf(answer.userId) >= 0
               $scope.answers.push answer
-
+              $scope.questionStats = makeQuestionStats()

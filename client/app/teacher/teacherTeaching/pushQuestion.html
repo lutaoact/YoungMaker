@@ -9,7 +9,9 @@
       <a>
         <span>{{$index | indexToABC}}. </span>
         {{option.desc}}
-        <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
+        <i class="pull-right glyphicon" ng-class="{'glyphicon-ok':option.correct}">
+          <span ng-if="questionStats[$index] > 0">{{questionStats[$index]}}/{{classe.students.length}}选择</span>
+        </i>
       </a>
     </li>
     <li role="presentation">

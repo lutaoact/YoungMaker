@@ -15,6 +15,7 @@ LectureUtils = _u.getUtils 'lecture'
 Classe = _u.getModel 'classe'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
+request = require 'request'
 
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
@@ -77,6 +78,26 @@ exports.update = (req, res, next) ->
     updated.markModified 'keyPoints'
     updated.markModified 'quizzes'
     updated.markModified 'homeworks'
+    if config.assetHost.videos == 'azure' && req.body.media?
+      #TODO: cache token!
+      request.post {
+        uri: config.azure.acsBaseAddress
+        form:
+          grant_type: 'client_credentials'
+          client_id: config.azure.accountName
+          client_secret: config.azure.accountKey
+          scope: 'urn:WindowsAzureMediaServices'
+        strictSSL: true
+      }, (err, response) ->
+        access_token = JSON.parse(response.body).access_token
+        request.get {
+          uri: config.azure.shaAPIServerAddress+'CreateFileInfos'
+          qs:
+            assetid: "'"+req.body.media.split('/')[0]+"'"
+          headers: config.azure.defaultHeaders(access_token)
+        }, (err, response)->
+          if err? then logger.error err
+
     updated.save (err) ->
       next err if err
       res.send updated

@@ -22,6 +22,20 @@ module.exports =
     slideBucket : 'slides.cloud3edu.cn'
     algorithm : 'AWS4-HMAC-SHA256'
 
+  azure:
+    accountName: 'trymedia'
+    accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+    acsBaseAddress: "https://wamsprodglobal001acs.accesscontrol.chinacloudapi.cn/v2/OAuth2-13"
+    bjbAPIServerAddress: 'https://wamsshaclus001rest-hs.chinacloudapp.cn/API/'
+    shaAPIServerAddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
+    defaultHeaders : (access_token)->
+      Accept: 'application/json;odata=verbose'
+      DataServiceVersion: '3.0'
+      MaxDataServiceVersion: '3.0'
+      'x-ms-version': '2.5'
+      'Content-Type': 'application/json;odata=verbose'
+      Authorization: 'Bearer '+access_token
+
   logger:
     path: '/data/log/budweiser.log'
     level: 'DEBUG'
@@ -34,10 +48,10 @@ module.exports =
   assetHost :
     images : 'qiniu'
     slides : 's3' # change to S3 later
-    videos : 'qiniu'
+    videos : 'azure'
     uploadImage : 'qiniu'
     uploadSlide : 's3' # change to S3 later
-    uploadVideo : 'qiniu'
+    uploadVideo : 'azure'
 
   redis :
     port : 6379

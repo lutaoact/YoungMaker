@@ -23,6 +23,8 @@ retrieveAsset = (key, assetHost, res) ->
         AssetUtils.getAssetFromQiniu key, res
       when 's3'
         AssetUtils.getAssetFromS3 key, res
+      when 'azure'
+        AssetUtils.getAssetFromAzure key, res
       else
         res.send 404, 'asset host not found'
 
@@ -40,6 +42,15 @@ uploadAsset = (assetHost, req, res) ->
       console.log 'upload host is S3'
       params = AssetUtils.genS3UpParams fileName
       res.send 200, params
+    when 'azure'
+      console.log 'upload host is Azure'
+      AssetUtils.genAzureUpParams(fileName)
+      .done (params)->
+        res.send 200, params
+      , (err) ->
+        res.send 404, err
+#      location = AssetUtils.genAzureUpLocation fileName
+#      res.send 200, location
     else
       res.send 404, "Asset host #{assetHost} not found"
 

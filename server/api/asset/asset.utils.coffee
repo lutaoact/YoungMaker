@@ -6,6 +6,7 @@ AWS = require 'aws-sdk'
 moment = require 'moment'
 crypto = require 'crypto'
 redisClient = require '../../common/redisClient'
+request = require 'request'
 
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
@@ -56,6 +57,61 @@ exports.AssetUtils = BaseUtils.subclass
       .then (result) ->
         logger.info "Set #{key}:#{url} to redis"
       res.redirect url
+
+
+  getAssetFromAzure : (key, res) ->
+    tk_fn = key.split '/'
+    assetId = tk_fn[0]
+    fileName = tk_fn[1]
+
+    access_token = null
+    policyId = null
+    postQ = Q.nfbind request.post
+
+    # 1. get token
+    postQ {
+      uri: config.azure.acsBaseAddress
+      form:
+        grant_type: 'client_credentials'
+        client_id: config.azure.accountName
+        client_secret: config.azure.accountKey
+        scope: 'urn:WindowsAzureMediaServices'
+      strictSSL: true
+    }
+    .then (response) ->
+      access_token = JSON.parse(response[0].body).access_token
+      logger.info  "access_token:", access_token
+      # 2. get read policy
+      postQ {
+        uri: config.azure.shaAPIServerAddress+'AccessPolicies'
+        headers: config.azure.defaultHeaders(access_token)
+        body:  JSON.stringify {"Name": 'DownloadPolicy', "DurationInMinutes" : "300", "Permissions" : 1}
+        strictSSL: true
+      }
+    .then (response) ->
+      console.log response[0].body
+      policyId = JSON.parse(response[0].body).d.Id
+      # 3. get download url
+      postQ {
+        uri: config.azure.shaAPIServerAddress+'Locators'
+        headers: config.azure.defaultHeaders(access_token)
+        body:  JSON.stringify {
+          AccessPolicyId : policyId
+          AssetId : assetId,
+          StartTime : moment.utc().subtract(10, 'minutes').format('M/D/YYYY hh:mm:ss A')
+          Type : 1
+        }
+        strictSSL: true
+      }
+    .then (response) ->
+      console.log response[0].body
+      JSON.parse(response[0].body).d.Path.replace('?','/'+fileName+'?')
+    .done (url) ->
+      console.log url
+      res.redirect url
+    , (err) ->
+      logger.error err
+      res.send 404, err
 
 
   genQiniuUpParams : (fileName) ->
@@ -149,3 +205,57 @@ exports.AssetUtils = BaseUtils.subclass
         'X-Amz-Signature' : signature
       fileFormName : 'file'
     }
+
+  genAzureUpParams : (fileName) ->
+    access_token = null
+    assetId = null
+    policyId = null
+    postQ = Q.nfbind request.post
+
+    # 1. get token
+    postQ {
+      uri: config.azure.acsBaseAddress
+      form:
+        grant_type: 'client_credentials'
+        client_id: config.azure.accountName
+        client_secret: config.azure.accountKey
+        scope: 'urn:WindowsAzureMediaServices'
+      strictSSL: true
+    }
+    .then (res) ->
+      access_token = JSON.parse(res[0].body).access_token
+      logger.info  "access_token:", access_token
+      # 2. create Asset
+      postQ {
+        uri: config.azure.shaAPIServerAddress+'Assets'
+        headers: config.azure.defaultHeaders(access_token)
+        body:  JSON.stringify "Name": fileName
+        strictSSL: true
+      }
+    .then (res) ->
+      assetId = JSON.parse(res[0].body).d.Id
+      # 3. create write policy
+      postQ {
+        uri: config.azure.shaAPIServerAddress+'AccessPolicies'
+        headers: config.azure.defaultHeaders(access_token)
+        body:  JSON.stringify {"Name": fileName+'writePolicy', "DurationInMinutes" : "300", "Permissions" : 2}
+        strictSSL: true
+      }
+    .then (res) ->
+      policyId = JSON.parse(res[0].body).d.Id
+      # 4. create upload url
+      postQ {
+        uri: config.azure.shaAPIServerAddress+'Locators'
+        headers: config.azure.defaultHeaders(access_token)
+        body:  JSON.stringify {
+          AssetId: assetId
+          AccessPolicyId : policyId
+          StartTime: moment.utc().subtract(10, 'minutes').format('M/D/YYYY hh:mm:ss A')
+          Type: 1
+        }
+      }
+    .then (res) ->
+      {
+        url: JSON.parse(res[0].body).d.Path.replace('?','/'+fileName+'?')
+        key: [assetId, fileName].join('/')
+      }

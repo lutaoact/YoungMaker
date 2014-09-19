@@ -136,6 +136,7 @@ angular.module 'budweiserApp', [
           resolve:
             answer: -> data.answer
             question: -> data.question
+            teacherId: -> data.teacherId
 
 .run (
   Auth

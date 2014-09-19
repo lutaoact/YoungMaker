@@ -2,8 +2,9 @@
 
 angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
   $scope
-  question
   answer
+  question
+  teacherId
   Restangular
   $modalInstance
 ) ->
@@ -17,11 +18,12 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
       if $scope.submitted
         $modalInstance.dismiss('close')
       else
-        Restangular.one('quiz_answers', answer._id).patch
-          result: _.reduce question.content.body, (result, option, index) ->
-            result.push(index) if option.$selected
-            result
-          , []
+        selectedOptions = _.reduce question.content.body, (result, option, index) ->
+          result.push(index) if option.$selected
+          result
+        , []
+        Restangular.one('quiz_answers', answer._id)
+        .patch({result: selectedOptions}, {teacherId: teacherId})
         .then ->
           $scope.submitted = true
 

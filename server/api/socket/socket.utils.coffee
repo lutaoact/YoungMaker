@@ -21,12 +21,13 @@ exports.SocketUtils = BaseUtils.subclass
         errMsg: util.inspect err
     )
 
-  $quizMsg: (answer, question) ->
+  $quizMsg: (answer, question, teacherId) ->
     return JSON.stringify(
       type: 'quiz'
       payload:
-        question: question
         answer: answer
+        question: question
+        teacherId: teacherId
     )
 
   $noticeMsg: (notice) ->
@@ -42,9 +43,9 @@ exports.SocketUtils = BaseUtils.subclass
     for notice in notices
       @sendToOne notice.userId, @noticeMsg notice
 
-  $sendQuizMsg: (answers, question) ->
+  $sendQuizMsg: (answers, question, teacherId) ->
     for answer in answers
-      @sendToOne answer.userId, @quizMsg(answer, question)
+      @sendToOne answer.userId, @quizMsg(answer, question, teacherId)
 
   $sendToGroup: (userIds, msg) ->
     for userId in userIds

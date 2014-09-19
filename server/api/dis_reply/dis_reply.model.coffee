@@ -21,6 +21,13 @@ exports.DisReply = BaseModel.subclass
       content:
         type: String
         required: true
+      metadata: Schema.Types.Mixed
+#        images: [
+#          type: String
+#        ]
+#        tags: [
+#          type: String
+#        ]
       voteUpUsers: [
         type: ObjectId
         ref: 'user'

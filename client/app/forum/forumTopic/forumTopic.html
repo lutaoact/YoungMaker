@@ -1,85 +1,14 @@
-<div class="container">
-  <ol class="breadcrumb">
-    <li>
-      <a ui-sref="forum.home">返回</a>
-    </li>
-    <li>
-      <a ui-sref="forum.course({courseId:course._id})">
-        {{course.name||'某课程'}}
-      </a>
-    </li>
-    <li class="active">
-      {{topic.title||'某讨论'}}
-    </li>
-  </ol>
-
-  <section>
-    <div class="topic-detail bud thumbnail media col-md-12">
-      <div class="pull-left">
-        <img class="media-object"
-             ng-src="/api/qiniu/images/{{topic.postBy.avatar}}?imageView2/1/w/64/h/64"
-             style="width:32px;height:32px;">
-        <span>{{topic.postBy.name}}</span>
-      </div>
-      <div class="media-body">
-        <strong>{{topic.title}}</strong>
-        <div class="blog" ng-bind-html="topic.content">
-        </div>
-        <div class="pull-right">
-          <a href="#comment"
-             du-smooth-scroll
-             class="btn btn-primary">回复</a>
-          <a>
-
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <ul class="list-group">
-      <li class="bud thumbnail media col-md-12"
-          ng-repeat="reply in replies">
-        <a class="pull-left" href="#">
-          <img class="media-object"
-               src="http://placehold.it/32x32"
-               src-key="reply.postBy.avatar"
-               style="width:32px;height:32px;"
-               suffix="?imageView2/1/w/64/h/64">
-          <span>{{reply.postBy.name}}</span>
-        </a>
-        <div class="media-body">
-          <div class="reply-body blog" ng-bind-html="reply.content"></div>
-          <span class="pull-right">
-            <a href="" class="btn vote">
-              <i
-                class="fa"
-                ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
-                ng-click="toggleVote(reply)">
-              </i>
-            </a>
-            {{reply.voteUpUsers.length||0}}个赞
-          </span>
-        </div>
-      </li>
-
-    </ul>
-  </section>
-  <section class="comment" id="comment" is-visible="isEditorVisible">
-    <div class="row">
-      <div class="col-md-8">
-        <!-- name used to retrive text-angular instance -->
-        <text-angular
-          ta-toolbar="[['h1','h2','h3'],['bold','italics','colourRed','upload']]"
-          ng-model="myReply.content"
-          name="replyEditor">
-        </text-angular>
-      </div>
-      <div class="col-md-4">
-        <button class="btn btn-primary" ng-click="reply()">回复</button>
-      </div>
-    </div>
-  </section>
-
+<div class="forum-topic-view header">
+  
 </div>
+
+<section class="container forum-topic-view body">
+  <h4><a ui-sref="forum.course({courseId: course._id})"><i class="fa fa-chevron-left"></i>返回</a></h4>
+  <hr>
+  <topic-detail topic="topic">
+
+  </topic-detail>
+</section>
+
 
 

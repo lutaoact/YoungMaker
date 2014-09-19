@@ -4,6 +4,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $scope
   $state
   $modal
+  Classes
   Restangular
 ) ->
 
@@ -18,15 +19,11 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
         templateUrl: 'app/teacher/teacherTeaching/pushQuestion.html'
         controller: 'PushQuestionCtrl'
         resolve:
+          classe: -> _.find Classes, _id:$state.params.classeId
+          lecture: -> $scope.lecture
           question: -> quizze
           keyPoints: -> $scope.keyPoints
       .result.then ->
-        console.debug 'push question', quizze
-        Restangular.all('questions').customPOST
-          questionId: quizze._id
-          lectureId: $scope.lecture._id
-          classId: $state.params.classeId
-        , 'quiz'
 
   Restangular.all('activities').post
     eventType: Const.Teacher.ViewLecture

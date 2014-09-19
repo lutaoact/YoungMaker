@@ -7,7 +7,7 @@
           <h3 class="article-title">{{topic.title}}
           </h3>
           <div class="post-time">{{topic.modified|date:'yyyy/MM/dd'}}</div>
-          <div class="comment-count"><i class="fa fa-comments"></i>{{topic.replies||0}}</div>
+          <div class="comment-count"><i class="fa fa-comments"></i>{{topic.$replies.length||0}}</div>
         </div>
         <div class="article-header-right">
           <div class="media-object avatar-md"
@@ -39,32 +39,18 @@
           </div>
         </div>
         <div class="new-reply-right" is-visible="viewState.newReplyVisible">
-          <textarea
-            id="new-reply"
-            msd-elastic
-            class="form-control reply-input"
-            row="10"
-            placeholder="请输入您要回复的内容..."
-            ng-model="newReply.content"
-            focus-me="viewState.newReplyVisible">
-          </textarea>
-          <div class="reply-tools">
-            <div class="image-to-insert" ng-repeat="image in imagesToInsert">
-              <img ng-src="{{image.url}}" alt="">
-            </div>
-            <uploader limit="2*1024*1024"
-                      ng-disabled="replying"
-                      class="new-img"
-                      on-complete="onImgUploaded($data)"
-                      accept="image">
-              <i class="fa fa-photo"></i>
-            </uploader>
-          </div>
-          <div>
-            <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(topic, newReply)">提交</button>
-          </div>
+          <bud-editor 
+            content="newReply.content"
+            metadata="newReply.metadata">
+          </bud-editor>
+        </div>
+        
+
+        <div>
+          <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(topic, newReply)">提交</button>
         </div>
       </div>
+
 
       <ul class="list-group ">
         <li class="bud thumbnail media col-md-12 reply"
@@ -102,7 +88,7 @@
 
       <a class="btn form-control btn-primary btn-lg rounded"
         style="margin: 20px 0;border-radius: 3px; height: 49px;"
-        ng-click="viewState.showCommentEditor = true">
+        ng-click="scrollToEditor()">
         快速回复该帖
       </a>
     </div>

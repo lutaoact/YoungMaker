@@ -112,6 +112,7 @@ exports.pubQuiz = (req, res, next) ->
     SocketUtils.sendQuizMsg(
       tmpResult.allAnswers
       tmpResult.question
+      user._id
     )
   .then () ->
     res.send 200

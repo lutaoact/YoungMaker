@@ -1,6 +1,6 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container">
+<div class="container" style="margin-top:60px;">
   <h3>测试 API:</h3>
   <form class="form-horizontal input-group">
     <span class="input-group-addon">
@@ -85,4 +85,16 @@
       <div>{{response|json}}</div>
     </tab>
   </tabset>
+
+  <hr>
+  <h3>Have Funs</h3>
+  <div class="form-group">
+    <label>
+      Your Name Color :)
+      <input type="text" class="form-control" ng-model="yourname" placeholder="Input your name" ng-blur="genColor(yourname)">
+    </label>
+    <div style="width: 100px;height:100px;" ng-style="{'background':nameColor}">
+      {{nameColor}}
+    </div>
+  </div>
 </div>

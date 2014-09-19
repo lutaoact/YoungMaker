@@ -2,14 +2,16 @@
   <h3 class="modal-title">推送随堂问题</h3>
 </div>
 <div class="modal-body">
-  <h4>Q: {{question.content.title}}</h4>
-  <ul class="nav nav-pills nav-stacked" role="tablist">
+  <h4 ng-if="!pushed">Q: {{question.content.title}}</h4>
+  <ul class="nav nav-pills nav-stacked"
+      ng-if="!pushed"
+      role="tablist">
     <li ng-repeat="option in question.content.body"
         role="presentation">
       <a>
         <span>{{$index | indexToABC}}. </span>
         {{option.desc}}
-        <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
+        <i class="pull-right glyphicon" ng-class="{'glyphicon-ok':option.correct}"></i>
       </a>
     </li>
     <li role="presentation">
@@ -21,7 +23,21 @@
       </div>
     </li>
   </ul>
+  <div ng-if="pushed">
+    <highchart config="questionStats"></highchart>
+    <progressbar class="progress-striped active"
+                 max="classe.students.length"
+                 value="answers.length"
+                 type="success">
+      <i style="color:black; font-weight: bold; position: absolute">学生提交数: {{answers.length}} / {{classe.students.length}}</i>
+    </progressbar>
+  </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" ng-click="confirm(question)">开始提问</button>
+  <button type="button"
+          class="btn btn-danger"
+          ng-click="push()">
+    <span ng-if="!pushed">开始提问</span>
+    <span ng-if="pushed">结束提问</span>
+  </button>
 </div>

@@ -12,8 +12,19 @@ angular.module('budweiserApp')
     onTopicClick: '&'
     onTagClick: '&'
 
-.controller 'TopicListCtrl', ($scope)->
+.controller 'TopicListCtrl', ($scope, Auth)->
   angular.extend $scope,
     selectTopic: (topic)->
       $scope.selectedTopic = topic
       $scope.onTopicClick()?(topic)
+
+    me: Auth.getCurrentUser()
+
+    topicsFilter: (item)->
+      switch $scope.viewState.filterMethod
+        when 'all'
+          return true
+        when 'createdByMe'
+          return item.postBy._id is $scope.me._id
+      return true
+

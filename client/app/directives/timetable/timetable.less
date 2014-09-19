@@ -112,9 +112,10 @@
         .time-span{
           height: @header-height;
           line-height: @header-height;
-          padding-left: 30px;
+          padding-left: 12px;
           &.time-span-header{
             width: @header-width;
+            padding-left: 30px;
           }
         }
       }
@@ -136,6 +137,7 @@
           border: 1px solid @gray-light;
           border-radius: 3px;
           padding: 8px 16px;
+          max-width: 870px;
           .ahead{
             position: absolute;
             width: 4px;
@@ -174,13 +176,13 @@
               background: @base-color;
             }
           }
-          &:hover{
-            height: 100px;
-            z-index: 10;
-            .translate3d(-10px, -10px ,0);
-            .box-shadow(0 0 10px @gray);
-            opacity: 0.9;
-          }
+          // &:hover{
+          //   height: 100px;
+          //   z-index: 10;
+          //   .translate3d(-10px, -10px ,0);
+          //   .box-shadow(0 0 10px @gray);
+          //   opacity: 0.9;
+          // }
         }
       }
     }

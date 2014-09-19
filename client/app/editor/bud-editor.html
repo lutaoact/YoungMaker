@@ -1,0 +1,23 @@
+<div class="bud-editor">
+  <textarea
+    msd-elastic
+    class="form-control bud-editor-input"
+    row="1"
+    placeholder="请输入您要回复的内容..."
+    ng-model="metadata.raw"
+    ng-focus="viewstate.editorActive = true"
+    ng-blur="setEditorInactive()">
+  </textarea>
+  <div class="bud-editor-tools" ng-show="viewstate.editorActive||metadata.images">
+    <div class="image-to-insert" ng-repeat="image in metadata.images">
+      <img ng-src="{{image.url}}" class="image-zoom" alt="">
+      <i class="fa fa-times remove-image-icon" ng-click="removeImg(image)"></i>
+    </div>
+    <uploader limit="5*1024*1024"
+      class="new-img"
+      on-complete="onImgUploaded($data)"
+      accept="image">
+      <i class="fa fa-photo"></i>
+    </uploader>
+  </div>
+</div>

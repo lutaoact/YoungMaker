@@ -1,18 +1,13 @@
+.bud-navbar(@bg, @fg){
 
-.bud.navbar{
   @navbar-margin-bottom:  0;
-  @navbar-default-link-active-color: #000000;
-  @navbar-default-bg: #FFFFFF;
-  @navbar-default-color: @gray;
-  @navbar-default-link-color: @gray;
   @navbar-height: 60px;
   @line-height: 30px;
   @navbar-padding-vertical: ((@navbar-height - @line-height) / 2);
   @font-size: 14px;
-
   height: @navbar-height;
-  color: @navbar-default-color;
-  background: @navbar-default-bg;
+  color: @fg;
+  background: @bg;
   margin-bottom: 0;
   border: none;
   .box-shadow(0 0 3px rgba(0,0,0,0.3));
@@ -24,28 +19,28 @@
     line-height: @line-height;
   }
 
-  &-nav{
+  .navbar-nav{
     margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
     > li > a {
       line-height: @line-height;
       font-size: @font-size;
-      color: @navbar-default-color;
+      color: @fg;
       &:hover,
       &:focus{
-        color: @navbar-default-color;
+        color: @fg;
         .box-shadow(inset 0 -2px 0 @brand-danger);
-        background-color: @navbar-default-bg;
+        background-color: @bg;
       }
     }
     > li.active {
-      background-color: @navbar-default-bg;
+      background-color: @bg;
     }
     > .active > a {
       &,
       &:hover,
       &:focus {
         .box-shadow(inset 0 -2px 0 @brand-danger);
-        background-color: @navbar-default-bg;
+        background-color: @bg;
       }
     }
 
@@ -98,7 +93,7 @@
     line-height: @line-height;
     margin-top: @navbar-padding-vertical;
     margin-bottom: @navbar-padding-vertical;
-    color: @navbar-default-color;
+    color: @fg;
     font-size: @font-size;
     @media (min-width: @grid-float-breakpoint) {
       margin-left: @navbar-padding-horizontal;
@@ -117,17 +112,17 @@
       margin-bottom: ((@navbar-height - 22px) / 2);
     }
   }
-  .navbar-avatar{
-    .avatar(40px);
-    margin-top: ((@navbar-height - 40px) / 2);
-    margin-bottom: ((@navbar-height - 40px) / 2);
+  a.navbar-avatar{
+    .avatar(36px);
+    margin-top: ((@navbar-height - 36px) / 2) !important;
+    margin-bottom: ((@navbar-height - 36px) / 2) !important;
   }
   .navbar-toggle{
     margin: @navbar-padding-vertical @navbar-padding-horizontal;
   }
 
   .navbar-collapse {
-    background: @navbar-default-bg;
+    background: @bg;
     max-height: @navbar-collapse-max-height;
     overflow-x: visible;
     padding-right: @navbar-padding-horizontal;
@@ -167,9 +162,14 @@
       }
     }
   }
-
 }
 
+.bud.navbar{
+  .bud-navbar(#FFFFFF,@gray);
+}
+.bud.navbar.sub{
+  .bud-navbar(@base-color,#FFFFFF);
+}
 
 .main-nav{
   height: @navbar-height;

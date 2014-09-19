@@ -1,0 +1,44 @@
+.bud-editor{
+  .bud-editor-tools{
+    width: 100%;
+    background: @gray-light;
+    padding: 6px;
+    .new-img{
+      background: transparent;
+      color: @gray;
+      border:none;
+      padding: 0;
+      margin-left: 6px;
+    }
+    .image-to-insert{
+      display: inline-block;
+      vertical-align: top;
+      max-width: 31%;
+      margin-left: 10px;
+      position: relative;
+      img{
+        max-width: 100%;
+        max-height: 107px;
+      }
+      &:hover{
+        .remove-image-icon{
+          opacity: 1;
+          .scale(1.5,1.5);
+        }
+      }
+      .remove-image-icon{
+        .transition(all .2s ease-in-out);
+        cursor: pointer;
+        opacity: 0.3;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #FFFFFF;
+        .text-shadow(0 0 2px @gray);
+      }
+    }
+  }
+  .bud-editor-input{
+    border-radius: 3px;
+  }
+}

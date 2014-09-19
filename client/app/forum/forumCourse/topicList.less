@@ -8,9 +8,6 @@
     padding: 20px 15px 20px 20px;
     height: 89px;
     &:hover{
-      background: @gray-lighter;
-    }
-    &.selected{
       &:before{
         content: '';
         position: absolute;
@@ -20,6 +17,9 @@
         width: 4px;
         background: @base-color;
       }
+    }
+    &.selected{
+      background: @gray-lighter;
     }
     .badge{
       position: absolute;

@@ -10,6 +10,7 @@
 
 QuizAnswer = _u.getModel 'quiz_answer'
 LectureUtils = _u.getUtils 'lecture'
+SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
   lectureId = req.query.lectureId
@@ -66,7 +67,8 @@ exports.show = (req, res, next) ->
 
 exports.update = (req, res, next) ->
   quizAnswerId = req.params.id
-  console.log quizAnswerId
+  teacherId = req.query.teacherId
+
   tmpResult = {}
   QuizAnswer.findByIdQ quizAnswerId
   .then (quizAnswer) ->
@@ -76,6 +78,7 @@ exports.update = (req, res, next) ->
     tmpResult.quizAnswer.result = req.body.result
     do tmpResult.quizAnswer.saveQ
   .then (result) ->
+    SocketUtils.sendQuizAnswerMsg teacherId, tmpResult.quizAnswer
     res.send result[0]
   , next
 

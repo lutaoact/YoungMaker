@@ -103,7 +103,7 @@ exports.vote = (req, res, next) ->
       tmpResult.newDis._id
     )
   .then (notice) ->
-    SocketUtils.sendDisNotice notice
+    SocketUtils.sendNotices notice
   .then () ->
     res.send tmpResult.newDis
   , (err) ->

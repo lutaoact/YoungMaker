@@ -20,7 +20,31 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
 
   makeQuestionStats = ->
     results = _.pluck $scope.answers, 'result'
-    _.countBy(_.flatten(results), (ele) -> ele)
+    resultsDict = _.countBy(_.flatten(results), (ele) -> ele)
+    options:
+      chart:
+        type: 'bar'
+      plotOptions:
+        series:
+          stacking: "normal"
+    title:
+      text: question.content.title
+    subtitle:
+      text: "学生选择选项统计"
+    loading: false
+    series: [
+      name: '选择人数'
+      data: _.map(question.content.body, (option, index) -> resultsDict[index] ? 0)
+    ]
+    yAxis:
+      min: 0
+      max: classe.students.length
+      tickInterval: 1
+    xAxis:
+      categories: _.map(question.content.body, (option, index) -> String.fromCharCode(65+index))
+      max: question.content.body.length - 1
+      min: 0
+    useHighStocks: false
 
   angular.extend $scope,
     pushed: false
@@ -38,6 +62,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
         $modalInstance.dismiss('close')
       else
         $scope.pushed = true
+        $scope.questionStats = makeQuestionStats()
         Restangular.all('questions').customPOST
           questionId: question._id
           lectureId: lecture._id
@@ -50,3 +75,4 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
                classe.students.indexOf(answer.userId) >= 0
               $scope.answers.push answer
               $scope.questionStats = makeQuestionStats()
+              console.debug $scope.questionStats

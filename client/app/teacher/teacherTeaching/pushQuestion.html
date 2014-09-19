@@ -2,16 +2,16 @@
   <h3 class="modal-title">推送随堂问题</h3>
 </div>
 <div class="modal-body">
-  <h4>Q: {{question.content.title}}</h4>
-  <ul class="nav nav-pills nav-stacked" role="tablist">
+  <h4 ng-if="!pushed">Q: {{question.content.title}}</h4>
+  <ul class="nav nav-pills nav-stacked"
+      ng-if="!pushed"
+      role="tablist">
     <li ng-repeat="option in question.content.body"
         role="presentation">
       <a>
         <span>{{$index | indexToABC}}. </span>
         {{option.desc}}
-        <i class="pull-right glyphicon" ng-class="{'glyphicon-ok':option.correct}">
-          <span ng-if="questionStats[$index] > 0">{{questionStats[$index]}}/{{classe.students.length}}选择</span>
-        </i>
+        <i class="pull-right glyphicon" ng-class="{'glyphicon-ok':option.correct}"></i>
       </a>
     </li>
     <li role="presentation">
@@ -24,7 +24,7 @@
     </li>
   </ul>
   <div ng-if="pushed">
-    <hr/>
+    <highchart config="questionStats"></highchart>
     <progressbar class="progress-striped active"
                  max="classe.students.length"
                  value="answers.length"
@@ -38,6 +38,6 @@
           class="btn btn-danger"
           ng-click="push()">
     <span ng-if="!pushed">开始提问</span>
-    <span ng-if="pushed">返回</span>
+    <span ng-if="pushed">结束提问</span>
   </button>
 </div>

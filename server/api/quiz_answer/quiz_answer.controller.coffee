@@ -78,7 +78,7 @@ exports.update = (req, res, next) ->
     tmpResult.quizAnswer.result = req.body.result
     do tmpResult.quizAnswer.saveQ
   .then (result) ->
-    SocketUtils.sendToOne teacherId, tmpResult.quizAnswer
+    SocketUtils.sendQuizAnswerMsg teacherId, tmpResult.quizAnswer
     res.send result[0]
   , next
 

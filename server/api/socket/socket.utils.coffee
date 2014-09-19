@@ -47,6 +47,9 @@ exports.SocketUtils = BaseUtils.subclass
     for answer in answers
       @sendToOne answer.userId, @quizMsg(answer, question, teacherId)
 
+  $sendQuizAnswerMsg: (userId, answer) ->
+    @sendToOne userId, JSON.stringify {type: 'quiz_answer', payload: answer}
+
   $sendToGroup: (userIds, msg) ->
     for userId in userIds
       @sendToOne userId, msg

@@ -12,7 +12,7 @@ exports.SocketUtils = BaseUtils.subclass
     return deferred.promise.nodeify cb
 
   $_buildMsg: (type, data) ->
-    return JSON.stringify type: type payload: data
+    return JSON.stringify type: type, payload: data
 
   $buildErrMsg: (err) ->
     util = require 'util'

@@ -11,52 +11,35 @@ exports.SocketUtils = BaseUtils.subclass
 
     return deferred.promise.nodeify cb
 
+  $_buildMsg: (type, data) ->
+    return JSON.stringify type: type payload: data
 
   $buildErrMsg: (err) ->
     util = require 'util'
-    return JSON.stringify(
-      type: 'error'
-      payload:
-        status: 401
-        errMsg: util.inspect err
-    )
+    return @_buildMsg 'error', {status: 401, errMsg: util.inspect err}
 
-  $quizMsg: (answer, question, teacherId) ->
-    return JSON.stringify(
-      type: 'quiz'
-      payload:
-        answer: answer
-        question: question
-        teacherId: teacherId
-    )
-
-  $noticeMsg: (notice) ->
-    return JSON.stringify(
-      type: 'notice'
-      payload: notice
-    )
-
-  $sendDisNotice: (notice) ->
-    @sendToOne notice.userId, @noticeMsg notice
-
-  $sendNotices: (notices) ->
-    for notice in notices
-      @sendToOne notice.userId, @noticeMsg notice
+  $sendNotices: (notices...) ->
+    for notice in _.flatten notices
+      @sendToOne notice.userId, 'notice', notice
 
   $sendQuizMsg: (answers, question, teacherId) ->
     for answer in answers
-      @sendToOne answer.userId, @quizMsg(answer, question, teacherId)
+      @sendToOne(
+        answer.userId
+        'quiz'
+        answer:answer, question:question, teacherId: teacherId
+      )
 
   $sendQuizAnswerMsg: (userId, answer) ->
-    @sendToOne userId, JSON.stringify {type: 'quiz_answer', payload: answer}
+    @sendToOne userId, 'quiz_answer', answer
 
   $sendToGroup: (userIds, msg) ->
     for userId in userIds
       @sendToOne userId, msg
 
 
-  $sendToOne: (userId, msg) ->
+  $sendToOne: (userId, type, payload) ->
     unless global.socketMap[userId]?
       return logger.warn "userId: #{userId}, socket does not exists"
 
-    global.socketMap[userId].ws.write msg
+    global.socketMap[userId].ws.write @_buildMsg(type, payload)

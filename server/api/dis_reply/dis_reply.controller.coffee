@@ -60,7 +60,7 @@ exports.create = (req, res, next) ->
       tmpResult.disTopic._id
     )
   .then (notice) ->
-    SocketUtils.sendDisNotice notice
+    SocketUtils.sendNotices notice
   .then () ->
     res.send 201, tmpResult.disReply
   , (err) ->
@@ -114,7 +114,7 @@ exports.vote = (req, res, next) ->
       tmpResult.newDis._id
     )
   .then (notice) ->
-    SocketUtils.sendDisNotice notice
+    SocketUtils.sendNotices notice
     do Q.resolve
   .then () ->
     res.send tmpResult.newDis

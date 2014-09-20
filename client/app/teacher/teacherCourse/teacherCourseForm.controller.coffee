@@ -6,6 +6,7 @@ angular.module('budweiserApp').directive 'teacherCourseForm', ->
   controller: 'TeacherCourseFormCtrl'
   templateUrl: 'app/teacher/teacherCourse/teacherCourseForm.html'
   scope:
+    editable: '='
     course: '='
     categories: '='
     deleteCallback: '&'
@@ -31,6 +32,9 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
       if editing then "700x400" else "未上传课程封面"
 
     switchEditing: (course) ->
+      if !$scope.editable
+        $state.go('teacher.course', courseId:$scope.course._id)
+        return
       $scope.editing = !$scope.editing
       if !$scope.editing
         $scope.cancelCallback?($course:course)

@@ -51,9 +51,8 @@
         <teacher-course-form course="newCourse"
                              create-callback="createCallback($course)"
                              cancel-callback="cancelCallback()"
+                             editable="true"
                              categories="categories"></teacher-course-form>
-        <teacher-course-lectures course="newCourse"
-                                 classes="classes"></teacher-course-lectures>
       </div>
     </div>
     <div class="row"
@@ -62,10 +61,8 @@
          ng-repeat="course in courses | orderBy:'created':true">
       <div class="col-md-12 list-group-item course-card">
         <teacher-course-form course="course"
-                             delete-callback="deleteCallback($course)"
+                             editable="false"
                              categories="categories"></teacher-course-form>
-        <teacher-course-lectures course="course"
-                                 classes="classes"></teacher-course-lectures>
       </div>
     </div>
   </div>

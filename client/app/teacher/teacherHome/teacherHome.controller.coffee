@@ -3,12 +3,8 @@
 angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   Auth
   $scope
-  $state
   Classes
   Courses
-  $location
-  $timeout
-  $document
   Categories
   Restangular
   timetableHelper
@@ -46,15 +42,5 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
 
     cancelCallback: ->
       delete $scope.newCourse
-
-    deleteCallback: (course) ->
-      index = $scope.courses.indexOf(course)
-      $scope.courses.splice(index, 1)
-
-    navToCourse: (courseId) -> $timeout ->
-      id = $location.hash() ? ''
-      if id.indexOf(courseId) != -1
-        courseEle = angular.element(document.getElementById(id))
-        $document.scrollToElement(courseEle, 60, 500)
 
   $scope.loadTimetable()

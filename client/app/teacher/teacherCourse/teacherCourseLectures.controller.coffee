@@ -10,11 +10,9 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
     classes: '='
 
 angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
-  $http
   $scope
   $state
   $modal
-  $document
   Restangular
 ) ->
 
@@ -29,18 +27,6 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
       content = lecture?.info ? ''
       text = _.str.clean(name + ' ' + content).toLowerCase()
       _.str.include(text, keyword)
-
-    toggleLectures: (course) ->
-      if !course._id? then return
-      targetElementId =
-        if course.$lectures?
-          delete course.$lectures
-          'course-' + course._id
-        else
-          reloadLectures(course)
-          'lectures-' + course._id
-      targetElement = angular.element(document.getElementById(targetElementId))
-      $document.scrollToElement(targetElement, 60, 500)
 
     startTeaching: (course, lecture) ->
       classe = _.find(course.classes, $active:true)
@@ -90,7 +76,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     .then (lectures) ->
       course.$lectures = lectures
 
-  reloadLectures($scope.course) if $scope.course?.$lectures?
+  reloadLectures($scope.course)
 
   $scope.$on 'ngrr-reordered', ->
     $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')

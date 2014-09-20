@@ -1,6 +1,5 @@
 <div id="lectures-{{course._id}}" >
-  <div class="row course-lectures"
-       ng-if="course.$lectures != null">
+  <div class="row course-lectures">
     <br/>
     <div class="col-md-4"
          ng-if="course._id">
@@ -93,14 +92,4 @@
       </div>
     </div>
   </div>
-  <a ng-click="toggleLectures(course)"
-     ng-show="course._id"
-     class="btn btn-block toggle-lectures">
-    <span class="anchor anchor-up">
-      <i ng-show="course.$lectures == null"
-         class="fa fa-chevron-down"></i>
-      <i ng-show="course.$lectures != null"
-         class="fa fa-chevron-up"></i>
-    </span>
-  </a>
 </div>

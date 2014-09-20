@@ -62,17 +62,18 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
   loadHomeworkStats = ()->
     Restangular.one('homework_stats','').get(courseId:$state.params.courseId)
     .then (result)->
+      console.log result
       result.$text = '课后习题'
       $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
       $scope.homeworkStats.series[0].data = [
         {
           name:'正确'
-          y: result.summary
+          y: result.summary.percent
           color: Highcharts.getOptions().colors[2]
         }
         {
           name:'错误'
-          y: 100 - result.summary
+          y: 100 - result.summary.percent
           color: Highcharts.getOptions().colors[5]
         }]
       $scope.homeworkStats.title =
@@ -99,12 +100,19 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
       $scope.keypointStats.title =
         text: result.$text
       result
+    , (err)->
+      console.log err
+
+  loadKeypoints = ()->
+    Restangular.all('key_points').getList(courseId: $state.params.courseId)
+    .then (result)->
+      $scope.keypoints = result
 
   loadLectures = ()->
     Restangular.all('lectures').getList(courseId:$state.params.courseId)
 
   loadStats = ->
-    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures()])
+    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures(), loadKeypoints()])
     .then (results)->
       # fill the trend chart
       $scope.trendChart = angular.copy chartConfigs.trendChart
@@ -114,15 +122,12 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
         data: results[3].map (lecture)->
           stats[lecture._id]?.percent ? 0
       # fill the key points
-      Restangular.several('key_points', _.pluck results[2].stats, 'kpId' ).getList()
-      .then (kps)->
-        console.log kps
+      keypointsMap = _.indexBy $scope.keypoints, '_id'
 
       $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
-      $scope.keypointBarChart.xAxis.categories = _.pluck results[2].stats, 'kpId'
+      $scope.keypointBarChart.xAxis.categories = _.map results[2].stats, (item, index)->
+        keypointsMap[index]?.name
       $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
-
-      console.log $scope.trendChart.series, results
 
   chartConfigs =
     # trend for quiz and homework
@@ -147,6 +152,8 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
           width: 1,
           color: '#808080'
         }]
+        max: 100
+        min: 0
       title:
         text: ''
 
@@ -258,7 +265,11 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
           column:
             cursor: 'pointer'
       xAxis:
-          type: 'category'
+        type: 'category'
+
+      yAxis:
+        max: 100
+        min: 0
       series: [
         {
           name:'掌握度'

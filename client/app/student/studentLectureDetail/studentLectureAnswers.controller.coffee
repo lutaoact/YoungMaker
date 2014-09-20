@@ -55,7 +55,7 @@ angular.module('budweiserApp')
         homeworks.$submitted = true
         for question in homeworks
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
-          question.$correct = answer.every (item)->
+          question.$correct = answer?.every (item)->
             question.content.body[item].correct
 
           for option, index in question.content.body

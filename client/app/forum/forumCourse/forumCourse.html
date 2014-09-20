@@ -9,19 +9,20 @@
     </div>
   </div>
 </section>
+<section class="topic-list-view body">
+  <div class="container ">
+    <div class="clearfix title-row">
+      <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
+      <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
+        <i class="fa fa-plus"></i>新讨论
+      </button>
+    </div>
 
-<div class="container">
+    <topic-list topics="topics" on-topic-click="viewTopic">
+    </topic-list>
 
-  <div class="clearfix title-row">
-    <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
-    <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
-      <i class="fa fa-plus"></i>新讨论
-    </button>
   </div>
+</section>
 
-  <topic-list topics="topics" on-topic-click="viewTopic">
-  </topic-list>
-
-</div>
 
 

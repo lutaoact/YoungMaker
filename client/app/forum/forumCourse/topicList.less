@@ -1,39 +1,122 @@
 .bud.topic-list{
   .transition();
-  .media.topic{
-    margin: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    padding: 20px 15px 20px 20px;
-    height: 89px;
+  .topic{
+    @vertical-padding: 15px;
+    @horizontal-padding: 20px;
+    background: #FFFFFF;
+    list-style: none;
+    margin: 5px 0;
+    height: 140px;
+    border-top: 1px solid @gray-lighter;
+    border-bottom: 1px solid @gray-lighter;
+    position: relative;
+    &:before{
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 0px;
+      background: @base-color;
+      .transition(all 0.2s ease-in-out);
+    }
     &:hover{
       &:before{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 4px;
-        bottom: 4px;
         width: 4px;
-        background: @base-color;
       }
     }
     &.selected{
       background: @gray-lighter;
     }
-    .badge{
+    .topic-left{
+      cursor: pointer;
       position: absolute;
-      right: 15px;
-      top: 50%;
-      height: 20px;
-      min-width: 20px;
-      font-size: 13px;
-      margin-top: -10px;
-      border-radius: 10px;
-      display: inline-block;
-      padding: 4px 7px;
-      background: @gray-light;
-      color: @gray;
+      left: @horizontal-padding;
+      top:@vertical-padding;
+      bottom: @vertical-padding;
+      right: 200px;
+      h4{
+        .text-overflow();
+      }
+    }
+    .topic-right{
+      position: absolute;
+      right: 0;
+      top:@vertical-padding;
+      bottom: @vertical-padding;
+      width: 220px;
+      .status{
+        text-align: center;
+        width: 40px;
+        float: right;
+        font-size: 20px;
+        margin: 20px 15px;
+        line-height: 200%;
+        i{
+          color: @gray;
+          font-size: 1.5em;
+          &.fa-heart{
+            color: @brand-danger;
+          }
+          &.fa-comments{
+            color: @base-color;
+          }
+        }
+      }
+    }
+    .spans{
+      overflow: hidden;
+      height: 24px;
+      >span{
+        position: relative;
+        float: left;
+        height: 26px;
+        margin-right: 12px;
+        margin-left: 12px;
+        &:after{
+          content: '';
+          width:1px;
+          height: 11px;
+          background: @gray;
+          position: absolute;
+          top: 5px;
+          right: -12px;
+        }
+        &:nth-child(1){
+          margin-left: 0;
+        }
+        &:nth-last-child(1){
+          &:after{
+            content: none;
+          }
+        }
+        .topic-type{
+          padding: 2px 6px;
+          background: @brand-danger;
+          height: 22px;
+        }
+        .avatar{
+          .avatar(24px);
+          float: left;
+          margin-right: 3px;
+        }
+        .poster-name{
+          font-size: 10px;
+          line-height: 24px;
+        }
+        .created-time{
+          line-height: 24px;
+          font-size: 10px;
+        }
+        
+        .tags{
+          float: left;
+          .tag{
+            display: block;
+            float: left;
+          }
+        }
+      }
     }
   }
   .title-row{

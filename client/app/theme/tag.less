@@ -1,27 +1,13 @@
 
 .tag(@background: @gray;@foreground: #FFFFFF){
   color: @foreground;
-  display: inline-block;
-  font-size: 8px;
+  display: inline;
+  font-size: 9px;
   background: @background;
-  padding: 0px 5px;
+  padding: 2px 5px;
   margin: 2px 10px 2px 2px;
-  height: 16px;
-  line-height: 16px;
   cursor: pointer;
-  &:after{
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 7px solid transparent;
-    border-left: 7px solid @background;
-    border-bottom: 7px solid transparent;
-    border-right: 7px solid transparent;
-    display: inline-block;
-    position: relative;
-    right: -19px;
-    top: 1px;
-  }
+  border-radius: 2px;
 }
 
 tag,
@@ -31,5 +17,11 @@ tag,
   }
   &.red{
     .tag(@brand-danger, #FFFFFF);
+  }
+  &[href="lecture"]{
+    .tag(@brand-primary, #FFFFFF);
+  }
+  &[href="keypoint"]{
+    .tag(@brand-warning, #FFFFFF);
   }
 }

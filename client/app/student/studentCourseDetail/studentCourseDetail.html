@@ -1,7 +1,9 @@
 <!-- jumbotron -->
 <section class="jumbotron course-detail">
   <div class="text-center">
+
     <div class="course text-left" student-course-tile course="course"></div>
+
     <div class="header">
       <h2>{{course.name}}</h2>
     </div>
@@ -12,10 +14,10 @@
 
   <div class="action-bar">
     <div class="span4">
-      <div class="avatar" src-key="course.thumbnail" source-attr="background-image">
+      <div class="avatar" src-key="course.owners[0].avatar" source-attr="background-image">
       </div>
       <label>
-        {{course.teacher.name||'某老师'}}
+        {{course.owners[0].name||'某老师'}}
       </label>
     </div>
     <div class="span4">

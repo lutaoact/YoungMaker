@@ -14,31 +14,22 @@
       <h3>课程列表</h3>
     </div>
     <div class="row">
-      <div class="pull-right">
-        <button ng-class="{'opacity-hide':courses.length==0}"
-                class="btn btn-default course-btn"
-                ng-click="createNewCourse()">
-          <i class="fa fa-file-text-o fa-3x"></i>
-          <label>添加课程</label>
-        </button>
-      </div>
-      <div class="col-md-12 list-group-item course-card course-card-new"
-           ng-if="courses.length == 0">
-        <button type="button"
-                class="btn btn-default course-btn"
-                ng-click="createNewCourse()">
-          <i class="fa fa-file-text-o fa-3x"></i>
-          <label>添加新课程</label>
-          <i class="plus">+</i>
-        </button>
-      </div>
-    </div>
-    <div class="row"
-         ng-repeat="course in courses | orderBy:'created':true">
-      <div class="col-md-12 list-group-item course-card">
-        <teacher-course-form course="course"
-                             editable="false"
-                             categories="categories"></teacher-course-form>
+      <div class="col-lg-12">
+        <div class="col-md-3 col-lg-3 col-sm-4 text-center">
+          <button type="button"
+                  class="btn btn-default new-course-btn"
+                  ng-click="createNewCourse()">
+            <i class="fa fa-file-text-o fa-3x"></i>
+            <label>添加新课程</label>
+            <i class="plus">+</i>
+          </button>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-4"
+             ng-repeat="course in courses | orderBy:'created':true">
+          <a ui-sref="teacher.course({courseId:course._id})">
+            <student-course-tile course="course"></student-course-tile>
+          </a>
+        </div>
       </div>
     </div>
   </div>

@@ -20,6 +20,7 @@ module.exports =
     secretAccessKey : 'BCgnj181vNGG2VeAR5NG3YIj9QgfqD3o/TnOwY9n'
     region : 'cn-north-1'
     slideBucket : 'slides.cloud3edu.cn'
+    slideUploadBucket: 'temp.cloud3edu.cn'
     algorithm : 'AWS4-HMAC-SHA256'
 
   azure:

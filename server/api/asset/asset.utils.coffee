@@ -19,6 +19,7 @@ AWS.config.accessKeyId     = config.aws.accessKeyId
 AWS.config.secretAccessKey = config.aws.secretAccessKey
 AWS.config.region          = config.aws.region
 S3BucketName          = config.aws.slideBucket
+S3UploadBucketName    = config.aws.slideUploadBucket
 AWSAlgorithm         = config.aws.algorithm
 
 exports.AssetUtils = BaseUtils.subclass
@@ -150,7 +151,7 @@ exports.AssetUtils = BaseUtils.subclass
         ,
           ['starts-with', '$key', keyStartsWith]
         ,
-          bucket : S3BucketName
+          bucket : S3UploadBucketName
         ,
           success_action_redirect : ''
         ,
@@ -193,7 +194,7 @@ exports.AssetUtils = BaseUtils.subclass
     console.log 'signature is ' + signature
     
     {
-      url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3BucketName 
+      url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3UploadBucketName
       formData :
         key : keyStartsWith + '/' + fileName
         acl : 'private'

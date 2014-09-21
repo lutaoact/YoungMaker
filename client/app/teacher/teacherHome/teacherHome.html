@@ -11,53 +11,29 @@
   <div class="container">
     <div class="section-header"
          id="course-list-header">
-      <h3>
-        <span ng-if="newCourse">添加课程</span>
-        <span ng-if="!newCourse">课程列表</span>
-      </h3>
+      <h3>课程列表</h3>
     </div>
     <div class="row">
       <div class="pull-right">
-        <button du-smooth-scroll
-                href="#course-list"
-                ng-class="{'opacity-hide':courses.length==0}"
+        <button ng-class="{'opacity-hide':courses.length==0}"
                 class="btn btn-default course-btn"
-                ng-click="switchNewCourse(newCourse == null)">
-          <span ng-if="!newCourse">
-            <i class="fa fa-file-text-o fa-3x"></i>
-            <label>添加课程</label>
-          </span>
-          <span ng-if="newCourse">
-            <i class="fa fa-list-alt fa-3x"></i>
-            <label>课程列表</label>
-          </span>
+                ng-click="createNewCourse()">
+          <i class="fa fa-file-text-o fa-3x"></i>
+          <label>添加课程</label>
         </button>
       </div>
       <div class="col-md-12 list-group-item course-card course-card-new"
-           ng-if="courses.length == 0"
-           ng-hide="newCourse">
+           ng-if="courses.length == 0">
         <button type="button"
-                du-smooth-scroll
-                href="#course-list"
                 class="btn btn-default course-btn"
-                ng-click="switchNewCourse()">
+                ng-click="createNewCourse()">
           <i class="fa fa-file-text-o fa-3x"></i>
           <label>添加新课程</label>
           <i class="plus">+</i>
         </button>
       </div>
-      <div ng-if="newCourse"
-           class="col-md-12 list-group-item course-card">
-        <teacher-course-form course="newCourse"
-                             create-callback="createCallback($course)"
-                             cancel-callback="cancelCallback()"
-                             editable="true"
-                             categories="categories"></teacher-course-form>
-      </div>
     </div>
     <div class="row"
-         id="course-{{course._id}}"
-         ng-init="navToCourse(course._id)"
          ng-repeat="course in courses | orderBy:'created':true">
       <div class="col-md-12 list-group-item course-card">
         <teacher-course-form course="course"

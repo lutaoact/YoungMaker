@@ -19,17 +19,11 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $scope
   $modal
   $state
-  $upload
-  fileUtils
-  Restangular
 ) ->
 
   angular.extend $scope,
 
     editing: !$scope.course._id?
-
-    getHolderText: (editing) ->
-      if editing then "700x400" else "未上传课程封面"
 
     switchEditing: (course) ->
       if !$scope.editable
@@ -53,21 +47,15 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
     saveCourse: (course, form)->
       unless form.$valid then return
       $scope.editing = false
-      if course._id?
-        # update exists
-        course.patch(
-          name: course.name
-          info: course.info
-          categoryId: course.categoryId
-        )
-        .then (newCourse) ->
-          course.__v = newCourse.__v
-          $scope.updateCallback?($course:newCourse)
-      else
-        # create new
-        Restangular.all('courses').post(course)
-        .then (newCourse)->
-          $scope.createCallback?($course:newCourse)
+      # update exists
+      course.patch(
+        name: course.name
+        info: course.info
+        categoryId: course.categoryId
+      )
+      .then (newCourse) ->
+        course.__v = newCourse.__v
+        $scope.updateCallback?($course:newCourse)
 
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key

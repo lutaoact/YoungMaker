@@ -1,0 +1,58 @@
+<form class="form media new-course-form"
+      name="form"
+      role="form">
+  <div class="modal-header">
+    <h3 class="modal-title">创建新课程</h3>
+  </div>
+  <div class="modal-body">
+    <div class="media-object pull-left">
+      <img src-key="course.thumbnail"
+           holder-src="holder.js/200x300/:#9c9c99:#bbb"
+           suffix="?imageView2/2/w/200/h/300"/>
+      <uploader limit="2*1024*1024"
+                class="course-img btn-danger"
+                on-complete="onThumbUploaded($data)"
+                accept="image">
+        <span class="glyphicon glyphicon-picture"></span>
+        上传封面
+      </uploader>
+    </div>
+    <div class="media-body">
+      <div class="form-group">
+        <label for="course-name">课程名称</label>
+        <input class="form-control"
+               id="course-name"
+               name="name"
+               type="text"
+               ng-model="course.name"
+               placeholder="课程名称"
+               required>
+      </div>
+      <div class="form-group">
+        <label>所在专业</label>
+        <ui-select ng-model="course.categoryId">
+          <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
+            <span ng-bind-html="option.name | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="form-group">
+        <label>课程简介：</label>
+        <textarea class="form-control"
+                  id="course-info"
+                  rows="7"
+                  ng-model="course.info"
+                  placeholder="课程信息">
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit"
+            class="btn btn-primary"
+            ng-click="confirmCreate(course, form)">
+      确认创建新课程
+    </button>
+  </div>
+</form>

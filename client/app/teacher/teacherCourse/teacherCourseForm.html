@@ -4,7 +4,7 @@
          width="700"
          height="400"
          ng-disabled="editing"
-         holder-src="holder.js/700x400/:#9c9c99:#bbb/text:{{getHolderText(editing)}}"
+         holder-src="holder.js/700x400/:#9c9c99:#bbb/text:未上传课程封面"
          suffix="?imageView2/2/w/700/h/400"/>
     <uploader limit="2*1024*1024"
               ng-if="editing"
@@ -55,35 +55,24 @@
     <div class="form-group pull-right btn-group">
       <div ng-show="!editing">
         <button type="button"
-                du-smooth-scroll
-                offset="60"
-                href="#course-{{course._id}}"
                 class="btn btn-default glyphicon glyphicon-pencil course-btn"
                 ng-click="switchEditing(course)">
         </button>
       </div>
       <span ng-show="editing">
         <button type="submit"
-                du-smooth-scroll
-                href="#course-{{course._id}}"
-                offset="60"
                 class="btn btn-primary"
                 ng-click="saveCourse(course,form)">
           确认
         </button>
         <button type="button"
                 class="btn btn-warning"
-                ng-show="course && course._id"
                 ng-click="deleteCourse(course)">
           删除
         </button>
         <button class="btn btn-default"
-                du-smooth-scroll
-                href="#course-{{course._id}}"
-                offset="60"
                 ng-click="switchEditing(course)">
-          <span ng-if="!course._id">取消</span>
-          <span ng-if="course._id">返回</span>
+          返回
         </button>
       </span>
     </div>

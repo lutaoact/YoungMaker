@@ -2,8 +2,8 @@
 
 angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   Auth
+  $modal
   $scope
-  Classes
   Courses
   Categories
   Restangular
@@ -24,23 +24,15 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
 
     eventSouces: undefined
 
-    newCourse: undefined
     courses: Courses
-    classes: Classes
-    categories: Categories
 
-    switchNewCourse: (create = true) ->
-      if create
-        $scope.newCourse =
-          owners:[Auth.getCurrentUser()]
-      else
-        $scope.newCourse = undefined
-
-    createCallback: (course) ->
-      delete $scope.newCourse
-      $scope.courses.push course
-
-    cancelCallback: ->
-      delete $scope.newCourse
+    createNewCourse: ->
+      $modal.open
+        templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
+        controller: 'TeacherNewCourseCtrl'
+        resolve:
+          categories: -> Categories
+      .result.then (newCourse) ->
+        $scope.courses.push newCourse
 
   $scope.loadTimetable()

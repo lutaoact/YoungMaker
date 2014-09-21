@@ -26,7 +26,7 @@ exports.realTimeView = (req, res, next) ->
 
   LectureUtils.getAuthedLectureById user, lectureId
   .then (lecture) ->
-    StatsUtils.makeRealTimeStats lectureId, questionId
+    StatsUtils.getQuizStats lectureId, questionId
   .then (result) ->
     res.send result
   , (err) ->

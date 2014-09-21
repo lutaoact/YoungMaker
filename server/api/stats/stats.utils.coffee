@@ -157,7 +157,7 @@ exports.StatsUtils = BaseUtils.subclass
     , []).toString()
 
 
-  makeRealTimeStats: (lectureId, questionId) ->
+  getQuizStats: (lectureId, questionId) ->
     QuizAnswer.findQ
       lectureId: lectureId
       questionId: questionId
@@ -169,6 +169,8 @@ exports.StatsUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
+  getQuestionStats : (questionId) ->
+    
 
   makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
     questionIds = lecture.quizzes

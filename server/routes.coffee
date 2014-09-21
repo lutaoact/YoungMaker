@@ -31,6 +31,7 @@ module.exports = (app) ->
   app.use '/api/homework_stats', require './api/homework_stats'
   app.use '/api/quiz_answers', require './api/quiz_answer'
   app.use '/api/quiz_stats', require './api/quiz_stats'
+  app.use '/api/lecture_stats', require './api/lecture_stats'
   app.use '/api/keypoint_stats', require './api/keypoint_stats'
   app.use '/api/activities', require './api/activity'
   app.use '/api/progresses', require './api/progress'

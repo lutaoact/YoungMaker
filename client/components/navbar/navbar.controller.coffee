@@ -14,12 +14,6 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
 
     menu: [
       {
-        title: '主页'
-        link: 'teacher.home'
-        role: 'teacher'
-      }
-
-      {
         title: '管理组'
         link: 'admin.classeManager'
         role: 'admin'

@@ -1,4 +1,7 @@
 .forum{
+  hr{
+    border-top:1px solid @gray-light;
+  }
   .title-row{
     border-bottom: 1px solid #DDDDDD;
     margin-bottom: 3px;
@@ -20,10 +23,19 @@
   .avatar-md{
     margin-top: 3px;
   }
+  .forum-header{
+    padding-top: 60px + 20px;
+    padding-bottom: 20px;
+    .forum-header-title{
+      font-size: 22px;
+    }
+    border-bottom: 1px solid @gray-lighter;
+  }
 }
 .topic-list-view{
   &.body{
-    margin-top: -30px;
     background: @gray-lighter;
+    padding-bottom: 50px;
+    min-height: 700px;
   }
 }

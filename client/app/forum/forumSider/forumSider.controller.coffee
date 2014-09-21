@@ -50,20 +50,6 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
           topic.$tags = (Tag.genTags topic.content)
         $scope.topics = topics
 
-    createTopic: ()->
-      # validate
-      $modal.open
-        templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
-        controller: 'DiscussionComposerPopupCtrl'
-        resolve:
-          keypoints: -> $scope.keypoints
-          course: -> $scope.course
-          lectures: -> $scope.course.$lectures
-          topics: -> $scope.topics
-      .result.then (dis_topic)->
-        dis_topic.$tags = (Tag.genTags dis_topic.content)
-        $scope.topics.splice 0, 0, dis_topic
-
     viewTopic: (topic)->
       $scope.currentTopic = undefined
       $scope.showTopic = true

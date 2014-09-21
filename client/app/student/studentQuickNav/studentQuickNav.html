@@ -4,7 +4,7 @@
       <h3>其他课程</h3>
     </div>
     <a ng-repeat="course in otherCourses" class="course btn" ui-sref="student.courseDetail({courseId: course._id})">
-      <student-course-tile course="course"></student-course-tile>
+      <course-tile course="course"></course-tile>
     </a>
     <a ui-sref="student.courseList" class="btn btn-primary btn-sub more">
       <i class="fa fa-ellipsis-h"></i><br/>

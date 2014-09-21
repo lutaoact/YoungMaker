@@ -3,20 +3,36 @@
     <div class="bud article">
 
       <div class="article-header">
-        <div class="article-header-left">
-          <h3 class="article-title">{{topic.title}}
-          </h3>
-          <div class="post-time">{{topic.modified|date:'yyyy/MM/dd'}}</div>
-          <div class="comment-count"><i class="fa fa-comments"></i>{{topic.$replies.length||0}}</div>
-        </div>
-        <div class="article-header-right">
-          <div class="media-object avatar-md"
+        <h4 class="article-title">
+          {{topic.title}}
+        </h4>
+        <span class="spans">
+          <span class="flag flag-danger">
+          {{topic.metadata.postType||'提问'}}
+          </span>
+          <div class="pull-left avatar-xs "
                source-attr="background-image"
-               suffix="?imageView2/1/w/64/h/64"
-               src-key="topic.postBy.avatar">
+               src="http://placehold.it/32x32"
+               src-key="topic.postBy.avatar"
+               suffix="?imageView2/1/w/64/h/64">
           </div>
-          <h6 class="poster-name">{{topic.postBy.name}}</h6>
-        </div>
+          <span class="poster-name">{{topic.postBy.name}}</span>
+          <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
+          <span class="status">
+            <i class="fa fa-comments base-color"></i>
+            {{topic.$replies.length||0}}
+          </span>
+          <span class="status">
+            <i class="fa fa-eye"></i>
+            {{topic.viewedUsers.length||0}}
+          </span>
+          <span class="status">
+            <i class="fa fa-heart" 
+              ng-class="{'active':topic.voteUpUsers.indexOf(me._id)>=0}"
+              ng-click="toggleLike(topic)"></i>
+            {{topic.voteUpUsers.length||0}}
+          </span>
+        </span>
       </div>
 
       <div class="article-body">
@@ -27,8 +43,6 @@
 
     <hr>
     <div class="replies">
-      <h5 class="base-color">{{topic.$replies.length||0}}个答复<small><i class="fa fa-comments"></i></small></h5>
-
       <div class="new-reply">
         <div class="new-reply-left">
           <div class="media-object avatar-sm"
@@ -44,13 +58,11 @@
             metadata="newReply.metadata">
           </bud-editor>
         </div>
-        
 
         <div>
           <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(topic, newReply)">提交</button>
         </div>
       </div>
-
 
       <ul class="list-group ">
         <li class="bud thumbnail media col-md-12 reply"
@@ -68,20 +80,18 @@
             <h5 class="base-color reply-author-name">{{reply.postBy.name}}
               <small>|</small>
               <small>{{reply.created|timeToTimeAgo}}</small>
-              <a href ng-show="reply.postBy._id == me._id" class="pull-right" ng-click="deleteReply(topic, reply)">删除</a>
-            </h5>
-
-            <div class="reply-body blog" compile-html="reply.content" ></div>
-            <span class="pull-right">
-              <a href="" class="btn vote">
+              <small>|</small>
+              <small>
                 <i
-                  class="fa"
-                  ng-class="{'fa-heart-o':reply.voteUpUsers.indexOf(me._id)<0,'fa-heart':reply.voteUpUsers.indexOf(me._id)>=0}"
+                  class="fa fa-heart vote"
+                  ng-class="{'active':reply.voteUpUsers.indexOf(me._id)>=0}"
                   ng-click="toggleVote(reply)">
                 </i>
-              </a>
-              {{reply.voteUpUsers.length||0}}个赞
-            </span>
+                {{reply.voteUpUsers.length||0}}
+              </small>
+              <a href ng-show="reply.postBy._id == me._id" class="pull-right" ng-click="deleteReply(topic, reply)"><i class="fa fa-times"></i></a>
+            </h5>
+            <div class="reply-body blog" compile-html="reply.content" ></div>
           </div>
         </li>
       </ul>

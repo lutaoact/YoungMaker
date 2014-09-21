@@ -1,4 +1,10 @@
 .bud.topic-list{
+  hr{
+    border-top:1px solid @gray-light;
+  }
+  .tag{
+
+  }
   .transition();
   .topic{
     @vertical-padding: 15px;
@@ -35,6 +41,11 @@
       top:@vertical-padding;
       bottom: @vertical-padding;
       right: 200px;
+      .topic-summary{
+        .text-overflow();
+        font-size: 12px;
+        color: @gray-light;
+      }
       h4{
         .text-overflow();
       }
@@ -52,9 +63,11 @@
         font-size: 20px;
         margin: 20px 15px;
         line-height: 200%;
+        color: @gray;
         i{
           color: @gray;
-          font-size: 1.5em;
+          font-size: 1.1em;
+          margin-right: 0.1em;
           &.fa-heart{
             color: @brand-danger;
           }
@@ -91,9 +104,7 @@
           }
         }
         .topic-type{
-          padding: 2px 6px;
-          background: @brand-danger;
-          height: 22px;
+          font-size: 12px;
         }
         .avatar{
           .avatar(24px);
@@ -119,9 +130,25 @@
       }
     }
   }
+  
   .title-row{
-    border-bottom: 1px solid #DDDDDD;
     margin-bottom: 3px;
+    border-bottom: none;
+    .btn-nav{
+      &.active{
+        color:@gray;
+      }
+    }
+    &.actions-bar{
+      margin-bottom: 20px;
+    }
+    &.search-bar{
+      .search{
+        background: #FFFFFF;
+        border-radius: 16px;
+        .box-shadow(inset 0 0 1px 1px @gray-light);
+      }
+    }
   }
   .form-group{
     margin-bottom: 3px;
@@ -132,5 +159,36 @@
   }
   .search{
     padding-left: 0;
+  }
+  .remove-topic{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+}
+
+
+.bud.topic-list.narrow{
+  .topic{
+    height: 90px;
+    .topic-summary{
+      display: none;
+    }
+
+    .topic-right{
+      width: 60px;
+      .status{
+        text-align: left;
+        width: 40px;
+        float: right;
+        font-size: 10px;
+        margin: 5px;
+        line-height: 100%;
+        i{
+          font-size: 1.1em;
+          margin-right: 0.9em;
+        }
+      }
+    }
   }
 }

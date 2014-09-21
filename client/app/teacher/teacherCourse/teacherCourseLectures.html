@@ -21,8 +21,7 @@
       </div>
       <hr class="hr-title"/>
 
-      <tabset vertical="true" type="pills"
-              class="classe-list">
+      <tabset vertical="true" type="pills">
         <tab ng-repeat="classe in course.classes"
              select="selectClasse(classe)"
              active="classe.$active">
@@ -34,13 +33,6 @@
           </tab-heading>
         </tab>
       </tabset>
-
-      <hr class="hr-title-sub"/>
-      <a href="#course-{{course._id}}"
-         du-smooth-scroll
-         offset="60">
-        <label class="course-title hand-point">{{course.name}}</label>
-      </a>
     </div>
 
     <div class="col-md-8"
@@ -63,32 +55,31 @@
       </div>
       <hr class="hr-title"/>
       <div class="list-group lecture-list">
-        <a class="list-group-item name stretch"
-           ng-show="filter(lecture, keyword)"
-           ng-repeat-reorder="lecture in course.$lectures"
-           ng-repeat-reorder-handle="button.drag-point"
-           ng-mouseover="overLecture=lecture"
-           ng-mouseleave="overLecture=undefined">
-          <i class="fa fa-circle-o lecture-progress"
-             ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}"></i>
-          <span ng-click="startTeaching(course, lecture)"
-                class="btn btn-link"
-                tooltip="点击开始上课">
-            {{lecture.name}}
-          </span>
-          <div class="pull-right" ng-show="overLecture==lecture">
-            <button type="button" class="btn btn-default glyphicon glyphicon-pencil"
-                    ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
-            </button>
-            <button type="button"
-                    class="btn btn-default drag-point glyphicon glyphicon-sort"
-                    draggable="true"></button>
-            <button type="button"
-                    class="btn btn-default glyphicon glyphicon-remove"
-                    ng-click="deleteLecture(lecture)">
-            </button>
+        <div class="stretch media"
+             ng-show="filter(lecture, keyword)"
+             ng-repeat-reorder="lecture in course.$lectures"
+             ng-repeat-reorder-handle="button.drag-point">
+          <div class="media-object pull-left">
+            <i class="fa fa-circle-o lecture-progress hand-point"
+               ng-click="startTeaching(course, lecture)"
+               ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}"></i>
           </div>
-        </a>
+          <a class="media-body list-group-item"
+             ng-mouseover="overLecture=lecture"
+             ng-mouseleave="overLecture=undefined"
+             ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+              {{lecture.name}}
+              <div class="pull-right" ng-show="overLecture==lecture">
+                <button type="button"
+                        class="btn btn-default drag-point glyphicon glyphicon-sort"
+                        draggable="true"></button>
+                <button type="button"
+                        class="btn btn-default glyphicon glyphicon-remove"
+                        ng-click="deleteLecture(lecture)">
+                </button>
+              </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>

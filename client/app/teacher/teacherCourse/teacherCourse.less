@@ -162,10 +162,6 @@
         border: 0;
         border-top: 4px solid #999;
       }
-      .hr-title-sub {
-        margin-top: 5px;
-        margin-bottom: 1px;
-      }
       .form-control {
         border-radius: 2em;
         height: 2em;
@@ -194,11 +190,8 @@
       }
       .lecture-list {
         max-height: 303px;
-        overflow: scroll;
-        margin-top: -1px;
-        margin-bottom: 0px;
-        padding: 0px;
-        padding-right: 8px;
+        overflow: auto;
+        margin: 0px 0px 0px -18px;
         -webkit-user-select:none;
         -user-select:none;
         -moz-user-select:none;
@@ -209,11 +202,24 @@
             color: @base-color;
           }
         }
-        .name {
-          padding-left: 1px;
-          padding-right: 5px;
+        .media {
+          padding: auto;
+          margin: auto;
+          height: 41px;
+        }
+        .media-object {
+          padding-top: 8px;
+        }
+        .media-body {
+          padding: auto 0px auto 5px;
+          margin: 0px;
+          border-top: none;
           border-left: none;
           border-right: none;
+          &:hover {
+            background: @base-color;
+            color: #ffffff;
+          }
         }
         .btn-link {
           color: #555555;
@@ -236,20 +242,6 @@
           background-color: rosybrown;
           border-color: rosybrown;
         }
-      }
-      .classe-list {
-        height: 230px;
-      }
-      .course-title {
-        font-size: 1.5em;
-        padding: 10px 0px 10px 0px;
-        text-align: center;
-        background-color: black;
-        border-color: black;
-        font-weight: normal;
-        color: white;
-        margin: 10px;
-        width: calc(~"100% - 20px");
       }
     }
     img {

@@ -11,7 +11,7 @@ describe 'Directive: studentCourseTile', ->
     scope = $rootScope.$new()
   )
   it 'should make hidden element visible', inject(($compile) ->
-    element = angular.element('<student-course-tile></student-course-tile>')
+    element = angular.element('<course-tile></course-tile>')
     element = $compile(element)(scope)
     scope.$apply()
     expect(element.text()).toBe 'this is the studentCourseTile directive'

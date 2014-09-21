@@ -92,14 +92,11 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onPPTUploaded: (key) ->
       $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
       .success (slides)->
-        sortSlides = (a, b)->
-          getNum = (str)->
-            parseInt(str.split('-').reverse()[1])
-          getNum(a) > getNum(b)
-        console.log slides
-        additional = slides.rawPics.sort(sortSlides).map (item, index)->
-          thumb: "/api/assets/slides/#{slides.thumbnails.sort(sortSlides)[index]}"
-          raw: "/api/assets/slides/#{item}"
+        fileShortKey = (slides.thumbnails[0].split('-').slice 0, -2).join('-')
+        console.log fileShortKey
+        additional = [1..slides.total/2].map (item)->
+          thumb: '/api/assets/slides/' + fileShortKey + '-' + item + '-sm.jpg'
+          raw:  '/api/assets/slides/' + fileShortKey + '-' + item + '-lg.jpg'
         console.log additional
         $scope.lecture.slides = additional
         $scope.lecture.patch?(slides: $scope.lecture.slides)

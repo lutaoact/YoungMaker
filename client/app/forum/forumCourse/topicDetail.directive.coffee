@@ -10,7 +10,7 @@ angular.module('budweiserApp')
   scope:
     topic: '='
 
-.controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document)->
+.controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document, $state)->
   angular.extend $scope,
 
     me: Auth.getCurrentUser()
@@ -32,6 +32,11 @@ angular.module('budweiserApp')
       @newReply.content = ''
       @newReply.metadata = {}
 
+    toggleLike: (topic)->
+      topic.one('vote').post()
+      .then (res)->
+        topic.voteUpUsers = res.voteUpUsers
+
     toggleVote: (reply)->
       reply.one('vote').post()
       .then (res)->
@@ -49,6 +54,8 @@ angular.module('budweiserApp')
 
     scrollToEditor: ()->
       $document.scrollToElement(angular.element('.new-reply-right'), 200, 200)
+
+
 
 
 

@@ -94,30 +94,21 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
       .then (topics)->
         # pull out the tags in content
+        $scope.queryTags = []
         topics.forEach (topic)->
+          $scope.queryTags = $scope.queryTags.concat topic.metadata?.tags
           topic.$tags = (Tag.genTags topic.content)
           topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
-        console.log(_.pluck topics, '$heat')
+        $scope.queryTags = _.compact $scope.queryTags
+        $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
         $scope.topics = topics
-
-    createTopic: ()->
-      # validate
-      $modal.open
-        templateUrl: 'app/forum/discussionComposerPopup/discussionComposerPopup.html'
-        controller: 'DiscussionComposerPopupCtrl'
-        resolve:
-          keypoints: -> $scope.keypoints
-          course: -> $scope.course
-          lectures: -> $scope.course.$lectures
-          topics: -> $scope.topics
-      .result.then (dis_topic)->
-        dis_topic.$tags = (Tag.genTags dis_topic.content)
-        $scope.topics.splice 0, 0, dis_topic
 
     viewTopic: (topic)->
       $state.go 'forum.topic',
         courseId: $scope.course._id
         topicId: topic._id
+
+    queryTags: undefined
 
   $q.all [
     $scope.loadCourse().then $scope.loadLectures

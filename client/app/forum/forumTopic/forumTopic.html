@@ -1,14 +1,45 @@
-<div class="forum-topic-view header">
-  
+<div class="forum-topic-view header" id="forum-topic-header">
+
 </div>
 
 <section class="container forum-topic-view body">
-  <h4><a ui-sref="forum.course({courseId: course._id})"><i class="fa fa-chevron-left"></i>返回</a></h4>
+  <h4><a ui-sref="forum.course({courseId: stateParams.courseId})"><i class="fa fa-chevron-left"></i>返回</a></h4>
   <hr>
-  <topic-detail topic="topic">
-
-  </topic-detail>
+  <div class="row">
+    <div class="col-md-8 forum-topic-view-left">
+      <topic-detail topic="topic">
+      </topic-detail>
+    </div>
+    <div class="col-md-4 forum-topic-view-right">
+      <div class="view-section recommends">
+        推荐贴
+        <hr>
+        <a class="thumbnail media recommended-topic" ng-repeat="recommendedTopic in recommendedTopics" ui-sref="forum.topic({topicId:recommendedTopic._id})">
+          <div class="media-body">
+            <h4 class="media-heading">{{recommendedTopic.title}}</h4>
+            <p>{{recommendedTopic.metadata.raw}}</p>
+            <div class="status">
+              <i class="fa fa-heart"></i>
+              {{recommendedTopic.voteUpUsers.length||0}}
+            </div>
+            <div class="status">
+              <i class="fa fa-eye"></i>
+              {{recommendedTopic.viewedUsers.length||0}}
+            </div>
+            
+            <div class="status">
+              <i class="fa fa-comments"></i>
+              {{recommendedTopic.repliesNum||0}}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
+<a href="#forum-topic-header" du-smooth-scroll class="back-to-top" du-scrollspy offset="60">
+  <i class="fa fa-chevron-up"></i>
+</a>
 
 

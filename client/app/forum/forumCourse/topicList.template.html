@@ -1,37 +1,41 @@
 <div class="bud topic-list">
-  <div class="clearfix title-row">
-    <div class="pull-left search">
+  <div class="clearfix title-row search-bar">
+    <div class="pull-left search col-md-6">
       <div class="bud input-group">
         <div class="input-group-addon"><i class="fa fa-search"></i></div>
         <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
       </div>
     </div>
-    
+    <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
+      <i class="fa fa-plus"></i>新讨论
+    </button>
   </div>
+  <hr>
   <ul class="list-group">
-    <div class="clearfix title-row">
+    <div class="clearfix title-row actions-bar">
+      <div class="pull-left" ng-init="viewState.orderBy = '-$heat' ">
+        <a href class="btn btn-nav text-muted" 
+          ng-class="{'active':viewState.orderBy == '-created'}" 
+          ng-click="viewState.orderBy = '-created'">
+          最新贴
+        </a>
+        <a href class="btn btn-nav text-muted" 
+          ng-class="{'active':viewState.orderBy == '-$heat'}" 
+          ng-click="viewState.orderBy = '-$heat'">
+          最热贴
+        </a>
+      </div>
+      <span class="pull-left text-muted" style="line-height: 30px;">&nbsp;|&nbsp;</span>
       <div class="pull-left">
         <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
-          <a type="button" class="btn btn-sm dropdown-toggle">
-            {{viewState.filterMethod=='all'?'全部':'只看我的'}}<i class="fa fa-filter"></i>
+          <a type="button" class="btn dropdown-toggle text-muted">
+            {{viewState.filterMethod=='all'?'全部':'只看我的'}}<span class="caret"></span>
           </a>
           <ul class="dropdown-menu" role="menu">
             <li><a href ng-click="viewState.filterMethod='all';status.isopen = false">全部</a></li>
             <li><a href ng-click="viewState.filterMethod='createdByMe';status.isopen = false">只看我的</a></li>
           </ul>
         </div>
-      </div>
-      <div class="pull-right" ng-init="viewState.orderBy = '-$heat' ">
-        <a href class="btn btn-sm" 
-          ng-class="{'active':viewState.orderBy == '-created'}" 
-          ng-click="viewState.orderBy = '-created'">
-          发布时间<i class="fa fa-sort-amount-desc"></i>
-        </a>
-        <a href class="btn btn-sm" 
-          ng-class="{'active':viewState.orderBy == '-$heat'}" 
-          ng-click="viewState.orderBy = '-$heat'">
-          智能排序<i class="fa fa-sort-amount-desc"></i>
-        </a>
       </div>
     </div>
     <li class="bud col-md-12 topic"
@@ -40,10 +44,10 @@
         >
       <div class="topic-left" ng-click="selectTopic(topic)">
         <h4>{{topic.title}}</h4>
-        <h4 class="topic-summary"><small>{{topic.metadata.raw}}<br/></small></h4>
+        <h4 class="topic-summary">{{topic.metadata.raw}}<br/></h4>
         <div class="spans">
           <span>
-            <div class="topic-type">
+            <div class="topic-type flag flag-danger">
             {{topic.metadata.postType||'提问'}}
             </div>
           </span>
@@ -79,7 +83,7 @@
           {{topic.repliesNum||0}}
         </div>
       </div>
-      
+      <a href class="btn remove-topic" ng-click="deleteTopic(topic)" ng-show="topic.postBy._id==me._id"><i class="fa fa-times"></i></a>
     </li>
   </ul>
 </div>

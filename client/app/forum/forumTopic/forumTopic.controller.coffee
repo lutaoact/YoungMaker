@@ -67,21 +67,11 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   angular.extend $scope,
     loading: true
 
-    course: null
-
     topic: null
 
     me: CurrentUser
 
-    loadCourse: ()->
-      Restangular.one('courses',$state.params.courseId).get()
-      .then (course)->
-        $scope.course = course
-
-    loadLectures: ()->
-      Restangular.all('lectures').getList({courseId: $state.params.courseId})
-      .then (lectures)->
-        $scope.course.$lectures = lectures
+    stateParams: $state.params
 
     loadTopic: ()->
       Restangular.one('dis_topics', $state.params.topicId).get()
@@ -92,9 +82,16 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
         replies.forEach (reply)->
         $scope.topic.$replies = replies
 
+    recommendedTopics: undefined
+
+    loadRecommendedTopics: ()->
+      Restangular.all('dis_topics').getList(courseId: $state.params.courseId)
+      .then (dis_topics)->
+        $scope.recommendedTopics = dis_topics.slice 0,3
+
   $q.all [
-    $scope.loadCourse().then $scope.loadLectures()
     $scope.loadTopic()
+    $scope.loadRecommendedTopics()
   ]
   .then ()->
     $scope.loading = false

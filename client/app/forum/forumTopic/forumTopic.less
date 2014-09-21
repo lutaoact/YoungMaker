@@ -4,4 +4,34 @@
   &.body{
     margin-top: 20px;
   }
+  .forum-topic-view-right{
+    .view-section{
+       hr{
+        margin-top: 5px;
+      }
+    }
+  }
+  .recommends{
+    .recommended-topic{
+      &:hover{
+        text-decoration: none;
+      }
+    }
+    .status{
+      display: inline-block;
+      color: @gray;
+      .fa-heart{
+        cursor: pointer;
+        &.active{
+          color: @brand-danger;
+        }
+      }
+      .fa-eye{
+        color: @gray;
+      }
+      .fa-comments{
+        color: @base-color;
+      }
+    }
+  }
 }

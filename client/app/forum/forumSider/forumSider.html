@@ -2,11 +2,8 @@
   <div ng-hide="showTopic">
     <div class="clearfix title-row">
       <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
-      <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
-        <i class="fa fa-plus"></i>新讨论
-      </button>
     </div>
-    <topic-list topics="topics" on-topic-click="viewTopic">
+    <topic-list class="narrow" topics="topics" on-topic-click="viewTopic">
     </topic-list>
   </div>
 

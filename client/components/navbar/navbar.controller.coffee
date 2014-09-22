@@ -72,7 +72,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
             }
             {
               title: '统计'
-              link: "teacher.courseStats({courseId:'#{$state.params.courseId}'})"
+              link: "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
               role: 'teacher'
             }
           ]

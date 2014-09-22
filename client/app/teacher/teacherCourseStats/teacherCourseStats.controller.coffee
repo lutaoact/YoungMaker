@@ -268,5 +268,41 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
 
     course: undefined
 
+    classes: Classes
+
+    allStudents: undefined
+
+    viewState: {}
+
+    toggleClasse: (classe)->
+      if @viewState.expandClasse == classe
+        @viewState.expandClasse = undefined
+      else
+        @viewState.expandClasse = classe
+
+    loadStudents: ->
+      allStudents = []
+      $q.all($scope.classes.map (classe)->
+        classe.all('students').getList()
+        .then (students)->
+          allStudents = allStudents.concat students
+          classe.$students = students
+      ).then ->
+        $scope.allStudents = _.indexBy allStudents, '_id'
+
   loadStats()
   loadCourse()
+  $scope.loadStudents()
+
+.controller 'TeacherCourseStatsMainCtrl', ($scope, $state)->
+  $scope.viewState.student = undefined
+
+.controller 'TeacherCourseStatsStudentCtrl', ($scope, $state)->
+
+  $scope.$watch 'allStudents', (value)->
+    if value
+      $scope.viewState.student = value[$state.params.studentId]
+      $scope.student = value[$state.params.studentId]
+
+
+

@@ -146,12 +146,15 @@
           margin-right: 15px;
           margin-left: 5px;
           font-weight: bold;
-        }
-        .search-lecture {
-          width: 60%;
+          padding-right: 0px;
+          margin-right: 0px;
+          width: 52px;
         }
         .search-class {
-          margin-left: -50px;
+          width: calc(~'100% - 68px');
+        }
+        .search-lecture {
+          width: calc(~'100% - 250px');
         }
         .btn {
           padding: 2px 15px 2px 15px;
@@ -184,6 +187,7 @@
           height: 65px;
           label {
             width: calc(~'100% - 60px');
+            min-width: 300px;
             padding-top: 22px;
             height: 65px;
             margin: 0px;

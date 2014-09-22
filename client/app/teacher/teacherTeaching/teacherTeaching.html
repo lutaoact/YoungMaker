@@ -1,30 +1,28 @@
-<div class="container-fluid" style="margin-top:-60px">
+<div class="container-fluid teacher-teaching">
   <div class="row">
-    <div class="col-md-12 " style="z-index:1; height: 50px; margin-bottom: -50px">
+    <div class="col-md-12" style="z-index:1; height: 50px; margin-bottom: -50px">
       <h3 style="text-align: center">
         <a ui-sref="teacher.course({courseId:$state.params.courseId})">{{lecture.name}}</a>
       </h3>
-      <div class="pull-right dropdown" style="margin-top: -45px">
-        <button class="btn btn-default dropdown-toggle"
-                data-toggle="dropdown"
-                id="teachingTools">
+      <div class="pull-right questions-button">
+        <button class="btn btn-primary question-btn"
+                ng-click="showMenu=!showMenu">
           <i class="glyphicon glyphicon-align-justify fa-2x"></i>
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="teachingTools">
-          <li>
-            <a>
+        <div class="questions-menu" ng-show="showMenu">
+          <div class="white-bg">
+            <div class="title" role="menuitem">
               <h4>随堂练习</h4>
               <span>目前共有{{lecture.quizzes.length}}个随堂问题</span>
-            </a>
-          </li>
-          <li role="presentation" class="divider"></li>
-          <li role="presentation" ng-repeat="quizze in lecture.quizzes">
-            <a href role="menuitem" ng-click="pushQuestion(quizze)">
-              <b>{{$index+1}}. {{quizze.content.title}}</b>
-            </a>
-          </li>
-          <li role="presentation" class="divider"></li>
-          <li><a ui-sref="teacher.course({courseId:$state.params.courseId})">退出</a></li>
+            </div>
+            <hr/>
+            <div ng-repeat="quizze in lecture.quizzes">
+              <a class="question list-group-item"
+                 ng-click="pushQuestion(quizze)">
+                <b>{{$index+1}}. {{quizze.content.title}}</b>
+              </a>
+            </div>
+          </div>
         </ul>
       </div>
     </div>

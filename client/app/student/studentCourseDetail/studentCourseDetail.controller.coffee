@@ -127,7 +127,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
           courseId: $state.params.courseId
           lectureId: $scope.course.$lectures[0]._id
 
-    itemsPerPage: 5
+    itemsPerPage: 10
 
     currentPage: 1
 

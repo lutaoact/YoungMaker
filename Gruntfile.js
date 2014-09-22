@@ -515,6 +515,8 @@ module.exports = function (grunt) {
     // Compiles Less to CSS
     less: {
       options: {
+        ieCompat: false,
+        sourceMap: true,
         paths: [
           '<%= yeoman.client %>/bower_components',
           '<%= yeoman.client %>/app',

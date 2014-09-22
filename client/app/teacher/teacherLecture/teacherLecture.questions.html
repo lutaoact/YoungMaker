@@ -15,31 +15,58 @@
     <tab heading="课后作业" select="setQuestionType('homeworks')">
     </tab>
   </tabset>
-  <div style="padding-top: 5px"></div>
   <div class="list-group">
-    <div href
-         class="list-group-item"
-         ng-click="question.$expended=!question.$expended"
+    <div class="list-group-item question-heading">
+      <label>{{getQuestions().length}}个习题</label>
+      <button type="button"
+              class="btn btn-primary glyphicon glyphicon-remove pull-right"
+         ng-click="removeQuestion()">
+      </button>
+    </div>
+    <div class="list-group-item question-desc">
+      <input type="checkbox"
+             ng-model="selectedAll"
+             ng-change="toggleSelectAll(selectedAll)"
+             class="bud checkbox-default pull-left">
+      <span>编号</span><span>标题</span>
+    </div>
+    <div ng-click="question.$expended=!question.$expended"
          ng-repeat="question in getQuestions()">
-      <span class="text-muted">{{$index+1}}</span> {{question.content.title}} {{expendedIndex}}
-      <i class="glyphicon glyphicon-remove pull-right"
-         ng-click="removeQuestion($index)">
-      </i>
-      <ul class="nav nav-pills nav-stacked" role="tablist"
+      <a href class="question-title list-group-item"
+         ng-class="{'active':question.$expended==true}">
+        <input type="checkbox"
+               class="bud checkbox-default pull-left"
+               ng-model="question.$selected">
+        <span class="index">{{$index+1}}</span>{{question.content.title}}
+        <i class="glyphicon glyphicon-remove pull-right"
+           ng-click="removeQuestion($index)">
+        </i>
+      </a>
+      <ul class="nav nav-pills nav-stacked list-group-item question-content"
+          role="tablist"
           ng-if="question.$expended">
         <li ng-repeat="option in question.content.body"
+            class="question-option"
             role="presentation">
-          <a>
-            <span>{{$index | indexToABC}}. </span>
+          <label class="text-muted" ng-class="{'label-correct':option.correct}">
+            <input type="checkbox"
+                   class="bud checkbox-primary"
+                   ng-disabled="true"
+                   ng-model="option.correct">
+            <span class="index">{{$index | indexToABC}}. </span>
             {{option.desc}}
-            <span ng-class="{'pull-right glyphicon glyphicon-ok':option.correct}"></span>
-          </a>
+          </label>
         </li>
         <li role="presentation">
-          <div class="alert alert-warning">
-            <b>注解：</b>{{question.solution}}
-            <div ng-if="question.keyPoints.length>0">
-              <b>知识点：</b><span ng-repeat="id in question.keyPoints">{{getKeyPoint(id).name}} </span>
+          <div class="media alert alert-warning question-answer">
+            <label class="media-object pull-left">
+              {{getCorrectInfo(question)}}
+            </label>
+            <div class="media-body">
+              <b>注解：</b>{{question.solution}}
+              <div ng-if="question.keyPoints.length>0">
+                <b>知识点：</b><span ng-repeat="id in question.keyPoints">{{getKeyPoint(id).name}} </span>
+              </div>
             </div>
           </div>
         </li>

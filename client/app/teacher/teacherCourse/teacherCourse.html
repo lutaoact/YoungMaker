@@ -1,13 +1,28 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 list-group-item course-card">
-      <teacher-course-form course="course"
-                           editable="true"
-                           delete-callback="deleteCallback($course)"
-                           categories="categories"></teacher-course-form>
-      <teacher-course-lectures course="course"
-                               classes="classes"></teacher-course-lectures>
+<div class="teacher-course">
+  <div class="sub-nav">
+    <div class="container">
+      <ul class="pull-left">
+        <li>
+          <a class="btn btn-primary btn-md rounded"
+             ui-sref="teacher.home"><i class="fa fa-arrow-left"></i></a>
+        </li>
+        <li>
+          <h3>课程主页<small>/{{course.name}}</small></h3>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 list-group-item course-card">
+        <teacher-course-form course="course"
+                             editable="true"
+                             delete-callback="deleteCallback($course)"
+                             categories="categories"></teacher-course-form>
+        <teacher-course-lectures course="course"
+                                 classes="classes"></teacher-course-lectures>
+      </div>
+    </div>
+  </div>
 
+</div>

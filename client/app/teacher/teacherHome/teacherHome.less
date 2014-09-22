@@ -1,0 +1,66 @@
+.teacher {
+  .new-course-btn {
+    width: 200px;
+    height: 300px;
+    border: 3px dashed @base-color;
+    border-radius: 5px;
+    text-align: center;
+    margin: 30px auto;
+    color: #666;
+    background: #fff;
+    .plus {
+      color: @base-color;
+      font-size: 50px;
+      margin-top: -20px;
+      display: block;
+    }
+    label {
+      display: block;
+      font-size: 22px;
+      padding-top: 10px;
+    }
+  }
+  .new-course-btn:hover,
+  .new-course-btn:focus,
+  .new-course-btn:active,
+  .new-course-btn.active {
+    color: #fff;
+    background: @base-color;
+    .plus {
+      color: #fff;
+    }
+  }
+  .course-list{
+    background: #EBEBEB;
+    position: relative;
+    padding-bottom: 30px;
+    .course-btn {
+      color: #666;
+      padding: 7px;
+      border-radius: 5px;
+      border-color: #EBEBEB;
+      background: #EBEBEB;
+      label {
+        display: block;
+      }
+    }
+    .course-btn:hover,
+    .course-btn:focus,
+    .course-btn:active,
+    .course-btn.active {
+      color: #fff;
+      background-color: @base-color;
+      border-color: @base-color;
+    }
+
+    &.limit-height{
+      overflow: hidden;
+      @media screen and (min-height: 0px) {
+        height: 550px;
+      }
+      @media screen and (min-height: 700px) {
+        height: 915px;
+      }
+    }
+  }
+}

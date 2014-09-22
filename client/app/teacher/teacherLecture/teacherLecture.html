@@ -1,4 +1,17 @@
 <div class="teacher-lecture">
+  <div class="sub-nav">
+    <div class="container">
+      <ul class="pull-left">
+        <li>
+          <a class="btn btn-primary btn-md rounded"
+             ui-sref="teacher.course({courseId:course._id})"><i class="fa fa-arrow-left"></i></a>
+        </li>
+        <li>
+          <h3>{{course.name}}<small>/{{lecture.name}}</small></h3>
+        </li>
+      </ul>
+    </div>
+  </div>
   <section class="info-section">
     <div class="container">
       <h3 class="text-center">

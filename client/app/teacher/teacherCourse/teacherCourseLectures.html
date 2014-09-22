@@ -48,9 +48,12 @@
                  class="form-control search-lecture"
                  placeholder="查找课时"
                  ng-model="keyword"/>
-          <button class="btn btn-primary pull-right"
+          <button class="btn btn-danger pull-right"
                   ng-disabled="!course._id"
-                  ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">添加课时</button>
+                  ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">
+            <i class="fa fa-plus"></i>
+            添加课时
+          </button>
         </div>
       </div>
       <hr class="hr-title"/>
@@ -60,9 +63,10 @@
              ng-repeat-reorder="lecture in course.$lectures"
              ng-repeat-reorder-handle="button.drag-point">
           <div class="media-object pull-left">
-            <i class="fa fa-circle-o lecture-progress hand-point"
-               ng-click="startTeaching(course, lecture)"
-               ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}"></i>
+            <button type="button"
+                    class="fa fa-check lecture-progress btn btn-primary"
+                    ng-click="startTeaching(course, lecture)"
+                    ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}"></button>
           </div>
           <a class="media-body list-group-item"
              ng-mouseover="overLecture=lecture"

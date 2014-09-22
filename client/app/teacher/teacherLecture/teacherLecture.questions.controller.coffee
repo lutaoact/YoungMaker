@@ -31,6 +31,13 @@ angular.module('budweiserApp')
     getQuestions: ->
       $scope.lecture?[$scope.questionType]
 
+    getCorrectInfo: (question) ->
+      _.reduce question.content.body, (result, option, index) ->
+        if option.correct==true
+          result += String.fromCharCode(65+index)
+        result
+      , ''
+
     addLibraryQuestion: ->
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
@@ -53,9 +60,17 @@ angular.module('budweiserApp')
           $scope.libraryQuestions.push newQuestion
           addQuestion(newQuestion)
 
-    removeQuestion: (index) ->
+    toggleSelectAll: (selected) ->
+      angular.forEach $scope.getQuestions(), (q) -> q.$selected = selected
+
+    removeQuestion: (index = -1) ->
       questions = $scope.getQuestions()
-      questions.splice index, 1
+      if index == -1
+        deleteQuestions = _.filter questions, (q) -> q.$selected == true
+        angular.forEach deleteQuestions, (q) ->
+          questions.splice(questions.indexOf(q), 1)
+      else
+        questions.splice index, 1
       saveQuestions(questions)
 
     sendQuestion: (question) ->

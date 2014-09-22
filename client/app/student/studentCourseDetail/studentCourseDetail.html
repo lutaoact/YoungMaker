@@ -10,61 +10,36 @@
     </ul>
   </div>
 </div>
-<!-- jumbotron -->
-<section class="jumbotron course-detail">
-  <div class="text-center">
-
-    <div class="course text-left" course-tile course="course"></div>
-
-    <div class="header">
-      <h2>{{course.name}}</h2>
-    </div>
-    <div class="description">
-      {{course.info}}
-    </div>
-  </div>
-
-  <div class="action-bar">
-    <div class="span4">
-      <div class="avatar" src-key="course.owners[0].avatar" source-attr="background-image">
-      </div>
-      <label>
-        {{course.owners[0].name||'某老师'}}
-      </label>
-    </div>
-    <div class="span4">
-      <a class="btn btn-danger btn-lg" ng-click="gotoLecture()" ng-show="course.$lectures">
-        开始学习 ({{viewedLectureIndex+'/'+course.$lectures.length}})
-      </a>
-    </div>
-    <div class="span4">
-      <a class="btn btn-lg" >
-        <i class="fa fa-map-marker"></i>
-        {{course.location||'上课地址'}}
-      </a>
-    </div>
-  </div>
-
-</section>
 
 <!-- lecture list -->
 <section class="course-detail lecture-list" id="lecture-list">
-  <div class="container" >
-    <div class="above-header">
-      <h1>
-        <i class="fa fa-calendar"></i>
-      </h1>
+  <div class="container">
+    <div class="course-info row">
+      <div class="course-info-left">
+        <div class="course-thumbnail" 
+          src-key="course.thumbnail"
+          source-attr="background-image">
+        </div>
+      </div>
+      <div class="course-info-right">
+        <h4 class="course-title">
+          {{course.name}}
+        </h4>
+        <h5>
+          {{course.owners[0].name||'某老师'}}
+        </h5>
+        <div class="course-summary" tooltip="{{course.info}}">
+          {{course.info}}
+        </div>
+        <div class="learn-progress" tooltip="{{viewedLectureIndex + '/' + course.$lectures.length}}课时">
+          <div class="learn-progress-inner-bar" ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}"></div>
+        </div>
+        <a class="btn btn-danger btn-lg" ng-click="gotoLecture()" ng-show="course.$lectures">
+          {{viewedLectureIndex?'继续学习':'开始学习'}}
+        </a>
+      </div>
     </div>
-    <div class="section-header">
-      <h3>
-        我要学的课程
-      </h3>
-    </div>
-    <div class="row">
-      <p class="col-md-6 col-md-offset-3 text-center">
-        前所未有得多媒体教学——Video和教案无限期播放，无论你是要预习还<br/>是要温故知新，这里都能满足你！赶快来学习吧！
-      </p>
-    </div>
+
     <div class="bud list-group">
       <!-- todo: disable-animation="true" animation looks strange -->
       <a class="bud list-group-item lecture row fade-repeat"
@@ -89,7 +64,7 @@
       </a>
     </div>
 
-    <pager
+    <pager ng-hide="course.$lectures.length <= itemsPerPage"
       total-items="course.$lectures.length"
       items-per-page="itemsPerPage"
       align="false"

@@ -62,5 +62,8 @@ angular.module('budweiserApp')
         dis_topic.$heat = 1000 / (moment().diff(moment(dis_topic.created),'hours') + 1)+ dis_topic.repliesNum * 10 + dis_topic.voteUpUsers.length * 10
         $scope.topics.splice 0, 0, dis_topic
 
+  $scope.$on 'topics.query', (event, value)->
+    $scope.viewState.query = value.name
+
   $scope.loadCourse()
 

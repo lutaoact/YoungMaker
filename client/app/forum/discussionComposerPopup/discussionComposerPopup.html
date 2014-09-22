@@ -1,8 +1,8 @@
-<div class="modal-header forum">
+<div class="modal-header forum forum-topic-composer">
   <h4 class="modal-title">新的提问</h4>
   <a href ng-click="close()" class="btn btn-crystal rounded close"><i class="fa fa-times"></i></a>
 </div>
-<div class="modal-body forum">
+<div class="modal-body forum forum-topic-composer">
   <div class="clearfix title-row row">
     <div class="form-group">
       <div class="bud input-group">
@@ -16,10 +16,10 @@
     <div class="form-group col-xs-6">
       <div class="bud input-group">
         <div class="input-group-addon">课时:</div>
-         <ui-select ng-model="$tag.lecture">
+         <ui-select ng-model="$lecture">
           <ui-select-match placeholder="关联课时">{{$select.selected.name}}</ui-select-match>
-          <ui-select-choices repeat="option as option in lectures | filter: $select.search">
-            <span ng-bind-html="option.name | highlight: $select.search"></span>
+          <ui-select-choices repeat="option as option in lectures | filter: $select.search" >
+            <div ng-bind-html="option.name | highlight: $select.search" ng-click="addLectureAsTag(option)" class="tag-option"></div>
           </ui-select-choices>
         </ui-select>
       </div>
@@ -27,26 +27,35 @@
     <div class="form-group col-xs-6">
       <div class="bud input-group">
         <div class="input-group-addon">知识点:</div>
-        <ui-select ng-model="$tag.keypoint">
+        <ui-select ng-model="$keypoint">
           <ui-select-match placeholder="关联知识点">{{$select.selected.name}}</ui-select-match>
           <ui-select-choices repeat="option as option in keypoints | filter: $select.search">
-            <span ng-bind-html="option.name | highlight: $select.search"></span>
+            <div ng-bind-html="option.name | highlight: $select.search" ng-click="addKeypointAsTag(option)"></div>
           </ui-select-choices>
         </ui-select>
       </div>
     </div>
   </div>
 
+  <div class="clearfix title-row row">
+    <div class="tags">
+      <div class="tag" ng-repeat="tag in myTopic.metadata.tags">
+        <i class="fa fa-times remove" ng-click="deleteTag(tag)"></i>
+        {{tag.name}}
+      </div>
+    </div>
+  </div>
+
   <div class="title-row">
     <bud-editor 
-      class="new-reply-right"
+      class="topic-input"
       content="myTopic.content"
       metadata="myTopic.metadata">
     </bud-editor>
   </div>
 
 </div>
-<div class="forum modal-footer">
+<div class="forum modal-footer forum-topic-composer">
   <button class="btn btn-danger" ng-click="create()"
   ng-disabled="!myTopic.title||!myTopic.content">提交</button>
   <button class="btn btn-default" ng-click="close()">取消</button>

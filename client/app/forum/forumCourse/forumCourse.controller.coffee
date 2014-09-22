@@ -66,7 +66,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         topicId: topic._id
 
     searchByTag: (tag)->
-      console.log tag
+      $scope.$broadcast 'topics.query', tag
 
 
     queryTags: undefined

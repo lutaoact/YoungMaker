@@ -25,7 +25,7 @@
         <a class="thumbnail media recommended-topic" ng-repeat="recommendedTopic in recommendedTopics" ui-sref="forum.topic({topicId:recommendedTopic._id})">
           <div class="media-body">
             <h4 class="media-heading">{{recommendedTopic.title}}</h4>
-            <p>{{recommendedTopic.metadata.raw}}</p>
+            <p class="media-summary">{{recommendedTopic.metadata.raw}}</p>
             <div class="status">
               <i class="fa fa-heart"></i>
               {{recommendedTopic.voteUpUsers.length||0}}

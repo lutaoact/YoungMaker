@@ -29,34 +29,30 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
         $scope.imagesToInsert = undefined
         $modalInstance.close dis_topic
 
-    $tag: {}
-
-  $scope.$watch '$tag', ->
-    console.log 'watch'
-    if $scope.$tag.lecture
+    addLectureAsTag: (lecture)->
       $scope.myTopic.metadata ?= {}
       $scope.myTopic.metadata.tags ?= []
-      hasTag = $scope.myTopic.metadata.tags.some (tag)-> tag.srcId is $scope.$tag.lecture._id
+      hasTag = $scope.myTopic.metadata.tags.some (tag)-> tag.srcId is lecture._id
       if hasTag
         return
       else
         $scope.myTopic.metadata.tags.push
           type: 'lecture'
-          srcId: $scope.$tag.lecture._id
-          name: $scope.$tag.lecture.name
-    if $scope.$tag.keypoint
+          srcId: lecture._id
+          name: lecture.name
+
+    addKeypointAsTag: (keypoint)->
       $scope.myTopic.metadata ?= {}
       $scope.myTopic.metadata.tags ?= []
-      hasTag = $scope.myTopic.metadata.tags.some (tag)-> tag.srcId is $scope.$tag.keypoint._id
+      hasTag = $scope.myTopic.metadata.tags.some (tag)-> tag.srcId is keypoint._id
       if hasTag
         return
       else
         $scope.myTopic.metadata.tags.push
           type: 'keypoint'
-          srcId: $scope.$tag.keypoint._id
-          name: $scope.$tag.keypoint.name
-  , true
+          srcId: keypoint._id
+          name: keypoint.name
 
-
-
+    deleteTag: (tag)->
+      $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
 

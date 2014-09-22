@@ -3,7 +3,7 @@
 StatsUtils  = _u.getUtils 'stats'
 LectureUtils = _u.getUtils 'lecture'
 User        = _u.getModel 'user'
-Question    = _u.getModel 'Question'
+Question    = _u.getModel 'question'
 HomeworkAnswer = _u.getModel 'homework_answer'
 
 buildQuizResult = (lecture, qIds) ->

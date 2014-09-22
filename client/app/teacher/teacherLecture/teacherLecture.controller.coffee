@@ -20,6 +20,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
     mediaApi: undefined
     course: undefined
+    saving: false
     lecture:
       slides:[]
       keyPoints:[]
@@ -36,15 +37,19 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         homeworks: _.map lecture.homeworks, (q) -> q._id
         quizzes: _.map lecture.quizzes, (q) -> q._id
 
+      $scope.saving = true
+
       if lecture._id?
         # update exists
         Restangular.copy(editingLecture).patch()
         .then (newLecture) ->
+          $scope.saving = false
           lecture.__v = newLecture.__v
       else
         # create new
         Restangular.all('lectures').post(editingLecture, courseId:$state.params.courseId)
         .then ->
+          $scope.saving = false
           $state.go('teacher.course', courseId: $state.params.courseId)
 
     removeSlide: (index) ->

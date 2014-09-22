@@ -1,4 +1,4 @@
-<div class="teacher-course">
+<div>
   <div class="sub-nav">
     <div class="container">
       <ul class="pull-left">
@@ -12,17 +12,19 @@
       </ul>
     </div>
   </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12 list-group-item course-card">
-        <teacher-course-form course="course"
-                             editable="true"
-                             delete-callback="deleteCallback($course)"
-                             categories="categories"></teacher-course-form>
-        <teacher-course-lectures course="course"
-                                 classes="classes"></teacher-course-lectures>
+  <section class="teacher-course">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 list-group-item course-card">
+          <teacher-course-form course="course"
+                               editable="true"
+                               delete-callback="deleteCallback($course)"
+                               categories="categories"></teacher-course-form>
+          <teacher-course-lectures course="course"
+                                   classes="classes"></teacher-course-lectures>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
 </div>

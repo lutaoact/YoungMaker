@@ -63,9 +63,14 @@
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="submit"
+                      ng-disabled="saving"
                       class="btn btn-primary pull-right"
-                      ng-click="saveLecture(lecture,form)">
-                保存
+                      ng-click="saveLecture(lecture, form)">
+                <span ng-if="!saving">保存</span>
+                <span ng-if="saving">
+                  <i class="fa fa-spinner fa-spin"></i>
+                  保存中
+                </span>
               </button>
             </div>
           </div>

@@ -1,6 +1,14 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
+angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
+  link: (scope, element, attrs) ->
+    fn = $parse(attrs.ngRightClick)
+    element.bind 'contextmenu', (event) ->
+      scope.$apply () ->
+        event.preventDefault()
+        fn scope, {$event:event}
+
+.controller 'StudentLectureDetailCtrl'
 , (
   $scope
   $state
@@ -112,6 +120,9 @@ angular.module('budweiserApp').controller 'StudentLectureDetailCtrl'
     toggleDiscussionPanel: ()->
       @viewState.discussPanelnitialized = true
       @viewState.showDiscussion = !@viewState.showDiscussion
+
+    disableDownload: ()->
+      console.log 'you are not allowed to download this resource'
 
   seekHashTimestamp = ->
     total = $tools.timeStrings2Seconds $location.hash()

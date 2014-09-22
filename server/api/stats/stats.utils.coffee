@@ -23,7 +23,7 @@ exports.StatsUtils = BaseUtils.subclass
       Q.all promiseArray
     .then (statsArray) =>
       finalKPStats = @buildFinalKPStats tmpResult.studentsNum, statsArray
-      logger.info JSON.stringify finalKPStats, null, 4
+      #logger.info JSON.stringify finalKPStats, null, 4
       return finalKPStats
     , (err) ->
       Q.reject err

@@ -18,7 +18,7 @@ angular.module('budweiserApp').controller 'MainCtrl',
       }
       {
         title: '主页'
-        link: 'student.courseList'
+        link: 'student.home'
         role: 'student'
       }
       {

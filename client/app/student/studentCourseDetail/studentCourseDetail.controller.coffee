@@ -13,35 +13,6 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
   $q
 ) ->
 
-  $rootScope.additionalMenu = [
-    {
-      title: '主页'
-      link: 'student.courseList'
-      role: 'student'
-    }
-    {
-      title: '课程主页<i class="fa fa-home"></i>'
-      link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
-      role: 'student'
-    }
-    {
-      title: '讨论<i class="fa fa-comments-o"></i>'
-      link: "forum.course({courseId:'#{$state.params.courseId}'})"
-      role: 'student'
-    }
-    {
-      title: '统计<i class="fa fa-bar-chart-o"></i>'
-      link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
-      role: 'student'
-    }
-  ]
-
-  $scope.$on '$destroy', ()->
-    $rootScope.additionalMenu = []
-    $rootScope.navInSub = false
-
-  $rootScope.navInSub = true
-
   angular.extend $scope,
 
     course: null
@@ -102,7 +73,7 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
     deleteCourse: (course)->
       course.remove()
       .then ()->
-        $state.go 'student.courseList'
+        $state.go 'student.home'
 
     loadLectures: ()->
       if $state.params.courseId

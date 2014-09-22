@@ -13,8 +13,6 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
   $rootScope
 ) ->
 
-  $scope.$on '$destroy', ()->
-
   loadQuizStats = ()->
     Restangular.one('quiz_stats','').get(courseId:$state.params.courseId)
     .then (result)->

@@ -36,7 +36,7 @@
       </div>
 
       <div class="ppt-view" ng-show="!viewState.isVideo">
-        <div ppt-viewer slides="lecture.slides" ng-show="lecture.slides.length > 0">
+        <div ppt-viewer slides="lecture.slides" current-index="activeIndex" ng-show="lecture.slides.length > 0">
         </div>
         <div class="empty" ng-hide="lecture.slides.length > 0">
           该课程没有ppt

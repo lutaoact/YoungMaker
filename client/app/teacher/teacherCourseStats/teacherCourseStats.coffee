@@ -7,6 +7,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/teacher/teacherCourseStats/teacherCourseStats.html'
     controller: 'TeacherCourseStatsCtrl'
     authenticate: true
+    abstract: true
     resolve:
       Categories: (Restangular) ->
         Restangular.all('categories').getList().then (categoaries) ->
@@ -16,3 +17,12 @@ angular.module('budweiserApp').config ($stateProvider) ->
         Restangular.all('classes').getList().then (classes) ->
           classes
         , -> []
+
+  .state 'teacher.courseStats.all',
+    url: ''
+    templateUrl:'app/teacher/teacherCourseStats/teacherCourseStats.all.html'
+    # controller: 'TeacherCourseStatsCtrl'
+
+  .state 'teacher.courseStats.student',
+    url: '/students/:studentId'
+    templateUrl:'app/teacher/teacherCourseStats/teacherCourseStats.student.html'

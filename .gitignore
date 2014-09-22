@@ -23,5 +23,6 @@ client/index.html
 /server/common/ErrCode.js
 /server/config/set_sockjs.js
 /server/common/mail/index.js
+/server/config/user_seed.js
 dump.rdb
 npm-debug.log

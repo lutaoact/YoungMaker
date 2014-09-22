@@ -1,6 +1,6 @@
 'use strict'
 
-routes = require('../api/socket/').routes
+#routes = require('../api/socket/').routes
 
 SocketUtils = _u.getUtils 'socket'
 

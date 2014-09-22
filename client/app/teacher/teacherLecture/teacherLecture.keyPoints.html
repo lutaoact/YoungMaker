@@ -1,6 +1,23 @@
-<div class="col-md-8 col-md-offset-2">
-  <div class="input-group list-group-item-heading">
-    <span class="input-group-addon">知识点</span>
+<div>
+  <div class="list-group-item"
+       ng-repeat="keyPoint in lecture.keyPoints">
+    <a ng-click="updatekeyPoint(keyPoint)" >
+      <span class="glyphicon glyphicon-arrow-right"></span>
+    </a>
+    <input type="number"
+           ng-model="keyPoint.timestamp"
+           style="width:50px"
+           ng-blur="savekeyPoints()"/>
+    <a class="btn-link" ng-click="seekPlayerTime(keyPoint.timestamp)">
+      {{keyPoint.kp.name}}
+    </a>
+    <div class="pull-right">
+      <a ng-click="removekeyPoint($index)" >
+        <span class="glyphicon glyphicon-remove"></span>
+      </a>
+    </div>
+  </div>
+  <div class="list-group-item">
     <ui-select ng-model="selectedKeyPoint"
                on-select="addkeyPoint($item)">
       <ui-select-match placeholder="查找并且添加知识点">
@@ -10,25 +27,5 @@
         <span ng-bind-html="keyPoint.name | highlight: $select.search"></span>
       </ui-select-choices>
     </ui-select>
-    <span class="input-group-addon">
-      <span class="glyphicon glyphicon-search"></span>
-    </span>
-  </div>
-  <div class="list-group-item" ng-repeat="keyPoint in lecture.keyPoints">
-    <a class="btn-link" ng-click="seekPlayerTime(keyPoint.timestamp)">
-      <span class="glyphicon glyphicon-ok"></span>
-      {{keyPoint.kp.name}}
-    </a>
-    <div class="pull-right">
-      <a ng-click="removekeyPoint($index)" >
-        <span class="glyphicon glyphicon-remove"></span>
-      </a>
-      <a ng-click="updatekeyPoint(keyPoint)" >
-        <span class="glyphicon glyphicon-arrow-up"></span>
-      </a>
-      <input type="number"
-             ng-model="keyPoint.timestamp"
-             ng-blur="savekeyPoints()"/>
-    </div>
   </div>
 </div>

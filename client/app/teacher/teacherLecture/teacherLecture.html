@@ -1,168 +1,219 @@
-<div class="container padding-top-20">
-  <form class="form-horizontal media" name="form" role="form">
-    <div class="media-object pull-right">
-      <uploader limit="2*1024*1024"
-                on-complete="onThumbUploaded($data)"
-                accept="image">
-        <img src-key="lecture.thumbnail"
-             suffix="?imageView2/2/w/210/h/140"
-             src="/assets/images/empty.jpg"/>
-      </uploader>
-    </div>
-    <div class="media-body">
-      <div class="form-group">
-        <div class="col-sm-2 control-label">
-          <label for="lecture-name">课时名称</label>
-        </div>
-        <div class="col-sm-10">
-          <input class="form-control"
-                 id="lecture-name"
-                 name="name"
-                 type="text"
-                 focus-me="titleInputFocus"
-                 ng-init="titleInputFocus=true"
-                 ng-model="lecture.name"
-                 placeholder="课时名称"
-                 required>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-2 control-label">
-          <label for="lecture-info">课时信息</label>
-        </div>
-        <div class="col-sm-10">
-          <textarea class="form-control"
-                    id="lecture-info"
-                    name="info"
-                    rows="2"
-                    ng-model="lecture.info"
-                    placeholder="课时信息">
-          </textarea>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <uploader limit="50*1024*1024"
-                    on-complete="onPPTUploaded($data)"
-                    accept="ppt">
-            导入PPT
-          </uploader>
-          <uploader limit="10*1024*1024"
-                    multiple="true"
-                    on-complete="onImagesUploaded($data)"
+<div class="teacher-lecture">
+  <section class="info-section">
+    <div class="container padding-top-20">
+      <h3 class="text-center">
+        <a ui-sref="teacher.course({courseId:course._id})">{{course.name}}</a> / {{lecture.name}}
+      </h3>
+      <hr/>
+      <h4 class="text-center">1/3 基本信息</h4>
+      <hr/>
+      <form class="form-horizontal media lecture-form" name="form" role="form">
+        <div class="media-object pull-left">
+          <img src-key="lecture.thumbnail"
+               suffix="?imageView2/2/w/210/h/210"
+               holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
+          <uploader limit="2*1024*1024"
+                    on-complete="onThumbUploaded($data)"
+                    class="lecture-img-btn btn-danger"
                     accept="image">
-            导入图片
-          </uploader>
-          <uploader limit="100*1024*1024"
-                    on-complete="onMediaUploaded($data)"
-                    accept="video">
-            导入视频
+            <span class="glyphicon glyphicon-picture"></span>
+            上传封面
           </uploader>
         </div>
-      </div>
-
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit"
-                  class="btn btn-default"
-                  ng-click="saveLecture(lecture,form)">
-            保存
-          </button>
-          <a class="btn btn-link"
-             ui-sref="teacher.course({courseId:course._id})"
-             du-smooth-scroll
-             offset="60">
-            <i class="fa fa-arrow-circle-o-left"></i>
-            返回
-          </a>
-        </div>
-      </div>
-    </div>
-  </form>
-  <hr/>
-  <div class="row">
-    <div class="col-md-6 media">
-      <div class="pull-left">
-        <div class="list-group"
-            style="
-            -webkit-user-select: none;
-            -user-select: none;
-            -moz-user-select: none;
-            position:relative;
-            max-height: 320px;
-            overflow: scroll;
-            ">
-          <a class="list-group-item stretch media-object"
-              ng-class="{'active':slide.$active}"
-              ng-click="slide.$active = true"
-              ng-repeat-reorder="slide in lecture.slides"
-              ng-repeat-reorder-handle="div.drag-point">
-            <div class="drag-point fa fa-bars" draggable="true"></div>
-            <img src-key="slide.thumb"
-                 suffix="?imageView2/2/w/40/h/40"
-                 style="max-height:40px;max-width:40px">
-            <span ng-click="removeSlide($index)">
-              <span class="glyphicon glyphicon-trash"></span>
-            </span>
-          </a>
-        </div>
-      </div>
-      <div class="media-body">
-        <cool-projector disable-animation="true">
-          <cool-frame ng-repeat="slide in lecture.slides"
-                      active="slide.$active">
-            <img src-key="slide.raw"
-                 suffix="?imageView2/2/w/500/h/500"
-                 style="margin:auto;max-height:500px;max-width:500px">
-            <div class="carousel-caption">
-              <h4>第 {{$index+1}} 张</h4>
+        <div class="media-body">
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+              <label for="lecture-name">课时名称</label>
             </div>
-          </cool-frame>
-        </cool-projector>
+            <div class="col-sm-10">
+              <input class="form-control"
+                     id="lecture-name"
+                     name="name"
+                     type="text"
+                     focus-me="titleInputFocus"
+                     ng-init="titleInputFocus=true"
+                     ng-model="lecture.name"
+                     placeholder="课时名称"
+                     required>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+              <label for="lecture-info">课时信息</label>
+            </div>
+            <div class="col-sm-10">
+              <textarea class="form-control"
+                        id="lecture-info"
+                        name="info"
+                        rows="5"
+                        ng-model="lecture.info"
+                        placeholder="课时信息">
+              </textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit"
+                      class="btn btn-primary pull-right"
+                      ng-click="saveLecture(lecture,form)">
+                保存
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section class="media-section">
+    <div class="container">
+      <tabset class="bud">
+        <tab>
+          <tab-heading>视频</tab-heading>
+          <div class="row">
+            <br/>
+            <h4 class="text-center">2/3 视频课件</h4>
+            <hr/>
+            <div class="col-md-12 lecture-video lecture-video-empty"
+                 ng-if="!lecture.media">
+              <label class="empty-video-desc">目前没有视频，请添加</label>
+              <div>
+                <uploader limit="100*1024*1024"
+                          on-complete="onMediaUploaded($data)"
+                          class="lecture-video-btn btn-danger"
+                          accept="video">
+                  <i class="fa fa-file-video-o"></i>
+                  导入视频
+                </uploader>
+              </div>
+            </div>
+            <div class="col-md-12 lecture-video"
+                 ng-if="lecture.media">
+              <div class="col-md-6 video-body">
+                <videogular vg-player-ready="onPlayerReady">
+                  <video class="videoPlayer" src-key="lecture.media">
+                  </video>
+                  <vg-poster-image></vg-poster-image>
+                  <vg-buffering></vg-buffering>
+                  <vg-controls style="height: 50px;">
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+                    <vg-scrubBar>
+                      <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                    </vg-scrubBar>
+                    <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+                    <vg-volume>
+                      <vg-mutebutton></vg-mutebutton>
+                      <vg-volumebar></vg-volumebar>
+                    </vg-volume>
+                    <vg-fullscreenButton></vg-fullscreenButton>
+                  </vg-controls>
+                </videogular>
+                <div class="btn-group">
+                  <label class="info">{{course.name}} {{lecture.name}} Video</label>
+                  <span class="pull-right">
+                    <uploader limit="100*1024*1024"
+                              on-complete="onMediaUploaded($data)"
+                              class="btn btn-primary"
+                              accept="video">
+                      <i class="glyphicon glyphicon-refresh"></i>
+                      替换
+                    </uploader>
+                    <button type="button" class="btn btn-primary"
+                            ng-click="removeMedia()">
+                      <i class="glyphicon glyphicon-remove"></i>
+                      删除
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div teacher-lecture-keypoints
+                   lecture="lecture"
+                   class="col-md-6 video-body"
+                   key-points="course.$keyPoints"
+                   category-id="course.categoryId"
+                   media-api="mediaApi">
+              </div>
+            </div>
+          </div>
+        </tab>
+        <tab>
+          <tab-heading>PPT</tab-heading>
+          <div class="row">
+            <br/>
+            <h4 class="text-center">2/3 PPT课件</h4>
+            <hr/>
+            <div class="col-md-12 lecture-ppt lecture-ppt-empty"
+                 ng-if="!(lecture.slides.length > 0)">
+              <label class="empty-ppt-desc">目前没有PPT，请添加</label>
+              <div>
+                <uploader limit="50*1024*1024"
+                          on-complete="onPPTUploaded($data)"
+                          class="lecture-ppt-btn btn-danger"
+                          accept="ppt">
+                  <i class="fa fa-file-powerpoint-o"></i>
+                  导入PPT
+                </uploader>
+              </div>
+            </div>
+            <div class="col-md-12 media lecture-ppt"
+                 ng-if="lecture.slides.length > 0">
+              <div class="list-group lecture-slides-list pull-right">
+                <a class="list-group-item stretch media-object"
+                   ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
+                   ng-click="lecture.slides.$activeIndex=$index"
+                   ng-repeat-reorder="slide in lecture.slides"
+                   ng-repeat-reorder-handle="div.drag-point">
+                  <div class="drag-point fa fa-bars" draggable="true"></div>
+                  <img src-key="slide.thumb"
+                       suffix="?imageView2/2/w/40/h/40"
+                       height="40"
+                       width="40">
+                  <span ng-click="removeSlide($index)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </span>
+                </a>
+              </div>
+              <div class="media-body">
+                <div ppt-viewer
+                     slides="lecture.slides"
+                     current-index="lecture.slides.$activeIndex"
+                     style="width:100%"></div>
+                <div class="btn-group">
+                  <label class="info">{{course.name}} {{lecture.name}} PPT</label>
+                  <span class="pull-right">
+                    <uploader limit="50*1024*1024"
+                              on-complete="onPPTUploaded($data)"
+                              class="btn btn-primary"
+                              accept="ppt">
+                      <i class="glyphicon glyphicon-refresh"></i>
+                      替换
+                    </uploader>
+                    <button type="button" class="btn btn-primary"
+                            ng-click="removePPT()">
+                      <i class="glyphicon glyphicon-remove"></i>
+                      删除
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </section>
+  <section class="question-section">
+    <div class="container">
+      <div class="row">
+        <hr/>
+        <h4 class="text-center">3/3 随堂练习和课后作业</h4>
+        <hr/>
+        <div teacher-lecture-questions
+             lecture="lecture"
+             library-questions="course.$libraryQuestions"
+             key-points="course.$keyPoints"
+             category-id="course.categoryId"></div>
       </div>
     </div>
-    <div class="col-md-6 col-xs-11" ng-show="lecture.media">
-      <videogular vg-player-ready="onPlayerReady">
-        <video class="videoPlayer" src-key="lecture.media">
-        </video>
-        <vg-poster-image></vg-poster-image>
-        <vg-buffering></vg-buffering>
-        <vg-controls style="height: 50px;">
-          <vg-play-pause-button></vg-play-pause-button>
-          <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
-          <vg-scrubBar>
-            <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-          </vg-scrubBar>
-          <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
-          <vg-volume>
-            <vg-mutebutton></vg-mutebutton>
-            <vg-volumebar></vg-volumebar>
-          </vg-volume>
-          <vg-fullscreenButton></vg-fullscreenButton>
-        </vg-controls>
-      </videogular>
-      <a style="position: absolute; right: -.5em; top: .5em; z-index:999"
-         ng-click="removeMedia()" >
-        <span class="glyphicon glyphicon-remove"></span>
-      </a>
-    </div>
-  </div>
-  <hr/>
-  <div class="row">
-    <div teacher-lecture-keypoints
-         lecture="lecture"
-         key-points="course.$keyPoints"
-         category-id="course.categoryId"
-         media-api="mediaApi">
-    </div>
-  </div>
-  <hr/>
-  <div class="row">
-    <div teacher-lecture-questions
-         lecture="lecture"
-         library-questions="course.$libraryQuestions"
-         key-points="course.$keyPoints"
-         category-id="course.categoryId"></div>
-  </div>
+  </section>
 </div>

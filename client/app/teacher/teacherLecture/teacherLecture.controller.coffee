@@ -83,6 +83,12 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
+    removePPT: ->
+      $scope.lecture.slides = []
+      $scope.lecture.patch?(media: $scope.lecture.slides)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
+
     onThumbUploaded: (key) ->
       $scope.lecture.thumbnail = key
       $scope.lecture.patch?(thumbnail: $scope.lecture.thumbnail)
@@ -103,13 +109,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
 
-    onImagesUploaded: (keys) ->
-      $scope.lecture.slides =
-        _.union($scope.lecture.slides, _.map(keys, (key) -> thumb:key))
-      $scope.lecture.patch?(slides: $scope.lecture.slides)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
-
     onMediaUploaded: (key) ->
       $scope.lecture.media = key
       $scope.lecture.patch?(media: $scope.lecture.media)
@@ -125,7 +124,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       $scope.lecture.__v = newLecture.__v
 
   if $state.params.lectureId isnt 'new'
-    $scope.lecture = Restangular.one('lectures', $state.params.lectureId).get().$object
+    Restangular.one('lectures', $state.params.lectureId).get()
+    .then (lecture) ->
+      $scope.lecture = lecture
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->

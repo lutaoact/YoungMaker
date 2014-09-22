@@ -2,3 +2,107 @@
   padding: 0;
   margin: 0
 }
+.teacher {
+  .lecture-form {
+    .lecture-img-btn {
+      margin-left: -155px;
+      margin-top: 75px;
+      padding: 3px 8px 3px 8px;
+    }
+  }
+  .media-section {
+    padding-top: 0;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    background: #EBEBEB;
+  }
+  .lecture-slides-list {
+    -webkit-user-select: none;
+    -user-select: none;
+    -moz-user-select: none;
+    position:relative;
+    max-height: 450px;
+    overflow: auto;
+    margin: 0px;
+    .list-group-item {
+      border-left: none;
+    }
+  }
+  .lecture-video {
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 0px;
+    background: #ffffff;
+    &.lecture-video-empty {
+      border: 2px dashed #ccc;
+      height: 360px;
+      text-align: center;
+      .empty-video-desc {
+        margin-top: 100px;
+        font-size: 1.3em;
+        text-align: center;
+      }
+      .lecture-video-btn {
+        margin-top: 70px;
+        padding: 3px 8px 3px 8px;
+      }
+    }
+    .video-body {
+      margin: 0px;
+      padding: 0px;
+    }
+    .btn-group {
+      background: #5abda6;
+      border: 1px solid #5abda6;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      width: 100%;
+      padding: 4px;
+      .info {
+        padding-top: 5px;
+        font-size: 1.2em;
+        color: #ffffff;
+        text-indent: 10px;
+        font-weight: normal;
+      }
+    }
+  }
+  .lecture-ppt {
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 0px;
+    height: 520px;
+    background: #ffffff;
+    &.lecture-ppt-empty {
+      border: 2px dashed #ccc;
+      height: 360px;
+      text-align: center;
+      .empty-ppt-desc {
+        margin-top: 100px;
+        font-size: 1.3em;
+        text-align: center;
+      }
+      .lecture-ppt-btn {
+        margin-top: 70px;
+        padding: 3px 8px 3px 8px;
+      }
+    }
+    .btn-group {
+      background: #5abda6;
+      border: 1px solid #5abda6;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      width: 100%;
+      padding: 4px;
+      .info {
+        padding-top: 5px;
+        font-size: 1.2em;
+        color: #ffffff;
+        text-indent: 10px;
+        font-weight: normal;
+      }
+    }
+  }
+}

@@ -4,7 +4,9 @@ angular.module('budweiserApp').directive 'pptViewer', ->
   templateUrl: 'app/directives/pptViewer/pptViewer.html'
   restrict: 'AE'
   replace: true
-  scope: { slides: '=' }
+  scope:
+    slides: '='
+    currentIndex: '='
   link: (scope, element, attrs) ->
     scope.currentIndex = 0 # Initially the index is at the first silde
     scope.canPrev = false
@@ -26,6 +28,10 @@ angular.module('budweiserApp').directive 'pptViewer', ->
       else
         scope.currentIndex--
 
-    scope.$watch 'slides', (newValue, oldValue)->
+    scope.$watch 'slides', (newValue) ->
       if newValue? and newValue.length isnt 0
         scope.currentIndex = 0
+
+    scope.$watch 'currentIndex', (newIndex) ->
+      if newIndex >= 0 && newIndex < scope.slides.length - 1
+        scope.currentIndex = newIndex

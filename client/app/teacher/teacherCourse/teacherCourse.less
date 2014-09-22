@@ -175,13 +175,23 @@
         }
         .media-body {
           margin: 0px;
-          height: 65px;
+          padding: 0px 10px 0px 10px;
           border-top: none;
           border-left: none;
           border-right: none;
-          padding-top: 22px;
           font-size: 1.1em;
           font-weight: bold;
+          height: 65px;
+          label {
+            width: calc(~'100% - 60px');
+            padding-top: 22px;
+            height: 65px;
+            margin: 0px;
+            cursor: pointer;
+          }
+          .pull-right {
+            padding-top: 20px;
+          }
         }
         .btn-link {
           color: #555555;

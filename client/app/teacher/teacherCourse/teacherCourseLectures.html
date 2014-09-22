@@ -70,18 +70,20 @@
           </div>
           <a class="media-body list-group-item"
              ng-mouseover="overLecture=lecture"
-             ng-mouseleave="overLecture=undefined"
-             ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+             ng-mouseleave="overLecture=undefined">
+            <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
               {{lecture.name}}
-              <div class="pull-right" ng-show="overLecture==lecture">
-                <button type="button"
-                        class="btn btn-default drag-point glyphicon glyphicon-sort"
-                        draggable="true"></button>
-                <button type="button"
-                        class="btn btn-default glyphicon glyphicon-remove"
-                        ng-click="deleteLecture(lecture)">
-                </button>
-              </div>
+            </label>
+            <div class="pull-right"
+                 ng-show="overLecture==lecture">
+              <button type="button"
+                      class="btn btn-default drag-point glyphicon glyphicon-sort"
+                      draggable="true"></button>
+              <button type="button"
+                      class="btn btn-default glyphicon glyphicon-remove"
+                      ng-click="deleteLecture(lecture)">
+              </button>
+            </div>
           </a>
         </div>
       </div>

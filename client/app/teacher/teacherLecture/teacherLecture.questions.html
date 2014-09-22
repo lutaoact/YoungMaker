@@ -30,18 +30,17 @@
              class="bud checkbox-default pull-left">
       <span>编号</span><span>标题</span>
     </div>
-    <div ng-click="question.$expended=!question.$expended"
-         ng-repeat="question in getQuestions()">
-      <a href class="question-title list-group-item"
-         ng-class="{'active':question.$expended==true}">
+    <div ng-repeat="question in getQuestions()">
+      <div class="question-title list-group-item"
+           ng-class="{'expended':question.$expended==true}">
         <input type="checkbox"
-               class="bud checkbox-default pull-left"
+               class="bud checkbox-default title-select"
                ng-model="question.$selected">
-        <span class="index">{{$index+1}}</span>{{question.content.title}}
-        <i class="glyphicon glyphicon-remove pull-right"
-           ng-click="removeQuestion($index)">
-        </i>
-      </a>
+        <label class="title-info"
+               ng-click="question.$expended=!question.$expended">
+          <span class="index">{{$index+1}}</span>{{question.content.title}}
+        </label>
+      </div>
       <ul class="nav nav-pills nav-stacked list-group-item question-content"
           role="tablist"
           ng-if="question.$expended">

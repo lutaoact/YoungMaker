@@ -9,9 +9,6 @@
       margin-top: 75px;
       padding: 3px 8px 3px 8px;
     }
-    .media-object {
-      margin-right: -10px;
-    }
   }
   .title-hr {
     width: 25em;
@@ -132,7 +129,7 @@
     border: 1px solid @base-color;
     color: #ffffff;
     margin-top: 10px;
-    padding-right: 0px;
+    padding-right: 1px;
     padding-top: 0px;
     height: 45px;
     label {
@@ -141,7 +138,7 @@
       font-weight: normal;
     }
     .btn {
-      height: 45px;
+      height: 40px;
       width: 45px;
     }
   }
@@ -161,19 +158,38 @@
     }
   }
   .question-title {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-bottom: 0px;
+    padding: 0px;
+    margin: 0px;
     border-top: none;
-    input {
-      width: 8px;
+    height: 60px;
+    .title-info {
+      padding-top: 20px;
+      height: 60px;
+      margin: 0px;
+      width: calc(~'100% - 60px');
+    }
+    .title-select {
+      padding-right: 15px;
+      padding-left: 15px;
+      padding-top: 25px;
+      height: 60px;
+      width: 50px;
+      margin: 0px;
     }
     .index {
-      padding-left: 30px;
-      padding-right: 30px;
+      padding-right: 28px;
     }
-    &:active {
+    &.expended {
       color: #ffffff;
+      background: @base-color;
+      border-bottom: none;
+    }
+  }
+  .question-title:hover {
+    background: #f8f8f8;
+    &.expended {
+      color: #ffffff;
+      border-bottom: none;
       background: @base-color;
     }
   }

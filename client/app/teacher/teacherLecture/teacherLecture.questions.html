@@ -1,4 +1,4 @@
-<div class="list-group col-md-8 col-md-offset-2">
+<div class="list-group col-md-12">
   <div class="btn-group pull-right">
     <button class="btn-link"
             ng-click="addNewQuestion()">
@@ -9,26 +9,24 @@
       从题库中添加
     </button>
   </div>
-  <tabset>
+  <tabset class="bud">
     <tab heading="随堂练习" select="setQuestionType('quizzes')">
     </tab>
     <tab heading="课后作业" select="setQuestionType('homeworks')">
     </tab>
   </tabset>
   <div style="padding-top: 5px"></div>
-  <accordion>
-    <accordion-group ng-repeat="question in getQuestions()">
-      <accordion-heading >
-        <div>
-          <a class="btn-link">
-            {{question.content.title}}
-          </a>
-          <a class="glyphicon glyphicon-trash pull-right"
-             ng-click="removeQuestion($index)">
-          </a>
-        </div>
-      </accordion-heading>
-      <ul class="nav nav-pills nav-stacked" role="tablist">
+  <div class="list-group">
+    <div href
+         class="list-group-item"
+         ng-click="question.$expended=!question.$expended"
+         ng-repeat="question in getQuestions()">
+      <span class="text-muted">{{$index+1}}</span> {{question.content.title}} {{expendedIndex}}
+      <i class="glyphicon glyphicon-remove pull-right"
+         ng-click="removeQuestion($index)">
+      </i>
+      <ul class="nav nav-pills nav-stacked" role="tablist"
+          ng-if="question.$expended">
         <li ng-repeat="option in question.content.body"
             role="presentation">
           <a>
@@ -46,6 +44,6 @@
           </div>
         </li>
       </ul>
-    </accordion-group>
-  </accordion>
+    </div>
+  </div>
 </div>

@@ -1,13 +1,13 @@
 <div class="teacher-lecture">
   <section class="info-section">
-    <div class="container padding-top-20">
+    <div class="container">
       <h3 class="text-center">
         <a ui-sref="teacher.course({courseId:course._id})">{{course.name}}</a> / {{lecture.name}}
       </h3>
-      <hr/>
-      <h4 class="text-center">1/3 基本信息</h4>
-      <hr/>
-      <form class="form-horizontal media lecture-form" name="form" role="form">
+      <hr class="title-hr"/>
+      <h4 class="text-center">1/<label style="font-size: .7em;">3</label> 基本信息</h4>
+      <hr class="info-hr"/>
+      <div class="media lecture-form">
         <div class="media-object pull-left">
           <img src-key="lecture.thumbnail"
                suffix="?imageView2/2/w/210/h/210"
@@ -20,11 +20,9 @@
             上传封面
           </uploader>
         </div>
-        <div class="media-body">
+        <form class="media-body form-horizontal" name="form" role="form">
           <div class="form-group">
-            <div class="col-sm-2 control-label">
-              <label for="lecture-name">课时名称</label>
-            </div>
+            <label class="col-sm-2 control-label" for="lecture-name">课时名称</label>
             <div class="col-sm-10">
               <input class="form-control"
                      id="lecture-name"
@@ -38,9 +36,7 @@
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-2 control-label">
-              <label for="lecture-info">课时信息</label>
-            </div>
+            <label class="col-sm-2 control-label" for="lecture-info">课时信息</label>
             <div class="col-sm-10">
               <textarea class="form-control"
                         id="lecture-info"
@@ -60,19 +56,20 @@
               </button>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </section>
   <section class="media-section">
     <div class="container">
+      <br/>
+      <h4 class="text-center">2/<label style="font-size: .7em;">3</label> 视频和PPT</h4>
+      <hr class="info-hr"/>
       <tabset class="bud">
         <tab>
           <tab-heading>视频</tab-heading>
+          <br/>
           <div class="row">
-            <br/>
-            <h4 class="text-center">2/3 视频课件</h4>
-            <hr/>
             <div class="col-md-12 lecture-video lecture-video-empty"
                  ng-if="!lecture.media">
               <label class="empty-video-desc">目前没有视频，请添加</label>
@@ -138,10 +135,8 @@
         </tab>
         <tab>
           <tab-heading>PPT</tab-heading>
+          <br/>
           <div class="row">
-            <br/>
-            <h4 class="text-center">2/3 PPT课件</h4>
-            <hr/>
             <div class="col-md-12 lecture-ppt lecture-ppt-empty"
                  ng-if="!(lecture.slides.length > 0)">
               <label class="empty-ppt-desc">目前没有PPT，请添加</label>
@@ -204,16 +199,13 @@
   </section>
   <section class="question-section">
     <div class="container">
-      <div class="row">
-        <hr/>
-        <h4 class="text-center">3/3 随堂练习和课后作业</h4>
-        <hr/>
-        <div teacher-lecture-questions
-             lecture="lecture"
-             library-questions="course.$libraryQuestions"
-             key-points="course.$keyPoints"
-             category-id="course.categoryId"></div>
-      </div>
+      <h4 class="text-center">3/<label style="font-size: .7em;">3</label> 随堂练习和课后作业</h4>
+      <hr class="info-hr"/>
+      <div teacher-lecture-questions
+           lecture="lecture"
+           library-questions="course.$libraryQuestions"
+           key-points="course.$keyPoints"
+           category-id="course.categoryId"></div>
     </div>
   </section>
 </div>

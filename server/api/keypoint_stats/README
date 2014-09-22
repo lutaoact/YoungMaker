@@ -22,6 +22,8 @@
      courseStats的结构为：kpId: {kpId, total, correctNum: 0, percent: 0}
      courseSummary的结构为：{total, correctNum, percent}
 
+最终统计结果包括：每个lecture中每个kp的总数、答对数、比例，以及该lecture的整体统计结果。还有整个course层面，每个kp的统计以及整体统计结果。
+
      finalKPStats的结构为：
 {
   lectureId: {

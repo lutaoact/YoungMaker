@@ -1,12 +1,13 @@
-<section class="forum-header" id="forum-header">
+<div class="sub-nav">
   <div class="container">
-    <div class="forum-header-title clearfix">
-      讨论区/<span class="text-muted">{{course.name}}</span><span><i class="fa fa-comments base-color"></i></span>
-      
-    </div>
+    <ul class="pull-left">
+      <li>
+        <h3>讨论区<small>/{{course.name}}</small><i class="fa fa-comments base-color"></i></h3>
+      </li>
+    </ul>
   </div>
+</div>
 
-</section>
 <section class="topic-list-view body">
   <div class="container">
     <div class="row">
@@ -15,10 +16,10 @@
         </topic-list>
       </div>
       <div class="col-md-4">
-        <div class="view-section">
+        <div class="view-section all-tags">
           标签
           <hr>
-          <div class="tag" ng-repeat="tag in queryTags">{{tag.name}}</div>
+          <a href class="tag" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)">{{tag.name}}</a>
         </div>
       </div>
     </div>

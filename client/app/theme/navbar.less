@@ -211,30 +211,50 @@
 
 
 .sub-nav{
-  @sub-nav-height : 50px;
+  @sub-nav-height : 70px;
   ul, li{
     list-style: none;
     display: inline-block;
     margin: 0;
     padding-left: 0;
   }
-  li{
-    a{
-      position: relative;
-      display: block;
-      padding: 0 15px;
-    }
-    height: @sub-nav-height;
-    line-height: @sub-nav-height;
-    .btn-icon{
-      font-size: 30px;
+  ul{
+    li{
+      h3{
+        margin: 0;
+        font-size: 22px;
+        display: inline-block;
+        line-height: 70px;
+        vertical-align: middle;
+        small{
+          font-size: 80%;
+        }
+      }
+      a{
+        position: relative;
+        display: inline-block;
+        padding: 0 15px;
+      }
+      padding-right: 15px;
+      padding-left: 15px;
+      &:nth-child(1){
+        padding-left: 0px;
+      }
+      &:nth-last-child(1){
+        padding-right: 0px;
+      }
       height: @sub-nav-height;
-      width: @sub-nav-height;
       line-height: @sub-nav-height;
-      padding: 0;
-      &:hover{
-        color: white;
-        background: @base-color;
+      .btn-icon{
+        font-size: 30px;
+        height: @sub-nav-height;
+        width: @sub-nav-height;
+        line-height: @sub-nav-height;
+        padding: 0;
+        &:hover{
+          color: white;
+          background: @base-color;
+        }
       }
     }
   }

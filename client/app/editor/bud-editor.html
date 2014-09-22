@@ -5,7 +5,7 @@
     row="1"
     placeholder="请输入您要回复的内容..."
     ng-model="metadata.raw"
-    ng-focus="viewstate.editorActive = true"
+    ng-focus="setEditorActive()"
     ng-blur="setEditorInactive()">
   </textarea>
   <div class="bud-editor-tools" ng-show="viewstate.editorActive||metadata.images">

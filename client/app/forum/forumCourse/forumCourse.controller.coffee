@@ -108,6 +108,10 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
         courseId: $scope.course._id
         topicId: topic._id
 
+    searchByTag: (tag)->
+      console.log tag
+
+
     queryTags: undefined
 
   $q.all [

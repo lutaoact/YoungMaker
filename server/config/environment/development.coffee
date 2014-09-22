@@ -29,6 +29,7 @@ module.exports =
     acsBaseAddress: "https://wamsprodglobal001acs.accesscontrol.chinacloudapi.cn/v2/OAuth2-13"
     bjbAPIServerAddress: 'https://wamsshaclus001rest-hs.chinacloudapp.cn/API/'
     shaAPIServerAddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
+    signed_url_expires : 24 * 60 # in minutes
     defaultHeaders : (access_token)->
       Accept: 'application/json;odata=verbose'
       DataServiceVersion: '3.0'

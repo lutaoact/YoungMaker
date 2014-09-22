@@ -86,7 +86,10 @@ exports.AssetUtils = BaseUtils.subclass
       postQ {
         uri: config.azure.shaAPIServerAddress+'AccessPolicies'
         headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify {"Name": 'DownloadPolicy', "DurationInMinutes" : "300", "Permissions" : 1}
+        body:  JSON.stringify
+          "Name": 'DownloadPolicy',
+          "DurationInMinutes" : config.azure.signed_url_expires,
+          "Permissions" : 1
         strictSSL: true
       }
     .then (response) ->
@@ -106,7 +109,11 @@ exports.AssetUtils = BaseUtils.subclass
       }
     .then (response) ->
       console.log response[0].body
-      JSON.parse(response[0].body).d.Path.replace('?','/'+fileName+'?')
+      url = JSON.parse(response[0].body).d.Path.replace('?','/'+fileName+'?')
+      redisClient.q.set key, url, 'EX', (config.azure.signed_url_expires*60-60*60)
+      .then (result) ->
+        logger.info "Set #{key}:#{url} to redis"
+      return url
     .done (url) ->
       console.log url
       res.redirect url

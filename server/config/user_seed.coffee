@@ -1,7 +1,7 @@
 require '../common/init'
 
 orgId   = '333333333333333333333%03d'
-superId = 'ffffffffffff000000000%03d'
+superId = Const.SuperId
 name    = 'Student%s'
 email   = 'student@student%s.com'
 

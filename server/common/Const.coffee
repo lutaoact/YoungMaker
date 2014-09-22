@@ -27,5 +27,7 @@ Const =
     ViewLecture: 101 # start teaching view
     EditLecture: 102
 
+  SuperId: 'ffffffffffff000000000%03d'
+
 module?.exports = Const
 window?.Const = Const

@@ -6,6 +6,7 @@ angular.module('budweiserApp').directive 'pptViewer', ->
   replace: true
   scope:
     slides: '='
+    currentIndex: '='
   link: (scope, element, attrs) ->
     scope.currentIndex = 0 # Initially the index is at the first silde
     scope.canPrev = false

@@ -1,0 +1,57 @@
+知识点统计
+* 分三种情况执行：1，老师查看全部；2，老师查看指定学生；3，学生查看自己
+* 情况2和3调用相同的计算过程
+* 运算过程如下：
+   1、调用StatsUtils.getStatsStudentsNum取出学生人数，情况2和3返回的学生人数均为1
+   2、调用CourseUtils.getAuthedCourseById验证用户权限，取得course
+   3、从course中取得所有的课时安排lectureAssembly
+   4、循环所有课时，分别进行统计：
+     统计过程：
+     1、合并quiz和homework中的所有questionId，从Question中拿到所有的信息
+     2、利用StatsUtils.buildQKAsByQuestions生成QKA的数组[{questionId, kps, answer}]
+     3、QKAs => QKAMap，格式为{questionId: {questionId, kps, answer}}，便于查询
+     4、利用_.countBy得出kp出现频数的结构{kpId: count}
+     5、将kp频数结构转为初始化的统计结果结构：
+       resolveResult.stats = {kpId: {kpId, total, correctNum: 0, percent: 0}}
+     6、根据HomeworkAnswer和QuizAnswer的记录，执行统计过程
+       StatsUtils.updateCorrectNumForStats，更新了resolveResult.stats中的correctNum和percent
+     7、统计结果的数据结构为{lectureId, name, stats}
+   5、根据每个lecture统计的结果为一个数组statsArray: [{lectureId, name, stats}]
+   6、StatsUtils.buildFinalKPStats有计算summary的过程
+     statsArray的结构中增加了summary字段[{lectureId, name, stats, summary: {}}]
+     courseStats的结构为：kpId: {kpId, total, correctNum: 0, percent: 0}
+     courseSummary的结构为：{total, correctNum, percent}
+
+     finalKPStats的结构为：
+{
+  lectureId: {
+    lectureId,
+    name,
+    stats: {
+      kpId: {
+        kpId,
+        total,
+        correctNum,
+        percent
+      }
+    },
+    summary: {
+      total,
+      correctNum,
+      percent
+    }
+  },
+  stats: {
+    kpId: {
+      kpId,
+      total,
+      correctNum,
+      percent
+    }
+  },
+  summary: {
+    total,
+    correctNum,
+    percent
+  }
+}

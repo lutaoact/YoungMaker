@@ -15,6 +15,7 @@ angular.module('budweiserApp')
 
 .controller 'TeacherLectureQuestionsCtrl', (
   $scope
+  $state
   $modal
   Restangular
 ) ->
@@ -39,13 +40,18 @@ angular.module('budweiserApp')
       , ''
 
     addLibraryQuestion: ->
-      $modal.open
-        templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
-        controller: 'QuestionLibraryCtrl as ctrl'
-        resolve:
-          keyPoints: -> $scope.keyPoints
-          questions: -> $scope.libraryQuestions
-      .result.then addQuestion
+      $state.go('teacher.questionLibrary', {
+        courseId: $state.params.courseId
+        lectureId: $state.params.lectureId
+        questionType: $scope.questionType
+      })
+#      $modal.open
+#        templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
+#        controller: 'QuestionLibraryCtrl as ctrl'
+#        resolve:
+#          keyPoints: -> $scope.keyPoints
+#          questions: -> $scope.libraryQuestions
+#      .result.then addQuestion
 
     addNewQuestion: ->
       $modal.open

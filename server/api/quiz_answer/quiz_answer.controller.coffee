@@ -11,6 +11,7 @@
 QuizAnswer = _u.getModel 'quiz_answer'
 LectureUtils = _u.getUtils 'lecture'
 SocketUtils = _u.getUtils 'socket'
+Classe = _u.getModel 'classe'
 
 exports.index = (req, res, next) ->
   lectureId = req.query.lectureId
@@ -41,6 +42,21 @@ exports.index = (req, res, next) ->
         next err
     else
       res.send 404
+
+
+{StudentId, ClasseId, UserNum} = Const.Demo
+exports.clearDemo = (req, res, next) ->
+  QuizAnswer.removeQ
+    $and: [
+      userId: $gte: _s.sprintf StudentId, 0
+    ,
+      userId: $lte: _s.sprintf StudentId, UserNum - 1
+    ]
+  .then () ->
+    Classe.updateQ {_id: ClasseId}, {students: []}
+  .then () ->
+    res.send 200
+  , next
 
 
 exports.show = (req, res, next) ->

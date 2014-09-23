@@ -61,13 +61,18 @@ exports.show = (req, res, next) ->
   , (err) ->
     next err
 
-userCount = 0
-superId = Const.SuperId
+{StudentId, ClasseId, UserNum} = Const.Demo
 
 exports.demoUser = (req, res, next) ->
-  User.findByIdQ _s.sprintf superId, userCount++ % 1000#共1000个superId，循环利用
+  logger.info "global.demoUserCount: #{global.demoUserCount}"
+  currentId = _s.sprintf StudentId, global.demoUserCount++ % UserNum
+  tmpResult = {}
+  User.findByIdQ currentId
   .then (user) ->
-    res.send user
+    tmpResult.user = user
+    Classe.updateQ {_id: ClasseId}, {$addToSet: {students: user._id}}
+  .then () ->
+    res.send tmpResult.user
   , next
 
 

@@ -2,12 +2,12 @@
 require '../common/init'
 
 orgId   = '333333333333333333333999'
-{StudentId, TeacherId, ClasseId, CourseId} = Const.Demo
+{StudentId, TeacherId, ClasseId, CourseId, UserNum} = Const.Demo
 name    = 'Student%s'
 email   = 'student%s@cloud3edu.cn'
 
 module.exports =
-  user: (for i in [0..9]
+  user: (for i in [0...UserNum]
     _id: _s.sprintf StudentId, i
     provider: 'local'
     role: 'student'

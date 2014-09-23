@@ -1,6 +1,5 @@
 angular.module 'budweiserApp'
 .factory 'chartUtils', (Restangular,$q)->
-
   chartConfigs =
     # trend for quiz and homework
     trendChart:
@@ -267,18 +266,3 @@ angular.module 'budweiserApp'
 
     loadStats()
 
-.directive 'statsView', (chartUtils)->
-  restrict: 'E'
-  replace: true
-  scope:
-    courseId: '@'
-    studentId: '@'
-  templateUrl: 'components/charts/stats-view.html'
-  link: (scope, element, attr)->
-    scope.$watch 'courseId', (val)->
-      if val
-        chartUtils.genStatsOnScope scope, scope.courseId, scope.studentId
-
-    scope.$watch 'studentId', (val)->
-      if val
-        chartUtils.genStatsOnScope scope, scope.courseId, scope.studentId

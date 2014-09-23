@@ -1,6 +1,50 @@
 .teacher-stats .teacher-stats-subview{
   padding-left: 0;
   padding-right: 0;
+  .overall{
+    border: 1px solid @gray-lighter;
+    overflow: hidden;
+    .col-md-4, .col-md-8{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .student-info{
+      text-align: center;
+      height: 106px;
+      border-right: 1px solid @gray-lighter;
+      padding: 20px 33px;
+    }
+    .pies{
+      .col-md-4{
+        height: 106px;
+        position: relative;
+        text-align: center;
+        overflow: hidden;
+        .percentage{
+          position: absolute;
+          left: 50%;
+          margin-left: -13px;
+          top: 60px;
+        }
+      }
+      .bud-chart{
+        .translate3d(0,-10px,0);
+      }
+      .highcharts-title{
+        display: none;
+      }
+    }
+  }
+
+  .detail{
+    background: @gray-lighter;
+    padding: 50px;
+    .bud-chart{
+    }
+    hr{
+      border-top: 1px solid @gray-light;
+    }
+  }
 }
 .teacher-stats .student-list{
   padding-left: 0;

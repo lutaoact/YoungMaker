@@ -57,20 +57,25 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
 (
   $scope
   $state
+  chartUtils
 )->
   $scope.viewState.student = undefined
 
-  $scope.stateParams = $state.params
+  chartUtils.genStatsOnScope $scope, $state.params.courseId
 
 .controller 'TeacherCourseStatsStudentCtrl',
 (
   $scope
   $state
+  chartUtils
 )->
-  $scope.stateParams = $state.params
 
   $scope.$watch 'allStudents', (value)->
     if value
       $scope.viewState.student = value[$state.params.studentId]
       $scope.student = value[$state.params.studentId]
+
+  chartUtils.genStatsOnScope $scope, $state.params.courseId, $state.params.studentId
+
+
 

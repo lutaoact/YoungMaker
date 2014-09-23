@@ -1,48 +1,37 @@
-<div class="container-fluid teacher-teaching">
-  <div class="row">
-    <div class="col-md-12" style="z-index:1; height: 50px; margin-bottom: -50px">
-      <h3 style="text-align: center">
-        <a ui-sref="teacher.course({courseId:$state.params.courseId})">{{lecture.name}}</a>
-      </h3>
-      <div class="pull-right questions-button">
-        <button class="btn btn-primary question-btn"
-                ng-click="showMenu=!showMenu">
-          <i class="glyphicon glyphicon-align-justify fa-2x"></i>
-        </button>
-        <div class="questions-menu" ng-show="showMenu">
-          <div class="white-bg">
-            <div class="title" role="menuitem">
-              <h4>随堂练习</h4>
-              <span>目前共有{{lecture.quizzes.length}}个随堂问题</span>
-            </div>
-            <hr/>
-            <div ng-repeat="quizze in lecture.quizzes">
-              <a class="question list-group-item"
-                 ng-click="pushQuestion(quizze)">
-                <b>{{$index+1}}. {{quizze.content.title}}</b>
-              </a>
-            </div>
-          </div>
-        </ul>
+<div class="teacher-teaching">
+  <div class="sub-nav lecture-name">
+    <div class="container">
+      <ul class="pull-left">
+        <li>
+          <a class="btn btn-primary btn-md rounded"
+             ui-sref="teacher.course({courseId:course._id})"><i class="fa fa-arrow-left"></i></a>
+        </li>
+        <li>
+          <h3>课程主页<small>/{{course.name}}</small></h3>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="pull-right questions-button">
+    <button class="btn btn-primary question-btn"
+            ng-click="showMenu=!showMenu">
+      <i class="glyphicon glyphicon-align-justify fa-2x"></i>
+    </button>
+    <div class="questions-menu" ng-show="showMenu">
+      <div class="white-bg">
+        <div class="title" role="menuitem">
+          <h4>随堂练习</h4>
+          <span>目前共有{{lecture.quizzes.length}}个随堂问题</span>
+        </div>
+        <hr/>
+        <div ng-repeat="quizze in lecture.quizzes">
+          <a class="question list-group-item"
+             ng-click="pushQuestion(quizze)">
+            <b>{{$index+1}}. {{quizze.content.title}}</b>
+          </a>
+        </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12"
-         style="padding: 0px;">
-      <cool-projector disable-animation="true"
-                      style="width: 100%; height: 100%;">
-        <cool-frame ng-repeat="slide in lecture.slides"
-                    active="slide.$active">
-          <img src-key="slide.raw"
-               width="100%"
-               height="100%"
-               suffix="?imageView2/2/w/940/h/600">
-          <div class="carousel-caption">
-            <h4>第 {{$index+1}} 张</h4>
-          </div>
-        </cool-frame>
-      </cool-projector>
-    </div>
-  </div>
+  <div class="ppt" ppt-viewer current-index="currentIndex" slides="lecture.slides"></div>
 </div>

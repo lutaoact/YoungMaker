@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     $state: $state
     keyPoints: Restangular.all('key_points').getList().$object
     lecture: Restangular.one('lectures', $state.params.lectureId).get().$object
+    course: Restangular.one('courses', $state.params.courseId).get().$object
 
     pushQuestion: (quizze) ->
       $modal.open

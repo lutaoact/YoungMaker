@@ -16,6 +16,7 @@ Classe = _u.getModel 'classe'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 request = require 'request'
+request = request.defaults proxy: config.proxy if config.proxy?
 
 exports.index = (req, res, next) ->
   courseId = req.query.courseId

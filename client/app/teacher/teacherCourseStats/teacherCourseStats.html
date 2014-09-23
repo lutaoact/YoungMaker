@@ -1,64 +1,54 @@
 <div class="sub-nav">
   <div class="container">
-    <ul class="pull-left breadcrumb">
+    <ul class="pull-left bud breadcrumb">
       <li>
-        <a ui-sref="teacher.courseStats({courseid: course._id})">{{course.name}}</a>
+        <a ui-sref="teacher.courseStats.all({courseid: course._id})">{{course.name}}</a>
       </li>
-      <li>
-        <a ui-sref="teacher.courseStats({courseId: course._id,studentId:student.id})">{{student.name}}</a>
+      <li ng-show="viewState.student">
+        <a ui-sref="teacher.courseStats.student({courseId: course._id,studentId:viewState.student._id})">{{viewState.student.name}}</a>
       </li>
     </ul>
   </div>
 </div>
 
-<div ui-view class="fadeZoom teacher-stats-subview"></div>
+<div class="container teacher-stats">
+  <div class="row">
+    <div ui-view class="fadeZoom teacher-stats-subview col-md-9"></div>
 
-<div class="container">
-  <ul class="breadcrumb">
-    <li><a ui-sref="teacher.home">主页</a></li>
-    <li><a ui-sref="teacher.course({id:course._id})">{{course.title||'某讲座'}}</a></li>
-    <li class="active">统计</li>
-  </ul>
-  <section class="overall">
-    <div class="section_header">
-      <h3>总览</h3>
+    <div class="student-list col-md-3">
+      <div class="student-search-bar">
+        <div class="bud input-group search">
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input class="form-control" type="text" ng-model="viewState.query" placeholder="搜索学生姓名">
+        </div>
+      </div>
+
+      <div ng-repeat="classe in classes" class="classe">
+        <div ng-click="toggleClasse(classe)" class="classe-header">
+          <i class="fa base-color" ng-class="{'fa-caret-down': viewState.expandClasse == classe,'fa-caret-right':viewState.expandClasse != classe}"></i>
+          {{classe.yearGrade + ' ' + classe.name}}
+        </div>
+        <!-- 人数 -->
+        <div class="students" ng-show="viewState.expandClasse == classe">
+          <div ng-repeat="student in classe.$students" 
+            class="student clearfix" 
+            ui-sref="teacher.courseStats.student({courseId: course._id,studentId:student._id||student})"
+            ng-class="{'active':viewState.selectStudent == student}">
+            <div class="avatar-xs pull-left"
+              src-key="student.avatar"
+              suffix="?imageView2/1/w/64/h/64"
+              source-attr="background-image">
+            </div>
+            <div class="student-name pull-left">
+              {{student.name||student}}
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
     </div>
-    <div class="row">
-      <highchart config="quizStats" class="col-md-4"></highchart>
-      <highchart config="homeworkStats" class="col-md-4"></highchart>
-      <highchart config="keypointStats" class="col-md-4"></highchart>
-    </div>
-  </section>
-
-  <section class="trend">
-    <div class="section_header">
-      <h3>趋势</h3>
-    </div>
-    <div class="row">
-      <highchart config="trendChart" class="col-sm-12"></highchart>
-    </div>
-    <!-- <div class="row">
-      <highchart config="chartConfigs.scatterChart" class="col-sm-12"></highchart>
-    </div> -->
-  </section>
-
-  <section class="keypoints">
-    <div class="section_header">
-      <h3>知识点统计</h3>
-    </div>
-    <div class="row">
-      <highchart config="keypointBarChart" class="col-sm-12"></highchart>
-    </div>
-  </section>
-
-
-  <section class="user-stat">
-
-  </section>
-
- <!--  <section class="question-stat">
-    <highchart config="chartConfigs.questionChart" class="col-sm-12"></highchart>
-  </section> -->
+  </div>
+  
 
 </div>
-

@@ -1,6 +1,7 @@
 global._  = require 'lodash'
 global._s = require 'underscore.string'
 global.socketMap = {}
+global.demoUserCount = 0
 global._u = require './util'
 global.ErrCode = require './ErrCode'
 

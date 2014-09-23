@@ -12,6 +12,57 @@
       </ul>
     </div>
   </div>
+  <div class="ppt-group"
+       ng-show="!showVideo"
+       ppt-viewer
+       current-index="currentIndex"
+       slides="lecture.slides"></div>
+  <div class="ppt-all" ng-show="showAllPPT">
+    <div class="container" ng-click="togglePPT()">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-md-3 col-lg-3 col-sm-4"
+               ng-click="changeCurrentIndex($index)"
+               ng-repeat="slide in lecture.slides">
+            <img src-key="slide.thumb"
+                 class="ppt-img"
+                 ng-class="{'active':$index==currentIndex}"
+                 suffix="?imageView2/2/w/80/h/80"
+                 height="200"
+                 width="200">
+            <label class="ppt-index">{{$index+1}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="video-group" ng-if="showVideo">
+    <videogular class="video-content">
+      <video class="video-content" src-key="lecture.media"></video>
+      <vg-poster-image></vg-poster-image>
+      <vg-buffering></vg-buffering>
+      <vg-overlay-play></vg-overlay-play>
+      <vg-controls class="video-ctrl">
+        <vg-play-pause-button></vg-play-pause-button>
+        <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+        <vg-scrubBar>
+          <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+        </vg-scrubBar>
+        <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+        <vg-volume>
+          <vg-mutebutton></vg-mutebutton>
+          <vg-volumebar></vg-volumebar>
+        </vg-volume>
+        <vg-fullscreenButton></vg-fullscreenButton>
+        <div class="video-btn">
+          <button class="btn btn-primary"
+                  ng-click="toggleVideo()">
+            <i class="fa fa-file-powerpoint-o fa-2x"></i>
+          </button>
+        </div>
+      </vg-controls>
+    </videogular>
+  </div>
   <div class="pull-right questions-button">
     <button class="btn btn-primary question-btn"
             ng-click="showMenu=!showMenu">
@@ -20,18 +71,38 @@
     <div class="questions-menu" ng-show="showMenu">
       <div class="white-bg">
         <div class="title" role="menuitem">
-          <h4>随堂练习</h4>
+          <h3>随堂练习</h3>
           <span>目前共有{{lecture.quizzes.length}}个随堂问题</span>
         </div>
         <hr/>
-        <div ng-repeat="quizze in lecture.quizzes">
-          <a class="question list-group-item"
-             ng-click="pushQuestion(quizze)">
-            <b>{{$index+1}}. {{quizze.content.title}}</b>
-          </a>
+        <div class="questions-group">
+          <div ng-repeat="quizze in lecture.quizzes">
+            <a class="question list-group-item"
+               ng-click="pushQuestion(quizze)">
+              <b>{{$index+1}}. {{quizze.content.title}}</b>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="ppt" ppt-viewer current-index="currentIndex" slides="lecture.slides"></div>
+  <div class="pull-right tools-button" ng-show="!showVideo">
+    <button class="btn btn-primary tool-btn"
+            ng-class="{'active':showVideo}"
+            ng-click="toggleVideo()">
+      <i class="glyphicon glyphicon-film fa-2x"></i>
+    </button>
+    <span class="split-v"/>
+    <button class="btn btn-primary tool-btn"
+            ng-class="{'active':showAllPPT}"
+            ng-click="togglePPT()">
+      <i class="glyphicon glyphicon-th fa-2x"></i>
+    </button>
+    <span class="page-num">
+      <input class="page-current"
+             type="number"
+             ng-model="currentNum"
+             ng-change="changeCurrentIndex(currentNum-1)"/>/<span class="page-total">{{lecture.slides.length}}</span>
+    </span>
+  </div>
 </div>

@@ -11,6 +11,7 @@
 QuizAnswer = _u.getModel 'quiz_answer'
 LectureUtils = _u.getUtils 'lecture'
 SocketUtils = _u.getUtils 'socket'
+Classe = _u.getModel 'classe'
 
 exports.index = (req, res, next) ->
   lectureId = req.query.lectureId

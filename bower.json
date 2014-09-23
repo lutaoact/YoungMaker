@@ -77,13 +77,7 @@
         "rangy-highlighter.js",
         "rangy-selectionsaverestore.js",
         "rangy-serializer.js",
-        "rangy-textrange.js",
-        "rangy-core.min.js",
-        "rangy-classapplier.min.js",
-        "rangy-highlighter.min.js",
-        "rangy-selectionsaverestore.min.js",
-        "rangy-serializer.min.js",
-        "rangy-textrange.min.js"
+        "rangy-textrange.js"
       ]
     }
   },

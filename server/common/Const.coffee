@@ -1,3 +1,4 @@
+console.log "##########{process.env.NODE_ENV}**********"
 Const =
   NoticeType:
     TopicVoteUp: 1
@@ -27,7 +28,12 @@ Const =
     ViewLecture: 101 # start teaching view
     EditLecture: 102
 
-  SuperId: 'ffffffffffff000000000%03d'
+  Demo:
+    StudentId: 'ffffffffffff000000000%03d'
+    TeacherId: 'ffffffffffff000000001000'
+    ClasseId:  'ffffffffffff000000010000'
+    CourseId:  'ffffffffffff000000100000'
+    UserNum: if process.env.NODE_ENV is 'development' then 10 else 1000
 
 module?.exports = Const
 window?.Const = Const

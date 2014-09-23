@@ -479,5 +479,3 @@ module.exports =
   ]
 
 require('./seed') module.exports
-#console.log module.exports.question[0]
-#console.log module.exports.question[0].content

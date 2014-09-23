@@ -37,6 +37,7 @@ module.exports = (app) ->
   app.use '/api/progresses', require './api/progress'
   app.use '/api/schools', require './api/school'
   app.use '/api/schedules', require './api/schedule'
+  app.use '/api/demo', require './api/demo'
   app.use '/auth', require './auth'
   app.use errorHandler
 

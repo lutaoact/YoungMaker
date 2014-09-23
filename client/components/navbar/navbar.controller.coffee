@@ -43,7 +43,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
 
     generateAdditionalMenu: ()->
       switch true
-        when /^(teacher|forum|student).(course|lecture|topic)/.test $state.current.name
+        when /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
           $scope.additionalMenu = [
             {
               title: '课程主页'
@@ -72,7 +72,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
             }
             {
               title: '统计'
-              link: "teacher.courseStats({courseId:'#{$state.params.courseId}'})"
+              link: "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
               role: 'teacher'
             }
           ]
@@ -80,7 +80,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
           $scope.additionalMenu = []
 
     decideNavColor: ()->
-      $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic)/.test $state.current.name
+      $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
 
   $scope.generateAdditionalMenu()
   $scope.decideNavColor()

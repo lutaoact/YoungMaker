@@ -21,8 +21,10 @@ angular.module('budweiserApp').config ($stateProvider) ->
   .state 'teacher.courseStats.all',
     url: ''
     templateUrl:'app/teacher/teacherCourseStats/teacherCourseStats.all.html'
+    controller: 'TeacherCourseStatsMainCtrl'
     # controller: 'TeacherCourseStatsCtrl'
 
   .state 'teacher.courseStats.student',
     url: '/students/:studentId'
     templateUrl:'app/teacher/teacherCourseStats/teacherCourseStats.student.html'
+    controller: 'TeacherCourseStatsStudentCtrl'

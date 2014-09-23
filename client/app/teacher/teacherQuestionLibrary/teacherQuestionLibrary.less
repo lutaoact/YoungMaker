@@ -1,0 +1,39 @@
+.teacher-question-library {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  min-height: 400px;
+  background: #EBEBEB;
+  .question-search {
+    display: inline-block;
+    border-radius: 15px;
+    width: calc(~'100% - 150px');
+  }
+  .tags-search {
+    padding-bottom: 20px;
+  }
+  .search-group {
+    hr {
+      margin-top: 10px;
+      border-top-color: #888889;
+    }
+  }
+  .tags-list {
+    .tags-title {
+      font-size: 1.5em;
+      height: 34px;
+      padding: 0px;
+      margin: 0px;
+    }
+    padding: 0px 0px 0px 50px;
+    hr {
+      margin-top: 10px;
+      border-top-color: #888889;
+    }
+  }
+  .key-point {
+    cursor: pointer;
+    &.selected {
+      background: @base-color;
+    }
+  }
+}

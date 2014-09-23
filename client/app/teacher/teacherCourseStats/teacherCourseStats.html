@@ -33,7 +33,7 @@
           <div ng-repeat="student in classe.$students" 
             class="student clearfix" 
             ui-sref="teacher.courseStats.student({courseId: course._id,studentId:student._id||student})"
-            ng-class="{'active':viewState.selectStudent == student}">
+            ng-class="{'active':viewState.student == student}">
             <div class="avatar-xs pull-left"
               src-key="student.avatar"
               suffix="?imageView2/1/w/64/h/64"

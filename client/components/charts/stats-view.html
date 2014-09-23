@@ -1,0 +1,54 @@
+<div class="stats-view">
+  <div class="overall clearfix">
+    <div class="col-md-4 clearfix student-info">
+      <div class="avatar-lg pull-left"
+        src-key="student.avatar"
+        source-attr="background-image"
+        suffix="?imageView2/1/w/64/h/64">
+      </div>
+      <h4>
+        {{student.name}}<br/>
+        <small>
+          {{student.$classeInfo.yearGrade + ' ' + student.$classeInfo.name}}
+        </small>
+      </h4>
+    </div>
+    <div class="col-md-8 pies clearfix">
+      <div class="col-md-4">
+        <h6>随堂问题正确率</h6>
+        <highchart config="quizStats" class="bud-chart"></highchart>
+        <div class="percentage">{{quizStats.series[0].data[0].y}}<sup>%</sup></div>
+      </div>
+      <div class="col-md-4">
+        <h6>课后习题正确率</h6>
+        <highchart config="homeworkStats" class="bud-chart"></highchart>
+        <div class="percentage">{{homeworkStats.series[0].data[0].y}}<sup>%</sup></div>
+      </div>
+      <div class="col-md-4">
+        <h6>知识点掌握程度</h6>
+        <highchart config="keypointStats" class="bud-chart"></highchart>
+        <div class="percentage">{{keypointStats.series[0].data[0].y}}<sup>%</sup></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail clearfix">
+    <tabset class="trend">
+      <tab heading="随堂问题">
+        <highchart config="quizTrendChart" class="bud-chart"></highchart>
+      </tab>
+      <tab heading="课后习题">
+        <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
+      </tab>
+    </tabset>
+
+    <hr>
+    
+    <div class="keypoints">
+      <highchart config="keypointBarChart" class="bud-chart"></highchart>
+    </div>
+  </div>
+</div>
+
+
+

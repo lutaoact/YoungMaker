@@ -61,21 +61,6 @@ exports.show = (req, res, next) ->
   , (err) ->
     next err
 
-{StudentId, ClasseId, UserNum} = Const.Demo
-
-exports.demoUser = (req, res, next) ->
-  logger.info "global.demoUserCount: #{global.demoUserCount}"
-  currentId = _s.sprintf StudentId, global.demoUserCount++ % UserNum
-  tmpResult = {}
-  User.findByIdQ currentId
-  .then (user) ->
-    tmpResult.user = user
-    Classe.updateQ {_id: ClasseId}, {$addToSet: {students: user._id}}
-  .then () ->
-    res.send tmpResult.user
-  , next
-
-
 ###
   Get a single user by email
 ###

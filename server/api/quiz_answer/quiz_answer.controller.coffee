@@ -44,21 +44,6 @@ exports.index = (req, res, next) ->
       res.send 404
 
 
-{StudentId, ClasseId, UserNum} = Const.Demo
-exports.clearDemo = (req, res, next) ->
-  QuizAnswer.removeQ
-    $and: [
-      userId: $gte: _s.sprintf StudentId, 0
-    ,
-      userId: $lte: _s.sprintf StudentId, UserNum - 1
-    ]
-  .then () ->
-    Classe.updateQ {_id: ClasseId}, {students: []}
-  .then () ->
-    res.send 200
-  , next
-
-
 exports.show = (req, res, next) ->
   answerId = req.params.id
   role = req.user.role

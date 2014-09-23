@@ -6,14 +6,14 @@ QuizAnswer = _u.getModel 'quiz_answer'
 SocketUtils = _u.getUtils 'socket'
 
 exports.index = (req, res, next) ->
-  categoryId = req.query.categoryId
   user = req.user
 
   conditions = orgId: user.orgId
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
   if req.query.keyPointIds?
-    conditions.keyPoints = {$in: JSON.parse req.query.keyPointIds}
+    keyPointIds = JSON.parse req.query.keyPointIds
+    conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
   if req.query.keyword?
     keyword = req.query.keyword
     regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
@@ -25,7 +25,9 @@ exports.index = (req, res, next) ->
 
   logger.info conditions
 
-  Question.findQ conditions
+  Question.find conditions
+  .populate 'keyPoints', '_id name'
+  .execQ()
   .then (questions) ->
     res.send questions
   , (err) ->

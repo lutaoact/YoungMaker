@@ -26,7 +26,9 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
 
     classes: Classes
 
-    allStudents: undefined
+    allStudentsDict: undefined
+
+    allStudentsArray: []
 
     viewState: {}
 
@@ -37,18 +39,17 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         @viewState.expandClasse = classe
 
     loadStudents: ->
-      allStudents = []
       $q.all($scope.classes.map (classe)->
         classe.all('students').getList()
         .then (students)->
-          allStudents = allStudents.concat students
+          $scope.allStudentsArray = $scope.allStudentsArray.concat students
           students.forEach (student)->
             student.$classeInfo =
               name: classe.name
               yearGrade: classe.yearGrade
           classe.$students = students
       ).then ->
-        $scope.allStudents = _.indexBy allStudents, '_id'
+        $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
 
   loadCourse()
   $scope.loadStudents()
@@ -70,7 +71,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   chartUtils
 )->
 
-  $scope.$watch 'allStudents', (value)->
+  $scope.$watch 'allStudentsDict', (value)->
     if value
       $scope.viewState.student = value[$state.params.studentId]
       $scope.student = value[$state.params.studentId]

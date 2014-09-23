@@ -20,103 +20,20 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
     .then (course)->
       $scope.course = course
 
-  loadQuizStats = ()->
-    Restangular.one('quiz_stats','').get(courseId:$state.params.courseId)
-    .then (result)->
-      result.$text = '随堂问题'
-      $scope.quizStats = angular.copy(chartConfigs.pieChart)
-      $scope.quizStats.series[0].data = [
-        {
-          name:'正确'
-          y: result.summary.percent
-          color: Highcharts.getOptions().colors[2]
-        }
-        {
-          name:'错误'
-          y: 100 - result.summary.percent
-          color: Highcharts.getOptions().colors[5]
-        }]
-      $scope.quizStats.title =
-        text: result.$text
-      result
-
-  loadHomeworkStats = ()->
-    Restangular.one('homework_stats','').get(courseId:$state.params.courseId)
-    .then (result)->
-      console.log result
-      result.$text = '课后习题'
-      $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
-      $scope.homeworkStats.series[0].data = [
-        {
-          name:'正确'
-          y: result.summary.percent
-          color: Highcharts.getOptions().colors[2]
-        }
-        {
-          name:'错误'
-          y: 100 - result.summary.percent
-          color: Highcharts.getOptions().colors[5]
-        }]
-      $scope.homeworkStats.title =
-        text: result.$text
-      result
-
-  loadKeypointStats = ()->
-    Restangular.one('keypoint_stats','').get(courseId:$state.params.courseId)
-    .then (result)->
-      result.$text = '知识点掌握程度'
-      $scope.keypointStats = angular.copy chartConfigs.pieChart
-      $scope.keypointStats.series[0].data = [
-        {
-          name:'掌握'
-          y: result.summary.percent
-          color: Highcharts.getOptions().colors[2]
-        }
-        {
-          name:'未掌握'
-          y: 100 - result.summary.percent
-          color: Highcharts.getOptions().colors[5]
-        }
-      ]
-      $scope.keypointStats.title =
-        text: result.$text
-      result
-    , (err)->
-      console.log err
-
-  loadKeypoints = ()->
-    Restangular.all('key_points').getList(courseId: $state.params.courseId)
-    .then (result)->
-      $scope.keypoints = result
-
-  loadLectures = ()->
-    Restangular.all('lectures').getList(courseId:$state.params.courseId)
-
-  loadStats = ->
-    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures(), loadKeypoints()])
-    .then (results)->
-      # fill the trend chart
-      $scope.trendChart = angular.copy chartConfigs.trendChart
-      $scope.trendChart.xAxis.categories = _.pluck results[3], 'name'
-      $scope.trendChart.series = results.slice(0,2).map (stats, index)->
-        name: stats.$text
-        data: results[3].map (lecture)->
-          stats[lecture._id]?.percent ? 0
-      # fill the key points
-      keypointsMap = _.indexBy $scope.keypoints, '_id'
-
-      $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
-      $scope.keypointBarChart.xAxis.categories = _.map results[2].stats, (item, index)->
-        keypointsMap[index]?.name
-      $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
-
   chartConfigs =
     # trend for quiz and homework
     trendChart:
       options:
+        # hide legend
+        legend:
+          enabled: false
         chart:
           type: 'line'
           zoomType: 'x'
+          height: 230
+        # Hide watermark
+        credits:
+          enabled: false
         tooltip:
           valueSuffix: '%'
       series: [
@@ -124,7 +41,6 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
       xAxis:
         title:
           text: '课时'
-
       yAxis:
         title:
           text: '百分率(%)'
@@ -135,12 +51,22 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         }]
         max: 100
         min: 0
+        tickInterval: 25
       title:
-        text: ''
+        text: null
 
     # Pie Chart template
     pieChart:
       options:
+        chart:
+          type: 'pie'
+          height: 100
+        # hide legend
+        legend:
+          enabled: false
+        # hide exporting
+        exporting:
+          enabled: false
         # Hide watermark
         credits:
           enabled: false
@@ -158,8 +84,8 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         {
           type:'pie'
           name:'百分率'
-          size: '70%'
-          innerSize: '60%'
+          size: '100%'
+          innerSize: '95%'
           data: []
         }
       ]
@@ -200,7 +126,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         }
       ]
       title:
-        text: '问答统计'
+        text: null
       subtitle:
         text: 'Click the columns to view answer detail.'
 
@@ -210,7 +136,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
           type: 'scatter'
           zoomType: 'xy'
       title:
-        text: '观看分布'
+        text: null
       xAxis:
         title:
           enabled: true
@@ -235,7 +161,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         credits:
           enabled: false
         chart:
-          type: 'column'
+          type: 'bar'
         legend:
           enabled: false
         plotOptions:
@@ -243,7 +169,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
             borderWidth: 0
             dataLabels:
               enabled: true
-          column:
+          bar:
             cursor: 'pointer'
       xAxis:
         type: 'category'
@@ -251,20 +177,18 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
       yAxis:
         max: 100
         min: 0
+        tickInterval: 25
       series: [
         {
           name:'掌握度'
-          colorByPoint: true
         }
       ]
       title:
-        text: '知识点统计'
+        text: ''
 
   angular.extend $scope,
 
     chartConfigs: chartConfigs
-
-    quizStats: undefined
 
     course: undefined
 
@@ -286,23 +210,237 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
         classe.all('students').getList()
         .then (students)->
           allStudents = allStudents.concat students
+          students.forEach (student)->
+            student.$classeInfo =
+              name: classe.name
+              yearGrade: classe.yearGrade
           classe.$students = students
       ).then ->
         $scope.allStudents = _.indexBy allStudents, '_id'
 
-  loadStats()
   loadCourse()
   $scope.loadStudents()
 
-.controller 'TeacherCourseStatsMainCtrl', ($scope, $state)->
+.controller 'TeacherCourseStatsMainCtrl',
+(
+  $scope
+  $state
+  Categories
+  $rootScope
+  Restangular
+  $q
+)->
   $scope.viewState.student = undefined
 
-.controller 'TeacherCourseStatsStudentCtrl', ($scope, $state)->
+  loadQuizStats = ()->
+    Restangular.one('quiz_stats','').get(courseId:$state.params.courseId)
+    .then (result)->
+      result.$text = '随堂问题'
+      $scope.quizStats = angular.copy($scope.chartConfigs.pieChart)
+      $scope.quizStats.series[0].data = [
+        {
+          name:'正确'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'错误'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }]
+      result
+
+  loadHomeworkStats = ()->
+    Restangular.one('homework_stats','').get(courseId:$state.params.courseId)
+    .then (result)->
+      console.log result
+      result.$text = '课后习题'
+      $scope.homeworkStats = angular.copy($scope.chartConfigs.pieChart)
+      $scope.homeworkStats.series[0].data = [
+        {
+          name:'正确'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'错误'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }]
+      result
+
+  loadKeypointStats = ()->
+    Restangular.one('keypoint_stats','').get(courseId:$state.params.courseId)
+    .then (result)->
+      result.$text = '知识点掌握程度'
+      $scope.keypointStats = angular.copy $scope.chartConfigs.pieChart
+      $scope.keypointStats.series[0].data = [
+        {
+          name:'掌握'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'未掌握'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }
+      ]
+
+      result
+    , (err)->
+      console.log err
+
+  loadKeypoints = ()->
+    Restangular.all('key_points').getList(courseId: $state.params.courseId)
+    .then (result)->
+      $scope.keypoints = result
+
+  loadLectures = ()->
+    Restangular.all('lectures').getList(courseId:$state.params.courseId)
+
+  loadStats = ->
+    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures(), loadKeypoints()])
+    .then (results)->
+      # fill the trend chart
+      $scope.quizTrendChart = angular.copy $scope.chartConfigs.trendChart
+      $scope.quizTrendChart.xAxis.categories = _.pluck results[3], 'name'
+      $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
+        name: stats.$text
+        data: results[3].map (lecture)->
+          stats[lecture._id]?.percent ? 0
+
+      $scope.homeworkTrendChart = angular.copy $scope.chartConfigs.trendChart
+      $scope.homeworkTrendChart.xAxis.categories = _.pluck results[3], 'name'
+      $scope.homeworkTrendChart.series = results.slice(1,2).map (stats, index)->
+        name: stats.$text
+        data: results[3].map (lecture)->
+          stats[lecture._id]?.percent ? 0
+
+      # fill the key points
+      keypointsMap = _.indexBy $scope.keypoints, '_id'
+
+      $scope.keypointBarChart = angular.copy $scope.chartConfigs.verticalBarChart
+      $scope.keypointBarChart.xAxis.categories = _.map results[2].stats, (item, index)->
+        keypointsMap[index]?.name
+      $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
+      $scope.keypointBarChart.title =
+        text: '知识点掌握程度统计'
+  loadStats()
+
+.controller 'TeacherCourseStatsStudentCtrl',
+(
+  $scope
+  $state
+  Categories
+  $rootScope
+  Restangular
+  $q
+)->
 
   $scope.$watch 'allStudents', (value)->
     if value
       $scope.viewState.student = value[$state.params.studentId]
       $scope.student = value[$state.params.studentId]
+
+  loadQuizStats = ()->
+    Restangular.one('quiz_stats','').get({courseId:$state.params.courseId,studentId:$state.params.studentId})
+    .then (result)->
+      result.$text = '随堂问题'
+      $scope.quizStats = angular.copy($scope.chartConfigs.pieChart)
+      $scope.quizStats.series[0].data = [
+        {
+          name:'正确'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'错误'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }]
+      result
+
+  loadHomeworkStats = ()->
+    Restangular.one('homework_stats','').get({courseId:$state.params.courseId,studentId:$state.params.studentId})
+    .then (result)->
+      console.log result
+      result.$text = '课后习题'
+      $scope.homeworkStats = angular.copy($scope.chartConfigs.pieChart)
+      $scope.homeworkStats.series[0].data = [
+        {
+          name:'正确'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'错误'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }]
+      result
+
+  loadKeypointStats = ()->
+    Restangular.one('keypoint_stats','').get({courseId:$state.params.courseId,studentId:$state.params.studentId})
+    .then (result)->
+      result.$text = '知识点掌握程度'
+      $scope.keypointStats = angular.copy $scope.chartConfigs.pieChart
+      $scope.keypointStats.series[0].data = [
+        {
+          name:'掌握'
+          y: result.summary.percent
+          color: Highcharts.getOptions().colors[2]
+        }
+        {
+          name:'未掌握'
+          y: 100 - result.summary.percent
+          color: Highcharts.getOptions().colors[5]
+        }
+      ]
+
+      result
+    , (err)->
+      console.log err
+
+  loadKeypoints = ()->
+    Restangular.all('key_points').getList(courseId: $state.params.courseId)
+    .then (result)->
+      $scope.keypoints = result
+
+  loadLectures = ()->
+    Restangular.all('lectures').getList(courseId:$state.params.courseId)
+
+  loadStats = ->
+    $q.all([loadQuizStats(), loadHomeworkStats(), loadKeypointStats(), loadLectures(), loadKeypoints()])
+    .then (results)->
+      # fill the trend chart
+
+      $scope.quizTrendChart = angular.copy $scope.chartConfigs.trendChart
+      $scope.quizTrendChart.xAxis.categories = _.pluck results[3], 'name'
+      $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
+        name: stats.$text
+        data: results[3].map (lecture)->
+          stats[lecture._id]?.percent ? 0
+
+      $scope.homeworkTrendChart = angular.copy $scope.chartConfigs.trendChart
+      $scope.homeworkTrendChart.xAxis.categories = _.pluck results[3], 'name'
+      $scope.homeworkTrendChart.series = results.slice(1,2).map (stats, index)->
+        name: stats.$text
+        data: results[3].map (lecture)->
+          stats[lecture._id]?.percent ? 0
+
+
+      # fill the key points
+      keypointsMap = _.indexBy $scope.keypoints, '_id'
+
+      $scope.keypointBarChart = angular.copy $scope.chartConfigs.verticalBarChart
+      $scope.keypointBarChart.xAxis.categories = _.map results[2].stats, (item, index)->
+        keypointsMap[index]?.name
+      $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
+      $scope.keypointBarChart.title =
+        text: '知识点掌握程度统计'
+
+  loadStats()
 
 
 

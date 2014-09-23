@@ -66,7 +66,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
     removePPT: ->
       $scope.lecture.slides = []
-      $scope.lecture.patch?(media: $scope.lecture.slides)
+      $scope.lecture.patch?(slides: $scope.lecture.slides)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 

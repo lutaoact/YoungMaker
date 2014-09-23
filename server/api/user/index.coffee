@@ -14,6 +14,7 @@ router.post '/resetpassword', controller.reset
 router.put '/:id/password', auth.isAuthenticated(), controller.changePassword
 router.put '/:id', auth.isAuthenticated(), controller.update
 router.patch '/:id', auth.isAuthenticated(), controller.update
+router.get '/demo', auth.isAuthenticated(), controller.demoUser
 router.get '/:id', auth.isAuthenticated(), controller.show
 router.post '/', controller.create
 router.post '/bulk', controller.bulkImport

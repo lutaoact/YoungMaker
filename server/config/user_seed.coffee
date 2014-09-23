@@ -3,7 +3,9 @@ require '../common/init'
 orgId   = '333333333333333333333%03d'
 superId = Const.SuperId
 name    = 'Student%s'
-email   = 'student@student%s.com'
+email   = 'student%s@cloud3edu.cn'
+
+User = _u.getModel 'user'
 
 module.exports =
   user: (for i in [0..999]
@@ -17,5 +19,8 @@ module.exports =
     avatar: 'http://lorempixel.com/128/128/people/4'
   )
 
-#console.log module.exports
-require('./seed') module.exports
+User.createQ module.exports.user
+.then (users) ->
+  console.log users.length
+  console.log 'load data success'
+, console.error

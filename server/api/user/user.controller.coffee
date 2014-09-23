@@ -61,6 +61,16 @@ exports.show = (req, res, next) ->
   , (err) ->
     next err
 
+userCount = 0
+superId = Const.SuperId
+
+exports.demoUser = (req, res, next) ->
+  User.findByIdQ _s.sprintf superId, userCount++ % 1000#共1000个superId，循环利用
+  .then (user) ->
+    res.send user
+  , next
+
+
 ###
   Get a single user by email
 ###

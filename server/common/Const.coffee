@@ -1,4 +1,3 @@
-console.log "##########{process.env.NODE_ENV}**********"
 Const =
   NoticeType:
     TopicVoteUp: 1
@@ -33,7 +32,7 @@ Const =
     TeacherId: 'ffffffffffff000000001000'
     ClasseId:  'ffffffffffff000000010000'
     CourseId:  'ffffffffffff000000100000'
-    UserNum: if process.env.NODE_ENV is 'development' then 10 else 1000
+    UserNum: if process?.env?.NODE_ENV is 'development' then 10 else 1000
 
 module?.exports = Const
 window?.Const = Const

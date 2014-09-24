@@ -26,7 +26,9 @@ log4js.configure
     layout      : 
       type      : 'pattern'
       pattern   : "%d{ISO8601} %x{filename} %[%-5p%] - %c %m"
-    category    : 'BUDWEISER'
+      tokens    :
+        filename: getCallerFile
+    category    : '[BUDWEISER]'
   ]
   
 logger = log4js.getLogger '[BUDWEISER]'

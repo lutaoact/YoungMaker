@@ -21,7 +21,7 @@ angular.module('budweiserApp').service 'socket', (
           type: 'beat'
           token: $cookieStore.get('token') if $cookieStore.get('token')
         socket.send JSON.stringify beat
-      , 3 * 1000
+      , 5 * 60 * 1000 #server 10 分钟检查一次
 
     socket.onmessage = (event) -> $timeout ->
       result = angular.fromJson(event.data)

@@ -16,22 +16,22 @@ exports.SocketUtils = BaseUtils.subclass
 
   $buildErrMsg: (err) ->
     util = require 'util'
-    return @_buildMsg 'error', {status: 401, errMsg: util.inspect err}
+    return @_buildMsg Const.MsgType.Error, {status: 401, errMsg: util.inspect err}
 
   $sendNotices: (notices...) ->
     for notice in _.flatten notices
-      @sendToOne notice.userId, 'notice', notice
+      @sendToOne notice.userId, Const.MsgType.Notice, notice
 
   $sendQuizMsg: (answers, question, teacherId) ->
     for answer in answers
       @sendToOne(
         answer.userId
-        'quiz'
+        Const.MsgType.Quiz
         answer:answer, question:question, teacherId: teacherId
       )
 
   $sendQuizAnswerMsg: (userId, answer) ->
-    @sendToOne userId, 'quiz_answer', answer
+    @sendToOne userId, Const.MsgType.QuizAnswer, answer
 
   $sendToGroup: (userIds, msg) ->
     for userId in userIds

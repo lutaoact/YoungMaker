@@ -51,5 +51,3 @@
   exports.logger = logger;
 
 }).call(this);
-
-//# sourceMappingURL=logger.js.map

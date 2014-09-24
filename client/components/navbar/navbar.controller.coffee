@@ -99,9 +99,9 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         message =
           title: raw.fromWhom + '赞了你的帖子：' + raw.data.disTopic
           link: ''
-      when Const.NoticeType.ReplyVoteUp
-      when Const.NoticeType.Comment
-      when Const.NoticeType.Lecture
+      # when Const.NoticeType.ReplyVoteUp
+      # when Const.NoticeType.Comment
+      # when Const.NoticeType.Lecture
 
     console.log raw
     raw

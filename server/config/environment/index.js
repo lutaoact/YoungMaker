@@ -34,5 +34,3 @@
   module.exports = _.merge(all, require('./' + process.env.NODE_ENV + '.js') || {});
 
 }).call(this);
-
-//# sourceMappingURL=index.js.map

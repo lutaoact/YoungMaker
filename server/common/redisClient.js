@@ -46,5 +46,3 @@
   module.exports = redisClient;
 
 }).call(this);
-
-//# sourceMappingURL=redisClient.js.map

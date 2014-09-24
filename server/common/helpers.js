@@ -35,5 +35,3 @@
   };
 
 }).call(this);
-
-//# sourceMappingURL=helpers.js.map

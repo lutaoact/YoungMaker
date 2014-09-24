@@ -24,7 +24,9 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
     addOption: ->
       $scope.question.content.body.push {}
     removeOption: (index) ->
-      $scope.question.content.body.splice(index, 1)
+      options = $scope.question.content.body
+      options.splice(index, 1)
+      options.push {} if options.length == 0
     close: ->
       $modalInstance.dismiss('close')
     save: (question, form) ->

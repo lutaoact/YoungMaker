@@ -39,7 +39,6 @@ exports.SocketUtils = BaseUtils.subclass
 
 
   $sendToOne: (userId, type, payload) ->
-    unless global.socketMap[userId]?
-      return logger.warn "userId: #{userId}, socket does not exists"
-
+    unless global.socketMap[userId]? then return
+    logger.info "send #{type} message to userId: #{userId}"
     global.socketMap[userId].ws.write @_buildMsg(type, payload)

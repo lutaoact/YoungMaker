@@ -6,22 +6,24 @@ angular.module('budweiserApp').service 'socket', (
   $cookieStore
 ) ->
 
-  socket = undefined
-  heartbeat = undefined
-  # TODO: allow multi listen
+  socket = null
+  heartbeat = null
   handler = {}
 
   setup: ->
     if socket? then return
     socket = new SockJS '/sockjs'
 
+    beatTime = 5 * 60 * 1000 #server 10 分钟检查一次
+
+    doBeat = ->
+      socket.send JSON.stringify
+        type: 'beat'
+        token: $cookieStore.get('token') if $cookieStore.get('token')
+
     socket.onopen =  ->
-      heartbeat = $interval ->
-        beat =
-          type: 'beat'
-          token: $cookieStore.get('token') if $cookieStore.get('token')
-        socket.send JSON.stringify beat
-      , 5 * 60 * 1000 #server 10 分钟检查一次
+      doBeat()
+      heartbeat = $interval doBeat, beatTime
 
     socket.onmessage = (event) -> $timeout ->
       result = angular.fromJson(event.data)
@@ -55,11 +57,11 @@ angular.module('budweiserApp').service 'socket', (
   close: ->
     if !socket? then return
     $interval.cancel(heartbeat)
-    heartbeat = undefined
+    heartbeat = null
     @resetHandler()
     delete socket.onopen
     delete socket.onmessage
     socket?.close()
-    socket = undefined
+    socket = null
 
 

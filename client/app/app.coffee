@@ -121,15 +121,16 @@ angular.module 'budweiserApp', [
 .service 'socketHandler', (
   socket
   $modal
+  $rootScope
 ) ->
 
   init: (me) ->
     socket.setup()
     if me?
-      socket.setHandler 'notice', (data) ->
-        console.debug 'new message ', data
+      socket.setHandler Const.MsgType.Notice, (data) ->
+        $rootScope.$broadcast 'message.notice', data
     if me?.role is 'student'
-      socket.setHandler 'quiz', (data) ->
+      socket.setHandler Const.MsgType.Quiz, (data) ->
         $modal.open
           templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
           controller: 'ReceiveQuestionCtrl'

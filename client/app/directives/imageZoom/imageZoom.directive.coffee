@@ -11,17 +11,15 @@ angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
 
 .factory 'imageZoomViewer', ($http, $compile, $rootScope)->
   viewer = undefined
-
+  template: '<div class="image-zoom-viewer"><div class="viewer" src-key="rawSrc" source-attr="background-image"></div></div>'
   open: (options)->
     if !viewer
-      $http.get('app/directives/imageZoom/imageZoomViewer.html')
-      .success (template)->
-        scope = $rootScope.$new()
-        scope.rawSrc = options.rawSrc
-        viewer = $compile(template)(scope)
-        angular.element('body').append(viewer)
-        viewer.on 'click', ->
-          viewer.hide()
+      scope = $rootScope.$new()
+      scope.rawSrc = options.rawSrc
+      viewer = $compile(@template)(scope)
+      angular.element('body').append(viewer)
+      viewer.on 'click', ->
+        viewer.hide()
     else
       viewer.scope().rawSrc = options.rawSrc
       viewer.show()

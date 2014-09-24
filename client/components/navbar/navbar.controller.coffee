@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
   $location
   loginRedirector
   $rootScope
+  Msg
 ) ->
 
   angular.extend $scope,
@@ -82,10 +83,30 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
     decideNavColor: ()->
       $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
 
+    messages: Msg.messages
+
   $scope.generateAdditionalMenu()
   $scope.decideNavColor()
 
-  $rootScope.$on '$stateChangeSuccess', (event, value)->
+  $scope.$on '$stateChangeSuccess', (event, value)->
     $scope.generateAdditionalMenu()
     $scope.decideNavColor()
+
+  genMessage = (raw)->
+    message = {}
+    switch raw.type
+      when Const.NoticeType.TopicVoteUp
+        message =
+          title: raw.fromWhom + '赞了你的帖子：' + raw.data.disTopic
+          link: ''
+      when Const.NoticeType.ReplyVoteUp
+      when Const.NoticeType.Comment
+      when Const.NoticeType.Lecture
+
+    console.log raw
+    raw
+
+  $scope.$on 'message.notice', (event, data)->
+    $scope.messages.splice 0, 0, genMessage(data)
+
 

@@ -44,7 +44,7 @@
               <a href ng-click="logout()">退出</a>
             </li>
           </ul>
-          <span class="badge" style="position: absolute;top: 10px;left: 32px;">{{messages.length||'0'}}</span>
+          <span class="badge" style="position: absolute;top: 10px;left: 32px;" ng-show="messages">{{messages.length||'0'}}</span>
         </li>
       </ul>
     </div>

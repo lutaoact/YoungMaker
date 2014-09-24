@@ -15,12 +15,6 @@ angular.module('budweiserApp').controller 'StudentQuickNavCtrl', (
 
   # Fix bug: the popup does not dismiss when change state
   # http://stackoverflow.com/questions/14898296/how-to-unsubscribe-to-a-broadcast-event-in-angularjs-how-to-remove-function-reg
-  offCloseHandle = $rootScope.$on '$stateChangeSuccess', $scope.close
-
-  $scope.$on '$destroy', ()->
-    console.log 'destroy'
-    offCloseHandle()
-
-
+  $scope.$on '$stateChangeSuccess', $scope.close
 
 

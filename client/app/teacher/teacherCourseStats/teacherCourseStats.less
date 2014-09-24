@@ -1,6 +1,4 @@
-.teacher-stats .teacher-stats-subview{
-  padding-left: 0;
-  padding-right: 0;
+.stats-view{
   .overall{
     border: 1px solid @gray-lighter;
     overflow: hidden;
@@ -23,12 +21,23 @@
         .percentage{
           position: absolute;
           left: 50%;
-          margin-left: -13px;
+          margin-left: -10px;
           top: 60px;
+        }
+        .quiz-percentage{
+          color: @brand-danger;
+        }
+        .homework-percentage{
+          color: @brand-success;
+        }
+        .keypoint-percentage{
+          color: @brand-warning;
         }
       }
       .bud-chart{
-        .translate3d(0,-10px,0);
+        -webkit-transform: translate(0, -63px) scale(0.4, 0.4);
+        -ms-transform: translate(0, -63px) scale(0.4, 0.4); // IE9 only
+        transform: translate(0, -63px) scale(0.4, 0.4);
       }
       .highcharts-title{
         display: none;
@@ -45,6 +54,11 @@
       border-top: 1px solid @gray-light;
     }
   }
+  margin-bottom: 50px;
+}
+.teacher-stats .teacher-stats-subview{
+  padding-left: 0;
+  padding-right: 0;
 }
 .teacher-stats .student-list{
   padding-left: 0;
@@ -56,7 +70,7 @@
     height: 54px;
     padding: 16px 8px;
     overflow: hidden;
-    
+
     .search{
       height: 20px;
       background: #FFFFFF;
@@ -90,7 +104,7 @@
           color: #FFFFFF;
         }
         padding: 6px 30px 6px 16px;
-        
+
         .student-name{
           width: 85px;
           margin-left: 10px;
@@ -101,6 +115,4 @@
     }
 
   }
-
-
 }

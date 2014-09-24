@@ -1,3 +1,4 @@
+
 Const =
   NoticeType:
     TopicVoteUp: 1
@@ -33,6 +34,7 @@ Const =
     ClasseId:  'ffffffffffff000000010000'
     CourseId:  'ffffffffffff000000100000'
     UserNum: if process?.env?.NODE_ENV is 'development' then 10 else 1000
+
 
 module?.exports = Const
 window?.Const = Const

@@ -39,3 +39,30 @@
     }
   }
 }
+
+.tabset-non-border>.nav-tabs{
+  .nav{
+    margin-bottom: 0;
+  }
+  border-bottom: none;
+  a{
+    cursor: pointer;
+  }
+  > li{
+    margin-bottom: 0;
+  }
+  > li > a{
+    border: none;
+    background: @gray-light;
+    color: #FFFFFF;
+    padding: 6px 18px;
+    border-radius: 2px 2px 0 0;
+  }
+  > li.active > a,
+  > li.active > a:hover,
+  > li.active > a:focus{
+    background: #FFFFFF;
+    border: none;
+    color: #000000;
+  }
+}

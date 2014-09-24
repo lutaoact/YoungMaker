@@ -15,12 +15,16 @@ angular.module 'budweiserApp'
         credits:
           enabled: false
         tooltip:
-          valueSuffix: '%'
+          headerFormat: ''
+          pointFormat: '{point.y:.1f}%'
       series: [
       ]
       xAxis:
         title:
           text: '课时'
+        labels:
+          formatter: ()->
+            this.value + 1
       yAxis:
         title:
           text: '百分率(%)'
@@ -40,7 +44,7 @@ angular.module 'budweiserApp'
       options:
         chart:
           type: 'pie'
-          height: 100
+          height: 200
         # hide legend
         legend:
           enabled: false
@@ -52,14 +56,14 @@ angular.module 'budweiserApp'
           enabled: false
         plotOptions:
           pie:
-            cursor: 'pointer'
+            enableMouseTracking: false
             # For responsive
             dataLabels:
               enabled: false
             showInLegend: true
         # Show in percentage
         tooltip:
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          enabled: false
       series: [
         {
           type:'pie'
@@ -178,7 +182,7 @@ angular.module 'budweiserApp'
           {
             name:'正确'
             y: result.summary.percent
-            color: '#5abda6'
+            color: '#E84D50'
           }
           {
             name:'错误'
@@ -196,7 +200,7 @@ angular.module 'budweiserApp'
           {
             name:'正确'
             y: result.summary.percent
-            color: '#5abda6'
+            color: '#5cb85c'
           }
           {
             name:'错误'
@@ -214,7 +218,7 @@ angular.module 'budweiserApp'
           {
             name:'掌握'
             y: result.summary.percent
-            color: '#5abda6'
+            color: '#F69226'
           }
           {
             name:'未掌握'
@@ -241,16 +245,12 @@ angular.module 'budweiserApp'
         # fill the trend chart
 
         $scope.quizTrendChart = angular.copy chartConfigs.trendChart
-        $scope.quizTrendChart.xAxis.categories = _.pluck results[3], 'name'
         $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
-          name: stats.$text
           data: results[3].map (lecture)->
             stats[lecture._id]?.percent ? 0
 
         $scope.homeworkTrendChart = angular.copy chartConfigs.trendChart
-        $scope.homeworkTrendChart.xAxis.categories = _.pluck results[3], 'name'
         $scope.homeworkTrendChart.series = results.slice(1,2).map (stats, index)->
-          name: stats.$text
           data: results[3].map (lecture)->
             stats[lecture._id]?.percent ? 0
 

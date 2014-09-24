@@ -1,5 +1,8 @@
-<div class="modal-header">
-  <h3 class="modal-title">回答随堂问题</h3>
+<div class="modal-header modal-header-black">
+  <h4 class="modal-title">
+    回答随堂问题
+    <a class="close" ng-click="close()">&times;</a>
+  </h4>
 </div>
 <div class="modal-body">
   <h4>Q: {{question.content.title}}</h4>
@@ -19,6 +22,6 @@
           class="btn btn-danger"
           ng-click="confirm(question)">
     <span ng-if="!submitted">提交</span>
-    <span ng-if="submitted">返回</span>
+    <span ng-if="submitted">关闭</span>
   </button>
 </div>

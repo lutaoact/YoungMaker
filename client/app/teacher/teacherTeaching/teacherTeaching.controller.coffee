@@ -15,7 +15,6 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     currentNum: 1
     showAllPPT: false
     showVideo: false
-    keyPoints: Restangular.all('key_points').getList().$object
     lecture: Restangular.one('lectures', $state.params.lectureId).get().$object
     course: Restangular.one('courses', $state.params.courseId).get().$object
 
@@ -34,11 +33,11 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       $modal.open
         templateUrl: 'app/teacher/teacherTeaching/pushQuestion.html'
         controller: 'PushQuestionCtrl'
+        backdrop: 'static'
         resolve:
           classe: -> _.find Classes, _id:$state.params.classeId
           lecture: -> $scope.lecture
           question: -> quizze
-          keyPoints: -> $scope.keyPoints
       .result.then ->
 
   $scope.$watch 'currentIndex', ->

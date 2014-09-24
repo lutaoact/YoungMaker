@@ -14,9 +14,12 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
     question: question
     submitted: false
 
+    close: ->
+      $modalInstance.dismiss('close')
+
     confirm: (question) ->
       if $scope.submitted
-        $modalInstance.dismiss('close')
+        $scope.close()
       else
         selectedOptions = _.reduce question.content.body, (result, option, index) ->
           result.push(index) if option.$selected

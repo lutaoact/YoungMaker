@@ -4,6 +4,7 @@
       <div class="bud input-group">
         <div class="input-group-addon"><i class="fa fa-search"></i></div>
         <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
+        <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
       </div>
     </div>
     <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
@@ -14,13 +15,13 @@
   <ul class="list-group">
     <div class="clearfix title-row actions-bar">
       <div class="pull-left" ng-init="viewState.orderBy = '-$heat' ">
-        <a href class="btn btn-nav text-muted" 
-          ng-class="{'active':viewState.orderBy == '-created'}" 
+        <a href class="btn btn-nav text-muted"
+          ng-class="{'active':viewState.orderBy == '-created'}"
           ng-click="viewState.orderBy = '-created'">
           最新贴
         </a>
-        <a href class="btn btn-nav text-muted" 
-          ng-class="{'active':viewState.orderBy == '-$heat'}" 
+        <a href class="btn btn-nav text-muted"
+          ng-class="{'active':viewState.orderBy == '-$heat'}"
           ng-click="viewState.orderBy = '-$heat'">
           最热贴
         </a>
@@ -77,7 +78,7 @@
           <i class="fa fa-eye"></i>
           {{topic.viewedUsers.length||0}}
         </div>
-        
+
         <div class="status">
           <i class="fa fa-comments"></i>
           {{topic.repliesNum||0}}

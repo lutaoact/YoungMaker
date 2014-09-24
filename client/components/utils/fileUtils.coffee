@@ -46,6 +46,34 @@ angular.module 'budweiserApp'
       .error opts.fail
     , opts.fail
 
+  uploadVideo: (opts)->
+    if not opts.files? or opts.files.length < 1
+      opts.fail?('file not selected')
+      return
+
+    file = opts.files[0]
+    validateResult = validate(opts.validation, file)
+    return opts.fail?(validateResult) unless validateResult is true
+
+    # get upload token
+    Restangular.one('assets/upload/videos','').get(fileName: file.name)
+    .then (strategy)->
+      start = moment()
+      $upload.upload
+        url: strategy.url
+        method: 'PUT'
+        withCredentials: false
+        file: file
+        fileFormDataName: 'file'
+      .progress (evt)->
+        speed = evt.loaded / (moment().valueOf() - start.valueOf())
+        percentage = parseInt(100.0 * evt.loaded / evt.total)
+        opts.progress?(speed,percentage, evt)
+      .success (data) ->
+        opts.success?(strategy.key, data)
+      .error opts.fail
+    , opts.fail
+
   bulkUpload: (opts)->
 
     if not opts.files? or opts.files.length < 1

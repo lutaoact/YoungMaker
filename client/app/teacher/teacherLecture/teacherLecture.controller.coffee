@@ -111,7 +111,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
 
-    onMediaUploaded: (key) ->
+    onMediaUploaded: (key, data) ->
+      console.log data
       $scope.lecture.media = key
       $scope.lecture.patch?(media: $scope.lecture.media)
       .then (newLecture) ->

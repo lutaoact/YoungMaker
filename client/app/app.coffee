@@ -126,7 +126,7 @@ angular.module 'budweiserApp', [
   init: (me) ->
     socket.setup()
     if me?
-      socket.setHandler 'notify', (data) ->
+      socket.setHandler 'notice', (data) ->
         console.debug 'new message ', data
     if me?.role is 'student'
       socket.setHandler 'quiz', (data) ->

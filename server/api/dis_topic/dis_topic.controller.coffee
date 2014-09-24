@@ -28,7 +28,7 @@ exports.index = (req, res, next) ->
     next err
 
 exports.show = (req, res, next) ->
-  DisTopic.findById req.params.id
+  DisTopic.findByIdAndUpdate req.params.id, {$addToSet: {viewers: req.user._id}}
   .populate 'postBy', '_id name avatar'
   .execQ()
   .then (disTopic) ->

@@ -38,6 +38,10 @@ exports.DisTopic = BaseModel.subclass
         type: Number
         required: true
         default: 0
+      viewers: [
+        type: ObjectId
+        ref: 'user'
+      ]
       voteUpUsers: [
         type: ObjectId
         ref: 'user'

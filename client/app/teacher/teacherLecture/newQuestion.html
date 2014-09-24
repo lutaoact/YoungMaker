@@ -1,4 +1,6 @@
-<form class="form-horizontal" name="form" role="form">
+<form class="form-horizontal"
+      name="form"
+      role="form">
   <div class="modal-header">
     <h3 class="modal-title">创建习题</h3>
   </div>
@@ -48,7 +50,9 @@
                  ng-init="optionInputFocus=isAddOption"
                  required/>
           <span class="input-group-addon">
-            <input type="checkbox" ng-model="option.correct"/>
+            <input type="checkbox"
+                   ng-required="!validateOptions()"
+                   ng-model="option.correct"/>
           </span>
           <a class="input-group-addon"
              ng-click="removeOption($index)">

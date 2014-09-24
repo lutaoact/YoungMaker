@@ -19,6 +19,8 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       $scope.selectedKeyPoints.push angular.copy(keyPoint)
     removekeyPoint: (index) ->
       $scope.selectedKeyPoints.splice(index, 1)
+    validateOptions: ->
+      _.find($scope.question.content.body, correct:true)?
     addOption: ->
       $scope.question.content.body.push {}
     removeOption: (index) ->

@@ -108,7 +108,7 @@
                       ng-click="addToLecture()"
                       ng-disabled="getSelectedNum()==0 || updating">
                 <span ng-if="!updating">确认添加 ({{getSelectedNum()}})</span>
-                <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i>添加中</span>
+                <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i> 添加中</span>
               </button>
               <a type="button"
                  ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})"

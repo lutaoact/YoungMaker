@@ -2,7 +2,7 @@
   "name": "budweiser",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.25",
+    "angular": "1.2.20",
     "json3": "~3.3.1",
     "es5-shim": "~3.0.1",
     "jquery": "~1.11.0",
@@ -80,6 +80,6 @@
     }
   },
   "resolutions": {
-    "angular": "1.2.25"
+    "angular": "1.2.20"
   }
 }

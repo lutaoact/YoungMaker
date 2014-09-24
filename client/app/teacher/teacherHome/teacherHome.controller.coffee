@@ -30,6 +30,7 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
       $modal.open
         templateUrl: 'app/teacher/teacherCourse/teacherNewCourse.html'
         controller: 'TeacherNewCourseCtrl'
+        size: 'lg'
         resolve:
           categories: -> Categories
       .result.then (newCourse) ->

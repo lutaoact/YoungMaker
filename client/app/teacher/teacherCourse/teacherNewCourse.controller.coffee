@@ -17,6 +17,9 @@ angular.module('budweiserApp').controller 'TeacherNewCourseCtrl', (
     onThumbUploaded: (key) ->
       $scope.course.thumbnail = key
 
+    close: ->
+      $modalInstance.dismiss('cancel')
+
     confirmCreate: (course, form) ->
       unless form.$valid then return
       Restangular.all('courses').post(course)

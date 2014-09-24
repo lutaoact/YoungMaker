@@ -18,8 +18,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
   angular.extend $scope,
 
-    mediaApi: undefined
-    course: undefined
+    mediaApi: null
+    course: null
     saving: false
     lecture:
       slides:[]
@@ -53,22 +53,43 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           $state.go('teacher.course', courseId: $state.params.courseId)
 
     removeSlide: (index) ->
-      $scope.lecture.slides.splice(index, 1)
-      $scope.lecture.patch?(slides: $scope.lecture.slides)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除PPT页面'
+          message: -> """确认要删除"#{$scope.lecture.name}"中PPT的第#{index+1}页吗？"""
+      .result.then ->
+        $scope.lecture.slides.splice(index, 1)
+        $scope.lecture.patch?(slides: $scope.lecture.slides)
+        .then (newLecture) ->
+          $scope.lecture.__v = newLecture.__v
 
     removeMedia: ->
-      $scope.lecture.media = null
-      $scope.lecture.patch?(media: $scope.lecture.media)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除课时视频'
+          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的视频吗？"""
+      .result.then ->
+        $scope.lecture.media = null
+        $scope.lecture.patch?(media: $scope.lecture.media)
+        .then (newLecture) ->
+          $scope.lecture.__v = newLecture.__v
 
     removePPT: ->
-      $scope.lecture.slides = []
-      $scope.lecture.patch?(slides: $scope.lecture.slides)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除课时PPT'
+          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的PPT吗？"""
+      .result.then ->
+        $scope.lecture.slides = []
+        $scope.lecture.patch?(slides: $scope.lecture.slides)
+        .then (newLecture) ->
+          $scope.lecture.__v = newLecture.__v
 
     onThumbUploaded: (key) ->
       $scope.lecture.thumbnail = key

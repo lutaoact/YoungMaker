@@ -6,6 +6,12 @@ Const =
     Comment: 3
     Lecture: 4
 
+  MsgType:
+    Notice: 'notice'
+    Quiz: 'quiz'
+    QuizAnswer: 'quiz_answer'
+    Error: 'error'
+
   NoticeRef:
     1: 'disTopic'
     2: 'disReply'

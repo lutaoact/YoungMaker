@@ -61,7 +61,6 @@ angular.module('budweiserApp')
             option.$selected = answer?.indexOf(index) >= 0
     Restangular.all('quiz_answers').getList(lectureId:$scope.lecture._id)
     .then (answers)->
-      console.log answers
       if answers?.length
         # has answered, should show
         quizzes = $scope.lecture?.quizzes

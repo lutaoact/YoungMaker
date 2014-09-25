@@ -10,7 +10,8 @@
       <div class="video-view" ng-show="viewState.isVideo">
         <videogular vg-player-ready="onPlayerReady"
                     vg-update-time="onUpdateTime"
-                    class="bud">
+                    class="bud"
+                    ng-show="lecture.media">
           <video class="videoPlayer" src-key="lecture.media" ng-right-click="disableDownload()">
           </video>
           <vg-poster-image></vg-poster-image>

@@ -18,19 +18,8 @@
   <div class="list-group">
     <div class="list-group-item question-heading">
       <label>{{getQuestions().length}}个习题</label>
-      <a class="btn btn-primary pull-right"
-         ng-click="selectedAll=!selectedAll;toggleSelectAll(selectedAll)">
-        <span ng-if="!selectedAll">
-          <i class="fa fa-square-o"></i>
-          全选
-        </span>
-        <span ng-if="selectedAll">
-          <i class="fa fa-check-square-o"></i>
-          取消
-        </span>
-      </a>
       <a ng-show="getSelectedNum()"
-         class="btn btn-primary pull-right"
+         class="btn btn-danger pull-right"
          ng-click="removeQuestion()">
         <i class="fa fa-remove"></i>
         删除所选 ({{getSelectedNum()}})

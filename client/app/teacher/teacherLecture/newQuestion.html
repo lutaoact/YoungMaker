@@ -24,11 +24,7 @@
     <div ng-repeat="option in question.content.body"
          class="input-group">
       <span class="input-group-addon">
-        <span ng-if="$index<question.content.body.length-1">{{$index | indexToABC}}</span>
-        <a class="glyphicon glyphicon-plus"
-           style="width:10px"
-           ng-if="$index==question.content.body.length-1"
-           ng-click="addOption();isAddOption=true"></a>
+        {{$index | indexToABC}}
       </span>
       <input class="form-control"
              type="text"
@@ -48,6 +44,11 @@
         <span class="glyphicon glyphicon-remove"/>
       </a>
     </div>
+    <a class="btn btn-default new-option-btn"
+       ng-click="addOption();isAddOption=true">
+      <i class="fa fa-plus"></i>
+      添加新选项
+    </a>
   </div>
   <div class="form-group">
     <label class="control-label">知识点</label>

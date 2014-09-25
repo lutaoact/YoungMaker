@@ -7,7 +7,7 @@ moment = require 'moment'
 crypto = require 'crypto'
 redisClient = require '../../common/redisClient'
 request = require 'request'
-request = request.defaults proxy: config.proxy if config.proxy?
+#request = request.defaults proxy: config.proxy if config.proxy?
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key

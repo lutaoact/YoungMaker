@@ -72,5 +72,5 @@ module.exports =
     port : 6379
     host : process.env.MONGOLAB_URI or 'vm4redis.wckvrx.pek2.qingcloud.com'
 
-  proxy :
-    'http://vmnodebase.wckvrx.pek2.qingcloud.com:8081'
+#  proxy :
+#    'http://vmnodebase.wckvrx.pek2.qingcloud.com:8081'

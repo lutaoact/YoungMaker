@@ -1,179 +1,207 @@
-.teacher-teaching {
-  height: 100%;
-  width: 100%;
-  top: 0px;
-  position: absolute;
-  .lecture-name {
-    position: absolute;
-    z-index: 10;
-    padding-left: 15px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-  .ppt-group {
-    width: 100%;
-    height: 100%;
-  }
-  .ppt-all {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    bottom: 0;
-    background: rgba(0, 0, 0, .7);
-    .container {
-      overflow: auto;
-      text-align: center;
-      margin: 100px 50px 100px 50px;
-      width: calc(~'100% - 100px');
-      height: calc(~'100% - 200px');
+.push-question-content {
+  margin-top: 40px;
+  border: 1px solid @base-color;
+  .question-option {
+    color: #888888;
+    &.option-correct {
+      background: rgba(70, 216, 116, 0.41);
     }
-    .ppt-img {
-      margin-top: 30px;
+    &.checkbox {
+      padding: 10px 10px 10px 30px;
       cursor: pointer;
-      opacity: .8;
-      &.active {
-        border: 1px solid @base-color;
-        opacity: 1;
+      &.submit {
+        cursor: default;
       }
     }
-    .ppt-img:hover {
-      opacity: .9;
-    }
-    .ppt-index {
-      font-size: 3em;
-      position: absolute;
-      top: 30px;
-      left: 60px;
-      color: #ffffff;
-      opacity: .5;
+    &.checkbox:hover {
+      background: #eeeeee;
+      &.submit {
+        background: none;
+      }
+      &.option-correct {
+        background: rgba(70, 216, 116, 0.41);
+      }
     }
   }
-  .video-group {
-    width: 100% !important;
-    height: 100% !important;
-    .video-content {
+}
+.teacher {
+  .teacher-teaching {
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    position: absolute;
+    .lecture-name {
+      position: absolute;
+      z-index: 10;
+      padding-left: 15px;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+    .ppt-group {
+      width: 100%;
+      height: 100%;
+    }
+    .ppt-all {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 0;
+      background: rgba(0, 0, 0, .7);
+      .container {
+        overflow: auto;
+        text-align: center;
+        margin: 100px 50px 100px 50px;
+        width: calc(~'100% - 100px');
+        height: calc(~'100% - 200px');
+      }
+      .ppt-img {
+        margin-top: 30px;
+        cursor: pointer;
+        opacity: .8;
+        &.active {
+          border: 1px solid @base-color;
+          opacity: 1;
+        }
+      }
+      .ppt-img:hover {
+        opacity: .9;
+      }
+      .ppt-index {
+        font-size: 3em;
+        position: absolute;
+        top: 30px;
+        left: 60px;
+        color: #ffffff;
+        opacity: .5;
+      }
+    }
+    .video-group {
       width: 100% !important;
       height: 100% !important;
-      left: 0 !important;
-      top: 0 !important;
-    }
-    .video-ctrl {
-      bottom: 0px !important;
-    }
-    .video-btn {
-      display: table-cell;
-      width: 50px;
-      vertical-align: middle;
-      text-align: center;
-      cursor: pointer;
-    }
-  }
-  .tools-button {
-    position: absolute;
-    bottom: 15px;
-    right: 50px;
-    color: #ffffff;
-    z-index: 10;
-    .page-num {
-      font-size: 3em;
-      font-weight: normal;
-      padding-left: 8px;
-      .page-total {
-        padding-left: 5px;
+      .video-content {
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
       }
-      .page-current {
-        background: none;
-        text-align: right;
-        border: none;
-        width: 65px;
-        padding: 0px;
-        margin: 0px -10px 0px 0px;
+      .video-ctrl {
+        bottom: 0px !important;
+      }
+      .video-btn {
+        display: table-cell;
+        width: 50px;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
       }
     }
-    .tool-btn {
-      border-radius: 5px;
-      padding: 4px 4px 2px 6px;
-      margin-top: -20px;
-      background: #000000;
-      border-color: #000000;
-      opacity: .6;
-      &.active {
+    .tools-button {
+      position: absolute;
+      bottom: 15px;
+      right: 50px;
+      color: #ffffff;
+      z-index: 10;
+      .page-num {
+        font-size: 3em;
+        font-weight: normal;
+        padding-left: 8px;
+        .page-total {
+          padding-left: 5px;
+        }
+        .page-current {
+          background: none;
+          text-align: right;
+          border: none;
+          width: 65px;
+          padding: 0px;
+          margin: 0px -10px 0px 0px;
+        }
+      }
+      .tool-btn {
+        border-radius: 5px;
+        padding: 4px 4px 2px 6px;
+        margin-top: -20px;
+        background: #000000;
+        border-color: #000000;
+        opacity: .6;
+        &.active {
+          background: #389A81;
+          border-color: #389A81;
+          opacity: 1;
+        }
+      }
+      .tool-btn:hover {
+        background: #5ABDA6;
+        border-color: #5ABDA6;
+        opacity: 1;
+      }
+      .tool-btn:active {
         background: #389A81;
         border-color: #389A81;
         opacity: 1;
       }
+      .split-v {
+        display: inline-block;
+        width: 1px;
+        border: 1px solid #888888;
+        height: 30px;
+        margin-left: 8px;
+        margin-right: 8px;
+      }
     }
-    .tool-btn:hover {
-      background: #5ABDA6;
-      border-color: #5ABDA6;
-      opacity: 1;
+    .questions-button {
+      position: absolute;
+      z-index: 10;
+      right: 20px;
+      top: 20px;
     }
-    .tool-btn:active {
-      background: #389A81;
-      border-color: #389A81;
-      opacity: 1;
+    .question-btn {
+      border-radius: 5px;
+      padding: 5px 8px 5px 8px;
     }
-    .split-v {
-      display: inline-block;
-      width: 1px;
-      border: 1px solid #888888;
-      height: 30px;
-      margin-left: 8px;
-      margin-right: 8px;
+    .questions-menu {
+      position: absolute;
+      right: 0px;
+      width: 320px;
+      margin-top: 10px;
+      height: 480px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 25px
     }
-  }
-  .questions-button {
-    position: absolute;
-    z-index: 10;
-    right: 20px;
-    top: 20px;
-  }
-  .question-btn {
-    border-radius: 5px;
-    padding: 5px 8px 5px 8px;
-  }
-  .questions-menu {
-    position: absolute;
-    right: 0px;
-    width: 320px;
-    margin-top: 10px;
-    height: 480px;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 25px
-  }
-  .white-bg {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    height: 100%;
-    .title {
+    .white-bg {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      height: 100%;
+      .title {
+        color: #ffffff;
+        margin-top: -10px;
+      }
+      hr {
+        border-top: 1px solid #aaaaaa;
+      }
+    }
+    .questions-group {
+      max-height: 310px;
+      overflow: auto;
+    }
+    .question {
+      color: #aaaaaa;
+      display: block;
+      font-size: 1.2em;
+      border: none;
+      background: none;
+      border-bottom: 1px solid #aaaaaa;
+      cursor: pointer;
+    }
+    .question:hover {
+      color: #eeeeee;
+      background: none;
+    }
+    .question:active {
       color: #ffffff;
-      margin-top: -10px;
+      background: @base-color;
     }
-    hr {
-      border-top: 1px solid #aaaaaa;
-    }
-  }
-  .questions-group {
-    max-height: 310px;
-    overflow: auto;
-  }
-  .question {
-    color: #aaaaaa;
-    display: block;
-    font-size: 1.2em;
-    border: none;
-    background: none;
-    border-bottom: 1px solid #aaaaaa;
-    cursor: pointer;
-  }
-  .question:hover {
-    color: #eeeeee;
-    background: none;
-  }
-  .question:active {
-    color: #ffffff;
-    background: @base-color;
   }
 }

@@ -7,6 +7,7 @@ Const =
     Lecture: 4
 
   MsgType:
+    Login: 'login'
     Notice: 'notice'
     Quiz: 'quiz'
     QuizAnswer: 'quiz_answer'

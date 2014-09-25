@@ -10,10 +10,11 @@ exports.init = (sockjs_server) ->
       msg = JSON.parse data
       SocketUtils.verify msg.token
       .then (user) ->
-        if global.socketMap[user._id]?
-          global.socketMap[user._id].beatAt = _u.time()
-        else
+        if msg.type is Const.MsgType.Login
+          do global.socketMap[user._id]?.ws.close
           global.socketMap[user._id] = beatAt: _u.time(), ws: conn
+        else
+          global.socketMap[user._id].beatAt = _u.time()
 
 #        routes[msg.type] user, msg.payload #if we need more, uncomment this line
       , (err) ->

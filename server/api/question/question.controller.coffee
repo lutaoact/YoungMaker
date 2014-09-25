@@ -84,6 +84,8 @@ exports.destroy = (req, res, next) ->
 
 #找出指定班级中的所有学生，查看他们的quiz_answer记录，若没有，则新增
 #然后将question和answer通过socket发送给每一个学生
+#TODO: 这是一个http请求，只要在web端登录，就可以推送问题
+#但socket只留给最近登录的那个终端，如果需要抢回socket，刷新当前页面即可
 exports.pubQuiz = (req, res, next) ->
   user = req.user
   {questionId, classId, lectureId} = req.body

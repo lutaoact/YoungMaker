@@ -41,7 +41,6 @@ angular.module('budweiserApp')
 
   $scope.$watch 'lecture', ->
     if !$scope.lecture then return
-    $scope.setQuestionType('quizzes')
     Restangular.all('key_points').getList()
     .then (keyPoints) ->
       $scope.keyPoints = keyPoints
@@ -60,3 +59,28 @@ angular.module('budweiserApp')
 
           for option, index in question.content.body
             option.$selected = answer?.indexOf(index) >= 0
+    Restangular.all('quiz_answers').getList(lectureId:$scope.lecture._id)
+    .then (answers)->
+      console.log answers
+      if answers?.length
+        # has answered, should show
+        quizzes = $scope.lecture?.quizzes
+        quizzes.$submitted = true
+        quizzes.forEach (quiz)->
+          answer = _.find(answers, questionId:quiz._id)?.result
+          quiz.$correct = answer?.every (item)->
+            quiz.content.body[item].correct
+
+          for option, index in quiz.content.body
+            option.$selected = answer?.indexOf(index) >= 0
+        $scope.setQuestionType('quizzes')
+      else
+        $scope.setQuestionType('homeworks')
+
+
+
+
+
+
+
+

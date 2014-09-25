@@ -1,11 +1,11 @@
 <div class="student-lecture-answers">
   <tabset class="bud container">
     <!-- hack off the margin by connect </tab><tab> -->
-    <tab heading="随堂练习" select="setQuestionType('quizzes')">
-    </tab><tab heading="课后作业" select="setQuestionType('homeworks')">
+    <tab ng-if="lecture.quizzes.$submitted" heading="随堂练习" select="setQuestionType('quizzes')" >
+    </tab><tab ng-if="lecture.quizzes" heading="课后作业" select="setQuestionType('homeworks')">
     </tab>
   </tabset>
-  <div class="questions-panel container">
+  <div class="questions-panel container" ng-show="displayQuestions">
     <div class="list-group">
 
       <div class="list-group-item"
@@ -48,7 +48,8 @@
       items-per-page="viewState.pageSize"
       align="false"
       class="bud"
-      ng-model="displayQuestions.currentPage">
+      ng-model="displayQuestions.currentPage"
+      ng-show="displayQuestions.length > viewState.pageSize">
     </pager>
     <button type="button"
             ng-show="displayQuestions==lecture.homeworks"

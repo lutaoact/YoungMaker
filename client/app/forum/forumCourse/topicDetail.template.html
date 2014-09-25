@@ -43,7 +43,7 @@
 
     <hr>
     <div class="replies">
-      <div class="new-reply">
+      <div class="new-reply clearfix">
         <div class="new-reply-left">
           <div class="media-object avatar-sm"
                source-attr="background-image"
@@ -52,7 +52,7 @@
                suffix="?imageView2/1/w/64/h/64">
           </div>
         </div>
-        <div class="new-reply-right" is-visible="viewState.newReplyVisible">
+        <div class="new-reply-right" id="new-reply" is-visible="viewState.newReplyVisible">
           <bud-editor 
             content="newReply.content"
             metadata="newReply.metadata">
@@ -63,10 +63,35 @@
           <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(topic, newReply)">提交</button>
         </div>
       </div>
-
+      <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">
+        <div class="pull-left" ng-init="viewState.orderBy = '-voteUpUsers.length'">
+          <a href class="btn btn-nav text-muted"
+            ng-class="{'active':viewState.orderBy == '-created'}"
+            ng-click="viewState.orderBy = '-created'">
+            最新回复
+          </a>
+          <a href class="btn btn-nav text-muted"
+            ng-class="{'active':viewState.orderBy == '-voteUpUsers.length'}"
+            ng-click="viewState.orderBy = '-voteUpUsers.length'">
+            最热回复
+          </a>
+        </div>
+        <span class="pull-left text-muted" style="line-height: 30px;">&nbsp;|&nbsp;</span>
+        <div class="pull-left">
+          <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
+            <a type="button" class="btn dropdown-toggle text-muted">
+              {{viewState.filterMethod=='all'?'全部':'只看我的'}}<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href ng-click="viewState.filterMethod='all';status.isopen = false">全部</a></li>
+              <li><a href ng-click="viewState.filterMethod='createdByMe';status.isopen = false">只看我的</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <ul class="list-group ">
         <li class="bud thumbnail media col-md-12 reply"
-            ng-repeat="reply in topic.$replies">
+            ng-repeat="reply in topic.$replies|orderBy: viewState.orderBy|filter: repliesFilter">
           <a class="pull-left" href>
             <div class="media-object avatar-sm"
                  source-attr="background-image"
@@ -96,10 +121,11 @@
         </li>
       </ul>
 
-      <a class="btn form-control btn-primary btn-lg rounded"
-        style="margin: 20px 0;border-radius: 3px; height: 49px;"
-        ng-click="scrollToEditor()">
-        快速回复该帖
+      <a class="btn form-control btn-primary btn-md rounded back-to-editor"
+        style="margin: 20px 0;border-radius: 3px;"
+        ng-class="{'hide': viewState.newReplyVisible}"
+        href="#new-reply" du-smooth-scroll du-scrollspy offset="200">
+        发表回复
       </a>
     </div>
 

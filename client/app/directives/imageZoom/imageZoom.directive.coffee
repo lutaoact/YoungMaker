@@ -9,7 +9,7 @@ angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
       imageZoomViewer.open
         rawSrc: rawSrc
 
-.factory 'imageZoomViewer', ($http, $compile, $rootScope)->
+.factory 'imageZoomViewer', ($http, $compile, $rootScope, $timeout)->
   viewer = undefined
   template: '<div class="image-zoom-viewer"><div class="viewer" src-key="rawSrc" source-attr="background-image"></div></div>'
   open: (options)->
@@ -22,7 +22,8 @@ angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
         viewer.hide()
     else
       viewer.scope().rawSrc = options.rawSrc
-      viewer.show()
+      $timeout ->
+        viewer.show()
 
 
 

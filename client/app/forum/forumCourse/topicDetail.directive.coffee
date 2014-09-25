@@ -47,6 +47,14 @@ angular.module('budweiserApp')
       .then ()->
         topic.$replies.splice topic.$replies.indexOf(reply), 1
 
+    repliesFilter: (item)->
+      switch $scope.viewState.filterMethod
+        when 'all'
+          return true
+        when 'createdByMe'
+          return item.postBy._id is $scope.me._id
+      return true
+
     scrollToEditor: ()->
       $document.scrollToElement(angular.element('.new-reply-right'), 200, 200)
 

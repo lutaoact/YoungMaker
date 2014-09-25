@@ -84,7 +84,7 @@
       <h4 class="text-center">2/<label style="font-size: .7em;">3</label> 视频和PPT</h4>
       <hr class="info-hr"/>
       <tabset class="bud">
-        <tab>
+        <tab active="tabActive.media">
           <tab-heading>视频</tab-heading>
           <br/>
           <div class="row">
@@ -152,7 +152,7 @@
             </div>
           </div>
         </tab>
-        <tab>
+        <tab active="tabActive.ppt">
           <tab-heading>PPT</tab-heading>
           <br/>
           <div class="row">
@@ -175,7 +175,7 @@
                 <a class="list-group-item stretch media-object"
                    ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
                    ng-click="lecture.slides.$activeIndex=$index"
-                   ng-repeat-reorder="slide in lecture.slides"
+                   ng-repeat-reorder="slide in lecture.slides "
                    ng-repeat-reorder-handle="div.drag-point">
                   <div class="drag-point fa fa-bars" draggable="true"></div>
                   <img src-key="slide.thumb"

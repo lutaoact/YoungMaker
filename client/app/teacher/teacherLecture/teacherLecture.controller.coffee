@@ -21,6 +21,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     mediaApi: null
     course: null
     saving: false
+    tabActive:
+      media:true
+      ppt:false
     lecture:
       slides:[]
       keyPoints:[]
@@ -129,6 +132,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     Restangular.one('lectures', $state.params.lectureId).get()
     .then (lecture) ->
       $scope.lecture = lecture
+      $scope.tabActive.ppt = lecture.slides?.length > 0 && !lecture.media?
 
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->

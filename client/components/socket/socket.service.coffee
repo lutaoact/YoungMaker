@@ -16,13 +16,13 @@ angular.module('budweiserApp').service 'socket', (
 
     beatTime = 5 * 60 * 1000 #server 10 分钟检查一次
 
-    doBeat = ->
+    doBeat = (type = 'beat') ->
       socket.send JSON.stringify
-        type: 'beat'
+        type: type
         token: $cookieStore.get('token') if $cookieStore.get('token')
 
     socket.onopen =  ->
-      doBeat()
+      doBeat('login')
       heartbeat = $interval doBeat, beatTime
 
     socket.onmessage = (event) -> $timeout ->
@@ -34,7 +34,7 @@ angular.module('budweiserApp').service 'socket', (
 
     socket.onclose = ( (event) ->
       @close()
-      console.debug event
+      console.debug 'socket connection close', event
     ).bind @
 
   setHandler: (type, callback) ->

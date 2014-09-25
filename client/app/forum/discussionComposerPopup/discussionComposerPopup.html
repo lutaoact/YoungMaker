@@ -4,10 +4,21 @@
 </div>
 <div class="modal-body forum forum-topic-composer">
   <div class="clearfix title-row row">
-    <div class="form-group">
+    <div class="form-group col-xs-8">
       <div class="bud input-group">
         <div class="input-group-addon">主题:</div>
         <input class="form-control" type="text" placeholder="请输入您的讨论主题" ng-model="myTopic.title">
+      </div>
+    </div>
+    <div class="form-group col-xs-4">
+      <div class="bud input-group">
+        <div class="input-group-addon">类型:</div>
+         <ui-select ng-model="myTopic.metadata.postType">
+          <ui-select-match placeholder="选择类型">{{$select.selected}}</ui-select-match>
+          <ui-select-choices repeat="option as option in ['提问','公告'] | filter: $select.search" >
+            <div ng-bind-html="option | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
       </div>
     </div>
   </div>
@@ -47,7 +58,7 @@
   </div>
 
   <div class="title-row">
-    <bud-editor 
+    <bud-editor
       class="topic-input"
       content="myTopic.content"
       metadata="myTopic.metadata">

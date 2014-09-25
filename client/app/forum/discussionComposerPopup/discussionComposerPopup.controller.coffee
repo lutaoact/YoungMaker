@@ -19,11 +19,11 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     close: ->
       $modalInstance.dismiss('close')
 
-    myTopic: {}
+    myTopic:
+      metadata:
+        postType: '提问'
 
     create: ()->
-      @myTopic.metadata ?= {}
-      @myTopic.metadata.postType = '提问'
       topics.post @myTopic, {courseId: course._id}
       .then (dis_topic)->
         $scope.imagesToInsert = undefined

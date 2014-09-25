@@ -59,22 +59,27 @@ angular.module 'budweiserApp'
     Restangular.one('assets/upload/videos','').get(fileName: file.name)
     .then (strategy)->
       start = moment()
-      $upload.http
-        url: strategy.url
-        method: 'PUT'
-        headers:
-          'x-ms-blob-content-type': 'BlockBlob'
-          'x-ms-version': '2013-08-15'
-        withCredentials: false
-        file: file
-        fileFormDataName: 'file'
-      .progress (evt)->
-        speed = evt.loaded / (moment().valueOf() - start.valueOf())
-        percentage = parseInt(100.0 * evt.loaded / evt.total)
-        opts.progress?(speed,percentage, evt)
-      .success (data) ->
-        opts.success?(strategy.key, data)
-      .error opts.fail
+      fileReader = new FileReader()
+      # this is a working draft. IE10 supported
+      fileReader.readAsArrayBuffer(file)
+      fileReader.onload = (e)->
+        console.log 'loaded'
+        $upload.http
+          url: strategy.url
+          method: 'PUT'
+          headers:
+            'x-ms-blob-type': 'BlockBlob'
+            'x-ms-version': '2013-08-15'
+            'Content-Type': 'application/octet-stream'
+          withCredentials: false
+          data: e.target.result
+        .progress (evt)->
+          speed = evt.loaded / (moment().valueOf() - start.valueOf())
+          percentage = parseInt(100.0 * evt.loaded / evt.total)
+          opts.progress?(speed,percentage, evt)
+        .success (data) ->
+          opts.success?(strategy.key, data)
+        .error opts.fail
     , opts.fail
 
   bulkUpload: (opts)->

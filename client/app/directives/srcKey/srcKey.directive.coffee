@@ -25,6 +25,9 @@ angular.module('budweiserApp').directive 'srcKey', ($http)->
         return
       else if /^(\/\/|\/|http:|https:)/.test(key)
         setSource(key)
+      else if $scope.sourceAttr is 'video'
+        src = '/api/assets/videos/'+ key
+        setSource(src)
       else
         suffix = $scope.suffix ? ''
         src = '/api/assets/images/'+ key + suffix

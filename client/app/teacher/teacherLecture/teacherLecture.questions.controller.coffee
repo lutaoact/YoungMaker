@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp')
-
+.value('$anchorScroll', angular.noop)
 .directive 'teacherLectureQuestions', ->
   restrict: 'EA'
   replace: true
@@ -16,6 +16,8 @@ angular.module('budweiserApp')
   $scope
   $state
   $modal
+  $timeout
+  $document
   $rootScope
   Restangular
 ) ->
@@ -24,6 +26,7 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     selectedAll: false
+    deleting: false
     tabActive:
       quizzes: false
       homeworks: false
@@ -55,6 +58,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/newQuestion.html'
         controller: 'NewQuestionCtrl'
+        backdrop: 'static'
         resolve:
           keyPoints: -> $scope.keyPoints
           categoryId: -> $scope.categoryId
@@ -75,7 +79,6 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
-        backdrop: 'static'
         resolve:
           title: -> '删除问题'
           message: ->
@@ -93,6 +96,7 @@ angular.module('budweiserApp')
           deleteQuestions = _.filter questions, (q) -> q.$selected == true
           angular.forEach deleteQuestions, (q) ->
             questions.splice(questions.indexOf(q), 1)
+        $scope.deleting = true
         saveQuestions(questions)
 
   addQuestions = (newQuesions) ->
@@ -112,6 +116,7 @@ angular.module('budweiserApp')
       _.delay backToLecture, 300
 
   backToLecture = ->
+    $scope.deleting = false
     $state.go('teacher.lecture', {
       courseId: $state.params.courseId
       lectureId: $state.params.lectureId
@@ -120,4 +125,11 @@ angular.module('budweiserApp')
   $rootScope.$on 'add-library-question', (event, type, questions) ->
     $scope.setQuestionType(type)
     addQuestions questions
+    #FIXME refactor dirty fix 滚动到题库
+    finish = $scope.$on '$stateChangeSuccess', -> $timeout ->
+      console.debug finish
+      finish()
+      targetElement = angular.element(document.getElementById('lecture-question'))
+      $document.scrollToElement(targetElement, 60)
+    , 300
 

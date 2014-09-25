@@ -32,12 +32,13 @@
           <div class="list-group">
             <div class="list-group-item question-heading">
               <label>找到{{questions.length}}个习题</label>
-              <button type="button"
-                      class="btn btn-primary pull-right"
-                      ng-click="selectedAll=!selectedAll;toggleSelectAll(selectedAll)">
-                <i ng-if="!selectedAll" class="fa fa-square-o"></i>
-                <i ng-if="selectedAll" class="fa fa-check-square-o"></i>
-              </button>
+              <a ng-show="getSelectedNum() > 0"
+                 class="btn btn-danger pull-right"
+                 ng-click="addToLecture()"
+                 ng-disabled="updating">
+                <span ng-if="!updating">确认添加 ({{getSelectedNum()}})</span>
+                <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i> 添加中</span>
+              </a>
             </div>
             <div class="list-group-item question-desc">
               <input type="checkbox"

@@ -24,8 +24,9 @@
       </ul>
     </div>
   </div>
-  <div ui-view class="fadeZoom teacher"></div>
+  <div ui-view class="teacher"></div>
   <section class="info-section"
+           id="lecture-info"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <h3 class="text-center">
@@ -93,6 +94,7 @@
     </div>
   </section>
   <section class="media-section"
+           id="lecture-media"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <br/>
@@ -232,6 +234,7 @@
     </div>
   </section>
   <section class="question-section"
+           id="lecture-question"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <h4 class="text-center">3/<label style="font-size: .7em;">3</label> 随堂练习和课后作业</h4>

@@ -10,3 +10,16 @@ exports.index = (req, res, next) ->
   .then (notices) ->
     res.send notices
   , next
+
+exports.read = (req, res, next) ->
+  ids = req.body.ids
+  Notice.updateQ
+    _id: $in: ids
+    userId: req.user._id
+  ,
+    $set: status: 1#status: 1 -> read
+  ,
+    multi: true
+  .then (result) ->
+    res.send 200, result
+  , next

@@ -9,9 +9,12 @@ class NoticeUtils
       data: {}
       status: 0
 
-    data.data[Const.NoticeRef[type]] = objectId
+    ref = Const.NoticeRef[type]
+    data.data[ref] = objectId
 
     Notice.createQ data
+    .then (notice) ->
+      notice.populateQ "data.#{ref}"
 
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disTopicId) ->

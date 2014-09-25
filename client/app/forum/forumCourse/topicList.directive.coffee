@@ -11,6 +11,7 @@ angular.module('budweiserApp')
     topics: '='
     onTopicClick: '&'
     onTagClick: '&'
+    lectureId: '@'
 
 .controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state, Tag)->
   angular.extend $scope,
@@ -56,6 +57,7 @@ angular.module('budweiserApp')
           topics: -> $scope.topics
           course: -> $scope.course
           lectures: -> $scope.lectures
+          lectureId: -> $scope.lectureId
 
       .result.then (dis_topic)->
         dis_topic.$tags = (Tag.genTags dis_topic.content)

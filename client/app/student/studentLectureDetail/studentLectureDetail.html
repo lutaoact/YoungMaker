@@ -51,14 +51,8 @@
       <a class="btn" ng-class="{'active':!viewState.isVideo,'selected':!viewState.isVideo}" ng-click="viewState.isVideo = false">
         <i class="fa fa-file-powerpoint-o"></i>
       </a>
-      <a class="btn" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()">
+      <a class="btn sub" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()">
         <i class="fa fa-comment-o"></i>
-      </a>
-      <a class="btn sub" ng-class="{'active':lecture.$liked}" ng-click="lecture.$liked = !lecture.$liked">
-        <i class="fa fa-heart"></i>
-      </a>
-      <a class="btn sub" ng-class="{'active':lecture.$collected}" ng-click="lecture.$collected = !lecture.$collected">
-        <i class="fa fa-star"></i>
       </a>
     </div>
 

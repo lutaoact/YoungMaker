@@ -29,7 +29,7 @@
         <div class="input-group-addon">课时:</div>
          <ui-select ng-model="$lecture">
           <ui-select-match placeholder="关联课时">{{$select.selected.name}}</ui-select-match>
-          <ui-select-choices repeat="option as option in lectures | filter: $select.search" >
+          <ui-select-choices repeat="option as option in lectures | filter: lectureId |filter: $select.search" >
             <div ng-bind-html="option.name | highlight: $select.search" ng-click="addLectureAsTag(option)" class="tag-option"></div>
           </ui-select-choices>
         </ui-select>

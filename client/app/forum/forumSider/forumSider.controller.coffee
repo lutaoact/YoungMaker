@@ -20,27 +20,11 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
   angular.extend $scope,
     loading: true
 
-    course: null
-
     topics: null
 
     currentTopic: undefined
 
-    imagesToInsert: undefined
-
-    loadCourse: ()->
-      Restangular.one('courses',$state.params.courseId).get()
-      .then (course)->
-        Restangular.all('key_points').getList(categoryId: course.categoryId)
-        .then (keypoints)->
-          $scope.keypoints = keypoints
-        $scope.course = course
-
-    loadLectures: ()->
-      Restangular.all('lectures').getList({courseId: $state.params.courseId})
-      .then (lectures)->
-        $scope.course.$lectures = lectures
-
+    lectureId: $state.params.lectureId
 
     loadTopics: ()->
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
@@ -66,7 +50,6 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
       $scope.showTopic = false
 
   $q.all [
-    $scope.loadCourse().then $scope.loadLectures
     $scope.loadTopics()
   ]
   .then ()->

@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
   course
   lectures
   topics
+  lectureId
 ) ->
 
   angular.extend $scope,
@@ -15,6 +16,8 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     lectures: lectures
 
     keypoints: keypoints
+
+    lectureId: lectureId
 
     close: ->
       $modalInstance.dismiss('close')
@@ -55,4 +58,10 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
 
     deleteTag: (tag)->
       $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
+
+  if lectureId
+    $scope.$lecture = ($scope.lectures.filter (lecture)->
+      lecture._id is lectureId
+    )[0]
+    $scope.addLectureAsTag($scope.$lecture)
 

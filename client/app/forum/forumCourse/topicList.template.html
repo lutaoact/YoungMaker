@@ -40,7 +40,7 @@
       </div>
     </div>
     <li class="bud col-md-12 topic"
-        ng-repeat="topic in topics|filter:viewState.query|filter: topicsFilter|orderBy:viewState.orderBy"
+        ng-repeat="topic in topics|filter:lectureId|filter:viewState.query|filter: topicsFilter|orderBy:viewState.orderBy"
         ng-class="{'selected':topic._id==selectedTopic._id}"
         >
       <div class="topic-left" ng-click="selectTopic(topic)">

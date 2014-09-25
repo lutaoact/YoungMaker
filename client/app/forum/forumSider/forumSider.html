@@ -1,9 +1,9 @@
 <div class="container">
   <div ng-hide="showTopic">
     <div class="clearfix title-row">
-      <h4 class="pull-left">讨论区<i class="fa fa-comments-o base-color"></i></h4>
+      <h4 class="pull-left">课时讨论<i class="fa fa-comments-o base-color"></i></h4>
     </div>
-    <topic-list class="narrow" topics="topics" on-topic-click="viewTopic">
+    <topic-list class="narrow" topics="topics" on-topic-click="viewTopic" lecture-id="{{lectureId}}">
     </topic-list>
   </div>
 

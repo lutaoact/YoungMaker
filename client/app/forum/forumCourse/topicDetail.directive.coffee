@@ -47,11 +47,6 @@ angular.module('budweiserApp')
       .then ()->
         topic.$replies.splice topic.$replies.indexOf(reply), 1
 
-    setEditorInactive: ()->
-      $timeout ->
-        $scope.viewstate.editorActive = false
-      , 200
-
     scrollToEditor: ()->
       $document.scrollToElement(angular.element('.new-reply-right'), 200, 200)
 

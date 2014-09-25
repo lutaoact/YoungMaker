@@ -18,10 +18,23 @@
   <div class="list-group">
     <div class="list-group-item question-heading">
       <label>{{getQuestions().length}}个习题</label>
-      <button type="button"
-              class="btn btn-primary glyphicon glyphicon-remove pull-right"
+      <a class="btn btn-primary pull-right"
+         ng-click="selectedAll=!selectedAll;toggleSelectAll(selectedAll)">
+        <span ng-if="!selectedAll">
+          <i class="fa fa-square-o"></i>
+          全选
+        </span>
+        <span ng-if="selectedAll">
+          <i class="fa fa-check-square-o"></i>
+          取消
+        </span>
+      </a>
+      <a ng-show="getSelectedNum()"
+         class="btn btn-primary pull-right"
          ng-click="removeQuestion()">
-      </button>
+        <i class="fa fa-remove"></i>
+        删除所选 ({{getSelectedNum()}})
+      </a>
     </div>
     <div class="list-group-item question-desc">
       <input type="checkbox"
@@ -40,6 +53,7 @@
                ng-click="question.$expended=!question.$expended">
           <span class="index">{{$index+1}}</span>{{question.content.title}}
         </label>
+        <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
       </div>
       <ul class="nav nav-pills nav-stacked list-group-item question-content"
           role="tablist"

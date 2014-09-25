@@ -48,7 +48,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时'
-          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"吗？"""
+          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
       .result.then ->
         lecture.remove(courseId:$scope.course._id)
         .then ->

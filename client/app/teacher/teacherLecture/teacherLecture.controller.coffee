@@ -61,7 +61,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除PPT页面'
-          message: -> """确认要删除"#{$scope.lecture.name}"中PPT的第#{index+1}页吗？"""
+          message: -> """确认要删除"#{$scope.lecture.name}"中PPT的第#{index+1}页？"""
       .result.then ->
         $scope.lecture.slides.splice(index, 1)
         $scope.lecture.patch?(slides: $scope.lecture.slides)
@@ -74,7 +74,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时视频'
-          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的视频吗？"""
+          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的视频？"""
       .result.then ->
         $scope.lecture.media = null
         $scope.lecture.patch?(media: $scope.lecture.media)
@@ -87,7 +87,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时PPT'
-          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的PPT吗？"""
+          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的PPT？"""
       .result.then ->
         $scope.lecture.slides = []
         $scope.lecture.patch?(slides: $scope.lecture.slides)

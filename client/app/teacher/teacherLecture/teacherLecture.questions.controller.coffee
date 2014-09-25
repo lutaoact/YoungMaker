@@ -23,6 +23,7 @@ angular.module('budweiserApp')
   angular.extend $scope,
 
     questionType: 'quizzes' # quizzes | homeworks
+    selectedAll: false
 
     getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
 
@@ -45,13 +46,6 @@ angular.module('budweiserApp')
         lectureId: $state.params.lectureId
         questionType: $scope.questionType
       })
-#      $modal.open
-#        templateUrl: 'app/teacher/teacherLecture/questionLibrary.html'
-#        controller: 'QuestionLibraryCtrl as ctrl'
-#        resolve:
-#          keyPoints: -> $scope.keyPoints
-#          questions: -> $scope.libraryQuestions
-#      .result.then addQuestion
 
     addNewQuestion: ->
       $modal.open
@@ -66,21 +60,36 @@ angular.module('budweiserApp')
           $scope.libraryQuestions.push newQuestion
           addQuestion(newQuestion)
 
+    getSelectedNum: ->
+      _.reduce $scope.getQuestions(), (sum, q) ->
+        sum + (if q.$selected then 1 else 0)
+      , 0
+
     toggleSelectAll: (selected) ->
       angular.forEach $scope.getQuestions(), (q) -> q.$selected = selected
 
-    removeQuestion: (index = -1) ->
-      questions = $scope.getQuestions()
-      if index == -1
-        deleteQuestions = _.filter questions, (q) -> q.$selected == true
-        angular.forEach deleteQuestions, (q) ->
-          questions.splice(questions.indexOf(q), 1)
-      else
-        questions.splice index, 1
-      saveQuestions(questions)
-
-    sendQuestion: (question) ->
-      Restangular.all('questions').customPOST(null, 'quiz', questionId:question._id, classId:'444444444444444444444400')
+    removeQuestion: (question = null) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除问题'
+          message: ->
+            if question?
+              """确认要删除"#{question.content.title}"？"""
+            else
+              """确认要删除这#{$scope.getSelectedNum()}个问题？"""
+      .result.then ->
+        questions = $scope.getQuestions()
+        if question?
+          index = questions.indexOf question
+          questions.splice index, 1
+        else
+          $scope.selectedAll = false if $scope.selectedAll
+          deleteQuestions = _.filter questions, (q) -> q.$selected == true
+          angular.forEach deleteQuestions, (q) ->
+            questions.splice(questions.indexOf(q), 1)
+        saveQuestions(questions)
 
   addQuestion = (question) ->
     questions = $scope.getQuestions()

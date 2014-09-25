@@ -141,8 +141,9 @@
       font-weight: normal;
     }
     .btn {
-      height: 40px;
-      width: 45px;
+      margin-top: 5px;
+      margin-right: 5px;
+      border: none;
     }
   }
   .question-desc {
@@ -169,7 +170,7 @@
       padding-top: 20px;
       height: 60px;
       margin: 0px;
-      width: calc(~'100% - 60px');
+      width: calc(~'100% - 90px');
     }
     .title-select {
       padding-right: 15px;
@@ -181,6 +182,9 @@
     }
     .index {
       padding-right: 28px;
+    }
+    .close {
+      display:none;
     }
     &.expended {
       color: #ffffff;
@@ -194,6 +198,11 @@
       color: #ffffff;
       border-bottom: none;
       background: @base-color;
+    }
+    .close {
+      display:block;
+      margin-top: 20px;
+      margin-right: 10px;
     }
   }
   .question-content {

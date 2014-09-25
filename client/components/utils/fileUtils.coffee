@@ -58,28 +58,86 @@ angular.module 'budweiserApp'
     # get upload token
     Restangular.one('assets/upload/videos','').get(fileName: file.name)
     .then (strategy)->
-      start = moment()
-      fileReader = new FileReader()
-      # this is a working draft. IE10 supported
-      fileReader.readAsArrayBuffer(file)
-      fileReader.onload = (e)->
-        console.log 'loaded'
-        $upload.http
-          url: strategy.url
-          method: 'PUT'
-          headers:
-            'x-ms-blob-type': 'BlockBlob'
-            'x-ms-version': '2013-08-15'
-            'Content-Type': 'application/octet-stream'
-          withCredentials: false
-          data: e.target.result
-        .progress (evt)->
-          speed = evt.loaded / (moment().valueOf() - start.valueOf())
-          percentage = parseInt(100.0 * evt.loaded / evt.total)
-          opts.progress?(speed,percentage, evt)
-        .success (data) ->
-          opts.success?(strategy.key, data)
-        .error opts.fail
+      startTime = moment()
+      pipeUpload = (file, segment ,request)->
+        uploadQ = $q.defer()
+        pieces = Math.ceil(file.size / segment)
+        pad = (number, length) ->
+          str = '' + number
+          while str.length < length
+            str = '0' + str
+          str
+        blocklist = [1..pieces].map (i) -> btoa('blick-' + pad(i, 6))
+        commitBlockList = ()->
+          deferred = $q.defer()
+          url = request.url + '&comp=blocklist'
+          requestBody = '<?xml version="1.0" encoding="utf-8"?><BlockList>';
+          requestBody += (blocklist.map (i)-> '<Latest>' + i + '</Latest>').join('')
+          requestBody += '</BlockList>'
+          $.ajax
+            url: url
+            type: "PUT"
+            data: requestBody
+            beforeSend:  (xhr) ->
+              xhr.setRequestHeader('x-ms-blob-content-type', file.type)
+            success: (data, status) ->
+              deferred.resolve data
+            error: (xhr, desc, err) ->
+              console.log(err)
+          deferred.promise
+
+
+        readBlob = (start, end)->
+          deferred = $q.defer()
+          blob = file.slice(start, end)
+          fileReader = new FileReader()
+          fileReader.readAsArrayBuffer(blob)
+          fileReader.onload = (e)->
+            deferred.resolve e.target.result
+          deferred.promise
+        current = 0
+        currentEnd = if current + segment >= file.size - 1 then file.size - 1 else current + segment
+        uploadPiece = (current, currentEnd)->
+          currentEnd = if currentEnd >= file.size - 1 then file.size - 1 else currentEnd
+          readBlob(current, currentEnd)
+          .then (data)->
+            request.data = data
+            $.ajax
+              url: request.url + '&comp=block&blockid=' + blocklist[Math.ceil(currentEnd / segment) - 1]
+              type: request.method
+              data: data
+              processData: false
+              beforeSend: (xhr)->
+                xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
+                xhr.setRequestHeader('Content-Length', data.length)
+              success: (data)->
+                console.log(data)
+                speed = currentEnd / (moment().valueOf() - startTime.valueOf())
+                percentage = parseInt(100.0 * currentEnd / file.size)
+                opts.progress?(speed,percentage)
+                if currentEnd == file.size - 1
+                  # Done
+                  commitBlockList()
+                  .then ()->
+                    uploadQ.resolve data
+                else
+                  uploadPiece(currentEnd, currentEnd + segment)
+
+        uploadPiece current, currentEnd
+        uploadQ.promise
+
+      request =
+        url: strategy.url
+        method: 'PUT'
+        headers:
+          'x-ms-blob-type': 'BlockBlob'
+          'x-ms-version': '2013-08-15'
+          'Content-Type': 'application/octet-stream'
+          'Content-Length': file.size
+        withCredentials: false
+      pipeUpload(file, 4 * 1024 * 1024,request)
+      .then (data)->
+        opts.success?(strategy.key, data)
     , opts.fail
 
   bulkUpload: (opts)->

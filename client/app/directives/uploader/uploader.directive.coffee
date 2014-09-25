@@ -40,6 +40,6 @@ angular.module('budweiserApp')
         progress: (speed, percentage, evt)->
           $scope.uploadProgress =
             if files.length == 1
-              parseInt(100.0 * evt.loaded / evt.total) + '%'
+              parseInt(percentage) + '%'
             else
               ''

@@ -33,6 +33,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     saveLecture: (lecture, form)->
       unless form?.$valid then return
 
+      # change list[Object] to list[ID]
       editingLecture = angular.extend angular.copy(lecture),
         keyPoints: _.map lecture.keyPoints, (keyPoint) ->
           kp: keyPoint.kp._id
@@ -137,9 +138,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Restangular.one('courses', $state.params.courseId).get()
   .then (course) ->
     $scope.course = course
+    if !$scope.lecture._id && !$scope.lecture.name
+      $scope.lecture.name = "新建课时 #{course.lectureAssembly.length + 1}"
+
     Restangular.all('key_points').getList()
     .then (keyPoints) ->
       course.$keyPoints = keyPoints
-    Restangular.all('questions').getList(categoryId:course.categoryId)
-    .then (questions) ->
-      course.$libraryQuestions = questions

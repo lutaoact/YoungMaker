@@ -1,18 +1,32 @@
 <div class="teacher-lecture">
   <div class="sub-nav">
     <div class="container">
-      <ul class="pull-left">
+      <ul class="pull-left" ng-if="!$state.includes('teacher.lecture.questionLibrary')">
         <li>
-          <a class="btn btn-primary btn-md rounded"
-             ui-sref="teacher.course({courseId:course._id})"><i class="fa fa-arrow-left"></i></a>
+          <a class="btn btn-primary btn-md rounded" ui-sref="teacher.course({courseId:$state.params.courseId})">
+            <i class="fa fa-arrow-left"></i>
+          </a>
         </li>
         <li>
           <h3>{{course.name}}<small>/{{lecture.name}}</small></h3>
         </li>
       </ul>
+      <ul class="pull-left" ng-if="$state.includes('teacher.lecture.questionLibrary')">
+        <li>
+          <a class="btn btn-primary btn-md rounded"
+             ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})">
+            <i class="fa fa-arrow-left"></i>
+          </a>
+        </li>
+        <li>
+          <h3><span>{{lecture.name}}<small>/从题库中添加</small></h3>
+        </li>
+      </ul>
     </div>
   </div>
-  <section class="info-section">
+  <div ui-view class="fadeZoom teacher"></div>
+  <section class="info-section"
+           ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <h3 class="text-center">
         <a ui-sref="teacher.course({courseId:course._id})">{{course.name}}</a> / {{lecture.name}}
@@ -78,7 +92,8 @@
       </div>
     </div>
   </section>
-  <section class="media-section">
+  <section class="media-section"
+           ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <br/>
       <h4 class="text-center">2/<label style="font-size: .7em;">3</label> 视频和PPT</h4>
@@ -216,7 +231,8 @@
       </tabset>
     </div>
   </section>
-  <section class="question-section">
+  <section class="question-section"
+           ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <h4 class="text-center">3/<label style="font-size: .7em;">3</label> 随堂练习和课后作业</h4>
       <hr class="info-hr"/>

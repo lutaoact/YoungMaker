@@ -11,27 +11,31 @@ angular.module('budweiserApp')
     lecture: '='
     categoryId: '='
     keyPoints: '='
-    libraryQuestions: '='
 
 .controller 'TeacherLectureQuestionsCtrl', (
   $scope
   $state
   $modal
+  $rootScope
   Restangular
 ) ->
 
-  angular.extend $scope,
+  questionType = 'quizzes' # quizzes | homeworks
 
-    questionType: 'quizzes' # quizzes | homeworks
+  angular.extend $scope,
     selectedAll: false
+    tabActive:
+      quizzes: false
+      homeworks: false
 
     getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
 
     setQuestionType: (type) ->
-      $scope.questionType = type
+      questionType = type
+      $scope.tabActive[questionType] = true
 
     getQuestions: ->
-      $scope.lecture?[$scope.questionType]
+      $scope.lecture?[questionType]
 
     getCorrectInfo: (question) ->
       _.reduce question.content.body, (result, option, index) ->
@@ -41,10 +45,10 @@ angular.module('budweiserApp')
       , ''
 
     addLibraryQuestion: ->
-      $state.go('teacher.questionLibrary', {
+      $state.go('teacher.lecture.questionLibrary', {
         courseId: $state.params.courseId
         lectureId: $state.params.lectureId
-        questionType: $scope.questionType
+        questionType: questionType
       })
 
     addNewQuestion: ->
@@ -57,8 +61,7 @@ angular.module('budweiserApp')
       .result.then (question) ->
         Restangular.all('questions').post(question)
         .then (newQuestion) ->
-          $scope.libraryQuestions.push newQuestion
-          addQuestion(newQuestion)
+          addQuestions [newQuestion]
 
     getSelectedNum: ->
       _.reduce $scope.getQuestions(), (sum, q) ->
@@ -72,6 +75,7 @@ angular.module('budweiserApp')
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
+        backdrop: 'static'
         resolve:
           title: -> '删除问题'
           message: ->
@@ -91,14 +95,29 @@ angular.module('budweiserApp')
             questions.splice(questions.indexOf(q), 1)
         saveQuestions(questions)
 
-  addQuestion = (question) ->
+  addQuestions = (newQuesions) ->
     questions = $scope.getQuestions()
-    questions.push question
+    angular.forEach newQuesions, (q) -> questions.push q
     saveQuestions(questions)
 
   saveQuestions = (questions) ->
     patch = {}
-    patch[$scope.questionType] = _.map questions, (q) -> q._id
-    $scope.lecture.patch?(patch)
-    .then (newLecture) ->
-      $scope.lecture.__v = newLecture.__v
+    patch[questionType] = _.map questions, (q) -> q._id
+    if $scope.lecture.patch?
+      $scope.lecture.patch(patch)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
+        backToLecture()
+    else
+      _.delay backToLecture, 300
+
+  backToLecture = ->
+    $state.go('teacher.lecture', {
+      courseId: $state.params.courseId
+      lectureId: $state.params.lectureId
+    })
+
+  $rootScope.$on 'add-library-question', (event, type, questions) ->
+    $scope.setQuestionType(type)
+    addQuestions questions
+

@@ -6,3 +6,13 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/teacher/teacherLecture/teacherLecture.html'
     controller: 'TeacherLectureCtrl'
     authenticate: true
+
+  $stateProvider.state 'teacher.lecture.questionLibrary',
+    url: '/question-library/:questionType'
+    template: """
+      <question-library category-id="course.categoryId"
+                        key-points="course.$keyPoints"
+                        lecture="lecture">
+      </question-library>
+    """
+    authenticate: true

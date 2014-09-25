@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   $scope
   $state
   $modal
+  $rootScope
   Restangular
 ) ->
 

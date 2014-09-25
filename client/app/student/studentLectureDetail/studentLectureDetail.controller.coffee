@@ -26,12 +26,11 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 ) ->
 
   loadLecture = ()->
-    if $state.params.lectureId and $state.params.lectureId is 'new'
-      $scope.lecture = {courseId:$state.params.courseId}
-    else if $state.params.lectureId
+    if $state.params.lectureId
       Restangular.one('lectures',$state.params.lectureId).get()
       .then (lecture)->
         $scope.lecture = lecture
+        $scope.viewState.isVideo = lecture.media or !lecture.slides
         # If student stay over 5 seconds. Send view lecture event.
         handleViewEvent = $timeout ->
           console.log 'view'

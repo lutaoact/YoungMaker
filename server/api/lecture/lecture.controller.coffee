@@ -61,8 +61,8 @@ exports.create = (req, res, next) ->
     Classe.getAllStudents tmpResult.course.classes
   .then (studentIds) ->
     NoticeUtils.addLectureNotices studentIds, tmpResult.lecture._id
-  .then (notices) ->
-    SocketUtils.sendNotices notices if notices?
+#  .then (notices) ->
+#    SocketUtils.sendNotices notices if notices?
   .then () ->
     res.send tmpResult.lecture
   , (err) ->

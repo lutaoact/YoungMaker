@@ -6,7 +6,10 @@ exports.index = (req, res, next) ->
   userId = req.user.id
 
   #status: 0 -> unread
-  Notice.findQ userId: userId, status: 0
+  Notice.find
+    userId: userId, status: 0
+  .populate 'data.lecture data.disTopic data.disReply'
+  .execQ()
   .then (notices) ->
     res.send notices
   , next

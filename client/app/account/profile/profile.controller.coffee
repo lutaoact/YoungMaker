@@ -34,6 +34,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
           notify
             message:'已保存'
             template:'components/alert/success.html'
+          $scope.me
 
     onFileSelect: (files)->
       $scope.isUploading = true

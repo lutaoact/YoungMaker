@@ -144,8 +144,8 @@ exports.update = (req, res, next) ->
 
     updated = _.merge user , req.body
     updated.saveQ()
-  .then (user) ->
-    res.send user
+  .then (result) ->
+    res.send result[0]
   , (err) ->
     next err
 
@@ -159,7 +159,7 @@ updateClasseStudents = (res, next, classeId, studentList, importReport) ->
     classe.students = _.union classe.students, studentList
     classe.markModified 'students'
     classe.saveQ()
-  .then (saved) ->
+  .then (result) ->
     res.send importReport
   , (err) ->
     next err

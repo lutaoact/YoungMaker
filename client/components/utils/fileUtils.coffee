@@ -59,9 +59,12 @@ angular.module 'budweiserApp'
     Restangular.one('assets/upload/videos','').get(fileName: file.name)
     .then (strategy)->
       start = moment()
-      $upload.upload
+      $upload.http
         url: strategy.url
         method: 'PUT'
+        headers:
+          'x-ms-blob-content-type': 'BlockBlob'
+          'x-ms-version': '2013-08-15'
         withCredentials: false
         file: file
         fileFormDataName: 'file'

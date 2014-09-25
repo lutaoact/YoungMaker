@@ -99,12 +99,20 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         message =
           title: raw.fromWhom + '赞了你的帖子：' + raw.data.disTopic
           link: ''
-      # when Const.NoticeType.ReplyVoteUp
-      # when Const.NoticeType.Comment
-      # when Const.NoticeType.Lecture
+      when Const.NoticeType.ReplyVoteUp
+        message =
+          title: raw.fromWhom + '赞了你的回复：' + raw.data.disTopic
+          link: ''
+      when Const.NoticeType.Comment
+        message =
+          title: raw.fromWhom + '回复了你的帖子：' + raw.data.disTopic
+          link: ''
+      when Const.NoticeType.Lecture
+        message =
+          title: raw.fromWhom + '发布了新课时' + raw.data.lecture
+          link: ''
 
-    console.log raw
-    raw
+    message
 
   $scope.$on 'message.notice', (event, data)->
     $scope.messages.splice 0, 0, genMessage(data)

@@ -32,7 +32,14 @@
           <div class="list-group">
             <div class="list-group-item question-heading">
               <label>找到{{questions.length}}个习题</label>
-              <a ng-show="getSelectedNum() > 0"
+              <a ng-if="getSelectedNum()>0"
+                 class="btn btn-warning pull-right"
+                 ng-disabled="deleting"
+                 ng-click="removeQuestion()">
+                <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
+                <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
+              </a>
+              <a ng-if="getSelectedNum() > 0"
                  class="btn btn-danger pull-right"
                  ng-click="addToLecture()"
                  ng-disabled="updating">
@@ -58,6 +65,7 @@
                        ng-click="question.$expended=!question.$expended">
                   <span class="index">{{$index+1}}</span>{{question.content.title}}
                 </label>
+                <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
               </div>
               <ul class="nav nav-pills nav-stacked list-group-item question-content"
                   role="tablist"

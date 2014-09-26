@@ -49,6 +49,33 @@ angular.module('budweiserApp')
       $scope.selectedKeyPoints = _.filter $scope.keyPoints, (k) -> k.$selected
       $scope.searchQuestions()
 
+    removeQuestion: (question = null) ->
+      console.debug 'remove question...'
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除题库中的问题'
+          message: ->
+            if question?
+              """确认要删除题库中的"#{question.content.title}"？"""
+            else
+              """确认要删除题库中的这#{$scope.getSelectedNum()}个问题？"""
+      .result.then ->
+        questions = $scope.questions
+        $scope.selectedAll = false if $scope.selectedAll
+        deleteQuestions =
+          if question?
+            [question]
+          else
+            _.filter questions, (q) -> q.$selected == true
+        $scope.deleting = true
+        Restangular.all('questions').customPOST(ids: _.pluck(deleteQuestions, '_id'), 'multiDelete')
+        .then ->
+          $scope.deleting = false
+          angular.forEach deleteQuestions, (q) ->
+            questions.splice(questions.indexOf(q), 1)
+
     addNewQuestion: ->
       $modal.open
         templateUrl: 'app/teacher/teacherLecture/newQuestion.html'

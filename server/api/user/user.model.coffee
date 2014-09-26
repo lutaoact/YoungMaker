@@ -13,6 +13,9 @@ exports.User = BaseModel.subclass
     @schema = new Schema
       avatar :
         type : String
+      username :
+        type : String
+        unique: true
       email :
         type : String
         lowercase : true

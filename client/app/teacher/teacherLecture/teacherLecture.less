@@ -109,7 +109,9 @@
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
       width: 100%;
-      padding: 4px;
+      padding: 0px;
+      margin: 0px;
+      height: 36px;
       .info {
         padding-top: 5px;
         font-size: 1.2em;
@@ -128,7 +130,7 @@
     border-radius: 6px;
     padding: 10px;
     margin: 0px;
-    height: 520px;
+    height: 510px;
     background: #ffffff;
     &.lecture-ppt-empty {
       border: 2px dashed #ccc;
@@ -150,7 +152,9 @@
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
       width: 100%;
-      padding: 4px;
+      padding: 0px;
+      margin: 0px;
+      height: 36px;
       .info {
         padding-top: 5px;
         font-size: 1.2em;
@@ -162,6 +166,68 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+    }
+  }
+  .keypoint-heading {
+    border-top-right-radius: 5px;
+    background: #000000;
+    color: #ffffff;
+    border-left: none;
+    border-color: #000000;
+    padding: 3px 12px;
+  }
+  .keypoint-item {
+    border-left: none;
+    padding: 1px 7px 1px 0px;
+  }
+  .keypoint-label {
+    color: #666666;
+    font-size: .95em;
+    padding-left: 5px;
+  }
+  .keypoint-input {
+    border-radius: 4px;
+    width: 80px;
+    padding: 0px 3px;
+    border: 1px solid #dddddd;
+  }
+  .keypoint-add-btn {
+    padding: 3px 6px;
+    margin: -4px -13px;
+    border-top-right-radius: 4px;
+  }
+  .keypoint-time-btn {
+    padding: 2px 8px;
+    margin: -2px 0px;
+    background: #ffffff;
+    border-color: #dddddd;
+    color: #555555;
+  }
+  .keypoint-time-btn:hover {
+    background: @base-color;
+    border-color: @base-color;
+    color: #ffffff;
+  }
+  .keypoint-select {
+    width: calc(~'100% - 150px');
+    display: inline-block;
+    .ui-select-match,
+    .ui-select-search {
+      padding: 0px 5px;
+      margin: 0px;
+      height: 22px;
+      outline: 0;
+      border: none;
+      color: #777777;
+      font-size: .92em;
+    }
+    .ui-select-choices-row>a {
+      font-size: .9em;
+      color: #888888;
+    }
+    .ui-select-choices-row.active>a {
+      background-color: @base-color;
+      color: #ffffff;
     }
   }
   .question-heading {

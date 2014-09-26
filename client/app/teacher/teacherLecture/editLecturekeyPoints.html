@@ -1,31 +1,32 @@
 <div>
-  <div class="list-group-item"
+  <div class="list-group-item keypoint-heading">
+    知识点
+    <a class="btn btn-danger keypoint-add-btn pull-right"
+       ng-click="addKeyPoint()">
+      <i class="glyphicon glyphicon-plus"></i>
+    </a>
+  </div>
+  <div class="list-group-item keypoint-item"
        ng-repeat="keyPoint in lecture.keyPoints">
-    <a ng-click="updatekeyPoint(keyPoint)" >
-      <span class="glyphicon glyphicon-arrow-right"></span>
+    <a class="btn btn-primary keypoint-time-btn"
+       ng-click="setKeyPointTime(keyPoint)" >
+      <i class="glyphicon glyphicon-share-alt"></i>
     </a>
     <input type="number"
            ng-model="keyPoint.timestamp"
-           style="width:50px"
-           ng-blur="savekeyPoints()"/>
-    <a class="btn-link" ng-click="seekPlayerTime(keyPoint.timestamp)">
-      {{keyPoint.kp.name}}
-    </a>
-    <div class="pull-right">
-      <a ng-click="removekeyPoint($index)" >
-        <span class="glyphicon glyphicon-remove"></span>
-      </a>
-    </div>
-  </div>
-  <div class="list-group-item">
-    <ui-select ng-model="selectedKeyPoint"
-               on-select="addkeyPoint($item)">
+           class="keypoint-input"
+           ng-focus="seekPlayerTime(keyPoint.timestamp)"
+           ng-blur="saveKeyPoints()"/>
+    <ui-select ng-model="keyPoint.kp"
+               on-select="setKeyPointKp(keyPoint, $item)"
+               class="keypoint-select">
       <ui-select-match placeholder="查找并且添加知识点">
-        <span class="text-muted">查找并且添加知识点</span>
+        <span>{{$select.selected.name}}</span>
       </ui-select-match>
       <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | filter:$select.search">
         <span ng-bind-html="keyPoint.name | highlight: $select.search"></span>
       </ui-select-choices>
     </ui-select>
+    <a ng-click="removeKeyPoint(keyPoint)" class="close">&times;</a>
   </div>
 </div>

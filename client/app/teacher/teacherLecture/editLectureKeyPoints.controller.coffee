@@ -22,25 +22,32 @@ angular.module('budweiserApp')
     seekPlayerTime: (time) ->
       $scope.mediaApi.seekTime time
 
-    addkeyPoint: (keyPoint) ->
-      $scope.lecture.keyPoints.push
-        kp : keyPoint
-        timestamp: 0
-      $scope.savekeyPoints()
+    addKeyPoint: ->
+      newKeyPoint = {}
+      $scope.lecture.keyPoints.push newKeyPoint
+      $scope.setKeyPointTime(newKeyPoint)
 
-    removekeyPoint: (index) ->
-      $scope.lecture.keyPoints.splice(index, 1)
-      $scope.savekeyPoints()
+    removeKeyPoint: (keyPoint) ->
+      keyPoints = $scope.lecture.keyPoints
+      index = keyPoints.indexOf(keyPoint)
+      keyPoints.splice(index, 1)
+      $scope.saveKeyPoints()
 
-    updatekeyPoint: (keyPoint) ->
+    setKeyPointTime: (keyPoint) ->
       currentTime = $scope.mediaApi.videoElement?[0]?.currentTime
       keyPoint.timestamp = Math.ceil(currentTime)
-      $scope.savekeyPoints()
+      $scope.saveKeyPoints()
 
-    savekeyPoints: ->
+    setKeyPointKp: (keyPoint, kp) ->
+      keyPoint.kp = kp
+      $scope.saveKeyPoints()
+
+    saveKeyPoints: ->
+      console.debug $scope.lecture.keyPoints
       newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
-        kp: keyPoint.kp._id
+        kp: keyPoint.kp?._id
         timestamp: keyPoint.timestamp
+      console.debug newkeyPoints
       $scope.lecture.patch?(keyPoints:newkeyPoints)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v

@@ -121,3 +121,7 @@ exports.pubQuiz = (req, res, next) ->
   .then () ->
     res.send 200
   , next
+
+exports.multiDetele = (req, res, next) ->
+  ids = req.body.ids
+

@@ -1,3 +1,4 @@
+'use strict'
 require '../server/common/init'
 
 xlsx = require 'node-xlsx'
@@ -14,5 +15,5 @@ for line in datas
   result[values[2]][values[3]] = values[4]
 
 console.log result
-fs.writeFile 'xqsh.json', JSON.stringify(result, null, 4), (err) ->
-  if err then console.log err
+#fs.writeFile 'xqsh.json', JSON.stringify(result, null, 4), (err) ->
+#  if err then console.log err

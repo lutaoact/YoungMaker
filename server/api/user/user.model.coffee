@@ -16,6 +16,7 @@ exports.User = BaseModel.subclass
       username :
         type : String
         unique: true
+        required: true
       email :
         type : String
         lowercase : true

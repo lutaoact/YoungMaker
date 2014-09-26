@@ -11,6 +11,7 @@ exports.Classe = BaseModel.subclass
       name:
         type: String
         required: true
+        unique: true
       orgId:
         type: Schema.Types.ObjectId
         ref: "organization"

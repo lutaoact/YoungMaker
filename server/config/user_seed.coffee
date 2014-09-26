@@ -11,6 +11,7 @@ module.exports =
     _id: _s.sprintf StudentId, i
     provider: 'local'
     role: 'student'
+    username: _s.sprintf email, i
     name: _s.sprintf name, i
     email: _s.sprintf email, i
     password: 'student'
@@ -20,6 +21,7 @@ module.exports =
     _id: TeacherId
     provider: 'local'
     role: 'teacher'
+    username: 'teacher1000@cloud3edu.cn'
     name: 'Teacher1000'
     email: 'teacher1000@cloud3edu.cn'
     password: 'teacher'

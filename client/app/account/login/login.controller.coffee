@@ -18,7 +18,7 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
       if form.$valid
         # Logged in, redirect to home
         Auth.login(
-          email: $scope.user.email
+          username: $scope.user.username
           password: $scope.user.password
         ).then ->
           Auth.getCurrentUser().$promise.then (me)->
@@ -39,15 +39,15 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
 
     testLoginUsers: [
       name:'Student'
-      email:'student@student.com'
+      username:'student@student.com'
       password: 'student'
     ,
       name:'Teacher'
-      email:'teacher@teacher.com'
+      username:'teacher@teacher.com'
       password: 'teacher'
     ,
       name:'Admin'
-      email:'admin@admin.com'
+      username:'admin@admin.com'
       password: 'admin'
     ]
 

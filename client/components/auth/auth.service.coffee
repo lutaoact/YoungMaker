@@ -14,10 +14,7 @@ angular.module('budweiserApp').factory 'Auth', ($location, $rootScope, $http, Us
   login: (user, callback) ->
     cb = callback or angular.noop
     deferred = $q.defer()
-    $http.post('/auth/local',
-      email: user.email
-      password: user.password
-    ).success((data) ->
+    $http.post('/auth/local', user).success((data) ->
       $cookieStore.put 'token', data.token
       currentUser = User.get()
       deferred.resolve currentUser

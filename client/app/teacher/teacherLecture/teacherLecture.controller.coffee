@@ -19,6 +19,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     course: course
     keyPoints: KeyPoints
     mediaApi: null
+    editing: false
     saving: false
     tabActive:
       media:true
@@ -30,8 +31,13 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       homeworks:[]
       quizzes:[]
 
+    switchEdit: ->
+      $scope.editing = !$scope.editing
+
     saveLecture: (lecture, form) ->
       unless form?.$valid then return
+
+      $scope.saving = true
 
       # change list[Object] to list[ID]
       editingLecture = angular.extend angular.copy(lecture),
@@ -41,19 +47,17 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         homeworks: _.pluck lecture.homeworks, '_id'
         quizzes: _.pluck lecture.quizzes, '_id'
 
-      $scope.saving = true
-
       if lecture._id?
         # update exists
         Restangular.copy(editingLecture).patch()
         .then (newLecture) ->
-          $scope.saving = false
+          $scope.editing = $scope.saving = false
           lecture.__v = newLecture.__v
       else
         # create new
         Restangular.all('lectures').post(editingLecture, courseId:$state.params.courseId)
         .then ->
-          $scope.saving = false
+          $scope.editing = $scope.saving = false
           $state.go('teacher.course', courseId: $state.params.courseId)
 
     removeSlide: (index) ->
@@ -134,3 +138,5 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     .then (lecture) ->
       $scope.lecture = lecture
       $scope.tabActive.ppt = lecture.slides?.length > 0 && !lecture.media?
+  else
+    $scope.editing = true

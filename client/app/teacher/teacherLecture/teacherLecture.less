@@ -18,6 +18,39 @@
       left: calc(~'50% - 46px');
       top: 60%;
     }
+    #lecture-name[disabled] {
+      border-color: #ffffff;
+      background: none;
+      padding: 6px 1px;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      cursor: default;
+    }
+    #lecture-info[disabled] {
+      border-color: #ffffff;
+      background: none;
+      padding: 6px 1px;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      cursor: default;
+    }
+    .edit-lecture-btn {
+      color: #fff;
+      padding: 7px;
+      border-radius: 5px;
+      background: #aaa;
+      border-color: #aaa;
+    }
+    .edit-lecture-btn:hover,
+    .edit-lecture-btn:focus,
+    .edit-lecture-btn:active,
+    .edit-lecture-btn.active {
+      color: #fff;
+      background-color: @base-color;
+      border-color: @base-color;
+    }
   }
   .title-hr {
     width: 25em;

@@ -36,19 +36,21 @@
       <h4 class="text-center">1/<label style="font-size: .7em;">3</label> 基本信息</h4>
       <hr class="info-hr"/>
       <div class="row lecture-form">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-12 text-center">
           <img src-key="lecture.thumbnail"
                suffix="?imageView2/2/w/210/h/210"
                holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
-          <uploader limit="2*1024*1024"
-                    on-complete="onThumbUploaded($data)"
-                    class="lecture-img-btn btn-danger"
-                    accept="image">
-            <span class="glyphicon glyphicon-picture"></span>
-            上传封面
-          </uploader>
+          <span ng-if="editing">
+            <uploader limit="2*1024*1024"
+                      on-complete="onThumbUploaded($data)"
+                      class="lecture-img-btn btn-danger"
+                      accept="image">
+              <span class="glyphicon glyphicon-picture"></span>
+              上传封面
+            </uploader>
+          </span>
         </div>
-        <form class="col-md-9 form-horizontal" name="form" role="form">
+        <form class="col-md-9 col-sm-12 form-horizontal" name="form" role="form">
           <div class="form-group">
             <label class="col-sm-2 control-label" for="lecture-name">课时名称</label>
             <div class="col-sm-10">
@@ -56,6 +58,7 @@
                      id="lecture-name"
                      name="name"
                      type="text"
+                     ng-disabled="!editing"
                      focus-me="titleInputFocus"
                      ng-init="titleInputFocus=true"
                      ng-model="lecture.name"
@@ -68,6 +71,7 @@
             <div class="col-sm-10">
               <textarea class="form-control"
                         id="lecture-info"
+                        ng-disabled="!editing"
                         name="info"
                         rows="5"
                         ng-model="lecture.info"
@@ -81,22 +85,36 @@
                 <button type="button" class="btn btn-primary dropdown-toggle">
                   开始上课 <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu" style="z-index:10;">
+                <ul class="dropdown-menu" role="menu">
                   <li ng-repeat="classe in course.classes">
                     <a ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:classe._id})">{{classe.name}}</a>
                   </li>
                 </ul>
               </div>
-              <button type="submit"
-                      ng-disabled="saving"
-                      class="btn btn-primary pull-right"
-                      ng-click="saveLecture(lecture, form)">
-                <span ng-if="!saving">保存</span>
-                <span ng-if="saving">
-                  <i class="fa fa-spinner fa-spin"></i>
-                  保存中
-                </span>
-              </button>
+              <span ng-if="!editing" class="pull-right">
+                <button type="button"
+                        class="btn btn-default glyphicon glyphicon-pencil edit-lecture-btn"
+                        ng-click="switchEdit(true)">
+                </button>
+              </span>
+              <span ng-if="editing" class="pull-right">
+                <button type="submit"
+                        ng-disabled="saving"
+                        class="btn btn-primary"
+                        ng-click="saveLecture(lecture, form)">
+                  <span ng-if="!saving">保存</span>
+                  <span ng-if="saving">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    保存中
+                  </span>
+                </button>
+                <button type="button"
+                        ng-if="lecture._id"
+                        class="btn btn-default"
+                        ng-click="switchEdit(false)">
+                  取消
+                </button>
+              </span>
             </div>
           </div>
         </form>

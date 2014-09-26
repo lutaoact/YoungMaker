@@ -5,7 +5,12 @@
        suffix="-tile">
   </div>
   <div class="caption">
-    <h4>{{course.name}}</h4>
+    <h4>
+      {{course.name}}<br>
+      <small>
+        {{course.owners[0].name}}
+      </small>
+    </h4>
     <div class="course-info">
       {{course.info}}
     </div>

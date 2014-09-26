@@ -29,7 +29,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
       fileUtils.uploadFile
         files: $scope.files
         validation:
-          max: 5*1024*1024
+          max: 2*1024*1024
           accept: 'image'
         rename: 'index'
         success: (key) ->
@@ -79,9 +79,14 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
         $scope.viewState.cropping = false
         $scope.viewState.cropped = true
         if options.ratio
-          @viewState.end =
-            x: $event.offsetX
-            y: $scope.viewState.start.y + ($event.offsetX - $scope.viewState.start.x) / options.ratio
+          if ($event.offsetX - $scope.viewState.start.x) / ($event.offsetY - $scope.viewState.start.y) < options.ratio
+            @viewState.end =
+              x: $event.offsetX
+              y: $scope.viewState.start.y + ($event.offsetX - $scope.viewState.start.x) / options.ratio
+          else
+            @viewState.end =
+              x: $scope.viewState.start.x + ($event.offsetY - $scope.viewState.start.y) * options.ratio
+              y: $event.offsetY
         else
           @viewState.end =
             x: $event.offsetX
@@ -91,9 +96,14 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
       $event.preventDefault()
       if $scope.viewState.cropping
         if options.ratio
-          @viewState.end =
-            x: $event.offsetX
-            y: $scope.viewState.start.y + ($event.offsetX - $scope.viewState.start.x) / options.ratio
+          if ($event.offsetX - $scope.viewState.start.x) / ($event.offsetY - $scope.viewState.start.y) < options.ratio
+            @viewState.end =
+              x: $event.offsetX
+              y: $scope.viewState.start.y + ($event.offsetX - $scope.viewState.start.x) / options.ratio
+          else
+            @viewState.end =
+              x: $scope.viewState.start.x + ($event.offsetY - $scope.viewState.start.y) * options.ratio
+              y: $event.offsetY
         else
           @viewState.end =
             x: $event.offsetX
@@ -107,14 +117,21 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
           $scope.viewState.previewUrl = event.target.result
         angular.element('.img-preview').on 'load', (e)->
           console.log e
-          $scope.viewState.size =
-            width: e.target.clientWidth
-            height: e.target.clientHeight
+          if e.target.clientWidth < 250
+            $scope.viewState.size =
+              width: 250
+              height: ~~(e.target.clientHeight * 250 / e.target.clientWidth)
+          else
+            $scope.viewState.size =
+              width: e.target.clientWidth
+              height: e.target.clientHeight
           $scope.viewState.originSize =
             width: e.target.naturalWidth
             height: e.target.naturalHeight
-          angular.element('.bud.thumbnail').css 'width', e.target.clientWidth
-          angular.element('.bud.thumbnail').css 'height', e.target.clientHeight
+          angular.element('.bud.thumbnail').css 'width', $scope.viewState.size.width
+          angular.element('.bud.thumbnail').css 'height', $scope.viewState.size.height
+          angular.element('.img-preview').css 'width', $scope.viewState.size.width
+          angular.element('.img-preview').css 'height', $scope.viewState.size.height
 
       reader.readAsDataURL(value[0])
 

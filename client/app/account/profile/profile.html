@@ -13,6 +13,15 @@
       </label>
     </div>
     <div class="form-group">
+      <label>
+        邮箱
+        <input type="text"
+               class="form-control"
+               ng-blur="patchMe('email')"
+               ng-model="me.email">
+      </label>
+    </div>
+    <div class="form-group">
       <label>头像</label>
       <div>
         <label class="btn btn-default" ng-show="!isUploading">

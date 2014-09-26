@@ -19,7 +19,7 @@
     <div class="list-group-item question-heading">
       <label>{{getQuestions().length}}个习题</label>
       <a ng-if="getSelectedNum()>0 || deleting"
-         class="btn btn-danger pull-right"
+         class="btn btn-warning pull-right"
          ng-click="removeQuestion()">
         <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
         <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>

@@ -50,7 +50,6 @@ angular.module('budweiserApp')
       $scope.searchQuestions()
 
     removeQuestion: (question = null) ->
-      console.debug 'remove question...'
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'

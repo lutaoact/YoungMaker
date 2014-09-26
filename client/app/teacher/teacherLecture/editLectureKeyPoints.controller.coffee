@@ -2,18 +2,18 @@
 
 angular.module('budweiserApp')
 
-.directive 'teacherLectureKeypoints', ->
+.directive 'editLectureKeyPoints', ->
   restrict: 'EA'
   replace: true
-  controller: 'TeacherLectureKeypointsCtrl'
-  templateUrl: 'app/teacher/teacherLecture/teacherLecture.keyPoints.html'
+  controller: 'EditLectureKeyPointsCtrl'
+  templateUrl: 'app/teacher/teacherLecture/editLectureKeyPoints.html'
   scope:
     lecture: '='
     mediaApi: '='
     keyPoints: '='
     categoryId: '='
 
-.controller 'TeacherLectureKeypointsCtrl', (
+.controller 'EditLectureKeyPointsCtrl', (
   $scope
 ) ->
 

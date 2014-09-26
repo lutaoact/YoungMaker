@@ -2,17 +2,17 @@
 
 angular.module('budweiserApp')
 .value('$anchorScroll', angular.noop)
-.directive 'teacherLectureQuestions', ->
+.directive 'editLectureQuestions', ->
   restrict: 'EA'
   replace: true
-  controller: 'TeacherLectureQuestionsCtrl'
-  templateUrl: 'app/teacher/teacherLecture/teacherLecture.questions.html'
+  controller: 'EditLectureQuestionsCtrl'
+  templateUrl: 'app/teacher/teacherLecture/editLectureQuestions.html'
   scope:
     lecture: '='
     categoryId: '='
     keyPoints: '='
 
-.controller 'TeacherLectureQuestionsCtrl', (
+.controller 'EditLectureQuestionsCtrl', (
   $scope
   $state
   $modal
@@ -88,14 +88,13 @@ angular.module('budweiserApp')
               """确认要删除这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->
         questions = $scope.getQuestions()
-        if question?
-          index = questions.indexOf question
-          questions.splice index, 1
-        else
-          $scope.selectedAll = false if $scope.selectedAll
-          deleteQuestions = _.filter questions, (q) -> q.$selected == true
-          angular.forEach deleteQuestions, (q) ->
-            questions.splice(questions.indexOf(q), 1)
+        deleteQuestions =
+          if question?
+            [ question ]
+          else
+            $scope.selectedAll = false if $scope.selectedAll
+            deleteQuestions = _.filter questions, (q) -> q.$selected == true
+        angular.forEach deleteQuestions, (q) -> questions.splice(questions.indexOf(q), 1)
         $scope.deleting = true
         saveQuestions(questions)
 

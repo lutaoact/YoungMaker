@@ -28,5 +28,6 @@ exports.Question = BaseModel.subclass
 #        ]
       type: Number #1:choice
       solution: String
+      delete_flag: Boolean
 
     $super()

@@ -1,0 +1,46 @@
+<div class="modal-header image-crop">
+  <h3 class="modal-title">图片上传</h3>
+</div>
+<div class="modal-body image-crop">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="bud thumbnail" 
+          ng-mousedown="mouseDown($event)"
+          ng-mouseup="mouseUp($event)"
+          ng-mousemove="mouseMove($event)">
+        <img
+        ng-src="{{viewState.previewUrl}}"
+        ng-show="viewState.previewUrl"
+        alt="预览" class="img-preview"
+        >
+        <img src="/assets/images/empty.jpg"
+        ng-hide="viewState.previewUrl"
+        alt="">
+        <div class="mask" ng-show="viewState.cropping||viewState.cropped">
+        </div>
+        <div class="crop-preview-container" 
+        ng-show="viewState.cropping||viewState.cropped" 
+        ng-style="{'top':viewState.start.y,'left':viewState.start.x,'right':viewState.size.width - viewState.end.x,'bottom':viewState.size.height - viewState.end.y}">
+          <div class="crop-preview"
+          ng-style="{'background-image':'url('+viewState.previewUrl+')','top':-viewState.start.y,'left':-viewState.start.x,'right':-(viewState.size.width - viewState.end.x),'bottom':-(viewState.size.height - viewState.end.y)}">
+          </div>
+        </div>
+
+      </div>
+      <label class="btn btn-default" ng-show="!viewState.uploading">
+        <input type="file"
+        style="display:none;"
+        ng-file-select="onFileSelect($event,$files)"/>
+        重新选择图片
+      </label>
+      <label class="btn btn-default disabled ng-hide" ng-hide="!viewState.uploading">
+        <i class="fa fa-spinner fa-spin"></i>上传中 {{viewState.progress}}
+      </label>
+    </div>
+  </div>
+</div>
+<div class="modal-footer image-crop">
+  <button class="btn btn-primary" ng-click="confirm()"
+  ng-disabled="!files">插入</button>
+  <button class="btn btn-warning" ng-click="close()">关闭</button>
+</div>

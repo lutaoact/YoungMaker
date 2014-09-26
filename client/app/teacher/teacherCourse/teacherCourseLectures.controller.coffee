@@ -38,7 +38,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
     selectClasse: (classe) ->
       $scope.activeProgressKey = classe._id
-      if $scope.progressMap.hasOwnProperty(classe._id) then return
+      if classe.$active && $scope.progressMap[classe._id]? then return
       Restangular.all('progresses').getList({courseId: $scope.course._id, classeId: classe._id})
       .then (progress) ->
         $scope.progressMap[classe._id] = progress

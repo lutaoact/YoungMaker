@@ -19,7 +19,7 @@
           </a>
         </li>
         <li>
-          <h3><span>{{lecture.name}}<small>/从题库中添加</small></h3>
+          <h3>{{lecture.name}}<small>/从题库中添加</small></h3>
         </li>
       </ul>
     </div>
@@ -35,8 +35,8 @@
       <hr class="title-hr"/>
       <h4 class="text-center">1/<label style="font-size: .7em;">3</label> 基本信息</h4>
       <hr class="info-hr"/>
-      <div class="media lecture-form">
-        <div class="media-object pull-left">
+      <div class="row lecture-form">
+        <div class="col-md-3">
           <img src-key="lecture.thumbnail"
                suffix="?imageView2/2/w/210/h/210"
                holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
@@ -48,7 +48,7 @@
             上传封面
           </uploader>
         </div>
-        <form class="media-body form-horizontal" name="form" role="form">
+        <form class="col-md-9 form-horizontal" name="form" role="form">
           <div class="form-group">
             <label class="col-sm-2 control-label" for="lecture-name">课时名称</label>
             <div class="col-sm-10">
@@ -77,6 +77,16 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
+              <div class="btn-group" dropdown ng-if="lecture._id">
+                <button type="button" class="btn btn-primary dropdown-toggle">
+                  开始上课 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" style="z-index:10;">
+                  <li ng-repeat="classe in course.classes">
+                    <a ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:classe._id})">{{classe.name}}</a>
+                  </li>
+                </ul>
+              </div>
               <button type="submit"
                       ng-disabled="saving"
                       class="btn btn-primary pull-right"
@@ -162,7 +172,7 @@
               <div edit-lecture-key-points
                    lecture="lecture"
                    class="col-md-6 video-body"
-                   key-points="course.$keyPoints"
+                   key-points="keyPoints"
                    category-id="course.categoryId"
                    media-api="mediaApi">
               </div>
@@ -241,7 +251,7 @@
       <hr class="info-hr"/>
       <div edit-lecture-questions
            lecture="lecture"
-           key-points="course.$keyPoints"
+           key-points="keyPoints"
            category-id="course.categoryId"></div>
     </div>
   </section>

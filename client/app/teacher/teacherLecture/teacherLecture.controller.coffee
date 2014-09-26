@@ -5,32 +5,32 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $http
   $scope
   $state
-  notify
   $modal
-  $upload
   configs
-  $timeout
-  fileUtils
-  $location
-  $rootScope
+  Courses
+  KeyPoints
   Restangular
 ) ->
 
+  course =  _.find Courses, _id :$state.params.courseId
+
   angular.extend $scope,
 
+    course: course
+    keyPoints: KeyPoints
     mediaApi: null
-    course: null
     saving: false
     tabActive:
       media:true
       ppt:false
     lecture:
+      name: "新建课时 #{course.lectureAssembly.length + 1}"
       slides:[]
-      keyPoints:[]
+      keyPoints: []
       homeworks:[]
       quizzes:[]
 
-    saveLecture: (lecture, form)->
+    saveLecture: (lecture, form) ->
       unless form?.$valid then return
 
       # change list[Object] to list[ID]
@@ -38,8 +38,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         keyPoints: _.map lecture.keyPoints, (keyPoint) ->
           kp: keyPoint.kp._id
           timestamp: keyPoint.timestamp
-        homeworks: _.map lecture.homeworks, (q) -> q._id
-        quizzes: _.map lecture.quizzes, (q) -> q._id
+        homeworks: _.pluck lecture.homeworks, '_id'
+        quizzes: _.pluck lecture.quizzes, '_id'
 
       $scope.saving = true
 
@@ -75,7 +75,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时视频'
-          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的视频？"""
+          message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
       .result.then ->
         $scope.lecture.media = null
         $scope.lecture.patch?(media: $scope.lecture.media)
@@ -88,7 +88,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         controller: 'MessageModalCtrl'
         resolve:
           title: -> '删除课时PPT'
-          message: -> """确认要删除《#{$scope.course.name}》中"#{$scope.lecture.name}"的PPT？"""
+          message: -> """确认要删除"#{$scope.lecture.name}"的PPT？"""
       .result.then ->
         $scope.lecture.slides = []
         $scope.lecture.patch?(slides: $scope.lecture.slides)
@@ -134,13 +134,3 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     .then (lecture) ->
       $scope.lecture = lecture
       $scope.tabActive.ppt = lecture.slides?.length > 0 && !lecture.media?
-
-  Restangular.one('courses', $state.params.courseId).get()
-  .then (course) ->
-    $scope.course = course
-    if !$scope.lecture._id && !$scope.lecture.name
-      $scope.lecture.name = "新建课时 #{course.lectureAssembly.length + 1}"
-
-    Restangular.all('key_points').getList()
-    .then (keyPoints) ->
-      course.$keyPoints = keyPoints

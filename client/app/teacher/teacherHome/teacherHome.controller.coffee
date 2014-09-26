@@ -11,18 +11,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
 ) ->
 
   angular.extend $scope,
-    loadTimetable: ()->
-      Restangular.all('schedules').getList()
-      .then (schedules)->
-        # Compose this week then set handle
-        $scope.eventSouces = timetableHelper.genTeacherTimetable(schedules)
-        $scope.dayChangedHandle = (day)->
-          $scope.eventSouces = timetableHelper.genTeacherTimetable($scope.schedules, moment(day))
-        $scope.schedules = schedules
-
-    dayChangedHandle: undefined
-
-    eventSouces: undefined
 
     courses: Courses
 
@@ -35,5 +23,3 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
           categories: -> Categories
       .result.then (newCourse) ->
         $scope.courses.push newCourse
-
-  $scope.loadTimetable()

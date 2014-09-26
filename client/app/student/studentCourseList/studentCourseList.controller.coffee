@@ -23,18 +23,4 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
     startCourse: (event)->
       console.log event
 
-    loadTimetable: ()->
-      Restangular.all('schedules').getList()
-      .then (schedules)->
-        # Compose this week then set handle
-        $scope.eventSouces = timetableHelper.genStudentTimetable(schedules)
-        $scope.dayChangedHandle = (day)->
-          $scope.eventSouces = timetableHelper.genStudentTimetable($scope.schedules, moment(day))
-        $scope.schedules = schedules
-
-    dayChangedHandle: undefined
-
-    eventSouces: undefined
-
   $scope.loadCourses()
-  $scope.loadTimetable()

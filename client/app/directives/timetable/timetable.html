@@ -60,13 +60,15 @@
       <div class="tip-top-left">
         <img src="/assets/images/timetable_tip.png" alt="">
       </div>
+
+      <div class="tip-bottom-right" ng-show="showAddBtn()">
+        <a href class="btn btn-crystal rounded" ng-click="addSchedule()"><i class="fa fa-plus"></i></a>
+      </div>
     </div>
 
     <div class="text-center pull-left">
       <a href class="arrow" ng-click="next()"><i class="fa fa-chevron-right"></i></a>
     </div>
-
-
 
   </div>
 </div>

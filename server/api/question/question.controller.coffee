@@ -8,7 +8,7 @@ SocketUtils = _u.getUtils 'socket'
 exports.index = (req, res, next) ->
   user = req.user
 
-  conditions = orgId: user.orgId, delete_flag: false
+  conditions = orgId: user.orgId, delete_flag: $not: true
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
   if req.query.keyPointIds?
@@ -124,4 +124,12 @@ exports.pubQuiz = (req, res, next) ->
 
 exports.multiDetele = (req, res, next) ->
   ids = req.body.ids
-
+  Question.updateQ
+    _id: $in: ids
+  ,
+    delete_flag: true
+  ,
+    multi: true
+  .then () ->
+    res.send 204
+  , next

@@ -68,8 +68,10 @@ exports.CourseUtils = BaseUtils.subclass
     Classe.findOneQ
       students: studentId
     .then (classe) ->
-      Course.findQ
+      Course.find
         classes : classe._id
+      .populate 'owners', '_id name'
+      .execQ()
     .then (courses) ->
       return courses
     , (err) ->

@@ -14,7 +14,7 @@ class NoticeUtils
 
     Notice.createQ data
     .then (notice) ->
-      notice.populateQ "data.#{ref}"
+      notice.populateQ "data.#{ref} fromWhom"
 
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disTopicId) ->

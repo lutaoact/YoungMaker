@@ -8,7 +8,7 @@ exports.index = (req, res, next) ->
   #status: 0 -> unread
   Notice.find
     userId: userId, status: 0
-  .populate 'data.lecture data.disTopic data.disReply'
+  .populate 'data.lecture data.disTopic data.disReply fromWhom'
   .execQ()
   .then (notices) ->
     res.send notices

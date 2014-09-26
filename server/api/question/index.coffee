@@ -12,6 +12,6 @@ router.put "/:id", auth.hasRole("teacher"), controller.update
 router.patch "/:id", auth.hasRole("teacher"), controller.update
 router.delete '/:id', auth.hasRole('teacher'), controller.destroy
 router.post "/quiz", auth.hasRole("teacher"), controller.pubQuiz
-router.post "/multiDetele", auth.hasRole("teacher"), controller.multiDetele
+router.post "/multiDelete", auth.hasRole("teacher"), controller.multiDelete
 
 module.exports = router

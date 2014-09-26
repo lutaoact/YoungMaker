@@ -122,7 +122,7 @@ exports.pubQuiz = (req, res, next) ->
     res.send 200
   , next
 
-exports.multiDetele = (req, res, next) ->
+exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
   Question.updateQ
     _id: $in: ids

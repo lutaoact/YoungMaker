@@ -38,9 +38,13 @@
       <div class="row lecture-form">
         <div class="col-md-3 col-sm-12 text-center">
           <img src-key="lecture.thumbnail"
+               ng-hide="editingInfo"
                suffix="?imageView2/2/w/210/h/210"
                holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
-          <span ng-if="editing">
+          <span ng-if="editingInfo">
+            <img src-key="editingInfo.thumbnail"
+                 suffix="?imageView2/2/w/210/h/210"
+                 holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
             <uploader limit="2*1024*1024"
                       on-complete="onThumbUploaded($data)"
                       class="lecture-img-btn btn-danger"
@@ -52,31 +56,33 @@
         </div>
         <form class="col-md-9 col-sm-12 form-horizontal" name="form" role="form">
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="lecture-name">课时名称</label>
+            <label class="col-sm-2 control-label">课时名称</label>
             <div class="col-sm-10">
-              <input class="form-control"
-                     id="lecture-name"
-                     name="name"
-                     type="text"
-                     ng-disabled="!editing"
-                     focus-me="titleInputFocus"
-                     ng-init="titleInputFocus=true"
-                     ng-model="lecture.name"
-                     placeholder="课时名称"
-                     required>
+              <span id="lecture-name" ng-hide="editingInfo">{{lecture.name}}</span>
+              <span ng-if="editingInfo">
+                <input class="form-control"
+                       name="name"
+                       type="text"
+                       focus-me="titleInputFocus"
+                       ng-init="titleInputFocus=true"
+                       ng-model="editingInfo.name"
+                       placeholder="课时名称"
+                       required>
+              </span>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="lecture-info">课时信息</label>
+            <label class="col-sm-2 control-label">课时信息</label>
             <div class="col-sm-10">
-              <textarea class="form-control"
-                        id="lecture-info"
-                        ng-disabled="!editing"
-                        name="info"
-                        rows="5"
-                        ng-model="lecture.info"
-                        placeholder="课时信息">
-              </textarea>
+              <span id="lecture-info" ng-hide="editingInfo">{{lecture.info}}</span>
+              <span ng-if="editingInfo">
+                <textarea class="form-control"
+                          name="info"
+                          rows="5"
+                          ng-model="editingInfo.info"
+                          placeholder="课时信息">
+                </textarea>
+              </span>
             </div>
           </div>
           <div class="form-group">
@@ -91,17 +97,17 @@
                   </li>
                 </ul>
               </div>
-              <span ng-if="!editing" class="pull-right">
+              <span ng-if="!editingInfo" class="pull-right">
                 <button type="button"
                         class="btn btn-default glyphicon glyphicon-pencil edit-lecture-btn"
-                        ng-click="switchEdit(true)">
+                        ng-click="switchEdit()">
                 </button>
               </span>
-              <span ng-if="editing" class="pull-right">
+              <span ng-if="editingInfo" class="pull-right">
                 <button type="submit"
                         ng-disabled="saving"
                         class="btn btn-primary"
-                        ng-click="saveLecture(lecture, form)">
+                        ng-click="saveLecture(form)">
                   <span ng-if="!saving">保存</span>
                   <span ng-if="saving">
                     <i class="fa fa-spinner fa-spin"></i>

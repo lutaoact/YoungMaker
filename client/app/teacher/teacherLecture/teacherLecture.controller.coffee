@@ -30,34 +30,51 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       keyPoints: []
       homeworks:[]
       quizzes:[]
+    editingInfo: null
 
     switchEdit: ->
-      $scope.editing = !$scope.editing
+      $scope.editingInfo =
+        if !$scope.editingInfo?
+          _.pick $scope.lecture, [
+            'name'
+            'info'
+            'thumbnail'
+          ]
+        else
+          null
 
-    saveLecture: (lecture, form) ->
+    saveLecture: (form) ->
       unless form?.$valid then return
 
       $scope.saving = true
 
+      lecture = $scope.lecture
+      editingInfo = $scope.editingInfo
+
       # change list[Object] to list[ID]
-      editingLecture = angular.extend angular.copy(lecture),
-        keyPoints: _.map lecture.keyPoints, (keyPoint) ->
-          kp: keyPoint.kp._id
-          timestamp: keyPoint.timestamp
-        homeworks: _.pluck lecture.homeworks, '_id'
-        quizzes: _.pluck lecture.quizzes, '_id'
 
       if lecture._id?
         # update exists
-        Restangular.copy(editingLecture).patch()
+        lecture.patch(editingInfo)
         .then (newLecture) ->
-          $scope.editing = $scope.saving = false
+          $scope.saving = false
           lecture.__v = newLecture.__v
+          angular.extend lecture, editingInfo
+          $scope.editingInfo = null
       else
+        lecture = angular.extend $scope.lecture,
+          keyPoints: _.map lecture.keyPoints, (keyPoint) ->
+            kp: keyPoint.kp._id
+            timestamp: keyPoint.timestamp
+          homeworks: _.pluck lecture.homeworks, '_id'
+          quizzes: _.pluck lecture.quizzes, '_id'
+        lecture = angular.extend lecture, editingInfo
         # create new
-        Restangular.all('lectures').post(editingLecture, courseId:$state.params.courseId)
-        .then ->
-          $scope.editing = $scope.saving = false
+        Restangular.all('lectures').post(lecture, courseId:$state.params.courseId)
+        .then (newLecture) ->
+          console.debug 'create lecture', newLecture
+          $scope.saving = false
+          $scope.editingInfo = null
           $state.go('teacher.course', courseId: $state.params.courseId)
 
     removeSlide: (index) ->
@@ -100,10 +117,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           $scope.lecture.__v = newLecture.__v
 
     onThumbUploaded: (key) ->
-      $scope.lecture.thumbnail = key
-      $scope.lecture.patch?(thumbnail: $scope.lecture.thumbnail)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      $scope.editingInfo.thumbnail = key
 
     onPPTUploaded: (key) ->
       $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
@@ -139,4 +153,4 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       $scope.lecture = lecture
       $scope.tabActive.ppt = lecture.slides?.length > 0 && !lecture.media?
   else
-    $scope.editing = true
+    $scope.switchEdit()

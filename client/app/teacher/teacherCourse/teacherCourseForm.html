@@ -3,34 +3,51 @@
     <img src-key="course.thumbnail"
          width="700"
          height="400"
-         ng-disabled="editing"
+         ng-hide="editingInfo"
          holder-src="holder.js/700x400/:#9c9c99:#bbb/text:未上传课程封面"
          suffix="?imageView2/2/w/700/h/400"/>
-    <uploader limit="2*1024*1024"
-              ng-if="editing"
-              class="course-img btn-danger"
-              on-complete="onThumbUploaded($data)"
-              accept="image">
-      <span class="glyphicon glyphicon-picture"></span>
-      上传封面
-    </uploader>
+    <span ng-if="editingInfo">
+      <img src-key="editingInfo.thumbnail"
+           width="700"
+           height="400"
+           holder-src="holder.js/700x400/:#9c9c99:#bbb/text:未上传课程封面"
+           suffix="?imageView2/2/w/700/h/400"/>
+      <uploader limit="2*1024*1024"
+                class="course-img btn-danger"
+                on-complete="onThumbUploaded($data)"
+                accept="image">
+        <span class="glyphicon glyphicon-picture"></span>
+        上传封面
+      </uploader>
+    </span>
   </div>
   <div class="media-body course-detail">
     <div class="form-group"
          tooltip="{{course.name}}">
-      <input class="form-control course-title"
-             id="course-name"
-             name="name"
-             type="text"
-             ng-model="course.name"
-             ng-disabled="!editing"
-             placeholder="课程名称"
-             required>
+      <span ng-hide="editingInfo" class="course-name" id="course-name">{{course.name}}</span>
+      <span ng-if="editingInfo">
+        <input class="form-control course-name"
+               id="course-name-input"
+               name="name"
+               type="text"
+               ng-model="editingInfo.name"
+               placeholder="课程名称"
+               required>
+      </span>
     </div>
     <div class="form-group">
+      <ui-select ng-model="editingInfo.categoryId"
+                 class="course-control"
+                 ng-if="editingInfo">
+        <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
+          <span ng-bind-html="option.name | highlight: $select.search"></span>
+        </ui-select-choices>
+      </ui-select>
       <ui-select ng-model="course.categoryId"
                  class="course-control"
-                 ng-disabled="!editing">
+                 ng-disabled="true"
+                 ng-if="!editingInfo">
         <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
         <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
           <span ng-bind-html="option.name | highlight: $select.search"></span>
@@ -44,27 +61,42 @@
       <div class="course-info">
         <span class="label label-primary">简介：</span>
       </div>
-      <textarea class="form-control course-control"
-                id="course-info"
-                ng-disabled="!editing"
-                name="info"
-                rows="6"
-                ng-model="course.info"
-                placeholder="课程信息">
-      </textarea>
+      <span ng-hide="editingInfo">
+        <textarea class="form-control course-control"
+                  name="info"
+                  ng-disabled="true"
+                  rows="6"
+                  ng-model="course.info"
+                  placeholder="课程信息">
+          </textarea>
+      </span>
+      <span ng-if="editingInfo">
+        <textarea class="form-control course-control"
+                  ng-if="editingInfo"
+                  name="info"
+                  rows="6"
+                  ng-model="editingInfo.info"
+                  placeholder="课程信息">
+        </textarea>
+      </span>
     </div>
     <div class="form-group pull-right btn-group">
-      <div ng-show="!editing">
+      <div ng-show="!editingInfo">
         <button type="button"
                 class="btn btn-default glyphicon glyphicon-pencil course-btn"
-                ng-click="switchEditing(course)">
+                ng-click="switchEdit()">
         </button>
       </div>
-      <span ng-show="editing">
+      <span ng-show="editingInfo">
         <button type="submit"
                 class="btn btn-primary"
-                ng-click="saveCourse(course,form)">
-          确认
+                ng-disabled="saving"
+                ng-click="saveCourse(form)">
+          <span ng-if="!saving">保存</span>
+          <span ng-if="saving">
+            <i class="fa fa-spinner fa-spin"></i>
+            保存中
+          </span>
         </button>
         <button type="button"
                 class="btn btn-warning"
@@ -72,7 +104,7 @@
           删除
         </button>
         <button class="btn btn-default"
-                ng-click="switchEditing(course)">
+                ng-click="switchEdit(course)">
           取消
         </button>
       </span>

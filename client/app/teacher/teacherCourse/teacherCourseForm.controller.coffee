@@ -6,34 +6,35 @@ angular.module('budweiserApp').directive 'teacherCourseForm', ->
   controller: 'TeacherCourseFormCtrl'
   templateUrl: 'app/teacher/teacherCourse/teacherCourseForm.html'
   scope:
-    editable: '='
     course: '='
     categories: '='
     deleteCallback: '&'
-    cancelCallback: '&'
-    updateCallback: '&'
-    createCallback: '&'
 
 angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
   $modal
-  $state
 ) ->
 
   angular.extend $scope,
 
-    editing: !$scope.course._id?
+    saving: false
+    editingInfo: null
 
-    switchEditing: (course) ->
-      if !$scope.editable
-        $state.go('teacher.course', courseId:$scope.course._id)
-        return
-      $scope.editing = !$scope.editing
-      if !$scope.editing
-        $scope.cancelCallback?($course:course)
+    switchEdit: ->
+      $scope.editingInfo =
+        if !$scope.editingInfo?
+          _.pick $scope.course, [
+            'name'
+            'info'
+            'categoryId'
+            'thumbnail'
+          ]
+        else
+          null
 
-    deleteCourse: (course) ->
+    deleteCourse: ->
+      course = $scope.course
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
@@ -44,21 +45,17 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         course.remove().then ->
           $scope.deleteCallback?($course:course)
 
-    saveCourse: (course, form)->
+    saveCourse: (form)->
       unless form.$valid then return
-      $scope.editing = false
-      # update exists
-      course.patch(
-        name: course.name
-        info: course.info
-        categoryId: course.categoryId
-      )
+      $scope.saving = true
+      course = $scope.course
+      editingInfo = $scope.editingInfo
+      course.patch(editingInfo)
       .then (newCourse) ->
         course.__v = newCourse.__v
-        $scope.updateCallback?($course:newCourse)
+        $scope.editingInfo = null
+        $scope.saving = false
+        angular.extend course, editingInfo
 
     onThumbUploaded: (key) ->
-      $scope.course.thumbnail = key
-      $scope.course?.patch?(thumbnail: $scope.course.thumbnail)
-      .then (newCourse) ->
-        $scope.course.__v = newCourse.__v
+      $scope.editingInfo.thumbnail = key

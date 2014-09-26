@@ -8,7 +8,7 @@ SocketUtils = _u.getUtils 'socket'
 exports.index = (req, res, next) ->
   user = req.user
 
-  conditions = orgId: user.orgId, delete_flag: $not: true
+  conditions = orgId: user.orgId, delete_flag: $ne: true
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
   if req.query.keyPointIds?

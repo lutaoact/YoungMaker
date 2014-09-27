@@ -33,7 +33,7 @@
         <a ui-sref="teacher.course({courseId:course._id})">{{course.name}}</a> / {{lecture.name}}
       </h3>
       <hr class="title-hr"/>
-      <h4 class="text-center">1/<label style="font-size: .7em;">3</label> 基本信息</h4>
+      <h4 class="text-center">基本信息</h4>
       <hr class="info-hr"/>
       <div class="row lecture-form">
         <div class="col-md-3 col-sm-12 text-center">
@@ -126,6 +126,21 @@
           </div>
         </form>
       </div>
+      <div class="lecture-nav-tabs"
+           ng-class="{'ppt':!videoActive}">
+        <a ng-click="videoActive = true"
+           ng-class="{'selected':videoActive}"
+           class="btn btn-primary">
+          <i class="fa fa-file-video-o"></i>
+          视频
+        </a>
+        <a ng-click="videoActive = false"
+           ng-class="{'selected':!videoActive}"
+           class="btn btn-primary">
+          <i class="fa fa-file-powerpoint-o"></i>
+          PPT
+        </a>
+      </div>
     </div>
   </section>
   <section class="media-section"
@@ -133,146 +148,140 @@
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <br/>
-      <h4 class="text-center">2/<label style="font-size: .7em;">3</label> 视频和PPT</h4>
+      <h4 class="text-center">
+        <span ng-if="videoActive">视频课件</span>
+        <span ng-if="!videoActive">PPT课件</span>
+      </h4>
       <hr class="info-hr"/>
-      <tabset class="bud">
-        <tab active="tabActive.media">
-          <tab-heading>视频</tab-heading>
-          <br/>
-          <div class="row">
-            <div class="col-md-12 lecture-video lecture-video-empty"
-                 ng-if="!lecture.media">
-              <label class="empty-video-desc">目前没有视频，请添加</label>
-              <div>
-                <uploader limit="2000*1024*1024"
+      <br/>
+      <div class="row" ng-show="videoActive">
+        <div class="col-md-12 lecture-video lecture-video-empty"
+             ng-if="!lecture.media">
+          <label class="empty-video-desc">目前没有视频，请添加</label>
+          <div>
+            <uploader limit="2000*1024*1024"
+                      on-complete="onMediaUploaded($data)"
+                      class="lecture-video-btn btn-danger"
+                      accept="video">
+              <i class="fa fa-file-video-o"></i>
+              导入视频
+            </uploader>
+          </div>
+        </div>
+        <div class="col-md-12 lecture-video"
+             ng-if="lecture.media">
+          <div class="col-md-6 video-body">
+            <videogular vg-player-ready="onPlayerReady" class="bud">
+              <video class="videoPlayer" src-key="lecture.media" source-attr="video">
+              </video>
+              <vg-poster-image></vg-poster-image>
+              <vg-buffering></vg-buffering>
+              <vg-overlay-play></vg-overlay-play>
+              <vg-controls style="height: 50px;">
+                <vg-play-pause-button></vg-play-pause-button>
+                <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+                <vg-scrubBar>
+                  <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+                </vg-scrubBar>
+                <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+                <vg-volume>
+                  <vg-mutebutton></vg-mutebutton>
+                  <vg-volumebar></vg-volumebar>
+                </vg-volume>
+                <vg-fullscreenButton></vg-fullscreenButton>
+              </vg-controls>
+            </videogular>
+            <div class="btn-group">
+              <label class="info" tooltip="{{lecture.name}} 视频">{{lecture.name}} 视频</label>
+              <span class="pull-right">
+                <uploader limit="100*1024*1024"
                           on-complete="onMediaUploaded($data)"
-                          class="lecture-video-btn btn-danger"
+                          class="btn btn-primary"
                           accept="video">
-                  <i class="fa fa-file-video-o"></i>
-                  导入视频
+                  <i class="glyphicon glyphicon-refresh"></i>
+                  替换
                 </uploader>
-              </div>
-            </div>
-            <div class="col-md-12 lecture-video"
-                 ng-if="lecture.media">
-              <div class="col-md-6 video-body">
-                <videogular vg-player-ready="onPlayerReady" class="bud">
-                  <video class="videoPlayer" src-key="lecture.media" source-attr="video">
-                  </video>
-                  <vg-poster-image></vg-poster-image>
-                  <vg-buffering></vg-buffering>
-                  <vg-overlay-play></vg-overlay-play>
-                  <vg-controls style="height: 50px;">
-                    <vg-play-pause-button></vg-play-pause-button>
-                    <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
-                    <vg-scrubBar>
-                      <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-                    </vg-scrubBar>
-                    <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
-                    <vg-volume>
-                      <vg-mutebutton></vg-mutebutton>
-                      <vg-volumebar></vg-volumebar>
-                    </vg-volume>
-                    <vg-fullscreenButton></vg-fullscreenButton>
-                  </vg-controls>
-                </videogular>
-                <div class="btn-group">
-                  <label class="info" tooltip="{{lecture.name}} 视频">{{lecture.name}} 视频</label>
-                  <span class="pull-right">
-                    <uploader limit="100*1024*1024"
-                              on-complete="onMediaUploaded($data)"
-                              class="btn btn-primary"
-                              accept="video">
-                      <i class="glyphicon glyphicon-refresh"></i>
-                      替换
-                    </uploader>
-                    <button type="button" class="btn btn-primary"
-                            ng-click="removeMedia()">
-                      <i class="glyphicon glyphicon-remove"></i>
-                      删除
-                    </button>
-                  </span>
-                </div>
-              </div>
-              <div edit-lecture-key-points
-                   lecture="lecture"
-                   class="col-md-6 video-body"
-                   key-points="keyPoints"
-                   category-id="course.categoryId"
-                   media-api="mediaApi">
-              </div>
+                <button type="button" class="btn btn-primary"
+                        ng-click="removeMedia()">
+                  <i class="glyphicon glyphicon-remove"></i>
+                  删除
+                </button>
+              </span>
             </div>
           </div>
-        </tab>
-        <tab active="tabActive.ppt">
-          <tab-heading>PPT</tab-heading>
-          <br/>
-          <div class="row">
-            <div class="col-md-12 lecture-ppt lecture-ppt-empty"
-                 ng-if="!(lecture.slides.length > 0)">
-              <label class="empty-ppt-desc">目前没有PPT，请添加</label>
-              <div>
+          <div edit-lecture-key-points
+               lecture="lecture"
+               class="col-md-6 video-body"
+               key-points="keyPoints"
+               category-id="course.categoryId"
+               media-api="mediaApi">
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-show="!videoActive">
+        <div class="col-md-12 lecture-ppt lecture-ppt-empty"
+             ng-if="!(lecture.slides.length > 0)">
+          <label class="empty-ppt-desc">目前没有PPT，请添加</label>
+          <div>
+            <uploader limit="50*1024*1024"
+                      on-complete="onPPTUploaded($data)"
+                      class="lecture-ppt-btn btn-danger"
+                      accept="ppt">
+              <i class="fa fa-file-powerpoint-o"></i>
+              导入PPT
+            </uploader>
+          </div>
+        </div>
+        <div class="col-md-12 media lecture-ppt"
+             ng-if="lecture.slides.length > 0">
+          <div class="list-group lecture-slides-list pull-right">
+            <a class="list-group-item stretch media-object"
+               ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
+               ng-click="lecture.slides.$activeIndex=$index"
+               ng-repeat-reorder="slide in lecture.slides "
+               ng-repeat-reorder-handle="div.drag-point">
+              <div class="drag-point fa fa-bars" draggable="true"></div>
+              <img src-key="slide.thumb"
+                   suffix="?imageView2/2/w/40/h/40"
+                   height="40"
+                   width="40">
+              <span ng-click="removeSlide($index)">
+                <span class="glyphicon glyphicon-trash"></span>
+              </span>
+            </a>
+          </div>
+          <div class="media-body">
+            <div ppt-viewer
+                 slides="lecture.slides"
+                 current-index="lecture.slides.$activeIndex"
+                 style="width:100%"></div>
+            <div class="btn-group">
+              <label class="info" tooltip="{{lecture.name}} PPT">{{lecture.name}} PPT</label>
+              <span class="pull-right">
                 <uploader limit="50*1024*1024"
                           on-complete="onPPTUploaded($data)"
-                          class="lecture-ppt-btn btn-danger"
+                          class="btn btn-primary"
                           accept="ppt">
-                  <i class="fa fa-file-powerpoint-o"></i>
-                  导入PPT
+                  <i class="glyphicon glyphicon-refresh"></i>
+                  替换
                 </uploader>
-              </div>
-            </div>
-            <div class="col-md-12 media lecture-ppt"
-                 ng-if="lecture.slides.length > 0">
-              <div class="list-group lecture-slides-list pull-right">
-                <a class="list-group-item stretch media-object"
-                   ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
-                   ng-click="lecture.slides.$activeIndex=$index"
-                   ng-repeat-reorder="slide in lecture.slides "
-                   ng-repeat-reorder-handle="div.drag-point">
-                  <div class="drag-point fa fa-bars" draggable="true"></div>
-                  <img src-key="slide.thumb"
-                       suffix="?imageView2/2/w/40/h/40"
-                       height="40"
-                       width="40">
-                  <span ng-click="removeSlide($index)">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </span>
-                </a>
-              </div>
-              <div class="media-body">
-                <div ppt-viewer
-                     slides="lecture.slides"
-                     current-index="lecture.slides.$activeIndex"
-                     style="width:100%"></div>
-                <div class="btn-group">
-                  <label class="info" tooltip="{{lecture.name}} PPT">{{lecture.name}} PPT</label>
-                  <span class="pull-right">
-                    <uploader limit="50*1024*1024"
-                              on-complete="onPPTUploaded($data)"
-                              class="btn btn-primary"
-                              accept="ppt">
-                      <i class="glyphicon glyphicon-refresh"></i>
-                      替换
-                    </uploader>
-                    <button type="button" class="btn btn-primary"
-                            ng-click="removePPT()">
-                      <i class="glyphicon glyphicon-remove"></i>
-                      删除
-                    </button>
-                  </span>
-                </div>
-              </div>
+                <button type="button" class="btn btn-primary"
+                        ng-click="removePPT()">
+                  <i class="glyphicon glyphicon-remove"></i>
+                  删除
+                </button>
+              </span>
             </div>
           </div>
-        </tab>
-      </tabset>
+        </div>
+      </div>
     </div>
   </section>
   <section class="question-section"
            id="lecture-question"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
-      <h4 class="text-center">3/<label style="font-size: .7em;">3</label> 随堂练习和课后作业</h4>
+      <h4 class="text-center">随堂练习和课后作业</h4>
       <hr class="info-hr"/>
       <div edit-lecture-questions
            lecture="lecture"

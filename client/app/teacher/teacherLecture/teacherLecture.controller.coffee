@@ -21,9 +21,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     mediaApi: null
     editing: false
     saving: false
-    tabActive:
-      media:true
-      ppt:false
+    videoActive: true
     lecture:
       name: "新建课时 #{course.lectureAssembly.length + 1}"
       slides:[]
@@ -151,6 +149,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     Restangular.one('lectures', $state.params.lectureId).get()
     .then (lecture) ->
       $scope.lecture = lecture
-      $scope.tabActive.ppt = lecture.slides?.length > 0 && !lecture.media?
+      $scope.videoActive = lecture.media? || lecture.slides.length == 0
   else
     $scope.switchEdit()

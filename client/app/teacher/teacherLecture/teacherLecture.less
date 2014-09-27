@@ -57,9 +57,43 @@
   .info-section {
     padding-top: 20px;
   }
+  .lecture-nav-tabs {
+    background-color: @base-color;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    >a {
+      border: none;
+      font-weight: normal;
+      cursor: pointer;
+      > i {
+        font-size: 1.5em;
+      }
+      &.selected {
+        background-color: #44aa92;
+      }
+    }
+    &.ppt:before{
+      left: 128px;
+    }
+    &:before{
+      content: '';
+      position: relative;
+      top: 26px;
+      width: 30px;
+      text-align: center;
+      border-bottom: 20px solid #EBEBEB;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      height: 0;
+      left: 52px;
+    }
+  }
   .media-section {
     padding-top: 0px;
-    margin-top: 20px;
+    margin-top: 35px;
     padding-bottom: 20px;
     background: #EBEBEB;
   }

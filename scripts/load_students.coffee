@@ -26,6 +26,14 @@ importOneClasse = (classename, studentsMap, orgId) ->
     Classe.createQ classe
 
 organization = uniqueName: 'xqsh', name: '上海新侨学院', type: 'colledge'
+admin =
+  username: "admin-xqsh"
+  password: "admin-xqsh"
+  email: "admin@xq.sh.cn"
+  name: '上海新侨学院管理员'
+  role: 'admin'
+
+tmpResult = {}
 Organization.findOneQ uniqueName: 'xqsh'
 .then (orgDoc) ->
   if orgDoc?
@@ -33,8 +41,12 @@ Organization.findOneQ uniqueName: 'xqsh'
   else
     return Organization.createQ organization
 .then (org) ->
+  tmpResult.org = org
+  admin.orgId = org._id
+  User.createQ admin
+.then () ->
   promises = for classename, studentsMap of studentsInfo
-    importOneClasse classename, studentsMap, org._id
+    importOneClasse classename, studentsMap, tmpResult.org._id
 
   Q.all promises
 .then (result) ->

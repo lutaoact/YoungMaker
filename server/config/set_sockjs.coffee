@@ -12,8 +12,10 @@ exports.init = (sockjs_server) ->
       .then (user) ->
         if msg.type is Const.MsgType.Login
           do global.socketMap[user._id]?.ws.close
+          logger.info "userId: #{userId}, websocket connected"
           global.socketMap[user._id] = beatAt: _u.time(), ws: conn
         else
+          logger.info "userId: #{userId}, websocket beat come"
           global.socketMap[user._id].beatAt = _u.time()
 
 #        routes[msg.type] user, msg.payload #if we need more, uncomment this line

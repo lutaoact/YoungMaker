@@ -20,7 +20,8 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
   angular.extend $scope,
 
     progressMap: {}
-    activeProgressKey: undefined
+    activeProgressKey: null
+    undoLecture: null
 
     filter: (lecture, keyword) ->
       keyword = keyword ? ''
@@ -38,10 +39,15 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
     selectClasse: (classe) ->
       $scope.activeProgressKey = classe._id
-      if classe.$active && $scope.progressMap[classe._id]? then return
+      setUndoLecture = (progress) ->
+        $scope.undoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
+      if classe.$active && $scope.progressMap[classe._id]?
+        setUndoLecture($scope.progressMap[classe._id])
+        return
       Restangular.all('progresses').getList({courseId: $scope.course._id, classeId: classe._id})
       .then (progress) ->
         $scope.progressMap[classe._id] = progress
+        setUndoLecture($scope.progressMap[classe._id])
 
     deleteLecture: (lecture) ->
       $modal.open

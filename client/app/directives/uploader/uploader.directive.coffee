@@ -25,7 +25,11 @@ angular.module('budweiserApp')
     onFileSelect: (files) ->
       $scope.uploading = true
 
-      methodName = if $scope.multiple then 'bulkUpload' else if $scope.accept is 'ppt' then 'uploadSlides' else if $scope.accept is 'video' then 'uploadVideo' else 'uploadFile'
+      methodName =
+        if $scope.multiple then 'bulkUpload'
+        else if $scope.accept is 'ppt' then 'uploadSlides'
+        else if $scope.accept is 'video' then 'uploadVideo'
+        else 'uploadFile'
       fileUtils[methodName]
         files: files
         validation:

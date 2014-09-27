@@ -35,7 +35,7 @@
       </tabset>
     </div>
 
-    <div class="col-md-8"
+    <div class="col-md-8 lecture-list-group"
          ng-if="course._id">
       <div class="media lectures-header">
         <a href="#lectures-{{course._id}}"
@@ -58,17 +58,27 @@
       </div>
       <hr class="hr-title"/>
       <div class="list-group lecture-list">
-        <div class="stretch media"
+        <div class="stretch lecture-item"
              ng-show="filter(lecture, keyword)"
              ng-repeat-reorder="lecture in course.$lectures"
              ng-repeat-reorder-handle="button.drag-point">
-          <div class="media-object pull-left">
-            <button type="button"
-                    class="fa fa-check lecture-progress btn btn-primary"
-                    ng-click="startTeaching(course, lecture)"
-                    ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}"></button>
+          <div class="lecture-icon col-md-1"
+               ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}">
+            <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)>=0">
+              <a class="fa fa-check done btn"
+                 tooltip="点击此处开始上课"
+                 ng-click="startTeaching(course, lecture)" ></a>
+            </span>
+            <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)==-1">
+              <a class="new btn"
+                 ng-class="{'start':undoLecture._id == lecture._id}"
+                 tooltip="点击此处开始上课"
+                 ng-click="startTeaching(course, lecture)">
+                <label ng-if="undoLecture._id == lecture._id" class="label-danger lecture-icon-label">开始上课</label>
+              </a>
+            </span>
           </div>
-          <a class="media-body list-group-item"
+          <a class="lecture-content list-group-item col-md-11"
              ng-mouseover="overLecture=lecture"
              ng-mouseleave="overLecture=undefined">
             <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">

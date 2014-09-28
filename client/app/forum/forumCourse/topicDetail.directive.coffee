@@ -58,7 +58,21 @@ angular.module('budweiserApp')
     scrollToEditor: ()->
       $document.scrollToElement(angular.element('.new-reply-right'), 200, 200)
 
-
+  $scope.$on 'message.notice', (event, raw)->
+    switch raw.type
+      when Const.NoticeType.TopicVoteUp
+        if raw.data.disTopic._id is $scope.topic._id
+          $scope.topic.voteUpUsers = raw.data.disTopic.voteUpUsers
+      when Const.NoticeType.ReplyVoteUp
+        myReplie = $scope.topic.$replies.filter (item)->
+          item._id is raw.data.disReply._id
+        if myReplie?.length
+          myReplie[0].voteUpUsers = raw.data.disReply.voteUpUsers
+      when Const.NoticeType.Comment
+        if raw.data.disTopic._id is $scope.topic._id
+          Restangular.all('dis_replies').getList({disTopicId: $scope.topic._id})
+          .then (replies)->
+            $scope.topic.$replies = replies
 
 
 

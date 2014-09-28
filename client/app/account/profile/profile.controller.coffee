@@ -59,7 +59,6 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
               ratio: 1
         .result.then (url,raw)->
           # file is uploaded successfully
-          console.log url,raw
           $scope.me.avatar = url
           $scope.patchMe('avatar')
           .then (user)->

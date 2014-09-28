@@ -7,7 +7,6 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   $scope
   $state
   $upload
-  Classes
   fileUtils
   Categories
   $rootScope
@@ -18,13 +17,12 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   loadCourse = ()->
     Restangular.one('courses',$state.params.courseId).get()
     .then (course)->
+      $scope.classes = course.classes
       $scope.course = course
 
   angular.extend $scope,
 
     course: undefined
-
-    classes: Classes
 
     allStudentsDict: undefined
 
@@ -40,7 +38,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
 
     loadStudents: ->
       $q.all($scope.classes.map (classe)->
-        classe.all('students').getList()
+        Restangular.all("classes/#{classe._id}/students").getList()
         .then (students)->
           $scope.allStudentsArray = $scope.allStudentsArray.concat students
           students.forEach (student)->
@@ -51,8 +49,7 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
       ).then ->
         $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
 
-  loadCourse()
-  $scope.loadStudents()
+  loadCourse().then $scope.loadStudents
 
 .controller 'TeacherCourseStatsMainCtrl',
 (

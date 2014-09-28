@@ -94,6 +94,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
 
   genMessage = (raw)->
     message = {}
+    console.log raw
     switch raw.type
       when Const.NoticeType.TopicVoteUp
         message =
@@ -101,7 +102,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
           link: ''
       when Const.NoticeType.ReplyVoteUp
         message =
-          title: raw.fromWhom + '赞了你的回复：' + raw.data.disTopic
+          title: raw.fromWhom + '赞了你的回复：' + raw.data.disReply.content
           link: ''
       when Const.NoticeType.Comment
         message =
@@ -111,7 +112,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         message =
           title: raw.fromWhom + '发布了新课时' + raw.data.lecture
           link: ''
-
+    console.log message
     message
 
   $scope.$on 'message.notice', (event, data)->

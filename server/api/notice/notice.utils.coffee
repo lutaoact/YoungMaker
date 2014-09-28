@@ -18,7 +18,7 @@ class NoticeUtils
 
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disTopicId) ->
-    return @addNotice userId, fromWhom, Const.NoticeType.TopicVoteUp, disTopicId
+    return @addNotice userId, fromWhom, Const.NoticeType.Comment, disTopicId
 
   #fromWhom给userId的disTopicId点赞了
   addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->

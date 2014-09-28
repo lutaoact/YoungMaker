@@ -25,6 +25,8 @@ angular.module 'budweiserApp'
         labels:
           formatter: ()->
             this.value + 1
+        min: 0
+        tickInterval: 1
       yAxis:
         title:
           text: '百分率(%)'

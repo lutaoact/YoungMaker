@@ -225,7 +225,13 @@
           padding-top: 22px;
           padding-left: 0px;
           margin-right: -20px;
-          .lecture-icon-label {
+          &:hover {
+            .lecture-icon-tooltip {
+              display: block;
+            }
+          }
+          .lecture-icon-tooltip {
+            display: none;
             &:after {
               content: ' ';
               right: -6px;

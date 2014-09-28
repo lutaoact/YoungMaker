@@ -68,17 +68,16 @@
                ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}">
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)>=0">
               <a class="fa fa-check done btn"
-                 tooltip="点击此处开始上课"
-                 ng-click="startTeaching(course, lecture)" ></a>
+                 ng-click="startTeaching(course, lecture)">
+              </a>
             </span>
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)==-1">
               <a class="new btn"
-                 tooltip="点击此处开始上课"
                  ng-class="{'start':undoLecture._id == lecture._id}"
                  ng-click="startTeaching(course, lecture)">
-                <label ng-if="undoLecture._id == lecture._id" class="label-danger lecture-icon-label">开始上课</label>
               </a>
             </span>
+            <label class="label-danger lecture-icon-tooltip">开始上课</label>
           </div>
           <a class="lecture-content list-group-item col-md-11"
              ng-mouseover="overLecture=lecture"

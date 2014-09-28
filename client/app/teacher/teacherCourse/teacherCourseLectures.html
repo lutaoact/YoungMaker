@@ -21,7 +21,9 @@
       </div>
       <hr class="hr-title"/>
 
-      <tabset vertical="true" type="pills">
+      <tabset vertical="true"
+              type="pills"
+              class="classe-list">
         <tab ng-repeat="classe in course.classes"
              select="selectClasse(classe)"
              active="classe.$active">
@@ -71,8 +73,8 @@
             </span>
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)==-1">
               <a class="new btn"
-                 ng-class="{'start':undoLecture._id == lecture._id}"
                  tooltip="点击此处开始上课"
+                 ng-class="{'start':undoLecture._id == lecture._id}"
                  ng-click="startTeaching(course, lecture)">
                 <label ng-if="undoLecture._id == lecture._id" class="label-danger lecture-icon-label">开始上课</label>
               </a>

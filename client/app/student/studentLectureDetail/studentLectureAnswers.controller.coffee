@@ -23,6 +23,7 @@ angular.module('budweiserApp')
 
     setQuestionType: (type) ->
       $scope.displayQuestions = $scope.lecture?[type]
+      $scope.lecture?[type].$active = true
 
     submitAnswer: ->
       if $scope.displayQuestions is $scope.lecture.homeworks
@@ -36,7 +37,21 @@ angular.module('budweiserApp')
           subitted: true
           result: result
         Restangular.all('homework_answers').post(homeworkAnswer, lectureId:$scope.lecture._id)
-        .then ->
+        .then ()->
+          # check null
+          homeworks = $scope.lecture?.homeworks
+          homeworks.$submitted = true
+          for question in homeworks
+            answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
+
+            question.$correct = question.content.body.every (option, index)->
+              if option.correct
+                answer?.some (item)-> item is index
+              else
+                answer?.every (item)-> item isnt index
+
+            for option, index in question.content.body
+              option.$selected = answer?.indexOf(index) >= 0
           $scope.displayQuestions.$submitted = true
 
   $scope.$watch 'lecture', ->
@@ -54,8 +69,12 @@ angular.module('budweiserApp')
         homeworks.$submitted = true
         for question in homeworks
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
-          question.$correct = answer?.every (item)->
-            question.content.body[item].correct
+
+          question.$correct = question.content.body.every (option, index)->
+            if option.correct
+              answer?.some (item)-> item is index
+            else
+              answer?.every (item)-> item isnt index
 
           for option, index in question.content.body
             option.$selected = answer?.indexOf(index) >= 0
@@ -67,8 +86,12 @@ angular.module('budweiserApp')
         quizzes.$submitted = true
         quizzes.forEach (quiz)->
           answer = _.find(answers, questionId:quiz._id)?.result
-          quiz.$correct = answer?.every (item)->
-            quiz.content.body[item].correct
+
+          quiz.$correct = quiz.content.body.every (option, index)->
+            if option.correct
+              answer?.some (item)-> item is index
+            else
+              answer?.every (item)-> item isnt index
 
           for option, index in quiz.content.body
             option.$selected = answer?.indexOf(index) >= 0

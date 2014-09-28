@@ -153,7 +153,8 @@ module.exports =
     slides: (
       for i in [1..10]
         _id: _s.sprintf slideId, i
-        thumb: "9Sb6o3b0yY/306.jpeg"
+        thumb: "http://lorempixel.com/960/720"
+        raw: "http://lorempixel.com/960/720"
     )
     media: 'GEoTQHtOEs/Sample 2.mp4'
     keyPoints: [
@@ -185,7 +186,8 @@ module.exports =
     slides: (
       for i in [1..10]
         _id: _s.sprintf slideId, i
-        thumb: "9Sb6o3b0yY/306.jpeg"
+        thumb: "http://lorempixel.com/960/720"
+        raw: "http://lorempixel.com/960/720"
     )
     media: 'GEoTQHtOEs/Sample 2.mp4'
     keyPoints: [

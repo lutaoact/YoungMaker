@@ -20,6 +20,7 @@ client/index.html
 /server/common/mail/*.js
 /server/common/modelTest.js
 /server/common/initGlobal.js
+/server/common/logger.js
 /server/common/ErrCode.js
 /server/config/set_sockjs.js
 /server/common/mail/index.js

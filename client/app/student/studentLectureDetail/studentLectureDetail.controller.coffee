@@ -23,6 +23,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $rootScope
   CurrentUser
   $timeout
+  $localStorage
 ) ->
 
   loadLecture = ()->
@@ -93,6 +94,12 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     onUpdateTime: (now,total)->
       $scope.currentTime = now
+      # store current time in local storage
+      # localStorage.:userId.lectures.:lectureId.videoPlayTime
+      $localStorage[$scope.me._id] ?= {}
+      $localStorage[$scope.me._id]['lectures'] ?= {}
+      lectureState = $localStorage[$scope.me._id]['lectures'][$state.params.lectureId] ?= {}
+      lectureState.videoPlayTime = $scope.currentTime
 
     patchLecture: ()->
       if not lecture._id
@@ -113,8 +120,11 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     mediaPlayerAPI: undefined
 
     onPlayerReady: (playerAPI) ->
-      $scope.mediaPlayerAPI = playerAPI
-      seekHashTimestamp()
+      if playerAPI.videoElement[0].readyState
+        $scope.mediaPlayerAPI = playerAPI
+        timestamp = $localStorage[$scope.me._id]?['lectures']?[$state.params.lectureId]?.videoPlayTime
+        if timestamp
+          playerAPI.seekTime timestamp
 
     toggleDiscussionPanel: ()->
       @viewState.discussPanelnitialized = true

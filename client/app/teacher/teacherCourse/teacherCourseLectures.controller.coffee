@@ -21,7 +21,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
 
     progressMap: {}
     activeProgressKey: null
-    undoLecture: null
+    firstUndoLecture: null
 
     filter: (lecture, keyword) ->
       keyword = keyword ? ''
@@ -38,16 +38,15 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         lectureId: lecture._id
 
     selectClasse: (classe) ->
+      if !classe.$active then return
       $scope.activeProgressKey = classe._id
-      setUndoLecture = (progress) ->
-        $scope.undoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
-      if classe.$active && $scope.progressMap[classe._id]?
-        setUndoLecture($scope.progressMap[classe._id])
-        return
-      Restangular.all('progresses').getList({courseId: $scope.course._id, classeId: classe._id})
-      .then (progress) ->
-        $scope.progressMap[classe._id] = progress
-        setUndoLecture($scope.progressMap[classe._id])
+      if $scope.progressMap[$scope.activeProgressKey]?
+        setFirstUndoLecture()
+      else
+        Restangular.all('progresses').getList({courseId: $scope.course._id, classeId: classe._id})
+        .then (progress) ->
+          $scope.progressMap[classe._id] = progress
+          setFirstUndoLecture()
 
     deleteLecture: (lecture) ->
       $modal.open
@@ -61,6 +60,7 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
         .then ->
           lectures = $scope.course.$lectures
           lectures.splice(lectures.indexOf(lecture), 1)
+          setFirstUndoLecture()
 
     addClasse: (classe) ->
       classeIds = _.pluck($scope.course.classes, '_id')
@@ -82,6 +82,10 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     Restangular.all('lectures').getList(courseId:course._id)
     .then (lectures) ->
       course.$lectures = lectures
+
+  setFirstUndoLecture = ->
+    progress = $scope.progressMap[$scope.activeProgressKey]
+    $scope.firstUndoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
 
   reloadLectures($scope.course)
 

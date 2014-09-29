@@ -73,7 +73,7 @@
             </span>
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)==-1">
               <a class="new btn"
-                 ng-class="{'start':undoLecture._id == lecture._id}"
+                 ng-class="{'start':firstUndoLecture._id == lecture._id}"
                  ng-click="startTeaching(course, lecture)">
               </a>
             </span>

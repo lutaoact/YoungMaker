@@ -18,7 +18,7 @@
            ng-focus="seekPlayerTime(keyPoint.timestamp)"
            ng-blur="saveKeyPoints()"/>
     <ui-select ng-model="keyPoint.kp"
-               on-select="setKeyPointKp(keyPoint, $item)"
+               on-select="setKeyPointKp(keyPoint, $item, $select.search)"
                class="keypoint-select">
       <ui-select-match placeholder="查找并且添加知识点">
         <span>{{$select.selected.name}}</span>

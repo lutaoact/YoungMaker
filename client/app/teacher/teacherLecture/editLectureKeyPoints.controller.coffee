@@ -38,9 +38,19 @@ angular.module('budweiserApp')
       keyPoint.timestamp = Math.ceil(currentTime)
       $scope.saveKeyPoints()
 
-    setKeyPointKp: (keyPoint, kp) ->
-      keyPoint.kp = kp
-      $scope.saveKeyPoints()
+    setKeyPointKp: (keyPoint, kp, input) ->
+      if kp?
+        keyPoint.kp = kp
+        $scope.saveKeyPoints()
+        return
+      if input?
+        $scope.keyPoints.post
+          name: input
+          categoryId: $scope.categoryId
+        .then (newKp) ->
+          $scope.keyPoints.push newKp
+          keyPoint.kp = newKp
+          $scope.saveKeyPoints()
 
     saveKeyPoints: ->
       console.debug $scope.lecture.keyPoints

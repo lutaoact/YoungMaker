@@ -88,7 +88,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <div class="btn-group" dropdown ng-if="lecture._id">
+              <div class="btn-group" dropdown ng-if="!editingInfo">
                 <button type="button" class="btn btn-primary dropdown-toggle">
                   开始上课 <span class="caret"></span>
                 </button>
@@ -106,7 +106,7 @@
               </span>
               <span ng-if="editingInfo" class="pull-right">
                 <button type="submit"
-                        ng-disabled="saving"
+                        ng-disabled="deleting && saving"
                         class="btn btn-primary"
                         ng-click="saveLecture(form)">
                   <span ng-if="!saving">保存</span>
@@ -116,7 +116,17 @@
                   </span>
                 </button>
                 <button type="button"
-                        ng-if="lecture._id"
+                        ng-disabled="deleting && saving"
+                        class="btn btn-warning"
+                        ng-click="deleteLecture()">
+                  <span ng-if="!saving">删除</span>
+                  <span ng-if="saving">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    删除中
+                  </span>
+                </button>
+                <button type="button"
+                        ng-if="lecture.__v > 0"
                         class="btn btn-default"
                         ng-click="switchEdit(false)">
                   取消

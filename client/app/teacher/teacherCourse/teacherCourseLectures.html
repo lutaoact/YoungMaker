@@ -51,10 +51,17 @@
                  placeholder="查找课时"
                  ng-model="keyword"/>
           <button class="btn btn-danger pull-right"
-                  ng-disabled="!course._id"
-                  ui-sref="teacher.lecture({courseId:course._id, lectureId:'new'})">
-            <i class="fa fa-plus"></i>
-            添加课时
+                  ng-disabled="creating"
+                  ng-click="createLecture()">
+
+            <span ng-if="!creating">
+              <i class="fa fa-plus"></i>
+              添加课时
+            </span>
+            <span ng-if="creating">
+              <i class="fa fa-spinner fa-spin"></i>
+              添加中
+            </span>
           </button>
         </div>
       </div>
@@ -64,7 +71,7 @@
              ng-show="filter(lecture, keyword)"
              ng-repeat-reorder="lecture in course.$lectures"
              ng-repeat-reorder-handle="button.drag-point">
-          <div class="lecture-icon col-md-1"
+          <div class="lecture-icon col-md-1 col-sm-1"
                ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}">
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)>=0">
               <a class="fa fa-check done btn"
@@ -79,7 +86,7 @@
             </span>
             <label class="label-danger lecture-icon-tooltip">开始上课</label>
           </div>
-          <a class="lecture-content list-group-item col-md-11"
+          <a class="lecture-content list-group-item col-md-11 col-sm-11"
              ng-mouseover="overLecture=lecture"
              ng-mouseleave="overLecture=undefined">
             <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">

@@ -48,6 +48,19 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
           $scope.progressMap[classe._id] = progress
           setFirstUndoLecture()
 
+    createLecture: ->
+      $scope.creating = true
+      lecture =
+        name: "新建课时 #{$scope.course.lectureAssembly.length + 1}"
+        slides:[]
+        keyPoints: []
+        homeworks:[]
+        quizzes:[]
+      Restangular.all('lectures').post(lecture, courseId:$scope.course._id)
+      .then (newLecture) ->
+        $scope.creating = false
+        $state.go('teacher.lecture', courseId: $scope.course._id, lectureId: newLecture._id)
+
     deleteLecture: (lecture) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'

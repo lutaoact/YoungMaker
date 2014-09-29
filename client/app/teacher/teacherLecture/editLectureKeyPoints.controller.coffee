@@ -53,7 +53,6 @@ angular.module('budweiserApp')
           $scope.saveKeyPoints()
 
     saveKeyPoints: ->
-      console.debug $scope.lecture.keyPoints
       newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
         kp: keyPoint.kp?._id
         timestamp: keyPoint.timestamp

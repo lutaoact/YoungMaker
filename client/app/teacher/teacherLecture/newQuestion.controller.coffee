@@ -1,5 +1,4 @@
 angular.module('budweiserApp').controller 'NewQuestionCtrl', (
-  $q
   $scope
   $timeout
   keyPoints

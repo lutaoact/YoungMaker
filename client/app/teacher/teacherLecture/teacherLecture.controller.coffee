@@ -73,7 +73,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           console.debug 'create lecture', newLecture
           $scope.saving = false
           $scope.editingInfo = null
-          $state.go('teacher.course', courseId: $state.params.courseId)
+          $state.go('teacher.lecture', courseId: $state.params.courseId, lectureId: newLecture._id)
 
     removeSlide: (index) ->
       $modal.open

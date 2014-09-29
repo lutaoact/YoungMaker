@@ -75,27 +75,38 @@
         background-color: #44aa92;
       }
     }
-    &.ppt:before{
-      left: 128px;
-    }
-    &:before{
-      content: '';
-      position: relative;
-      top: 26px;
-      width: 30px;
-      text-align: center;
-      border-bottom: 20px solid #EBEBEB;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      height: 0;
-      left: 52px;
-    }
   }
   .media-section {
     padding-top: 0px;
     margin-top: 35px;
     padding-bottom: 20px;
     background: #EBEBEB;
+    .video-title {
+      &:before {
+        content: ' ';
+        position: relative;
+        border-bottom: 30px solid #EBEBEB;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        width: 0px;
+        height: 0px;
+        bottom: 75px;
+        left: 0px;
+      }
+    }
+    .ppt-title {
+      &:before {
+        content: ' ';
+        position: relative;
+        border-bottom: 30px solid #EBEBEB;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        width: 0px;
+        height: 0px;
+        bottom: 75px;
+        left: 76px;
+      }
+    }
   }
   .question-section {
     padding-top: 0px;
@@ -166,6 +177,12 @@
     margin: 0px;
     height: 510px;
     background: #ffffff;
+    .lecture-ppt-content {
+      padding: 0px;
+      .ppt-viewer {
+        box-shadow: none;
+      }
+    }
     &.lecture-ppt-empty {
       border: 2px dashed #ccc;
       height: 360px;

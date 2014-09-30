@@ -27,14 +27,13 @@ angular.module('budweiserApp')
 
       methodName =
         if $scope.multiple then 'bulkUpload'
-        else if $scope.accept is 'ppt' then 'uploadSlides'
-        else if $scope.accept is 'video' then 'uploadVideo'
+        else if $scope.accept.indexOf('.ppt') >= 0 then 'uploadSlides'
+        else if $scope.accept.indexOf('video') >= 0 then 'uploadVideo'
         else 'uploadFile'
       fileUtils[methodName]
         files: files
         validation:
           max: $scope.limit ? 50*1024*1024
-          accept: $scope.accept
         success: (data, rawData) ->
           $scope.uploading = false
           $scope.onComplete?($data:data,$rawData:rawData)

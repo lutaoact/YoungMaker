@@ -48,7 +48,7 @@
             <uploader limit="2*1024*1024"
                       on-complete="onThumbUploaded($data)"
                       class="lecture-img-btn btn-danger"
-                      accept="image">
+                      accept="image/*">
               <span class="glyphicon glyphicon-picture"></span>
               上传封面
             </uploader>
@@ -88,7 +88,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <div class="btn-group" dropdown ng-if="!editingInfo">
+              <div class="btn-group" dropdown ng-if="!editing">
                 <button type="button" class="btn btn-primary dropdown-toggle">
                   开始上课 <span class="caret"></span>
                 </button>
@@ -172,7 +172,7 @@
             <uploader limit="2000*1024*1024"
                       on-complete="onMediaUploaded($data)"
                       class="lecture-video-btn btn-danger"
-                      accept="video">
+                      accept="video/*">
               <i class="fa fa-file-video-o"></i>
               导入视频
             </uploader>
@@ -207,7 +207,7 @@
                 <uploader limit="100*1024*1024"
                           on-complete="onMediaUploaded($data)"
                           class="btn btn-primary"
-                          accept="video">
+                          accept="video/*">
                   <i class="glyphicon glyphicon-refresh"></i>
                   替换
                 </uploader>
@@ -236,7 +236,7 @@
             <uploader limit="50*1024*1024"
                       on-complete="onPPTUploaded($data)"
                       class="lecture-ppt-btn btn-danger"
-                      accept="ppt">
+                      accept=".ppt, .pptx">
               <i class="fa fa-file-powerpoint-o"></i>
               导入PPT
             </uploader>
@@ -255,7 +255,7 @@
                 <uploader limit="50*1024*1024"
                           on-complete="onPPTUploaded($data)"
                           class="btn btn-primary"
-                          accept="ppt">
+                          accept=".ppt, .pptx">
                   <i class="glyphicon glyphicon-refresh"></i>
                   替换
                 </uploader>

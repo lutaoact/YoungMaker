@@ -56,7 +56,6 @@ angular.module('budweiserApp')
       newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
         kp: keyPoint.kp?._id
         timestamp: keyPoint.timestamp
-      console.debug newkeyPoints
       $scope.lecture.patch?(keyPoints:newkeyPoints)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v

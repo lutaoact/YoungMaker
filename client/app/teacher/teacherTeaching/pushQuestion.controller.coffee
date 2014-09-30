@@ -55,24 +55,32 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       chart:
         type: 'bar'
       plotOptions:
-        series:
-          stacking: "normal"
+        bar:
+          dataLabels:
+            enabled: true
+            style:
+              fontWeight: 'bold'
+      tooltip:
+        valueSuffix: ' 人'
     title:
       text: question.content.title
     subtitle:
       text: "学生选择选项统计"
-    loading: false
-    series: [
-      name: '选择人数'
-      data: _.map(question.content.body, (option, index) -> resultsDict[index] ? 0)
-    ]
     yAxis:
       min: 0
       max: classe.students.length
-      tickInterval: 1
+      tickInterval: 10
+      title:
+        text: '人数'
+        align: 'high'
+      labels:
+        overflow: 'justify'
     xAxis:
       categories: _.map(question.content.body, (option, index) -> String.fromCharCode(65+index))
       max: question.content.body.length - 1
       min: 0
-    useHighStocks: false
+    series: [
+      name: '选择人数'
+      data: _.map(question.content.body, (option, index) -> resultsDict[index] ? 0)
+    ]
 

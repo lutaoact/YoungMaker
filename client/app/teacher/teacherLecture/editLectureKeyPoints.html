@@ -20,7 +20,7 @@
     <ui-select ng-model="keyPoint.kp"
                on-select="setKeyPointKp(keyPoint, $item, $select.search)"
                class="keypoint-select">
-      <ui-select-match placeholder="查找并且添加知识点">
+      <ui-select-match placeholder="请输入要添加的知识点，然后按回车">
         <span>{{$select.selected.name}}</span>
       </ui-select-match>
       <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | filter:$select.search">

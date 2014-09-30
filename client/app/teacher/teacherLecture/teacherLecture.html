@@ -59,6 +59,20 @@
             <label class="col-sm-2 control-label">课时名称</label>
             <div class="col-sm-10">
               <span id="lecture-name" ng-hide="editingInfo">{{lecture.name}}</span>
+              <div class="btn-group pull-right" dropdown ng-if="!editingInfo">
+                <button type="button"
+                        tooltip="请选择开始上课的班级"
+                        tooltip-placement="top"
+                        id="start-teaching-btn"
+                        class="btn btn-primary dropdown-toggle">
+                  开始上课 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="classe in course.classes">
+                    <a ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:classe._id})">{{classe.name}}</a>
+                  </li>
+                </ul>
+              </div>
               <span ng-if="editingInfo">
                 <input class="form-control"
                        name="name"
@@ -88,16 +102,6 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <div class="btn-group" dropdown ng-if="!editing">
-                <button type="button" class="btn btn-primary dropdown-toggle">
-                  开始上课 <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li ng-repeat="classe in course.classes">
-                    <a ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:classe._id})">{{classe.name}}</a>
-                  </li>
-                </ul>
-              </div>
               <span ng-if="!editingInfo" class="pull-right">
                 <button type="button"
                         class="btn btn-default glyphicon glyphicon-pencil edit-lecture-btn"

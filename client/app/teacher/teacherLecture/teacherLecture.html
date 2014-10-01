@@ -239,6 +239,9 @@
           <div>
             <uploader limit="50*1024*1024"
                       on-complete="onPPTUploaded($data)"
+                      on-start="onPPTUploadStart()"
+                      on-progress="onPPTUploading($speed, $progress)"
+                      on-convert="onPPTConverting()"
                       class="lecture-ppt-btn btn-danger"
                       accept=".ppt, .pptx">
               <i class="fa fa-file-powerpoint-o"></i>
@@ -258,6 +261,9 @@
               <span class="pull-right">
                 <uploader limit="50*1024*1024"
                           on-complete="onPPTUploaded($data)"
+                          on-start="onPPTUploadStart()"
+                          on-progress="onPPTUploading($speed, $percentage)"
+                          on-convert="onPPTConverting()"
                           class="btn btn-primary"
                           accept=".ppt, .pptx">
                   <i class="glyphicon glyphicon-refresh"></i>

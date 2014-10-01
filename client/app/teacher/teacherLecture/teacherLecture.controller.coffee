@@ -6,10 +6,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $scope
   $state
   $modal
-  configs
   Courses
   KeyPoints
-  $urlRouter
   $rootScope
   Restangular
 ) ->
@@ -108,25 +106,23 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
 
-    onThumbUploaded: (key) ->
-      $scope.editingInfo.thumbnail = key
+    onThumbUploaded: (data) ->
+      $scope.editingInfo.thumbnail = data
 
-    onPPTUploaded: (key) ->
-      $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
-      .success (slides)->
-        fileShortKey = (slides.thumbnails[0].split('-').slice 0, -2).join('-')
-        console.log fileShortKey
-        additional = [1..slides.total/2].map (item)->
-          thumb: '/api/assets/slides/' + fileShortKey + '-' + item + '-sm.jpg'
-          raw:  '/api/assets/slides/' + fileShortKey + '-' + item + '-lg.jpg'
-        console.log additional
-        $scope.lecture.slides = additional
-        $scope.lecture.patch?(slides: $scope.lecture.slides)
-        .then (newLecture) ->
-          $scope.lecture.__v = newLecture.__v
+    onPPTUploadStart: ->
+      console.debug 'ppt upload start'
+    onPPTUploading: (speed, progress) ->
+      console.debug 'ppt uploading', speed, progress
+    onPPTConverting: (key) ->
+      console.debug 'ppt converting', key
+    onPPTUploaded: (data) ->
+      $scope.lecture.slides = data
+      $scope.lecture.patch?(slides: $scope.lecture.slides)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
 
-    onMediaUploaded: (key, data) ->
-      $scope.lecture.media = key
+    onMediaUploaded: (data) ->
+      $scope.lecture.media = data
       $scope.lecture.patch?(media: $scope.lecture.media)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v

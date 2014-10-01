@@ -12,8 +12,11 @@ angular.module('budweiserApp')
     limit: '='
     accept: '@'
     multiple: '='
-    onError: '&'
+    onStart: '&'
+    onProgress: '&'
+    onConvert: '&'
     onComplete: '&'
+    onError: '&'
 
 .controller 'UploadCtrl', (
   $scope
@@ -25,18 +28,14 @@ angular.module('budweiserApp')
     onFileSelect: (files) ->
       $scope.uploading = true
 
-      methodName =
-        if $scope.multiple then 'bulkUpload'
-        else if $scope.accept.indexOf('.ppt') >= 0 then 'uploadSlides'
-        else if $scope.accept.indexOf('video') >= 0 then 'uploadVideo'
-        else 'uploadFile'
-      fileUtils[methodName]
+      $scope.onStart?($files:files)
+      fileUtils.uploadFile
         files: files
         validation:
           max: $scope.limit ? 50*1024*1024
-        success: (data, rawData) ->
+        success: (data) ->
           $scope.uploading = false
-          $scope.onComplete?($data:data,$rawData:rawData)
+          $scope.onComplete?($data:data)
         fail: (error)->
           $scope.uploading = false
           $scope.onError?($error:error)
@@ -46,3 +45,6 @@ angular.module('budweiserApp')
               parseInt(percentage) + '%'
             else
               ''
+          $scope.onProgress?($speed:speed, $percentage:percentage)
+        convert: ->
+          $scope.onConvert?()

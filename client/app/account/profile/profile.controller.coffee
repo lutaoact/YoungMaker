@@ -2,15 +2,11 @@
 
 angular.module('budweiserApp').controller 'ProfileCtrl',
 (
-  $scope
-  User
   Auth
-  Restangular
-  $http
-  $upload
+  $scope
   notify
-  fileUtils
   $modal
+  Restangular
 ) ->
   angular.extend $scope,
 

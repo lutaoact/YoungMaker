@@ -26,7 +26,7 @@ angular.module('budweiserApp')
   angular.extend $scope,
 
     onFileSelect: (files) ->
-      $scope.uploading = true
+      $scope.uploadState = 'uploading'
 
       $scope.onStart?($files:files)
       fileUtils.uploadFile
@@ -34,10 +34,10 @@ angular.module('budweiserApp')
         validation:
           max: $scope.limit ? 50*1024*1024
         success: (data) ->
-          $scope.uploading = false
+          $scope.uploadState = null
           $scope.onComplete?($data:data)
         fail: (error)->
-          $scope.uploading = false
+          $scope.uploadState = null
           $scope.onError?($error:error)
         progress: (speed, percentage, evt)->
           $scope.uploadProgress =
@@ -45,6 +45,7 @@ angular.module('budweiserApp')
               parseInt(percentage) + '%'
             else
               ''
-          $scope.onProgress?($speed:speed, $percentage:percentage)
+          $scope.onProgress?($speed:speed, $percentage:percentage, $event:evt)
         convert: ->
+          $scope.uploadState = 'converting'
           $scope.onConvert?()

@@ -175,6 +175,9 @@
           <div>
             <uploader limit="2000*1024*1024"
                       on-complete="onMediaUploaded($data)"
+                      on-start="onMediaUploadStart()"
+                      on-progress="onMediaUploading($speed, $percentage, $event)"
+                      on-convert="onMediaConvert()"
                       class="lecture-video-btn btn-danger"
                       accept="video/*">
               <i class="fa fa-file-video-o"></i>
@@ -210,6 +213,9 @@
               <span class="pull-right">
                 <uploader limit="100*1024*1024"
                           on-complete="onMediaUploaded($data)"
+                          on-start="onMediaUploadStart()"
+                          on-progress="onMediaUploading($speed, $percentage, $event)"
+                          on-convert="onMediaConvert()"
                           class="btn btn-primary"
                           accept="video/*">
                   <i class="glyphicon glyphicon-refresh"></i>
@@ -235,19 +241,33 @@
       <div class="row" ng-show="!videoActive">
         <div class="col-md-12 lecture-ppt lecture-ppt-empty"
              ng-if="!(lecture.slides.length > 0)">
-          <label class="empty-ppt-desc">目前没有PPT，请添加</label>
-          <div>
+          <label class="empty-ppt-desc">
+            <span ng-if="!(lecture.slides.length > 0) && pptUploadState==null">目前没有PPT，请添加</span>
+            <span ng-if="pptUploadState=='uploading'">正在上传PPT...</span>
+            <span ng-if="pptUploadState=='converting'">PPT已上传，正在转换...</span>
+            <progressbar class="progress-striped active"
+                         value="pptUploadProgress"
+                         ng-if="pptUploadState!=null"
+                         type="danger">
+              {{pptUploadProgress}}%
+            </progressbar>
+            <span class="ppt-name" ng-if="pptUploadState!=null">{{lecture.name}} PPT
+              <small class="pull-right text-muted" ng-if="pptUploadState!=null">{{pptUploadInfo}}</small>
+            </span>
+          </label>
+          <span ng-show="pptUploadState==null">
+            <br/>
             <uploader limit="50*1024*1024"
                       on-complete="onPPTUploaded($data)"
                       on-start="onPPTUploadStart()"
-                      on-progress="onPPTUploading($speed, $progress)"
+                      on-progress="onPPTUploading($speed, $percentage, $event)"
                       on-convert="onPPTConverting()"
                       class="lecture-ppt-btn btn-danger"
                       accept=".ppt, .pptx">
               <i class="fa fa-file-powerpoint-o"></i>
               导入PPT
             </uploader>
-          </div>
+          </span>
         </div>
         <div class="col-md-12 lecture-ppt"
              ng-if="lecture.slides.length > 0">
@@ -262,7 +282,7 @@
                 <uploader limit="50*1024*1024"
                           on-complete="onPPTUploaded($data)"
                           on-start="onPPTUploadStart()"
-                          on-progress="onPPTUploading($speed, $percentage)"
+                          on-progress="onPPTUploading($speed, $percentage, $event)"
                           on-convert="onPPTConverting()"
                           class="btn btn-primary"
                           accept=".ppt, .pptx">

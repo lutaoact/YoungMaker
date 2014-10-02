@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $scope
   $state
   $modal
+  $filter
   Courses
   KeyPoints
   $rootScope
@@ -110,17 +111,32 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       $scope.editingInfo.thumbnail = data
 
     onPPTUploadStart: ->
-      console.debug 'ppt upload start'
-    onPPTUploading: (speed, progress) ->
-      console.debug 'ppt uploading', speed, progress
-    onPPTConverting: (key) ->
-      console.debug 'ppt converting', key
+      $scope.pptUploadState = null
+      $scope.pptUploadProgress = 0
+      $scope.pptUploadInfo = ''
+    onPPTUploading: (speed, progress, event) ->
+      $scope.pptUploadState = 'uploading'
+      $scope.pptUploadProgress = progress
+      $scope.pptUploadInfo = "上传率" + $filter('bytes')(event.loaded) + "/" + $filter('bytes')(event.total)
+    onPPTConverting: ->
+      $scope.pptUploadState = 'converting'
+      $scope.pptUploadProgress = 100
+      $scope.pptUploadInfo = ''
     onPPTUploaded: (data) ->
+      $scope.pptUploadState = null
+      $scope.pptUploadProgress = null
+      $scope.pptUploadInfo = ''
       $scope.lecture.slides = data
       $scope.lecture.patch?(slides: $scope.lecture.slides)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
 
+    onMediaUploadStart: ->
+      console.debug 'media upload start'
+    onMediaUploading: (speed, progress, event) ->
+      console.debug 'media uploading', speed, progress
+    onMediaConverting: ->
+      console.debug 'media converting'
     onMediaUploaded: (data) ->
       $scope.lecture.media = data
       $scope.lecture.patch?(media: $scope.lecture.media)

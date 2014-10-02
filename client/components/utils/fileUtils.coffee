@@ -106,7 +106,7 @@ angular.module 'budweiserApp'
                 console.log(data)
                 speed = currentEnd / (moment().valueOf() - startTime.valueOf())
                 percentage = parseInt(100.0 * currentEnd / file.size)
-                opts.progress?(speed,percentage)
+                opts.progress?(speed, percentage)
                 if currentEnd == file.size - 1
                   # Done
                   commitBlockList()

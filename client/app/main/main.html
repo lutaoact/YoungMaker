@@ -1,12 +1,6 @@
 <div class="navbar navbar-default home-nav" id="home-nav">
   <div class="container">
     <div class="navbar-header">
-      <button class="navbar-toggle" type="button" ng-click="isOpen = !isOpen">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a href="/" class="navbar-brand">
         <img class="logo" src="/assets/images/logo-sub.png" alt="logo">
         云立方学院
@@ -15,158 +9,170 @@
   </div>
 </div>
 
-<section class="home-section" id="main">
+<section class="home-section text-center" id="main" src-key="'/assets/images/classroom.jpg'" source-attr="background-image">
+  <div class="container">
+    <h2>教育的云计算时代，从云立方学院开始 !</h2>
+    <p class="text-muted">5秒钟创建班级，1分钟课程上线 ;   实时互动，多维统计，全新“教”与“学”的体验随时陪伴，在指尖跳跃！</p>
+    <a class="btn btn-warning btn-lg rounded" href="mailto:info@cloud3edu.com" target="blank">
+      <i class="fa fa-envelope"></i>联系我们
+    </a>
+    <div class="demo hidden-sm hidden-xs" src-key="'/assets/images/demo_1.png'" source-attr="background-image">
+    </div>
+    <form class="login-form" name="form" ng-submit="login(form)" novalidate>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control input-lg" 
+                 type="text" 
+                 placeholder="用户名" 
+                 ng-model="user.username" 
+                 name="username">
+          <div class="input-group-addon">
+            <i class="fa fa-user"></i>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control input-lg" 
+                 type="password" 
+                 placeholder="密码" 
+                 name="password"
+                 ng-model="user.password">
+          <div class="input-group-addon">
+            <i class="fa fa-lock"></i>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-danger btn-lg rounded" type="submit">登录</button>
+      </div>
+    </form>
+
+  </div>
   
 </section>
 
-<section class="home-section" id="features">
+<section class="home-section text-center" id="features">
+  <div class="section_header">
+    <h1>
+      <i class="diamond"></i><i class="diamond"></i><i class="diamond"></i>
+      云立方学院可以为您带来什么？
+      <i class="diamond"></i><i class="diamond"></i><i class="diamond"></i>
+    </h1>
+    <p class="text-muted">为传统课堂完美融入云计算和互联网的元素，课堂实时互动充分激发学习兴趣，问答讨论的累计让学生尽情享受参与感，海量数据统计不放过每个题目和知识点，精准分析真正实现个性化教学。</p>
+  </div>
+  
+  <div class="feature-nav hidden-xs">
+    <div class="container">
+      <a href="" class="feature-icon" style="background-image:url(/assets/vectors/cloud.svg)">
+      </a>
+      <a href="" class="feature-icon" style="background-image:url(/assets/vectors/realtime.svg)">
+      </a>
+      <a href="" class="feature-icon" style="background-image:url(/assets/vectors/bigdata.svg)">
+      </a>
+      <a href="" class="feature-icon" style="background-image:url(/assets/vectors/social.svg)">
+      </a>
+      <a href="" class="feature-icon" style="background-image:url(/assets/vectors/thumbup.svg)">
+      </a>
+    </div>
+  </div>
 
-  <carousel interval="'5000'"  class="brand-cast" disable-animation="true">
-    <slide ng-repeat="brand in brands">
-      <div class="brand" ng-style="{'background-image':'url(' + brand.url + ')'}">
-        <div class="carousel-caption">
-          <div class="title">{{brand.title}}</div>
+  <div class="feature">
+    <div class="container">
+      <div class="col-sm-5">
+        <div class="feat-img" src-key="'/assets/images/feat-cloud.png'" source-attr="background-image">
         </div>
       </div>
-    </slide>
-  </carousel>
-
-  <div class="container">
-    <div class="section_header">
-      <h3>
-        Features
-      </h3>
-    </div>
-
-    <div class="row feature" ng-repeat="feature in features">
-      <div class="col-sm-6 image">
-        <img ng-src="{{feature.image}}">
+      <div class="col-sm-7">
+        <h1>教学云端管理，课程时时伴随</h1>
+        <p class="text-muted">我们追求极致的简洁，让您轻松管理云端课程；我们提供丰富多样的功能，让您不断为课程创造新的惊喜；现在开始让您优秀的教学延伸到课前课后，时时伴随学生，移动碎片时间尽在掌握!</p>
       </div>
-      <div class="col-sm-6 info">
-        <h3>{{feature.title}}</h3>
-        <p>{{feature.content}}</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="container">
+      <div class="col-sm-7">
+        <h1>问题测试实时互动，统计分析精准多维</h1>
+        <p class="text-muted">受限于课堂时间和空间，老师苦于只能和个别学生真正交流。不！通过同步推送和实时统计，教师终于可以同时掌握所有学生的解答情况和分析，及时调整进度和个性化教学，并极大提高学生参与度和活跃度。</p>
+      </div>
+      <div class="col-sm-5">
+        <div class="feat-img" src-key="'/assets/images/feat-realtime.png'" source-attr="background-image">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="container">
+      <div class="col-sm-5">
+        <div class="feat-img" src-key="'/assets/images/feat-bigdata.png'" source-attr="background-image">
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <h1>精准的个性化统计和量化分析，大数据应用为你实时服务</h1>
+        <p class="text-muted">不再花费大量时间从成堆的作业和试卷中，分析每个班级和学生的学习情况。敏捷的大数据实时分析随时为您提供动态和可视化的图表，为您的机构提供决策依据和个性化教学。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="container">
+      <div class="col-sm-7">
+        <h1>师生学习社区，增强互动和参与感，实现知识的积累</h1>
+        <p class="text-muted">不再重复的解答同一个问题，让知识的分享更为快乐；解放老师的时间，放飞学生的思维，让学习社区成为教学内容的积累；问答，笔记，思辨，共享都在这里。</p>
+      </div>
+      <div class="col-sm-5">
+        <div class="feat-img" src-key="'/assets/images/feat-social.png'" source-attr="background-image">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="container">
+      <div class="col-sm-5">
+        <div class="feat-img" src-key="'/assets/images/feat-thumbup.png'" source-attr="background-image">
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <h1>与知名企业和大学合作，提供优质教学资源</h1>
+        <p class="text-muted">与国内外知名企业和大学合作，共同开发制作优质课程内容，充分发挥云立方教学平台的特点和优势，实现优质教学资源共享，帮助更多的学生掌握企业和社会急需的知识技能。 </p>
       </div>
     </div>
   </div>
 
 </section>
 
-<section class="home-section" id="showcases">
+<section class="home-section text-center" id="contacts">
+  <div class="section_header">
+    <h1>
+      <i class="diamond"></i><i class="diamond"></i><i class="diamond"></i>
+      如果您的教育机构需要
+      <i class="diamond"></i><i class="diamond"></i><i class="diamond"></i>
+    </h1>
+  </div>
   <div class="container">
-    <div class="section_header">
-      <h3>
-        Showcases
-      </h3>
+    <div class="demo col-sm-6 hidden-sm hidden-xs" src-key="'/assets/images/demo_2.png'" source-attr="background-image">
     </div>
-    <div class="row">
-      <div class="col-sm-4 showcase" ng-repeat="showcase in showcases">
-        <div class="bud thumbnail thumbnail-kenburn">
-          <div class="overflow-hidden">
-            <img ng-src="{{showcase.thumbnail}}" alt="" class="img-responsive">
-          </div>
-          <div class="caption">
-            <h5>{{showcase.title}}</h5>
-            <p>{{showcase.desc}}</p>
-          </div>
-        </div>
-      </div>
+    <div class="col-sm-6">
+      <ul class="advantages">
+        <li><i class="fa fa-check base-color"></i>提高信息水平，部署教学追踪</li>
+        <li><i class="fa fa-check base-color"></i>增强教学和学习体验，机构竞争优势</li>
+        <li><i class="fa fa-check base-color"></i>利用课堂实时互动，增强学习效率</li>
+        <li><i class="fa fa-check base-color"></i>使用云服务，统计分析大量教学数据</li>
+        <li><i class="fa fa-check base-color"></i>充分融合线上和线下的教学</li>
+      </ul>
+    </div>
+    <div class="col-sm-12">
+      <a href="mailto:info@cloud3edu.com" target="blank" class="btn btn-warning btn-lg rounded mail-to">
+        请联系我们进入云立方学院
+      </a>
     </div>
   </div>
-
-</section>
-
-<section class="home-section" id="pricing">
-  <div class="container">
-    <div class="section_header">
-      <h3>
-        Pricing
-      </h3>
-    </div>
-    <div class="row">
-      <div class="col-sm-4 plan" ng-repeat="plan in plans" ng-class="{'main':plan.main}">
-        <div class="bud thumbnail">
-          <h5>{{plan.title}}</h5>
-          <h3>{{plan.price}}<small>/month</small></h3>
-
-          <div class="details">
-            <p ng-repeat="detail in plan.details">
-              <strong>{{detail.sum}}</strong>
-              {{detail.item}}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<section class="home-section" id="footer">
-  <div class="container">
-    <div class="about">
-      <div class="section_header">
-        <h3>
-          About Us
-        </h3>
-      </div>
-      <div class="row">
-        <div class="col-sm-4 staff" ng-repeat="staff in staffs">
-          <div class="avatar" ng-style="{'background-image':'url('+ staff.avatar +')'}">
-          </div>
-          <h6>{{staff.title}}</h6>
-          <h3>{{staff.name}}</h3>
-        </div>
-      </div>
-    </div>
-    <div class="contact">
-      <div class="row">
-        <div class="form-main col-sm-6">
-          <div class="section_header">
-            <h3>
-              Contact
-            </h3>
-          </div>
-          <form>
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Name" required="required">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Email" required="required">
-            </div>
-            <div class="form-group">
-              <textarea type="text" class="form-control" placeholder="Message" required="required"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">发表</button>
-          </form>
-        </div>
-
-        <div class="col-sm-6">
-          <div class="section_header">
-            <h3>
-              Follow Us
-            </h3>
-          </div>
-          <div class="row">
-            <div class="col-sm-4 social">
-              <a><i class="fa fa-weixin"></i></a>
-            </div>
-            <div class="col-sm-4 social">
-              <a><i class="fa fa-weibo"></i></a>
-            </div>
-            <div class="col-sm-4 social">
-              <a><i class="fa fa-twitter"></i></a>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
 </section>
 
 <div ng-include="'components/footer/footer.html'" id="home-footer"></div>
+
 
 

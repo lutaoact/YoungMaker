@@ -30,7 +30,7 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
 
     logout: ->
       Auth.logout()
-      $state.go if $state.current?.name == 'test' then 'test' else 'login'
+      $state.go if $state.current?.name == 'test' then 'test' else 'main'
       socket.close()
 
     login: ->

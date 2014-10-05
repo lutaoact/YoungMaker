@@ -59,7 +59,7 @@ angular.module 'budweiserApp', [
 .factory 'loginRedirector', ($location) ->
 
   redirectKey = 'r'
-  loginPath = '/login' #/login?r=xxx
+  loginPath = '/' #/login?r=xxx
 
   getRedirectUrl = ->
     redirect = $location.search()[redirectKey]

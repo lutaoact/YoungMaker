@@ -42,7 +42,7 @@ angular.module('budweiserApp')
       , 0
 
     toggleSelectAll: (selected) ->
-      angular.forEach $scope.questions, (q) -> q.$selected = selected
+      angular.forEach $scope.questions, (q) -> q.$selected = selected if !q.$exists
 
     toggleKeyPoint: (keyPoint) ->
       keyPoint.$selected = !keyPoint.$selected

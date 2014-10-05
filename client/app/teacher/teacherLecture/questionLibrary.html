@@ -39,7 +39,7 @@
                 <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
                 <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
               </a>
-              <a ng-if="getSelectedNum() > 0"
+              <a ng-if="getSelectedNum() > 0 && lecture"
                  class="btn btn-danger pull-right"
                  ng-click="addToLecture()"
                  ng-disabled="updating">
@@ -98,7 +98,7 @@
               </ul>
             </div>
           </div>
-          <div class="text-center">
+          <div class="text-center" ng-if="lecture">
             <button type="button"
                     class="btn btn-danger"
                     ng-click="addToLecture()"
@@ -115,7 +115,7 @@
           <label class="tags-title">知识点标签</label>
           <hr/>
           <div class="row-fluid">
-            <span ng-repeat="keyPoint in keyPoints">
+            <span ng-repeat="keyPoint in keyPoints | filter:{categoryId:categoryId}">
               <div class="label label-default key-point"
                    ng-click="toggleKeyPoint(keyPoint)"
                    ng-class="{'selected':keyPoint.$selected}"

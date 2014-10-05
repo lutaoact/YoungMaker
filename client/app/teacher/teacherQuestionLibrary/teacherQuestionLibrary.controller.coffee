@@ -4,8 +4,8 @@ angular.module('budweiserApp').controller 'TeacherQuestionLibraryCtrl', (
   $scope
   $state
   Courses
+  KeyPoints
   Categories
-  Restangular
 ) ->
 
   course = _.find Courses, _id:$state.params.courseId
@@ -14,5 +14,5 @@ angular.module('budweiserApp').controller 'TeacherQuestionLibraryCtrl', (
   angular.extend $scope,
     course: course
     category: category
-    keyPoints: Restangular.all('key_points').getList(categoryId:course.categoryId)
+    keyPoints: KeyPoints
 

@@ -57,6 +57,11 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
               role: 'teacher'
             }
             {
+              title: '题库'
+              link: "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
+              role: 'teacher'
+            }
+            {
               title: '讨论'
               link: "forum.course({courseId:'#{$state.params.courseId}'})"
               role: 'student'

@@ -16,7 +16,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/question-library/:questionType'
     template: """
       <question-library category-id="course.categoryId"
-                        key-points="course.$keyPoints"
+                        key-points="keyPoints"
                         lecture="lecture">
       </question-library>
     """

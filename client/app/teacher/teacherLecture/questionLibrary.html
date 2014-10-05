@@ -59,6 +59,7 @@
                    ng-class="{'expended':question.$expended==true}">
                 <input type="checkbox"
                        class="bud checkbox-default title-select"
+                       ng-disabled="question.$exists"
                        ng-model="question.$selected">
                 <label class="title-info"
                        ng-class="{'text-muted':question.$exists}"
@@ -73,7 +74,7 @@
                 <li ng-repeat="option in question.content.body"
                     class="question-option"
                     role="presentation">
-                  <label class="text-muted" ng-class="{'label-correct':option.correct}">
+                  <label class="text-muted">
                     <input type="checkbox"
                            class="bud checkbox-primary"
                            ng-disabled="true"

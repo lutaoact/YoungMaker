@@ -1,17 +1,23 @@
 <label class="btn btn-default">
   <input type="file" style="display:none;"
          ng-if="!multiple"
-         ng-disabled="uploading"
+         ng-disabled="uploadState!=null"
+         accept="{{accept}}"
          ng-file-select="onFileSelect($files)"/>
   <input type="file" style="display:none;"
          ng-if="multiple"
          multiple
-         ng-disabled="uploading"
+         accept="{{accept}}"
+         ng-disabled="uploadState!=null"
          ng-file-select="onFileSelect($files)"/>
-  <span ng-if="uploading">
+  <span ng-if="uploadState=='uploading'">
     <i class="fa fa-spinner fa-spin"></i>
      上传中 {{uploadProgress}}
   </span>
+  <span ng-if="uploadState=='converting'">
+    <i class="fa fa-spinner fa-spin"></i>
+     正在转换
+  </span>
   <span ng-transclude
-        ng-hide="uploading"></span>
+        ng-hide="uploadState!=null"></span>
 </label>

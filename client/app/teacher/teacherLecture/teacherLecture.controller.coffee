@@ -6,9 +6,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $scope
   $state
   $modal
-  configs
+  $filter
   Courses
   KeyPoints
+  $rootScope
   Restangular
 ) ->
 
@@ -19,15 +20,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     course: course
     keyPoints: KeyPoints
     mediaApi: null
-    editing: false
     saving: false
+    deleting: false
     videoActive: true
-    lecture:
-      name: "新建课时 #{course.lectureAssembly.length + 1}"
-      slides:[]
-      keyPoints: []
-      homeworks:[]
-      quizzes:[]
+    lecture: null
     editingInfo: null
 
     switchEdit: ->
@@ -41,6 +37,22 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         else
           null
 
+    deleteLecture: ->
+      lecture = $scope.lecture
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除课时'
+          message: -> """确认要删除《#{$scope.course.name}》中的"#{lecture.name}"？"""
+      .result.then ->
+        $scope.deleting = true
+        $scope.lecture.remove(courseId:$scope.course._id)
+        .then ->
+          $scope.deleting = false
+          $scope.editingInfo = null
+          $state.go('teacher.course', courseId:$scope.course._id)
+
     saveLecture: (form) ->
       unless form?.$valid then return
 
@@ -49,31 +61,12 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       lecture = $scope.lecture
       editingInfo = $scope.editingInfo
 
-      # change list[Object] to list[ID]
-
-      if lecture._id?
-        # update exists
-        lecture.patch(editingInfo)
-        .then (newLecture) ->
-          $scope.saving = false
-          lecture.__v = newLecture.__v
-          angular.extend lecture, editingInfo
-          $scope.editingInfo = null
-      else
-        lecture = angular.extend $scope.lecture,
-          keyPoints: _.map lecture.keyPoints, (keyPoint) ->
-            kp: keyPoint.kp._id
-            timestamp: keyPoint.timestamp
-          homeworks: _.pluck lecture.homeworks, '_id'
-          quizzes: _.pluck lecture.quizzes, '_id'
-        lecture = angular.extend lecture, editingInfo
-        # create new
-        Restangular.all('lectures').post(lecture, courseId:$state.params.courseId)
-        .then (newLecture) ->
-          console.debug 'create lecture', newLecture
-          $scope.saving = false
-          $scope.editingInfo = null
-          $state.go('teacher.course', courseId: $state.params.courseId)
+      lecture.patch(editingInfo)
+      .then (newLecture) ->
+        $scope.saving = false
+        lecture.__v = newLecture.__v
+        angular.extend lecture, editingInfo
+        $scope.editingInfo = null
 
     removeSlide: (index) ->
       $modal.open
@@ -114,25 +107,38 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         .then (newLecture) ->
           $scope.lecture.__v = newLecture.__v
 
-    onThumbUploaded: (key) ->
-      $scope.editingInfo.thumbnail = key
+    onThumbUploaded: (data) ->
+      $scope.editingInfo.thumbnail = data
 
-    onPPTUploaded: (key) ->
-      $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
-      .success (slides)->
-        fileShortKey = (slides.thumbnails[0].split('-').slice 0, -2).join('-')
-        console.log fileShortKey
-        additional = [1..slides.total/2].map (item)->
-          thumb: '/api/assets/slides/' + fileShortKey + '-' + item + '-sm.jpg'
-          raw:  '/api/assets/slides/' + fileShortKey + '-' + item + '-lg.jpg'
-        console.log additional
-        $scope.lecture.slides = additional
-        $scope.lecture.patch?(slides: $scope.lecture.slides)
-        .then (newLecture) ->
-          $scope.lecture.__v = newLecture.__v
+    onPPTUploadStart: ->
+      $scope.pptUploadState = null
+      $scope.pptUploadProgress = 0
+      $scope.pptUploadInfo = ''
+    onPPTUploading: (speed, progress, event) ->
+      $scope.pptUploadState = 'uploading'
+      $scope.pptUploadProgress = progress
+      $scope.pptUploadInfo = "上传率" + $filter('bytes')(event.loaded) + "/" + $filter('bytes')(event.total)
+    onPPTConverting: ->
+      $scope.pptUploadState = 'converting'
+      $scope.pptUploadProgress = 100
+      $scope.pptUploadInfo = ''
+    onPPTUploaded: (data) ->
+      $scope.pptUploadState = null
+      $scope.pptUploadProgress = null
+      $scope.pptUploadInfo = ''
+      $scope.lecture.slides = data
+      $scope.lecture.patch?(slides: $scope.lecture.slides)
+      .then (newLecture) ->
+        $scope.lecture.__v = newLecture.__v
 
-    onMediaUploaded: (key, data) ->
-      $scope.lecture.media = key
+    onMediaUploadStart: ->
+      console.debug 'media upload start'
+    onMediaUploading: (speed, progress, event) ->
+      console.debug 'media uploading', speed, progress
+    onMediaConverting: ->
+      console.debug 'media converting'
+    onMediaUploaded: (data) ->
+      $scope.lecture.media = data
       $scope.lecture.patch?(media: $scope.lecture.media)
       .then (newLecture) ->
         $scope.lecture.__v = newLecture.__v
@@ -140,15 +146,48 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onPlayerReady: (api) ->
       $scope.mediaApi = api
 
+  Restangular.one('lectures', $state.params.lectureId).get()
+  .then (lecture) ->
+    $scope.lecture = lecture
+    $scope.videoActive = lecture.media? || lecture.slides.length == 0
+    $scope.switchEdit() if lecture.__v == 0
+
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch?(slides:$scope.lecture.slides)
     .then (newLecture) ->
       $scope.lecture.__v = newLecture.__v
 
-  if $state.params.lectureId isnt 'new'
-    Restangular.one('lectures', $state.params.lectureId).get()
-    .then (lecture) ->
-      $scope.lecture = lecture
-      $scope.videoActive = lecture.media? || lecture.slides.length == 0
-  else
-    $scope.switchEdit()
+  # save or discard confirm
+  askForSaveLecture = ->
+    $modal.open
+      templateUrl: 'components/modal/messageModal.html'
+      controller: 'MessageModalCtrl'
+      resolve:
+        title: -> '保存课时'
+        message: -> """课时"#{$scope.lecture.name}"的基本信息还没有保存，请先保存。"""
+
+  discardNewLecture = (toState, toParams) ->
+    $modal.open
+      templateUrl: 'components/modal/messageModal.html'
+      controller: 'MessageModalCtrl'
+      resolve:
+        title: -> '舍弃新课时'
+        message: -> """课时"#{$scope.lecture.name}"还没有被保存过，舍弃并离开？"""
+    .result.then ->
+      $scope.deleting = true
+      $scope.lecture.remove(courseId:$scope.course._id)
+      .then ->
+        $scope.deleting = false
+        $scope.editingInfo = null
+        $state.go(toState, toParams)
+
+  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
+    isEditing = $scope.editingInfo?
+    isGoingOut = !$state.includes(toState, toParams) &&  toState.name != 'teacher.lecture.questionLibrary'
+    if isEditing && isGoingOut
+      event.preventDefault()
+      if $scope.lecture.__v == 0
+        discardNewLecture(toState, toParams)
+      else
+        askForSaveLecture()
+

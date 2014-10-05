@@ -15,7 +15,7 @@
       <uploader limit="2*1024*1024"
                 class="course-img btn-danger"
                 on-complete="onThumbUploaded($data)"
-                accept="image">
+                accept="image/*">
         <span class="glyphicon glyphicon-picture"></span>
         上传封面
       </uploader>
@@ -31,6 +31,8 @@
                name="name"
                maxlength="30"
                type="text"
+               focus-me="courseNameFocus"
+               ng-init="courseNameFocus=true"
                ng-model="editingInfo.name"
                placeholder="课程名称"
                required>

@@ -1,31 +1,31 @@
 angular.module 'budweiserApp'
-.factory 'fileUtils', ($upload, $http, $q, Restangular)->
+
+.factory 'fileUtils', (
+  $q
+  $http
+  $upload
+  configs
+  Restangular
+) ->
+
   rexDict =
-    ppt: /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/
+    slides: /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/
+    video: /^video\//
     image: /^image\//
     excel: /^application\//
+    all: /.*/
 
-  validate = (validation, file)->
-    throwFileEx = (fileName)->
-      '文件： ' + fileName + ' 格式错误'
-    if (validation?.max or Infinity) < file.size
-      return '文件： ' + file.name + ' 过大'
+  validate = (validation, files) ->
+    if files?.length != 1
+      return '请选择一个要上传的文件'
+    file = files[0]
+    if file.size > (validation?.max or Infinity)
+      return '文件 ' + file.name + ' 大小超过上传限制'
+    accept = validation?.accept or 'all'
+    if !rexDict[accept]?.test(file.type)
+      return '文件 ' + file.name + ' 格式不允许'
 
-    fileType = validation?.accept or 'all'
-    return throwFileEx(file.name) if rexDict[fileType]?.test file.type is false
-
-    true
-
-  uploadFile: (opts)->
-
-    if not opts.files? or opts.files.length < 1
-      opts.fail?('file not selected')
-      return
-
-    file = opts.files[0]
-    validateResult = validate(opts.validation, file)
-    return opts.fail?(validateResult) unless validateResult is true
-
+  doUploadFile = (opts, file) ->
     # get upload token
     Restangular.one('assets/upload/images','').get(fileName: file.name)
     .then (strategy)->
@@ -42,19 +42,11 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
-        opts.success?(strategy.formData.key, data)
+        opts.success?(strategy.formData.key)
       .error opts.fail
     , opts.fail
 
-  uploadVideo: (opts)->
-    if not opts.files? or opts.files.length < 1
-      opts.fail?('file not selected')
-      return
-
-    file = opts.files[0]
-    validateResult = validate(opts.validation, file)
-    return opts.fail?(validateResult) unless validateResult is true
-
+  doUploadVideo = (opts, file)->
     # get upload token
     Restangular.one('assets/upload/videos','').get(fileName: file.name)
     .then (strategy)->
@@ -113,7 +105,7 @@ angular.module 'budweiserApp'
               success: (data)->
                 speed = currentEnd / (moment().valueOf() - startTime.valueOf())
                 percentage = parseInt(100.0 * currentEnd / file.size)
-                opts.progress?(speed,percentage)
+                opts.progress?(speed, percentage)
                 if currentEnd == file.size - 1
                   # Done
                   commitBlockList()
@@ -136,9 +128,51 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request)
       .then (data)->
-        opts.success?(strategy.key, data)
+        opts.success?(strategy.key)
     , opts.fail
 
+  doUploadSlides = (opts, file)->
+    # get upload token
+    Restangular.one('assets/upload/slides','').get(fileName: file.name)
+    .then (strategy)->
+      start = moment()
+      $upload.upload
+        url: strategy.url
+        method: 'POST'
+        data: strategy.formData
+        withCredentials: false
+        file: file
+        fileFormDataName: 'file'
+      .progress (evt)->
+        speed = evt.loaded / (moment().valueOf() - start.valueOf())
+        percentage = parseInt(100.0 * evt.loaded / evt.total)
+        opts.progress?(speed, percentage, evt)
+      .success (data) ->
+        key = strategy.formData.key
+        opts.convert?(key)
+        $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
+        .success (data)->
+          slides = _.map data.rawPics, (pic) ->
+            raw: '/api/assets/slides/' + pic
+            thumb: '/api/assets/slides/' + pic.replace('-lg.jpg', '-sm.jpg')
+          opts.success?(slides)
+      .error opts.fail
+    , opts.fail
+
+  uploadFile: (opts) ->
+    error = validate(opts.validation, opts.files)
+    if error?
+      console.error error
+      return opts.fail?(error)
+    # 根据后缀名匹配调用的上传方法
+    file = opts.files[0]
+    matchFileTypeName = _.findKey rexDict, (value) -> value.test(file.type)
+    switch matchFileTypeName
+      when 'slides' then doUploadSlides(opts, file)
+      when 'video'  then doUploadVideo(opts, file)
+      else               doUploadFile(opts, file)
+
+  # TODO 暂时没地方调用, 还没有重构
   bulkUpload: (opts)->
 
     if not opts.files? or opts.files.length < 1
@@ -148,8 +182,8 @@ angular.module 'budweiserApp'
     promises = []
     for file in opts.files
       do (file)->
-        validateResult = validate(opts.validation, file)
-        return opts.fail?(validateResult) unless validateResult is true
+        error = validate(opts.validation, [file])
+        return opts.fail?(error) if error?
 
         deferred = $q.defer()
         promises.push deferred.promise
@@ -181,36 +215,5 @@ angular.module 'budweiserApp'
       for data in result
         keys.push data
       opts.success?(keys)
-    , opts.fail
-
-  uploadSlides: (opts)->
-
-    if not opts.files? or opts.files.length < 1
-      opts.fail?('file not selected')
-      return
-
-    file = opts.files[0]
-    validateResult = validate(opts.validation, file)
-    return opts.fail?(validateResult) unless validateResult is true
-
-    # get upload token
-    # TODO: tell qiniu the max size and accept types
-    Restangular.one('assets/upload/slides','').get(fileName: file.name)
-    .then (strategy)->
-      start = moment()
-      $upload.upload
-        url: strategy.url
-        method: 'POST'
-        data: strategy.formData
-        withCredentials: false
-        file: file
-        fileFormDataName: 'file'
-      .progress (evt)->
-        speed = evt.loaded / (moment().valueOf() - start.valueOf())
-        percentage = parseInt(100.0 * evt.loaded / evt.total)
-        opts.progress?(speed,percentage, evt)
-      .success (data) ->
-        opts.success?(strategy.formData.key, data)
-      .error opts.fail
     , opts.fail
 

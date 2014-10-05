@@ -25,7 +25,7 @@
       <label>头像</label>
       <div>
         <label class="btn btn-default" ng-show="!isUploading">
-          <input type="file" style="display:none;" ng-file-select="onFileSelect($event,$files)"/>
+          <input type="file" style="display:none;" ng-file-select="onFileSelect($event,$files)" accept="image/*"/>
           <img src-key="me.avatar" src="assets/images/empty.jpg" suffix="?imageView2/1/w/64/h/64"></img>
         </label>
         <label class="btn btn-default disabled" ng-show="isUploading">

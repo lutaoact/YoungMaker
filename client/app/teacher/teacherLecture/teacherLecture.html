@@ -48,7 +48,7 @@
             <uploader limit="2*1024*1024"
                       on-complete="onThumbUploaded($data)"
                       class="lecture-img-btn btn-danger"
-                      accept="image">
+                      accept="image/*">
               <span class="glyphicon glyphicon-picture"></span>
               上传封面
             </uploader>
@@ -59,13 +59,27 @@
             <label class="col-sm-2 control-label">课时名称</label>
             <div class="col-sm-10">
               <span id="lecture-name" ng-hide="editingInfo">{{lecture.name}}</span>
+              <div class="btn-group pull-right" dropdown ng-if="!editingInfo">
+                <button type="button"
+                        tooltip="请选择开始上课的班级"
+                        tooltip-placement="top"
+                        id="start-teaching-btn"
+                        class="btn btn-primary dropdown-toggle">
+                  开始上课 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="classe in course.classes">
+                    <a ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:classe._id})">{{classe.name}}</a>
+                  </li>
+                </ul>
+              </div>
               <span ng-if="editingInfo">
                 <input class="form-control"
                        name="name"
                        type="text"
                        maxlength="40"
-                       focus-me="titleInputFocus"
-                       ng-init="titleInputFocus=true"
+                       focus-me="lectureNameFocus"
+                       ng-init="lectureNameFocus=true"
                        ng-model="editingInfo.name"
                        placeholder="课时名称"
                        required>
@@ -88,16 +102,6 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <div class="btn-group" dropdown ng-if="lecture._id">
-                <button type="button" class="btn btn-primary dropdown-toggle">
-                  开始上课 <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li ng-repeat="classe in course.classes">
-                    <a ui-sref="teacher.teaching({courseId:course._id, lectureId:lecture._id, classeId:classe._id})">{{classe.name}}</a>
-                  </li>
-                </ul>
-              </div>
               <span ng-if="!editingInfo" class="pull-right">
                 <button type="button"
                         class="btn btn-default glyphicon glyphicon-pencil edit-lecture-btn"
@@ -106,7 +110,7 @@
               </span>
               <span ng-if="editingInfo" class="pull-right">
                 <button type="submit"
-                        ng-disabled="saving"
+                        ng-disabled="deleting && saving"
                         class="btn btn-primary"
                         ng-click="saveLecture(form)">
                   <span ng-if="!saving">保存</span>
@@ -116,7 +120,17 @@
                   </span>
                 </button>
                 <button type="button"
-                        ng-if="lecture._id"
+                        ng-disabled="deleting && saving"
+                        class="btn btn-warning"
+                        ng-click="deleteLecture()">
+                  <span ng-if="!saving">删除</span>
+                  <span ng-if="saving">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    删除中
+                  </span>
+                </button>
+                <button type="button"
+                        ng-if="lecture.__v > 0"
                         class="btn btn-default"
                         ng-click="switchEdit(false)">
                   取消
@@ -149,8 +163,8 @@
     <div class="container">
       <br/>
       <h4 class="text-center">
-        <span ng-if="videoActive">视频课件</span>
-        <span ng-if="!videoActive">PPT课件</span>
+        <label ng-if="videoActive" class="video-title">视频课件</label>
+        <label ng-if="!videoActive" class="ppt-title">PPT课件</label>
       </h4>
       <hr class="info-hr"/>
       <br/>
@@ -161,8 +175,11 @@
           <div>
             <uploader limit="2000*1024*1024"
                       on-complete="onMediaUploaded($data)"
+                      on-start="onMediaUploadStart()"
+                      on-progress="onMediaUploading($speed, $percentage, $event)"
+                      on-convert="onMediaConvert()"
                       class="lecture-video-btn btn-danger"
-                      accept="video">
+                      accept="video/*">
               <i class="fa fa-file-video-o"></i>
               导入视频
             </uploader>
@@ -196,8 +213,11 @@
               <span class="pull-right">
                 <uploader limit="100*1024*1024"
                           on-complete="onMediaUploaded($data)"
+                          on-start="onMediaUploadStart()"
+                          on-progress="onMediaUploading($speed, $percentage, $event)"
+                          on-convert="onMediaConvert()"
                           class="btn btn-primary"
-                          accept="video">
+                          accept="video/*">
                   <i class="glyphicon glyphicon-refresh"></i>
                   替换
                 </uploader>
@@ -221,21 +241,64 @@
       <div class="row" ng-show="!videoActive">
         <div class="col-md-12 lecture-ppt lecture-ppt-empty"
              ng-if="!(lecture.slides.length > 0)">
-          <label class="empty-ppt-desc">目前没有PPT，请添加</label>
-          <div>
+          <label class="empty-ppt-desc">
+            <span ng-if="!(lecture.slides.length > 0) && pptUploadState==null">目前没有PPT，请添加</span>
+            <span ng-if="pptUploadState=='uploading'">正在上传PPT...</span>
+            <span ng-if="pptUploadState=='converting'">PPT已上传，正在转换...</span>
+            <progressbar class="progress-striped active"
+                         value="pptUploadProgress"
+                         ng-if="pptUploadState!=null"
+                         type="danger">
+              {{pptUploadProgress}}%
+            </progressbar>
+            <span class="ppt-name" ng-if="pptUploadState!=null">{{lecture.name}} PPT
+              <small class="pull-right text-muted" ng-if="pptUploadState!=null">{{pptUploadInfo}}</small>
+            </span>
+          </label>
+          <span ng-show="pptUploadState==null">
+            <br/>
             <uploader limit="50*1024*1024"
                       on-complete="onPPTUploaded($data)"
+                      on-start="onPPTUploadStart()"
+                      on-progress="onPPTUploading($speed, $percentage, $event)"
+                      on-convert="onPPTConverting()"
                       class="lecture-ppt-btn btn-danger"
-                      accept="ppt">
+                      accept=".ppt, .pptx">
               <i class="fa fa-file-powerpoint-o"></i>
               导入PPT
             </uploader>
-          </div>
+          </span>
         </div>
-        <div class="col-md-12 media lecture-ppt"
+        <div class="col-md-12 lecture-ppt"
              ng-if="lecture.slides.length > 0">
-          <div class="list-group lecture-slides-list pull-right">
-            <a class="list-group-item stretch media-object"
+          <div class="col-md-10 lecture-ppt-content">
+            <div ppt-viewer
+                 slides="lecture.slides"
+                 current-index="lecture.slides.$activeIndex"
+                 style="width:100%"></div>
+            <div class="btn-group">
+              <label class="info" tooltip="{{lecture.name}} PPT">{{lecture.name}} PPT</label>
+              <span class="pull-right">
+                <uploader limit="50*1024*1024"
+                          on-complete="onPPTUploaded($data)"
+                          on-start="onPPTUploadStart()"
+                          on-progress="onPPTUploading($speed, $percentage, $event)"
+                          on-convert="onPPTConverting()"
+                          class="btn btn-primary"
+                          accept=".ppt, .pptx">
+                  <i class="glyphicon glyphicon-refresh"></i>
+                  替换
+                </uploader>
+                <button type="button" class="btn btn-primary"
+                        ng-click="removePPT()">
+                  <i class="glyphicon glyphicon-remove"></i>
+                  删除
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="list-group lecture-slides-list col-md-2">
+            <a class="list-group-item stretch"
                ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
                ng-click="lecture.slides.$activeIndex=$index"
                ng-repeat-reorder="slide in lecture.slides "
@@ -249,29 +312,6 @@
                 <span class="glyphicon glyphicon-trash"></span>
               </span>
             </a>
-          </div>
-          <div class="media-body">
-            <div ppt-viewer
-                 slides="lecture.slides"
-                 current-index="lecture.slides.$activeIndex"
-                 style="width:100%"></div>
-            <div class="btn-group">
-              <label class="info" tooltip="{{lecture.name}} PPT">{{lecture.name}} PPT</label>
-              <span class="pull-right">
-                <uploader limit="50*1024*1024"
-                          on-complete="onPPTUploaded($data)"
-                          class="btn btn-primary"
-                          accept="ppt">
-                  <i class="glyphicon glyphicon-refresh"></i>
-                  替换
-                </uploader>
-                <button type="button" class="btn btn-primary"
-                        ng-click="removePPT()">
-                  <i class="glyphicon glyphicon-remove"></i>
-                  删除
-                </button>
-              </span>
-            </div>
           </div>
         </div>
       </div>

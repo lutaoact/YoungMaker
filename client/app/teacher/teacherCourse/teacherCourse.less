@@ -195,6 +195,22 @@
           top: 40px;
         }
       }
+      .classe-list {
+        li {
+          &.active {
+            &:before {
+              border-left: 15px solid @base-color;
+            }
+          }
+          &:before {
+            content: ' ';
+            position: absolute;
+            right: -15px;
+            border-top: 20px solid rgba(90, 189, 166, 0);
+            border-bottom: 20px solid rgba(90, 189, 166, 0);
+          }
+        }
+      }
       .lecture-list {
         margin: 0px 0px 20px 0px;
         -webkit-user-select:none;
@@ -209,7 +225,13 @@
           padding-top: 22px;
           padding-left: 0px;
           margin-right: -20px;
-          .lecture-icon-label {
+          &:hover {
+            .lecture-icon-tooltip {
+              display: block;
+            }
+          }
+          .lecture-icon-tooltip {
+            display: none;
             &:after {
               content: ' ';
               right: -6px;
@@ -229,7 +251,7 @@
             padding: 2px 5px;
           }
           &:before {
-            content: '';
+            content: ' ';
             position: absolute;
             border: 1px solid #aaa;
             top: 0px;
@@ -242,7 +264,7 @@
             z-index: -2;
           }
           .done {
-            padding: 0px;
+            padding: 1px 0px 0px 0px;
             border-radius: 10px;
             color: #fff;
             background-color: @base-color;
@@ -254,9 +276,9 @@
               border: 2px solid #ff0000;
               background: #ffffff;
               &:before {
-                content: '';
+                content: ' ';
                 position: absolute;
-                top: 29px;
+                top: 2.17em;
                 left: 6px;
                 border-left: 7px solid #ff0000;
                 border-top: 4px solid rgba(255, 0, 0, 0);
@@ -268,12 +290,14 @@
           }
           .new {
             &:before {
-              content: '';
+              content: ' ';
               position: absolute;
-              top: 30px;
+              top: 2.17em;
               left: 6px;
+              height: 0px;
+              width: 0px;
               border: 3px solid #aaa;
-              border-radius: 10px;
+              border-radius: 5px;
             }
             color: #aaa;
             padding: 1px;
@@ -287,7 +311,7 @@
               color: #ffffff;
               border: 2px solid #ff0000;
               &:before {
-                content: '';
+                content: ' ';
                 position: absolute;
                 top: 29px;
                 left: 6px;

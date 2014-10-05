@@ -1,7 +1,8 @@
 angular.module('budweiserApp').controller 'NewQuestionCtrl', (
   $scope
-  categoryId
+  $timeout
   keyPoints
+  categoryId
   $modalInstance
 ) ->
   angular.extend $scope,
@@ -15,8 +16,17 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
         title: ''
         body: [{}]
 
-    addkeyPoint: (keyPoint) ->
-      $scope.selectedKeyPoints.push angular.copy(keyPoint)
+    addKeyPoint: (keyPoint, input) ->
+      if keyPoint?
+        $scope.selectedKeyPoints.push angular.copy(keyPoint)
+        return
+      if input?
+        keyPoints.post
+          name: input
+          categoryId: categoryId
+        .then (keyPoint) ->
+          keyPoints.push keyPoint
+          $scope.selectedKeyPoints.push angular.copy(keyPoint)
     removekeyPoint: (index) ->
       $scope.selectedKeyPoints.splice(index, 1)
     validateOptions: ->

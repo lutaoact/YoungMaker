@@ -54,9 +54,9 @@
     <label class="control-label">知识点</label>
     <div class="input-group">
       <ui-select ng-model="selectedKeyPoint"
-                 on-select="addkeyPoint($item)">
-        <ui-select-match placeholder="查找并且添加知识点">
-          <span class="text-muted">查找并且添加知识点</span>
+                 on-select="addKeyPoint($item, $select.search)">
+        <ui-select-match placeholder="请输入要添加的知识点，然后按回车">
+          <span class="text-muted">请输入要添加的知识点，然后按回车</span>
         </ui-select-match>
         <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | filter:$select.search">
           <span ng-bind-html="keyPoint.name | highlight: $select.search"></span>

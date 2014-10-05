@@ -9,6 +9,12 @@
     font-size:.9em;
     border-radius: 3px;
   }
+  .input-group {
+    .dropdown-menu {
+      max-height: 165px;
+      overflow: auto;
+    }
+  }
 }
 .teacher {
   .lecture-form {
@@ -18,9 +24,13 @@
       left: calc(~'50% - 46px');
       top: 60%;
     }
+    #start-teaching-btn {
+      border-radius: 4px;
+      padding: 3px 8px;
+    }
     #lecture-name {
       padding: 7px 1px;
-      display: block;
+      display: inline-block;
     }
     #lecture-info {
       padding: 7px 1px;
@@ -75,27 +85,38 @@
         background-color: #44aa92;
       }
     }
-    &.ppt:before{
-      left: 128px;
-    }
-    &:before{
-      content: '';
-      position: relative;
-      top: 26px;
-      width: 30px;
-      text-align: center;
-      border-bottom: 20px solid #EBEBEB;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      height: 0;
-      left: 52px;
-    }
   }
   .media-section {
     padding-top: 0px;
     margin-top: 35px;
     padding-bottom: 20px;
     background: #EBEBEB;
+    .video-title {
+      &:before {
+        content: ' ';
+        position: relative;
+        border-bottom: 30px solid #EBEBEB;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        width: 0px;
+        height: 0px;
+        bottom: 75px;
+        left: 0px;
+      }
+    }
+    .ppt-title {
+      &:before {
+        content: ' ';
+        position: relative;
+        border-bottom: 30px solid #EBEBEB;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        width: 0px;
+        height: 0px;
+        bottom: 75px;
+        left: 76px;
+      }
+    }
   }
   .question-section {
     padding-top: 0px;
@@ -152,7 +173,7 @@
         color: #ffffff;
         text-indent: 10px;
         font-weight: normal;
-        width: calc(~'100% - 150px');
+        width: calc(~'100% - 210px');
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -166,6 +187,12 @@
     margin: 0px;
     height: 510px;
     background: #ffffff;
+    .lecture-ppt-content {
+      padding: 0px;
+      .ppt-viewer {
+        box-shadow: none;
+      }
+    }
     &.lecture-ppt-empty {
       border: 2px dashed #ccc;
       height: 360px;
@@ -174,10 +201,25 @@
         margin-top: 100px;
         font-size: 1.3em;
         text-align: center;
+        width: 80%;
       }
       .lecture-ppt-btn {
         margin-top: 70px;
         padding: 3px 8px 3px 8px;
+      }
+      .progress {
+        height: 18px;
+        border-radius: 5px;
+        margin-top: 50px;
+        margin-bottom: 5px;
+        font-size: .5em;
+      }
+      .ppt-name {
+        text-align: left;
+        width: 100%;
+        display: block;
+        font-size: .9em;
+        font-weight: normal;
       }
     }
     .btn-group {
@@ -195,7 +237,7 @@
         color: #ffffff;
         text-indent: 10px;
         font-weight: normal;
-        width: calc(~'100% - 150px');
+        width: calc(~'100% - 210px');
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

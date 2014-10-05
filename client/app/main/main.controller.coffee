@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'MainCtrl',
   $location
   socketHandler
   loginRedirector
+  notify
 ) ->
 
   angular.extend $scope,
@@ -56,8 +57,13 @@ angular.module('budweiserApp').controller 'MainCtrl',
               else if me.role is 'student'
                 $location.url('/s')
               $location.replace()
-        .catch (err) ->
-          $scope.errors.other = err.message
+        , (err)->
+          notify
+            message:'用户名或密码错误'
+            template:'components/alert/failure.html'
 
     loginOauth: (provider) ->
       $window.location.href = '/auth/' + provider
+
+
+

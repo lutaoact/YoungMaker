@@ -25,16 +25,18 @@
       color: @nav-tabs-active-link-hover-color;
     }
     > a {
+      cursor: pointer;
       border: none;
-      padding: 13px 15px;
+      padding: 10px 15px;
       margin-right: 0;
-      font-size: 24px;
-      &:hover,
+      font-size: 18px;
+      &:hover{
+        border: none;
+      }
       &:focus {
         background-color: @nav-tabs-active-link-hover-bg;
         color: @nav-tabs-active-link-hover-color;
         border: none;
-
       }
     }
   }

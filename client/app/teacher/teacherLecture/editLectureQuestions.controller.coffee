@@ -124,11 +124,8 @@ angular.module('budweiserApp')
   $rootScope.$on 'add-library-question', (event, type, questions) ->
     $scope.setQuestionType(type)
     addQuestions questions
-    #FIXME refactor dirty fix 滚动到题库
     finish = $scope.$on '$stateChangeSuccess', -> $timeout ->
-      console.debug finish
       finish()
-      targetElement = angular.element(document.getElementById('lecture-question'))
-      $document.scrollToElement(targetElement, 60)
-    , 300
+      targetElement = angular.element(document.getElementById 'lecture-question')
+      $document.scrollToElement(targetElement, 60, 500)
 

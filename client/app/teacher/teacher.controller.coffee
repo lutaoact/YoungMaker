@@ -8,3 +8,4 @@ angular.module('budweiserApp').controller 'TeacherCtrl', (
   angular.extend $scope,
     $state: $state
 
+

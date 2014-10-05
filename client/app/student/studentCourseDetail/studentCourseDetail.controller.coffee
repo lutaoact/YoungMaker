@@ -1,79 +1,24 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
-, (
-  $scope
-  Restangular
-  notify
-  $state
-  Category
-  $rootScope
-  $modal
-  Courses
+angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
   $q
+  $scope
+  $state
+  Courses
+  Category
+  Restangular
 ) ->
 
+  course = _.find Courses, _id:$state.params.courseId
+
+  Category.find course.categoryId
+  .then (category) ->
+    course.$category = category
+
   angular.extend $scope,
-
-    course: null
-
-    $stateParams: $state.params
-
-    saveCourse: (course)->
-      if not course._id
-        #post
-        Restangular.all('courses').post(course)
-        .then (data)->
-          notify
-            message:'课程已保存'
-            template:'components/alert/success.html'
-          $state.go 'student.courseDetail',
-            courseId: data._id
-      else
-        #put
-        course.put()
-        .then (data)->
-          angular.extend course, data
-          notify
-            message: '课程已保存'
-            template: 'components/alert/success.html'
-
-    patchCourse: (course, field)->
-      if not course._id
-        #post
-        Restangular.all('courses').post(course)
-        .then (data)->
-          notify
-            message: '课程已保存'
-            template: 'components/alert/success.html'
-          $state.go 'student.courseDetail',
-            courseId: data._id
-      else
-        #put
-        patch = {}
-        patch[field] = course[field]
-        course.patch(patch)
-        .then (data)->
-          angular.extend $scope.course, data
-          notify
-            message: '课程已保存'
-            template: 'components/alert/success.html'
-
-    loadCourse: ()->
-      if @$stateParams.courseId and @$stateParams.courseId is 'new'
-        @course = Restangular.one('courses')
-      else if $state.params.courseId
-        Restangular.one('courses',@$stateParams.courseId).get()
-        .then (course)->
-          $scope.course = course
-          Category.find course.categoryId
-        .then (category)->
-          $scope.course.$category = category
-
-    deleteCourse: (course)->
-      course.remove()
-      .then ()->
-        $state.go 'student.home'
+    itemsPerPage: 10
+    currentPage: 1
+    course: course
 
     loadLectures: ()->
       if $state.params.courseId
@@ -96,18 +41,6 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
       else
         $q(null)
 
-    openQuickNav: ()->
-      $modal.open
-        templateUrl: 'app/student/studentQuickNav/studentQuickNav.html'
-        controller: 'StudentQuickNavCtrl'
-        size: 'lg'
-        resolve:
-          otherCourses: ->
-            Courses.filter((item)->
-              item._id isnt $scope.course._id).slice(0,4)
-
-      .result.then ->
-
     gotoLecture: ()->
       if !$scope.course.$lectures?.length
         return
@@ -127,10 +60,5 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl'
           courseId: $state.params.courseId
           lectureId: $scope.course.$lectures[0]._id
 
-    itemsPerPage: 10
-
-    currentPage: 1
-
-  $scope.loadCourse()
-  .then $scope.loadLectures
+  $scope.loadLectures()
   .then $scope.loadProgress

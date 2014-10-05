@@ -7,6 +7,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $state
   $modal
   notify
+  Navbar
   $filter
   Courses
   KeyPoints
@@ -15,6 +16,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 ) ->
 
   course =  _.find Courses, _id :$state.params.courseId
+
+  Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
+  $scope.$on '$destroy', Navbar.resetTitle
 
   angular.extend $scope,
 

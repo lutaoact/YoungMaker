@@ -1,33 +1,24 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
-  Auth
-  $http
-  notify
+  $q
   $scope
   $state
-  $upload
-  fileUtils
-  Categories
-  $rootScope
+  Navbar
+  Courses
   Restangular
-  $q
 ) ->
 
-  loadCourse = ()->
-    Restangular.one('courses',$state.params.courseId).get()
-    .then (course)->
-      $scope.classes = course.classes
-      $scope.course = course
+  course = _.find Courses, _id:$state.params.courseId
+
+  Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
+  $scope.$on '$destroy', Navbar.resetTitle
 
   angular.extend $scope,
-
-    course: undefined
-
+    course: course
+    classes: course.classes
     allStudentsDict: undefined
-
     allStudentsArray: []
-
     viewState: {}
 
     toggleClasse: (classe)->
@@ -49,24 +40,22 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
       ).then ->
         $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
 
-  loadCourse().then $scope.loadStudents
+  $scope.loadStudents()
 
-.controller 'TeacherCourseStatsMainCtrl',
-(
+.controller 'TeacherCourseStatsMainCtrl', (
   $scope
   $state
   chartUtils
-)->
+) ->
   $scope.viewState.student = undefined
 
   chartUtils.genStatsOnScope $scope, $state.params.courseId
 
-.controller 'TeacherCourseStatsStudentCtrl',
-(
+.controller 'TeacherCourseStatsStudentCtrl', (
   $scope
   $state
   chartUtils
-)->
+) ->
 
   $scope.$watch 'allStudentsDict', (value)->
     if value

@@ -1,32 +1,36 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'NavbarCtrl',
-(
+angular.module 'budweiserApp'
+
+.factory 'Navbar', ->
+  title = null
+  getTitle: -> title
+  setTitle: (name, link) ->
+    title =
+      name: name
+      link: link
+  resetTitle: ->
+    title = null
+
+.controller 'NavbarCtrl', (
+  Msg
   Auth
   $scope
   $state
+  Navbar
   socket
   $location
-  loginRedirector
   $rootScope
-  Msg
+  loginRedirector
 ) ->
 
   angular.extend $scope,
 
-    menu: [
-      {
-        title: '管理组'
-        link: 'admin.classeManager'
-        role: 'admin'
-      }
-    ]
-
     isCollapsed: true
     isLoggedIn: Auth.isLoggedIn
     getCurrentUser: Auth.getCurrentUser
-    viewState:
-      isOpen: false
+    messages: Msg.messages
+    getTitle: Navbar.getTitle
 
     logout: ->
       Auth.logout()
@@ -40,85 +44,69 @@ angular.module('budweiserApp').controller 'NavbarCtrl',
         $state.go('login')
 
     isActive: (route) ->
-      route.replace(/\(.*?\)/g, '') is $state.current.name
+      route?.replace(/\(.*?\)/g, '') is $state.current.name
 
-    generateAdditionalMenu: ()->
-      switch true
-        when /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
-          $scope.additionalMenu = [
-            {
-              title: '课程主页'
-              link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
-              role: 'student'
-            }
-            {
-              title: '课程主页'
-              link: "teacher.course({courseId:'#{$state.params.courseId}'})"
-              role: 'teacher'
-            }
-            {
-              title: '题库'
-              link: "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
-              role: 'teacher'
-            }
-            {
-              title: '讨论'
-              link: "forum.course({courseId:'#{$state.params.courseId}'})"
-              role: 'student'
-            }
-            {
-              title: '讨论'
-              link: "forum.course({courseId:'#{$state.params.courseId}'})"
-              role: 'teacher'
-            }
-            {
-              title: '统计'
-              link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
-              role: 'student'
-            }
-            {
-              title: '统计'
-              link: "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
-              role: 'teacher'
-            }
-          ]
-        else
-          $scope.additionalMenu = []
+  generateAdditionalMenu = ->
+    $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
+    if $scope.navInSub
+      $scope.additionalMenu = [
+        {
+          title: '管理组'
+          link: 'admin.classeManager'
+          role: 'admin'
+        }
+        {
+          title: '课程主页'
+          link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+          role: 'student'
+        }
+        {
+          title: '题库'
+          link: "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
+          role: 'teacher'
+        }
+        {
+          title: '讨论'
+          link: "forum.course({courseId:'#{$state.params.courseId}'})"
+          role: 'student'
+        }
+        {
+          title: '讨论'
+          link: "forum.course({courseId:'#{$state.params.courseId}'})"
+          role: 'teacher'
+        }
+        {
+          title: '统计'
+          link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
+          role: 'student'
+        }
+        {
+          title: '统计'
+          link: "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
+          role: 'teacher'
+        }
+      ]
+    else
+      $scope.additionalMenu = []
 
-    decideNavColor: ()->
-      $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
-
-    messages: Msg.messages
-
-  $scope.generateAdditionalMenu()
-  $scope.decideNavColor()
-
-  $scope.$on '$stateChangeSuccess', (event, value)->
-    $scope.generateAdditionalMenu()
-    $scope.decideNavColor()
+  generateAdditionalMenu()
+  $scope.$on '$stateChangeSuccess', generateAdditionalMenu
 
   genMessage = (raw)->
-    message = {}
-    console.log raw
     switch raw.type
       when Const.NoticeType.TopicVoteUp
-        message =
-          title: raw.fromWhom + '赞了你的帖子：' + raw.data.disTopic
-          link: ''
+        title: raw.fromWhom + '赞了你的帖子：' + raw.data.disTopic
+        link: ''
       when Const.NoticeType.ReplyVoteUp
-        message =
-          title: raw.fromWhom + '赞了你的回复：' + raw.data.disReply.content
-          link: ''
+        title: raw.fromWhom + '赞了你的回复：' + raw.data.disReply.content
+        link: ''
       when Const.NoticeType.Comment
-        message =
-          title: raw.fromWhom + '回复了你的帖子：' + raw.data.disTopic
-          link: ''
+        title: raw.fromWhom + '回复了你的帖子：' + raw.data.disTopic
+        link: ''
       when Const.NoticeType.Lecture
-        message =
-          title: raw.fromWhom + '发布了新课时' + raw.data.lecture
-          link: ''
-    console.log message
-    message
+        title: raw.fromWhom + '发布了新课时' + raw.data.lecture
+        link: ''
+      else {}
 
   $scope.$on 'message.notice', (event, data)->
     $scope.messages.splice 0, 0, genMessage(data)

@@ -1,38 +1,27 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ForumCourseCtrl',
-(
-  $scope
-  Restangular
-  notify
-  $state
+angular.module('budweiserApp').controller 'ForumCourseCtrl', (
   $q
-  $rootScope
-  $window
-  $timeout
-  CurrentUser
-  $modal
-  AllKeypoints
   Tag
+  $scope
+  $state
+  Navbar
+  CurrentUser
+  Restangular
+  AllKeypoints
 ) ->
 
-  if not $state.params.courseId
-    return
+  if !$state.params.courseId then return
+
   angular.extend $scope,
-    loading: true
-
-    course: null
-
-    topics: null
-
-    myTopic: null
-
-    posting: false
-
     me: CurrentUser
-
+    course: null
+    topics: null
+    myTopic: null
+    loading: true
+    posting: false
+    queryTags: undefined
     selectedTopic: undefined
-
     imagesToInsert: undefined
 
     loadCourse: ()->
@@ -40,12 +29,12 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
       .then (course)->
         $scope.keypoints = AllKeypoints.filter (x) -> x._id is course.categoryId
         $scope.course = course
+        Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
 
     loadLectures: ()->
       Restangular.all('lectures').getList({courseId: $state.params.courseId})
       .then (lectures)->
         $scope.course.$lectures = lectures
-
 
     loadTopics: ()->
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
@@ -68,8 +57,7 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl',
     searchByTag: (tag)->
       $scope.$broadcast 'topics.query', tag
 
-
-    queryTags: undefined
+  $scope.$on '$destroy', Navbar.resetTitle
 
   $q.all [
     $scope.loadCourse().then $scope.loadLectures

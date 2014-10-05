@@ -111,7 +111,6 @@ angular.module 'budweiserApp'
                 xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
                 xhr.setRequestHeader('Content-Length', data.length)
               success: (data)->
-                console.log(data)
                 speed = currentEnd / (moment().valueOf() - startTime.valueOf())
                 percentage = parseInt(100.0 * currentEnd / file.size)
                 opts.progress?(speed,percentage)

@@ -34,7 +34,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         $scope.viewState.isVideo = lecture.media or !lecture.slides
         # If student stay over 5 seconds. Send view lecture event.
         handleViewEvent = $timeout ->
-          console.log 'view'
           Restangular.all('activities').post
             eventType: Const.Student.ViewLecture
             data:

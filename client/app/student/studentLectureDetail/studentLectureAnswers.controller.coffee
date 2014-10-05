@@ -86,15 +86,18 @@ angular.module('budweiserApp')
         quizzes.$submitted = true
         quizzes.forEach (quiz)->
           answer = _.find(answers, questionId:quiz._id)?.result
+          if answer
+            quiz.$notAnswered = false
+            quiz.$correct = quiz.content.body.every (option, index)->
+              if option.correct
+                answer?.some (item)-> item is index
+              else
+                answer?.every (item)-> item isnt index
 
-          quiz.$correct = quiz.content.body.every (option, index)->
-            if option.correct
-              answer?.some (item)-> item is index
-            else
-              answer?.every (item)-> item isnt index
-
-          for option, index in quiz.content.body
-            option.$selected = answer?.indexOf(index) >= 0
+            for option, index in quiz.content.body
+              option.$selected = answer?.indexOf(index) >= 0
+          else
+            quiz.$notAnswered = true
         $scope.setQuestionType('quizzes')
       else
         $scope.setQuestionType('homeworks')

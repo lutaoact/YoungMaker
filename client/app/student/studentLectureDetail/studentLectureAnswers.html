@@ -8,7 +8,8 @@
     <div class="list-group">
 
       <div class="list-group-item"
-           ng-repeat="question in displayQuestions|paging:viewState.pageSize:displayQuestions.currentPage||1">
+           ng-repeat="question in displayQuestions|paging:viewState.pageSize:displayQuestions.currentPage||1"
+           ng-hide="question.$notAnswered">
         <div class="row">
           <div class="col-xs-1">
             <h4 class="index text-muted">

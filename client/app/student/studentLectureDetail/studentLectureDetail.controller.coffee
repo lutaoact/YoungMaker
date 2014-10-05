@@ -24,6 +24,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   CurrentUser
   $timeout
   $localStorage
+  $document
 ) ->
 
   loadLecture = ()->
@@ -43,7 +44,8 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         $scope.$on '$destroy', ()->
           $timeout.cancel handleViewEvent
         $scope.lecture
-
+        
+        
   loadCourse = ()->
     Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
@@ -146,3 +148,8 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   loadCourse()
 
   loadLecture()
+  
+  # scroll to content-view after document ready
+  $document.ready ->
+    ele = angular.element('#content-view')
+    $document.scrollToElement(ele, 60, 2000)

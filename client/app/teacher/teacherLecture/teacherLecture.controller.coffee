@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $scope
   $state
   $modal
+  notify
   $filter
   Courses
   KeyPoints
@@ -67,6 +68,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         lecture.__v = newLecture.__v
         angular.extend lecture, editingInfo
         $scope.editingInfo = null
+        notify '课时信息已保存'
 
     removeSlide: (index) ->
       $modal.open

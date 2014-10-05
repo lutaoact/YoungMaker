@@ -13,6 +13,7 @@ angular.module('budweiserApp').directive 'teacherCourseForm', ->
 angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
+  notify
   $modal
 ) ->
 
@@ -56,6 +57,7 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         $scope.editingInfo = null
         $scope.saving = false
         angular.extend course, editingInfo
+        notify '课程信息已保存'
 
     onThumbUploaded: (key) ->
       $scope.editingInfo.thumbnail = key

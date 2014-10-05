@@ -127,11 +127,25 @@
     -user-select: none;
     -moz-user-select: none;
     position:relative;
-    max-height: 450px;
+    max-height: 486px;
     overflow: auto;
     margin: 0px;
     .list-group-item {
-      border-left: none;
+      padding: 10px 5px;
+      background-color: #fafafa;
+      &:hover {
+        background-color: #f3f3f3;
+      }
+      &.active {
+        background-color: @base-color;
+      }
+    }
+    .index {
+      width: 20px;
+      cursor: move;
+      display: inline-block;
+      text-align: center;
+      opacity: .7;
     }
   }
   .lecture-video {
@@ -226,7 +240,6 @@
       background: #5abda6;
       border: 1px solid #5abda6;
       border-bottom-left-radius: 3px;
-      border-bottom-right-radius: 3px;
       width: 100%;
       padding: 0px;
       margin: 0px;

@@ -275,6 +275,7 @@
             <div ppt-viewer
                  slides="lecture.slides"
                  current-index="lecture.slides.$activeIndex"
+                 index-visible="true"
                  style="width:100%"></div>
             <div class="btn-group">
               <label class="info" tooltip="{{lecture.name}} PPT">{{lecture.name}} PPT</label>
@@ -290,6 +291,7 @@
                   替换
                 </uploader>
                 <button type="button" class="btn btn-primary"
+                        ng-disabled="pptUploadState=='uploading' || pptUploadState=='converting'"
                         ng-click="removePPT()">
                   <i class="glyphicon glyphicon-remove"></i>
                   删除
@@ -303,14 +305,12 @@
                ng-click="lecture.slides.$activeIndex=$index"
                ng-repeat-reorder="slide in lecture.slides "
                ng-repeat-reorder-handle="div.drag-point">
-              <div class="drag-point fa fa-bars" draggable="true"></div>
+              <div class="drag-point index" draggable="true"> <b>{{$index+1}}</b></div>
               <img src-key="slide.thumb"
-                   suffix="?imageView2/2/w/40/h/40"
-                   height="40"
-                   width="40">
-              <span ng-click="removeSlide($index)">
-                <span class="glyphicon glyphicon-trash"></span>
-              </span>
+                   suffix="?imageView2/2/w/75/h/55"
+                   height="55"
+                   width="75">
+              <button ng-click="removeSlide($index)" class="close">&times;</button>
             </a>
           </div>
         </div>

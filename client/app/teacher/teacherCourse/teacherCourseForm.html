@@ -25,14 +25,13 @@
     </span>
   </div>
   <div class="media-body course-detail">
-    <div class="form-group"
-         tooltip="{{course.name}}">
+    <div class="form-group">
       <span ng-hide="editingInfo" class="course-name" id="course-name">{{course.name}}</span>
       <span ng-if="editingInfo">
         <input class="form-control course-name"
                id="course-name-input"
                name="name"
-               maxlength="30"
+               maxlength="50"
                type="text"
                focus-me="courseNameFocus"
                ng-init="courseNameFocus=true"

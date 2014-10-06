@@ -18,7 +18,7 @@ module.exports =
     uri : process.env.MONGOLAB_URI or
            process.env.MONGOHQ_URL or
            process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME or
-            'mongodb://vm2mongo.wckvrx.pek2.qingcloud.com/budweiser'
+            'mongodb://vm2mongo.wckvrx.pek2.qingcloud.com/budweiser,vm5mongo.sec.wckvrx.pek2.qingcloud.com/budweiser'
 
   # Qiniu access_key and secret_key
   qiniu:

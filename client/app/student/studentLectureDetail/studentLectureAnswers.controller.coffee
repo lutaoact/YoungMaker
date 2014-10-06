@@ -19,7 +19,6 @@ angular.module('budweiserApp')
     displayQuestions: []
     viewState:
       pageSize: 10
-    getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
 
     setQuestionType: (type) ->
       $scope.displayQuestions = $scope.lecture?[type]
@@ -101,7 +100,6 @@ angular.module('budweiserApp')
         $scope.setQuestionType('quizzes')
       else
         $scope.setQuestionType('homeworks')
-
 
 
 

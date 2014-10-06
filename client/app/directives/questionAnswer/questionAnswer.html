@@ -1,0 +1,12 @@
+<div class="media alert alert-warning question-answer">
+  <label class="media-object pull-left">
+    {{getCorrectInfo(question)}}
+  </label>
+  <div class="media-body">
+    <b>注解：</b>{{question.solution}}
+    <div ng-if="question.keyPoints.length>0">
+      <b>知识点：</b><span ng-repeat="id in question.keyPoints">
+      {{getKeyPoint(id).name}} </span>
+    </div>
+  </div>
+</div>

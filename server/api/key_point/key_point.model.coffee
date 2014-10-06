@@ -12,9 +12,14 @@ exports.KeyPoint = BaseModel.subclass
       name:
         type: String
         required: true
-        unique: true
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"
 
+    @schema.index
+      name : 1
+      categoryId: 1
+    , 
+      unique : true  
+      
     $super()

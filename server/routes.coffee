@@ -21,7 +21,6 @@ module.exports = (app) ->
   app.use '/api/assets', require './api/asset'
   app.use '/api/slides', require './api/slide'
   app.use '/api/lectures', require './api/lecture'
-  app.use '/api/discussions', require './api/discussion'
   app.use '/api/dis_topics', require './api/dis_topic'
   app.use '/api/dis_replies', require './api/dis_reply'
   app.use '/api/questions', require './api/question'

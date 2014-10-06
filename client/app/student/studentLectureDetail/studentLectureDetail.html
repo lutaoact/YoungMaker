@@ -58,7 +58,7 @@
     </div>
 
     <!-- keyponits -->
-    <div class="key-points">
+    <div class="key-points" ng-show="lecture.keyPoints.length">
       <div class="indicator text-center pull-left">
         <i class="fa fa-tags"></i>
         <div>知识点</div>
@@ -84,7 +84,7 @@
   </div>
 </section>
 
-<div class="mask" ng-show="viewState.showDiscussion" ng-click="viewState.showDiscussion = false"></div>
-<div ng-if="viewState.discussPanelnitialized" ng-include="'app/forum/forumSider/forumSider.html'" ng-controller="ForumSiderCtrl" ng-show="viewState.showDiscussion" class="sider">
+<div class="mask fade-show-hide" ng-show="viewState.showDiscussion" ng-click="viewState.showDiscussion = false"></div>
+  <div ng-if="viewState.discussPanelnitialized" ng-include="'app/forum/forumSider/forumSider.html'" ng-controller="ForumSiderCtrl" ng-show="viewState.showDiscussion" class="sider">
 </div>
 

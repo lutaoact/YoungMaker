@@ -164,37 +164,22 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     .then (newLecture) ->
       $scope.lecture.__v = newLecture.__v
 
-  # save or discard confirm
-  askForSaveLecture = ->
-    $modal.open
-      templateUrl: 'components/modal/messageModal.html'
-      controller: 'MessageModalCtrl'
-      resolve:
-        title: -> '保存课时'
-        message: -> """课时"#{$scope.lecture.name}"的基本信息还没有保存，请先保存。"""
-
-  discardNewLecture = (toState, toParams) ->
-    $modal.open
-      templateUrl: 'components/modal/messageModal.html'
-      controller: 'MessageModalCtrl'
-      resolve:
-        title: -> '舍弃新课时'
-        message: -> """课时"#{$scope.lecture.name}"还没有被保存过，舍弃并离开？"""
-    .result.then ->
-      $scope.deleting = true
-      $scope.lecture.remove(courseId:$scope.course._id)
-      .then ->
-        $scope.deleting = false
-        $scope.editingInfo = null
-        $state.go(toState, toParams)
-
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    isEditing = $scope.editingInfo?
+    isEditing = $scope.editingInfo? && $scope.lecture.__v == 0
     isGoingOut = !$state.includes(toState, toParams) &&  toState.name != 'teacher.lecture.questionLibrary'
     if isEditing && isGoingOut
       event.preventDefault()
-      if $scope.lecture.__v == 0
-        discardNewLecture(toState, toParams)
-      else
-        askForSaveLecture()
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '舍弃新课时'
+          message: -> """课时"#{$scope.lecture.name}"还没有被保存过，舍弃并离开？"""
+      .result.then ->
+        $scope.deleting = true
+        $scope.lecture.remove(courseId:$scope.course._id)
+        .then ->
+          $scope.deleting = false
+          $scope.editingInfo = null
+          $state.go(toState, toParams)
 

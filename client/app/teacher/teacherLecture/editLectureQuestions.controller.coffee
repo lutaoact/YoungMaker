@@ -27,15 +27,13 @@ angular.module('budweiserApp')
   angular.extend $scope,
     selectedAll: false
     deleting: false
-    tabActive:
-      quizzes: false
-      homeworks: false
+    quizzesActive: true
 
     getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
 
     setQuestionType: (type) ->
       questionType = type
-      $scope.tabActive[questionType] = true
+      $scope.quizzesActive = type == 'quizzes'
 
     getQuestions: ->
       $scope.lecture?[questionType]

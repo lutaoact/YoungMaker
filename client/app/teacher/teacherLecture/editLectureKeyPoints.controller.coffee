@@ -19,13 +19,13 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
 
-    seekPlayerTime: (time) ->
-      $scope.mediaApi.seekTime time
-
     addKeyPoint: ->
-      newKeyPoint = {}
+      currentTime = $scope.mediaApi.videoElement?[0]?.currentTime
+      newKeyPoint =
+        timestamp: Math.ceil(currentTime)
       $scope.lecture.keyPoints.push newKeyPoint
-      $scope.setKeyPointTime(newKeyPoint)
+      $scope.saveKeyPoints()
+      $scope.mediaApi.playPause()
 
     removeKeyPoint: (keyPoint) ->
       keyPoints = $scope.lecture.keyPoints

@@ -13,9 +13,12 @@
   .box-shadow(0 0 3px rgba(0,0,0,0.3));
 
   .nav-title {
-    width: calc(~'100% - 280px');
+    width: calc(~'100% - 300px');
     text-align: center;
-    padding-left: 180px;
+    padding-left: 210px;
+    li {
+      width: 100%;
+    }
     a {
       font-size: 1.5em !important;
       display: inline-block;
@@ -29,7 +32,6 @@
   }
 
   .navbar-nav{
-    width: calc(~'100% - 25px');
     margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
     > li > a {
       line-height: @line-height;

@@ -20,11 +20,13 @@
     <div collapse="isCollapsed"
          class="navbar-collapse collapse"
          id="navbar-main">
-      <ul class="bud nav navbar-nav navbar-right">
-        <li class="nav-title"
+      <ul class="bud nav navbar-nav nav-title">
+        <li ng-if="getTitle()"
             ng-class="{active: isActive(getTitle().link)}">
-          <a ui-sref="{{getTitle().link || 'home'}}">{{getTitle().name}}</a>
+          <a ui-sref="{{getTitle().link}}" >{{getTitle().name}}</a>
         </li>
+      </ul>
+      <ul class="bud nav navbar-nav navbar-right">
         <li ng-repeat="item in additionalMenu | filter:{role:getCurrentUser().role}"
             ng-class="{active: isActive(item.link)}">
           <a ui-sref="{{item.link}}" ng-bind-html="item.title"></a>

@@ -4,12 +4,16 @@ angular.module('budweiserApp').controller 'StudentCourseDetailCtrl', (
   $q
   $scope
   $state
+  Navbar
   Courses
   Category
   Restangular
 ) ->
 
   course = _.find Courses, _id:$state.params.courseId
+
+  Navbar.setTitle course.name, "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+  $scope.$on '$destroy', Navbar.resetTitle
 
   Category.find course.categoryId
   .then (category) ->

@@ -56,11 +56,6 @@ angular.module 'budweiserApp'
           role: 'admin'
         }
         {
-          title: '课程主页'
-          link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
-          role: 'student'
-        }
-        {
           title: '题库'
           link: "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
           role: 'teacher'

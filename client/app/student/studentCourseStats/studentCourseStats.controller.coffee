@@ -2,11 +2,17 @@
 
 angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
   Auth
-  $scope
+  Navbar
   $state
-  Restangular
+  $scope
+  Courses
   chartUtils
 ) ->
+
+  course = _.find Courses, _id:$state.params.courseId
+
+  Navbar.setTitle course.name, "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+  $scope.$on '$destroy', Navbar.resetTitle
 
   chartUtils.genStatsOnScope $scope, $state.params.courseId
 

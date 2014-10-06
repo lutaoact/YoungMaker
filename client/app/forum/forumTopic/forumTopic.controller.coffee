@@ -2,31 +2,30 @@
 
 angular.module('budweiserApp').controller 'ForumTopicCtrl',
 (
-  $scope
-  Restangular
-  notify
-  $state
   $q
-  $modal
+  $scope
+  $state
+  Navbar
+  Courses
   CurrentUser
-  focus
-  $timeout
-  textAngularManager
-  $rootScope
+  Restangular
 ) ->
 
   if not $state.params.courseId or not $state.params.topicId
     return
 
-  editorScope = undefined
+  course = _.find Courses, _id:$state.params.courseId
+  $scope.$on '$destroy', Navbar.resetTitle
+  Navbar.setTitle course.name,
+    if CurrentUser?.role == 'teacher'
+      "teacher.course({courseId:'#{$state.params.courseId}'})"
+    else
+      "student.courseDetail({courseId:'#{$state.params.courseId}'})"
 
   angular.extend $scope,
     loading: true
-
     topic: null
-
     me: CurrentUser
-
     stateParams: $state.params
 
     loadTopic: ()->

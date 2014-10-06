@@ -12,20 +12,21 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 , (
   $scope
   $state
-  Restangular
-  Auth,
-  $http
-  $upload
-  $location
   notify
-  fileUtils
   $tools
-  $rootScope
-  CurrentUser
+  Navbar
+  Courses
   $timeout
-  $localStorage
   $document
+  CurrentUser
+  Restangular
+  $localStorage
 ) ->
+
+  course = _.find Courses, _id:$state.params.courseId
+
+  Navbar.setTitle course.name, "student.courseDetail({courseId:'#{$state.params.courseId}'})"
+  $scope.$on '$destroy', Navbar.resetTitle
 
   loadLecture = ()->
     if $state.params.lectureId
@@ -45,17 +46,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
           $timeout.cancel handleViewEvent
         $scope.lecture
         
-        
-  loadCourse = ()->
-    Restangular.one('courses',$state.params.courseId).get()
-      .then (course)->
-        $scope.course = course
-
   angular.extend $scope,
+    course: course
     lecture: null
-
-    course: null
-
     me: CurrentUser
 
     viewState:
@@ -134,18 +127,12 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     disableDownload: ()->
       console.log 'you are not allowed to download this resource'
 
-  seekHashTimestamp = ->
-    total = $tools.timeStrings2Seconds $location.hash()
-    $scope.mediaPlayerAPI?.seekTime total if total?
-
   findNextStamp = (keypoint)->
     ($scope.lecture.keyPoints.filter (item)->
       item.timestamp > keypoint.timestamp
     .sort (a,b)->
       a.timestamp >= b.timestamp
     )?[0]
-
-  loadCourse()
 
   loadLecture()
   

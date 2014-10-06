@@ -128,10 +128,10 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
           $scope.viewState.originSize =
             width: e.target.naturalWidth
             height: e.target.naturalHeight
-          angular.element('.bud.thumbnail').css 'width', $scope.viewState.size.width
-          angular.element('.bud.thumbnail').css 'height', $scope.viewState.size.height
-          angular.element('.img-preview').css 'width', $scope.viewState.size.width
-          angular.element('.img-preview').css 'height', $scope.viewState.size.height
+          angular.element('.image-crop .bud.thumbnail').css 'width', $scope.viewState.size.width
+          angular.element('.image-crop .bud.thumbnail').css 'height', $scope.viewState.size.height
+          angular.element('.image-crop .img-preview').css 'width', $scope.viewState.size.width
+          angular.element('.image-crop .img-preview').css 'height', $scope.viewState.size.height
 
       reader.readAsDataURL(value[0])
 

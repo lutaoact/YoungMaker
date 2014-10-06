@@ -4,7 +4,7 @@ angular.module('budweiserApp').controller 'SettingsCtrl', ($scope, $location, Re
   angular.extend $scope,
     menu: [
       {
-        title: '个人资料'
+        title: '基本信息'
         link: 'settings/profile'
       }
       {

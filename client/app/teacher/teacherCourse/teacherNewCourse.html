@@ -14,7 +14,10 @@
       <uploader limit="2*1024*1024"
                 class="course-img btn-danger"
                 on-complete="onThumbUploaded($data)"
-                accept="image/*">
+                accept-type="image"
+                crop="true"
+                crop-ratio="1.75"
+                max-width="1000">
         <span class="glyphicon glyphicon-picture"></span>
         上传封面
       </uploader>

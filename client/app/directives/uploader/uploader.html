@@ -2,12 +2,12 @@
   <input type="file" style="display:none;"
          ng-if="!multiple"
          ng-disabled="uploadState!=null"
-         accept="{{accept}}"
+         accept="{{getAcceptValue()}}"
          ng-file-select="onFileSelect($files)"/>
   <input type="file" style="display:none;"
          ng-if="multiple"
          multiple
-         accept="{{accept}}"
+         accept="{{getAcceptValue()}}"
          ng-disabled="uploadState!=null"
          ng-file-select="onFileSelect($files)"/>
   <span ng-if="uploadState=='uploading'">

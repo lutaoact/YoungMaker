@@ -116,6 +116,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onThumbUploaded: (data) ->
       $scope.editingInfo.thumbnail = data
 
+    onError: (error) -> notify "上传失败：" + error
     onPPTUploadStart: ->
       $scope.pptUploadState = null
       $scope.pptUploadProgress = 0

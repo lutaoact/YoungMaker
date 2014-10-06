@@ -43,9 +43,17 @@ angular.module('budweiserApp')
       return true
 
     deleteTopic: (topic)->
-      topic.remove()
-      .then ()->
-        $scope.topics.splice $scope.topics.indexOf(topic), 1
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除帖子'
+          message: -> "是否要删除您的帖子：\"#{topic.title}\"，删除后将无法恢复！"
+      .result.then ->
+        topic.remove()
+        .then ()->
+          $scope.topics.splice $scope.topics.indexOf(topic), 1
+
 
     createTopic: ()->
       # validate

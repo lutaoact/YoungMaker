@@ -10,7 +10,7 @@ angular.module('budweiserApp')
   scope:
     topic: '='
 
-.controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document, $state)->
+.controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document, $state, $modal)->
   angular.extend $scope,
 
     me: Auth.getCurrentUser()
@@ -43,9 +43,16 @@ angular.module('budweiserApp')
         reply.voteUpUsers = res.voteUpUsers
 
     deleteReply: (topic, reply)->
-      reply.remove()
-      .then ()->
-        topic.$replies.splice topic.$replies.indexOf(reply), 1
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除回复？'
+          message: -> "删除后将无法恢复！"
+      .result.then ->
+        reply.remove()
+        .then ()->
+          topic.$replies.splice topic.$replies.indexOf(reply), 1
 
     repliesFilter: (item)->
       switch $scope.viewState.filterMethod

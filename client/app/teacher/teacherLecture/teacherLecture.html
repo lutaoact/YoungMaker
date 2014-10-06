@@ -5,41 +5,28 @@
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <div class="row lecture-form">
-        <div class="col-md-3 col-sm-12 text-center"
-             id="lecture-image">
-          <img src-key="lecture.thumbnail"
-               ng-if="lecture.thumbnail"
-               ng-hide="editingInfo"
-               suffix="?imageView2/2/w/210/h/210"
-               holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
-          <span ng-if="editingInfo">
-            <img src-key="editingInfo.thumbnail"
-                 suffix="?imageView2/2/w/210/h/210"
-                 holder-src="holder.js/210x210/:#9c9c99:#bbb"/>
-            <uploader limit="2*1024*1024"
-                      on-complete="onThumbUploaded($data)"
-                      class="lecture-img-btn btn-danger"
-                      accept-type="image">
-              <span class="glyphicon glyphicon-picture"></span>
-              上传封面
-            </uploader>
-          </span>
-        </div>
-        <form class="col-md-9 col-sm-12 form-horizontal" name="form" role="form">
-          <span ng-if="!editingInfo" class="pull-right">
+        <form class="col-md-12 col-sm-12 text-center"
+              name="form"
+              role="form">
+          <span ng-if="!editingInfo"
+                id="edit-lecture-btn-group">
             <button type="button"
                     class="btn btn-default glyphicon glyphicon-pencil edit-lecture-btn"
                     ng-click="switchEdit()">
             </button>
+            <button type="button"
+                    class="btn btn-default glyphicon glyphicon-remove edit-lecture-btn"
+                    ng-click="deleteLecture()">
+            </button>
           </span>
-          <div class="form-group">
+          <div class="form-group text-center">
             <span id="lecture-name" ng-hide="editingInfo">{{lecture.name}}</span>
             <span ng-if="editingInfo">
               <input class="form-control"
                      id="lecture-name-input"
                      name="name"
                      type="text"
-                     maxlength="40"
+                     maxlength="50"
                      focus-me="lectureNameFocus"
                      ng-init="lectureNameFocus=true"
                      ng-model="editingInfo.name"
@@ -47,12 +34,16 @@
                      required>
             </span>
           </div>
-          <div class="form-group">
-            <div id="lecture-info" ng-hide="editingInfo">{{lecture.info}}</div>
+          <div class="form-group text-center">
+            <div id="lecture-info"
+                 class="scroll-bar-visible"
+                 ng-if="lecture.info"
+                 ng-hide="editingInfo">{{lecture.info}}</div>
             <span ng-if="editingInfo">
               <textarea class="form-control"
+                        id="lecture-info-input"
                         name="info"
-                        rows="5"
+                        rows="4"
                         ng-model="editingInfo.info"
                         placeholder="课时信息">
               </textarea>
@@ -73,7 +64,7 @@
                 </li>
               </ul>
             </div>
-            <span ng-if="editingInfo" class="pull-right">
+            <span ng-if="editingInfo">
               <button type="submit"
                       ng-disabled="deleting && saving"
                       class="btn btn-primary"
@@ -85,10 +76,11 @@
                 </span>
               </button>
               <button type="button"
+                      ng-if="lecture.__v == 0"
                       ng-disabled="deleting && saving"
                       class="btn btn-warning"
                       ng-click="deleteLecture()">
-                <span ng-if="!saving">删除</span>
+                <span ng-if="!saving">取消</span>
                 <span ng-if="saving">
                   <i class="fa fa-spinner fa-spin"></i>
                   删除中

@@ -1,17 +1,4 @@
 <div>
-  <div class="sub-nav">
-    <div class="container">
-      <ul class="pull-left">
-        <li>
-          <a class="btn btn-primary btn-md rounded"
-             ui-sref="teacher.course({courseId:$state.params.courseId})"><i class="fa fa-arrow-left"></i></a>
-        </li>
-        <li>
-          <h3>{{course.name}}<small>/{{category.name}}-题库</small></h3>
-        </li>
-      </ul>
-    </div>
-  </div>
 
   <question-library category-id="category._id"
                     key-points="keyPoints"></question-library>

@@ -1,13 +1,3 @@
-<div class="sub-nav">
-  <div class="container">
-    <ul class="pull-left">
-      <li>
-        <a class="btn btn-primary btn-md rounded" ui-sref="forum.course({courseId: stateParams.courseId})"><i class="fa fa-arrow-left"></i></a>
-      </li>
-    </ul>
-  </div>
-</div>
-
 <div class="forum-topic-view header" id="forum-topic-header">
 
 </div>
@@ -15,6 +5,7 @@
 <section class="container forum-topic-view body">
   <div class="row">
     <div class="col-md-8 forum-topic-view-left">
+      <a class="btn btn-primary btn-md rounded" ui-sref="forum.course({courseId: stateParams.courseId})"><i class="fa fa-arrow-left"></i></a>
       <topic-detail topic="topic">
       </topic-detail>
     </div>

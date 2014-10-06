@@ -1,16 +1,3 @@
-<div class="sub-nav">
-  <div class="container">
-    <ul class="pull-left bud breadcrumb">
-      <li>
-        <a ui-sref="teacher.courseStats.all({courseid: course._id})">{{course.name}}</a>
-      </li>
-      <li ng-show="viewState.student">
-        <a ui-sref="teacher.courseStats.student({courseId: course._id,studentId:viewState.student._id})">{{viewState.student.name}}</a>
-      </li>
-    </ul>
-  </div>
-</div>
-
 <div class="container teacher-stats">
   <div class="row">
     <div ui-view class="fadeZoom stats-view teacher-stats-subview col-md-9"></div>

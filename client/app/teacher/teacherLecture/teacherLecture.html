@@ -1,39 +1,13 @@
 <div class="teacher-lecture">
-  <div class="sub-nav">
-    <div class="container">
-      <ul class="pull-left" ng-if="!$state.includes('teacher.lecture.questionLibrary')">
-        <li>
-          <a class="btn btn-primary btn-md rounded" ui-sref="teacher.course({courseId:$state.params.courseId})">
-            <i class="fa fa-arrow-left"></i>
-          </a>
-        </li>
-        <li>
-          <h3>{{course.name}}<small>/{{lecture.name}}</small></h3>
-        </li>
-      </ul>
-      <ul class="pull-left" ng-if="$state.includes('teacher.lecture.questionLibrary')">
-        <li>
-          <a class="btn btn-primary btn-md rounded"
-             ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})">
-            <i class="fa fa-arrow-left"></i>
-          </a>
-        </li>
-        <li>
-          <h3>{{lecture.name}}<small>/从题库中添加</small></h3>
-        </li>
-      </ul>
-    </div>
-  </div>
   <div ui-view class="teacher"></div>
   <section class="info-section"
            id="lecture-info"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
     <div class="container">
       <h3 class="text-center">
-        <a ui-sref="teacher.course({courseId:course._id})">{{course.name}}</a> / {{lecture.name}}
+        {{lecture.name}}
       </h3>
       <hr class="title-hr"/>
-      <h4 class="text-center">基本信息</h4>
       <hr class="info-hr"/>
       <div class="row lecture-form">
         <div class="col-md-3 col-sm-12 text-center">

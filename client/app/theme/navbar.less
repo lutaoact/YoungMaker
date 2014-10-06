@@ -12,6 +12,15 @@
   border: none;
   .box-shadow(0 0 3px rgba(0,0,0,0.3));
 
+  .nav-title {
+    width: calc(~'100% - 245px');
+    text-align: center;
+    padding-left: 180px;
+    a {
+      font-size: 1.5em !important;
+      display: inline-block;
+    }
+  }
   .navbar-brand{
     color: @base-color;
     padding: @navbar-padding-vertical @navbar-padding-horizontal;
@@ -20,6 +29,7 @@
   }
 
   .navbar-nav{
+    width: calc(~'100% - 25px');
     margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
     > li > a {
       line-height: @line-height;

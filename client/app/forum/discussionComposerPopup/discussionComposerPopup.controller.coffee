@@ -20,7 +20,11 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     lectureId: lectureId
 
     close: ->
-      $modalInstance.dismiss('close')
+      giveUp = true
+      if @myTopic.title or @myTopic.content
+        giveUp = confirm('是否放弃编辑？')
+
+      $modalInstance.dismiss('close') if giveUp
 
     myTopic:
       metadata:
@@ -64,4 +68,6 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       lecture._id is lectureId
     )[0]
     $scope.addLectureAsTag($scope.$lecture)
+
+
 

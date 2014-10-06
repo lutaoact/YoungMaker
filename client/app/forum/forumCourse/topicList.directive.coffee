@@ -58,6 +58,8 @@ angular.module('budweiserApp')
           course: -> $scope.course
           lectures: -> $scope.lectures
           lectureId: -> $scope.lectureId
+        backdrop: 'static'
+        keyboard: false
 
       .result.then (dis_topic)->
         dis_topic.$tags = (Tag.genTags dis_topic.content)

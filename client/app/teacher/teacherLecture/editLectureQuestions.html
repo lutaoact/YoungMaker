@@ -1,36 +1,47 @@
 <div class="list-group col-md-12">
-  <div class="btn-group pull-right">
-    <button class="btn-link"
-            ng-click="addNewQuestion()">
-      添加新习题
-    </button>
-    <button class="btn-link"
-            ng-click="addLibraryQuestion()">
-      从题库中添加
-    </button>
-  </div>
-  <tabset class="">
-    <tab heading="随堂练习" select="setQuestionType('quizzes')" active="tabActive.quizzes">
-    </tab>
-    <tab heading="课后作业" select="setQuestionType('homeworks')" active="tabActive.homeworks">
-    </tab>
-  </tabset>
-  <div class="list-group">
-    <div class="list-group-item question-heading">
-      <label>{{getQuestions().length}}个习题</label>
-      <a ng-if="getSelectedNum()>0 || deleting"
-         class="btn btn-warning pull-right"
-         ng-click="removeQuestion()">
-        <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
-        <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
+  <div class="text-center"
+       ng-class="{'ppt':!videoActive}">
+    <span class="btn-group lecture-nav-tabs">
+      <a ng-click="setQuestionType('quizzes')"
+         ng-class="{'selected':quizzesActive}"
+         class="btn btn-default">
+        <i class="fa fa-clock-o"></i>
+        随堂练习
       </a>
+      <a ng-click="setQuestionType('homeworks')"
+         ng-class="{'selected':!quizzesActive}"
+         class="btn btn-default">
+        <i class="fa fa-file-o"></i>
+        课后作业
+      </a>
+    </span>
+  </div>
+  <div class="list-group lecture-question-list">
+    <div class="list-group-item heading">
+      <label>共{{getQuestions().length}}个习题</label>
+      <span class="btn-group pull-right">
+        <a class="btn btn-link"
+           ng-click="addNewQuestion()">
+          添加新习题
+        </a>
+        <a class="btn btn-link"
+           ng-click="addLibraryQuestion()">
+          从题库中添加
+        </a>
+      </span>
     </div>
-    <div class="list-group-item question-desc">
+    <div class="list-group-item desc">
       <input type="checkbox"
              ng-model="selectedAll"
              ng-change="toggleSelectAll(selectedAll)"
              class="bud checkbox-default pull-left">
-      <span>编号</span><span>标题</span>
+      <small><span class="desc-span">编号</span><span class="desc-span">标题</span></small>
+      <a ng-if="getSelectedNum()>0 || deleting"
+         class="btn btn-danger pull-right"
+         ng-click="removeQuestion()">
+        <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
+        <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
+      </a>
     </div>
     <div ng-repeat="question in getQuestions()">
       <div class="question-title list-group-item"

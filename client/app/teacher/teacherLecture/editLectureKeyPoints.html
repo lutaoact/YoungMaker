@@ -8,14 +8,9 @@
   </div>
   <div class="list-group-item keypoint-item"
        ng-repeat="keyPoint in lecture.keyPoints">
-    <a class="btn btn-primary keypoint-time-btn"
-       ng-click="setKeyPointTime(keyPoint)" >
-      <i class="glyphicon glyphicon-share-alt"></i>
-    </a>
     <input type="number"
            ng-model="keyPoint.timestamp"
            class="keypoint-input"
-           ng-focus="seekPlayerTime(keyPoint.timestamp)"
            ng-blur="saveKeyPoints()"/>
     <ui-select ng-model="keyPoint.kp"
                on-select="setKeyPointKp(keyPoint, $item, $select.search)"

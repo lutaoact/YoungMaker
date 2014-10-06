@@ -48,7 +48,7 @@
             <uploader limit="2*1024*1024"
                       on-complete="onThumbUploaded($data)"
                       class="lecture-img-btn btn-danger"
-                      accept="image/*">
+                      accept-type="image">
               <span class="glyphicon glyphicon-picture"></span>
               上传封面
             </uploader>
@@ -178,8 +178,9 @@
                       on-start="onMediaUploadStart()"
                       on-progress="onMediaUploading($speed, $percentage, $event)"
                       on-convert="onMediaConvert()"
+                      on-error="onError($error)"
                       class="lecture-video-btn btn-danger"
-                      accept="video/*">
+                      accept-type="video">
               <i class="fa fa-file-video-o"></i>
               导入视频
             </uploader>
@@ -216,8 +217,9 @@
                           on-start="onMediaUploadStart()"
                           on-progress="onMediaUploading($speed, $percentage, $event)"
                           on-convert="onMediaConvert()"
+                          on-error="onError($error)"
                           class="btn btn-primary"
-                          accept="video/*">
+                          accept-type="video">
                   <i class="glyphicon glyphicon-refresh"></i>
                   替换
                 </uploader>
@@ -262,8 +264,9 @@
                       on-start="onPPTUploadStart()"
                       on-progress="onPPTUploading($speed, $percentage, $event)"
                       on-convert="onPPTConverting()"
+                      on-error="onError($error)"
                       class="lecture-ppt-btn btn-danger"
-                      accept=".ppt, .pptx">
+                      accept-type="slides">
               <i class="fa fa-file-powerpoint-o"></i>
               导入PPT
             </uploader>
@@ -285,8 +288,9 @@
                           on-start="onPPTUploadStart()"
                           on-progress="onPPTUploading($speed, $percentage, $event)"
                           on-convert="onPPTConverting()"
+                          on-error="onError($error)"
                           class="btn btn-primary"
-                          accept=".ppt, .pptx">
+                          accept-type="slides">
                   <i class="glyphicon glyphicon-refresh"></i>
                   替换
                 </uploader>

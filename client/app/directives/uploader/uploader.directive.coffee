@@ -10,7 +10,7 @@ angular.module('budweiserApp')
   templateUrl: 'app/directives/uploader/uploader.html'
   scope:
     limit: '='
-    accept: '@'
+    acceptType: '@'
     multiple: '='
     onStart: '&'
     onProgress: '&'
@@ -25,6 +25,16 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
 
+    getAcceptValue: ->
+      switch $scope.acceptType
+        when 'slides'
+          'application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.slideshow,application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        when 'image'
+          'image/*'
+        when 'video'
+          'video/mp4,video/x-m4v,video/*'
+        else
+          ''
     onFileSelect: (files) ->
       $scope.uploadState = 'uploading'
 
@@ -33,6 +43,7 @@ angular.module('budweiserApp')
         files: files
         validation:
           max: $scope.limit ? 50*1024*1024
+          accept: $scope.acceptType
         success: (data) ->
           $scope.uploadState = null
           $scope.onComplete?($data:data)

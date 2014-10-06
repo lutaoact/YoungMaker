@@ -98,6 +98,18 @@
 }
 
 
+// fade show hide
+.fade-show-hide{
+  .transition(opacity ease-in-out 0.2s);
+  &.ng-hide-add,
+  &.ng-hide-remove{
+    display: block !important;
+  }
+  &.ng-hide {
+    display: none;
+    opacity: 0;
+  }
+}
 
 
 

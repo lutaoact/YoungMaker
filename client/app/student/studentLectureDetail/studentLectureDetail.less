@@ -126,6 +126,7 @@
       }
     }
   }
+
   .mask{
     position: fixed;
     right: 0;
@@ -134,7 +135,9 @@
     left: 0;
     z-index: 998;
     background: rgba(0,0,0,.3);
+    opacity: 1;
   }
+
   .sider{
     position: fixed;
     right: 0;
@@ -148,6 +151,15 @@
     overflow-x: hidden;
     .container{
       width: 550px;
+    }
+    .transition(right ease-in-out 0.2s);
+    &.ng-hide-add,
+    &.ng-hide-remove{
+      display: block !important;
+    }
+    &.ng-hide {
+      display: none;
+      right: -550px;
     }
   }
   .empty{

@@ -1,4 +1,35 @@
 <div class="teacher-lecture">
+  <div class="quick-link">
+    <div class="container">
+      <ul class="pull-right"
+          ng-if="!$state.includes('teacher.lecture.questionLibrary')">
+        <li class="link-item text-muted"><span>课件制作与知识点</span>
+          <a class="btn btn-danger"
+             du-smooth-scroll
+             offset="60"
+             href="#lecture-media">快速进入</a>
+        </li>
+        <li class="link-item text-muted"><span>随堂练习和课后作业</span>
+          <a class="btn btn-danger"
+             du-smooth-scroll
+             offset="60"
+             href="#lecture-question">快速进入</a>
+        </li>
+      </ul>
+      <ul class="pull-left"
+          ng-if="$state.includes('teacher.lecture.questionLibrary')">
+        <li>
+          <a class="btn btn-primary rounded"
+             ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})">
+            <i class="fa fa-arrow-left"></i>
+          </a>
+        </li>
+        <li>
+          <h3 class="link-item">{{lecture.name}}<small>/从题库中添加</small></h3>
+        </li>
+      </ul>
+    </div>
+  </div>
   <div ui-view class="teacher"></div>
   <section class="info-section"
            id="lecture-info"
@@ -107,13 +138,19 @@
         <span class="btn-group lecture-nav-tabs">
           <a ng-click="videoActive = true"
              ng-class="{'selected':videoActive}"
-             class="btn btn-default">
+             class="btn btn-default"
+             du-smooth-scroll
+             offset="60"
+             href="#lecture-media">
             <i class="fa fa-file-video-o"></i>
             视频
           </a>
           <a ng-click="videoActive = false"
              ng-class="{'selected':!videoActive}"
-             class="btn btn-default">
+             class="btn btn-default"
+             du-smooth-scroll
+             offset="60"
+             href="#lecture-media">
             <i class="fa fa-file-powerpoint-o"></i>
             PPT
           </a>

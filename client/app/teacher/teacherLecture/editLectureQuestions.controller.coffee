@@ -18,7 +18,6 @@ angular.module('budweiserApp')
   $modal
   $timeout
   $document
-  $rootScope
   Restangular
 ) ->
 
@@ -110,7 +109,7 @@ angular.module('budweiserApp')
       lectureId: $state.params.lectureId
     })
 
-  $rootScope.$on 'add-library-question', (event, type, questions) ->
+  $scope.$on 'add-library-question', (event, type, questions) ->
     $scope.setQuestionType(type)
     addQuestions questions
     finish = $scope.$on '$stateChangeSuccess', -> $timeout ->

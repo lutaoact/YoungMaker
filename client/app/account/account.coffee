@@ -27,12 +27,6 @@ angular.module('budweiserApp')
       controller: 'ProfileCtrl'
       authenticate:true
     )
-    .state('settings.security',
-      url: '/security',
-      templateUrl: 'app/account/security/security.html'
-      controller: 'SecurityCtrl'
-      authenticate:true
-    )
     .state('settings.billing',
       url: '/billing',
       templateUrl: 'app/account/billing/billing.html'

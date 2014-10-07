@@ -1,15 +1,11 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'SettingsCtrl', ($scope,$location) ->
+angular.module('budweiserApp').controller 'SettingsCtrl', ($scope, $location, Restangular) ->
   angular.extend $scope,
     menu: [
       {
-        title: '个人资料'
+        title: '基本信息'
         link: 'settings/profile'
-      }
-      {
-        title: '账户安全'
-        link: 'settings/security'
       }
       {
         title: '支付信息'
@@ -20,4 +16,15 @@ angular.module('budweiserApp').controller 'SettingsCtrl', ($scope,$location) ->
     isActive: (route) ->
       _.str.trim(route, '/') is _.str.trim($location.path(), '/')
 
+    me: null
+
+    oldMe: null
+
+    getMyProfile: ()->
+      Restangular.one('users','me').get()
+      .then (user)->
+        $scope.me = user
+        $scope.oldMe = Restangular.copy(user)
+
+  $scope.getMyProfile()
 

@@ -33,9 +33,10 @@ angular.module 'budweiserApp'
     getTitle: Navbar.getTitle
 
     logout: ->
-      Auth.logout()
-      $state.go if $state.current?.name == 'test' then 'test' else 'main'
-      socket.close()
+      $state.go(if $state.current?.name == 'test' then 'test' else 'main')
+      .then ->
+        Auth.logout()
+        socket.close()
 
     login: ->
       if $state.current?.name == 'test'
@@ -47,47 +48,31 @@ angular.module 'budweiserApp'
       route?.replace(/\(.*?\)/g, '') is $state.current.name
 
   generateAdditionalMenu = ->
-    $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test $state.current.name
-    if $scope.navInSub
-      $scope.additionalMenu = [
-        {
-          title: '管理组'
-          link: 'admin.classeManager'
-          role: 'admin'
-        }
-        {
-          title: '课程主页'
-          link: "student.courseDetail({courseId:'#{$state.params.courseId}'})"
-          role: 'student'
-        }
-        {
-          title: '题库'
-          link: "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
-          role: 'teacher'
-        }
-        {
-          title: '讨论'
-          link: "forum.course({courseId:'#{$state.params.courseId}'})"
-          role: 'student'
-        }
-        {
-          title: '讨论'
-          link: "forum.course({courseId:'#{$state.params.courseId}'})"
-          role: 'teacher'
-        }
-        {
-          title: '统计'
-          link: "student.courseStats({courseId:'#{$state.params.courseId}'})"
-          role: 'student'
-        }
-        {
-          title: '统计'
-          link: "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
-          role: 'teacher'
-        }
-      ]
-    else
-      $scope.additionalMenu = []
+    mkMenu = (title, link) ->
+      title: title
+      link: link
+    $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test($state.current.name)
+    $scope.additionalMenu =
+      if $scope.navInSub
+        switch $scope.getCurrentUser()?.role
+          when 'teacher'
+            [
+              mkMenu '题库', "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
+              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
+              mkMenu '统计', "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
+            ]
+          when 'student'
+            [
+              mkMenu '统计', "student.courseStats({courseId:'#{$state.params.courseId}'})"
+              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
+            ]
+          when 'admin'
+            [
+              mkMenu '管理组', 'admin.classeManager'
+            ]
+          else []
+      else []
+
 
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu

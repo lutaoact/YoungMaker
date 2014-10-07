@@ -18,35 +18,43 @@
 }
 .teacher {
   .lecture-form {
-    .lecture-img-btn {
-      padding: 3px 8px 3px 8px;
+    padding: 10px;
+    #edit-lecture-btn-group {
       position: absolute;
-      left: calc(~'50% - 46px');
-      top: 60%;
-    }
-    #lecture-image {
-      padding-bottom: 30px;
+      right: 10px;
     }
     #start-teaching-btn {
       border-radius: 4px;
-      width: 300px;
+      width: 200px;
       height: 35px;
     }
     #lecture-name {
-      padding: 7px 1px;
       font-size: 1.75em;
       display: inline-block;
     }
     #lecture-name-input {
+      display: inline;
+      text-align: center;
       font-size: 1.66em;
+      max-width: 600px;
     }
     #lecture-info {
-      padding: 7px 1px;
       display: block;
       color: @gray;
-      min-height: 100px;
+      padding-bottom: 7px;
       max-height: 100px;
       overflow: auto;
+    }
+    #lecture-info-input {
+      display: inline;
+      max-width: 600px;
+    }
+    .btn {
+      border-radius: 4px;
+      padding: 5px 16px;
+    }
+    .btn+.btn {
+      margin-left: 10px;
     }
     .edit-lecture-btn {
       color: #fff;
@@ -123,12 +131,18 @@
     max-height: 486px;
     overflow: auto;
     margin: 0px;
+    padding-right: 2px;
     .list-group-item {
+      &:first-child ,
+      &:last-child {
+        margin: 0px;
+      }
       padding: 3px;
-      margin: 5px 1px;
+      margin: 5px 0px 5px 1px;
       background-color: #fafafa;
+      width: 100%;
       .slide-thumb {
-        height: 100px;
+        height: 104px;
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -140,7 +154,10 @@
         }
       }
       &.active {
-        background-color: @base-color;
+        color: black;
+        padding: 2px;
+        background-color: #f3f3f3;
+        border-width: 2px;
       }
     }
     .index {
@@ -324,8 +341,8 @@
       height: 64px;
       border-top: 1px solid #aaaaaa;
       label {
-        padding-top: 10px;
-        font-size: 1.3em;
+        padding-top: 7px;
+        font-size: 1.5em;
         font-weight: normal;
       }
       .btn {
@@ -437,13 +454,6 @@
     }
     .question-answer {
       margin: 20px 20px 8px 20px;
-      padding: 10px 10px 5px 10px;
-      .media-object {
-        color: #ffffff;
-        padding: 5px 15px 5px 15px;
-        font-size: 2em;
-        background: #F6B855;
-      }
     }
   }
 }

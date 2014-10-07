@@ -22,7 +22,7 @@
             <h5 class="text-primary">{{question.content.title}}</h5>
             <div class="checkbox text-muted"
                  ng-repeat="option in question.content.body">
-              <label class="lable" ng-class="{'label-correct':option.correct && displayQuestions.$submitted}">
+              <label class="lable">
                 {{$index|indexToABC}}.
                 <input type="checkbox" class="bud checkbox-primary"
                        ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
@@ -30,14 +30,8 @@
                 {{option.desc}}
               </label>
             </div>
-            <div class="alert alert-warning"
-                 ng-if="displayQuestions.$submitted">
-              <b>注解：</b>{{question.solution}}
-              <div ng-if="question.keyPoints.length>0">
-                <b>知识点：</b><span ng-repeat="id in question.keyPoints">
-                {{getKeyPoint(id).name}} </span>
-              </div>
-            </div>
+            <question-answer question="question" keypoints="keyPoints" ng-if="displayQuestions.$submitted">
+            </question-answer>
           </div>
         </div>
       </div>

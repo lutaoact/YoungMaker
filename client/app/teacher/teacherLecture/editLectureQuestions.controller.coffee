@@ -29,21 +29,12 @@ angular.module('budweiserApp')
     deleting: false
     quizzesActive: true
 
-    getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
-
     setQuestionType: (type) ->
       questionType = type
       $scope.quizzesActive = type == 'quizzes'
 
     getQuestions: ->
       $scope.lecture?[questionType]
-
-    getCorrectInfo: (question) ->
-      _.reduce question.content.body, (result, option, index) ->
-        if option.correct==true
-          result += String.fromCharCode(65+index)
-        result
-      , ''
 
     addLibraryQuestion: ->
       $state.go('teacher.lecture.questionLibrary', {

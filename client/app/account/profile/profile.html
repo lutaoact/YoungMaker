@@ -1,42 +1,95 @@
-<div class="row">
+<div class="text-center">
 
-  <div class="col-sm-12">
-    <div class="form-group">
-      <label>
-        昵称
-        <input type="text"
-               class="form-control"
-               focus-me="nameInputFocus"
-               ng-init="nameInputFocus=true"
-               ng-blur="patchMe('name')"
-               ng-model="me.name">
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        邮箱
-        <input type="text"
-               class="form-control"
-               ng-blur="patchMe('email')"
-               ng-model="me.email">
-      </label>
-    </div>
-    <div class="form-group">
-      <label>头像</label>
-      <div>
-        <label class="btn btn-default" ng-show="!isUploading">
-          <input type="file" style="display:none;" ng-file-select="onFileSelect($event,$files)" accept="image/*"/>
-          <img src-key="me.avatar" src="assets/images/empty.jpg" suffix="?imageView2/1/w/64/h/64"></img>
-        </label>
-        <label class="btn btn-default disabled" ng-show="isUploading">
-          <i class="fa fa-spinner fa-spin"></i>上传中
-        </label>
+  <div class="row">
+    <div class="form-horizontal col-sm-8 col-sm-offset-2" role="form">
+      <div class="form-group">
+        <div class="avatar-lg"
+          src-key="me.avatar"
+          suffix="?imageView2/1/w/64/h/64"
+          source-attr="background-image">
+        </div>
+      </div>
+      <div class="form-group">
+        <uploader class="btn btn-danger btn-sm rounded"
+          limit="2*1024*1024"
+          on-complete="onAvatarUploaded($data)"
+          crop="true"
+          crop-ratio="1"
+          max-width="128"
+          accept-type="image">
+          修改头像
+        </uploader>
       </div>
     </div>
-
-    <p class="help-block"> {{ message }} </p>
-
-    <button class="btn btn-primary">保存</button>
-
   </div>
+
+  <hr>
+
+  <div class="row">
+    <form class="form-horizontal col-sm-8 col-sm-offset-2" role="form" ng-submit="saveProfile()">
+      <div class="form-group">
+        <label for="inputName" class="col-xs-4 control-label">昵称</label>
+        <div class="col-xs-8">
+          <input type="text" class="form-control" id="inputName" placeholder="请输入昵称" required
+            focus-me="nameInputFocus"
+            ng-init="nameInputFocus=true"
+            ng-model="me.name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputEmail" class="col-xs-4 control-label">邮箱</label>
+        <div class="col-xs-8">
+          <input type="email" class="form-control" id="inputEmail" placeholder="请输入邮箱" required ng-model="me.email">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" class="btn btn-danger btn-sm rounded" >修改</button>
+      </div>
+    </form>
+  </div>
+
+  <hr>
+  
+  <div class="row">
+    <form class="form-horizontal col-sm-8 col-sm-offset-2" name="form" ng-submit="changePassword(form)">
+
+      <div class="form-group">
+        <label for="inputOldPassword" class="col-xs-4 control-label">原密码</label>
+        <div class="col-xs-8">
+          <input type="password"
+                 id="inputOldPassword"
+                 name="password"
+                 class="form-control"
+                 ng-model="user.oldPassword"
+                 mongoose-error
+                 required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="inputNewPassword" class="col-xs-4 control-label">新密码</label>
+        <div class="col-xs-8">
+          <input id="inputNewPassword" 
+            type="password"
+            name="newPassword"
+            class="form-control"
+            ng-model="user.newPassword"
+            required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="inputNewPasswordAgain" class="col-xs-4 control-label">确认新密码</label>
+        <div class="col-xs-8">
+          <input id="inputNewPasswordAgain" type="password" name="newPasswordAgain" class="form-control" ng-model="user.newPasswordAgain"
+            required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-danger btn-sm rounded" type="submit">修改密码</button>
+      </div>
+    </form>
+  </div>
+
 </div>

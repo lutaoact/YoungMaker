@@ -102,6 +102,7 @@ angular.module 'budweiserApp'
               beforeSend: (xhr)->
                 xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
                 xhr.setRequestHeader('Content-Length', data.length)
+
               success: (data)->
                 speed = currentEnd / (moment().valueOf() - startTime.valueOf())
                 percentage = parseInt(100.0 * currentEnd / file.size)
@@ -128,7 +129,7 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request)
       .then (data)->
-        opts.success?(strategy.key)
+        opts.success?("/api/assets/videos/#{strategy.key}")
     , opts.fail
 
   doUploadSlides = (opts, file)->

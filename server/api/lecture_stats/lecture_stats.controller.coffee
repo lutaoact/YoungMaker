@@ -12,7 +12,8 @@ buildQuizResult = (lecture, qIds) ->
     Question.findByIdQ qId
     .then (q) ->
       question = q
-      StatsUtils.getQuizStats lecture._id, qId
+      optionsNum = q.content.body.length
+      StatsUtils.getQuizStats lecture._id, qId, optionsNum
     .then (stats) ->
       return {
         question: question
@@ -20,28 +21,38 @@ buildQuizResult = (lecture, qIds) ->
       }
   
 buildHWResult = (lectureId) ->
-  HomeworkAnswer.findQ
+  HomeworkAnswer.find
     lectureId : lectureId
+  .populate('userId', '_id username name')
+  .execQ()
   .then (hwas) ->
     # hwResult object to save middle result like this:
     # key : questionId
     # value : Array of answers for this question. For example
-    # [[0,1], [1], [0], [1,2]]
+    # [{userId:"xxx", result: [0,1]} ...]
     hwResult = _.reduce hwas, (tmpResult, hwa) ->
       results = hwa.result
       _.forEach results, (result) ->
         qId = result.questionId
-        if tmpResult.hasOwnProperty qId
-          tmpResult[qId].push result.answer
-        else
-          tmpResult[qId] = [result.answer]
+        tmpResult[qId] = [] if !tmpResult.hasOwnProperty qId
+        answer = {userId: hwa.userId, result: result.answer}
+        tmpResult[qId].push answer
       return tmpResult
     , {}
-    
+
     Q.all _.map hwResult , (answers, qId) ->
-      stats = _.countBy (_.flatten answers) , (answer) -> answer
+#      stats = _.countBy (_.flatten answers) , (answer) -> answer
       Question.findByIdQ qId
       .then (question) ->
+        stats = {}
+        optionsNum = question.content.body.length
+        for idx in [0..optionsNum-1]
+          stats[idx.toString()] = []
+
+        for answer in answers
+          for result in answer.result
+            stats[result].push(answer.userId)
+
         return {
           question : question
           stats : stats
@@ -49,7 +60,8 @@ buildHWResult = (lectureId) ->
   
   
 exports.questionStats = (req, res, next) ->
-  lectureId = req.params.id
+  lectureId = req.query.lectureId
+  courseId = req.query.courseId
   logger.info "Get stats for lecture #{lectureId}"
   
   user = req.user

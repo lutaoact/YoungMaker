@@ -157,17 +157,23 @@ exports.StatsUtils = BaseUtils.subclass
     , []).toString()
 
 
-  getQuizStats: (lectureId, questionId) ->
-    QuizAnswer.findQ
+  getQuizStats: (lectureId, questionId, optionsNum) ->
+    QuizAnswer.find
       lectureId: lectureId
       questionId: questionId
+    .populate('userId', '_id username name')
+    .execQ()
     .then (quizAnswers) ->
-      results = _.pluck quizAnswers, 'result'
-      return _.countBy(_.flatten(results), (ele) ->
-        return ele
-      )
-    , (err) ->
-      Q.reject err
+      status = {}
+      for idx in [0..optionsNum-1]
+        status[idx.toString()] = []
+
+      for quizAnswer in quizAnswers
+        for result in quizAnswer.result
+          status[result].push(quizAnswer.userId)
+
+      return status
+
 
   getQuestionStats : (questionId) ->
     

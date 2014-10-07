@@ -145,7 +145,9 @@ angular.module 'budweiserApp', [
   $modal
   $state
   notify
+  $timeout
   $location
+  indexUser
   $rootScope
   socketHandler
   loginRedirector
@@ -155,9 +157,21 @@ angular.module 'budweiserApp', [
   notify.config
     duration: 3000
 
+#  getHomeStateName = (role) ->
+#    switch role
+#      when 'teacher' then 'teacher.home'
+#      when 'student' then 'student.home'
+#      when 'admin'   then 'admin.classManager'
+#      else throw '非法的用户 ' + role
+
   # Redirect to login if route requires auth and you're not logged in
+  useIndexUser = indexUser?
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
+    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !indexUser?
+#    if !toState.authenticate and (Auth.isLoggedIn() || useIndexUser)
+#      event.preventDefault()
+#      role = Auth.getCurrentUser().role ? indexUser?.role
+#      $state.go(getHomeStateName role)
 
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ()->
@@ -165,6 +179,6 @@ angular.module 'budweiserApp', [
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->
-    loginRedirector.apply()
     socketHandler.init(me)
+    loginRedirector.apply()
 

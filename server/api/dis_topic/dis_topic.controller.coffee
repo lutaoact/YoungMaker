@@ -93,18 +93,8 @@ exports.vote = (req, res, next) ->
   disTopicId = req.params.id
   userId = req.user._id
 
-  tmpResult = {}
   DisUtils.vote DisTopic, disTopicId, userId
-  .then (result) ->
-    tmpResult.newDis = result[0]
-    NoticeUtils.addTopicVoteUpNotice(
-      tmpResult.newDis.postBy
-      userId
-      tmpResult.newDis._id
-    )
-  .then (notice) ->
-    SocketUtils.sendNotices notice
-  .then () ->
-    res.send tmpResult.newDis
+  .then (dis) ->
+    res.send dis
   , (err) ->
     next err

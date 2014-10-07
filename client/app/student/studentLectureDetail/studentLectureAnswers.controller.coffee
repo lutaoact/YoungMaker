@@ -60,6 +60,8 @@ angular.module('budweiserApp')
       $scope.keyPoints = keyPoints
     Restangular.all('homework_answers').getList(lectureId:$scope.lecture._id)
     .then (answers)->
+      for question in $scope.lecture?.homeworks
+          question.$notAnswered = false
       if answers.length > 0
         # TODO: api only return the object
         # check null
@@ -67,7 +69,6 @@ angular.module('budweiserApp')
         homeworks = $scope.lecture?.homeworks
         homeworks.$submitted = true
         for question in homeworks
-          question.$notAnswered = false
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
 
           question.$correct = question.content.body.every (option, index)->

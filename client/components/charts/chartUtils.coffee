@@ -157,6 +157,7 @@ angular.module 'budweiserApp'
               enabled: true
           bar:
             cursor: 'pointer'
+            pointWidth: 30
       xAxis:
         type: 'category'
 

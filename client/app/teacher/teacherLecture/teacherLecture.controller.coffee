@@ -11,7 +11,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $filter
   Courses
   KeyPoints
-  $rootScope
   Restangular
 ) ->
 
@@ -164,7 +163,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     .then (newLecture) ->
       $scope.lecture.__v = newLecture.__v
 
-  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
+  $scope.$on '$stateChangeStart', (event, toState, toParams) ->
     isEditing = $scope.editingInfo? && $scope.lecture.__v == 0
     isGoingOut = !$state.includes(toState, toParams) &&  toState.name != 'teacher.lecture.questionLibrary'
     if isEditing && isGoingOut

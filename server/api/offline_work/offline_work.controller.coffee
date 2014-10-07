@@ -40,5 +40,21 @@ exports.show = (req, res, next) ->
     res.send err
 
 exports.create = (req, res, next) ->
+  userId = req.user.id
+  lectureId = req.query.lectureId
+
+  LectureUtils.getAuthedLectureById req.user, lectureId
+  .then (lecture) ->
+    body = req.body
+    delete body._id
+
+    body.userId = userId
+    body.lectureId = lectureId
+
+    HomeworkAnswer.createQ body
+  .then (work) ->
+    res.send 201, work
+  , (err) ->
+    next err
 
 exports.destroy = (req, res, next) ->

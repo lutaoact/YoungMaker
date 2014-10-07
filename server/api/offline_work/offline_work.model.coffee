@@ -13,6 +13,10 @@ exports.OfflineWork = BaseModel.subclass
         type: ObjectId
         ref: 'user'
         required: true
+      lectureId:
+        type: ObjectId
+        ref: 'lecture'
+        required: true
       files: [ String ]
       desc: String
       teacherId:

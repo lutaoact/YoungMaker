@@ -1,6 +1,7 @@
 'use strict'
 
 OfflineWork = _u.getModel 'offline_work'
+LectureUtils = _u.getUtils 'lecture'
 
 exports.index = (req, res, next) ->
   lectureId = req.query.lectureId
@@ -29,7 +30,8 @@ exports.index = (req, res, next) ->
 exports.show = (req, res, next) ->
   user = req.user
   condition = _id: req.params.id
-  if !(['teacher', 'admin'].indexOf user.role)
+  #如果不是这两种role，则必须要相应的userId也要匹配
+  unless ~(['teacher', 'admin'].indexOf user.role)
     condition.userId = user._id
 
   OfflineWork.findOneQ condition
@@ -39,5 +41,26 @@ exports.show = (req, res, next) ->
     res.send err
 
 exports.create = (req, res, next) ->
+  userId = req.user.id
+  lectureId = req.query.lectureId
+
+  LectureUtils.getAuthedLectureById req.user, lectureId
+  .then (lecture) ->
+    body = req.body
+    delete body._id
+
+    body.userId = userId
+    body.lectureId = lectureId
+
+    HomeworkAnswer.createQ body
+  .then (work) ->
+    res.send 201, work
+  , (err) ->
+    next err
 
 exports.destroy = (req, res, next) ->
+  HomeworkAnswer.removeQ _id: req.params.id
+  .then () ->
+    res.send 204
+  , (err) ->
+    next err

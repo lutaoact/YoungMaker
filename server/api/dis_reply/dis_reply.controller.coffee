@@ -106,17 +106,7 @@ exports.vote = (req, res, next) ->
 
   tmpResult = {}
   DisUtils.vote DisReply, disReplyId, userId
-  .then (result) ->
-    tmpResult.newDis = result[0]
-    NoticeUtils.addReplyVoteUpNotice(
-      tmpResult.newDis.postBy
-      userId
-      tmpResult.newDis._id
-    )
-  .then (notice) ->
-    SocketUtils.sendNotices notice
-    do Q.resolve
-  .then () ->
-    res.send tmpResult.newDis
+  .then (dis) ->
+    res.send dis
   , (err) ->
     next err

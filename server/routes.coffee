@@ -71,14 +71,10 @@ module.exports = (app) ->
         else
           fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
           userInfo = """
-             <script type="text/javascript">//<![CDATA[
-               angular
-               .module('budweiserApp')
-               .constant("indexUser" , {
-                   "_id": "#{user._id}",
-                   "role": "#{user.role}"
-               })
-             //]]></script>
+             ("indexUser" , {
+                 "_id": "#{user._id}",
+                 "role": "#{user.role}"
+             })
           """
-          fileString = fileString.replace /<!-- userinfo -->/, userInfo
+          fileString = fileString.replace "('indexUser', null)", userInfo
           res.send fileString

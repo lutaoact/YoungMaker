@@ -24,5 +24,5 @@ exports.read = (req, res, next) ->
   ,
     multi: true
   .then (result) ->
-    res.send 200, result
+    res.send 200, result[1]
   , next

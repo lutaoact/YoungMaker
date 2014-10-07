@@ -18,12 +18,20 @@ angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
       scope.rawSrc = options.rawSrc
       viewer = $compile(@template)(scope)
       angular.element('body').append(viewer)
+      angular.element('body').addClass('image-zoom-open')
       viewer.on 'click', ->
         viewer.hide()
+        angular.element('body').removeClass('image-zoom-open')
+      scope.$on '$stateChangeSuccess', ->
+        viewer.hide()
+        angular.element('body').removeClass('image-zoom-open')
+
     else
       viewer.scope().rawSrc = options.rawSrc
       $timeout ->
         viewer.show()
+        angular.element('body').addClass('image-zoom-open')
+
 
 
 

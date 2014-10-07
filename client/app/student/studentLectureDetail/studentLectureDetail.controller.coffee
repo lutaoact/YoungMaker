@@ -127,6 +127,13 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     disableDownload: ()->
       console.log 'you are not allowed to download this resource'
 
+  $scope.$watch 'viewState', (value)->
+    if $scope.viewState.showDiscussion
+      angular.element('body').addClass 'sider-open'
+    else
+      angular.element('body').removeClass 'sider-open'
+  , true
+
   findNextStamp = (keypoint)->
     ($scope.lecture.keyPoints.filter (item)->
       item.timestamp > keypoint.timestamp

@@ -7,6 +7,8 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
   $scope
   Courses
   chartUtils
+  $timeout
+  $window
 ) ->
 
   course = _.find Courses, _id:$state.params.courseId
@@ -18,3 +20,8 @@ angular.module('budweiserApp').controller 'StudentCourseStatsCtrl', (
 
   angular.extend $scope,
     student: Auth.getCurrentUser()
+
+    triggerResize: ()->
+      # trigger to let the chart resize
+      $timeout ->
+        angular.element($window).resize()

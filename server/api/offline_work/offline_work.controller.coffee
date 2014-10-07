@@ -1,6 +1,7 @@
 'use strict'
 
 OfflineWork = _u.getModel 'offline_work'
+LectureUtils = _u.getUtils 'lecture'
 
 exports.index = (req, res, next) ->
   lectureId = req.query.lectureId
@@ -58,3 +59,8 @@ exports.create = (req, res, next) ->
     next err
 
 exports.destroy = (req, res, next) ->
+  HomeworkAnswer.removeQ _id: req.params.id
+  .then () ->
+    res.send 204
+  , (err) ->
+    next err

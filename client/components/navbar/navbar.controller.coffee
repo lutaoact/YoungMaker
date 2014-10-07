@@ -109,11 +109,22 @@ angular.module 'budweiserApp'
   $scope.$on '$stateChangeSuccess', (event, state, params)->
     if params.hasOwnProperty 'topicId'
       toRemove = $scope.messages.filter (x)-> x.raw.data.disTopic._id is params.topicId
-      toRemove?.forEach (message)->
-        $scope.messages.splice $scope.messages.indexOf(message), 1
+      if toRemove?.length
+        Restangular.all('notices/read').post
+          ids: _.map toRemove, (x)-> x.raw._id
+        .then ()->
+          console.log arguments
+        toRemove?.forEach (message)->
+          $scope.messages.splice $scope.messages.indexOf(message), 1
 
   $scope.$on 'message.notice', (event, data)->
     genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
+
+  Restangular.all('notices').getList()
+  .then (notices)->
+    notices.forEach (notice)->
+      genMessage(notice).then (msg)->
+        $scope.messages.splice 0, 0, msg
 
 

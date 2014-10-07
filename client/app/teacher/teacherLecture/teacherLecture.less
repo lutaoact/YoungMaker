@@ -18,6 +18,104 @@
 }
 .teacher {
   .quick-link {
+    .editing-progress {
+      .btn-link {
+        text-align: center;
+        text-decoration: none;
+        padding-top: 15px;
+        span {
+          display: inline-block;
+          font-size: .9em;
+          padding-top: 6px;
+          &:hover {
+            border-bottom: 2px solid red;
+            margin-bottom: -2px;
+          }
+        }
+        &.done:before {
+          content: @fa-var-check;
+          font-family: FontAwesome;
+          display: block;
+          background-color: @base-color;
+          width: 20px;
+          height: 20px;
+          border-radius: 10px;
+          border: 1px solid @base-color;
+          position: relative;
+          color: #ffffff;
+          top: -2px;
+          left: calc(~'50% - 10px');
+        }
+        &.new:before {
+          content: '';
+          display: block;
+          background-color: #ffffff;
+          border: 1px solid @base-color;
+          width: 20px;
+          height: 20px;
+          border-radius: 10px;
+          border: 1px solid @base-color;
+          position: relative;
+          color: #ffffff;
+          left: calc(~'50% - 10px');
+          top: 1px;
+        }
+        &.new:after {
+          content: '';
+          display: block;
+          background: @base-color;
+          width: 6px;
+          height: 6px;
+          border-radius: 10px;
+          position: relative;
+          color: #ffffff;
+          left: calc(~'50% - 3px');
+          top: -36px;
+        }
+        &.half:before {
+          content: '';
+          display: block;
+          background: linear-gradient(to right, #ffffff 50%, #9ED4C9 50%);
+          width: 20px;
+          height: 20px;
+          border-radius: 10px;
+          border: 1px solid @base-color;
+          position: relative;
+          color: #ffffff;
+          left: calc(~'50% - 10px');
+          top: 1px;
+        }
+        &.half:after {
+          content: '';
+          display: block;
+          background: @base-color;
+          width: 6px;
+          height: 6px;
+          border-radius: 10px;
+          position: relative;
+          color: #ffffff;
+          left: calc(~'50% - 3px');
+          top: -36px;
+        }
+      }
+      &:before {
+        content:'';
+        border-bottom: 1px solid #9c9c98;
+        position: absolute;
+        width: 32%;
+        top: 88px;
+        right: 19%;
+      }
+      .link-item {
+        line-height: 60px;
+        padding: 0px;
+        margin: 0px;
+        display: inline-block;
+      }
+      .link-item+.link-item {
+        margin-left: 70px;
+      }
+    }
     display: block;
     width: 100%;
     background-color: #F9FBFB;
@@ -28,9 +126,9 @@
       margin: 0;
       padding-left: 0;
     }
-    height: 60px;
+    height: 70px;
     vertical-align: middle;
-    span {
+    .info {
       font-size: 1.3em;
       font-weight: normal;
       padding-left: 20px;

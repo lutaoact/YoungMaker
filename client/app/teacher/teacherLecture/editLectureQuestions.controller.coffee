@@ -11,6 +11,7 @@ angular.module('budweiserApp')
     lecture: '='
     categoryId: '='
     keyPoints: '='
+    onUpdate: '&'
 
 .controller 'EditLectureQuestionsCtrl', (
   $scope
@@ -97,7 +98,7 @@ angular.module('budweiserApp')
     if $scope.lecture.patch?
       $scope.lecture.patch(patch)
       .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+        $scope.onUpdate?($lecture:newLecture)
         backToLecture()
     else
       _.delay backToLecture, 300

@@ -22,6 +22,8 @@ angular.module 'budweiserApp'
   $location
   $rootScope
   loginRedirector
+  $q
+  Restangular
 ) ->
 
   angular.extend $scope,
@@ -73,27 +75,46 @@ angular.module 'budweiserApp'
           else []
       else []
 
-
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu
 
   genMessage = (raw)->
+    deferred = $q.defer()
     switch raw.type
       when Const.NoticeType.TopicVoteUp
-        title: raw.fromWhom + '赞了你的帖子：' + raw.data.disTopic
-        link: ''
+        deferred.resolve
+          title: '赞了你的帖子：' + raw.data.disTopic.title
+          raw: raw
+          link: "forum.topic({courseId:'#{raw.data.disTopic.courseId}',topicId:'#{raw.data.disTopic._id}'})"
+          type: 'message'
       when Const.NoticeType.ReplyVoteUp
-        title: raw.fromWhom + '赞了你的回复：' + raw.data.disReply.content
-        link: ''
+        Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
+        .then (topic)->
+          raw.data.disTopic = topic
+          deferred.resolve
+            title: '赞了你的回复：' + raw.data.disReply.content
+            raw: raw
+            link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}'})"
+            type: 'message'
       when Const.NoticeType.Comment
-        title: raw.fromWhom + '回复了你的帖子：' + raw.data.disTopic
-        link: ''
-      when Const.NoticeType.Lecture
-        title: raw.fromWhom + '发布了新课时' + raw.data.lecture
-        link: ''
-      else {}
+        deferred.resolve
+          title: '回复了你的帖子：' + raw.data.disTopic.title
+          raw: raw
+          link: "forum.topic({courseId:'#{raw.data.disTopic.courseId}',topicId:'#{raw.data.disTopic._id}'})"
+          type: 'message'
+
+      else deferred.reject()
+    deferred.promise
+
+  $scope.$on '$stateChangeSuccess', (event, state, params)->
+    if params.hasOwnProperty 'topicId'
+      toRemove = $scope.messages.filter (x)-> x.raw.data.disTopic._id is params.topicId
+      toRemove?.forEach (message)->
+        $scope.messages.splice $scope.messages.indexOf(message), 1
 
   $scope.$on 'message.notice', (event, data)->
-    $scope.messages.splice 0, 0, genMessage(data)
+    genMessage(data).then (msg)->
+      $scope.messages.splice 0, 0, msg
+      console.debug $scope.messages
 
 

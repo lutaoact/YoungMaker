@@ -5,28 +5,24 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = require('../../common/BaseModel').BaseModel
 
-exports.Notice = BaseModel.subclass
-  classname: 'Notice'
+exports.OfflineWork = BaseModel.subclass
+  classname: 'OfflineWork'
   initialize: ($super) ->
     @schema = new Schema
       userId:
         type: ObjectId
         ref: 'user'
         required: true
-      fromWhom:
+      lectureId:
+        type: ObjectId
+        ref: 'lecture'
+        required: true
+      files: [ String ]
+      desc: String
+      teacherId:
         type: ObjectId
         ref: 'user'
-      type: Number
-      data:
-        lecture:
-           type: ObjectId
-           ref: 'lecture'
-        disTopic:
-           type: ObjectId
-           ref: 'dis_topic'
-        disReply:
-           type: ObjectId
-           ref: 'dis_reply'
-      status: Number
+      score: Number
+      feedback: String
 
     $super()

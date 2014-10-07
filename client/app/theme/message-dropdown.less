@@ -1,0 +1,90 @@
+.navbar-nav > li > .dropdown-menu.message-dropdown{
+  background-color: #FFFFFF;
+  margin-top: 4px;
+  border: 1px solid @gray-lighter;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  color: #000000;
+  border-radius: 4px;
+  width: 374px;
+  padding: 0;
+  &:before{
+    content: '';
+    height: 0;
+    width: 0;
+    right: 30px;
+    top: -10px;
+    position: absolute;
+    border-bottom: 10px solid #000000;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+  .message-filters{
+    border-top: 6px solid #000000;
+    border-radius: 4px 4px 0 0;
+    padding-left: 10px;
+    > span{
+      padding: 3px 10px;
+    }
+    .btn-nav{
+      display: inline-block;
+      padding: 11px 15px;
+      font-size: 16px;
+      border: none;
+      &.active{
+        color: @brand-danger;
+      }
+    }
+  }
+  .media-list.message-list{
+    max-height: 240px;
+    overflow-y: auto;
+    .media.message{
+      cursor: pointer;
+      font-size: 12px;
+      height: 60px;
+      margin-top: 0;
+      padding: 8px 20px;
+      border-top: 1px solid @gray-lighter;
+      .avatar-xs{
+        margin: 0 20px 0px 20px; 
+      }
+      &:hover{
+        background-color: @gray-lighter;
+      }
+    }
+  }
+  .bottom-btns{
+    border-top: 1px solid @gray-lighter;
+    > a.btn{
+      color: #000000;
+      border-left: 1px solid @gray-lighter;
+      border: none;
+      padding: 15px 0;
+      i{
+        color: @gray-light;
+        margin-right: 10px;
+        .transition(all 0.2s ease-in-out);
+      }
+      &:nth-child(1){
+        border-left: none;
+      }
+      &.btn-setting{
+        &:hover{
+          .box-shadow(inset 0 -6px 0 @brand-primary);
+          i{
+            color: @brand-primary;
+          }
+        }
+      }
+      &.btn-logout{
+        &:hover{
+          .box-shadow(inset 0 -6px 0 @brand-danger);
+          i{
+            color: @brand-danger;
+          }
+        }
+      }
+    }
+  }
+}

@@ -41,6 +41,7 @@ module.exports = (app) ->
   app.use '/api/schools', require './api/school'
   app.use '/api/schedules', require './api/schedule'
   app.use '/api/notices', require './api/notice'
+  app.use '/api/offline_works', require './api/offline_work'
   app.use '/api/demo', require './api/demo'
   app.use '/auth', require './auth'
   app.use errorHandler

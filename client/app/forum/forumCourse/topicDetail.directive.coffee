@@ -75,11 +75,12 @@ angular.module('budweiserApp')
           item._id is raw.data.disReply._id
         if myReplie?.length
           myReplie[0].voteUpUsers = raw.data.disReply.voteUpUsers
-      when Const.NoticeType.Comment
-        if raw.data.disTopic._id is $scope.topic._id
-          Restangular.all('dis_replies').getList({disTopicId: $scope.topic._id})
-          .then (replies)->
-            $scope.topic.$replies = replies
+      # when Const.NoticeType.Comment
+      #   if raw.data.disTopic._id is $scope.topic._id
+      #     console.log 'in'
+      #     Restangular.all('dis_replies').getList({disTopicId: $scope.topic._id})
+      #     .then (replies)->
+      #       $scope.topic.$replies = replies
 
 
 

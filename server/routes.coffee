@@ -3,6 +3,10 @@
 'use strict'
 
 errors = require './components/errors'
+fs = require 'fs'
+byline = require 'byline'
+jwt = require 'jsonwebtoken'
+config = require './config/environment'
 
 errorHandler = (err, req, res, next) ->
   logger.error err
@@ -52,4 +56,28 @@ module.exports = (app) ->
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->
-    res.sendfile app.get('appPath') + '/index.html'
+    # if there is no cookie token, return index.html immediately
+    if not req.cookies.token?
+      res.sendfile app.get('appPath') + '/index.html'
+    else
+      # remove double quote
+      token = req.cookies.token.replace /"/g, ''
+      jwt.verify token, config.secrets.session, null, (err, user) ->
+        if err?
+          #console.log 'Cannot verify token'
+          # failed to verify token, return index.html
+          res.sendfile app.get('appPath') + '/index.html'
+        else
+          fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
+          userInfo = """
+             <script type="text/javascript">//<![CDATA[
+               angular
+               .module('budweiserApp')
+               .constant("indexUser" , {
+                   "_id": "#{user._id}",
+                   "role": "#{user.role}"
+               })
+             //]]></script>
+          """
+          fileString = fileString.replace /<!-- userinfo -->/, userInfo
+          res.send fileString

@@ -149,6 +149,7 @@ angular.module 'budweiserApp', [
   $rootScope
   socketHandler
   loginRedirector
+  indexUser
 ) ->
 
   #set the default configuration options for angular-notify
@@ -164,6 +165,7 @@ angular.module 'budweiserApp', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   # Reload Auth
+  console.log indexUser
   Auth.getCurrentUser().$promise?.then (me) ->
     loginRedirector.apply()
     socketHandler.init(me)

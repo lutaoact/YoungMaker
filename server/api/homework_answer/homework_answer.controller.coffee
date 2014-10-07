@@ -19,26 +19,26 @@ exports.index = (req, res, next) ->
   # check if user has access to the given lecture
   LectureUtils.getAuthedLectureById req.user, lectureId
   .then (lecture) ->
-  switch role
-    when 'teacher'
-      HomeworkAnswer.find
-        lectureId : lectureId
-      .populate 'userId', '_id, name, email'
-      .execQ()
-      .then (answers) ->
-        res.send answers
-      , (err) ->
-        next err
-    when 'student'
-      HomeworkAnswer.findQ
-        lectureId : lectureId
-        userId : req.user.id
-      .then (answers) ->
-        res.send answers
-      , (err) ->
-        next err
-    else
-      res.send 404
+    switch role
+      when 'teacher'
+        HomeworkAnswer.find
+          lectureId : lectureId
+        .populate 'userId', '_id, name, email'
+        .execQ()
+        .then (answers) ->
+          res.send answers
+        , (err) ->
+          next err
+      when 'student'
+        HomeworkAnswer.findQ
+          lectureId : lectureId
+          userId : req.user.id
+        .then (answers) ->
+          res.send answers
+        , (err) ->
+          next err
+      else
+        res.send 404
 
 
 exports.show = (req, res, next) ->

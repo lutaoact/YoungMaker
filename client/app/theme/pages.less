@@ -1,7 +1,5 @@
-@pages-border-color: #221E1F;
+@pages-border-color: #A0A0A0;
 @pages-bg-color: #ffffff;
-@pages-shadow: 0 0 2px @pages-border-color;
-@pages-border-width: .25pt;
 
 .pages{
   background: @pages-bg-color;
@@ -9,31 +7,28 @@
   height:auto;
   margin:auto;
   position:relative;
-  border:@pages-border-width solid @pages-border-color;
+  border:1px solid @pages-border-color;
   z-index: 10;
-  .box-shadow(@pages-shadow);
   &:before{
     content: ' ';
     position: absolute;
-    height: 5px;
-    top: -5px;
+    height: 6px;
+    top: -6px;
     left: 12px;
     right: 12px;
     background: @pages-bg-color;
-    border:@pages-border-width solid @pages-border-color;
+    border:1px solid @pages-border-color;
     z-index: -1;
-    .box-shadow(@pages-shadow);
   }
   &:after{
     content: ' ';
     position: absolute;
-    height: 5px;
-    top: -10px;
+    height: 6px;
+    top: -11px;
     left: 32px;
     right: 32px;
     background: @pages-bg-color;
-    border:@pages-border-width solid @pages-border-color;
+    border:1px solid @pages-border-color;
     z-index: -2;
-    .box-shadow(@pages-shadow);
   }
 }

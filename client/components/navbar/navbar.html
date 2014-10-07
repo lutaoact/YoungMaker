@@ -39,16 +39,28 @@
              source-attr="background-image"
              ng-mouseenter="dropDownOpen=true">
           </a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="/settings">设置</a></li>
+          <ul class="dropdown-menu message-dropdown" role="menu">
+            <div class="message-filters clearfix">
+              <span>消息</span><span class="text-muted">|</span>
+              <a href class="btn btn-nav text-muted active">
+                <i class="fa fa-envelope"></i>
+              </a>
+              <a href class="btn btn-nav text-muted">
+                <i class="fa fa-bell"></i>
+              </a>
+            </div>
             <li class="divider" ng-show="messages.length"></li>
             <li ng-repeat="message in messages">
               {{message.title}}
             </li>
-            <li class="divider"></li>
-            <li>
-              <a href ng-click="logout()">退出</a>
-            </li>
+            <div class="bottom-btns clearfix">
+              <a class="col-xs-6 text-center btn btn-setting" href="/settings">
+                <i class="glyphicon glyphicon-cog"></i>设置
+              </a>
+              <a class="col-xs-6 text-center btn btn-logout" href ng-click="logout()">
+                <i class="glyphicon glyphicon-off"></i>退出
+              </a>
+            </div>
           </ul>
           <span class="badge" style="position: absolute;top: 10px;left: 32px;" ng-show="messages">{{messages.length||'0'}}</span>
         </li>

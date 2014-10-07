@@ -64,7 +64,10 @@
         </div>
 
         <div>
-          <button class="btn btn-danger btn-sm rounded submit pull-right" ng-click="replyTo(topic, newReply)">提交</button>
+          <button 
+            class="btn btn-danger btn-sm rounded submit pull-right" 
+            ng-click="replyTo(topic, newReply)"
+            ng-disabled="!newReply.content">提交</button>
         </div>
       </div>
       <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">

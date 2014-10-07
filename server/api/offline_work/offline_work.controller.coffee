@@ -10,7 +10,7 @@ exports.index = (req, res, next) ->
     when 'teacher'
       OfflineWork.find
         lectureId : lectureId
-      .populate 'userId', '_id, name, email'
+      .populate 'userId', 'name, email'
       .execQ()
     when 'student'
       OfflineWork.findQ
@@ -27,6 +27,16 @@ exports.index = (req, res, next) ->
 
 
 exports.show = (req, res, next) ->
+  user = req.user
+  condition = _id: req.params.id
+  if !(['teacher', 'admin'].indexOf user.role)
+    condition.userId = user._id
+
+  OfflineWork.findOneQ condition
+  .then (work) ->
+    res.send work
+  , (err) ->
+    res.send err
 
 exports.create = (req, res, next) ->
 

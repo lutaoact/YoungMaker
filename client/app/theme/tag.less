@@ -1,32 +1,15 @@
 
 .tag(@background: @gray;@foreground: #FFFFFF){
   color: @foreground;
-  display: inline-block;
-  font-size: 8px;
   background: @background;
-  height: 20px;
-  padding: 2px 2px 2px 5px;
-  margin: 2px 22px 2px 2px;
+  margin: 2px;
   max-width: 110px;
-  position: relative;
-  border-radius: 2px 0 0 2px;
-  &:after{
-    content: '';
-    width: 0;
-    height: 0;
-    position: absolute;
-    border-top: 10px solid transparent;
-    border-left: 10px solid @background;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid transparent;
-    display: inline-block;
-    right: -20px;
-    top:0;
-    z-index: 10;
-  }
   .remove{
     cursor: pointer;
   }
+  .label();
+  .text-overflow();
+  font-size: 14px;
 }
 
 tag,

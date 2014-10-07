@@ -35,16 +35,10 @@ angular.module 'budweiserApp'
     getTitle: Navbar.getTitle
 
     logout: ->
-      $state.go(if $state.current?.name == 'test' then 'test' else 'main')
-      .then ->
+      doLogout = ->
         Auth.logout()
         socket.close()
-
-    login: ->
-      if $state.current?.name == 'test'
-        loginRedirector.set($state.href($state.current, $state.params))
-      else
-        $state.go('login')
+      $state.go('main').then doLogout
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
@@ -121,10 +115,11 @@ angular.module 'budweiserApp'
     genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
 
-  Restangular.all('notices').getList()
-  .then (notices)->
-    notices.forEach (notice)->
-      genMessage(notice).then (msg)->
-        $scope.messages.splice 0, 0, msg
+  Auth.getCurrentUser().$promise?.then ->
+    Restangular.all('notices').getList()
+    .then (notices)->
+      notices.forEach (notice)->
+        genMessage(notice).then (msg)->
+          $scope.messages.splice 0, 0, msg
 
 

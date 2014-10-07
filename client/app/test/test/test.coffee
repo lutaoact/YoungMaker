@@ -5,3 +5,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/test'
     templateUrl: 'app/test/test/test.html'
     controller: 'TestCtrl'
+    authenticate: true

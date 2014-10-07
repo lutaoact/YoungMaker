@@ -14,7 +14,7 @@
                      on-select="addClasse($item)">
             <ui-select-match placeholder="添加班级"><span class="text-muted">添加班级</span></ui-select-match>
             <ui-select-choices repeat="classe in classes | without:course.classes:'_id' | filter:{name:$select.search}">
-              <span tooltip="{{classe.name}}" tooltip-placement="bottom" tooltip-append-to-body=true ng-bind-html="classe.name | highlight: $select.search"></span>
+              <span tooltip="{{classe.name}}" tooltip-placement="left" tooltip-append-to-body=true ng-bind-html="classe.name | highlight: $select.search"></span>
             </ui-select-choices>
           </ui-select>
         </div>

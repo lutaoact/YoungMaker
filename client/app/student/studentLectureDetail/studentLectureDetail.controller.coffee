@@ -45,7 +45,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         $scope.$on '$destroy', ()->
           $timeout.cancel handleViewEvent
         $scope.lecture
-        
+
   angular.extend $scope,
     course: course
     lecture: null
@@ -135,9 +135,10 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     )?[0]
 
   loadLecture()
-  
+
   # scroll to content-view after document ready
   $document.ready ->
     ele = angular.element('#content-view')
     #$document.scrollToElement(ele, 60, 2000)
     $document.scrollTo(0, 150, 2000)
+

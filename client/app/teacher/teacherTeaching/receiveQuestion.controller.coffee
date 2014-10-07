@@ -7,6 +7,7 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
   teacherId
   Restangular
   $modalInstance
+  $rootScope
 ) ->
 
   angular.extend $scope,
@@ -27,7 +28,8 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
         , []
         Restangular.one('quiz_answers', answer._id)
         .patch({result: selectedOptions}, {teacherId: teacherId})
-        .then ->
+        .then (answer)->
+          $rootScope.$broadcast 'quiz.answered', question, answer
           $scope.submitted = true
 
   for option, index in question.content.body

@@ -67,6 +67,7 @@ angular.module('budweiserApp')
         homeworks = $scope.lecture?.homeworks
         homeworks.$submitted = true
         for question in homeworks
+          question.$notAnswered = false
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
 
           question.$correct = question.content.body.every (option, index)->
@@ -100,6 +101,25 @@ angular.module('budweiserApp')
         $scope.setQuestionType('quizzes')
       else
         $scope.setQuestionType('homeworks')
+
+
+  $scope.$on 'quiz.answered', (event, question, answer)->
+    $scope.lecture.quizzes.$submitted = $scope.lecture.quizzes.some (quiz)->
+      quiz._id is question._id
+    if $scope.lecture.quizzes.$submitted
+      $scope.lecture.quizzes.forEach (quiz)->
+        if quiz._id is question._id
+          quiz.$notAnswered = false
+          options = answer.result
+          quiz.$correct = quiz.content.body.every (option, index)->
+            if option.correct
+              options?.some (item)-> item is index
+            else
+              options?.every (item)-> item isnt index
+
+          for option, index in quiz.content.body
+            option.$selected = options?.indexOf(index) >= 0
+            console.log option.$selected
 
 
 

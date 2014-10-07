@@ -30,7 +30,7 @@ exports.show = (req, res, next) ->
   user = req.user
   condition = _id: req.params.id
   #如果不是这两种role，则必须要相应的userId也要匹配
-  if !(['teacher', 'admin'].indexOf user.role)
+  unless ~(['teacher', 'admin'].indexOf user.role)
     condition.userId = user._id
 
   OfflineWork.findOneQ condition

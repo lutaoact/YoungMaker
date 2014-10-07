@@ -40,19 +40,24 @@
              ng-mouseenter="dropDownOpen=true">
           </a>
           <ul class="dropdown-menu message-dropdown" role="menu">
-            <div class="message-filters clearfix">
-              <span>消息</span><span class="text-muted">|</span>
-              <a href class="btn btn-nav text-muted active">
+            <div class="message-filters clearfix" ng-init="viewState.messageType = 'message'">
+              <span>{{viewState.messageType == 'message'?'消息':'通知'}}</span><span class="text-muted">|</span>
+              <a href class="btn btn-nav text-muted" ng-class="{'active':viewState.messageType == 'message'}" ng-click="viewState.messageType = 'message'">
                 <i class="fa fa-envelope"></i>
               </a>
-              <a href class="btn btn-nav text-muted">
+              <a href class="btn btn-nav text-muted" ng-class="{'active':viewState.messageType == 'notification'}" ng-click="viewState.messageType = 'notification'">
                 <i class="fa fa-bell"></i>
               </a>
             </div>
-            <li class="divider" ng-show="messages.length"></li>
-            <li ng-repeat="message in messages">
-              {{message.title}}
-            </li>
+            <ul class="media-list message-list" ng-show="messages.length">
+              <li ng-repeat="message in messages|filter: {'type': viewState.messageType}" class="message media" ui-sref="{{message.link}}">
+                <div class="avatar-xs pull-left" src-key="message.raw.fromWhom.avatar" source-attr="background-image"></div>
+                <div class="media-body">
+                  <h6 class="media-heading">{{message.raw.fromWhom.name}} <small>{{message.raw.created|timeToTimeAgo}}</small></h6>
+                  {{message.title}}
+                </div>
+              </li>
+            </ul>
             <div class="bottom-btns clearfix">
               <a class="col-xs-6 text-center btn btn-setting" href="/settings">
                 <i class="glyphicon glyphicon-cog"></i>设置
@@ -62,7 +67,7 @@
               </a>
             </div>
           </ul>
-          <span class="badge" style="position: absolute;top: 10px;left: 32px;" ng-show="messages">{{messages.length||'0'}}</span>
+          <span class="badge" style="position: absolute;top: 10px;left: 40px;" ng-show="messages.length">{{messages.length||'0'}}</span>
         </li>
       </ul>
     </div>

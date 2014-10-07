@@ -14,6 +14,14 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
   if not $state.params.courseId or not $state.params.topicId
     return
 
+  if $state.params.topicId and $state.params.courseId is 'unknow'
+    Restangular.one('dis_topics', $state.params.topicId).get()
+      .then (topic)->
+        $state.go 'forum.topic',
+          courseId: topic.courseId
+          topicId: $state.params.topicId
+    return
+
   course = _.find Courses, _id:$state.params.courseId
   $scope.$on '$destroy', Navbar.resetTitle
   Navbar.setTitle course.name,

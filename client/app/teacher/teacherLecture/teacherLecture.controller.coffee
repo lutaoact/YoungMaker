@@ -29,6 +29,11 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     videoActive: true
     lecture: null
     editingInfo: null
+    editingProgress: # 0=new, 1/2=half, 1=done
+      info: 0
+      media: 0
+      question: 0
+      done: 0
 
     switchEdit: ->
       $scope.editingInfo =
@@ -59,18 +64,15 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
     saveLecture: (form) ->
       unless form?.$valid then return
-
       $scope.saving = true
-
       lecture = $scope.lecture
       editingInfo = $scope.editingInfo
-
       lecture.patch(editingInfo)
       .then (newLecture) ->
-        $scope.saving = false
-        lecture.__v = newLecture.__v
         angular.extend lecture, editingInfo
+        $scope.saving = false
         $scope.editingInfo = null
+        $scope.updateEditingProgress(newLecture)
         notify '课时信息已保存'
 
     removeSlide: (index) ->
@@ -83,8 +85,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .result.then ->
         $scope.lecture.slides.splice(index, 1)
         $scope.lecture.patch?(slides: $scope.lecture.slides)
-        .then (newLecture) ->
-          $scope.lecture.__v = newLecture.__v
+        .then $scope.updateEditingProgress
 
     removeMedia: ->
       $modal.open
@@ -96,8 +97,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .result.then ->
         $scope.lecture.media = null
         $scope.lecture.patch?(media: $scope.lecture.media)
-        .then (newLecture) ->
-          $scope.lecture.__v = newLecture.__v
+        .then $scope.updateEditingProgress
 
     removePPT: ->
       $modal.open
@@ -109,11 +109,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       .result.then ->
         $scope.lecture.slides = []
         $scope.lecture.patch?(slides: $scope.lecture.slides)
-        .then (newLecture) ->
-          $scope.lecture.__v = newLecture.__v
-
-    onThumbUploaded: (data) ->
-      $scope.editingInfo.thumbnail = data
+        .then $scope.updateEditingProgress
 
     onError: (error) -> notify "上传失败：" + error
     onPPTUploadStart: ->
@@ -134,8 +130,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       $scope.pptUploadInfo = ''
       $scope.lecture.slides = data
       $scope.lecture.patch?(slides: $scope.lecture.slides)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      .then $scope.updateEditingProgress
 
     onMediaUploadStart: ->
       console.debug 'media upload start'
@@ -146,17 +141,38 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onMediaUploaded: (data) ->
       $scope.lecture.media = data
       $scope.lecture.patch?(media: $scope.lecture.media)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
+      .then $scope.updateEditingProgress
 
     onPlayerReady: (api) ->
       $scope.mediaApi = api
+
+    updateEditingProgress: (newLecture = null) ->
+      lecture = $scope.lecture
+      lecture.__v = newLecture.__v if newLecture?
+      progress = $scope.editingProgress
+      progress.info = 0
+      progress.media = 0
+      progress.question = 0
+      progress.info += 1/2 if lecture.name?.length > 0
+      progress.info += 1/2 if lecture.info?.length > 0
+      progress.media += 1/2 if lecture.media?.length > 0
+      progress.media += 1/2 if lecture.slides?.length > 0
+      progress.question += 1/2 if lecture.quizzes?.length > 0
+      progress.question += 1/2 if lecture.homeworks?.length > 0
+      progress.done = progress.info + progress.media + progress.question
+
+    genTooltip: (progress, label) ->
+      label +
+        if progress == 0 then '未添加'
+        else if progress == 1/2 then '不完整'
+        else '已添加'
 
   Restangular.one('lectures', $state.params.lectureId).get()
   .then (lecture) ->
     $scope.lecture = lecture
     $scope.videoActive = lecture.media? || lecture.slides.length == 0
     $scope.switchEdit() if lecture.__v == 0
+    $scope.updateEditingProgress()
 
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch?(slides:$scope.lecture.slides)

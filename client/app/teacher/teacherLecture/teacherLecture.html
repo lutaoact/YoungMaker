@@ -1,15 +1,50 @@
 <div class="teacher-lecture">
   <div class="quick-link">
     <div class="container">
+      <div class="editing-progress pull-right"
+          ng-if="!$state.includes('teacher.lecture.questionLibrary') &&
+          editingProgress.done<3">
+        <span class="link-item">
+          <a class="btn btn-link"
+             ng-class="{done:editingProgress.info==1,new:editingProgress.info==0,half:editingProgress.info==.5}"
+             du-smooth-scroll
+             tooltip="{{genTooltip(editingProgress.info, '基本信息')}}"
+             offset="60"
+             href="#lecture-info">
+            <span class="text-muted">1.基本信息</span>
+          </a>
+        </span>
+        <span class="link-item">
+          <a class="btn btn-link"
+             du-smooth-scroll
+             tooltip="{{genTooltip(editingProgress.media, '课件制作与知识点')}}"
+             offset="60"
+             ng-class="{done:editingProgress.media==1,new:editingProgress.media==0,half:editingProgress.media==.5}"
+             href="#lecture-media">
+            <span class="text-muted">2.课件制作与知识点</span>
+          </a>
+        </span>
+        <span class="link-item">
+          <a class="btn btn-link"
+             du-smooth-scroll
+             offset="60"
+             tooltip="{{genTooltip(editingProgress.question, '随堂练习和课后作业')}}"
+             ng-class="{done:editingProgress.question==1,new:editingProgress.question==0,half:editingProgress.question==.5}"
+             href="#lecture-question">
+            <span class="text-muted">3.随堂练习和课后作业</span>
+          </a>
+        </span>
+      </div>
       <ul class="pull-right"
-          ng-if="!$state.includes('teacher.lecture.questionLibrary')">
-        <li class="link-item text-muted"><span>课件制作与知识点</span>
+          ng-if="!$state.includes('teacher.lecture.questionLibrary') &&
+          editingProgress.done==3">
+        <li class="link-item text-muted"><span class="info"><i class="glyphicon glyphicon-link text-danger"></i>课件制作与知识点</span>
           <a class="btn btn-danger"
              du-smooth-scroll
              offset="60"
              href="#lecture-media">快速进入</a>
         </li>
-        <li class="link-item text-muted"><span>随堂练习和课后作业</span>
+        <li class="link-item text-muted"><span class="info"><i class="glyphicon glyphicon-link text-danger"></i>随堂练习和课后作业</span>
           <a class="btn btn-danger"
              du-smooth-scroll
              offset="60"
@@ -314,6 +349,7 @@
     <div class="container">
       <div edit-lecture-questions
            lecture="lecture"
+           on-update="updateEditingProgress($lecture)"
            key-points="keyPoints"
            category-id="course.categoryId"></div>
     </div>

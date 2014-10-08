@@ -8,10 +8,12 @@
   </div>
   <div class="list-group-item keypoint-item"
        ng-repeat="keyPoint in lecture.keyPoints">
-    <input type="number"
-           ng-model="keyPoint.timestamp"
+    <input type="text"
+           ng-model="timeInput"
+           ng-init="timeInput=seconds2TimeStrings(keyPoint.timestamp)"
            class="keypoint-input"
-           ng-blur="saveKeyPoints()"/>
+           ng-focus="seekPlayerTime(keyPoint.timestamp)"
+           ng-blur="timeInput=updateKeyPointTime(keyPoint, timeInput)"/>
     <ui-select ng-model="keyPoint.kp"
                on-select="setKeyPointKp(keyPoint, $item, $select.search)"
                class="keypoint-select">

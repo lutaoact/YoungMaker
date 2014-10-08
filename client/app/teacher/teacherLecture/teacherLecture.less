@@ -159,9 +159,30 @@
       right: 10px;
     }
     #start-teaching-btn {
-      border-radius: 4px;
-      width: 200px;
-      height: 35px;
+      .btn {
+        font-size: 1.166em;
+        border-radius: 4px;
+        width: 200px;
+        height: 35px;
+        .pull-right {
+          padding-top: 4px;
+          font-size: .7em;
+          margin-left: -15px;
+        }
+      }
+      ul > li {
+        width: 200px;
+        padding: 0px 4px;
+        a {
+          font-size: 1.166em;
+          padding: 4px 0px;
+          border-radius: 3px;
+          &:hover {
+            color: #ffffff;
+            background-color: #E84D50;
+          }
+        }
+      }
     }
     #lecture-name {
       font-size: 1.75em;

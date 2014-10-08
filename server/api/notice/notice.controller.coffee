@@ -20,7 +20,7 @@ exports.read = (req, res, next) ->
     _id: $in: ids
     userId: req.user._id
   ,
-    $set: status: 1#status: 1 -> read
+    $set: status: 1 #status: 1 -> read
   ,
     multi: true
   .then (result) ->

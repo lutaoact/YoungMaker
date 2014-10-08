@@ -50,7 +50,7 @@
               </a>
             </div>
             <ul class="media-list message-list" ng-show="messages.length">
-              <li ng-repeat="message in messages|filter: {'type': viewState.messageType}" class="message media" ui-sref="{{message.link}}">
+              <li ng-repeat="message in messages|filter: {'type': viewState.messageType}" class="message media" ng-click="removeMsg(message)" ui-sref="{{message.link}}">
                 <div class="avatar-xs pull-left" src-key="message.raw.fromWhom.avatar" source-attr="background-image"></div>
                 <div class="media-body">
                   <h6 class="media-heading">{{message.raw.fromWhom.name}} <small>{{message.raw.created|timeToTimeAgo}}</small></h6>

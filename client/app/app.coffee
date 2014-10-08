@@ -141,6 +141,7 @@ angular.module 'budweiserApp', [
             teacherId: -> data.teacherId
 
 .run (
+  Msg
   Auth
   $modal
   $state
@@ -167,4 +168,5 @@ angular.module 'budweiserApp', [
   Auth.getCurrentUser().$promise?.then (me) ->
     loginRedirector.apply()
     socketHandler.init(me)
+    Msg.init()
 

@@ -2,6 +2,7 @@
 
 angular.module('budweiserApp').controller 'MainCtrl',
 (
+  Msg
   $scope
   $http
   Auth
@@ -48,6 +49,8 @@ angular.module('budweiserApp').controller 'MainCtrl',
           password: $scope.user.password
         ).then ->
           Auth.getCurrentUser().$promise.then (me)->
+            Msg.init()
+
             socketHandler.init(me)
             if !loginRedirector.apply()
               if me.role is 'admin'

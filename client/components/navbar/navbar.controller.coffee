@@ -78,53 +78,26 @@ angular.module 'budweiserApp'
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu
 
-  genMessage = (raw)->
-    deferred = $q.defer()
-    switch raw.type
-      when Const.NoticeType.TopicVoteUp
-        deferred.resolve
-          title: '赞了你的帖子：' + raw.data.disTopic.title
-          raw: raw
-          link: "forum.topic({courseId:'#{raw.data.disTopic.courseId}',topicId:'#{raw.data.disTopic._id}'})"
-          type: 'message'
-      when Const.NoticeType.ReplyVoteUp
-        Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
-        .then (topic)->
-          raw.data.disTopic = topic
-          deferred.resolve
-            title: '赞了你的回复：' + raw.data.disReply.content
-            raw: raw
-            link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}'})"
-            type: 'message'
-      when Const.NoticeType.Comment
-        deferred.resolve
-          title: '回复了你的帖子：' + raw.data.disTopic.title
-          raw: raw
-          link: "forum.topic({courseId:'#{raw.data.disTopic.courseId}',topicId:'#{raw.data.disTopic._id}'})"
-          type: 'message'
-
-      else deferred.reject()
-    deferred.promise
-
-  $scope.$on '$stateChangeSuccess', (event, state, params)->
-    if params.hasOwnProperty 'topicId'
-      toRemove = $scope.messages.filter (x)-> x.raw.data.disTopic._id is params.topicId
-      if toRemove?.length
-        Restangular.all('notices/read').post
-          ids: _.map toRemove, (x)-> x.raw._id
-        .then ()->
-          console.log arguments
-        toRemove?.forEach (message)->
-          $scope.messages.splice $scope.messages.indexOf(message), 1
+#  $scope.$on '$stateChangeSuccess', (event, state, params)->
+#    console.log '$stateChangeSuccess'
+#    if params.hasOwnProperty 'topicId'
+#      toRemove = $scope.messages.filter (x)-> x.raw.data.disTopic._id is params.topicId
+#      if toRemove?.length
+#        Restangular.all('notices/read').post
+#          ids: _.map toRemove, (x)-> x.raw._id
+#        .then ()->
+#          console.log arguments
+#        toRemove?.forEach (message)->
+#          $scope.messages.splice $scope.messages.indexOf(message), 1
 
   $scope.$on 'message.notice', (event, data)->
-    genMessage(data).then (msg)->
+    Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
 
-  Restangular.all('notices').getList()
-  .then (notices)->
-    notices.forEach (notice)->
-      genMessage(notice).then (msg)->
-        $scope.messages.splice 0, 0, msg
-
+  $scope.removeMsg = (message)->
+    console.log message
+    noticeId = message.raw._id
+    Restangular.all('notices/read').post ids:[noticeId]
+    .then ()->
+      $scope.messages.splice $scope.messages.indexOf(message), 1
 

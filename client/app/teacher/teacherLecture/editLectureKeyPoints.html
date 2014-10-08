@@ -1,12 +1,37 @@
 <div>
   <div class="list-group-item keypoint-heading">
     知识点
-    <a class="btn btn-danger keypoint-add-btn pull-right"
+    <a class="btn btn-danger pull-right"
+       id="add-keypoint-btn"
        ng-click="addKeyPoint()">
-      <i class="glyphicon glyphicon-plus"></i>
+      <i class="fa fa-plus-circle"></i>
+      新知识点
     </a>
   </div>
+  <div ng-if="lecture.keyPoints.length==0"
+       class="keypoint-help-info">
+    <i class="fa fa-question"></i>
+    <div class="info">
+      <h4 class="title">如何给视频插入知识点？</h4>
+      <ol>
+        <li>请 “播放” <i class="fa fa-youtube-play"></i> 视频时间至想要的时间点。</li>
+        <li>点击
+          <a class="btn btn-danger"
+             ng-click="addKeyPoint()">
+            <i class="fa fa-plus-circle"></i>
+            新知识点
+          </a> 即可插入该时间点。</li>
+        <li>再输入添加知识点的内容，按回车确认。</li>
+      </ol>
+    </div>
+  </div>
+  <div class="list-group-item keypoint-desc"
+       ng-if="lecture.keyPoints.length>0">
+    <span>时间</span>
+    <span>知识点</span>
+  </div>
   <div class="list-group-item keypoint-item"
+       ng-if="lecture.keyPoints.length>0"
        ng-repeat="keyPoint in lecture.keyPoints">
     <input type="text"
            ng-model="timeInput"

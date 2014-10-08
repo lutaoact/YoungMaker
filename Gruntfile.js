@@ -587,7 +587,7 @@ options: {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-          '<%= yeoman.client %>/{app,components,assets}/**/*.css',
+          '<%= yeoman.client %>/{app,components}/**/*.css',
           ]
         }
       }
@@ -625,12 +625,14 @@ options: {
       icons: {
         src: '<%= yeoman.client %>/assets/images/vectors/**/*.svg',
         dest: '<%= yeoman.client %>/assets/fonts',
+        destCss: '<%= yeoman.client %>/app/theme',
         options: {
           font: 'bud-font',
           templateOptions:{
             classPrefix: 'budon-',
             baseClass: "budon"
           },
+          stylesheet: 'less'
         }
       }
     }

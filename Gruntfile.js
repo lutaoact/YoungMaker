@@ -661,7 +661,6 @@ options: {
 
     if (target === 'debug') {
       return grunt.task.run([
-        'webfont',
         'clean:server',
         'copy:index',
         'env:all',
@@ -676,7 +675,6 @@ options: {
 
     if (target === 'mock'){
       return grunt.task.run([
-        'webfont',
         'clean:server',
         'copy:index',
         'env:all',
@@ -692,7 +690,6 @@ options: {
         ]);
     }
     grunt.task.run([
-      'webfont',
       'clean:server',
       'copy:index',
       'env:all',
@@ -726,7 +723,6 @@ grunt.registerTask('test', function(target) {
 
   else if (target === 'client') {
     return grunt.task.run([
-      'webfont',
       'clean:server',
       'copy:index',
       'env:all',
@@ -740,9 +736,7 @@ grunt.registerTask('test', function(target) {
 
   else if (target === 'e2e') {
     return grunt.task.run([
-      'webfont',
       'clean:server',
-      'webfont',
       'copy:index',
       'env:all',
       'env:test',
@@ -764,7 +758,6 @@ grunt.registerTask('test', function(target) {
 
 grunt.registerTask('build', [
   'clean:dist',
-  'webfont',
   'copy:index',
   'injector:less',
   'concurrent:dist',

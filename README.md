@@ -11,8 +11,7 @@ cloud3edu cloud based education system
 `npm install bower grunt grunt-cli -g`
 + redis  
 `brew install redis`
-
-+ Font Custom
++ *Font Custom (if you want to build font)  
 `brew install fontforge ttfautohint`
 `gem install fontcustom`
 

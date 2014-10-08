@@ -60,6 +60,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         .then ->
           $scope.deleting = false
           $scope.editingInfo = null
+          $scope.lecture = null
           $state.go('teacher.course', courseId:$scope.course._id)
 
     saveLecture: (form) ->
@@ -176,25 +177,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
   $scope.$on 'ngrr-reordered', ->
     $scope.lecture.patch?(slides:$scope.lecture.slides)
-    .then (newLecture) ->
-      $scope.lecture.__v = newLecture.__v
+    .then $scope.updateEditingProgress
 
-  $scope.$on '$stateChangeStart', (event, toState, toParams) ->
-    isEditing = $scope.editingInfo? && $scope.lecture.__v == 0
-    isGoingOut = !$state.includes(toState, toParams) &&  toState.name != 'teacher.lecture.questionLibrary'
-    if isEditing && isGoingOut
-      event.preventDefault()
-      $modal.open
-        templateUrl: 'components/modal/messageModal.html'
-        controller: 'MessageModalCtrl'
-        resolve:
-          title: -> '舍弃新课时'
-          message: -> """课时"#{$scope.lecture.name}"还没有被保存过，舍弃并离开？"""
-      .result.then ->
-        $scope.deleting = true
-        $scope.lecture.remove(courseId:$scope.course._id)
-        .then ->
-          $scope.deleting = false
-          $scope.editingInfo = null
-          $state.go(toState, toParams)
-
+  # 删除未保存过的课时
+  $scope.$on '$destroy', ->
+    $scope.lecture.remove(courseId:$scope.course._id) if $scope.lecture?.__v == 0

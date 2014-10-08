@@ -21,6 +21,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   CurrentUser
   Restangular
   $localStorage
+  $sce
 ) ->
 
   course = _.find Courses, _id:$state.params.courseId
@@ -34,6 +35,12 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       .then (lecture)->
         $scope.lecture = lecture
         $scope.viewState.isVideo = lecture.media or !lecture.slides
+        if lecture.media
+          console.log lecture.media
+          $scope.viewState.videos = [
+            src: $sce.trustAsResourceUrl(lecture.media)
+            type: 'video/mp4'
+          ]
         # If student stay over 5 seconds. Send view lecture event.
         handleViewEvent = $timeout ->
           Restangular.all('activities').post
@@ -53,6 +60,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     viewState:
       isVideo: true
+      videos: null
       # Should not set to ```false```, once it is set to ```true```,
       # because ```ng-if="false"``` will destroy the controller and view
       discussPanelnitialized: false
@@ -126,6 +134,13 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     disableDownload: ()->
       console.log 'you are not allowed to download this resource'
+
+  $scope.$watch 'viewState', (value)->
+    if $scope.viewState.showDiscussion
+      angular.element('body').addClass 'sider-open'
+    else
+      angular.element('body').removeClass 'sider-open'
+  , true
 
   findNextStamp = (keypoint)->
     ($scope.lecture.keyPoints.filter (item)->

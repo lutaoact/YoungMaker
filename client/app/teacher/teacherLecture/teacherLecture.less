@@ -1,6 +1,23 @@
+.question-image {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 31%;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid @base-color;
+  position: relative;
+  img {
+    max-width: 100%;
+    max-height: 107px;
+  }
+}
+.image-uploader {
+  margin: 5px;
+}
+
 .modal-body .pagination {
   padding: 0;
-  margin: 0
+  margin: 0;
 }
 .new-question-form {
   padding: 30px 30px 10px 30px;
@@ -107,7 +124,7 @@
         right: 19%;
       }
       .link-item {
-        line-height: 60px;
+        line-height: 70px;
         padding: 0px;
         margin: 0px;
         display: inline-block;
@@ -146,7 +163,7 @@
       margin-bottom: 10px;
     }
     .link-item {
-      line-height: 60px;
+      line-height: 70px;
       padding: 0px;
       margin: 0px;
       display: inline-block;
@@ -159,9 +176,30 @@
       right: 10px;
     }
     #start-teaching-btn {
-      border-radius: 4px;
-      width: 200px;
-      height: 35px;
+      .btn {
+        font-size: 1.166em;
+        border-radius: 4px;
+        width: 200px;
+        height: 35px;
+        .pull-right {
+          padding-top: 4px;
+          font-size: .7em;
+          margin-left: -15px;
+        }
+      }
+      ul > li {
+        min-width: 200px;
+        padding: 0px 4px;
+        a {
+          font-size: 1.166em;
+          padding: 4px 8px;
+          border-radius: 3px;
+          &:hover {
+            color: #ffffff;
+            background-color: #E84D50;
+          }
+        }
+      }
     }
     #lecture-name {
       font-size: 1.75em;
@@ -417,17 +455,112 @@
       }
     }
   }
+  .keypoint-help-info {
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid #C3E5EA;
+    background-color: #E9F5F7;
+    .fa-question {
+      top: -60px;
+      position: relative;
+      color: @base-color;
+      display: inline-block;
+      font-size: 3em;
+    }
+    .fa-youtube-play {
+      font-size: 1.2em;
+    }
+    .btn {
+      font-size: .5em;
+      padding: 1px 5px 0px 5px;
+      border-radius: 3px;
+    }
+    .info {
+      display: inline-block;
+    }
+    ol {
+      list-style-type: decimal;
+      color: #808080;
+    }
+    .title {
+      padding-left: 20px;
+    }
+  }
   .keypoint-heading {
-    border-top-right-radius: 5px;
-    background: #000000;
-    color: #ffffff;
+    padding-left: 10px;
+    font-size: 1.3em;
+    color: #221814;
     border-left: none;
-    border-color: #000000;
-    padding: 3px 12px;
+    height: 40px;
+    line-height: 1em;
+    #add-keypoint-btn {
+      margin: -4px -8px;
+      font-size: 12px;
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+  }
+  .keypoint-desc {
+    padding-left: 10px;
+    font-size: .9em;
+    height: 24px;
+    padding-top: 2px;
+    color: #606060;
+    span {
+      display: inline-block;
+      width: 85px;
+    }
   }
   .keypoint-item {
     border-left: none;
-    padding: 1px 7px 1px 5px;
+    padding: 3px 7px 3px 10px;
+    &:hover{
+      .close {
+        display: block
+      }
+    }
+    .close {
+      display: none;
+    }
+    &:hover {
+      background-color: #ebebeb;
+      .form-control,
+      .btn,
+      .ui-select-match,
+      .ui-select-search {
+        background: #ebebeb;
+      }
+    }
+    .keypoint-select {
+      width: calc(~'100% - 105px');
+      display: inline-block;
+      .ui-select-match,
+      .ui-select-search {
+        transition: none;
+        padding: 0px 5px;
+        margin: 0px;
+        height: 24px;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        color: #777777;
+        font-size: .93em;
+        .caret {
+          display: none;
+        }
+        &.form-control {
+          box-shadow: none;
+        }
+      }
+      .ui-select-choices-row>a {
+        font-size: .91em;
+        color: #888888;
+      }
+      .ui-select-choices-row.active>a {
+        background-color: @base-color;
+        color: #ffffff;
+      }
+    }
   }
   .keypoint-label {
     color: #666666;
@@ -437,35 +570,8 @@
   .keypoint-input {
     border-radius: 4px;
     width: 80px;
-    padding: 0px 3px;
+    padding: 1px 3px;
     border: 1px solid #dddddd;
-  }
-  .keypoint-add-btn {
-    padding: 3px 6px;
-    margin: -4px -13px;
-    border-top-right-radius: 4px;
-  }
-  .keypoint-select {
-    width: calc(~'100% - 105px');
-    display: inline-block;
-    .ui-select-match,
-    .ui-select-search {
-      padding: 0px 5px;
-      margin: 0px;
-      height: 22px;
-      outline: 0;
-      border: none;
-      color: #777777;
-      font-size: .92em;
-    }
-    .ui-select-choices-row>a {
-      font-size: .9em;
-      color: #888888;
-    }
-    .ui-select-choices-row.active>a {
-      background-color: @base-color;
-      color: #ffffff;
-    }
   }
   .lecture-question-list {
     .list-group-item {

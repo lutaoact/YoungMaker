@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       solution: ''
       categoryId: categoryId
       content:
+        imageUrls : []
         title: ''
         body: [{}]
 
@@ -43,3 +44,8 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       unless form.$valid then return
       question.keyPoints = _.map($scope.selectedKeyPoints, (k) -> k._id)
       $modalInstance.close(question)
+      
+    onImageUploaded: (key) ->
+      console.log 'The key is ', key
+      key = '/api/assets/images/' + key
+      $scope.question.content.imageUrls.push key

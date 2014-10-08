@@ -7,6 +7,8 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   Navbar
   Courses
   Restangular
+  $timeout
+  $window
 ) ->
 
   course = _.find Courses, _id:$state.params.courseId
@@ -39,6 +41,11 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
           classe.$students = students
       ).then ->
         $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
+
+    triggerResize: ()->
+      # trigger to let the chart resize
+      $timeout ->
+        angular.element($window).resize()
 
   $scope.loadStudents()
 

@@ -35,16 +35,10 @@ angular.module 'budweiserApp'
     getTitle: Navbar.getTitle
 
     logout: ->
-      $state.go(if $state.current?.name == 'test' then 'test' else 'main')
-      .then ->
+      doLogout = ->
         Auth.logout()
         socket.close()
-
-    login: ->
-      if $state.current?.name == 'test'
-        loginRedirector.set($state.href($state.current, $state.params))
-      else
-        $state.go('login')
+      $state.go('main').then doLogout
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
@@ -77,22 +71,17 @@ angular.module 'budweiserApp'
 
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu
-
-#  $scope.$on '$stateChangeSuccess', (event, state, params)->
-#    console.log '$stateChangeSuccess'
-#    if params.hasOwnProperty 'topicId'
-#      toRemove = $scope.messages.filter (x)-> x.raw.data.disTopic._id is params.topicId
-#      if toRemove?.length
-#        Restangular.all('notices/read').post
-#          ids: _.map toRemove, (x)-> x.raw._id
-#        .then ()->
-#          console.log arguments
-#        toRemove?.forEach (message)->
-#          $scope.messages.splice $scope.messages.indexOf(message), 1
-
+  
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
+
+  Auth.getCurrentUser().$promise?.then ->
+    Restangular.all('notices').getList()
+    .then (notices)->
+      notices.forEach (notice)->
+        genMessage(notice).then (msg)->
+          $scope.messages.splice 0, 0, msg
 
   $scope.removeMsg = (message)->
     console.log message

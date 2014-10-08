@@ -23,7 +23,9 @@
       <ul class="bud nav navbar-nav nav-title"
           ng-if="getTitle()">
         <li ng-class="{active: isActive(getTitle().link)}">
-          <a ui-sref="{{getTitle().link}}" >{{getTitle().name}}</a>
+          <a ui-sref="{{getTitle().link}}"
+             tooltip-placement="bottom"
+             tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
       </ul>
       <ul class="bud nav navbar-nav navbar-right">

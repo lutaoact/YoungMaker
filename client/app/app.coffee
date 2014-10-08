@@ -158,15 +158,16 @@ angular.module 'budweiserApp', [
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn()
+    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !indexUser?
+    checkInitState?(toState)
 
   # fix bug, the view does not scroll to top when changing view.
-  $rootScope.$on '$stateChangeSuccess', ()->
+  $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->
-    loginRedirector.apply()
     socketHandler.init(me)
+    loginRedirector.apply()
     Msg.init()
 

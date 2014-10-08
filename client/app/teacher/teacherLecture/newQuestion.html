@@ -17,6 +17,19 @@
            ng-model="question.content.title"
            placeholder="习题标题"
            required>
+    <div class="question-image" ng-repeat="imageKey in question.content.imageUrls">
+      <img ng-src="{{imageKey}}" class="image-zoom" alt="">
+    </div>
+    <div class="image-uploader">
+      <uploader limit="2*1024*1024"
+                class="course-img btn-danger"
+                on-complete="onImageUploaded($data)"
+                accept-type="image">
+        <span class="glyphicon glyphicon-picture"></span>
+        上传图片
+      </uploader>
+    </div>
+    
   </div>
   <div class="form-group">
     <label class="control-label">选项</label>

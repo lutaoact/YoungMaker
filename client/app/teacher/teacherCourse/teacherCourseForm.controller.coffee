@@ -14,6 +14,7 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
   notify
+  Navbar
   $modal
 ) ->
 
@@ -57,6 +58,7 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         $scope.editingInfo = null
         $scope.saving = false
         angular.extend course, editingInfo
+        Navbar.setTitle course.name, "teacher.course({courseId:'#{course._id}'})"
         notify '课程信息已保存'
 
     onThumbUploaded: (key) ->

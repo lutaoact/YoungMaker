@@ -157,20 +157,27 @@ exports.StatsUtils = BaseUtils.subclass
     , []).toString()
 
 
-  getQuizStats: (lectureId, questionId, optionsNum) ->
+  getQuizStats: (lectureId, questionId, optionsNum, students) ->
     QuizAnswer.find
       lectureId: lectureId
       questionId: questionId
+      userId: {'$in': students}
     .populate('userId', '_id username name')
     .execQ()
     .then (quizAnswers) ->
       status = {}
+      status['unanswered'] = JSON.parse(JSON.stringify(students));
+      console.log status['unanswered']
       for idx in [0..optionsNum-1]
         status[idx.toString()] = []
 
       for quizAnswer in quizAnswers
         for result in quizAnswer.result
           status[result].push(quizAnswer.userId)
+          # TODO: index the array!
+          # TODO: status's structure need to be discussed
+          _.remove status['unanswered'], (user) ->
+            return user._id == quizAnswer.userId.id
 
       return status
 

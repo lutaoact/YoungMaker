@@ -15,33 +15,47 @@ angular.module('budweiserApp')
 
 .controller 'EditLectureKeyPointsCtrl', (
   $scope
+  $tools
 ) ->
 
+  saveKeyPoints = ->
+    newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
+      kp: keyPoint.kp?._id
+      timestamp: keyPoint.timestamp
+    $scope.lecture.patch?(keyPoints:newkeyPoints)
+    .then (newLecture) ->
+      $scope.lecture.__v = newLecture.__v
+
   angular.extend $scope,
+
+    seconds2TimeStrings: $tools.seconds2TimeStrings
+
+    seekPlayerTime: (time) ->
+      $scope.mediaApi.seekTime(time) if time >= 0
 
     addKeyPoint: ->
       currentTime = $scope.mediaApi.videoElement?[0]?.currentTime
       newKeyPoint =
         timestamp: Math.ceil(currentTime)
       $scope.lecture.keyPoints.push newKeyPoint
-      $scope.saveKeyPoints()
-      $scope.mediaApi.playPause()
+      saveKeyPoints()
+      $scope.mediaApi.pause()
 
     removeKeyPoint: (keyPoint) ->
       keyPoints = $scope.lecture.keyPoints
       index = keyPoints.indexOf(keyPoint)
       keyPoints.splice(index, 1)
-      $scope.saveKeyPoints()
+      saveKeyPoints()
 
-    setKeyPointTime: (keyPoint) ->
-      currentTime = $scope.mediaApi.videoElement?[0]?.currentTime
-      keyPoint.timestamp = Math.ceil(currentTime)
-      $scope.saveKeyPoints()
+    updateKeyPointTime: (keyPoint, timeStrings) ->
+      keyPoint.timestamp = $tools.timeStrings2Seconds(timeStrings)
+      saveKeyPoints()
+      $tools.seconds2TimeStrings(keyPoint.timestamp)
 
     setKeyPointKp: (keyPoint, kp, input) ->
       if kp?
         keyPoint.kp = kp
-        $scope.saveKeyPoints()
+        saveKeyPoints()
         return
       if input?
         $scope.keyPoints.post
@@ -50,14 +64,7 @@ angular.module('budweiserApp')
         .then (newKp) ->
           $scope.keyPoints.push newKp
           keyPoint.kp = newKp
-          $scope.saveKeyPoints()
+          saveKeyPoints()
 
-    saveKeyPoints: ->
-      newkeyPoints = _.map $scope.lecture.keyPoints, (keyPoint) ->
-        kp: keyPoint.kp?._id
-        timestamp: keyPoint.timestamp
-      $scope.lecture.patch?(keyPoints:newkeyPoints)
-      .then (newLecture) ->
-        $scope.lecture.__v = newLecture.__v
 
 

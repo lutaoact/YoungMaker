@@ -121,10 +121,3 @@ angular.module('budweiserApp')
           for option, index in quiz.content.body
             option.$selected = options?.indexOf(index) >= 0
             console.log option.$selected
-
-
-
-
-
-
-

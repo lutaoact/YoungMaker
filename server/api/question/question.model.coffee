@@ -20,7 +20,9 @@ exports.Question = BaseModel.subclass
         ref: "key_point"
       ]
       content: Schema.Types.Mixed
-#        imageUrl: String
+#        imageUrls: [
+#          String
+#        ]
 #        title: String
 #        body: [
 #          desc: String

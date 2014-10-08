@@ -76,15 +76,7 @@ angular.module 'budweiserApp'
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
 
-  Auth.getCurrentUser().$promise?.then ->
-    Restangular.all('notices').getList()
-    .then (notices)->
-      notices.forEach (notice)->
-        genMessage(notice).then (msg)->
-          $scope.messages.splice 0, 0, msg
-
   $scope.removeMsg = (message)->
-    console.log message
     noticeId = message.raw._id
     Restangular.all('notices/read').post ids:[noticeId]
     .then ()->

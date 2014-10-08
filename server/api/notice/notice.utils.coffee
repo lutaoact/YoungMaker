@@ -15,8 +15,7 @@ class NoticeUtils
     Notice.createQ data
     .then (notice) ->
       notice.populate "data.#{ref}"
-            .populate "fromWhom", "-hashedPassword -salt"
-            .execQ()
+            .populateQ "fromWhom", "-hashedPassword -salt"
 
   #fromWhom给userId的disTopicId评论了
   addTopicCommentNotice: (userId, fromWhom, disTopicId) ->

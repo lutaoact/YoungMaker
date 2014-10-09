@@ -122,7 +122,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     mediaPlayerAPI: undefined
 
     onPlayerReady: (playerAPI) ->
-      if playerAPI.videoElement[0].readyState
+      if playerAPI.isReady
         $scope.mediaPlayerAPI = playerAPI
         timestamp = $localStorage[$scope.me._id]?['lectures']?[$state.params.lectureId]?.videoPlayTime
         if timestamp

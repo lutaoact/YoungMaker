@@ -7,8 +7,12 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
   $location
   socketHandler
   loginRedirector
+  $state
+  $localStorage
 ) ->
-
+  $localStorage.global ?= {}
+  $localStorage.global.loginState = $state.current.name
+  $localStorage.global.loginPath = $state.current.url
   angular.extend $scope,
     user: {}
     errors: {}

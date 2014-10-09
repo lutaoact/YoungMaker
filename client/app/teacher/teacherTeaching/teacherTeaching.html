@@ -22,17 +22,18 @@
   </div>
   <div class="video-group" ng-if="showVideo">
     <videogular class="video-content">
-      <video class="video-content" src-key="lecture.media"></video>
+      <vg-video class="videoPlayer" vg-src="lecture.$mediaSource">
+      </vg-video>
       <vg-poster-image></vg-poster-image>
       <vg-buffering></vg-buffering>
       <vg-overlay-play></vg-overlay-play>
       <vg-controls class="video-ctrl">
         <vg-play-pause-button></vg-play-pause-button>
-        <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+        <vg-timeDisplay>{{ currentTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
         <vg-scrubBar>
           <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
         </vg-scrubBar>
-        <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+        <vg-timeDisplay>{{ totalTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
         <vg-volume>
           <vg-mutebutton></vg-mutebutton>
           <vg-volumebar></vg-volumebar>

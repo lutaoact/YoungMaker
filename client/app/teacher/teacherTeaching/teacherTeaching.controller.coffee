@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $modal
   Classes
   Restangular
+  $sce
 ) ->
 
   angular.extend $scope,
@@ -15,7 +16,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     currentNum: 1
     showAllPPT: false
     showVideo: false
-    lecture: Restangular.one('lectures', $state.params.lectureId).get().$object
+    lecture: undefined
     course: Restangular.one('courses', $state.params.courseId).get().$object
 
     changeCurrentIndex: (index) ->
@@ -49,4 +50,12 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       lectureId: $state.params.lectureId
       courseId: $state.params.courseId
       classeId: $state.params.classeId
+
+  Restangular.one('lectures', $state.params.lectureId).get()
+  .then (lecture)->
+    $scope.lecture = lecture
+    $scope.lecture.$mediaSource = [
+      src: $sce.trustAsResourceUrl(lecture.media)
+      type: 'video/mp4'
+    ]
 

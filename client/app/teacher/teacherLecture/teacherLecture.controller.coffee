@@ -12,6 +12,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Courses
   KeyPoints
   Restangular
+  $sce
 ) ->
 
   course =  _.find Courses, _id :$state.params.courseId
@@ -101,6 +102,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           message: -> """确认要删除"#{$scope.lecture.name}"的视频？"""
       .result.then ->
         $scope.lecture.media = null
+        $scope.lecture.$mediaSource = [
+        ]
         $scope.lecture.patch?(media: $scope.lecture.media)
         .then $scope.updateEditingProgress
 
@@ -145,6 +148,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       console.debug 'media converting'
     onMediaUploaded: (data) ->
       $scope.lecture.media = data
+      $scope.lecture.$mediaSource = [
+        src: $sce.trustAsResourceUrl(lecture.media)
+        type: 'video/mp4'
+      ]
       $scope.lecture.patch?(media: $scope.lecture.media)
       .then $scope.updateEditingProgress
 
@@ -174,6 +181,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
 
   Restangular.one('lectures', $state.params.lectureId).get()
   .then (lecture) ->
+    lecture.$mediaSource = [
+      src: $sce.trustAsResourceUrl(lecture.media)
+      type: 'video/mp4'
+    ]
     $scope.lecture = lecture
     $scope.videoActive = lecture.media? || lecture.slides.length == 0
     $scope.switchEdit() if lecture.__v == 0

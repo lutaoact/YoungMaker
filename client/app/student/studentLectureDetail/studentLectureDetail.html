@@ -12,18 +12,18 @@
                     vg-update-time="onUpdateTime"
                     class="bud"
                     ng-show="lecture.media">
-          <video class="videoPlayer" src-key="lecture.media" ng-right-click="disableDownload()" source-attr="video">
-          </video>
+          <vg-video vg-src="viewState.videos">
+          </vg-video>
           <vg-poster-image></vg-poster-image>
           <vg-buffering></vg-buffering>
           <vg-overlay-play></vg-overlay-play>
           <vg-controls style="height: 50px;">
             <vg-play-pause-button></vg-play-pause-button>
-            <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+            <vg-timeDisplay>{{ currentTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
             <vg-scrubBar>
               <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
             </vg-scrubBar>
-            <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+            <vg-timeDisplay>{{ totalTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
             <vg-volume>
               <vg-mutebutton></vg-mutebutton>
               <vg-volumebar></vg-volumebar>

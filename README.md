@@ -26,6 +26,11 @@ npm install
 bower install
 ```
 ###Test and build
+####build font (optionals)
+```
+grunt webfont
+```
+####build
 ```
 grunt build
 grunt test

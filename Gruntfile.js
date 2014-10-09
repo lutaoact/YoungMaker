@@ -628,6 +628,7 @@ options: {
         destCss: '<%= yeoman.client %>/app/theme',
         options: {
           font: 'bud-font',
+          hashes: false,
           templateOptions:{
             classPrefix: 'budon-',
             baseClass: "budon"

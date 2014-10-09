@@ -12,6 +12,7 @@ User.findQ username: /-/
 
   Q.all allPromises
 .then (result) ->
-  console.log result
+#  console.log result
+  console.log 'finished...success'
 , (err) ->
   console.log err

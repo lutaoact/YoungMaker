@@ -149,7 +149,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onMediaUploaded: (data) ->
       $scope.lecture.media = data
       $scope.lecture.$mediaSource = [
-        src: $sce.trustAsResourceUrl(lecture.media)
+        src: $sce.trustAsResourceUrl($scope.lecture.media)
         type: 'video/mp4'
       ]
       $scope.lecture.patch?(media: $scope.lecture.media)

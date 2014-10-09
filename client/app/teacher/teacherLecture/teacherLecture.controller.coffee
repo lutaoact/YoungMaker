@@ -30,10 +30,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     lecture: null
     editingInfo: null
     editingProgress: # 0=new, 1/2=half, 1=done
-      info: 0
-      media: 0
-      question: 0
-      done: 0
+      info: 1
+      media: 1
+      question: 1
+      done: 3 # 多少个已经完成的
 
     switchEdit: ->
       $scope.editingInfo =

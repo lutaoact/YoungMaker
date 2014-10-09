@@ -54,13 +54,13 @@ exports.create = (req, res, next) ->
     tmpResult.disReply.populateQ 'postBy', 'name avatar'
   .then (disReply) ->
     tmpResult.disReply = disReply
-    NoticeUtils.addTopicCommentNotice(
-      tmpResult.disTopic.postBy
-      user._id
-      tmpResult.disTopic._id
-    )
-  .then (notice) ->
-    SocketUtils.sendNotices notice
+    if tmpResult.disTopic.postBy.toString() isnt user._id.toString()
+      NoticeUtils.addTopicCommentNotice(
+        tmpResult.disTopic.postBy
+        user._id
+        tmpResult.disTopic._id
+      ).then (notice) ->
+        SocketUtils.sendNotices notice
   .then () ->
     res.send 201, tmpResult.disReply
   , (err) ->

@@ -33,13 +33,13 @@
             ng-class="{active: isActive(item.link)}">
           <a ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
         </li>
-        <li ng-show="isLoggedIn()" class="pull-right" ng-class="{active: isActive('/settings')}" dropdown is-open="dropDownOpen">
+        <li ng-show="isLoggedIn()" class="pull-right" ng-class="{active: isActive('/settings')}" dropdown is-open="dropDownOpen" ng-mouseenter="dropDownOpen=true" ng-mouseleave="dropDownOpen=false">
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
              src-key="getCurrentUser().avatar"
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image"
-             ng-mouseenter="dropDownOpen=true">
+             >
           </a>
           <ul class="dropdown-menu message-dropdown" role="menu">
             <div class="message-filters clearfix" ng-init="viewState.messageType = 'message'">

@@ -16,12 +16,13 @@ exports.DisUtils = BaseUtils.subclass
         dis.voteUpUsers.pull userId
       else
         dis.voteUpUsers.addToSet userId
-        NoticeUtils["add#{type}VoteUpNotice"](
-          dis.postBy
-          userId
-          dis._id
-        ).then (notice) ->
-          SocketUtils.sendNotices notice
+        if dis.postBy.toString() isnt userId.toString()
+          NoticeUtils["add#{type}VoteUpNotice"](
+            dis.postBy
+            userId
+            dis._id
+          ).then (notice) ->
+            SocketUtils.sendNotices notice
 
       do dis.saveQ
     .then (result) ->

@@ -36,14 +36,16 @@
 .teacher {
   .quick-link {
     .editing-progress {
+      text-align: center;
       .btn-link {
         text-align: center;
         text-decoration: none;
-        padding-top: 15px;
+        padding-top: 8px;
+        z-index: 11;
         span {
           display: inline-block;
           font-size: .9em;
-          padding-top: 6px;
+          padding-top: 4px;
           &:hover {
             border-bottom: 2px solid red;
             margin-bottom: -2px;
@@ -87,7 +89,7 @@
           position: relative;
           color: #ffffff;
           left: calc(~'50% - 3px');
-          top: -36px;
+          top: -34px;
         }
         &.half:before {
           content: '';
@@ -112,25 +114,19 @@
           position: relative;
           color: #ffffff;
           left: calc(~'50% - 3px');
-          top: -36px;
+          top: -34px;
         }
       }
-      &:before {
-        content:'';
+      .inner {
         border-bottom: 1px solid #9c9c98;
-        position: absolute;
-        width: 32%;
-        top: 88px;
-        right: 19%;
-      }
-      .link-item {
-        line-height: 70px;
-        padding: 0px;
-        margin: 0px;
-        display: inline-block;
-      }
-      .link-item+.link-item {
-        margin-left: 70px;
+        margin: 22px 0px -22px 0px;
+        position: relative;
+        z-index: 0;
+        right: calc(~'-50% + 10px');
+        width: 100%;
+        &.right {
+          width: 105%;
+        }
       }
     }
     display: block;
@@ -143,7 +139,7 @@
       margin: 0;
       padding-left: 0;
     }
-    height: 70px;
+    height: 60px;
     vertical-align: middle;
     .info {
       font-size: 1.3em;
@@ -163,7 +159,7 @@
       margin-bottom: 10px;
     }
     .link-item {
-      line-height: 70px;
+      line-height: 60px;
       padding: 0px;
       margin: 0px;
       display: inline-block;

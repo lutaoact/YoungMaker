@@ -42,7 +42,7 @@
     "sockjs": "~0.3",
     "angular-elastic": "~2.4.0",
     "holderjs": "~2.4.0",
-    "ngRepeatReorder": "~0.1.0",
+    "angular-sortable-view": "~0.0.10",
     "angular-i18n": "~1.2.26"
   },
   "devDependencies": {
@@ -50,6 +50,11 @@
     "angular-scenario": ">=1.2.*"
   },
   "overrides": {
+    "angular-sortable-view": {
+      "main": [
+        "src/angular-sortable-view.js"
+      ]
+    },
     "highcharts": {
       "main": [
         "highcharts.js",

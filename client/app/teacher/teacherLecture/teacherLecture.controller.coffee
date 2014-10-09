@@ -88,6 +88,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         $scope.lecture.patch?(slides: $scope.lecture.slides)
         .then $scope.updateEditingProgress
 
+    sortSlides: ->
+      $scope.lecture.patch?(slides:$scope.lecture.slides)
+      .then $scope.updateEditingProgress
+
     removeMedia: ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
@@ -174,10 +178,6 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     $scope.videoActive = lecture.media? || lecture.slides.length == 0
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
-
-  $scope.$on 'ngrr-reordered', ->
-    $scope.lecture.patch?(slides:$scope.lecture.slides)
-    .then $scope.updateEditingProgress
 
   # 删除未保存过的课时
   $scope.$on '$destroy', ->

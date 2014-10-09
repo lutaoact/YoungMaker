@@ -56,10 +56,10 @@ angular.module 'budweiserApp', [
       config.method = 'PUT'
     config
 
-.factory 'loginRedirector', ($location) ->
+.factory 'loginRedirector', ($location, $localStorage) ->
 
   redirectKey = 'r'
-  loginPath = '/' #/login?r=xxx
+  loginPath = $localStorage?.global?.loginPath or '/' #/login?r=xxx
 
   getRedirectUrl = ->
     redirect = $location.search()[redirectKey]

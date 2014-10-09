@@ -6,7 +6,10 @@ angular.module('budweiserApp').directive 'loginForm', ->
   replace: true
   link: (scope, element, attrs) ->
 
-  controller: ($scope, Auth, $state, $location, socketHandler, loginRedirector, notify, Msg)->
+  controller: ($scope, Auth, $state, $location, socketHandler, loginRedirector, notify, Msg, $localStorage)->
+    $localStorage.global ?= {}
+    $localStorage.global.loginState = $state.current.name
+    $localStorage.global.loginPath = $state.current.url
     angular.extend $scope,
       user: {}
 

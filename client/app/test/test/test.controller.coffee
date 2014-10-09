@@ -79,5 +79,4 @@ angular.module('budweiserApp').controller 'TestCtrl', (
     genColor: (str)->
       $scope.nameColor = $tools.genColor(str)
 
-
   $scope.setRequest('') if !$scope.$storage.request

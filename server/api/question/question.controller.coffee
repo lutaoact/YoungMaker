@@ -5,6 +5,13 @@ Classe = _u.getModel 'classe'
 QuizAnswer = _u.getModel 'quiz_answer'
 SocketUtils = _u.getUtils 'socket'
 
+################################################################
+## 题库检索条件：
+## 1. user.orgId && delete_flag非true
+## 2. 类别categoryId
+## 3. 知识点列表keyPointIds
+## 4. 关键字keyword，题目的标题和描述是否包含相应关键字
+################################################################
 exports.index = (req, res, next) ->
   user = req.user
 
@@ -16,6 +23,7 @@ exports.index = (req, res, next) ->
     conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
   if req.query.keyword?
     keyword = req.query.keyword
+    #对可能出现的正则元字符进行转义
     regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
     conditions.$or = [
       'content.title': regex

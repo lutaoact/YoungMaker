@@ -37,6 +37,9 @@ exports.create = (req, res, next) ->
   body = req.body
   body.provider = 'local'
 
+  delete body._id
+  body.orgId = req.user.orgId
+
   User.createQ body
   .then (user) ->
     token = jwt.sign

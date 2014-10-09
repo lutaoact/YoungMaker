@@ -6,4 +6,5 @@ angular.module('budweiserApp').directive 'featureList', ->
   replace: true
   scope:
     title: '@'
+    offset: '@distance'
   link: (scope, element, attrs) ->

@@ -5,10 +5,17 @@ Classe = _u.getModel 'classe'
 QuizAnswer = _u.getModel 'quiz_answer'
 SocketUtils = _u.getUtils 'socket'
 
+################################################################
+## 题库检索条件：
+## 1. user.orgId && deleteFlag非true
+## 2. 类别categoryId
+## 3. 知识点列表keyPointIds
+## 4. 关键字keyword，题目的标题和描述是否包含相应关键字
+################################################################
 exports.index = (req, res, next) ->
   user = req.user
 
-  conditions = orgId: user.orgId, delete_flag: $ne: true
+  conditions = orgId: user.orgId, deleteFlag: $ne: true
   conditions.categoryId = req.query.categoryId if req.query.categoryId?
 
   if req.query.keyPointIds?
@@ -16,6 +23,7 @@ exports.index = (req, res, next) ->
     conditions.keyPoints = {$in: keyPointIds} if keyPointIds.length > 0
   if req.query.keyword?
     keyword = req.query.keyword
+    #对可能出现的正则元字符进行转义
     regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
     conditions.$or = [
       'content.title': regex
@@ -25,8 +33,12 @@ exports.index = (req, res, next) ->
 
   logger.info conditions
 
+  from = ~~req.query.from #from参数转为整数
+
   Question.find conditions
-  .populate 'keyPoints', '_id name'
+  .populate 'keyPoints', 'name'
+  .limit Const.PageSize.Question
+  .skip from
   .execQ()
   .then (questions) ->
     res.send questions
@@ -127,7 +139,7 @@ exports.multiDelete = (req, res, next) ->
   Question.updateQ
     _id: $in: ids
   ,
-    delete_flag: true
+    deleteFlag: true
   ,
     multi: true
   .then () ->

@@ -220,6 +220,7 @@
         .lecture-item {
           padding: auto;
           margin: auto;
+          height: 65px;
         }
         .lecture-icon {
           padding-top: 22px;
@@ -228,6 +229,24 @@
           &:hover {
             .lecture-icon-tooltip {
               display: block;
+            }
+          }
+          .liner {
+            &:before {
+              content: ' ';
+              position: absolute;
+              border: 1px solid @base-color;
+              top: 0px;
+              height: 24px;
+              left: 8px;
+            }
+            &:after {
+              content: ' ';
+              position: absolute;
+              border: 1px solid @base-color;
+              top: 42px;
+              height: 24px;
+              left: 8px;
             }
           }
           .lecture-icon-tooltip {
@@ -249,19 +268,6 @@
             top: 22px;
             font-size: .9em;
             padding: 2px 5px;
-          }
-          &:before {
-            content: ' ';
-            position: absolute;
-            border: 1px solid #aaa;
-            top: 0px;
-            height: 155%;
-            left: 8px;
-            z-index: -1;
-          }
-          &.active:before {
-            border: 1px solid @base-color;
-            z-index: -2;
           }
           .done {
             padding: 1px 0px 0px 0px;
@@ -341,8 +347,14 @@
             margin: 0px;
             cursor: pointer;
           }
+          &:hover {
+            .pull-right {
+              display: block;
+            }
+          }
           .pull-right {
             padding-top: 20px;
+            display: none;
           }
         }
         .btn-link {

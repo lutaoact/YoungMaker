@@ -12,9 +12,7 @@
         <span class="icon-bar"></span>
       </button>
       <a ui-sref="{{getCurrentUser().role}}.home" class="navbar-brand">
-        <img style="width:36px;height:36px;"
-             ng-src="{{navInSub?'/assets/images/logo-sub.png':'/assets/images/logo.png'}}"
-             alt="logo">
+        <i class="budon budon-logo" style="font-size: 36px;"></i>
       </a>
     </div>
     <div collapse="isCollapsed"
@@ -33,13 +31,13 @@
             ng-class="{active: isActive(item.link)}">
           <a ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
         </li>
-        <li ng-show="isLoggedIn()" class="pull-right" ng-class="{active: isActive('/settings')}" dropdown is-open="dropDownOpen">
+        <li ng-show="isLoggedIn()" class="pull-right" ng-class="{active: isActive('/settings')}" dropdown is-open="dropDownOpen" ng-mouseenter="dropDownOpen=true" ng-mouseleave="dropDownOpen=false">
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
              src-key="getCurrentUser().avatar"
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image"
-             ng-mouseenter="dropDownOpen=true">
+             >
           </a>
           <ul class="dropdown-menu message-dropdown" role="menu">
             <div class="message-filters clearfix" ng-init="viewState.messageType = 'message'">
@@ -56,20 +54,20 @@
                 <div class="avatar-xs pull-left" src-key="message.raw.fromWhom.avatar" source-attr="background-image"></div>
                 <div class="media-body">
                   <h6 class="media-heading">{{message.raw.fromWhom.name}} <small>{{message.raw.created|timeToTimeAgo}}</small></h6>
-                  {{message.title}}
+                  <div class="text-muted">{{message.title}}</div>
                 </div>
               </li>
             </ul>
             <div class="bottom-btns clearfix">
               <a class="col-xs-6 text-center btn btn-setting" href="/settings">
-                <i class="glyphicon glyphicon-cog"></i>设置
+                <i class="glyphicon glyphicon-cog"></i>个人设置
               </a>
               <a class="col-xs-6 text-center btn btn-logout" href ng-click="logout()">
-                <i class="glyphicon glyphicon-off"></i>退出
+                <i class="glyphicon glyphicon-off"></i>退出登录
               </a>
             </div>
           </ul>
-          <span class="badge" style="position: absolute;top: 10px;left: 40px;" ng-show="messages.length">{{messages.length||'0'}}</span>
+          <span class="badge" style="position: absolute;top: 10px;left: 25px;" ng-show="messages.length">{{messages.length||'0'}}</span>
         </li>
       </ul>
     </div>

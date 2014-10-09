@@ -1,10 +1,12 @@
 <div class="teacher-lecture">
-  <div class="quick-link">
+  <div class="quick-link"
+       ng-if="$state.includes('teacher.lecture.questionLibrary') ||
+              editingProgress.done<3">
     <div class="container">
-      <div class="editing-progress pull-right"
-          ng-if="!$state.includes('teacher.lecture.questionLibrary') &&
-          editingProgress.done<3">
-        <span class="link-item">
+      <div class="editing-progress row"
+          ng-if="!$state.includes('teacher.lecture.questionLibrary')">
+        <span class="link-item col-md-4 col-sm-4 col-xs-4">
+          <div class="inner"></div>
           <a class="btn btn-link"
              ng-class="{done:editingProgress.info==1,new:editingProgress.info==0,half:editingProgress.info==.5}"
              du-smooth-scroll
@@ -14,7 +16,8 @@
             <span class="text-muted">1.基本信息</span>
           </a>
         </span>
-        <span class="link-item">
+        <span class="link-item col-md-4 col-sm-4 col-xs-4">
+          <div class="inner right"></div>
           <a class="btn btn-link"
              du-smooth-scroll
              tooltip="{{genTooltip(editingProgress.media, '课件制作与知识点')}}"
@@ -24,7 +27,7 @@
             <span class="text-muted">2.课件制作与知识点</span>
           </a>
         </span>
-        <span class="link-item">
+        <span class="link-item col-md-4 col-sm-4 col-xs-4">
           <a class="btn btn-link"
              du-smooth-scroll
              offset="60"
@@ -35,22 +38,6 @@
           </a>
         </span>
       </div>
-      <ul class="pull-right"
-          ng-if="!$state.includes('teacher.lecture.questionLibrary') &&
-          editingProgress.done==3">
-        <li class="link-item text-muted"><span class="info"><i class="glyphicon glyphicon-link text-danger"></i>课件制作与知识点</span>
-          <a class="btn btn-danger"
-             du-smooth-scroll
-             offset="60"
-             href="#lecture-media">快速进入</a>
-        </li>
-        <li class="link-item text-muted"><span class="info"><i class="glyphicon glyphicon-link text-danger"></i>随堂练习和课后作业</span>
-          <a class="btn btn-danger"
-             du-smooth-scroll
-             offset="60"
-             href="#lecture-question">快速进入</a>
-        </li>
-      </ul>
       <ul class="pull-left"
           ng-if="$state.includes('teacher.lecture.questionLibrary')">
         <li>
@@ -65,7 +52,7 @@
       </ul>
     </div>
   </div>
-  <div ui-view class="teacher"></div>
+  <div ui-view class="fadeIn teacher"></div>
   <section class="info-section"
            id="lecture-info"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
@@ -327,16 +314,19 @@
               </span>
             </div>
           </div>
-          <div class="list-group lecture-slides-list col-md-2 scroll-bar-visible">
+          <div class="list-group lecture-slides-list col-md-2 scroll-bar-visible"
+               sv-root
+               sv-on-sort="sortSlides()"
+               sv-part="lecture.slides">
             <a class="list-group-item stretch"
+               sv-element
                ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
                ng-click="lecture.slides.$activeIndex=$index"
-               ng-repeat-reorder="slide in lecture.slides "
-               ng-repeat-reorder-handle="div.drag-point">
+               ng-repeat="slide in lecture.slides ">
               <div class="slide-thumb"
                    src-key="slide.thumb"
                    source-attr="background-image"></div>
-              <div class="drag-point index" draggable="true">{{$index+1}}</div>
+              <div class="index">{{$index+1}}</div>
               <button ng-click="removeSlide($index)" class="close">&times;</button>
             </a>
           </div>

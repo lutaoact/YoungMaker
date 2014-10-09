@@ -33,8 +33,12 @@ exports.index = (req, res, next) ->
 
   logger.info conditions
 
+  from = ~~req.query.from #from参数转为整数
+
   Question.find conditions
-  .populate 'keyPoints', '_id name'
+  .populate 'keyPoints', 'name'
+  .limit Const.PageSize.Question
+  .skip from
   .execQ()
   .then (questions) ->
     res.send questions

@@ -16,14 +16,8 @@ client/index.html
 /server/routes.js
 /server/config/environment/production.js
 /server/config/environment/development.js
-/server/common/Const.js
-/server/common/mail/*.js
-/server/common/modelTest.js
-/server/common/initGlobal.js
-/server/common/logger.js
-/server/common/ErrCode.js
 /server/config/set_sockjs.js
-/server/common/mail/index.js
 /server/config/user_seed.js
+/server/common/**/*.js
 dump.rdb
 npm-debug.log

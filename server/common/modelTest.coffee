@@ -6,6 +6,7 @@ StatsUtils.buildQAMap ['aaaaaaaaaaaaaaaaaaaaaa00', 'aaaaaaaaaaaaaaaaaaaaaa01']
 , (err) ->
   console.log err
 
+Notice = _u.getModel 'notice'
 Notice.findOneQ _id: '54238bb07a8e230000585ca7'
 .then (notice) ->
   console.log notice

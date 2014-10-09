@@ -154,6 +154,7 @@
       margin-top: 70px;
       margin-bottom: 83px;
     }
+    .transition(all .2s ease-in-out);
     .feature-icon{
       width: 20%;
       height: 80px;
@@ -167,9 +168,30 @@
         color: #000000;
       }
     }
+    &.fixed{
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.8);
+      z-index: 1000;
+      .container{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        float: right;
+        width: 270px;
+      }
+      .feature-icon{
+        width: 45px;
+        height: 30px;
+        font-size: 30px;
+      }
+    }
   }
 
   .feature{
+    &.fixed{
+      margin-top: 120px;
+    }
     min-height: 425px;
     .container{
       padding-left: 0;

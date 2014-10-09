@@ -56,20 +56,20 @@
                 <div class="avatar-xs pull-left" src-key="message.raw.fromWhom.avatar" source-attr="background-image"></div>
                 <div class="media-body">
                   <h6 class="media-heading">{{message.raw.fromWhom.name}} <small>{{message.raw.created|timeToTimeAgo}}</small></h6>
-                  {{message.title}}
+                  <div class="text-muted">{{message.title}}</div>
                 </div>
               </li>
             </ul>
             <div class="bottom-btns clearfix">
               <a class="col-xs-6 text-center btn btn-setting" href="/settings">
-                <i class="glyphicon glyphicon-cog"></i>设置
+                <i class="glyphicon glyphicon-cog"></i>个人设置
               </a>
               <a class="col-xs-6 text-center btn btn-logout" href ng-click="logout()">
-                <i class="glyphicon glyphicon-off"></i>退出
+                <i class="glyphicon glyphicon-off"></i>退出登录
               </a>
             </div>
           </ul>
-          <span class="badge" style="position: absolute;top: 10px;left: 40px;" ng-show="messages.length">{{messages.length||'0'}}</span>
+          <span class="badge" style="position: absolute;top: 10px;left: 25px;" ng-show="messages.length">{{messages.length||'0'}}</span>
         </li>
       </ul>
     </div>

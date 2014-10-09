@@ -83,6 +83,10 @@ angular.module('budweiserApp')
       #       $scope.topic.$replies = replies
 
 
-
-
-
+  $scope.scrollToReply = (replyId)->
+    if replyId ==  $scope.topic.replyId
+      setTimeout ()->
+        targetElement = angular.element(document.getElementById replyId)
+        windowHeight = $(window).height();
+        $document.scrollToElement(targetElement, windowHeight/2, 500)
+      ,1000

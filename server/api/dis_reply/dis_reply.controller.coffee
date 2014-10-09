@@ -57,7 +57,7 @@ exports.create = (req, res, next) ->
     NoticeUtils.addTopicCommentNotice(
       tmpResult.disTopic.postBy
       user._id
-      tmpResult.disTopic._id
+      disReply._id
     )
   .then (notice) ->
     SocketUtils.sendNotices notice

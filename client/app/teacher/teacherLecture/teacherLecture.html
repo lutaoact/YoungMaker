@@ -201,18 +201,18 @@
              ng-if="lecture.media">
           <div class="col-md-6 video-body">
             <videogular vg-player-ready="onPlayerReady" class="bud">
-              <video class="videoPlayer" src-key="lecture.media" source-attr="video">
-              </video>
+              <vg-video class="videoPlayer" vg-src="lecture.$mediaSource">
+              </vg-video>
               <vg-poster-image></vg-poster-image>
               <vg-buffering></vg-buffering>
               <vg-overlay-play></vg-overlay-play>
               <vg-controls style="height: 50px;">
                 <vg-play-pause-button></vg-play-pause-button>
-                <vg-timeDisplay>{{ currentTime }}</vg-timeDisplay>
+                <vg-timeDisplay>{{ currentTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
                 <vg-scrubBar>
                   <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
                 </vg-scrubBar>
-                <vg-timeDisplay>{{ totalTime }}</vg-timeDisplay>
+                <vg-timeDisplay>{{ totalTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
                 <vg-volume>
                   <vg-mutebutton></vg-mutebutton>
                   <vg-volumebar></vg-volumebar>
@@ -314,16 +314,19 @@
               </span>
             </div>
           </div>
-          <div class="list-group lecture-slides-list col-md-2 scroll-bar-visible">
+          <div class="list-group lecture-slides-list col-md-2 scroll-bar-visible"
+               sv-root
+               sv-on-sort="sortSlides()"
+               sv-part="lecture.slides">
             <a class="list-group-item stretch"
+               sv-element
                ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
                ng-click="lecture.slides.$activeIndex=$index"
-               ng-repeat-reorder="slide in lecture.slides "
-               ng-repeat-reorder-handle="div.drag-point">
+               ng-repeat="slide in lecture.slides ">
               <div class="slide-thumb"
                    src-key="slide.thumb"
                    source-attr="background-image"></div>
-              <div class="drag-point index" draggable="true">{{$index+1}}</div>
+              <div class="index">{{$index+1}}</div>
               <button ng-click="removeSlide($index)" class="close">&times;</button>
             </a>
           </div>

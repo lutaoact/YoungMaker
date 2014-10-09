@@ -96,9 +96,9 @@
           </div>
         </div>
       </div>
-      <ul class="list-group ">
+      <ul class="list-group " ng-init="listinit()">
         <li class="bud thumbnail media col-md-12 reply"
-            ng-repeat="reply in topic.$replies|orderBy: viewState.orderBy|filter: repliesFilter">
+            ng-repeat="reply in topic.$replies|orderBy: viewState.orderBy|filter: repliesFilter" id="{{reply._id}}" ng-init="scrollToReply(reply._id)">
           <a class="pull-left" href>
             <div class="media-object avatar-sm"
                  source-attr="background-image"

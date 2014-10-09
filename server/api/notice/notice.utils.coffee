@@ -18,8 +18,8 @@ class NoticeUtils
             .populateQ "fromWhom", "-hashedPassword -salt"
 
   #fromWhom给userId的disTopicId评论了
-  addTopicCommentNotice: (userId, fromWhom, disTopicId) ->
-    return @addNotice userId, fromWhom, Const.NoticeType.Comment, disTopicId
+  addTopicCommentNotice: (userId, fromWhom, disReplyId) ->
+    return @addNotice userId, fromWhom, Const.NoticeType.Comment, disReplyId
 
   #fromWhom给userId的disTopicId点赞了
   addTopicVoteUpNotice: (userId, fromWhom, disTopicId) ->

@@ -66,14 +66,18 @@
         </div>
       </div>
       <hr class="hr-title"/>
-      <div class="list-group lecture-list">
+      <div class="list-group lecture-list"
+           sv-root
+           sv-on-sort="sortLecture()"
+           sv-part="course.$lectures">
         <div class="stretch lecture-item"
+             sv-element
              ng-show="filter(lecture, keyword)"
-             ng-repeat-reorder="lecture in course.$lectures"
-             ng-repeat-reorder-handle="button.drag-point">
+             ng-repeat="lecture in course.$lectures">
           <div class="lecture-icon col-md-1 col-sm-1"
                ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}">
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)>=0">
+              <div class="liner"></div>
               <a class="fa fa-check done btn"
                  ng-click="startTeaching(course, lecture)">
               </a>
@@ -86,17 +90,13 @@
             </span>
             <label class="label-danger lecture-icon-tooltip">开始上课</label>
           </div>
-          <a class="lecture-content list-group-item col-md-11 col-sm-11"
-             ng-mouseover="overLecture=lecture"
-             ng-mouseleave="overLecture=undefined">
+          <a class="lecture-content list-group-item col-md-11 col-sm-11" >
             <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
               {{lecture.name}}
             </label>
-            <div class="pull-right"
-                 ng-show="overLecture==lecture">
+            <div class="pull-right">
               <button type="button"
-                      class="btn btn-default drag-point glyphicon glyphicon-sort"
-                      draggable="true"></button>
+                      class="btn btn-default glyphicon glyphicon-sort"></button>
               <button type="button"
                       class="btn btn-default glyphicon glyphicon-remove"
                       ng-click="deleteLecture(lecture)">

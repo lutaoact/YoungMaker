@@ -27,7 +27,10 @@ exports.index = (req, res, next) ->
       CourseUtils.getTeacherCourses userId
     when 'student'
       logger.info 'student'
-      CourseUtils.getStudentCourses userId
+      if req.query.public?
+        Course.findQ public:true
+      else
+        CourseUtils.getStudentCourses userId
     when 'admin'
       logger.info 'admin'
       Course.findQ {}

@@ -22,12 +22,12 @@
     "restangular": "~1.4.0",
     "angular-notify": "~2.0.2",
     "moment": "~2.7.0",
-    "videogular": "~0.4.2",
-    "videogular-controls": "~0.4.1",
-    "videogular-buffering": "~0.4.1",
-    "videogular-overlay-play": "~0.4.1",
-    "videogular-poster": "~0.4.1",
-    "videogular-themes-default": "~0.4.1",
+    "videogular": "~0.6.0",
+    "videogular-controls": "~0.6.0",
+    "videogular-buffering": "~0.6.0",
+    "videogular-overlay-play": "~0.6.0",
+    "videogular-poster": "~0.6.0",
+    "videogular-themes-default": "~0.6.0",
     "angular-scroll": "~0.6.1",
     "highcharts-ng": "~0.0.6",
     "highcharts": "~4.0.3",
@@ -42,7 +42,7 @@
     "sockjs": "~0.3",
     "angular-elastic": "~2.4.0",
     "holderjs": "~2.4.0",
-    "ngRepeatReorder": "~0.1.0",
+    "angular-sortable-view": "~0.0.10",
     "angular-i18n": "~1.2.26"
   },
   "devDependencies": {
@@ -50,6 +50,11 @@
     "angular-scenario": ">=1.2.*"
   },
   "overrides": {
+    "angular-sortable-view": {
+      "main": [
+        "src/angular-sortable-view.js"
+      ]
+    },
     "highcharts": {
       "main": [
         "highcharts.js",

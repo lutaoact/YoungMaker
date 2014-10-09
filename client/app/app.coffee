@@ -12,7 +12,6 @@ angular.module 'budweiserApp', [
   'restangular'
   'cgNotify'
   'duScroll'
-  'ngRepeatReorder'
   'com.2fdevs.videogular'
   'com.2fdevs.videogular.plugins.controls'
   'com.2fdevs.videogular.plugins.overlayplay'
@@ -24,6 +23,7 @@ angular.module 'budweiserApp', [
   'jsonFormatter'
   'textAngular'
   'monospaced.elastic'
+  'angular-sortable-view'
 ]
 
 .constant 'configs',

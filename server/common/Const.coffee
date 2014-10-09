@@ -16,7 +16,7 @@ Const =
   NoticeRef:
     1: 'disTopic'
     2: 'disReply'
-    3: 'disTopic'
+    3: 'disReply'
     4: 'lecture'
 
   PageSize:

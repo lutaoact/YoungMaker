@@ -1,7 +1,8 @@
 "use strict"
 
-mongoose = require("mongoose")
+mongoose = require "mongoose"
 Schema = mongoose.Schema
+ObjectId = Schema.ObjectId
 
 BaseModel = (require '../../common/BaseModel').BaseModel
 
@@ -13,5 +14,8 @@ exports.Category = BaseModel.subclass
         type: String
         required: true
         unique: true
+      orgId:
+        type : ObjectId
+        ref : 'organization'
 
     $super()

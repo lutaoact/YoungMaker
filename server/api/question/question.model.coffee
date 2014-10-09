@@ -19,17 +19,16 @@ exports.Question = BaseModel.subclass
         type: Schema.Types.ObjectId
         ref: "key_point"
       ]
-      content: Schema.Types.Mixed
-#        imageUrls: [
-#          String
-#        ]
-#        title: String
-#        body: [
-#          desc: String
-#          correct: Bool
-#        ]
-      type: Number #1:choice
-      solution: String
+      body: String #题干
+      type: Number #1:choice 2:fill blank
+      options: [
+        choice: String
+        correct: Boolean
+      ]
+      solution: String #填空题的答案
+      detailSolution:
+        type: String #详解
+        required: true
       deleteFlag:
         type: Boolean
         default: false

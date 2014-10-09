@@ -5,6 +5,18 @@ StatsUtils.buildQAMap ['aaaaaaaaaaaaaaaaaaaaaa00', 'aaaaaaaaaaaaaaaaaaaaaa01']
   console.log map
 , (err) ->
   console.log err
+
+Notice.findOneQ _id: '54238bb07a8e230000585ca7'
+.then (notice) ->
+  console.log notice
+  Notice.populateQ notice, [{path: 'data.disReply'}, {path: 'userId', select: '-hashedPassword -salt'}]
+#  notice.populate 'data.disReply'
+#        .populateQ 'userId', '-hashedPassword -salt'
+.then (notice) ->
+  console.log notice
+, (err) ->
+  console.log err
+
 #course =
 #  name: 'xxxxx'
 #  categoryId: '111111111111111111111112'

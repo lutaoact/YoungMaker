@@ -1,13 +1,4 @@
 <div class="teacher-teaching">
-  <div class="sub-nav lecture-name">
-    <div class="container">
-      <ul class="pull-left">
-        <li>
-          <a ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">{{lecture.name}}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
   <div class="ppt-group"
        ng-show="!showVideo"
        ppt-viewer
@@ -21,12 +12,9 @@
                ng-click="changeCurrentIndex($index)"
                ng-repeat="slide in lecture.slides">
             <img src-key="slide.thumb"
-                 class="ppt-img"
                  ng-class="{'active':$index==currentIndex}"
-                 suffix="?imageView2/2/w/80/h/80"
-                 height="200"
-                 width="200">
-            <label class="ppt-index">{{$index+1}}</label>
+                 class="ppt-img">
+            <label class="ppt-index pull-left">{{$index+1}}</label>
           </div>
         </div>
       </div>
@@ -59,6 +47,12 @@
       </vg-controls>
     </videogular>
   </div>
+  <button class="exit-button btn btn-primary"
+     tooltip="退出"
+     tooltip-placement="right"
+     ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+    <i class="fa fa-arrow-left fa-2x"></i>
+  </button>
   <div class="pull-right questions-button">
     <button class="btn btn-primary question-btn"
             ng-click="showMenu=!showMenu">

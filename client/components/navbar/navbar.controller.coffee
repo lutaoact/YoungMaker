@@ -24,6 +24,7 @@ angular.module 'budweiserApp'
   loginRedirector
   $q
   Restangular
+  $localStorage
 ) ->
 
   angular.extend $scope,
@@ -35,10 +36,9 @@ angular.module 'budweiserApp'
     getTitle: Navbar.getTitle
 
     logout: ->
-      doLogout = ->
-        Auth.logout()
-        socket.close()
-      $state.go('main').then doLogout
+      Auth.logout()
+      socket.close()
+      $state.go($localStorage.global?.loginState or 'main')
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
@@ -71,7 +71,7 @@ angular.module 'budweiserApp'
 
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu
-  
+
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg

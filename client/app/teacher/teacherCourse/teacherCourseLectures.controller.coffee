@@ -75,6 +75,9 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
           lectures.splice(lectures.indexOf(lecture), 1)
           setFirstUndoLecture()
 
+    sortLecture: ->
+      $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')
+
     addClasse: (classe) ->
       classeIds = _.pluck($scope.course.classes, '_id')
       if !_.contains(classeIds, classe._id)
@@ -101,6 +104,3 @@ angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
     $scope.firstUndoLecture = _.find($scope.course.$lectures, (l) -> progress.indexOf(l._id) == -1)
 
   reloadLectures($scope.course)
-
-  $scope.$on 'ngrr-reordered', ->
-    $scope.course.patch lectureAssembly:_.pluck($scope.course.$lectures, '_id')

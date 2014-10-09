@@ -96,33 +96,8 @@
     position: absolute;
     right: -65px;
     top: 172px;
-    width: 342px;
-    height: 300px;
-    background-color: rgba(255,255,255,0.7);
-    border-radius: 3px;
-    padding: 58px 20px 58px 22px;
-    .form-group{
-      margin-bottom: 24px;
-    }
-    .input-group{
-      border-radius: 3px;
-      font-size: 16px;
-      .form-control:first-child{
-        border-bottom-left-radius: 3px;
-        border-top-left-radius: 3px;
-      }
-      .input-group-addon{
-        .fa{
-          width: 20px;
-        }
-        border-bottom-right-radius: 3px;
-        border-top-right-radius: 3px;
-      }
-    }
-    .btn-danger{
-      width: 100%;
-    }
   }
+
   @media screen and (max-width: @screen-xs-max) {
     height: 570px;
     margin-bottom: 0;
@@ -140,91 +115,7 @@
   }
 }
 
-#features{
-  .section_header{
-    p{
-      margin-top: 20px;
-    }
-  }
-  padding-bottom: 0;
-  .feature-nav{
-    .container{
-      padding-left: 0;
-      padding-right: 0;
-      margin-top: 70px;
-      margin-bottom: 83px;
-    }
-    .feature-icon{
-      width: 20%;
-      height: 80px;
-      font-size: 80px;
-      color: @base-color;
-      display: block;
-      float: left;
-      background-repeat: no-repeat;
-      background-position: center;
-      &:hover{
-        color: #000000;
-      }
-    }
-  }
 
-  .feature{
-    min-height: 425px;
-    .container{
-      padding-left: 0;
-      padding-right: 0;
-    }
-    &:nth-child(odd){
-      background-color: @gray-lighter;
-    }
-    padding: 40px 0;
-    .col-sm-5{
-      .feat-img{
-        height: 300px;
-        margin-top: 20px;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-      }
-    }
-    .col-sm-7{
-      text-align: left;
-      padding: 80px 0 0 0px;
-      p{
-        margin-top:40px;
-        font-size: 18px;
-      }
-    }
-    border-top: 1px solid @gray-light;
-
-    @media screen and (max-width: @screen-xs-max) {
-      padding: 30px 0;
-      min-height: 400px;
-      .container{
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-      h1{
-        font-size: 20px;
-      }
-      .col-sm-5{
-        .feat-img{
-          margin-top: 0;
-          height: 150px;
-        }
-      }
-      .col-sm-7{
-        text-align: left;
-        padding: 10px 0 0 0px;
-        p{
-          margin-top:20px;
-          font-size: 16px;
-        }
-      }
-    }
-  }
-}
 
 #contacts{
   background:@gray;

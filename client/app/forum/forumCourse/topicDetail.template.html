@@ -1,7 +1,10 @@
 <div class="bud topic-detail">
   <div ng-show="topic">
+    <a class="btn btn-md btn-back"
+      ui-sref="forum.course({courseId: topic.courseId})">
+      <i class="fa fa-chevon-left"></i>返回列表
+    </a>
     <div class="bud article">
-
       <div class="article-header media">
 
         <div class="avatar-lg pull-left"
@@ -11,10 +14,6 @@
         </div>
         <div class="media-body">
           <h4 class="media-heading">
-            <a class="btn btn-primary btn-md rounded"
-              ui-sref="forum.course({courseId: topic.courseId})">
-             <i class="fa fa-arrow-left"></i>
-           </a>
             {{topic.title}}
           </h4>
           <div class="spans">

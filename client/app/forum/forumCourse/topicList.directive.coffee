@@ -61,11 +61,9 @@ angular.module('budweiserApp')
 
     searchByTag: (tag)->
       if $scope.filterTags.indexOf(tag) > -1
-        console.log 'remove tag'
         $scope.filterTags.splice $scope.filterTags.indexOf(tag), 1
         tag.$active = false
       else
-        console.log 'add tag'
         $scope.filterTags.push tag
         tag.$active = true
 

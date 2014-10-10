@@ -12,7 +12,8 @@
         <span class="icon-bar"></span>
       </button>
       <a ui-sref="{{getCurrentUser().role}}.home" class="navbar-brand">
-        <i class="budon budon-logo" style="font-size: 36px;"></i>
+        <i ng-hide="getCurrentUser().orgId" class="budon budon-logo" style="font-size: 36px;"></i>
+        <span ng-if="getCurrentUser().orgId">{{getCurrentUser().orgId.name}}</span>
       </a>
     </div>
     <div collapse="isCollapsed"
@@ -27,6 +28,7 @@
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
       </ul>
+
       <ul class="bud nav navbar-nav navbar-right">
         <li ng-repeat="item in additionalMenu"
             ng-class="{active: isActive(item.link)}">
@@ -58,7 +60,7 @@
                  ng-click="viewState.messageType = 'notification'">
                 <i class="fa fa-bell"></i>
               </a>
-              <a class="btn btn-xs btn-clearall pull-right text-muted" ng-click="clearAll()">
+              <a class="btn btn-xs btn-clearall pull-right text-muted" ng-click="clearAll()" ng-disabled="!messages.length">
                 清空消息
               </a>
             </div>

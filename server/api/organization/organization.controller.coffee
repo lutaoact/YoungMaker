@@ -49,9 +49,10 @@ exports.create = (req, res, next) ->
 exports.update = (req, res, next) ->
   orgId = req.params.id
   body = req.body
-  delete body._id if body._id
+  delete body._id
+  delete body.uniqueName
 
-  (if orgId.toString() isnt req.user._id.toString()
+  (if orgId.toString() isnt req.user.orgId.toString()
     Q.reject
       status : 403
       errCode : ErrCode.NotAdminForOrg

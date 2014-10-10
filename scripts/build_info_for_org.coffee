@@ -25,17 +25,25 @@ Organization.findOneQ uniqueName: uniqueName
 .then (org) ->
   tmpResult.org = org
 
-  admin =
+  adminAndTeacher = [
     username: "admin_#{uniqueName}"
     password: "admin_#{uniqueName}"
     email: "admin@#{uniqueName}.sh.cn"
     name: "#{name}管理员"
     role: 'admin'
     orgId: tmpResult.org._id
+  ,
+    username: "teacher1_#{uniqueName}"
+    password: "teacher1_#{uniqueName}"
+    email: "teacher1@#{uniqueName}.sh.cn"
+    name: "#{name}老师1"
+    role: 'teacher'
+    orgId: tmpResult.org._id
+  ]
 
-  User.createQ admin
-.then (admin) ->
-  tmpResult.admin = admin
+  User.createQ adminAndTeacher
+.then (adminAndTeacher) ->
+  tmpResult.adminAndTeacher = adminAndTeacher
 
   students = for id in [1..10]
     username: "#{id}_#{uniqueName}"
@@ -47,6 +55,16 @@ Organization.findOneQ uniqueName: uniqueName
   User.createQ students
 .then (students) ->
   tmpResult.students = students
+  studentIds = _.pluck students, '_id'
+  classe =
+    name: "#{name}班级1",
+    orgId: tmpResult.org._id,
+    students: studentIds
+
+  Classe.createQ classe
+.then (classe) ->
+  tmpResult.classe = classe
+
   console.log tmpResult
 , (err) ->
   console.log err

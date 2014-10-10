@@ -24,7 +24,7 @@ Const =
     DisReply: 36
     Lecture: 10
     Course: 10
-    Question: 3
+    Question: 300
 
   QuestionType:
     Choice: 1

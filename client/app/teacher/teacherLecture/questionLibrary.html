@@ -54,7 +54,7 @@
                      class="bud checkbox-default pull-left">
               <span>编号</span><span>标题</span>
             </div>
-            <div ng-repeat="question in questions">
+            <div ng-repeat="question in questions | paging:pageSize:currentPage">
               <div class="question-title list-group-item"
                    ng-class="{'expended':question.$expended==true}">
                 <input type="checkbox"
@@ -64,7 +64,7 @@
                 <label class="title-info"
                        ng-class="{'text-muted':question.$exists}"
                        ng-click="question.$expended=!question.$expended">
-                  <span class="index">{{$index+1}}</span>{{question.body | questionTitle}}
+                  <span class="index">{{(currentPage-1) * pageSize + $index+1}}</span>{{question.body | questionTitle}}
                 </label>
                 <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
               </div>
@@ -103,6 +103,12 @@
                 </li>
               </ul>
             </div>
+            <pager total-items="totalItems"
+                   previous-text="上一页"
+                   next-text="下一页"
+                   ng-change="pageChange()"
+                   ng-model="currentPage">
+            </pager>
           </div>
           <div class="text-center" ng-if="lecture">
             <button type="button"

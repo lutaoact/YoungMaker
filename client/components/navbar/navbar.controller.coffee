@@ -39,7 +39,6 @@ angular.module 'budweiserApp'
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
 
-
   generateAdditionalMenu = ->
     mkMenu = (title, link) ->
       title: title

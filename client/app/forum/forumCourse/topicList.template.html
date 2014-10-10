@@ -52,8 +52,8 @@
       </div>
       <div class="media-body">
         <div class="topic-left" ng-click="selectTopic(topic)">
-          <h4>{{topic.title}}</h4>
-          <h4 class="topic-summary">{{topic.metadata.raw}}<br/></h4>
+          <h4 class="media-heading">{{topic.title}}</h4>
+          <h4><small>{{topic.metadata.raw}}</small></h4>
           <div class="spans">
             <span class="topic-type base-color">
               {{topic.metadata.postType||'提问'}}

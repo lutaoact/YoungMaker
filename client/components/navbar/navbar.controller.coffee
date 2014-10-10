@@ -76,7 +76,8 @@ angular.module 'budweiserApp'
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
 
-  $scope.removeMsg = (message)->
+  $scope.removeMsg = (message, $event)->
+    $event?.stopPropagation()
     noticeId = message.raw._id
     Restangular.all('notices/read').post ids:[noticeId]
     .then ()->

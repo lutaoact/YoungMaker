@@ -11,7 +11,6 @@ name       = process.argv[3]
 
 Organization = _u.getModel 'organization'
 User = _u.getModel 'user'
-Classe = _u.getModel 'classe'
 
 tmpResult = {}
 organization = uniqueName: uniqueName, name: name, type: 'colledge'
@@ -25,43 +24,15 @@ Organization.findOneQ uniqueName: uniqueName
 .then (org) ->
   tmpResult.org = org
 
-  adminAndTeacher = [
+  admin =
     username: "admin_#{uniqueName}"
     password: "admin_#{uniqueName}"
     name: "#{name}管理员"
     role: 'admin'
     orgId: tmpResult.org._id
-  ,
-    username: "teacher1_#{uniqueName}"
-    password: "teacher1_#{uniqueName}"
-    name: "#{name}老师1"
-    role: 'teacher'
-    orgId: tmpResult.org._id
-  ]
 
-  User.createQ adminAndTeacher
-.then (adminAndTeacher) ->
-  tmpResult.adminAndTeacher = adminAndTeacher
-
-  students = for id in [1..10]
-    username: "#{id}_#{uniqueName}"
-    password: "#{id}_#{uniqueName}"
-    name: "#{name}学生#{id}"
-    orgId: tmpResult.org._id
-
-  User.createQ students
-.then (students) ->
-  tmpResult.students = students
-  studentIds = _.pluck students, '_id'
-  classe =
-    name: "#{name}班级1",
-    orgId: tmpResult.org._id,
-    students: studentIds
-
-  Classe.createQ classe
-.then (classe) ->
-  tmpResult.classe = classe
-
+  User.updateQ {username: "admin_#{uniqueName}"}, admin, {upsert: true}
+.then (admin) ->
   console.log tmpResult
 , (err) ->
   console.log err

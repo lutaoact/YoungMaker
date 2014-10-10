@@ -19,10 +19,8 @@ angular.module 'budweiserApp'
             link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
             type: 'message'
       when Const.NoticeType.Comment
-        console.log raw
         Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
         .then (topic)->
-          console.log raw
           raw.data.disTopic = topic
           deferred.resolve
             title: '回复了你的帖子：' + raw.data.disTopic.title

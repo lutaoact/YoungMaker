@@ -7,7 +7,6 @@ User = _u.getModel 'user'
 teacher =
   username: "teacher1_xqsh"
   password: "teacher1_xqsh"
-  email: "teacher1@xq.sh.cn"
   name: '上海新侨学院老师'
   role: 'teacher'
 

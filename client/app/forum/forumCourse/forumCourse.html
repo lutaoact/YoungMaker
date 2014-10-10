@@ -1,16 +1,9 @@
 <section class="topic-list-view body">
   <div class="container">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <topic-list topics="topics" on-topic-click="viewTopic">
         </topic-list>
-      </div>
-      <div class="col-md-4">
-        <div class="view-section all-tags">
-          标签
-          <hr>
-          <a href class="tag pull-left" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)">{{tag.name}}</a>
-        </div>
       </div>
     </div>
 

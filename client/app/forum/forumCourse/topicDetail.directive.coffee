@@ -9,6 +9,7 @@ angular.module('budweiserApp')
   templateUrl: 'app/forum/forumCourse/topicDetail.template.html'
   scope:
     topic: '='
+    activeReply: '@'
 
 .controller 'TopicDetailCtrl', ($scope, Auth, Restangular, $timeout, $document, $state, $modal)->
   angular.extend $scope,
@@ -26,6 +27,7 @@ angular.module('budweiserApp')
         topic.$replies.splice 0, 0, dis_reply
         $scope.initMyReply()
         $scope.replying = false
+        $scope.activeReply = dis_reply._id
 
     initMyReply: ()->
       @newReply = {} if !@newReply
@@ -83,10 +85,25 @@ angular.module('budweiserApp')
       #       $scope.topic.$replies = replies
 
 
-  $scope.scrollToReply = (replyId)->
-    if replyId ==  $scope.topic.replyId
+  $scope.scrollToReply = ($event, replyId)->
+    if replyId ==  $scope.topic.$currentReplyId
       setTimeout ()->
         targetElement = angular.element(document.getElementById replyId)
         windowHeight = $(window).height();
         $document.scrollToElement(targetElement, windowHeight/2, 500)
       ,1000
+
+  $scope.$watch 'activeReply', (value)->
+    if value
+      console.log value
+      $timeout ->
+        targetElement = angular.element(document.getElementById value)
+        targetElement.addClass('active')
+        windowHeight = $(window).height();
+        $document.scrollToElement(targetElement, windowHeight/2, 500)
+        $timeout ->
+          targetElement.removeClass('active')
+        , 1000
+      , 500
+
+

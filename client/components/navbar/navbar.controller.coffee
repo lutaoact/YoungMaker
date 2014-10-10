@@ -39,6 +39,11 @@ angular.module 'budweiserApp'
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
 
+    clearAll: ()->
+      Restangular.all('notices/read').post ids: _.map $scope.messages, (x)-> x.raw._id
+      .then ()->
+        $scope.messages.length = 0
+
   generateAdditionalMenu = ->
     mkMenu = (title, link) ->
       title: title

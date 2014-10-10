@@ -22,6 +22,8 @@ S3BucketName          = config.aws.slideBucket
 S3UploadBucketName    = config.aws.slideUploadBucket
 AWSAlgorithm         = config.aws.algorithm
 
+Lecture = _u.getModel 'lecture'
+
 exports.AssetUtils = BaseUtils.subclass
   classname: 'AssetUtils'
 
@@ -60,6 +62,7 @@ exports.AssetUtils = BaseUtils.subclass
       res.redirect url
 
 
+  # TODO: need to add lock. Try Distributed locks with Redis?
   getAssetFromAzure : (key, res) ->
     tk_fn = key.split '/'
     assetId = tk_fn[0]
@@ -67,23 +70,47 @@ exports.AssetUtils = BaseUtils.subclass
 
     access_token = null
     policyId = null
-    postQ = Q.nfbind request.post
+    locatorId = null
+    lecture = null
+    downloadUrl = null
+    requestPostQ = Q.nfbind request.post
+    requestDeleteQ = Q.nfbind request.del
 
+    Lecture.findOneQ "media": '/api/assets/videos/'+key
+    .then (data) ->
+      lecture = data
+      throw "no lecture found" if not lecture
     # 1. get token
-    postQ {
-      uri: config.azure.acsBaseAddress
-      form:
-        grant_type: 'client_credentials'
-        client_id: config.azure.accountName
-        client_secret: config.azure.accountKey
-        scope: 'urn:WindowsAzureMediaServices'
-      strictSSL: true
-    }
+      requestPostQ {
+        uri: config.azure.acsBaseAddress
+        form:
+          grant_type: 'client_credentials'
+          client_id: config.azure.accountName
+          client_secret: config.azure.accountKey
+          scope: 'urn:WindowsAzureMediaServices'
+        strictSSL: true
+      }
     .then (response) ->
       access_token = JSON.parse(response[0].body).access_token
       logger.info  "access_token:", access_token
-      # 2. get read policy
-      postQ {
+    # 2.1 delete previous Locator
+      if lecture.locatorId
+        requestDeleteQ {
+          uri: config.azure.shaAPIServerAddress+"Locators('#{lecture.locatorId}')"
+          headers: config.azure.defaultHeaders(access_token)
+          strictSSL: true
+        }
+    .then (response) ->
+    # 2.2 delete previous read access policy
+      if lecture.accessPolicyId
+        requestDeleteQ {
+          uri: config.azure.shaAPIServerAddress+"AccessPolicies('#{lecture.accessPolicyId}')"
+          headers: config.azure.defaultHeaders(access_token)
+          strictSSL: true
+        }
+    .then (response) ->
+    # 3. get read access policy
+      requestPostQ {
         uri: config.azure.shaAPIServerAddress+'AccessPolicies'
         headers: config.azure.defaultHeaders(access_token)
         body:  JSON.stringify
@@ -93,10 +120,10 @@ exports.AssetUtils = BaseUtils.subclass
         strictSSL: true
       }
     .then (response) ->
-      console.log response[0].body
+    # 4. get download url
       policyId = JSON.parse(response[0].body).d.Id
-      # 3. get download url
-      postQ {
+      lecture.accessPolicyId = policyId
+      requestPostQ {
         uri: config.azure.shaAPIServerAddress+'Locators'
         headers: config.azure.defaultHeaders(access_token)
         body:  JSON.stringify {
@@ -108,15 +135,18 @@ exports.AssetUtils = BaseUtils.subclass
         strictSSL: true
       }
     .then (response) ->
-      console.log response[0].body
-      url = JSON.parse(response[0].body).d.Path.replace('?','/'+fileName+'?')
-      redisClient.q.set key, url, 'EX', (config.azure.signed_url_expires*60-60*60)
-      .then (result) ->
-        logger.info "Set #{key}:#{url} to redis"
-      return url
-    .done (url) ->
-      console.log url
-      res.redirect url
+      locatorId = JSON.parse(response[0].body).d.Id
+      lecture.locatorId = locatorId
+      downloadUrl = JSON.parse(response[0].body).d.Path.replace('?','/'+fileName+'?')
+    # 5 save locatorId &  AccessPolicyId to DB
+      lecture.saveQ()
+    .then ()->
+      redisClient.q.set key, downloadUrl, 'EX', (config.azure.signed_url_expires*60-60*60)
+      .then () ->
+        logger.info "Set #{key}:#{downloadUrl} to redis"
+    .done () ->
+      logger.info downloadUrl
+      res.redirect downloadUrl
     , (err) ->
       logger.error err
       res.send 404, err

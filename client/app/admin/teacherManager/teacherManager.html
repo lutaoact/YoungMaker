@@ -1,6 +1,7 @@
 <div class="container">
   <div class="form-group clearfix">
     <div class="btn-group btn-group-sm pull-right">
+      <a class="btn btn-default" ng-click="addNewTeacher()">添加</a>
       <label class="btn btn-default" ng-show="!isExcelProcessing">
         <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
         导入
@@ -12,6 +13,53 @@
         邀请
       </a>
     </div>
+  </div>
+
+  <div class="row" ng-show="newTeacher">
+    <form class="form-horizontal col-sm-8 col-sm-offset-2" role="form" ng-submit="saveNewTeacher(newTeacher)">
+      <div class="form-group">
+        <label for="inputUserName" class="col-xs-4 control-label">用户名</label>
+        <div class="col-xs-8">
+          <input type="text" class="form-control" id="inputUserName" placeholder="请输入教师用户名" required
+                 focus-me="userNameInputFocus"
+                 ng-init="userNameInputFocus=true"
+                 ng-model="newTeacher.username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputName" class="col-xs-4 control-label">姓名</label>
+        <div class="col-xs-8">
+          <input type="text" class="form-control" id="inputName" placeholder="请输入姓名" required
+                 ng-model="newTeacher.name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputEmail" class="col-xs-4 control-label">邮箱</label>
+        <div class="col-xs-8">
+          <input type="email" class="form-control" id="inputEmail" placeholder="请输入邮箱" required ng-model="newTeacher.email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputInfo" class="col-xs-4 control-label">信息</label>
+        <div class="col-xs-8">
+          <input type="text" class="form-control" id="inputInfo" placeholder="请输入信息" required
+                 ng-model="newTeacher.info">
+        </div>
+      </div>
+      <div class="form-group pull-right">
+        <button type="submit" class="btn btn-danger btn-sm rounded" >创建</button>
+        <a class="btn btn-link" ng-click="cancelNewTeacher()">取消</a>
+      </div>
+    </form>
+  </div>
+  
+  <div class="form-group" ng-show="editingTeacher">
+    <input class="form-control"
+           id="teacher-name"
+           name="name"
+           ng-model="editingTeacher.name"
+           placeholder="教师姓名"
+           required>
   </div>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="user in users|filter:{role:'teacher'}">

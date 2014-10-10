@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, Auth, User,$filter, $timeout,$upload) ->
+angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, Auth, User,$filter, $timeout,$upload, Restangular) ->
   $scope.reloadUsers = ()->
     $http.get('/api/users').success (users) ->
       ###$scope.users = $filter('filter')(users, (user)->
@@ -64,6 +64,19 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
       $scope.users.splice i, 1  if u is user
 
   $scope.reloadUsers()
+  
+  $scope.addNewTeacher = () ->
+    $scope.newTeacher = {}
 
+  $scope.cancelNewTeacher = () ->
+    $scope.newTeacher = undefined
 
-
+  $scope.saveNewTeacher = (teacher) ->
+    # initial password is the same as username
+    teacher.password = teacher.username
+    teacher.role ='teacher'
+    Restangular.all('users').post(teacher)
+    .then (data)-> 
+      console.log data
+      $scope.reloadUsers()
+    

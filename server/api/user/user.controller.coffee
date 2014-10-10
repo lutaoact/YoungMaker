@@ -24,7 +24,9 @@ qiniuDomain           = config.qiniu.domain
   restriction: 'admin'
 ###
 exports.index = (req, res, next) ->
-  User.findQ {}, '-salt -hashedPassword'
+  User.findQ 
+    orgId : req.user.orgId
+  , '-salt -hashedPassword'
   .then (users) ->
     res.send users
   , (err) ->

@@ -63,12 +63,10 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
     angular.forEach $scope.users, (u, i) ->
       $scope.users.splice i, 1  if u is user
 
-  $scope.reloadUsers()
-  
-  $scope.addNewTeacher = () ->
+  $scope.addNewTeacher = ->
     $scope.newTeacher = {}
 
-  $scope.cancelNewTeacher = () ->
+  $scope.cancelNewTeacher = ->
     $scope.newTeacher = undefined
 
   $scope.saveNewTeacher = (teacher) ->
@@ -79,4 +77,5 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
     .then (data)-> 
       console.log data
       $scope.reloadUsers()
-    
+
+  $scope.reloadUsers()

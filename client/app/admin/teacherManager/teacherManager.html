@@ -9,9 +9,6 @@
       <label class="btn btn-default disabled" ng-show="isExcelProcessing">
         <i class="fa fa-spinner fa-spin"></i>导入中
       </label>
-      <a class="btn btn-default">
-        邀请
-      </a>
     </div>
   </div>
 
@@ -53,20 +50,11 @@
     </form>
   </div>
   
-  <div class="form-group" ng-show="editingTeacher">
-    <input class="form-control"
-           id="teacher-name"
-           name="name"
-           ng-model="editingTeacher.name"
-           placeholder="教师姓名"
-           required>
-  </div>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="user in users|filter:{role:'teacher'}">
       <strong>{{user.name}}</strong><br>
       <span class="text-muted">{{user.email}}</span>
       <div class="pull-right">
-        <span class="status">已注册</span>
         <a ng-click="delete(user)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
       </div>
     </li>

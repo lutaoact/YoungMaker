@@ -3,7 +3,7 @@
   border: none;
   margin-bottom: 0;
   height: 55px;
-  overflow-x:hidden;
+  overflow:hidden;
   .navbar-brand{
     height: 55px;
     color: #FFFFFF;
@@ -96,6 +96,12 @@
     position: absolute;
     right: -65px;
     top: 172px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    .login-form{
+      right: -5px;
+    }
   }
 
   @media screen and (max-width: @screen-xs-max) {

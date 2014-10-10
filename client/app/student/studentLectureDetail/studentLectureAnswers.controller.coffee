@@ -28,8 +28,8 @@ angular.module('budweiserApp')
       if $scope.displayQuestions is $scope.lecture.homeworks
         result = _.map $scope.displayQuestions, (question) ->
           questionId: question._id
-          answer: _.reduce question.content.body, (answer, option, index) ->
-            answer.push(index) if option.$selected
+          answer: _.reduce question.choices, (answer, choice, index) ->
+            answer.push(index) if choice.$selected
             answer
           , []
         homeworkAnswer =
@@ -43,14 +43,14 @@ angular.module('budweiserApp')
           for question in homeworks
             answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
 
-            question.$correct = question.content.body.every (option, index)->
-              if option.correct
+            question.$correct = question.choices.every (choice, index)->
+              if choice.correct
                 answer?.some (item)-> item is index
               else
                 answer?.every (item)-> item isnt index
 
-            for option, index in question.content.body
-              option.$selected = answer?.indexOf(index) >= 0
+            for choice, index in question.choices
+              choice.$selected = answer?.indexOf(index) >= 0
           $scope.displayQuestions.$submitted = true
 
   $scope.$watch 'lecture', ->
@@ -71,14 +71,14 @@ angular.module('budweiserApp')
         for question in homeworks
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
 
-          question.$correct = question.content.body.every (option, index)->
-            if option.correct
+          question.$correct = question.choices.every (choice, index)->
+            if choice.correct
               answer?.some (item)-> item is index
             else
               answer?.every (item)-> item isnt index
 
-          for option, index in question.content.body
-            option.$selected = answer?.indexOf(index) >= 0
+          for choice, index in question.choices
+            choice.$selected = answer?.indexOf(index) >= 0
     Restangular.all('quiz_answers').getList(lectureId:$scope.lecture._id)
     .then (answers)->
       if answers?.length
@@ -89,14 +89,14 @@ angular.module('budweiserApp')
           answer = _.find(answers, questionId:quiz._id)?.result
           if answer
             quiz.$notAnswered = false
-            quiz.$correct = quiz.content.body.every (option, index)->
-              if option.correct
+            quiz.$correct = quiz.choices.every (choice, index)->
+              if choice.correct
                 answer?.some (item)-> item is index
               else
                 answer?.every (item)-> item isnt index
 
-            for option, index in quiz.content.body
-              option.$selected = answer?.indexOf(index) >= 0
+            for choice, index in quiz.choices
+              choice.$selected = answer?.indexOf(index) >= 0
           else
             quiz.$notAnswered = true
         $scope.setQuestionType('quizzes')
@@ -112,12 +112,11 @@ angular.module('budweiserApp')
         if quiz._id is question._id
           quiz.$notAnswered = false
           options = answer.result
-          quiz.$correct = quiz.content.body.every (option, index)->
-            if option.correct
+          quiz.$correct = quiz.choices.every (choice, index)->
+            if choice.correct
               options?.some (item)-> item is index
             else
               options?.every (item)-> item isnt index
 
-          for option, index in quiz.content.body
-            option.$selected = options?.indexOf(index) >= 0
-            console.log option.$selected
+          for choice, index in quiz.choices
+            choice.$selected = options?.indexOf(index) >= 0

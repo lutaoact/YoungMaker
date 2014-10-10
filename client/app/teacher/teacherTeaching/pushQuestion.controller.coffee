@@ -4,6 +4,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
   $scope
   classe
   socket
+  $filter
   lecture
   question
   Restangular
@@ -63,7 +64,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       tooltip:
         valueSuffix: ' 人'
     title:
-      text: question.content.title
+      text: $filter('questionTitle')(question.body)
     subtitle:
       text: "学生选择选项统计"
     yAxis:
@@ -76,11 +77,11 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       labels:
         overflow: 'justify'
     xAxis:
-      categories: _.map(question.content.body, (option, index) -> String.fromCharCode(65+index))
-      max: question.content.body.length - 1
+      categories: _.map(question.choices, (option, index) -> String.fromCharCode(65+index))
+      max: question.choices.length - 1
       min: 0
     series: [
       name: '选择人数'
-      data: _.map(question.content.body, (option, index) -> resultsDict[index] ? 0)
+      data: _.map(question.choices, (option, index) -> resultsDict[index] ? 0)
     ]
 

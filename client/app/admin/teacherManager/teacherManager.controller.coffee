@@ -75,7 +75,6 @@ angular.module('budweiserApp').controller 'TeacherManagerCtrl', ($scope, $http, 
     teacher.role ='teacher'
     Restangular.all('users').post(teacher)
     .then (data)-> 
-      console.log data
       $scope.reloadUsers()
 
   $scope.reloadUsers()

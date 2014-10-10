@@ -39,10 +39,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
         # file is uploaded successfully
         console.log data
         logoStyle ='?imageView2/2/w/140/h/40'
-        $scope.organization.logo = data.key + logoStyle
-        $http.get('api/qiniu/signedUrl/' + encodeURIComponent($scope.organization.logo))
-        .success (url)->
-          $scope.logoPreviewUrl = url
+        $scope.organization.logo = '/api/assets/images/' + data.key + logoStyle
         $scope.isUploading = false
       .error (response)->
         console.log response
@@ -71,11 +68,8 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upl
         org.put()
 
   if Auth.getCurrentUser().orgId
-    Restangular.one('organizations',Auth.getCurrentUser().orgId).get()
+    console.log Auth.getCurrentUser().orgId
+    Restangular.one('organizations',Auth.getCurrentUser().orgId._id).get()
     .then (org)->
       $scope.organization = org
-      $http.get('api/qiniu/signedUrl/' + encodeURIComponent(org.logo))
-        .success (url)->
-          $scope.logoPreviewUrl = url
-
 

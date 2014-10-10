@@ -52,10 +52,10 @@
   
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="user in users|filter:{role:'teacher'}">
-      <strong>{{user.name}}</strong><br>
+      <strong>{{user.name}}&nbsp;|&nbsp;{{user.username}}</strong><br>
       <span class="text-muted">{{user.email}}</span>
       <div class="pull-right">
-        <a ng-click="delete(user)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+        <a ng-click="delete(user)" class="trash close"><span class="glyphicon glyphicon-trash"></span></a>
       </div>
     </li>
   </ul>

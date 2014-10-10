@@ -21,6 +21,9 @@ exports.User = BaseModel.subclass
         type : String
         lowercase : true
         unique: true
+        sparse: true
+      info :
+        type : String
       name :
         type : String
       orgId :

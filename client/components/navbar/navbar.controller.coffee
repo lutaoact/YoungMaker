@@ -19,10 +19,6 @@ angular.module 'budweiserApp'
   $state
   Navbar
   socket
-  $location
-  $rootScope
-  loginRedirector
-  $q
   Restangular
   $localStorage
 ) ->
@@ -42,6 +38,7 @@ angular.module 'budweiserApp'
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
+
 
   generateAdditionalMenu = ->
     mkMenu = (title, link) ->

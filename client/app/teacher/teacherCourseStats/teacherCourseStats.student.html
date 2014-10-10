@@ -1,10 +1,10 @@
-  <div class="overall clearfix">
-    <div class="col-md-4 clearfix student-info">
-      <a class="btn btn-primary btn-md rounded pull-left"
-         ui-sref="teacher.courseStats.all({courseid: course._id})">
-        <i class="fa fa-arrow-left"></i>
-      </a>
-      <div class="avatar-lg pull-left"
+<div class="overall clearfix">
+  <div class="col-md-12 clearfix student-info">
+    <a class="btn btn-primary btn-md rounded pull-left"
+       ui-sref="teacher.courseStats.all({courseid: course._id})">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <div class="avatar-lg"
       src-key="student.avatar"
       source-attr="background-image"
       suffix="?imageView2/1/w/64/h/64">
@@ -16,21 +16,18 @@
       </small>
     </h4>
   </div>
-  <div class="col-md-8 pies clearfix">
+  <div class="col-md-12 pies clearfix">
     <div class="col-md-4">
-      <h6>随堂问题正确率</h6>
       <highchart config="quizStats" class="bud-chart"></highchart>
-      <div class="percentage quiz-percentage">{{quizStats.series[0].data[0].y}}%</div>
+      <div class="percentage quiz-percentage">{{quizStats.series[0].data[0].y}}<sup>%</sup></div>
     </div>
     <div class="col-md-4">
-      <h6>课后习题正确率</h6>
       <highchart config="homeworkStats" class="bud-chart"></highchart>
-      <div class="percentage homework-percentage">{{homeworkStats.series[0].data[0].y}}%</div>
+      <div class="percentage homework-percentage">{{homeworkStats.series[0].data[0].y}}<sup>%</sup></div>
     </div>
     <div class="col-md-4">
-      <h6>知识点掌握程度</h6>
       <highchart config="keypointStats" class="bud-chart"></highchart>
-      <div class="percentage keypoint-percentage">{{keypointStats.series[0].data[0].y}}%</div>
+      <div class="percentage keypoint-percentage">{{keypointStats.series[0].data[0].y}}<sup>%</sup></div>
     </div>
   </div>
 </div>

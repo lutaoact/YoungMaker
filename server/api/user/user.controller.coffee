@@ -37,6 +37,9 @@ exports.create = (req, res, next) ->
   body = req.body
   body.provider = 'local'
 
+  delete body._id
+  body.orgId = req.user.orgId
+
   User.createQ body
   .then (user) ->
     token = jwt.sign
@@ -121,9 +124,11 @@ exports.changePassword = (req, res, next) ->
 ###
 exports.me = (req, res, next) ->
   userId = req.user.id
-  User.findOneQ
+  User.findOne
     _id: userId
     '-salt -hashedPassword'
+  .populate 'orgId'
+  .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
     res.send user

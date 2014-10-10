@@ -15,7 +15,7 @@ router.put '/:id/password', auth.isAuthenticated(), controller.changePassword
 router.put '/:id', auth.isAuthenticated(), controller.update
 router.patch '/:id', auth.isAuthenticated(), controller.update
 router.get '/:id', auth.isAuthenticated(), controller.show
-router.post '/', controller.create
+router.post '/', auth.hasRole('admin'), controller.create
 router.post '/bulk', controller.bulkImport
 router.get '/emails/:email', auth.isAuthenticated(), controller.showByEmail
 

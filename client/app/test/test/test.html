@@ -67,25 +67,15 @@
   </h3>
   <div ng-show="showRequestData"
        class="well well-sm">
-    <div ui-ace="aceOptions"
-         class="ace-editor"
-         ng-model="$storage.request.data"
-         style="height:200px">
-    </div>
+    <textarea class="form-control"
+              style="min-height: 150px"
+              row="5"
+              placeholder="在这里可以输入 Request Body 数据"
+              ng-model="$storage.request.data"></textarea>
   </div>
   <hr/>
   <h3>Response:</h3>
-  <tabset>
-    <tab heading="Tree View">
-      <br/>
-      <json-formatter json="response" open="1"></json-formatter>
-    </tab>
-    <tab heading="Raw">
-      <br/>
-      <div>{{response|json}}</div>
-    </tab>
-  </tabset>
-
+  <div>{{response|json}}</div>
   <hr>
   <h3>Have Funs</h3>
   <div class="form-group">

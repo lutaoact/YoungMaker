@@ -192,6 +192,8 @@ angular.module 'budweiserApp'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }]
+        $scope.quizStats.title =
+          text: '随堂问题正确率'
         result
 
     loadHomeworkStats = ()->
@@ -210,6 +212,8 @@ angular.module 'budweiserApp'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }]
+        $scope.homeworkStats.title =
+          text: '课后习题正确率'
         result
 
     loadKeypointStats = ()->
@@ -229,7 +233,8 @@ angular.module 'budweiserApp'
             color: '#ebebeb'
           }
         ]
-
+        $scope.keypointStats.title =
+          text: '知识点掌握程度'
         result
       , (err)->
         console.log err

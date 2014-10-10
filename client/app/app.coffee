@@ -19,9 +19,6 @@ angular.module 'budweiserApp', [
   'com.2fdevs.videogular.plugins.poster'
   'highcharts-ng'
   'ngAnimate'
-  'ui.ace'
-  'jsonFormatter'
-  'textAngular'
   'monospaced.elastic'
   'angular-sortable-view'
 ]

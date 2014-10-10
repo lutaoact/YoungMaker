@@ -6,7 +6,7 @@
 
   }
   .transition();
-  .topic{
+  .topic.media{
     @vertical-padding: 15px;
     @horizontal-padding: 20px;
     background: #FFFFFF;
@@ -34,6 +34,20 @@
     &.selected{
       background: @gray-lighter;
     }
+    .avatar{
+      .avatar(45px);
+    }
+    .author{
+      margin-top: 28px;
+      width: 95px;
+      .poster-name{
+        font-size: 10px;
+      }
+    }
+    .media-body{
+      position: relative;
+      height: 140px;
+    }
     .topic-left{
       cursor: pointer;
       position: absolute;
@@ -49,6 +63,7 @@
       h4{
         .text-overflow();
       }
+
     }
     .topic-right{
       position: absolute;
@@ -90,7 +105,7 @@
           content: '';
           width:1px;
           height: 11px;
-          background: @gray;
+          background: @gray-light;
           position: absolute;
           top: 5px;
           right: -12px;
@@ -103,17 +118,12 @@
             content: none;
           }
         }
-        .topic-type{
+        &.topic-type{
           font-size: 12px;
-        }
-        .avatar{
-          .avatar(24px);
-          float: left;
-          margin-right: 3px;
-        }
-        .poster-name{
-          font-size: 10px;
           line-height: 24px;
+        }
+        &.tags-container{
+          width: 140px;
         }
         .created-time{
           line-height: 24px;
@@ -177,10 +187,24 @@
 
 
 .bud.topic-list.narrow{
-  .topic{
+  .topic.media{
     height: 90px;
     .topic-summary{
       display: none;
+    }
+    .avatar{
+      .avatar(40px);
+    }
+    .author{
+      margin-top: 14px;
+      width: 70px;
+      .poster-name{
+        font-size: 10px;
+      }
+    }
+    .media-body{
+      position: relative;
+      height: 90px;
     }
 
     .topic-right{

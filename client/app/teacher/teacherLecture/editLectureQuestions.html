@@ -57,19 +57,19 @@
                ng-model="question.$selected">
         <label class="title-info"
                ng-click="question.$expended=!question.$expended">
-          <span class="index">{{$index+1}}</span>{{question.content.title}}
+          <span class="index">{{$index+1}}</span>{{question.body}}
         </label>
         <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
       </div>
       <div ng-if="question.$expended">
-        <div class="question-image" ng-repeat="imageKey in question.content.imageUrls">
+        <div class="question-image" ng-repeat="imageKey in question.$imageUrls">
           <img ng-src="{{imageKey}}" class="image-zoom" alt="">
         </div>
       </div>
       <ul class="nav nav-pills nav-stacked list-group-item question-content"
           role="tablist"
           ng-if="question.$expended">
-        <li ng-repeat="option in question.content.body"
+        <li ng-repeat="option in question.choices"
             class="question-option"
             role="presentation">
           <label class="text-muted" ng-class="{'label-correct':option.correct}">
@@ -78,7 +78,7 @@
                    ng-disabled="true"
                    ng-model="option.correct">
             <span class="index">{{$index | indexToABC}}. </span>
-            {{option.desc}}
+            {{option.text}}
           </label>
         </li>
         <li role="presentation">

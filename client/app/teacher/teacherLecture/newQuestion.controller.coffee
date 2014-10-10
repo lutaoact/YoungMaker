@@ -10,12 +10,10 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
     selectedKeyPoints:[]
     categoryId: categoryId
     question:
-      solution: ''
+      detailSolution: ''
       categoryId: categoryId
-      content:
-        imageUrls : []
-        title: ''
-        body: [{}]
+      body: ''
+      choices [{}]
 
     addKeyPoint: (keyPoint, input) ->
       if keyPoint?
@@ -31,13 +29,13 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
     removekeyPoint: (index) ->
       $scope.selectedKeyPoints.splice(index, 1)
     validateOptions: ->
-      _.find($scope.question.content.body, correct:true)?
+      _.find($scope.question.choices, correct:true)?
     addOption: ->
-      $scope.question.content.body.push {}
+      $scope.question.choices.push {}
     removeOption: (index) ->
-      options = $scope.question.content.body
-      options.splice(index, 1)
-      options.push {} if options.length == 0
+      choices = $scope.question.choices
+      choices.splice(index, 1)
+      choices.push {} if choices.length == 0
     close: ->
       $modalInstance.dismiss('close')
     save: (question, form) ->
@@ -46,6 +44,6 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       $modalInstance.close(question)
       
     onImageUploaded: (key) ->
-      console.log 'The key is ', key
       key = '/api/assets/images/' + key
-      $scope.question.content.imageUrls.push key
+      #TODO zhenkunou
+#      $scope.question.body += key

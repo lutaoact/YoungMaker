@@ -29,7 +29,7 @@ angular.module('budweiserApp')
     # TODO refactor filter
     # correct answers to 'ABC'
     getCorrectInfo: (question) ->
-      info = _.reduce question.content.body, (result, option, index) ->
+      info = _.reduce question.choices, (result, option, index) ->
         if option.correct==true
           result += String.fromCharCode(65+index)
         result
@@ -57,7 +57,7 @@ angular.module('budweiserApp')
           title: -> '删除题库中的问题'
           message: ->
             if question?
-              """确认要删除题库中的"#{question.content.title}"？"""
+              """确认要删除题库中的问题？"""
             else
               """确认要删除题库中的这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->

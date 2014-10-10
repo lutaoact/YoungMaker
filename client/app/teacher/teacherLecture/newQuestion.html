@@ -14,10 +14,10 @@
            type="text"
            focus-me="titleInputFocus"
            ng-init="titleInputFocus=true"
-           ng-model="question.content.title"
+           ng-model="question.body"
            placeholder="习题标题"
            required>
-    <div class="question-image" ng-repeat="imageKey in question.content.imageUrls">
+    <div class="question-image" ng-repeat="imageKey in question.$imageUrls">
       <img ng-src="{{imageKey}}" class="image-zoom" alt="">
     </div>
     <div class="image-uploader">
@@ -34,7 +34,7 @@
   <div class="form-group">
     <label class="control-label">选项</label>
     <span class="pull-right text-muted"><small>(请在下框标记至少一个正确答案)</small></span>
-    <div ng-repeat="option in question.content.body"
+    <div ng-repeat="option in question.choices"
          class="input-group">
       <span class="input-group-addon">
         {{$index | indexToABC}}
@@ -95,7 +95,7 @@
     <label for="question-solution" class="control-label">注解</label>
     <textarea class="form-control"
               id="question-solution"
-              ng-model="question.solution"
+              ng-model="question.detailSolution"
               rows="3"
               placeholder="请输入答案注解"
               required>

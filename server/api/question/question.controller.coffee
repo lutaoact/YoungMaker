@@ -26,9 +26,9 @@ exports.index = (req, res, next) ->
     #对可能出现的正则元字符进行转义
     regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
     conditions.$or = [
-      'content.title': regex
+      'body': regex
     ,
-      'content.body.desc': regex
+      'choices.text': regex
     ]
 
   logger.info conditions

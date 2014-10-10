@@ -17,7 +17,7 @@
            ng-model="question.body"
            placeholder="习题标题"
            required>
-    <div class="question-image" ng-repeat="imageKey in question.$imageUrls">
+    <div class="question-image" ng-repeat="imageKey in images">
       <img ng-src="{{imageKey}}" class="image-zoom" alt="">
     </div>
     <div class="image-uploader">

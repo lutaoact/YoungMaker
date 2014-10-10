@@ -4,11 +4,11 @@
   </h4>
 </div>
 <div class="modal-body">
-  <h4 ng-if="!pushed">Q: {{question.body}}</h4>
+  <h4 ng-if="!pushed">Q: {{question.body | questionTitle}}</h4>
   <ul class="nav nav-pills nav-stacked list-group-item push-question-content"
       ng-if="!pushed"
       role="tablist">
-    <li ng-repeat="option in question.content.body"
+    <li ng-repeat="option in question.choices"
         role="presentation">
       <a class="question-option"><label>
           <span class="index">{{$index | indexToABC}}. </span>

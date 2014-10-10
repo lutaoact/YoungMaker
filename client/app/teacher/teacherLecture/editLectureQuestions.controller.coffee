@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp')
-.value('$anchorScroll', angular.noop)
+
 .directive 'editLectureQuestions', ->
   restrict: 'EA'
   replace: true

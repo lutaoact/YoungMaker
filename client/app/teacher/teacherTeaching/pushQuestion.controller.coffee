@@ -4,6 +4,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
   $scope
   classe
   socket
+  $filter
   lecture
   question
   Restangular
@@ -63,7 +64,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       tooltip:
         valueSuffix: ' 人'
     title:
-      text: question.body
+      text: $filter('questionTitle')(question.body)
     subtitle:
       text: "学生选择选项统计"
     yAxis:

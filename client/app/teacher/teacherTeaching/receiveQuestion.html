@@ -5,9 +5,9 @@
   </h4>
 </div>
 <div class="modal-body">
-  <h4>Q: {{question.body}}</h4>
+  <h4>Q: {{question.body | questionTitle}}</h4>
   <div class="list-group-item push-question-content">
-    <label ng-repeat="option in question.content.body"
+    <label ng-repeat="option in question.choices"
            class="checkbox question-option"
            ng-class="{'option-correct':option.correct && submitted, 'submit':submitted}">
       <input type="checkbox"

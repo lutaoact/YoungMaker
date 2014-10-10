@@ -18,7 +18,7 @@
             <i class="indicator incorrect fa fa-times" ng-show="!question.$correct && displayQuestions.$submitted"></i>
           </div>
           <div class="col-md-11 col-xs-10">
-            <h5 class="text-primary">{{question.body}}</h5>
+            <h5 class="text-primary">{{question.body | questionTitle}}</h5>
             <div class="checkbox text-muted"
                  ng-repeat="option in question.choices">
               <label class="lable">

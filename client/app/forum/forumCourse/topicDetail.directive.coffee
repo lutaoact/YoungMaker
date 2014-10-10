@@ -84,9 +84,6 @@ angular.module('budweiserApp')
       #     .then (replies)->
       #       $scope.topic.$replies = replies
 
-  $scope.$on 'forum/reloadReplyList', (event, replyId)->
-    $scope.topic.$loadTopic(replyId)
-
   $scope.$watch 'activeReply', (value)->
     if value
       console.log value

@@ -141,9 +141,8 @@ exports.me = (req, res, next) ->
   Update user
 ###
 exports.update = (req, res, next) ->
-
-  delete req.body._id if req.body._id?
-  delete req.body.password if req.body.password?
+  body = req.body
+  body = _.omit body, ['_id', 'password', 'orgId', 'username']
 
   User.findByIdQ req.params.id
   .then (user) ->

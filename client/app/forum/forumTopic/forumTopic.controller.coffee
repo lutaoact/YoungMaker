@@ -36,11 +36,15 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     me: CurrentUser
     stateParams: $state.params
 
-    loadTopic: ()->
+    loadTopic: (replyId)->
       Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
         $scope.topic = topic
-        $scope.topic.$currentReplyId = $state.params.replyId
+        # $state.params.replyId will not change on reloading
+        # if reloadOnSearch is set false and only the query param changed.
+        # In this case, get replyId from broadcasting ..
+        $scope.topic.$currentReplyId = if replyId then replyId else $state.params.replyId
+        $scope.topic.$loadTopic = $scope.loadTopic
         Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
       .then (replies)->
         replies.forEach (reply)->

@@ -19,6 +19,7 @@ angular.module 'budweiserApp'
   $state
   Navbar
   socket
+  $rootScope
   Restangular
   $localStorage
 ) ->
@@ -78,6 +79,9 @@ angular.module 'budweiserApp'
       $scope.messages.splice 0, 0, msg
 
   $scope.removeMsg = (message, $event)->
+    # for only reload the topicDetail directive when we are just on this forum page.
+    $rootScope.$broadcast("forum/reloadReplyList", message.raw.data?.disReply._id)
+
     $event?.stopPropagation()
     noticeId = message.raw._id
     Restangular.all('notices/read').post ids:[noticeId]

@@ -5,3 +5,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/courses/:courseId/topics/:topicId?replyId'
     templateUrl: 'app/forum/forumTopic/forumTopic.html'
     controller: 'ForumTopicCtrl'
+    reloadOnSearch: false

@@ -84,14 +84,8 @@ angular.module('budweiserApp')
       #     .then (replies)->
       #       $scope.topic.$replies = replies
 
-
-  $scope.scrollToReply = ($event, replyId)->
-    if replyId ==  $scope.topic.$currentReplyId
-      setTimeout ()->
-        targetElement = angular.element(document.getElementById replyId)
-        windowHeight = $(window).height();
-        $document.scrollToElement(targetElement, windowHeight/2, 500)
-      ,1000
+  $scope.$on 'forum/reloadReplyList', (event, replyId)->
+    $scope.topic.$loadTopic(replyId)
 
   $scope.$watch 'activeReply', (value)->
     if value

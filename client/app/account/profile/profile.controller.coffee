@@ -40,7 +40,9 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
           template:'components/alert/failure.html'
       else
         #put
-        @me.put()
+        @me.patch
+          name: $scope.me.name
+          email: $scope.me.email
         .then (data)->
           angular.extend $scope.me, data
           angular.extend $scope.oldMe, data

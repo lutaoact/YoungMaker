@@ -49,10 +49,17 @@ exports.create = (req, res, next) ->
 exports.update = (req, res, next) ->
   orgId = req.params.id
   body = req.body
-  delete body._id if body._id
+  delete body._id
+  delete body.uniqueName
 
-  Organization.findByIdQ orgId
-  .then (organization) ->
+  (if orgId.toString() isnt req.user.orgId.toString()
+    Q.reject
+      status : 403
+      errCode : ErrCode.NotAdminForOrg
+      errMsg : 'You are not admin for this organization'
+  else
+    Organization.findByIdQ orgId
+  ).then (organization) ->
     updated = _.extend organization, body
     do updated.saveQ
   .then (result) ->

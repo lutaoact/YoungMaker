@@ -29,7 +29,6 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl', (
     myTopic: null
     loading: true
     posting: false
-    queryTags: undefined
     selectedTopic: undefined
     imagesToInsert: undefined
 
@@ -41,23 +40,12 @@ angular.module('budweiserApp').controller 'ForumCourseCtrl', (
     loadTopics: ()->
       Restangular.all('dis_topics').getList({courseId: $state.params.courseId})
       .then (topics)->
-        # pull out the tags in content
-        $scope.queryTags = []
-        topics.forEach (topic)->
-          $scope.queryTags = $scope.queryTags.concat topic.metadata?.tags
-          topic.$tags = (Tag.genTags topic.content)
-          topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
-        $scope.queryTags = _.compact $scope.queryTags
-        $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
         $scope.topics = topics
 
     viewTopic: (topic)->
       $state.go 'forum.topic',
         courseId: $scope.course._id
         topicId: topic._id
-
-    searchByTag: (tag)->
-      $scope.$broadcast 'topics.query', tag
 
   $q.all [
     $scope.loadLectures()

@@ -44,7 +44,6 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
       .result.then ->
 
     genTooltip: (showMenu) ->
-      console.debug showMenu
       if !showMenu then '推送随堂练习'
 
   $scope.$watch 'currentIndex', ->

@@ -22,7 +22,7 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
       if $scope.submitted
         $scope.close()
       else
-        selectedOptions = _.reduce question.content.body, (result, option, index) ->
+        selectedOptions = _.reduce question.choices, (result, option, index) ->
           result.push(index) if option.$selected
           result
         , []
@@ -32,5 +32,5 @@ angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
           $rootScope.$broadcast 'quiz.answered', question, answer
           $scope.submitted = true
 
-  for option, index in question.content.body
+  for option, index in question.choices
     option.$selected = answer.result.indexOf(index) != -1

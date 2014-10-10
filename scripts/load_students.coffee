@@ -12,7 +12,6 @@ buildStudentsData = (studentsMap, orgId) ->
   return (for id, name of studentsMap
     username: "#{id}_xqsh"
     password: "#{id}_xqsh"
-    email: "#{id}@xq.sh.cn"
     name: name
     orgId: orgId
   )
@@ -29,7 +28,6 @@ organization = uniqueName: 'xqsh', name: '上海新侨学院', type: 'colledge'
 admin =
   username: "admin_xqsh"
   password: "admin_xqsh"
-  email: "admin@xq.sh.cn"
   name: '上海新侨学院管理员'
   role: 'admin'
 

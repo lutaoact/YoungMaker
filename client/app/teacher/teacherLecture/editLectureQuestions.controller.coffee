@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('budweiserApp')
-.value('$anchorScroll', angular.noop)
+
 .directive 'editLectureQuestions', ->
   restrict: 'EA'
   replace: true
@@ -72,7 +72,7 @@ angular.module('budweiserApp')
           title: -> '删除问题'
           message: ->
             if question?
-              """确认要删除"#{question.content.title}"？"""
+              """确认要删除这个问题？"""
             else
               """确认要删除这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->

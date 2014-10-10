@@ -18,15 +18,15 @@
             <i class="indicator incorrect fa fa-times" ng-show="!question.$correct && displayQuestions.$submitted"></i>
           </div>
           <div class="col-md-11 col-xs-10">
-            <h5 class="text-primary">{{question.content.title}}</h5>
+            <h5 class="text-primary">{{question.body | questionTitle}}</h5>
             <div class="checkbox text-muted"
-                 ng-repeat="option in question.content.body">
+                 ng-repeat="option in question.choices">
               <label class="lable">
                 {{$index|indexToABC}}.
                 <input type="checkbox" class="bud checkbox-primary"
                        ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
                        ng-model="option.$selected">
-                {{option.desc}}
+                {{option.text}}
               </label>
             </div>
             <question-answer question="question" keypoints="keyPoints" ng-if="displayQuestions.$submitted">

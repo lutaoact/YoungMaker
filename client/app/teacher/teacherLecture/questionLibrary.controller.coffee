@@ -23,13 +23,16 @@ angular.module('budweiserApp')
   angular.extend $scope,
     questions: null
     selectedKeyPoints: []
+    pageSize: 10
+    totalItems: 0
+    currentPage: 1
     keyword: ''
     $state: $state
 
     # TODO refactor filter
     # correct answers to 'ABC'
     getCorrectInfo: (question) ->
-      info = _.reduce question.content.body, (result, option, index) ->
+      info = _.reduce question.choices, (result, option, index) ->
         if option.correct==true
           result += String.fromCharCode(65+index)
         result
@@ -57,7 +60,7 @@ angular.module('budweiserApp')
           title: -> '删除题库中的问题'
           message: ->
             if question?
-              """确认要删除题库中的"#{question.content.title}"？"""
+              """确认要删除题库中的问题？"""
             else
               """确认要删除题库中的这#{$scope.getSelectedNum()}个问题？"""
       .result.then ->
@@ -94,8 +97,15 @@ angular.module('budweiserApp')
       $rootScope.$broadcast 'add-library-question', $state.params.questionType,
         _.filter $scope.questions, (q) -> q.$selected
 
-    searchQuestions: ->
+    pageChange: ->
+      console.debug $scope.currentPage
+      totalItems = $scope.currentPage * $scope.pageSize
+      $scope.searchQuestions(true) if $scope.questions.length < totalItems
+
+    searchQuestions: (loadMore = false) ->
       Restangular.all('questions').getList(
+        from: (if loadMore then $scope.questions.length else 0)
+        limit: ($scope.pageSize + if loadMore then 0 else 1)
         categoryId: $scope.categoryId
         keyword: $scope.keyword
         keyPointIds: JSON.stringify _.pluck($scope.selectedKeyPoints, '_id')
@@ -103,7 +113,13 @@ angular.module('budweiserApp')
         currentQuestions = _.pluck $scope.lecture?[$state.params.questionType], '_id'
         angular.forEach questions, (q) ->
           q.$exists = currentQuestions.indexOf(q._id) >= 0
-        $scope.questions = questions
+        $scope.questions =
+          if loadMore
+            _.union $scope.questions, questions
+          else
+            questions
+        $scope.totalItems = $scope.questions.length
+        console.debug $scope.totalItems
 
   $scope.searchQuestions()
 

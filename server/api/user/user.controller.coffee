@@ -24,7 +24,10 @@ qiniuDomain           = config.qiniu.domain
   restriction: 'admin'
 ###
 exports.index = (req, res, next) ->
-  User.findQ {}, '-salt -hashedPassword'
+  
+  User.findQ 
+    orgId : req.user.orgId
+  , '-salt -hashedPassword'
   .then (users) ->
     res.send users
   , (err) ->
@@ -139,9 +142,8 @@ exports.me = (req, res, next) ->
   Update user
 ###
 exports.update = (req, res, next) ->
-
-  delete req.body._id if req.body._id?
-  delete req.body.password if req.body.password?
+  body = req.body
+  body = _.omit body, ['_id', 'password', 'orgId', 'username']
 
   User.findByIdQ req.params.id
   .then (user) ->

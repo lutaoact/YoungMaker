@@ -7,11 +7,17 @@
         <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
       </div>
     </div>
-    <button class="bud btn btn-danger pull-right" ng-click="createTopic()">
+    <button class="bud btn btn-danger pull-right rounded" ng-click="createTopic()">
       <i class="fa fa-plus"></i>新讨论
     </button>
   </div>
-  <hr>
+  <div class="clearfix title-row tags-bar">
+    <div class="title-row-header">标签<hr></div>
+    <div class="view-section all-tags clearfix">
+      <a href class="tag pull-left" ng-class="{'active':tag.$active}" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)">{{tag.name}}</a>
+    </div>
+    <hr>
+  </div>
   <ul class="list-group">
     <div class="clearfix title-row actions-bar">
       <div class="pull-left" ng-init="viewState.orderBy = '-$heat' ">
@@ -40,51 +46,44 @@
       </div>
     </div>
     <li class="bud col-md-12 topic media"
-        ng-repeat="topic in topics|filter:lectureId|filter:viewState.query|filter: topicsFilter|orderBy:viewState.orderBy"
-        ng-class="{'selected':topic._id==selectedTopic._id}">
-      <div class="pull-left author">
-        <div class="avatar"
-             source-attr="background-image"
-             src-key="topic.postBy.avatar"
-             suffix="?imageView2/1/w/64/h/64">
-        </div>
-        <div class="poster-name text-center">{{topic.postBy.name}}</div>
+        ng-repeat="topic in topics|filter:viewState.query|filter: filterByTags|filter: topicsFilter|orderBy:viewState.orderBy"
+        ng-class="{'selected':topic._id==selectedTopic._id}"
+        ng-click="selectTopic(topic)">
+      <div class="avatar pull-left"
+        source-attr="background-image"
+        src-key="topic.postBy.avatar"
+        suffix="?imageView2/1/w/64/h/64">
       </div>
       <div class="media-body">
-        <div class="topic-left" ng-click="selectTopic(topic)">
-          <h4>{{topic.title}}</h4>
-          <h4 class="topic-summary">{{topic.metadata.raw}}<br/></h4>
-          <div class="spans">
+        <h4 class="media-heading">{{topic.title}}</h4>
+        <p class="topic-summary">{{topic.metadata.raw}}</p>
+        <div class="spans">
+          <span>
+            <span class="poster-name">
+              {{topic.postBy.name}}
+            </span>
+            <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
             <span class="topic-type base-color">
               {{topic.metadata.postType||'提问'}}
             </span>
-            <span>
-              <span class="text-muted created-time">{{topic.created|timeToTimeAgo}}</span>
-            </span>
-            <span class="tags-container">
-              <div class="tags" compile-html="topic.$tags">
-              </div>
-            </span>
-          </div>
-        </div>
-
-        <div class="topic-right">
-          <div class="status">
-            <i class="fa fa-heart"></i>
-            {{topic.voteUpUsers.length||0}}
-          </div>
-          <div class="status">
+          </span>
+          <span class="status">
             <i class="fa fa-eye"></i>
             {{topic.viewers.length||0}}
-          </div>
-
-          <div class="status">
             <i class="fa fa-comments"></i>
             {{topic.repliesNum||0}}
+            <i class="fa fa-heart"></i>
+            {{topic.voteUpUsers.length||0}}
+          </span>
+          <div class="tag" ng-show="topic.metadata.tags.length">
+            标签
           </div>
+          <span class="comma-split" ng-repeat="tag in topic.metadata.tags" href="{{tag.type}}" src="{{tag.srcId}}">
+            {{tag.name}}
+          </span>
         </div>
       </div>
-      <a href class="btn remove-topic" ng-click="deleteTopic(topic)" ng-show="topic.postBy._id==me._id"><i class="fa fa-times"></i></a>
+      <a href class="btn remove-topic" ng-click="deleteTopic(topic, $event)" ng-show="topic.postBy._id==me._id"><i class="fa fa-times"></i></a>
     </li>
   </ul>
 </div>

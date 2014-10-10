@@ -3,3 +3,4 @@ module.exports =
   TeacherCanAccessOnly: 10002
   NoMatchedEventType: 10003
   ForbiddenRole: 10004
+  NotAdminForOrg: 10005

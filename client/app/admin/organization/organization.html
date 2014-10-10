@@ -1,22 +1,23 @@
 
-<div class="col-md-12" style="margin-top: -70px;
+<!--<div class="col-md-12" style="margin-top: -70px;
 min-height: 200px;
-background: white;">
+background: white;"> -->
 <div class="container" style="margin-top:50px;">
   <form class="form" name="form">
     <div class="form-group">
-      <label for="organization-name">机构名称</label>
-      <input class="form-control" id="organization-name" name="name" ng-model="organization.name" placeholder="机构名称" required>
+      <label for="organization-name">机构全称</label>
+      <input class="form-control" id="organization-name" name="name" ng-model="organization.name" placeholder="机构全称" required>
     </div>
     <div class="form-group has-feedback" ng-class="{'has-warning':form.domain.$error.duplicated,'has-success':!form.domain.$error.duplicated}">
-      <label>机构二级域名</label>
-      <input class="form-control" id="organization-subdomain" name="domain" ng-model="organization.subDomain" ng-blur="validateRemote(organization.subDomain,form)" placeholder="机构二级域名" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-hide="form.domain.$error.duplicated"></span>
+      <label>机构独特名称</label>
+      <input class="form-control" id="organization-uniqueName" name="uniqueName" ng-model="organization.uniqueName" ng-blur="validateRemote(organization.uniqueName,form)" placeholder="系统机构名称" required>
+      <!--<span class="glyphicon glyphicon-ok form-control-feedback" ng-hide="form.domain.$error.duplicated"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="form.domain.$error.duplicated"></span>
       <label>{{organization.subDomain}}.cloud3edu.com</label>
       <p class="help-block" ng-show="form.domain.$error.duplicated">
         该二级域名已被注册
       </p>
+      -->
     </div>
     <div class="form-group">
       <label for="organization-type" >机构类型</label>
@@ -26,6 +27,8 @@ background: white;">
         <option value="初中">初中</option>
         <option value="高中">高中</option>
         <option value="大学">大学</option>
+        <option value="大学">职业学校</option>
+        <option value="培训机构">培训机构</option>
       </select>
     </div>
     <div class="form-group">
@@ -36,7 +39,7 @@ background: white;">
       <label class="btn btn-default disabled" ng-show="isUploading">
         <i class="fa fa-spinner fa-spin"></i>上传中
       </label>
-      <img ng-src="{{logoPreviewUrl}}" ng-show="logoPreviewUrl"></img>
+      <img ng-src="{{organization.logo}}" ng-show="organization.logo"></img>
     </div>
     <button type="submit" class="btn btn-default" ng-click="saveOrg(organization,form)">Submit</button>
   </form>

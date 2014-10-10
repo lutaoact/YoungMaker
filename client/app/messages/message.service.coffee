@@ -1,5 +1,7 @@
 angular.module 'budweiserApp'
-.factory 'Msg', (Restangular, $q, $localStorage, Auth)->
+
+.factory 'Msg', (Restangular, $q)->
+
   genMessage = (raw)->
     deferred = $q.defer()
     switch raw.type
@@ -27,7 +29,6 @@ angular.module 'budweiserApp'
             raw: raw
             link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
             type: 'message'
-
       else deferred.reject()
     deferred.promise
 

@@ -26,19 +26,21 @@ exports.index = (req, res, next) ->
     #对可能出现的正则元字符进行转义
     regex = new RegExp(keyword.replace /[{}()^$|.\[\]*?+]/g, '\\$&')
     conditions.$or = [
-      'content.title': regex
+      'body': regex
     ,
-      'content.body.desc': regex
+      'choices.text': regex
     ]
 
   logger.info conditions
 
   from = ~~req.query.from #from参数转为整数
+  limit = ~~(req.query.limit ? Const.PageSize.Question)
 
   Question.find conditions
-  .populate 'keyPoints', 'name'
-  .limit Const.PageSize.Question
+  .sort '-created'
   .skip from
+  .limit limit
+  .populate 'keyPoints', 'name'
   .execQ()
   .then (questions) ->
     res.send questions

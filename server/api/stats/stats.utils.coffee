@@ -150,7 +150,7 @@ exports.StatsUtils = BaseUtils.subclass
 
 
   getAnswerStringFromQuestion: (question) ->
-    return _.reduce(question.content.body, (corrects, option, index) ->
+    return _.reduce(question.choices, (corrects, option, index) ->
       if option.correct is true
         corrects.push index
       return corrects

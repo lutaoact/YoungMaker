@@ -3,7 +3,7 @@
     {{getCorrectInfo(question)}}
   </label>
   <div class="media-body">
-    <b>注解：</b>{{question.solution}}
+    <b>注解：</b>{{question.detailSolution}}
     <div ng-if="question.keyPoints.length>0">
       <b>知识点：</b><span ng-repeat="id in question.keyPoints">
       {{getKeyPoint(id).name}} </span>

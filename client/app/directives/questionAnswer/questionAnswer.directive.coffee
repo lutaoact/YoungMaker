@@ -11,8 +11,8 @@ angular.module('budweiserApp').directive 'questionAnswer', ->
   controller: ($scope)->
     angular.extend $scope,
       getCorrectInfo: (question) ->
-        _.reduce question.content.body, (result, option, index) ->
-          if option.correct==true
+        _.reduce question.choices, (result, choice, index) ->
+          if choice.correct is true
             result += String.fromCharCode(65+index)
           result
         , ''

@@ -60,7 +60,7 @@
                  ng-click="viewState.messageType = 'notification'">
                 <i class="fa fa-bell"></i>
               </a>
-              <a class="btn btn-xs btn-clearall pull-right text-muted" ng-click="clearAll()">
+              <a class="btn btn-xs btn-clearall pull-right text-muted" ng-click="clearAll()" ng-disabled="!messages.length">
                 清空消息
               </a>
             </div>

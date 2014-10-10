@@ -21,8 +21,9 @@ exports.Question = BaseModel.subclass
       ]
       body: String #题干
       type: Number #1:choice 2:fill blank
-      options: [
-        choice: String
+      #content.body -> choices
+      choices: [
+        text: String #rich text
         correct: Boolean
       ]
       solution: String #填空题的答案

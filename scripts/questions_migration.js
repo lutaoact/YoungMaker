@@ -4,8 +4,8 @@ var result = db.questions.update({}, {
   $rename: {
     "content.title"   : "body",
     "content.body"    : "options",
-    "solution"        : 'detailSolution',
-  },
+    "solution"        : 'detailSolution'
+  }
 }, {multi: true});
 
 printjson(result);
@@ -16,11 +16,16 @@ printjson(result);
 
 db.questions.find({}).forEach(function(q) {
   print(q._id);
-  newOptions = q.options.map(function(option) {
-    return {
-      choice: option.desc,
-      correct: option.correct,
-    };
-  });
-  db.questions.update({_id: q._id}, {$set: {options: newOptions}});
+  if (q.options != null) {
+    newOptions = q.options.map(function(option) {
+      return {
+        choice: option.desc,
+        correct: option.correct
+      };
+    });
+    db.questions.update({_id: q._id}, {$set: {options: newOptions}});
+  }
+  else {
+    print('question.options is null');
+  }
 });

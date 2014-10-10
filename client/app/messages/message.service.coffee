@@ -21,7 +21,6 @@ angular.module 'budweiserApp'
       when Const.NoticeType.Comment
         Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
         .then (topic)->
-          console.log raw
           raw.data.disTopic = topic
           deferred.resolve
             title: '回复了你的帖子：' + raw.data.disTopic.title

@@ -10,10 +10,10 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
     selectedKeyPoints:[]
     categoryId: categoryId
     question:
+      body: ''
       detailSolution: ''
       categoryId: categoryId
-      body: ''
-      choices [{}]
+      choices: [{}]
 
     addKeyPoint: (keyPoint, input) ->
       if keyPoint?

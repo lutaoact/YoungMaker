@@ -63,7 +63,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       tooltip:
         valueSuffix: ' 人'
     title:
-      text: question.content.title
+      text: question.body
     subtitle:
       text: "学生选择选项统计"
     yAxis:

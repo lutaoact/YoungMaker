@@ -34,11 +34,13 @@ exports.index = (req, res, next) ->
   logger.info conditions
 
   from = ~~req.query.from #from参数转为整数
+  limit = ~~(req.query.limit ? Const.PageSize.Question)
 
   Question.find conditions
-  .populate 'keyPoints', 'name'
-  .limit Const.PageSize.Question
+  .sort '-created'
   .skip from
+  .limit limit
+  .populate 'keyPoints', 'name'
   .execQ()
   .then (questions) ->
     res.send questions

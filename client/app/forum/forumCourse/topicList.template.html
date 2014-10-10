@@ -39,49 +39,49 @@
         </div>
       </div>
     </div>
-    <li class="bud col-md-12 topic"
+    <li class="bud col-md-12 topic media"
         ng-repeat="topic in topics|filter:lectureId|filter:viewState.query|filter: topicsFilter|orderBy:viewState.orderBy"
-        ng-class="{'selected':topic._id==selectedTopic._id}"
-        >
-      <div class="topic-left" ng-click="selectTopic(topic)">
-        <h4>{{topic.title}}</h4>
-        <h4 class="topic-summary">{{topic.metadata.raw}}<br/></h4>
-        <div class="spans">
-          <span>
-            <div class="topic-type flag flag-danger">
-            {{topic.metadata.postType||'提问'}}
-            </div>
-          </span>
-          <span>
-            <div class="media-object avatar"
-                 source-attr="background-image"
-                 src="http://placehold.it/32x32"
-                 src-key="topic.postBy.avatar"
-                 suffix="?imageView2/1/w/64/h/64">
-            </div>
-            <span class="poster-name">{{topic.postBy.name}}</span>
-            <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
-          </span>
-          <span>
-            <div class="tags" compile-html="topic.$tags">
-            </div>
-          </span>
+        ng-class="{'selected':topic._id==selectedTopic._id}">
+      <div class="pull-left author">
+        <div class="avatar"
+             source-attr="background-image"
+             src-key="topic.postBy.avatar"
+             suffix="?imageView2/1/w/64/h/64">
         </div>
+        <div class="poster-name text-center">{{topic.postBy.name}}</div>
       </div>
-
-      <div class="topic-right">
-        <div class="status">
-          <i class="fa fa-heart"></i>
-          {{topic.voteUpUsers.length||0}}
+      <div class="media-body">
+        <div class="topic-left" ng-click="selectTopic(topic)">
+          <h4>{{topic.title}}</h4>
+          <h4 class="topic-summary">{{topic.metadata.raw}}<br/></h4>
+          <div class="spans">
+            <span class="topic-type base-color">
+              {{topic.metadata.postType||'提问'}}
+            </span>
+            <span>
+              <span class="text-muted created-time">{{topic.created|timeToTimeAgo}}</span>
+            </span>
+            <span class="tags-container">
+              <div class="tags" compile-html="topic.$tags">
+              </div>
+            </span>
+          </div>
         </div>
-        <div class="status">
-          <i class="fa fa-eye"></i>
-          {{topic.viewers.length||0}}
-        </div>
 
-        <div class="status">
-          <i class="fa fa-comments"></i>
-          {{topic.repliesNum||0}}
+        <div class="topic-right">
+          <div class="status">
+            <i class="fa fa-heart"></i>
+            {{topic.voteUpUsers.length||0}}
+          </div>
+          <div class="status">
+            <i class="fa fa-eye"></i>
+            {{topic.viewers.length||0}}
+          </div>
+
+          <div class="status">
+            <i class="fa fa-comments"></i>
+            {{topic.repliesNum||0}}
+          </div>
         </div>
       </div>
       <a href class="btn remove-topic" ng-click="deleteTopic(topic)" ng-show="topic.postBy._id==me._id"><i class="fa fa-times"></i></a>

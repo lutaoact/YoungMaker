@@ -19,10 +19,6 @@ angular.module 'budweiserApp'
   $state
   Navbar
   socket
-  $location
-  $rootScope
-  loginRedirector
-  $q
   Restangular
   $localStorage
 ) ->
@@ -42,6 +38,7 @@ angular.module 'budweiserApp'
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
+
 
   generateAdditionalMenu = ->
     mkMenu = (title, link) ->
@@ -76,7 +73,8 @@ angular.module 'budweiserApp'
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
 
-  $scope.removeMsg = (message)->
+  $scope.removeMsg = (message, $event)->
+    $event?.stopPropagation()
     noticeId = message.raw._id
     Restangular.all('notices/read').post ids:[noticeId]
     .then ()->

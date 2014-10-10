@@ -19,7 +19,7 @@ exports.KeyPoint = BaseModel.subclass
     @schema.index
       name : 1
       categoryId: 1
-    ,
-      unique : true
-
+    , 
+      unique : true  
+      
     $super()

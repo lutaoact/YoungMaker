@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $state
   $modal
   Classes
+  Courses
   Restangular
   $sce
 ) ->
@@ -17,7 +18,8 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     showAllPPT: false
     showVideo: false
     lecture: undefined
-    course: Restangular.one('courses', $state.params.courseId).get().$object
+    classe: _.find Classes, _id:$state.params.classeId
+    course: _.find Courses, _id:$state.params.courseId
 
     changeCurrentIndex: (index) ->
       $scope.currentIndex = index
@@ -36,10 +38,14 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
         controller: 'PushQuestionCtrl'
         backdrop: 'static'
         resolve:
-          classe: -> _.find Classes, _id:$state.params.classeId
+          classe: -> $scope.classe
           lecture: -> $scope.lecture
           question: -> quizze
       .result.then ->
+
+    genTooltip: (showMenu) ->
+      console.debug showMenu
+      if !showMenu then '推送随堂练习'
 
   $scope.$watch 'currentIndex', ->
     $scope.currentNum = $scope.currentIndex + 1

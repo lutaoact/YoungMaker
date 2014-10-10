@@ -41,8 +41,10 @@
         <vg-fullscreenButton></vg-fullscreenButton>
         <div class="video-btn">
           <button class="btn btn-primary"
+                  tooltip="退出视频视图"
+                  tooltip-placement="left"
                   ng-click="toggleVideo()">
-            <i class="fa fa-file-powerpoint-o fa-2x"></i>
+            <i class="glyphicon glyphicon-film fa-2x"></i>
           </button>
         </div>
       </vg-controls>
@@ -54,7 +56,9 @@
      ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
     <i class="fa fa-arrow-left fa-2x"></i>
   </button>
-  <div class="pull-right questions-button">
+  <div class="pull-right questions-button"
+       tooltip="{{genTooltip(showMenu)}}"
+       tooltip-placement="left">
     <button class="btn btn-primary question-btn"
             ng-click="showMenu=!showMenu">
       <i class="glyphicon glyphicon-align-justify fa-2x"></i>
@@ -69,6 +73,9 @@
         <div class="questions-group">
           <div ng-repeat="quizze in lecture.quizzes">
             <a class="question list-group-item"
+               tooltip-append-to-body=true
+               tooltip-placement="left"
+               tooltip="推送该练习给{{classe.name}}的学生"
                ng-click="pushQuestion(quizze)">
               <b>{{$index+1}}. {{quizze.content.title}}</b>
             </a>
@@ -79,12 +86,14 @@
   </div>
   <div class="pull-right tools-button" ng-show="!showVideo">
     <button class="btn btn-primary tool-btn"
+            tooltip="切换到视频视图"
             ng-class="{'active':showVideo}"
             ng-click="toggleVideo()">
       <i class="glyphicon glyphicon-film fa-2x"></i>
     </button>
     <span class="split-v"></span>
     <button class="btn btn-primary tool-btn"
+            tooltip="列出所有幻灯片"
             ng-class="{'active':showAllPPT}"
             ng-click="togglePPT()">
       <i class="glyphicon glyphicon-th fa-2x"></i>

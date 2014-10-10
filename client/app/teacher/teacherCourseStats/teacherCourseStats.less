@@ -12,21 +12,30 @@
         margin-right: 10px;
       }
       text-align: center;
-      height: 106px;
-      border-right: 1px solid @gray-lighter;
       padding: 20px 5px;
+      border-bottom: 1px solid @gray-lighter;
+      .avatar-lg{
+        display: inline-block;
+      }
+      h4{
+        display: inline-block;
+        vertical-align: top;
+      }
     }
     .pies{
       .col-md-4{
-        height: 106px;
+        // height: 106px;
         position: relative;
         text-align: center;
         overflow: hidden;
         .percentage{
           position: absolute;
           left: 50%;
-          margin-left: -12px;
-          top: 60px;
+          margin-left: -18px;
+          top: 100px;
+          font-size: 24px;
+          font-weight: bold;
+
         }
         .quiz-percentage{
           color: @brand-danger;
@@ -38,14 +47,14 @@
           color: @brand-warning;
         }
       }
-      .bud-chart{
-        -webkit-transform: translate(0, -63px) scale(0.4, 0.4);
-        -ms-transform: translate(0, -63px) scale(0.4, 0.4); // IE9 only
-        transform: translate(0, -63px) scale(0.4, 0.4);
-      }
-      .highcharts-title{
-        display: none;
-      }
+      // .bud-chart{
+      //   -webkit-transform: translate(0, -63px) scale(0.4, 0.4);
+      //   -ms-transform: translate(0, -63px) scale(0.4, 0.4); // IE9 only
+      //   transform: translate(0, -63px) scale(0.4, 0.4);
+      // }
+      // .highcharts-title{
+      //   display: none;
+      // }
     }
   }
 

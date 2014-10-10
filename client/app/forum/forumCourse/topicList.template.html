@@ -55,13 +55,13 @@
           <h4>{{topic.title}}</h4>
           <h4 class="topic-summary">{{topic.metadata.raw}}<br/></h4>
           <div class="spans">
-            <span class="topic-type">
+            <span class="topic-type base-color">
               {{topic.metadata.postType||'提问'}}
             </span>
             <span>
-              <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
+              <span class="text-muted created-time">{{topic.created|timeToTimeAgo}}</span>
             </span>
-            <span>
+            <span class="tags-container">
               <div class="tags" compile-html="topic.$tags">
               </div>
             </span>

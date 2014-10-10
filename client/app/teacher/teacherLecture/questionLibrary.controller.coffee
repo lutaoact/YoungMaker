@@ -94,16 +94,17 @@ angular.module('budweiserApp')
       $rootScope.$broadcast 'add-library-question', $state.params.questionType,
         _.filter $scope.questions, (q) -> q.$selected
 
-    searchQuestions: ->
+    searchQuestions: () ->
       Restangular.all('questions').getList(
+        from: $scope.questions?.length
         categoryId: $scope.categoryId
         keyword: $scope.keyword
         keyPointIds: JSON.stringify _.pluck($scope.selectedKeyPoints, '_id')
       ).then (questions) ->
         currentQuestions = _.pluck $scope.lecture?[$state.params.questionType], '_id'
         angular.forEach questions, (q) ->
-          q.$exists = currentQuestions.indexOf(q._id) >= 0
-        $scope.questions = questions
+          q.$exists = !!(~currentQuestions.indexOf(q._id))
+        $scope.questions = $scope.questions.concat questions
 
   $scope.searchQuestions()
 

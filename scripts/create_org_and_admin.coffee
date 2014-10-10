@@ -31,8 +31,9 @@ Organization.findOneQ uniqueName: uniqueName
     role: 'admin'
     orgId: tmpResult.org._id
 
-  User.updateQ {username: "admin_#{uniqueName}"}, admin, {upsert: true}
+  User.createQ admin
 .then (admin) ->
+  tmpResult.admin = admin
   console.log tmpResult
 , (err) ->
   console.log err

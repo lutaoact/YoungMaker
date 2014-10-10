@@ -40,7 +40,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
       Restangular.one('dis_topics', $state.params.topicId).get()
       .then (topic)->
         $scope.topic = topic
-        $scope.topic.replyId = $state.params.replyId
+        $scope.topic.$currentReplyId = $state.params.replyId
         Restangular.all('dis_replies').getList({disTopicId: $state.params.topicId})
       .then (replies)->
         replies.forEach (reply)->

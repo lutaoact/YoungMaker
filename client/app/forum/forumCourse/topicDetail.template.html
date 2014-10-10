@@ -2,45 +2,53 @@
   <div ng-show="topic">
     <div class="bud article">
 
-      <div class="article-header">
-        <h4 class="article-title">
-          <a class="btn btn-primary btn-md rounded"
-             ui-sref="forum.course({courseId: topic.courseId})">
-            <i class="fa fa-arrow-left"></i>
-          </a>
-          {{topic.title}}
-        </h4>
-        <span class="spans">
-          <span class="flag flag-danger">
-          {{topic.metadata.postType||'提问'}}
-          </span>
-          <div class="pull-left avatar-xs "
-               source-attr="background-image"
-               src="http://placehold.it/32x32"
-               src-key="topic.postBy.avatar"
-               suffix="?imageView2/1/w/64/h/64">
+      <div class="article-header media">
+
+        <div class="avatar-lg pull-left"
+          source-attr="background-image"
+          src-key="topic.postBy.avatar"
+          suffix="?imageView2/1/w/64/h/64">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            <a class="btn btn-primary btn-md rounded"
+              ui-sref="forum.course({courseId: topic.courseId})">
+             <i class="fa fa-arrow-left"></i>
+           </a>
+            {{topic.title}}
+          </h4>
+          <div class="spans">
+            <span>
+              <span class="poster-name">
+                {{topic.postBy.name}}
+              </span>
+              <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
+              <span class="topic-type base-color">
+                {{topic.metadata.postType||'提问'}}
+              </span>
+            </span>
+            <span class="status">
+              <i class="fa fa-eye"></i>
+              {{topic.viewers.length||0}}
+              <i class="fa fa-comments"></i>
+              {{topic.repliesNum||0}}
+              <i class="fa fa-heart"></i>
+              {{topic.voteUpUsers.length||0}}
+            </span>
           </div>
-          <span class="poster-name">{{topic.postBy.name}}</span>
-          <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
-          <span class="status">
-            <i class="fa fa-comments base-color"></i>
-            {{topic.$replies.length||0}}
-          </span>
-          <span class="status">
-            <i class="fa fa-eye"></i>
-            {{topic.viewers.length||0}}
-          </span>
-          <span class="status">
-            <i class="fa fa-heart" 
-              ng-class="{'active':topic.voteUpUsers.indexOf(me._id)>=0}"
-              ng-click="toggleLike(topic)"></i>
-            {{topic.voteUpUsers.length||0}}
-          </span>
-        </span>
+        </div>
       </div>
 
       <div class="article-body">
         <div class="blog" compile-html="topic.content" >
+        </div>
+        <div class="article-voteup text-center"
+          ng-class="{'active':topic.voteUpUsers.indexOf(me._id)>=0}"
+-         ng-click="toggleLike(topic)">
+          <i class="fa fa-heart">
+          </i>
+          <hr>
+          {{topic.voteUpUsers.length||0}}
         </div>
       </div>
     </div>
@@ -49,7 +57,7 @@
     <div class="replies">
       <div class="new-reply clearfix">
         <div class="new-reply-left">
-          <div class="media-object avatar-sm"
+          <div class="media-object avatar-md"
                source-attr="background-image"
                src="http://placehold.it/32x32"
                src-key="me.avatar"
@@ -57,29 +65,29 @@
           </div>
         </div>
         <div class="new-reply-right" id="new-reply" is-visible="viewState.newReplyVisible">
-          <bud-editor 
+          <bud-editor
             content="newReply.content"
             metadata="newReply.metadata">
           </bud-editor>
         </div>
 
         <div>
-          <button 
-            class="btn btn-danger btn-sm rounded submit pull-right" 
+          <button
+            class="btn btn-danger btn-sm rounded submit pull-right"
             ng-click="replyTo(topic, newReply)"
             ng-disabled="!newReply.content">提交</button>
         </div>
       </div>
       <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">
-        <div class="pull-left" ng-init="viewState.orderBy = '-voteUpUsers.length'">
+        <div class="pull-left" ng-init="viewState.orderBy = '-created'">
           <a href class="btn btn-nav text-muted"
             ng-class="{'active':viewState.orderBy == '-created'}"
             ng-click="viewState.orderBy = '-created'">
             最新回复
           </a>
           <a href class="btn btn-nav text-muted"
-            ng-class="{'active':viewState.orderBy == '-voteUpUsers.length'}"
-            ng-click="viewState.orderBy = '-voteUpUsers.length'">
+            ng-class="{'active':viewState.orderBy != '-created'}"
+            ng-click="viewState.orderBy = ['-voteUpUsers.length', '-created']">
             最热回复
           </a>
         </div>
@@ -98,11 +106,10 @@
       </div>
       <ul class="list-group " ng-init="listinit()">
         <li class="bud thumbnail media col-md-12 reply"
-            ng-repeat="reply in topic.$replies|orderBy: viewState.orderBy|filter: repliesFilter" id="{{reply._id}}" ng-init="scrollToReply(reply._id)">
+            ng-repeat="reply in topic.$replies|orderBy: viewState.orderBy|filter: repliesFilter" id="{{reply._id}}" >
           <a class="pull-left" href>
-            <div class="media-object avatar-sm"
+            <div class="media-object avatar-md"
                  source-attr="background-image"
-                 src="http://placehold.it/32x32"
                  src-key="reply.postBy.avatar"
                  suffix="?imageView2/1/w/64/h/64">
             </div>

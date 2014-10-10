@@ -13,6 +13,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
   $modal
   Auth
   Tag
+  $filter
 ) ->
 
   if not $state.params.courseId
@@ -32,7 +33,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
         # pull out the tags in content
         topics.forEach (topic)->
           topic.$tags = (Tag.genTags topic.content)
-        $scope.topics = topics
+        $scope.topics = $filter('filter')(topics, $state.params.lectureId)
 
     viewTopic: (topic)->
       $scope.currentTopic = undefined

@@ -2,17 +2,16 @@
   hr{
     border-top:1px solid @gray-light;
   }
-  .tag{
 
-  }
   .transition();
   .topic.media{
     @vertical-padding: 15px;
     @horizontal-padding: 20px;
+    padding: 28px;
+    cursor: pointer;
     background: #FFFFFF;
     list-style: none;
     margin: 5px 0;
-    height: 140px;
     border-top: 1px solid @gray-lighter;
     border-bottom: 1px solid @gray-lighter;
     position: relative;
@@ -35,53 +34,34 @@
       background: @gray-lighter;
     }
     .avatar{
-      .avatar(45px);
+      .avatar(58px);
+      margin-right: 14px;
     }
-    .author{
-      margin-top: 28px;
-      width: 95px;
-      .poster-name{
-        font-size: 10px;
-      }
-    }
+
     .media-body{
-      position: relative;
-      height: 140px;
-    }
-    .topic-left{
-      cursor: pointer;
-      position: absolute;
-      left: @horizontal-padding;
-      top:@vertical-padding;
-      bottom: @vertical-padding;
-      right: 200px;
+      .poster-name{
+        font-size: 12px;
+      }
       .topic-summary{
         .text-overflow();
-        font-size: 12px;
         color: @gray-light;
+        font-size: 12px;
       }
       h4{
         .text-overflow();
       }
-
-    }
-    .topic-right{
-      position: absolute;
-      right: 0;
-      top:@vertical-padding;
-      bottom: @vertical-padding;
-      width: 220px;
+      .topic-type{
+        font-size: 12px;
+      }
+      .created-time{
+        font-size: 12px;
+      }
       .status{
-        text-align: center;
-        width: 40px;
-        float: right;
-        font-size: 20px;
-        margin: 20px 15px;
-        line-height: 200%;
+        font-size: 12px;
         color: @gray;
+        margin-bottom: 1px;
         i{
           color: @gray;
-          font-size: 1.1em;
           margin-right: 0.1em;
           &.fa-heart{
             color: @brand-danger;
@@ -91,54 +71,56 @@
           }
         }
       }
-    }
-    .spans{
-      overflow: hidden;
-      height: 24px;
-      >span{
-        position: relative;
+      .tag{
         float: left;
-        height: 26px;
-        margin-right: 12px;
-        margin-left: 12px;
-        &:after{
-          content: '';
-          width:1px;
-          height: 11px;
-          background: @gray-light;
-          position: absolute;
-          top: 5px;
-          right: -12px;
-        }
-        &:nth-child(1){
-          margin-left: 0;
-        }
-        &:nth-last-child(1){
-          &:after{
-            content: none;
-          }
-        }
-        &.topic-type{
-          font-size: 12px;
-          line-height: 24px;
-        }
-        &.tags-container{
-          width: 140px;
-        }
-        .created-time{
-          line-height: 24px;
-          font-size: 10px;
-        }
-
-        .tags{
+        font-size: 12px;
+        margin-top: 3px;
+        margin-bottom: 6px;
+        margin-right: 10px;
+      }
+      .spans{
+        >span{
           float: left;
-          .tag{
-            display: block;
-            float: left;
+          line-height: 26px;
+          margin-right: 0;
+          margin-left: 12px;
+          &:after{
+            content: '';
+            width:1px;
+            height: 12px;
+            display: inline-block;
+            background: @gray-light;
+            color: @gray-light;
+            margin-left: 10px;
+          }
+          &:nth-child(1){
+            margin-left: 0;
+          }
+          &:nth-last-child(1){
+            &:after{
+              content: none;
+            }
+          }
+          &.comma-split{
+            font-size: 12px;
+            margin-left: 0;
+            margin-bottom: 1px;
+            &:after{
+              content: ',';
+              width:0px;
+              margin-left: 0px;
+              margin-right: 10px;
+            }
+            &:nth-last-child(1){
+              &:after{
+                content: none;
+              }
+            }
           }
         }
       }
     }
+
   }
 
   .title-row{
@@ -151,6 +133,35 @@
     }
     &.actions-bar{
       margin-bottom: 20px;
+    }
+    &.tags-bar{
+      .title-row-header{
+        color: @gray-light;
+        margin-top: 20px;
+        margin-left: 10px;
+
+        position: relative;
+        hr{
+          position: absolute;
+          left: 40px;
+          top: 10px;
+          right: 0;
+          margin-top: 0;
+        }
+      }
+      .all-tags{
+        margin-left: 14px;
+        margin-top: 14px;
+        .tag{
+          &:hover{
+            text-decoration: none;
+            color: @gray-lighter;
+          }
+          &.active{
+            background: @base-color;
+          }
+        }
+      }
     }
     &.search-bar{
       .search{
@@ -188,39 +199,13 @@
 
 .bud.topic-list.narrow{
   .topic.media{
-    height: 90px;
+    padding: 14px 28px;
     .topic-summary{
       display: none;
     }
     .avatar{
-      .avatar(40px);
-    }
-    .author{
-      margin-top: 14px;
-      width: 70px;
-      .poster-name{
-        font-size: 10px;
-      }
-    }
-    .media-body{
-      position: relative;
-      height: 90px;
-    }
-
-    .topic-right{
-      width: 60px;
-      .status{
-        text-align: left;
-        width: 40px;
-        float: right;
-        font-size: 10px;
-        margin: 5px;
-        line-height: 100%;
-        i{
-          font-size: 1.1em;
-          margin-right: 0.9em;
-        }
-      }
+      .avatar(36px);
+      margin-right: 14px;
     }
   }
 }

@@ -5,7 +5,7 @@
 <section class="container forum-topic-view body">
   <div class="row">
     <div class="col-md-8 forum-topic-view-left">
-      <topic-detail topic="topic"></topic-detail>
+      <topic-detail topic="topic" active-reply="{{topic.$currentReplyId}}"></topic-detail>
     </div>
     <div class="col-md-4 forum-topic-view-right">
       <div class="view-section recommends">
@@ -23,7 +23,7 @@
               <i class="fa fa-eye"></i>
               {{recommendedTopic.viewers.length||0}}
             </div>
-            
+
             <div class="status">
               <i class="fa fa-comments"></i>
               {{recommendedTopic.repliesNum||0}}

@@ -21,6 +21,8 @@ angular.module('budweiserApp')
 
     me: Auth.getCurrentUser()
 
+    queryTags: undefined
+
     loadCourse: ()->
       Restangular.one('courses',$state.params.courseId).get()
       .then (course)->
@@ -42,7 +44,8 @@ angular.module('budweiserApp')
           return item.postBy._id is $scope.me._id
       return true
 
-    deleteTopic: (topic)->
+    deleteTopic: (topic, $event)->
+      $event?.stopPropagation()
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
@@ -54,6 +57,21 @@ angular.module('budweiserApp')
         .then ()->
           $scope.topics.splice $scope.topics.indexOf(topic), 1
 
+    filterTags: []
+
+    searchByTag: (tag)->
+      if $scope.filterTags.indexOf(tag) > -1
+        console.log 'remove tag'
+        $scope.filterTags.splice $scope.filterTags.indexOf(tag), 1
+        tag.$active = false
+      else
+        console.log 'add tag'
+        $scope.filterTags.push tag
+        tag.$active = true
+
+    filterByTags: (item)->
+      $scope.filterTags.every (tag)->
+        item.content.indexOf(tag.name) > -1
 
     createTopic: ()->
       # validate
@@ -74,8 +92,16 @@ angular.module('budweiserApp')
         dis_topic.$heat = 1000 / (moment().diff(moment(dis_topic.created),'hours') + 1)+ dis_topic.repliesNum * 10 + dis_topic.voteUpUsers.length * 10
         $scope.topics.splice 0, 0, dis_topic
 
-  $scope.$on 'topics.query', (event, value)->
-    $scope.viewState.query = value.name
+  $scope.$watch 'topics', (value)->
+    # pull out the tags in content
+    if value?.length
+      $scope.queryTags = []
+      $scope.topics.forEach (topic)->
+        $scope.queryTags = $scope.queryTags.concat topic.metadata?.tags
+        topic.$tags = (Tag.genTags topic.content)
+        topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
+      $scope.queryTags = _.compact $scope.queryTags
+      $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
 
   $scope.loadCourse()
 

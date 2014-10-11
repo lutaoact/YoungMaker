@@ -99,17 +99,18 @@ angular.module('budweiserApp')
 
     pageChange: ->
       console.debug $scope.currentPage
-      totalItems = $scope.currentPage * $scope.pageSize
-      $scope.searchQuestions(true) if $scope.questions.length < totalItems
+      $scope.searchQuestions(true) if $scope.questions.length < $scope.totalItems
 
     searchQuestions: (loadMore = false) ->
-      Restangular.all('questions').getList(
+      Restangular.one('questions').get(
         from: (if loadMore then $scope.questions.length else 0)
         limit: ($scope.pageSize + if loadMore then 0 else 1)
         categoryId: $scope.categoryId
         keyword: $scope.keyword
         keyPointIds: JSON.stringify _.pluck($scope.selectedKeyPoints, '_id')
-      ).then (questions) ->
+      ).then (res) ->
+        totalNum = res.totalNum
+        questions = res.questions
         currentQuestions = _.pluck $scope.lecture?[$state.params.questionType], '_id'
         angular.forEach questions, (q) ->
           q.$exists = currentQuestions.indexOf(q._id) >= 0
@@ -118,7 +119,7 @@ angular.module('budweiserApp')
             _.union $scope.questions, questions
           else
             questions
-        $scope.totalItems = $scope.questions.length
+        $scope.totalItems = totalNum #$scope.questions.length
         console.debug $scope.totalItems
 
   $scope.searchQuestions()

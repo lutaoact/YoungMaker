@@ -36,16 +36,22 @@ exports.index = (req, res, next) ->
   from = ~~req.query.from #from参数转为整数
   limit = ~~(req.query.limit ? Const.PageSize.Question)
 
-  Question.find conditions
-  .sort 'created'
-  .skip from
-  .limit limit
-  .populate 'keyPoints', 'name'
-  .execQ()
-  .then (questions) ->
-    res.send questions
+  countPromise = Question.countQ conditions
+  queryPromise = Question.find conditions
+                .sort 'created'
+                .skip from
+                .limit limit
+                .populate 'keyPoints', 'name'
+                .execQ()
+
+  Q.all [countPromise, queryPromise]
+  .then (data)->
+    res.send
+      totalNum: data[0]
+      questions: data[1]
   , (err) ->
     next err
+
 
 exports.show = (req, res, next) ->
   user = req.user

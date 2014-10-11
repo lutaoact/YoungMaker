@@ -28,6 +28,7 @@ Const =
 
   QuestionType:
     Choice: 1
+    Blank:  2
 
   Student:
     ViewLecture: 1

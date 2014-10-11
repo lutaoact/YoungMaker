@@ -1,6 +1,7 @@
 BaseUtils = require('../../common/BaseUtils').BaseUtils
 Question = _u.getModel 'question'
 CourseUtils = _u.getUtils 'course'
+QuestionUtils = _u.getUtils 'question'
 QuizAnswer = _u.getModel 'quiz_answer'
 HomeworkAnswer = _u.getModel 'homework_answer'
 
@@ -150,11 +151,7 @@ exports.StatsUtils = BaseUtils.subclass
 
 
   getAnswerStringFromQuestion: (question) ->
-    return _.reduce(question.choices, (corrects, option, index) ->
-      if option.correct is true
-        corrects.push index
-      return corrects
-    , []).toString()
+    return QuestionUtils.getAnswerArrayFromQuestion(question).toString()
 
 
   getQuizStats: (lectureId, questionId) ->
@@ -169,8 +166,6 @@ exports.StatsUtils = BaseUtils.subclass
     , (err) ->
       Q.reject err
 
-  getQuestionStats : (questionId) ->
-    
 
   makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->
     questionIds = lecture.quizzes

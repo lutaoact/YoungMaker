@@ -20,7 +20,10 @@ exports.Question = BaseModel.subclass
         ref: "key_point"
       ]
       body: String #题干
-      type: Number #1:choice 2:fill blank
+      type: #1:choice 2:fill blank
+        type: Number
+        required: true
+        default: 1
       #content.body -> choices
       choices: [
         text: String #rich text

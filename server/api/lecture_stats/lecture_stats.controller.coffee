@@ -24,9 +24,10 @@ buildQuizResult = (lecture, qIds, students) ->
         stats: stats
       }
   
-buildHWResult = (lectureId) ->
+buildHWResult = (lectureId, students) ->
   HomeworkAnswer.find
     lectureId : lectureId
+    userId: {'$in': students}
   .populate('userId', '_id username name')
   .execQ()
   .then (hwas) ->
@@ -49,6 +50,7 @@ buildHWResult = (lectureId) ->
       Question.findByIdQ qId
       .then (question) ->
         stats = {}
+        stats['unanswered'] = JSON.parse(JSON.stringify(students));
         optionsNum = question.content.body.length
         for idx in [0..optionsNum-1]
           stats[idx.toString()] = []
@@ -56,6 +58,8 @@ buildHWResult = (lectureId) ->
         for answer in answers
           for result in answer.result
             stats[result].push(answer.userId)
+          _.remove stats['unanswered'], (user) ->
+            return user._id == answer.userId.id
 
         return {
           question : question
@@ -81,6 +85,7 @@ exports.questionStats = (req, res, next) ->
 
   user = req.user
   finalResult = []
+  students = null
   Q.all [studentsPromise, LectureUtils.getAuthedLectureById user, lectureId]
   .then (students_lecture) ->
     students = students_lecture[0]
@@ -89,8 +94,7 @@ exports.questionStats = (req, res, next) ->
     buildQuizResult lecture, quizIds, students
   .then (quizStats) ->
     finalResult = finalResult.concat quizStats
-    # TODO: add unanswered students list for homework
-    buildHWResult lectureId
+    buildHWResult lectureId, students
   .then (hwStats) ->
     finalResult = finalResult.concat hwStats
     res.send 200, finalResult

@@ -37,7 +37,7 @@ exports.index = (req, res, next) ->
   limit = ~~(req.query.limit ? Const.PageSize.Question)
 
   Question.find conditions
-  .sort '-created'
+  .sort 'created'
   .skip from
   .limit limit
   .populate 'keyPoints', 'name'

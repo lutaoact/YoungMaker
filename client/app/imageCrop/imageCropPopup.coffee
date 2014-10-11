@@ -6,6 +6,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
   $timeout
   files
   options
+  $sce
 ) ->
   angular.extend $scope,
     close: ->
@@ -34,7 +35,6 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
         rename: 'index'
         success: (key) ->
           $scope.viewState.uploading = false
-          console.log $scope.viewState
           suffix = '?imageMogr2/auto-orient'
           if $scope.viewState.start
             cropSize =
@@ -111,28 +111,25 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
 
   $scope.$watch 'files', (value)->
     if value
-      reader = new FileReader()
-      reader.onload = (event) ->
-        $timeout ()->
-          $scope.viewState.previewUrl = event.target.result
-        angular.element('.img-preview').on 'load', (e)->
-          console.log e
-          if e.target.clientWidth < 250
-            $scope.viewState.size =
-              width: 250
-              height: ~~(e.target.clientHeight * 250 / e.target.clientWidth)
-          else
-            $scope.viewState.size =
-              width: e.target.clientWidth
-              height: e.target.clientHeight
-          $scope.viewState.originSize =
-            width: e.target.naturalWidth
-            height: e.target.naturalHeight
-          angular.element('.image-crop .bud.thumbnail').css 'width', $scope.viewState.size.width
-          angular.element('.image-crop .bud.thumbnail').css 'height', $scope.viewState.size.height
-          angular.element('.image-crop .img-preview').css 'width', $scope.viewState.size.width
-          angular.element('.image-crop .img-preview').css 'height', $scope.viewState.size.height
-
-      reader.readAsDataURL(value[0])
+      url = URL.createObjectURL(value[0])
+      safeUrl = $sce.trustAsResourceUrl(url)
+      $timeout ()->
+        $scope.viewState.previewUrl = safeUrl
+      angular.element('.img-preview').on 'load', (e)->
+        if e.target.clientWidth < 250
+          $scope.viewState.size =
+            width: 250
+            height: ~~(e.target.clientHeight * 250 / e.target.clientWidth)
+        else
+          $scope.viewState.size =
+            width: e.target.clientWidth
+            height: e.target.clientHeight
+        $scope.viewState.originSize =
+          width: e.target.naturalWidth
+          height: e.target.naturalHeight
+        angular.element('.image-crop .bud.thumbnail').css 'width', $scope.viewState.size.width
+        angular.element('.image-crop .bud.thumbnail').css 'height', $scope.viewState.size.height
+        angular.element('.image-crop .img-preview').css 'width', $scope.viewState.size.width
+        angular.element('.image-crop .img-preview').css 'height', $scope.viewState.size.height
 
 

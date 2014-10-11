@@ -35,6 +35,9 @@ angular.module 'budweiserApp', [
   $httpProvider.interceptors.push 'patchInterceptor'
   $httpProvider.interceptors.push 'loadingInterceptor'
 
+.config ($compileProvider) ->
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//)
+
 .config (RestangularProvider) ->
   # add a response intereceptor
   RestangularProvider.setBaseUrl('api')

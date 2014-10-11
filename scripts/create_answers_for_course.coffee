@@ -12,6 +12,9 @@ Lecture = _u.getModel 'lecture'
 Classe = _u.getModel 'classe'
 Question = _u.getModel 'question'
 QuestionUtils = _u.getUtils 'question'
+AnswerUtils = _u.getUtils 'answer'
+QuizAnswer = _u.getModel 'quiz_answer'
+HomeworkAnswer = _u.getModel 'homework_answer'
 
 tmpResult = {}
 Course.findByIdQ courseId
@@ -25,6 +28,8 @@ Course.findByIdQ courseId
   tmpResult.classes  = result[0]
   tmpResult.lectures = result[1]
 
+  tmpResult.studentIds = _.flatten(_.pluck tmpResult.classes, 'students')
+
   tmpResult.quizzes = []; tmpResult.homeworks = []
   for lecture in tmpResult.lectures
     tmpResult.quizzes   = tmpResult.quizzes.concat   lecture.quizzes
@@ -35,16 +40,26 @@ Course.findByIdQ courseId
   Question.findQ _id: $in: tmpResult.questionIds
 .then (questions) ->
   tmpResult.questions = questions
+  tmpResult.myQAMap = QuestionUtils.getQAMap tmpResult.questions
 
-  tmpResult.QAMap = QuestionUtils.getQAMap tmpResult.questions
-.then () ->
-  console.log tmpResult
+  promiseArray = for lecture in tmpResult.lectures
+    Q.all [
+      QuizAnswer.createQ AnswerUtils.buildTestQuizAnswers(
+        tmpResult.studentIds
+        lecture
+        tmpResult.myQAMap
+      )
+      HomeworkAnswer.createQ AnswerUtils.buildTestHomeworkAnswers(
+        tmpResult.studentIds
+        lecture
+        tmpResult.myQAMap
+      )
+    ]
+
+  Q.all promiseArray
+.then (answers) ->
+#  console.log answers
+#  console.log tmpResult
   console.log 'success'
 , (err) ->
   console.log err
-
-#> db.courses.find({_id: ObjectId("541903807ba35abb020ffe33")})
-#{ "_id" : ObjectId("541903807ba35abb020ffe33"), "thumbnail" : "AepnGmgEvp/space_1.jpg", "name" : "Space 101", "categoryId" : ObjectId("000000000000000000000002"), "info" : "This is the class about space.", "modified" : ISODate("2014-10-07T02:06:44.208Z"), "created" : ISODate("2014-09-17T03:44:00.044Z"), "classes" : [ ObjectId("444444444444444444444400"), ObjectId("54223a6ecf5b4bef2e45d60c") ], "owners" : [ ObjectId("111111111111111111111102") ], "lectureAssembly" : [ ObjectId("54191562c5014dbf037ad5b8"), ObjectId("541903ca7ba35abb020ffe34") ], "__v" : 22 }
-#> db.lectures.find({_id: {$in: [ ObjectId("54191562c5014dbf037ad5b8"), ObjectId("541903ca7ba35abb020ffe34") ]}}, {quizzes: 1, homeworks: 1})
-#{ "_id" : ObjectId("541903ca7ba35abb020ffe34"), "homeworks" : [ ObjectId("54350edf45fedb9684372392") ], "quizzes" : [ ObjectId("541e375f7b35e5601d92098e"), ObjectId("5430a786a66da68c5eb03282") ] }
-#{ "_id" : ObjectId("54191562c5014dbf037ad5b8"), "homeworks" : [ ], "quizzes" : [ ObjectId("5434fb76978d0749835b4cf7"), ObjectId("5435002a978d0749835b4d0c"), ObjectId("5435068f45fedb968437237b") ] }

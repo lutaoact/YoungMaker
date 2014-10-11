@@ -21,6 +21,7 @@ exports.HomeworkAnswer = BaseModel.subclass
       result : [
         questionId : ObjectId
         answer : Schema.Types.Mixed
+        # for example: [0, 3]
       ]
       submitted : Boolean
 

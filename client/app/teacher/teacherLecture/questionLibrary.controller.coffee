@@ -90,6 +90,7 @@ angular.module('budweiserApp')
         Restangular.all('questions').post(question)
         .then (newQuestion) ->
           $scope.questions.push newQuestion
+          $scope.totalItems += 1
 
     addToLecture: ->
       $scope.updating = true
@@ -99,7 +100,8 @@ angular.module('budweiserApp')
 
     pageChange: ->
       console.debug $scope.currentPage
-      $scope.searchQuestions(true) if $scope.questions.length < $scope.totalItems
+      loadedItems = $scope.currentPage * $scope.pageSize
+      $scope.searchQuestions(true) if $scope.questions.length < loadedItems
 
     searchQuestions: (loadMore = false) ->
       Restangular.one('questions').get(

@@ -31,10 +31,11 @@
              select="selectClasse(classe)"
              active="classe.$active">
           <tab-heading>
-            {{classe.name}}
             <button type="button"
                     class="close"
                     ng-click="removeClasse(classe)">&times;</button>
+            <span tooltip="{{classe.name | minLength:20}}"
+                  tooltip-append-to-body="true">{{classe.name}}</span>
           </tab-heading>
         </tab>
       </tabset>

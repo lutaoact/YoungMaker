@@ -74,6 +74,9 @@
            sv-root
            sv-on-sort="sortLecture()"
            sv-part="course.$lectures">
+        <div sv-placeholder class="lecture-placeholder text-center">
+          <label>释放鼠标，可将课时放置在这个位置</label>
+        </div>
         <div class="stretch lecture-item"
              sv-element
              ng-show="filter(lecture, keyword)"
@@ -100,8 +103,12 @@
             </label>
             <div class="pull-right">
               <button type="button"
+                      tooltip="点住鼠标，上下拖动可以改变课时的顺序"
+                      tooltip-append-to-body="true"
                       class="btn btn-default glyphicon glyphicon-sort"></button>
               <button type="button"
+                      tooltip="删除该课时"
+                      tooltip-append-to-body="true"
                       class="btn btn-default glyphicon glyphicon-remove"
                       ng-click="deleteLecture(lecture)">
               </button>

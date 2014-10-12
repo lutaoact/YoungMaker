@@ -320,6 +320,9 @@
                sv-root
                sv-on-sort="sortSlides()"
                sv-part="lecture.slides">
+            <div sv-placeholder class="slide-placeholder text-center">
+              <label>放置在这个位置</label>
+            </div>
             <a class="list-group-item stretch"
                sv-element
                ng-class="{'active':(pptViewer.$activeIndex==$index)}"
@@ -328,8 +331,13 @@
               <div class="slide-thumb"
                    src-key="slide.thumb"
                    source-attr="background-image"></div>
-              <div class="index">{{$index+1}}</div>
-              <button ng-click="removeSlide($index)" class="close">&times;</button>
+              <div class="index"
+                   tooltip="点住鼠标，上下拖动可以改变幻灯片的顺序"
+                   tooltip-append-to-body="true">{{$index+1}}</div>
+              <button ng-click="removeSlide($index)"
+                      tooltip="移除这张幻灯片"
+                      tooltip-append-to-body="true"
+                      class="close">&times;</button>
             </a>
           </div>
         </div>

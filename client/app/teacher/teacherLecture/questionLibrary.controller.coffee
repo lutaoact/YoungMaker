@@ -77,6 +77,8 @@ angular.module('budweiserApp')
           $scope.deleting = false
           angular.forEach deleteQuestions, (q) ->
             questions.splice(questions.indexOf(q), 1)
+          $scope.pageChange()
+#          $scope.totalItems -= deleteQuestions.length
 
     addNewQuestion: ->
       $modal.open
@@ -88,9 +90,7 @@ angular.module('budweiserApp')
           categoryId: -> $scope.categoryId
       .result.then (question) ->
         Restangular.all('questions').post(question)
-        .then (newQuestion) ->
-          $scope.questions.push newQuestion
-          $scope.totalItems += 1
+        .then $scope.pageChange
 
     addToLecture: ->
       $scope.updating = true
@@ -99,8 +99,8 @@ angular.module('budweiserApp')
         _.filter $scope.questions, (q) -> q.$selected
 
     pageChange: ->
-      console.debug $scope.currentPage
       loadedItems = $scope.currentPage * $scope.pageSize
+      console.debug $scope.currentPage, loadedItems, $scope.questions.length
       $scope.searchQuestions(true) if $scope.questions.length < loadedItems
 
     searchQuestions: (loadMore = false) ->

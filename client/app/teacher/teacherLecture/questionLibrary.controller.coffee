@@ -78,7 +78,6 @@ angular.module('budweiserApp')
           angular.forEach deleteQuestions, (q) ->
             questions.splice(questions.indexOf(q), 1)
           $scope.pageChange()
-#          $scope.totalItems -= deleteQuestions.length
 
     addNewQuestion: ->
       $modal.open

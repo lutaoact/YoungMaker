@@ -285,12 +285,13 @@
         </div>
         <div class="col-md-12 lecture-ppt"
              ng-if="lecture.slides.length > 0">
-          <div class="col-md-10 lecture-ppt-content">
+          <div class="lecture-ppt-content"
+               ng-class="{toggled:pptViewer.$listToggled}">
             <div ppt-viewer
                  slides="lecture.slides"
-                 current-index="lecture.slides.$activeIndex"
+                 current-index="pptViewer.$activeIndex"
                  index-visible="true"
-                 style="width:100%"></div>
+                 list-toggled="pptViewer.$listToggled"></div>
             <div class="btn-group">
               <label class="info" tooltip="{{lecture.name}} PPT">{{lecture.name}} PPT</label>
               <span class="pull-right">
@@ -314,14 +315,15 @@
               </span>
             </div>
           </div>
-          <div class="list-group lecture-slides-list col-md-2 scroll-bar-visible"
+          <div class="list-group lecture-slides-list scroll-bar-visible"
+               ng-show="pptViewer.$listToggled"
                sv-root
                sv-on-sort="sortSlides()"
                sv-part="lecture.slides">
             <a class="list-group-item stretch"
                sv-element
-               ng-class="{'active':(lecture.slides.$activeIndex==$index)}"
-               ng-click="lecture.slides.$activeIndex=$index"
+               ng-class="{'active':(pptViewer.$activeIndex==$index)}"
+               ng-click="pptViewer.$activeIndex=$index"
                ng-repeat="slide in lecture.slides ">
               <div class="slide-thumb"
                    src-key="slide.thumb"

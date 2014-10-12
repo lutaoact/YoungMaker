@@ -13,5 +13,15 @@
       <i class="fa fa-chevron-right"></i>
     </a>
   </div>
-  <div ng-if="indexVisible" class="index">{{currentIndex+1}}/{{slides.length}}</div>
+  <div ng-if="indexVisible" class="index">
+    {{currentIndex+1}}/{{slides.length}}
+    <button ng-click="toggleList()"
+            tooltip-append-to-body="true"
+            tooltip="{{genToggleListTooltip()}}"
+            ng-class="{active:listToggled}"
+            class="btn btn-primary">
+      <i class="fa fa-th-list"></i>
+      列表
+    </button>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-'use strict'
+'cuse strict'
 
 angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   link: (scope, element, attrs) ->

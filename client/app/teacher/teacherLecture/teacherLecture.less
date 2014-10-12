@@ -1,3 +1,53 @@
+.lecture-slides-list {
+  -webkit-user-select: none;
+  -user-select: none;
+  -moz-user-select: none;
+  position:relative;
+  max-height: 486px;
+  overflow: auto;
+  margin: 0px;
+  padding-right: 2px;
+  .list-group-item {
+    &:first-child ,
+    &:last-child {
+      margin: 0px;
+    }
+    padding: 3px;
+    margin: 5px 0px 5px 1px;
+    background-color: #fafafa;
+    width: 100%;
+    .slide-thumb {
+      height: 104px;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    &:hover {
+      background-color: #f3f3f3;
+      .close {
+        display: block;
+      }
+    }
+    &.active {
+      color: black;
+      padding: 2px;
+      background-color: #f3f3f3;
+      border-width: 2px;
+    }
+  }
+  .index {
+    cursor: move;
+    display: block;
+    text-align: center;
+    opacity: .8;
+  }
+  .close {
+    display:none;
+    position: absolute;
+    right: 5px;
+    top: 0;
+  }
+}
 .question-image {
   display: inline-block;
   vertical-align: top;
@@ -292,56 +342,6 @@
     padding-top: 0px;
     margin-top: 0px;
   }
-  .lecture-slides-list {
-    -webkit-user-select: none;
-    -user-select: none;
-    -moz-user-select: none;
-    position:relative;
-    max-height: 486px;
-    overflow: auto;
-    margin: 0px;
-    padding-right: 2px;
-    .list-group-item {
-      &:first-child ,
-      &:last-child {
-        margin: 0px;
-      }
-      padding: 3px;
-      margin: 5px 0px 5px 1px;
-      background-color: #fafafa;
-      width: 100%;
-      .slide-thumb {
-        height: 104px;
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-      }
-      &:hover {
-        background-color: #f3f3f3;
-        .close {
-          display: block;
-        }
-      }
-      &.active {
-        color: black;
-        padding: 2px;
-        background-color: #f3f3f3;
-        border-width: 2px;
-      }
-    }
-    .index {
-      cursor: move;
-      display: block;
-      text-align: center;
-      opacity: .8;
-    }
-    .close {
-      display:none;
-      position: absolute;
-      right: 5px;
-      top: 0;
-    }
-  }
   .lecture-video {
     border: 2px solid #ccc;
     border-radius: 6px;
@@ -400,9 +400,20 @@
     background: #ffffff;
     .lecture-ppt-content {
       padding: 0px;
+      width: 100%;
       .ppt-viewer {
+        width: 100%;
         box-shadow: none;
       }
+      display: inline-block;
+      &.toggled {
+        width: calc(~'100% - 180px');
+      }
+    }
+    .lecture-slides-list {
+      width: 175px;
+      margin-bottom: -14px;
+      display: inline-block;
     }
     &.lecture-ppt-empty {
       border: 2px dashed #ccc;

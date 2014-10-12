@@ -8,6 +8,7 @@ angular.module('budweiserApp').directive 'pptViewer', ->
     slides: '='
     currentIndex: '='
     indexVisible: '='
+    listToggled: '='
   link: (scope, element, attrs) ->
     scope.currentIndex = 0 # Initially the index is at the first silde
     scope.canPrev = false
@@ -19,6 +20,15 @@ angular.module('budweiserApp').directive 'pptViewer', ->
         return
       else
         scope.currentIndex++
+
+    scope.toggleList = ->
+      scope.listToggled = !(scope.listToggled==true)
+
+    scope.genToggleListTooltip = ->
+      if scope.listToggled == true
+        '收起幻灯片列表'
+      else
+        '展开幻灯片列表'
 
     scope.prev = ($event) ->
       $event.stopPropagation()

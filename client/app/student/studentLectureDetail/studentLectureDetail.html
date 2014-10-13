@@ -36,10 +36,31 @@
         </div>
       </div>
 
-      <div class="ppt-view" ng-show="!viewState.isVideo">
-        <div ppt-viewer slides="lecture.slides" current-index="activeIndex" ng-show="lecture.slides.length > 0">
+      <div class="ppt-view"
+           ng-show="!viewState.isVideo">
+        <div ng-show="lecture.slides.length > 0"
+             class="ppt-content">
+          <div ppt-viewer
+               ng-class="{toggled:pptViewer.$listToggled}"
+               slides="lecture.slides"
+               index-visible="true"
+               list-toggled="pptViewer.$listToggled"
+               current-index="pptViewer.$activeIndex">
+          </div>
+          <div class="lecture-slides-list list-group scroll-bar-visible"
+               ng-show="pptViewer.$listToggled">
+            <a class="list-group-item stretch"
+               ng-class="{'active':(pptViewer.$activeIndex==$index)}"
+               ng-click="pptViewer.$activeIndex=$index"
+               ng-repeat="slide in lecture.slides ">
+              <div class="slide-thumb"
+                   src-key="slide.thumb"
+                   source-attr="background-image"></div>
+              <div class="index">{{$index+1}}</div>
+            </a>
+          </div>
         </div>
-        <div class="empty" ng-hide="lecture.slides.length > 0">
+        <div class="empty" ng-if="!(lecture.slides.length > 0)">
           该课程没有ppt
         </div>
       </div>

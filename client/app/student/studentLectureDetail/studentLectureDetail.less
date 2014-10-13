@@ -56,12 +56,29 @@
     }
     &.player{
       .view{
+        .ppt-content,
         .ppt-view{
           height: 420px;
+          .ppt-content {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+          }
           .ppt-viewer{
+            display: inline-block;
             height: 100%;
             width: 100%;
             .box-shadow(none);
+            &.toggled {
+              width: calc(~'100% - 170px');
+            }
+          }
+          .lecture-slides-list {
+            display: inline-block;
+            max-height: 100%;
+            width: 165px;
+            .index {
+              cursor: default;
+            }
           }
         }
         .video-view{
@@ -175,7 +192,6 @@
     background: @gray-lighter;
   }
 }
-
 .sider-open{
   overflow: hidden;
 }

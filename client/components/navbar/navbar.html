@@ -19,7 +19,6 @@
     <div collapse="isCollapsed"
          class="navbar-collapse collapse"
          id="navbar-main">
-
       <ul class="bud nav navbar-nav nav-title"
           ng-if="getTitle()">
         <li ng-class="{active: isActive(getTitle().link)}">
@@ -36,10 +35,7 @@
         </li>
         <li ng-show="isLoggedIn()" class="pull-right"
             ng-class="{active: isActive('/settings')}"
-            dropdown
-            is-open="dropDownOpen"
-            ng-mouseenter="dropDownOpen=true"
-            ng-mouseleave="dropDownOpen=false">
+            dropdown>
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
              src-key="getCurrentUser().avatar"

@@ -6,6 +6,7 @@ angular.module('budweiserApp').directive 'questionAnswer', ->
   replace: true
   scope:
     question: '='
+    keyPoints: '=keypoints'
   link: (scope, element, attrs) ->
 
   controller: ($scope)->

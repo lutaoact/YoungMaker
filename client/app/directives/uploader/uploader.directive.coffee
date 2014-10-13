@@ -59,7 +59,6 @@ angular.module('budweiserApp')
           $scope.onComplete?($data:url)
         , ()->
           $scope.uploadState = null
-          console.log 'dismiss'
       else
 
         $scope.onStart?($files:files)

@@ -197,6 +197,12 @@
       }
       .classe-list {
         li {
+          a {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+          }
           &.active {
             &:before {
               border-left: 15px solid @base-color;
@@ -217,6 +223,17 @@
         -user-select:none;
         -moz-user-select:none;
         position:relative;
+        .lecture-placeholder {
+          margin-left: 30px;
+          margin-right: 20px;
+          border: 2px dashed #ddd;
+          height: 65px;
+          label {
+            margin-top: 1em;
+            font-size: 1.2em;
+            color: #bebebe;
+          }
+        }
         .lecture-item {
           padding: auto;
           margin: auto;

@@ -34,7 +34,7 @@ angular.module('budweiserApp')
       $scope.mediaApi.seekTime(time) if time >= 0
 
     addKeyPoint: ->
-      currentTime = $scope.mediaApi.videoElement?[0]?.currentTime
+      currentTime = $scope.mediaApi.mediaElement?[0]?.currentTime
       newKeyPoint =
         timestamp: Math.ceil(currentTime)
       $scope.lecture.keyPoints.push newKeyPoint

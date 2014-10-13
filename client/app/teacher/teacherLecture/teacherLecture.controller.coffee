@@ -28,6 +28,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     saving: false
     deleting: false
     videoActive: true
+    pptViewer:
+      $listToggled: true
     lecture: null
     editingInfo: null
     editingProgress: # 0=new, 1/2=half, 1=done

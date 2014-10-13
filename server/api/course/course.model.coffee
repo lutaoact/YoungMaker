@@ -32,4 +32,7 @@ exports.Course = BaseModel.subclass
       public:
         type: Boolean
         default: false
+      deleteFlag:
+        type: Boolean
+        default: false
     $super()

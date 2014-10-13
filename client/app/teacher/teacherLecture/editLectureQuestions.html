@@ -1,91 +1,111 @@
-<div class="list-group col-md-12">
-  <div class="text-center"
-       ng-class="{'ppt':!videoActive}">
-    <span class="btn-group lecture-nav-tabs">
-      <a ng-click="setQuestionType('quizzes')"
-         ng-class="{'selected':quizzesActive}"
-         class="btn btn-default"
-         du-smooth-scroll
-         offset="60"
-         href="#lecture-question">
-        <i class="fa fa-clock-o"></i>
-        随堂练习
-      </a>
-      <a ng-click="setQuestionType('homeworks')"
-         ng-class="{'selected':!quizzesActive}"
-         class="btn btn-default"
-         du-smooth-scroll
-         offset="60"
-         href="#lecture-question">
-        <i class="fa fa-file-o"></i>
-        课后作业
-      </a>
-    </span>
-  </div>
-  <div class="list-group lecture-question-list">
-    <div class="list-group-item heading">
-      <label>共{{getQuestions().length}}个习题</label>
-      <span class="btn-group pull-right">
-        <a class="btn btn-link"
-           ng-click="addNewQuestion()">
-          添加新习题
-        </a>
-        <a class="btn btn-link"
-           ng-click="addLibraryQuestion()">
-          从题库中添加
-        </a>
-      </span>
-    </div>
-    <div class="list-group-item desc">
-      <input type="checkbox"
-             ng-model="selectedAll"
-             ng-change="toggleSelectAll(selectedAll)"
-             class="bud checkbox-default pull-left">
-      <small><span class="desc-span">编号</span><span class="desc-span">标题</span></small>
-      <a ng-if="getSelectedNum()>0 || deleting"
-         class="btn btn-danger pull-right"
-         ng-click="removeQuestion()">
-        <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
-        <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
-      </a>
-    </div>
-    <div ng-repeat="question in getQuestions()">
-      <div class="question-title list-group-item"
-           ng-class="{'expended':question.$expended==true}">
-        <input type="checkbox"
-               class="bud checkbox-default"
-               ng-model="question.$selected">
-        <label class="title-info"
-               ng-click="question.$expended=!question.$expended">
-          <span class="index">{{$index+1}}</span>{{question.body | questionTitle}}
-        </label>
-        <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
+<div>
+  <div class="container">
+    <div class="list-group col-md-12">
+      <div class="text-center"
+           ng-class="{'ppt':!videoActive}">
+        <span class="btn-group lecture-nav-tabs">
+          <a ng-click="setQuestionType('quizzes')"
+             ng-class="{'selected':quizzesActive}"
+             class="btn btn-default"
+             du-smooth-scroll
+             offset="60"
+             href="#lecture-question">
+            <i class="fa fa-clock-o"></i>
+            随堂练习
+          </a>
+          <a ng-click="setQuestionType('homeworks')"
+             ng-class="{'selected':!quizzesActive}"
+             class="btn btn-default"
+             du-smooth-scroll
+             offset="60"
+             href="#lecture-question">
+            <i class="fa fa-file-o"></i>
+            课后作业
+          </a>
+        </span>
       </div>
-      <div ng-if="question.$expended">
-        <div class="question-image" ng-repeat="imageKey in question.body | questionImage">
-          <img ng-src="{{imageKey}}" class="image-zoom" alt="">
+    </div>
+  </div>
+  <div class="list-group lecture-question-list-header">
+    <div class="list-group-item heading">
+      <div class="container">
+        <div class="col-md-12">
+          <label>共{{getQuestions().length}}个习题</label>
+          <span class="btn-group pull-right">
+            <a class="btn btn-link"
+               ng-click="addNewQuestion()">
+              加新习题
+            </a>
+            <a class="btn btn-link"
+               ng-click="addLibraryQuestion()">
+              题库添加
+            </a>
+          </span>
         </div>
       </div>
-      <ul class="nav nav-pills nav-stacked list-group-item question-content"
-          role="tablist"
-          ng-if="question.$expended">
-        <li ng-repeat="option in question.choices"
-            class="question-option"
-            role="presentation">
-          <label class="text-muted" ng-class="{'label-correct':option.correct}">
+    </div>
+    <div class="list-group-item desc">
+      <div class="container">
+        <div class="col-md-12">
+          <label>
             <input type="checkbox"
-                   class="bud checkbox-primary"
-                   ng-disabled="true"
-                   ng-model="option.correct">
-            <span class="index">{{$index | indexToABC}}. </span>
-            {{option.text}}
+                   ng-model="selectedAll"
+                   ng-change="toggleSelectAll(selectedAll)"
+                   class="bud checkbox-default pull-left">
+            <small class="desc-span">全部</small>
           </label>
-        </li>
-        <li role="presentation">
-          <question-answer question="question" keypoints="keyPoints">
-          </question-answer>
-        </li>
-      </ul>
+          <a ng-if="getSelectedNum()>0 || deleting"
+             class="btn btn-danger pull-right"
+             ng-click="removeQuestion()">
+            <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
+            <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="lecture-question-list-body">
+    <div class="container">
+      <div class="col-md-12">
+        <div ng-repeat="question in getQuestions()">
+          <div class="question-title list-group-item"
+               ng-class="{'expended':question.$expended==true}">
+            <input type="checkbox"
+                   class="bud checkbox-default"
+                   ng-model="question.$selected">
+            <label class="title-info"
+                   ng-click="question.$expended=!question.$expended">
+              <span class="index">{{$index+1}}</span>{{question.body | questionTitle}}
+            </label>
+            <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
+          </div>
+          <div ng-if="question.$expended">
+            <div class="question-image" ng-repeat="imageKey in question.body | questionImage">
+              <img ng-src="{{imageKey}}" class="image-zoom" alt="">
+            </div>
+          </div>
+          <ul class="nav nav-pills nav-stacked list-group-item question-content"
+              role="tablist"
+              ng-if="question.$expended">
+            <li ng-repeat="option in question.choices"
+                class="question-option"
+                role="presentation">
+              <label class="text-muted" ng-class="{'label-correct':option.correct}">
+                <input type="checkbox"
+                       class="bud checkbox-primary"
+                       ng-disabled="true"
+                       ng-model="option.correct">
+                <span class="index">{{$index | indexToABC}}. </span>
+                {{option.text}}
+              </label>
+            </li>
+            <li role="presentation">
+              <question-answer question="question" keypoints="keyPoints">
+              </question-answer>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

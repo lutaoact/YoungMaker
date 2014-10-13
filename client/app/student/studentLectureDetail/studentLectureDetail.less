@@ -59,6 +59,7 @@
         .ppt-content,
         .ppt-view{
           height: 420px;
+          position: relative;
           .ppt-content {
             border-top: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
@@ -67,17 +68,32 @@
             display: inline-block;
             height: 100%;
             width: 100%;
+            transition: width .6s;
+            -moz-transition: width .6s;
+            -webkit-transition: width .6s;
+            -o-transition: width .6s;
             .box-shadow(none);
             &.toggled {
               width: calc(~'100% - 170px');
             }
           }
           .lecture-slides-list {
-            display: inline-block;
+            top: 0px;
+            right: 4px;
+            position: absolute;
             max-height: 100%;
             width: 165px;
+            opacity: 1;
+            transition: all .6s;
+            -moz-transition: all .6s;
+            -webkit-transition: all .6s;
+            -o-transition: all .6s;
             .index {
               cursor: default;
+            }
+            &.ng-hide {
+              width: 0px;
+              opacity: 0;
             }
           }
         }

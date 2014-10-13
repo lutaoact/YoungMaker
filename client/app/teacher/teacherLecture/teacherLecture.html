@@ -347,12 +347,10 @@
   <section class="question-section"
            id="lecture-question"
            ng-hide="$state.includes('teacher.lecture.questionLibrary')">
-    <div class="container">
-      <div edit-lecture-questions
-           lecture="lecture"
-           on-update="updateEditingProgress($lecture)"
-           key-points="keyPoints"
-           category-id="course.categoryId"></div>
-    </div>
+    <div edit-lecture-questions
+         lecture="lecture"
+         on-update="updateEditingProgress($lecture)"
+         key-points="keyPoints"
+         category-id="course.categoryId"></div>
   </section>
 </div>

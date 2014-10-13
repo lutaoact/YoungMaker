@@ -1,25 +1,25 @@
 <div>
   <div class="list-group-item keypoint-heading">
-    知识点
+    视频知识点关联
     <a class="btn btn-danger pull-right"
        id="add-keypoint-btn"
        ng-click="addKeyPoint()">
       <i class="fa fa-plus-circle"></i>
-      新知识点
+      创建关联
     </a>
   </div>
   <div ng-if="lecture.keyPoints.length==0"
        class="keypoint-help-info">
     <i class="fa fa-question"></i>
     <div class="info">
-      <h4 class="title">如何给视频插入知识点？</h4>
+      <h4 class="title">如何创建视频知识点关联？</h4>
       <ol>
         <li>请 “播放” <i class="fa fa-youtube-play"></i> 视频时间至想要的时间点。</li>
         <li>点击
           <a class="btn btn-danger"
              ng-click="addKeyPoint()">
             <i class="fa fa-plus-circle"></i>
-            新知识点
+            创建关联
           </a> 即可插入该时间点。</li>
         <li>再输入添加知识点的内容，按回车确认。</li>
       </ol>
@@ -27,7 +27,7 @@
   </div>
   <div class="list-group-item keypoint-desc"
        ng-if="lecture.keyPoints.length>0">
-    <span>时间</span>
+    <span>时间点</span>
     <span>知识点</span>
   </div>
   <div class="list-group-item keypoint-item"

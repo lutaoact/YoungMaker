@@ -7,10 +7,11 @@ angular.module('budweiserApp').controller 'SettingsCtrl', ($scope, $location, Re
         title: '基本信息'
         link: 'settings/profile'
       }
-      {
-        title: '支付信息'
-        link: 'settings/billing'
-      }
+#     暂时不用
+#      {
+#        title: '支付信息'
+#        link: 'settings/billing'
+#      }
     ]
 
     isActive: (route) ->

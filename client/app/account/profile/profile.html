@@ -28,9 +28,17 @@
   <div class="row">
     <form class="form-horizontal col-sm-8 col-sm-offset-2" role="form" ng-submit="saveProfile()">
       <div class="form-group">
-        <label for="inputName" class="col-xs-4 control-label">昵称</label>
+        <label for="inputName" class="col-xs-4 control-label">用户名</label>
         <div class="col-xs-8">
-          <input type="text" class="form-control" id="inputName" placeholder="请输入昵称" required
+          <input type="text" class="form-control" id="inputUserName"
+                 disabled
+                 ng-model="me.username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputName" class="col-xs-4 control-label">姓名</label>
+        <div class="col-xs-8">
+          <input type="text" class="form-control" id="inputName" placeholder="请输入您的姓名" required
             focus-me="nameInputFocus"
             ng-init="nameInputFocus=true"
             ng-model="me.name">

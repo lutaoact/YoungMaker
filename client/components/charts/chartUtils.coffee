@@ -269,6 +269,8 @@ angular.module 'budweiserApp'
         $scope.keypointBarChart.xAxis.categories = _.map results[2].stats, (item, index)->
           keypointsMap[index]?.name
         $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
+
+        $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
         $scope.keypointBarChart.title =
           text: '知识点掌握程度统计'
 

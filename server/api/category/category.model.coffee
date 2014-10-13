@@ -16,6 +16,7 @@ exports.Category = BaseModel.subclass
         unique: true
       orgId:
         type : ObjectId
+        required: true
         ref : 'organization'
 
     $super()

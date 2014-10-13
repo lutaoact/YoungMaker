@@ -12,7 +12,7 @@
 Category = _u.getModel "category"
 
 exports.index = (req, res, next) ->
-  Category.findQ {}
+  Category.findQ orgId: req.user.orgId
   .then (categories) ->
     res.send categories
   , (err) ->
@@ -20,6 +20,9 @@ exports.index = (req, res, next) ->
 
 exports.create = (req, res, next) ->
   body = req.body
+  delete body._id
+
+  body.orgId = req.user.orgId
   Category.createQ body
   .then (category) ->
     res.json 201, category

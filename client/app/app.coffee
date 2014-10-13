@@ -151,7 +151,9 @@ angular.module 'budweiserApp', [
   $rootScope
   socketHandler
   loginRedirector
+  Page
 ) ->
+  $rootScope.Page = Page
 
   #set the default configuration options for angular-notify
   notify.config

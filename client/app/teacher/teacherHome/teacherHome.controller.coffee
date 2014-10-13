@@ -3,6 +3,7 @@
 angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   Auth
   $modal
+  $state
   $scope
   Courses
   Categories
@@ -23,3 +24,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
           categories: -> Categories
       .result.then (newCourse) ->
         $scope.courses.push newCourse
+
+    startCourse : (event) ->
+      $state.go 'teacher.course', courseId: event.$course._id

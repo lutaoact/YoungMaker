@@ -5,6 +5,7 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   User
   Auth
   $http
+  $state
   $scope
   notify
   $upload
@@ -21,6 +22,6 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
       $scope.courses = Courses
 
     startCourse: (event)->
-      console.log event
+      $state.go 'student.courseDetail', courseId: event.$course._id
 
   $scope.loadCourses()

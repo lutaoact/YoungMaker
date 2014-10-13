@@ -35,6 +35,9 @@ angular.module 'budweiserApp', [
   $httpProvider.interceptors.push 'patchInterceptor'
   $httpProvider.interceptors.push 'loadingInterceptor'
 
+.config ($compileProvider) ->
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//)
+
 .config (RestangularProvider) ->
   # add a response intereceptor
   RestangularProvider.setBaseUrl('api')
@@ -143,15 +146,32 @@ angular.module 'budweiserApp', [
   $modal
   $state
   notify
+  indexUser
   $location
   $rootScope
   socketHandler
   loginRedirector
+  Page
 ) ->
+  $rootScope.Page = Page
 
   #set the default configuration options for angular-notify
   notify.config
     duration: 3000
+
+  getHomeStateName = (role) ->
+    switch role
+      when 'teacher' then 'teacher.home'
+      when 'student' then 'student.home'
+      when 'admin'   then 'admin.teacherManager'
+      else throw '非法的用户 ' + role
+
+  checkInitState = (toState) ->
+    checkInitState = null
+    if !toState.authenticate
+      Auth.getCurrentUser().$promise?.then (me) ->
+        event.preventDefault()
+        $state.go(getHomeStateName me.role)
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->

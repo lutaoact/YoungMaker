@@ -54,55 +54,11 @@
                      class="bud checkbox-default pull-left">
               <span>编号</span><span>标题</span>
             </div>
-            <div ng-repeat="question in questions | paging:pageSize:currentPage">
-              <div class="question-title list-group-item"
-                   ng-class="{'expended':question.$expended==true}">
-                <input type="checkbox"
-                       class="bud checkbox-default title-select"
-                       ng-disabled="question.$exists"
-                       ng-model="question.$selected">
-                <label class="title-info"
-                       ng-class="{'text-muted':question.$exists}"
-                       ng-click="question.$expended=!question.$expended">
-                  <span class="index">{{(currentPage-1) * pageSize + $index+1}}</span>{{question.body | questionTitle}}
-                </label>
-                <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
-              </div>
-              <div ng-if="question.$expended">
-                <div class="question-image" ng-repeat="imageKey in question.$imageUrls">
-                  <img ng-src="{{imageKey}}" class="image-zoom" alt="">
-                </div>
-              </div>
-              <ul class="nav nav-pills nav-stacked list-group-item question-content"
-                  role="tablist"
-                  ng-if="question.$expended">
-                <li ng-repeat="option in question.choices"
-                    class="question-option"
-                    role="presentation">
-                  <label class="text-muted">
-                    <input type="checkbox"
-                           class="bud checkbox-primary"
-                           ng-disabled="true"
-                           ng-model="option.correct">
-                    <span class="index">{{$index | indexToABC}}. </span>
-                    {{option.text}}
-                  </label>
-                </li>
-                <li role="presentation">
-                  <div class="media alert alert-warning question-answer">
-                    <label class="media-object pull-left">
-                      {{getCorrectInfo(question)}}
-                    </label>
-                    <div class="media-body">
-                      <b>注解：</b>{{question.detailSolution}}
-                      <div ng-if="question.keyPoints.length>0">
-                        <b>知识点：</b><span ng-repeat="keyPoint in question.keyPoints">{{keyPoint.name}} </span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+            <teacher-question-item question="question"
+                                   index="$index"
+                                   keypoints="keyPoints"
+                                   ng-repeat="question in questions | paging:pageSize:currentPage"
+                                   remove-callback="removeQuestion($question)"></teacher-question-item>
             <pager total-items="totalItems"
                    previous-text="上一页"
                    next-text="下一页"

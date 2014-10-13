@@ -40,6 +40,7 @@ exports.show = (req, res, next) ->
 
 exports.create = (req, res, next) ->
   body = req.body
+  delete body._id
   Organization.createQ body
   .then (organization) ->
     res.send 201, organization

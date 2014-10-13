@@ -15,6 +15,7 @@ exports.KeyPoint = BaseModel.subclass
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"
+        required: true
 
     @schema.index
       name : 1

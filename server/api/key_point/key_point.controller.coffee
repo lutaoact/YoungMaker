@@ -10,13 +10,17 @@
 "use strict"
 
 KeyPoint = _u.getModel "key_point"
+Category = _u.getModel 'category'
 Lecture = _u.getModel "lecture"
 
 exports.index = (req, res, next) ->
-  conditions = {}
-  conditions.categoryId = req.query.categoryId if req.query.categoryId
+  conditions = orgId: req.user.orgId
+  conditions._id = req.query.categoryId if req.query.categoryId
 
-  KeyPoint.findQ conditions
+  Category.findQ conditions
+  .then (categories) ->
+    categoryIds = _.pluck categories, '_id'
+    KeyPoint.findQ categoryId: $in: categoryIds
   .then (keyPoints) ->
     res.send keyPoints
   , (err) ->
@@ -30,6 +34,7 @@ exports.show = (req, res, next) ->
     next err
 
 exports.create = (req, res, next) ->
+  delete req.body._id
   KeyPoint.createQ req.body
   .then (keyPoint) ->
     res.send 201, keyPoint

@@ -29,6 +29,11 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   Navbar.setTitle course.name, "student.courseDetail({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
 
+  # TODO: remove this line. Fix in videogular
+  $scope.$on '$destroy', ()->
+    # clear video
+    angular.element('video').attr 'src', ''
+
   loadLecture = ()->
     if $state.params.lectureId
       Restangular.one('lectures',$state.params.lectureId).get()

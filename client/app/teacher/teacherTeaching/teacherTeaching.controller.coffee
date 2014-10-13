@@ -10,6 +10,11 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $sce
 ) ->
 
+  # TODO: remove this line. Fix in videogular
+  $scope.$on '$destroy', ()->
+    # clear video
+    angular.element('video').attr 'src', ''
+
   angular.extend $scope,
 
     $state: $state

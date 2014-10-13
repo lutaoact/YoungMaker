@@ -20,6 +20,11 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
 
+  # TODO: remove this line. Fix in videogular
+  $scope.$on '$destroy', ()->
+    # clear video
+    angular.element('video').attr 'src', ''
+
   angular.extend $scope,
 
     course: course

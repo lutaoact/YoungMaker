@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
   lectures
   topics
   lectureId
+  $modal
 ) ->
 
   angular.extend $scope,
@@ -20,11 +21,18 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
     lectureId: lectureId
 
     close: ->
-      giveUp = true
       if @myTopic.title or @myTopic.content
-        giveUp = confirm('是否放弃编辑？')
+        $modal.open
+          templateUrl: 'components/modal/messageModal.html'
+          controller: 'MessageModalCtrl'
+          resolve:
+            title: -> '警告!'
+            message: -> "是否放弃编辑？"
+        .result.then ->
+          $modalInstance.dismiss('close')
+      else
+        $modalInstance.dismiss('close')
 
-      $modalInstance.dismiss('close') if giveUp
 
     myTopic:
       metadata:

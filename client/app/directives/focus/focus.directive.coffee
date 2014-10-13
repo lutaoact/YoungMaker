@@ -7,7 +7,7 @@ angular.module('budweiserApp')
     scope.$watch 'trigger', (val) -> $timeout ->
       if !val then return
       elem[0].focus()
-      elem[0].select()
+      elem[0].select?()
       scope.trigger = false
 
 .directive 'focusOn', ($timeout) ->

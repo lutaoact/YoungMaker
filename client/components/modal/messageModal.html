@@ -9,6 +9,7 @@
     <small class="text-danger">{{message}}</small>
   </h3>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="confirm()">确认</button>
+    <button type="button" class="btn btn-danger" ng-click="confirm()" focus-me="confirmButtonFocus" ng-init="confirmButtonFocus = true">确认</button>
+    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
   </div>
 </div>

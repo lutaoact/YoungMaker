@@ -41,7 +41,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         $scope.lecture = lecture
         $scope.viewState.isVideo = lecture.media or !lecture.slides
         if lecture.media
-          console.log lecture.media
           $scope.viewState.videos = [
             src: $sce.trustAsResourceUrl(lecture.media)
             type: 'video/mp4'

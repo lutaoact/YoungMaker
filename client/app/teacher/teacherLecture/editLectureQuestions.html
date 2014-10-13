@@ -84,26 +84,26 @@
               <img ng-src="{{imageKey}}" class="image-zoom" alt="">
             </div>
           </div>
-          <ul class="nav nav-pills nav-stacked list-group-item question-content"
-              role="tablist"
-              ng-if="question.$expended">
-            <li ng-repeat="option in question.choices"
-                class="question-option"
-                role="presentation">
-              <label class="text-muted" ng-class="{'label-correct':option.correct}">
-                <input type="checkbox"
-                       class="bud checkbox-primary"
-                       ng-disabled="true"
-                       ng-model="option.correct">
-                <span class="index">{{$index | indexToABC}}. </span>
-                {{option.text}}
-              </label>
-            </li>
-            <li role="presentation">
-              <question-answer question="question" keypoints="keyPoints">
-              </question-answer>
-            </li>
-          </ul>
+          <div ng-if="question.$expended" class="list-group-item question-content">
+            <ul class="nav nav-pills nav-stacked "
+                role="tablist">
+              <li ng-repeat="option in question.choices"
+                  class="question-option"
+                  role="presentation">
+                <label class="text-muted" ng-class="{'label-correct':option.correct}">
+                  <input type="checkbox"
+                         class="bud checkbox-primary"
+                         ng-disabled="true"
+                         ng-model="option.correct">
+                  <span class="index">{{$index | indexToABC}}. </span>
+                  {{option.text}}
+                </label>
+              </li>
+            </ul>
+            <question-answer question="question"
+                             keypoints="keyPoints">
+            </question-answer>
+          </div>
         </div>
       </div>
     </div>

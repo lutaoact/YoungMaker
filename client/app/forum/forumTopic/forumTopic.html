@@ -12,7 +12,10 @@
         <div class="view-section recommends">
           推荐贴
           <hr>
-          <a class="thumbnail media recommended-topic" ng-repeat="recommendedTopic in recommendedTopics" ui-sref="forum.topic({topicId:recommendedTopic._id})">
+          <a class="thumbnail media recommended-topic"
+            href=""
+            ng-repeat="recommendedTopic in recommendedTopics"
+            ui-sref="forum.topic({topicId:recommendedTopic._id, courseId:course._id})">
             <div class="media-body">
               <h4 class="media-heading">{{recommendedTopic.title}}</h4>
               <p class="media-summary">{{recommendedTopic.metadata.raw}}</p>

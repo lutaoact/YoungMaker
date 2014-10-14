@@ -18,4 +18,5 @@ angular.module('budweiserApp').directive 'questionAnswer', ->
           result
         , ''
 
-      getKeyPoint: (id) -> _.find($scope.keyPoints, _id:id)
+      getKeyPointName: (keypoint) ->
+        keypoint.name ? _.find($scope.keyPoints, _id:keypoint).name

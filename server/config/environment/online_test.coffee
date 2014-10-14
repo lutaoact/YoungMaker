@@ -16,14 +16,6 @@ module.exports =
 
   nodejsServer : '115.29.244.232'
 
-  assetHost :
-    images : 'qiniu'
-    slides : 's3' # change to S3 later
-    videos : 'azure'
-    uploadImage : 'qiniu'
-    uploadSlide : 's3' # change to S3 later
-    uploadVideo : 'azure'
-
   redis :
     port : 6379
     host : "localhost"

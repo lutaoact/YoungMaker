@@ -29,14 +29,6 @@ module.exports =
 
   nodejsServer : '119.254.110.62'
 
-  assetHost :
-    images : 'qiniu'
-    slides : 's3' # change to S3 later
-    videos : 'azure'
-    uploadImage : 'qiniu'
-    uploadSlide : 's3' # change to S3 later
-    uploadVideo : 'azure'
-
   redis :
     port : 6379
     host : process.env.MONGOLAB_URI or 'vm4redis.wckvrx.pek2.qingcloud.com'

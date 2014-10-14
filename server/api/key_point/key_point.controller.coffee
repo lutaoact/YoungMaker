@@ -1,12 +1,3 @@
-
-#
-# * Using Rails-like standard naming convention for endpoints.
-# * GET     /key_points              ->  index
-# * GET     /key_points/:id          ->  show
-# * POST    /key_points              ->  create
-# * DELETE  /key_points/:id          ->  destroy
-#
-
 "use strict"
 
 KeyPoint = _u.getModel "key_point"

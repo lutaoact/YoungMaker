@@ -116,7 +116,7 @@ angular.module 'budweiserApp'
                   uploadPiece(currentEnd, currentEnd + segment)
 
               error: (err)->
-                uploadQ.reject err
+                uploadQ.reject '视频上传失败'
 
         uploadPiece current, currentEnd
         uploadQ.promise

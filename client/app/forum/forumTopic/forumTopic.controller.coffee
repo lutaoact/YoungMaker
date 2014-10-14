@@ -64,3 +64,5 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
 
   $scope.$on 'forum/reloadReplyList', (event, replyId)->
     $scope.loadTopic(replyId)
+    #   $scope.topic.$currentReplyId = replyId
+    # if replyId

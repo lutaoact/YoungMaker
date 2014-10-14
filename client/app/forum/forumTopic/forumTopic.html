@@ -2,34 +2,36 @@
 
 </div>
 
-<section class="container forum-topic-view body">
-  <div class="row">
-    <div class="col-md-8 forum-topic-view-left">
-      <topic-detail topic="topic" active-reply="{{topic.$currentReplyId}}"></topic-detail>
-    </div>
-    <div class="col-md-4 forum-topic-view-right">
-      <div class="view-section recommends">
-        推荐贴
-        <hr>
-        <a class="thumbnail media recommended-topic" ng-repeat="recommendedTopic in recommendedTopics" ui-sref="forum.topic({topicId:recommendedTopic._id})">
-          <div class="media-body">
-            <h4 class="media-heading">{{recommendedTopic.title}}</h4>
-            <p class="media-summary">{{recommendedTopic.metadata.raw}}</p>
-            <div class="status">
-              <i class="fa fa-heart"></i>
-              {{recommendedTopic.voteUpUsers.length||0}}
-            </div>
-            <div class="status">
-              <i class="fa fa-eye"></i>
-              {{recommendedTopic.viewers.length||0}}
-            </div>
+<section class="forum-topic-view body">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 forum-topic-view-left">
+        <topic-detail topic="topic" active-reply="{{topic.$currentReplyId}}"></topic-detail>
+      </div>
+      <div class="col-md-4 forum-topic-view-right">
+        <div class="view-section recommends">
+          推荐贴
+          <hr>
+          <a class="thumbnail media recommended-topic" ng-repeat="recommendedTopic in recommendedTopics" ui-sref="forum.topic({topicId:recommendedTopic._id})">
+            <div class="media-body">
+              <h4 class="media-heading">{{recommendedTopic.title}}</h4>
+              <p class="media-summary">{{recommendedTopic.metadata.raw}}</p>
+              <div class="status">
+                <i class="fa fa-heart"></i>
+                {{recommendedTopic.voteUpUsers.length||0}}
+              </div>
+              <div class="status">
+                <i class="fa fa-eye"></i>
+                {{recommendedTopic.viewers.length||0}}
+              </div>
 
-            <div class="status">
-              <i class="fa fa-comments"></i>
-              {{recommendedTopic.repliesNum||0}}
+              <div class="status">
+                <i class="fa fa-comments"></i>
+                {{recommendedTopic.repliesNum||0}}
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   </div>

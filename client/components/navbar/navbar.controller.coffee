@@ -81,7 +81,7 @@ angular.module 'budweiserApp'
 
   $scope.removeMsg = (message, $event)->
     # for only reload the topicDetail directive when we are just on this forum page.
-    $rootScope.$broadcast("forum/reloadReplyList", message.raw.data?.disReply._id)
+    $rootScope.$broadcast("forum/reloadReplyList", message.raw.data?.disReply?._id)
 
     $event?.stopPropagation()
     noticeId = message.raw._id

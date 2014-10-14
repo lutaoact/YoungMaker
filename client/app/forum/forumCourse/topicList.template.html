@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <li class="bud col-md-12 topic media"
+    <li class="bud col-md-12 topic media fade-repeat"
         ng-repeat="topic in topics|filter:viewState.query|filter: filterByTags|filter: topicsFilter|orderBy:viewState.orderBy"
         ng-class="{'selected':topic._id==selectedTopic._id}"
         ng-click="selectTopic(topic)">

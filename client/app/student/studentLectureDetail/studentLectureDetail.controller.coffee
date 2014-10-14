@@ -34,6 +34,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     # clear video
     angular.element('video').attr 'src', ''
 
+    #clear silder
+    angular.element('body').removeClass 'sider-open'
+
   loadLecture = ()->
     if $state.params.lectureId
       Restangular.one('lectures',$state.params.lectureId).get()

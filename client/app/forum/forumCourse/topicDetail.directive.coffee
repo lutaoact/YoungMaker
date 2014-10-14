@@ -95,6 +95,6 @@ angular.module('budweiserApp')
         $timeout ->
           targetElement.removeClass('active')
         , 1000
-      , 500
+      , 100
 
 

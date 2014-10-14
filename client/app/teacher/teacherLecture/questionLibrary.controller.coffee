@@ -99,7 +99,6 @@ angular.module('budweiserApp')
 
     pageChange: ->
       loadedItems = $scope.currentPage * $scope.pageSize
-      console.debug $scope.currentPage, loadedItems, $scope.questions.length
       $scope.searchQuestions(true) if $scope.questions.length < loadedItems
 
     searchQuestions: (loadMore = false) ->
@@ -121,7 +120,6 @@ angular.module('budweiserApp')
           else
             questions
         $scope.totalItems = totalNum #$scope.questions.length
-        console.debug $scope.totalItems
 
   $scope.searchQuestions()
 

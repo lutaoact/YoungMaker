@@ -42,7 +42,7 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
-        opts.success?(strategy.formData.key)
+        opts.success?(strategy.prefix+strategy.formData.key)
       .error opts.fail
     , opts.fail
 
@@ -129,7 +129,7 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request)
       .then (data)->
-        opts.success?("/api/assets/videos/#{strategy.key}")
+        opts.success?(strategy.prefix + strategy.key)
     , opts.fail
 
   doUploadSlides = (opts, file)->
@@ -154,8 +154,8 @@ angular.module 'budweiserApp'
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (data)->
           slides = _.map data.rawPics, (pic) ->
-            raw: '/api/assets/slides/' + pic
-            thumb: '/api/assets/slides/' + pic.replace('-lg.jpg', '-sm.jpg')
+            raw: strategy.prefix + pic
+            thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(slides)
       .error opts.fail
     , opts.fail

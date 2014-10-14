@@ -3,11 +3,15 @@
          ng-if="!multiple"
          ng-disabled="uploadState!=null"
          accept="{{getAcceptValue()}}"
+         class="uploader-file-input"
+         onclick="this.value = null"
          ng-file-select="onFileSelect($files)"/>
   <input type="file" style="display:none;"
          ng-if="multiple"
          multiple
+         onclick="this.value = null"
          accept="{{getAcceptValue()}}"
+         class="uploader-file-input"
          ng-disabled="uploadState!=null"
          ng-file-select="onFileSelect($files)"/>
   <span ng-if="uploadState=='uploading'">

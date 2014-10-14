@@ -11,7 +11,7 @@ angular.module('budweiserApp')
   scope:
     limit: '='
     acceptType: '@'
-    multiple: '='
+    multiple: '@'
     onStart: '&'
     onProgress: '&'
     onConvert: '&'
@@ -25,6 +25,7 @@ angular.module('budweiserApp')
   $scope
   fileUtils
   $modal
+  $timeout
 ) ->
 
   angular.extend $scope,
@@ -39,6 +40,7 @@ angular.module('budweiserApp')
           'video/mp4,video/x-m4v,video/*'
         else
           ''
+
     onFileSelect: (files) ->
       if not files?.length
         return

@@ -10,7 +10,7 @@ background: white;"> -->
     </div>
     <div class="form-group has-feedback" ng-class="{'has-warning':form.domain.$error.duplicated,'has-success':!form.domain.$error.duplicated}">
       <label>机构独特名称</label>
-      <input class="form-control" id="organization-uniqueName" name="uniqueName" ng-model="organization.uniqueName" ng-blur="validateRemote(organization.uniqueName,form)" placeholder="系统机构名称" required>
+      <input class="form-control" id="organization-uniqueName" name="uniqueName" ng-model="organization.uniqueName" ng-disabled="organization.uniqueName" ng-blur="validateRemote(organization.uniqueName,form)" placeholder="系统机构名称" required>
       <!--<span class="glyphicon glyphicon-ok form-control-feedback" ng-hide="form.domain.$error.duplicated"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="form.domain.$error.duplicated"></span>
       <label>{{organization.subDomain}}.cloud3edu.com</label>

@@ -1,7 +1,8 @@
 <div class="teacher-question-item"
+     id="question-item-{{index}}"
      ng-class="{'expended':question.$expended==true}">
   <div class="question-title list-group-item"
-       ng-click="question.$expended=!question.$expended">
+       ng-click="expendClick()">
     <input type="checkbox"
            ng-disabled="question.$exists"
            class="bud checkbox-default title-checkbox"

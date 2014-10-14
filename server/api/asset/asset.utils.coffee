@@ -171,7 +171,7 @@ exports.AssetUtils = BaseUtils.subclass
     xAmzCredential = AWS.config.accessKeyId + '/' + currentDate +
       '/' + AWS.config.region + '/s3/aws4_request'
     currentTime = moment()
-    
+
     # AWS only takes something like 20120325T120000Z
     xAmzDate = currentTime.utc().format 'YYYYMMDDTHHmmss'
     xAmzDate += 'Z'
@@ -205,31 +205,31 @@ exports.AssetUtils = BaseUtils.subclass
     console.log 'Policy is ' + policyStr
 
     base64Policy = new Buffer(policyStr).toString 'base64'
-    
+
     kSecret = 'AWS4' + AWS.config.secretAccessKey
 
     kDate = crypto.createHmac 'sha256', new Buffer(kSecret)
     .update(xAmzDate.substring(0,8))
     .digest()
-    
+
     kRegion = crypto.createHmac 'sha256', kDate
     .update(AWS.config.region)
     .digest()
 
     kService = crypto.createHmac 'sha256', kRegion
-    .update('s3') 
+    .update('s3')
     .digest()
-    
+
     kSigning = crypto.createHmac 'sha256', kService
-    .update('aws4_request') 
+    .update('aws4_request')
     .digest()
-    
+
     signature = crypto.createHmac 'sha256', kSigning
     .update(base64Policy)
     .digest('hex')
-    
+
     console.log 'signature is ' + signature
-    
+
     {
       url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3UploadBucketName
       formData :

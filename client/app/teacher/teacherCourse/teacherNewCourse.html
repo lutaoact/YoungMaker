@@ -35,12 +35,16 @@
                required>
       </div>
       <div class="form-group">
-        <ui-select ng-model="course.categoryId">
+        <ui-select ng-model="course.categoryId"
+                   required>
           <ui-select-match placeholder="所在专业">{{$select.selected.name}}</ui-select-match>
           <ui-select-choices repeat="option._id as option in categories | filter: $select.search">
             <span ng-bind-html="option.name | highlight: $select.search"></span>
           </ui-select-choices>
         </ui-select>
+        <small class="text-danger"
+               style="padding-top: 5px; position: absolute"
+               ng-if="submitted && !form.$valid && !course.categoryId">请选择一个专业</small>
       </div>
       <div class="form-group">
         <div class="course-info">
@@ -56,7 +60,7 @@
       <div class="text-center">
         <button type="submit"
                 class="btn btn-primary"
-                ng-click="confirmCreate(course, form)">
+                ng-click="submitted=true; confirmCreate(course, form)">
           确认
         </button>
         <button type="button"

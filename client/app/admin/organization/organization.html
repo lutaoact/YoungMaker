@@ -45,22 +45,5 @@ background: white;"> -->
     </div>
     <button type="submit" class="btn btn-default" ng-click="saveOrg(organization,form)">Submit</button>
   </form>
-  <hr>
-  <form>
-    <div class="form-group">
-      <label>科目管理</label>
-      <input type="text"
-             placeholder="科目名称"
-             ng-model="newCategory.name"/>
-      <a class="btn btn-primary"
-         ng-click="addCategory()">添加科目</a>
-      <div class="list-group">
-        <div class="list-group-item" ng-repeat="category in categories">
-          {{category.name}}
-          <span class="close" ng-click="removeCategory(category)">&times;</span>
-        </div>
-      </div>
-    </div>
-  </form>
 </div>
 </div>

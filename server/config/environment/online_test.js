@@ -12,14 +12,6 @@
       tempDir: '/temp_node_dir'
     },
     nodejsServer: '115.29.244.232',
-    assetHost: {
-      images: 'qiniu',
-      slides: 's3',
-      videos: 'azure',
-      uploadImage: 'qiniu',
-      uploadSlide: 's3',
-      uploadVideo: 'azure'
-    },
     redis: {
       port: 6379,
       host: "localhost"

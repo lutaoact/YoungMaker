@@ -74,30 +74,9 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
         #put
         org.put()
 
-  $scope.newCategory = {}
-
-  $scope.addCategory = ->
-    $scope.categories.post($scope.newCategory).then (newCategory) ->
-      $scope.newCategory = {}
-      $scope.categories.push newCategory
-
-  $scope.removeCategory = (category) ->
-    $modal.open
-      templateUrl: 'components/modal/messageModal.html'
-      controller: 'MessageModalCtrl'
-      resolve:
-        title: -> '删除科目'
-        message: -> """确认要删除这个科目？删除后可能会导致现在的课程没有科目，三思！！！"""
-    .result.then ->
-      category.remove().then ->
-        index = $scope.categories.indexOf(category)
-        $scope.categories.splice(index, 1)
-
   if Auth.getCurrentUser().orgId
     console.log Auth.getCurrentUser().orgId
     Restangular.one('organizations',Auth.getCurrentUser().orgId._id).get()
     .then (org)->
       $scope.organization = org
-
-    $scope.categories = Restangular.all('categories').getList().$object
 

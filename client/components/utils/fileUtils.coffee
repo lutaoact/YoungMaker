@@ -115,6 +115,9 @@ angular.module 'budweiserApp'
                 else
                   uploadPiece(currentEnd, currentEnd + segment)
 
+              error: (err)->
+                uploadQ.reject err
+
         uploadPiece current, currentEnd
         uploadQ.promise
 
@@ -130,6 +133,8 @@ angular.module 'budweiserApp'
       pipeUpload(file, 4 * 1024 * 1024,request)
       .then (data)->
         opts.success?(strategy.prefix + strategy.key)
+      , (err)->
+        opts.fail?(err)
     , opts.fail
 
   doUploadSlides = (opts, file)->

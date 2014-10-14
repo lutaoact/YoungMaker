@@ -73,7 +73,8 @@ angular.module('budweiserApp')
             $scope.uploadState = null
             $scope.onComplete?($data:data)
           fail: (error)->
-            $scope.uploadState = null
+            $scope.uploadState = 'fail'
+            $scope.uploadProgress = ''
             $scope.onError?($error:error)
           progress: (speed, percentage, evt)->
             $scope.uploadProgress =

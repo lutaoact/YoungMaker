@@ -4,9 +4,14 @@
     <a class="close" ng-click="close()">&times;</a>
   </h4>
 </div>
-<div class="modal-body">
+<div class="modal-body push-question-body">
   <h4>Q: {{question.body | questionTitle}}</h4>
-  <div class="list-group-item push-question-content">
+  <div class="question-image"
+       ng-if="!pushed"
+       ng-repeat="imageKey in question.body | questionImage">
+    <img ng-src="{{imageKey}}">
+  </div>
+  <div class="list-group-item question-content">
     <label ng-repeat="option in question.choices"
            class="checkbox question-option"
            ng-class="{'option-correct':option.correct && submitted, 'submit':submitted}">
@@ -18,6 +23,9 @@
       {{option.text}}
     </label>
   </div>
+  <question-answer question="question"
+                   class="question-answer"
+                   ng-if="submitted"></question-answer>
 </div>
 <div class="modal-footer">
   <button type="button"

@@ -8,15 +8,16 @@
       name="form"
       role="form">
   <div class="form-group">
-    <label for="question-title" class="control-label">标题</label>
+    <label for="question-title" class="control-label">问题</label>
     <input class="form-control"
            id="question-title"
            type="text"
+           rows="2"
            focus-me="titleInputFocus"
            ng-init="titleInputFocus=true"
            ng-model="question.body"
-           placeholder="习题标题"
-           required>
+           placeholder="问题描述"
+           required/>
     <div class="question-image" ng-repeat="imageKey in images">
       <img ng-src="{{imageKey}}" class="image-zoom" alt="">
     </div>
@@ -71,7 +72,7 @@
         <ui-select-match placeholder="请输入要添加的知识点，然后按回车">
           <span class="text-muted">请输入要添加的知识点，然后按回车</span>
         </ui-select-match>
-        <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | filter:$select.search">
+        <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | without:selectedKeyPoints:'_id' | filter:$select.search">
           <span ng-bind-html="keyPoint.name | highlight: $select.search"></span>
         </ui-select-choices>
       </ui-select>

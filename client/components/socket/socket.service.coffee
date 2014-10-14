@@ -17,6 +17,7 @@ angular.module('budweiserApp').service 'socket', (
     beatTime = 5 * 60 * 1000 #server 10 分钟检查一次
 
     doBeat = (type = 'beat') ->
+      console.debug 'socket.' + type
       socket.send JSON.stringify
         type: type
         token: $cookieStore.get('token') if $cookieStore.get('token')

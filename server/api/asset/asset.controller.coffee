@@ -49,24 +49,18 @@ uploadAsset = (assetType, fileName) ->
 exports.getImages = (req, res) ->
   key = decodeURI(req.url.replace(/(\/|)images\/\d+\//, ''))
   assetType = req.params.assetType
-  logger.info 'Key is ' + key
-  logger.info 'assetType is ' + assetType
 
   retrieveAsset key, assetType, res
 
 exports.getVideos = (req, res) ->
   key = decodeURI(req.url.replace(/(\/|)videos\/\d+\//, ''))
   assetType = req.params.assetType
-  logger.info 'Key is ' + key
-  logger.info 'assetType is ' + assetType
 
   retrieveAsset key, assetType, res
 
 exports.getSlides = (req, res) ->
   key = decodeURI(req.url.replace(/(\/|)slides\/\d+\//, ''))
   assetType = req.params.assetType
-  logger.info 'Key is ' + key
-  logger.info 'assetType is ' + assetType
 
   retrieveAsset key, assetType, res
 

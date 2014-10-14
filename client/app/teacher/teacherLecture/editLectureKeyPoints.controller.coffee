@@ -34,7 +34,7 @@ angular.module('budweiserApp')
     addKeyPoint: ->
       currentTime = $scope.mediaApi?.mediaElement?[0]?.currentTime
       newKeyPoint =
-        timestamp: Math.ceil(currentTime)
+        timestamp: currentTime
       $scope.lecture.keyPoints.push newKeyPoint
       saveKeyPoints()
       $scope.mediaApi?.pause()

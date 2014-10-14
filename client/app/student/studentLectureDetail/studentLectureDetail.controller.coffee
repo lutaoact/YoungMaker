@@ -13,7 +13,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $scope
   $state
   notify
-  $tools
   Navbar
   Courses
   $timeout

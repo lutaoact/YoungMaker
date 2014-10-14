@@ -68,7 +68,7 @@
     <div class="container">
       <div class="col-md-12">
         <teacher-question-item ng-repeat="question in getQuestions()"
-                               index="$index"
+                               index="{{$index+1}}"
                                question="question"
                                keypoints="keyPoints"
                                remove-callback="removeQuestion($question)">

@@ -5,7 +5,7 @@ angular.module('budweiserApp').directive 'teacherQuestionItem', ->
   restrict: 'E'
   replace: true
   scope:
-    index: '='
+    index: '@'
     question: '='
     keyPoints: '=keypoints'
     removeCallback: '&'

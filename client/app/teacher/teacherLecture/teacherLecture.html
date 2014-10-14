@@ -257,7 +257,7 @@
           <label class="empty-ppt-desc">
             <span ng-if="!(lecture.slides.length > 0) && pptUploadState==null">目前没有PPT，请添加</span>
             <span ng-if="pptUploadState=='uploading'">正在上传PPT...</span>
-            <span ng-if="pptUploadState=='converting'">PPT已上传，正在转换...</span>
+            <span ng-if="pptUploadState=='converting'">PPT上传已完成，正在转换...</span>
             <progressbar class="progress-striped active"
                          value="pptUploadProgress"
                          ng-if="pptUploadState!=null"

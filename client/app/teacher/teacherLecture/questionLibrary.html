@@ -71,7 +71,7 @@
     <div class="container">
       <div class="col-md-12">
         <teacher-question-item question="question"
-                               index="$index"
+                               index="{{($index+1)+(currentPage-1)*pageSize}}"
                                keypoints="keyPoints"
                                ng-repeat="question in questions | paging:pageSize:currentPage"
                                remove-callback="removeQuestion($question)"></teacher-question-item>

@@ -14,8 +14,7 @@ client/index.html
 /server/config/seed*.js
 /server/app.js
 /server/routes.js
-/server/config/environment/production.js
-/server/config/environment/development.js
+/server/config/environment/**/*.js
 /server/config/set_sockjs.js
 /server/config/user_seed.js
 /server/common/**/*.js

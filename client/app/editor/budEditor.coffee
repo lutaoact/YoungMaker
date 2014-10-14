@@ -15,7 +15,7 @@ angular.module('budweiserApp').directive 'budEditor', ()->
       onImgUploaded: (key)->
         $scope.metadata.images ?= []
         $scope.metadata.images.push
-          url: "/api/assets/images/#{key}-blog"
+          url: "#{key}-blog"
           key: key
 
       removeImg: (image)->

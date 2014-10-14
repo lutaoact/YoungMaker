@@ -54,7 +54,7 @@
 
   <div class="clearfix title-row row" ng-show="myTopic.metadata.tags.length">
     <div class="tags">
-      <div class="tag pull-left" ng-repeat="tag in myTopic.metadata.tags">
+      <div class="tag tag-primary pull-left" ng-repeat="tag in myTopic.metadata.tags">
         <i class="fa fa-times remove" ng-click="deleteTag(tag)"></i>
         {{tag.name}}
       </div>

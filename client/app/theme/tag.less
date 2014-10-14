@@ -1,9 +1,8 @@
 
-.tag(@background: @gray;@foreground: #FFFFFF){
+.tag(@background: @gray-light;@foreground: #FFFFFF){
   color: @foreground;
   background: @background;
   margin: 2px;
-  max-width: 110px;
   .remove{
     cursor: pointer;
   }
@@ -19,6 +18,9 @@ tag,
   }
   &.red{
     .tag(@brand-danger, #FFFFFF);
+  }
+  &.tag-primary{
+    .tag(@brand-primary, #FFFFFF);
   }
 }
 

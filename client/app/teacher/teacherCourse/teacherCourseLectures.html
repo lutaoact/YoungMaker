@@ -73,7 +73,8 @@
       <div class="list-group lecture-list"
            sv-root
            sv-on-sort="sortLecture()"
-           sv-part="course.$lectures">
+           sv-part="course.$lectures"
+           ng-if="course.$lectures.length>0">
         <div sv-placeholder class="lecture-placeholder text-center">
           <label>释放鼠标，可将课时放置在这个位置</label>
         </div>

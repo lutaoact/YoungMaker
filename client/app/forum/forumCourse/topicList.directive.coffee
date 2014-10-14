@@ -100,6 +100,7 @@ angular.module('budweiserApp')
         topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
       $scope.queryTags = _.compact $scope.queryTags
       $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId
+  , true
 
   $scope.loadCourse()
 

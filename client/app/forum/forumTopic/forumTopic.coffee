@@ -6,3 +6,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/forum/forumTopic/forumTopic.html'
     controller: 'ForumTopicCtrl'
     reloadOnSearch: false
+    authenticate: true

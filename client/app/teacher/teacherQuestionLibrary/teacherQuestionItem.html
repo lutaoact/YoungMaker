@@ -1,23 +1,25 @@
 <div class="teacher-question-item"
      ng-class="{'expended':question.$expended==true}">
   <div class="question-title list-group-item"
-       ng-class="{'expended':question.$expended==true}">
+       ng-click="question.$expended=!question.$expended">
     <input type="checkbox"
            ng-disabled="question.$exists"
            class="bud checkbox-default title-checkbox"
-           ng-model="question.$selected">
-    <div class="liner"></div>
-    <label class="title-info"
-           ng-class="{'text-muted':question.$exists}"
+           ng-model="question.$selected"
            ng-click="question.$expended=!question.$expended">
+    <div class="liner"></div>
+    <a class="close"
+       ng-click="question.$expended=!question.$expended; removeQuestion(question)">&times;</a>
+    <label class="title-info"
+           ng-class="{'text-muted':question.$exists}">
       <span class="index">{{index+1}}</span>{{question.body | questionTitle}}
     </label>
-    <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
+    <div class="question-image"
+         ng-repeat="imageKey in question.body | questionImage">
+      <img ng-src="{{imageKey}}">
+    </div>
   </div>
   <div ng-if="question.$expended" class="list-group-item question-content">
-    <div class="question-image" ng-repeat="imageKey in question.body | questionImage">
-      <img ng-src="{{imageKey}}" class="image-zoom" alt="">
-    </div>
     <ul class="nav nav-pills nav-stacked "
         role="tablist">
       <li ng-repeat="option in question.choices"

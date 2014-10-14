@@ -24,31 +24,35 @@
   </div>
 
   <div class="clearfix title-row row">
-    <div class="form-group col-xs-6">
+    <div class="form-group">
       <div class="bud input-group">
         <div class="input-group-addon">课时:</div>
-         <ui-select ng-model="$lecture" on-select="addLectureAsTag($item)">
-          <ui-select-match placeholder="关联课时">{{$select.selected.name}}</ui-select-match>
+         <ui-select ng-model="viewState.$lecture" on-select="addLectureAsTag($item)">
+          <ui-select-match placeholder="关联课时">
+            <span class="text-muted">关联课时</span>
+          </ui-select-match>
           <ui-select-choices repeat="option as option in lectures | filter: lectureId |filter: $select.search" >
             <div ng-bind-html="option.name | highlight: $select.search" class="tag-option"></div>
           </ui-select-choices>
         </ui-select>
       </div>
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group">
       <div class="bud input-group">
         <div class="input-group-addon">知识点:</div>
-        <ui-select ng-model="$keypoint" on-select="addKeypointAsTag($item)">
-          <ui-select-match placeholder="关联知识点">{{$select.selected.name}}</ui-select-match>
+        <ui-select ng-model="viewState.$keypoint" on-select="addKeypointAsTag($item)">
+          <ui-select-match placeholder="关联知识点">
+            <span class="text-muted">关联知识点</span>
+          </ui-select-match>
           <ui-select-choices repeat="option as option in keypoints | filter: $select.search">
-            <div ng-bind-html="option.name | highlight: $select.search"></div>
+            <div ng-bind-html="option.name | highlight: $select.search" class="tag-option"></div>
           </ui-select-choices>
         </ui-select>
       </div>
     </div>
   </div>
 
-  <div class="clearfix title-row row" ng-show="myTopic.metadata.tags">
+  <div class="clearfix title-row row" ng-show="myTopic.metadata.tags.length">
     <div class="tags">
       <div class="tag pull-left" ng-repeat="tag in myTopic.metadata.tags">
         <i class="fa fa-times remove" ng-click="deleteTag(tag)"></i>

@@ -2,12 +2,38 @@
   padding-left: 28px;
   margin-top: 10px;
   margin-bottom: 10px;
-
+  &.expended {
+    .question-title {
+      border-bottom-color: #ffffff;
+      .liner {
+        display: block;
+      }
+      .close {
+        display:block;
+      }
+    }
+    .question-image {
+      max-width: none;
+      img {
+        max-height: none;
+      }
+    }
+  }
+  .question-image {
+    display: inline-block;
+    max-width: 31%;
+    margin: 0px;
+    padding-top: 8px;
+    padding-right: 5px;
+    img {
+      max-width: 100%;
+      max-height: 107px;
+    }
+  }
   .question-title {
-    padding: 0px 0px 0px 15px;
+    padding: 0px 5px 20px 15px;
     margin: 0px;
     border-top: none;
-    height: 60px;
     .title-checkbox {
       margin-left: -40px;
     }
@@ -23,7 +49,6 @@
     .title-info {
       padding-top: 20px;
       padding-left: 27px;
-      height: 60px;
       margin: 0px;
       width: calc(~'100% - 90px');
     }
@@ -31,18 +56,9 @@
       padding-right: 28px;
     }
     .close {
-      display:none;
+      display: none;
       margin-top: 20px;
       margin-right: 10px;
-    }
-    &.expended {
-      border-bottom-color: #ffffff;
-      .liner {
-        display: block;
-      }
-      .close {
-        display:block;
-      }
     }
   }
   .question-title:hover {

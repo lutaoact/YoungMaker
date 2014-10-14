@@ -1,142 +1,98 @@
 <section class="teacher-question-library">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="col-md-8 search-group">
-          <form ng-submit="searchQuestions()">
+  <div class="tags-list">
+    <div class="container">
+      <div class="col-md-12">
+          <label class="tags-title text-muted">知识点标签</label>
+          <hr class="text-muted"/>
+          <div class="row-fluid">
+        <span ng-repeat="keyPoint in keyPoints | filter:{categoryId:categoryId}">
+          <div class="label label-default key-point"
+               ng-click="toggleKeyPoint(keyPoint)"
+               ng-class="{'selected':keyPoint.$selected}"
+               style="font-size: 1em; line-height:2em; margin-right:.2em">
+            {{keyPoint.name}}
+          </div>
+        </span>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="list-group lecture-question-list-header">
+    <div class="list-group-item heading">
+      <div class="container">
+        <div class="col-md-12">
+          <label>共{{totalItems}}个习题</label>
+          <div class="liner"></div>
+          <form ng-submit="searchQuestions()" class="question-search">
             <input type="text"
-                   class="form-control question-search"
+                   class="form-control"
                    placeholder="按关键字搜索"
                    ng-model="keyword"/>
-            <button type="button"
-                    ng-click="addNewQuestion()"
-                    class="btn btn-danger pull-right">
-              <i class="fa fa-plus"></i>
-              添加新题
-            </button>
           </form>
-          <hr/>
-          <div class="row-fluid tags-search" ng-show="selectedKeyPoints.length > 0">
-            <span ng-repeat="keyPoint in selectedKeyPoints">
-              <div class="label key-point selected"
-                   ng-class="{'selected':keyPoint.$selected}"
-                   style="font-size: 1em; line-height:2em; margin-right:.2em">
-                {{keyPoint.name}}
-                <a ng-click="toggleKeyPoint(keyPoint)">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </a>
-              </div>
-            </span>
-          </div>
+          <a class="btn btn-link library-add-btn"
+             ng-click="addNewQuestion()">
+            <i class="fa fa-plus"></i>
+            加新习题
+          </a>
+        </div>
+      </div>
+    </div>
 
-          <div class="list-group">
-            <div class="list-group-item question-heading">
-              <label>找到{{totalItems}}个习题</label>
-              <a ng-if="getSelectedNum()>0"
-                 class="btn btn-warning pull-right"
-                 ng-disabled="deleting"
-                 ng-click="removeQuestion()">
-                <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
-                <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
-              </a>
-              <a ng-if="getSelectedNum() > 0 && lecture"
-                 class="btn btn-danger pull-right"
-                 ng-click="addToLecture()"
-                 ng-disabled="updating">
-                <span ng-if="!updating">确认添加 ({{getSelectedNum()}})</span>
-                <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i> 添加中</span>
-              </a>
-            </div>
-            <div class="list-group-item question-desc">
-              <input type="checkbox"
-                     ng-model="selectedAll"
-                     ng-change="toggleSelectAll(selectedAll)"
-                     class="bud checkbox-default pull-left">
-              <span>编号</span><span>标题</span>
-            </div>
-            <div ng-repeat="question in questions | paging:pageSize:currentPage">
-              <div class="question-title list-group-item"
-                   ng-class="{'expended':question.$expended==true}">
-                <input type="checkbox"
-                       class="bud checkbox-default title-select"
-                       ng-disabled="question.$exists"
-                       ng-model="question.$selected">
-                <label class="title-info"
-                       ng-class="{'text-muted':question.$exists}"
-                       ng-click="question.$expended=!question.$expended">
-                  <span class="index">{{(currentPage-1) * pageSize + $index+1}}</span>{{question.body | questionTitle}}
-                </label>
-                <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
-              </div>
-              <div ng-if="question.$expended">
-                <div class="question-image" ng-repeat="imageKey in question.$imageUrls">
-                  <img ng-src="{{imageKey}}" class="image-zoom" alt="">
-                </div>
-              </div>
-              <ul class="nav nav-pills nav-stacked list-group-item question-content"
-                  role="tablist"
-                  ng-if="question.$expended">
-                <li ng-repeat="option in question.choices"
-                    class="question-option"
-                    role="presentation">
-                  <label class="text-muted">
-                    <input type="checkbox"
-                           class="bud checkbox-primary"
-                           ng-disabled="true"
-                           ng-model="option.correct">
-                    <span class="index">{{$index | indexToABC}}. </span>
-                    {{option.text}}
-                  </label>
-                </li>
-                <li role="presentation">
-                  <div class="media alert alert-warning question-answer">
-                    <label class="media-object pull-left">
-                      {{getCorrectInfo(question)}}
-                    </label>
-                    <div class="media-body">
-                      <b>注解：</b>{{question.detailSolution}}
-                      <div ng-if="question.keyPoints.length>0">
-                        <b>知识点：</b><span ng-repeat="keyPoint in question.keyPoints">{{keyPoint.name}} </span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <pager total-items="totalItems"
-                   previous-text="上一页"
-                   next-text="下一页"
-                   ng-change="pageChange()"
-                   ng-model="currentPage">
-            </pager>
-          </div>
-          <div class="text-center" ng-if="lecture">
-            <button type="button"
-                    class="btn btn-danger"
-                    ng-click="addToLecture()"
-                    ng-disabled="getSelectedNum()==0 || updating">
-              <span ng-if="!updating">确认添加 ({{getSelectedNum()}})</span>
-              <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i> 添加中</span>
-            </button>
-            <a type="button"
-               ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})"
-               class="btn btn-warning">取消</a>
-          </div>
+    <div class="list-group-item desc">
+      <div class="container">
+        <div class="col-md-12">
+          <label>
+            <input type="checkbox"
+                   ng-model="selectedAll"
+                   ng-change="toggleSelectAll(selectedAll)"
+                   class="bud checkbox-default pull-left">
+            <small class="desc-span">全部</small>
+          </label>
+          <a ng-if="getSelectedNum()>0"
+             class="btn btn-warning pull-right"
+             ng-disabled="deleting"
+             ng-click="removeQuestion()">
+            <span ng-if="!deleting">删除所选 ({{getSelectedNum()}})</span>
+            <span ng-if="deleting"><i class="fa fa-spinner fa-spin"></i> 删除中</span>
+          </a>
+          <a ng-if="getSelectedNum() > 0 && lecture"
+             class="btn btn-danger pull-right"
+             ng-click="addToLecture()"
+             ng-disabled="updating">
+            <span ng-if="!updating">确认添加 ({{getSelectedNum()}})</span>
+            <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i> 添加中</span>
+          </a>
         </div>
-        <div class="col-md-4 tags-list">
-          <label class="tags-title">知识点标签</label>
-          <hr/>
-          <div class="row-fluid">
-            <span ng-repeat="keyPoint in keyPoints | filter:{categoryId:categoryId}">
-              <div class="label label-default key-point"
-                   ng-click="toggleKeyPoint(keyPoint)"
-                   ng-class="{'selected':keyPoint.$selected}"
-                   style="font-size: 1em; line-height:2em; margin-right:.2em">
-                {{keyPoint.name}}
-              </div>
-            </span>
-          </div>
-        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lecture-question-list-body">
+    <div class="container">
+      <div class="col-md-12">
+        <teacher-question-item question="question"
+                               index="$index"
+                               keypoints="keyPoints"
+                               ng-repeat="question in questions | paging:pageSize:currentPage"
+                               remove-callback="removeQuestion($question)"></teacher-question-item>
+        <pager total-items="totalItems"
+               previous-text="上一页"
+               next-text="下一页"
+               ng-change="pageChange()"
+               ng-model="currentPage">
+        </pager>
+      </div>
+      <div class="text-center col-md-12" ng-if="lecture">
+        <button type="button"
+                class="btn btn-danger"
+                ng-click="addToLecture()"
+                ng-disabled="getSelectedNum()==0 || updating">
+          <span ng-if="!updating">确认添加 ({{getSelectedNum()}})</span>
+          <span ng-if="updating"><i class="fa fa-spinner fa-spin"></i> 添加中</span>
+        </button>
+        <a type="button"
+           ui-sref="teacher.lecture({courseId:$state.params.courseId, lectureId:$state.params.lectureId})"
+           class="btn btn-warning">取消</a>
       </div>
     </div>
   </div>

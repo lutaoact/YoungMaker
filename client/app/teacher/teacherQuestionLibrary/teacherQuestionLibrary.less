@@ -2,35 +2,40 @@
   padding-top: 30px;
   padding-bottom: 30px;
   min-height: 400px;
-  background: #EBEBEB;
   .question-search {
     display: inline-block;
-    border-radius: 15px;
-    width: calc(~'100% - 150px');
-  }
-  .tags-search {
-    padding-bottom: 20px;
-  }
-  .search-group {
-    hr {
-      margin-top: 10px;
-      border-top-color: #888889;
+    width: calc(~'100% - 280px');
+    max-width: 500px;
+    input {
+      border-radius: 15px;
+      width: 100%;
     }
+  }
+  .library-add-btn {
+    position: absolute;
+    right: 20px;
   }
   .tags-list {
+    background: #ffffff;
     .tags-title {
-      font-size: 1.5em;
-      height: 34px;
+      font-size: 1.1em;
       padding: 0px;
       margin: 0px;
+      font-weight: normal;
     }
-    padding: 0px 0px 0px 50px;
     hr {
-      margin-top: 10px;
-      border-top-color: #888889;
+      position: relative;
+      margin-left: 100px;
+      top: -30px;
+      width: calc(~'100% - 100px');
+    }
+    .row-fluid {
+      margin-top: -30px;
+      margin-bottom: 25px;
     }
   }
   .key-point {
+    font-weight: normal;
     cursor: pointer;
     &.selected {
       background: @base-color;

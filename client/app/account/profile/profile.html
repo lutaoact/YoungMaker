@@ -29,10 +29,8 @@
     <form class="form-horizontal col-sm-8 col-sm-offset-2" role="form" ng-submit="saveProfile()">
       <div class="form-group">
         <label for="inputName" class="col-xs-4 control-label">用户名</label>
-        <div class="col-xs-8">
-          <input type="text" class="form-control" id="inputUserName"
-                 disabled
-                 ng-model="me.username">
+        <div class="col-xs-8 text-left">
+          <label class="control-label">{{me.username}}</label>
         </div>
       </div>
       <div class="form-group">

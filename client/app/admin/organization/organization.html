@@ -8,16 +8,17 @@ background: white;"> -->
       <label for="organization-name">机构全称</label>
       <input class="form-control" id="organization-name" name="name" ng-model="organization.name" placeholder="机构全称" required>
     </div>
-    <div class="form-group has-feedback" ng-class="{'has-warning':form.domain.$error.duplicated,'has-success':!form.domain.$error.duplicated}">
+    <div class="form-group has-feedback"
+         ng-class="{'has-warning':form.domain.$error.duplicated,'has-success':!form.domain.$error.duplicated}">
       <label>机构独特名称</label>
-      <input class="form-control" id="organization-uniqueName" name="uniqueName" ng-model="organization.uniqueName" ng-blur="validateRemote(organization.uniqueName,form)" placeholder="系统机构名称" required>
-      <!--<span class="glyphicon glyphicon-ok form-control-feedback" ng-hide="form.domain.$error.duplicated"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="form.domain.$error.duplicated"></span>
-      <label>{{organization.subDomain}}.cloud3edu.com</label>
-      <p class="help-block" ng-show="form.domain.$error.duplicated">
-        该二级域名已被注册
-      </p>
-      -->
+      <input class="form-control"
+             id="organization-uniqueName"
+             name="uniqueName"
+             ng-model="organization.uniqueName"
+             ng-disabled="organization.uniqueName"
+             ng-blur="validateRemote(organization.uniqueName,form)"
+             placeholder="系统机构名称"
+             required>
     </div>
     <div class="form-group">
       <label for="organization-type" >机构类型</label>
@@ -30,6 +31,21 @@ background: white;"> -->
         <option value="大学">职业学校</option>
         <option value="培训机构">培训机构</option>
       </select>
+    </div>
+    <div class="form-group">
+      <label>课程科目 </label>
+      <input type="text"
+             placeholder="科目名称"
+             required
+             ng-model="newCategory.name"/>
+      <a class="btn btn-primary"
+         ng-click="addCategory()">添加科目</a>
+      <div class="list-group">
+        <div class="list-group-item" ng-repeat="category in categories">
+          {{category.name}}
+          <span class="close" ng-click="removeCategory(category)">&times;</span>
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <label class="btn btn-default" ng-show="!isUploading">

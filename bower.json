@@ -2,10 +2,8 @@
   "name": "budweiser",
   "version": "0.0.0",
   "dependencies": {
-
     "json3": "~3.3.1",
     "es5-shim": "~3.0.1",
-
     "angular": "1.2.20",
     "jquery": "~1.11.0",
     "bootstrap": "~3.1.1",
@@ -39,7 +37,8 @@
     "angular-elastic": "~2.4.0",
     "holderjs": "~2.4.0",
     "angular-sortable-view": "~0.0.10",
-    "angular-i18n": "~1.2.26"
+    "angular-i18n": "~1.2.26",
+    "Jcrop": "~0.9.12"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -51,6 +50,11 @@
         "src/angular-sortable-view.min.js"
       ]
     },
+    "Jcrop":{
+      "main":[
+        "js/jquery.Jcrop.min.js"
+      ]
+      },
     "highcharts": {
       "main": [
         "highcharts.js",

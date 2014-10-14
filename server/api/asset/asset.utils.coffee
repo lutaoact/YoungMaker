@@ -11,23 +11,23 @@ request = require 'request'
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
+domain                = config.qiniu.domain
+qiniuBucketName       = config.qiniu.bucket_name
 signedUrlExpires      = config.qiniu.signed_url_expires
 
-AWS.config.accessKeyId     = config.s3.accessKeyId
-AWS.config.secretAccessKey = config.s3.secretAccessKey
-AWS.config.region          = config.s3.region
-AWSAlgorithm         = config.s3.algorithm
-
-acsBaseAddress = config.azure.acsBaseAddress
+AWS.config.accessKeyId     = config.aws.accessKeyId
+AWS.config.secretAccessKey = config.aws.secretAccessKey
+AWS.config.region          = config.aws.region
+S3BucketName          = config.aws.slideBucket
+S3UploadBucketName    = config.aws.slideUploadBucket
+AWSAlgorithm         = config.aws.algorithm
 
 Lecture = _u.getModel 'lecture'
 
 exports.AssetUtils = BaseUtils.subclass
   classname: 'AssetUtils'
 
-  getAssetFromQiniu : (key, assetType, res) ->
-    domain = config.assetsConfig[assetType].domain
-
+  getAssetFromQiniu : (key, res) ->
     baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
 
     # the query should not encode before signature
@@ -42,8 +42,7 @@ exports.AssetUtils = BaseUtils.subclass
     res.redirect downloadUrl
 
 
-  getAssetFromS3 : (key, assetType, res) ->
-    S3BucketName = config.assetsConfig[assetType].slideBucket
+  getAssetFromS3 : (key, res) ->
 
     s3 = new AWS.S3()
     params =
@@ -64,7 +63,7 @@ exports.AssetUtils = BaseUtils.subclass
 
 
   # TODO: need to add lock. Try Distributed locks with Redis?
-  getAssetFromAzure : (key, assetType, res) ->
+  getAssetFromAzure : (key, res) ->
     tk_fn = key.split '/'
     assetId = tk_fn[0]
     fileName = tk_fn[1]
@@ -77,20 +76,17 @@ exports.AssetUtils = BaseUtils.subclass
     requestPostQ = Q.nfbind request.post
     requestDeleteQ = Q.nfbind request.del
 
-    azureAccountName = config.assetsConfig[assetType].accountName
-    azureAccountKey = config.assetsConfig[assetType].accountKey
-
-    Lecture.findOneQ "media": '/api/assets/videos/'+assetType+'/'+key
+    Lecture.findOneQ "media": '/api/assets/videos/'+key
     .then (data) ->
       lecture = data
       throw "no lecture found" if not lecture
     # 1. get token
       requestPostQ {
-        uri: acsBaseAddress
+        uri: config.azure.acsBaseAddress
         form:
           grant_type: 'client_credentials'
-          client_id: azureAccountName
-          client_secret: azureAccountKey
+          client_id: config.azure.accountName
+          client_secret: config.azure.accountKey
           scope: 'urn:WindowsAzureMediaServices'
         strictSSL: true
       }
@@ -156,14 +152,12 @@ exports.AssetUtils = BaseUtils.subclass
       res.send 404, err
 
 
-  genQiniuUpParams : (assetType, fileName) ->
-    qiniuBucketName = config.assetsConfig[assetType].bucket_name
-
+  genQiniuUpParams : (fileName) ->
     putPolicy = new qiniu.rs.PutPolicy qiniuBucketName
     token = putPolicy.token()
     randomStr = randomstring.generate 10
 
-    Q {
+    {
       url : 'http://up.qiniu.com'
       formData :
         key : randomStr + '/' + fileName
@@ -171,8 +165,7 @@ exports.AssetUtils = BaseUtils.subclass
       fileFormName : 'file'
     }
 
-  genS3UpParams : (assetType, fileName) ->
-    S3UploadBucketName = config.assetsConfig[assetType].slideUploadBucket
+  genS3UpParams : (fileName) ->
 
     currentDate = moment().format 'YYYYMMDD'
     xAmzCredential = AWS.config.accessKeyId + '/' + currentDate +
@@ -237,7 +230,7 @@ exports.AssetUtils = BaseUtils.subclass
     
     console.log 'signature is ' + signature
     
-    Q {
+    {
       url : 'http://s3.'+ AWS.config.region + ".amazonaws.com.cn/" + S3UploadBucketName
       formData :
         key : keyStartsWith + '/' + fileName
@@ -251,21 +244,19 @@ exports.AssetUtils = BaseUtils.subclass
       fileFormName : 'file'
     }
 
-  genAzureUpParams : (assetType, fileName) ->
+  genAzureUpParams : (fileName) ->
     access_token = null
     assetId = null
     policyId = null
     postQ = Q.nfbind request.post
-    azureAccountName = config.assetsConfig[assetType].accountName
-    azureAccountKey = config.assetsConfig[assetType].accountKey
 
     # 1. get token
     postQ {
       uri: config.azure.acsBaseAddress
       form:
         grant_type: 'client_credentials'
-        client_id: azureAccountName
-        client_secret: azureAccountKey
+        client_id: config.azure.accountName
+        client_secret: config.azure.accountKey
         scope: 'urn:WindowsAzureMediaServices'
       strictSSL: true
     }

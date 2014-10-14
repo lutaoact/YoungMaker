@@ -10,9 +10,16 @@ angular.module('budweiserApp').directive 'teacherQuestionItem', ->
     keyPoints: '=keypoints'
     removeCallback: '&'
 
-  controller: ($scope)->
+  controller: ($scope, $document, $timeout)->
 
     angular.extend $scope,
+
+      expendClick: ->
+        $scope.question.$expended = !$scope.question.$expended
+        $timeout ->
+          if $scope.question.$expended
+            targetElement = angular.element(document.getElementById 'question-item-'+$scope.index)
+            $document.scrollToElement(targetElement, 65, 500)
 
       removeQuestion: (question) ->
         $scope.removeCallback?($question:question)

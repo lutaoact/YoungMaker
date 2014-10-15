@@ -48,7 +48,7 @@ angular.module 'budweiserApp'
 
   doUploadVideo = (opts, file)->
     # get upload token
-    Restangular.one('assets/upload/videos','').get(fileName: file.name)
+    Restangular.one('assets/upload/videos','').get(fileName: file.name.replace /[^a-z0-9\.-_]+/gi, '')
     .then (strategy)->
       startTime = moment()
       pipeUpload = (file, segment ,request)->

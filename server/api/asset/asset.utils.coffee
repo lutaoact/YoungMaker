@@ -7,6 +7,7 @@ moment = require 'moment'
 crypto = require 'crypto'
 redisClient = require '../../common/redisClient'
 request = require 'request'
+redislock = require 'redislock'
 #request = request.defaults proxy: config.proxy if config.proxy?
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
@@ -80,7 +81,11 @@ exports.AssetUtils = BaseUtils.subclass
     azureAccountName = config.assetsConfig[assetType].accountName
     azureAccountKey = config.assetsConfig[assetType].accountKey
 
-    Lecture.findOneQ "media": '/api/assets/videos/'+assetType+'/'+key
+    lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
+    lock.acquire assetId # don't use "key" as lock name... otherwise, it will be overwrote by redis cache in step 6
+    .then ()->
+      logger.info "lock: "+ key + "required!"
+      Lecture.findOneQ "media": '/api/assets/videos/'+assetType+'/'+key
     .then (data) ->
       lecture = data
       throw "no lecture found" if not lecture
@@ -145,10 +150,13 @@ exports.AssetUtils = BaseUtils.subclass
     # 5 save locatorId &  AccessPolicyId to DB
       lecture.saveQ()
     .then ()->
+    # 6 cache to redis
       redisClient.q.set key, downloadUrl, 'EX', (config.azure.signed_url_expires*60-60*60)
-      .then () ->
-        logger.info "Set #{key}:#{downloadUrl} to redis"
+    .then () ->
+      logger.info "Set #{key}:#{downloadUrl} to redis"
+      lock.release()
     .done () ->
+      logger.info "locker #{assetId} released"
       logger.info downloadUrl
       res.redirect downloadUrl
     , (err) ->

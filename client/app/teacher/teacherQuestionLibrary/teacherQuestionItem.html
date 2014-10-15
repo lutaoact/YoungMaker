@@ -1,19 +1,23 @@
 <div class="teacher-question-item"
+     id="question-item-{{index}}"
      ng-class="{'expended':question.$expended==true}">
   <div class="question-title list-group-item"
-       ng-class="{'expended':question.$expended==true}">
+       ng-click="expendClick()">
     <input type="checkbox"
-           class="bud checkbox-default"
-           ng-model="question.$selected">
-    <label class="title-info"
+           ng-disabled="question.$exists"
+           class="bud checkbox-default title-checkbox"
+           ng-model="question.$selected"
            ng-click="question.$expended=!question.$expended">
-      <span class="index">{{index+1}}</span>{{question.body | questionTitle}}
+    <div class="liner"></div>
+    <a class="close"
+       ng-click="question.$expended=!question.$expended; removeQuestion(question)">&times;</a>
+    <label class="title-info"
+           ng-class="{'text-muted':question.$exists}">
+      <span class="index">{{index}}.</span>{{question.body | questionTitle}}
     </label>
-    <a class="close pull-right" ng-click="removeQuestion(question)">&times;</a>
-  </div>
-  <div ng-if="question.$expended">
-    <div class="question-image" ng-repeat="imageKey in question.body | questionImage">
-      <img ng-src="{{imageKey}}" class="image-zoom" alt="">
+    <div class="question-image"
+         ng-repeat="imageKey in question.body | questionImage">
+      <img ng-src="{{imageKey}}">
     </div>
   </div>
   <div ng-if="question.$expended" class="list-group-item question-content">
@@ -22,7 +26,7 @@
       <li ng-repeat="option in question.choices"
           class="question-option"
           role="presentation">
-        <label class="text-muted" ng-class="{'label-correct':option.correct}">
+        <label ng-class="{'label-correct':option.correct}">
           <input type="checkbox"
                  class="bud checkbox-primary"
                  ng-disabled="true"

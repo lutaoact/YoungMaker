@@ -5,11 +5,11 @@ angular.module('budweiserApp').controller 'TestCtrl', (
   $http
   $scope
   socket
+  $filter
   $upload
   Restangular
   $cookieStore
   $localStorage
-  $tools
 ) ->
 
   angular.extend $scope,
@@ -76,7 +76,7 @@ angular.module('budweiserApp').controller 'TestCtrl', (
 
     getRequests: -> _.values $scope.$storage.requests
 
-    genColor: (str)->
-      $scope.nameColor = $tools.genColor(str)
+    genColor: (input)->
+      $scope.nameColor = $filter('GenColor')(input)
 
   $scope.setRequest('') if !$scope.$storage.request

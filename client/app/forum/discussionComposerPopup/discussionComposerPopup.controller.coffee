@@ -44,6 +44,8 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
         $scope.imagesToInsert = undefined
         $modalInstance.close dis_topic
 
+    viewState: {}
+
     addLectureAsTag: (lecture)->
       $scope.myTopic.metadata ?= {}
       $scope.myTopic.metadata.tags ?= []
@@ -72,10 +74,10 @@ angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
       $scope.myTopic.metadata.tags.splice $scope.myTopic.metadata.tags.indexOf(tag), 1
 
   if lectureId
-    $scope.$lecture = ($scope.lectures.filter (lecture)->
+    $scope.viewState.$lecture = ($scope.lectures.filter (lecture)->
       lecture._id is lectureId
     )[0]
-    $scope.addLectureAsTag($scope.$lecture)
+    $scope.addLectureAsTag($scope.viewState.$lecture)
 
 
 

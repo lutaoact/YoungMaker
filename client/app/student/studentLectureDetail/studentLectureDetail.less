@@ -178,7 +178,7 @@
     top:60px;
     bottom: 0;
     width:550px;
-    background: #FFFFFF;
+    background: @gray-lighter;
     .box-shadow(0 3px 3px 3px rgba(0,0,0,0.3));
     z-index: 999;
     overflow-y: auto;
@@ -190,6 +190,11 @@
     &.ng-hide-add,
     &.ng-hide-remove{
       display: block !important;
+    }
+    .topic-detail{
+      .btn-back{
+        display: none;
+      }
     }
     &.ng-hide {
       display: none;
@@ -205,6 +210,7 @@
     margin: 50px;
   }
   .quiz-and-homework{
+    padding-top: 40px;
     background: @gray-lighter;
   }
 }

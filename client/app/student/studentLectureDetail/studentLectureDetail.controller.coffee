@@ -13,7 +13,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $scope
   $state
   notify
-  $tools
   Navbar
   Courses
   $timeout
@@ -33,6 +32,9 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
   $scope.$on '$destroy', ()->
     # clear video
     angular.element('video').attr 'src', ''
+
+    #clear silder
+    angular.element('body').removeClass 'sider-open'
 
   loadLecture = ()->
     if $state.params.lectureId

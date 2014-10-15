@@ -14,7 +14,7 @@
   <div class="clearfix title-row tags-bar">
     <div class="title-row-header">标签<hr></div>
     <div class="view-section all-tags clearfix">
-      <a href class="tag pull-left" ng-class="{'active':tag.$active}" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)">{{tag.name}}</a>
+      <a href class="tag pull-left" ng-class="{'active':tag.$active}" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)" tooltip="{{tag.name}}">{{tag.name}}</a>
     </div>
     <hr>
   </div>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <li class="bud col-md-12 topic media"
+    <li class="bud col-md-12 topic media fade-repeat"
         ng-repeat="topic in topics|filter:viewState.query|filter: filterByTags|filter: topicsFilter|orderBy:viewState.orderBy"
         ng-class="{'selected':topic._id==selectedTopic._id}"
         ng-click="selectTopic(topic)">

@@ -1,5 +1,21 @@
-.bud{
-  vg-controls{
+.bud {
+  @video-height: 25px;
+  vg-video {
+    padding-bottom: @video-height;
+  }
+  vg-controls {
     bottom: 0;
+    top: ~'calc(100% - @{video-height})';
+    height: @video-height;
+    #controls-container {
+      height: @video-height;
+    }
+    vg-scrubBarCurrentTime {
+      height: @video-height;
+    }
+    vg-timedisplay {
+      font-size: 12px;
+      width: 45px;
+    }
   }
 }

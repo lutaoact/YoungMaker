@@ -42,13 +42,13 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed,percentage, evt)
       .success (data) ->
-        opts.success?(strategy.formData.key)
+        opts.success?(strategy.prefix+strategy.formData.key)
       .error opts.fail
     , opts.fail
 
   doUploadVideo = (opts, file)->
     # get upload token
-    Restangular.one('assets/upload/videos','').get(fileName: file.name)
+    Restangular.one('assets/upload/videos','').get(fileName: file.name.replace /[^a-z0-9\.-_]+/gi, '')
     .then (strategy)->
       startTime = moment()
       pipeUpload = (file, segment ,request)->
@@ -115,6 +115,9 @@ angular.module 'budweiserApp'
                 else
                   uploadPiece(currentEnd, currentEnd + segment)
 
+              error: (err)->
+                uploadQ.reject '视频上传失败'
+
         uploadPiece current, currentEnd
         uploadQ.promise
 
@@ -129,7 +132,9 @@ angular.module 'budweiserApp'
         withCredentials: false
       pipeUpload(file, 4 * 1024 * 1024,request)
       .then (data)->
-        opts.success?("/api/assets/videos/#{strategy.key}")
+        opts.success?(strategy.prefix + strategy.key)
+      , (err)->
+        opts.fail?(err)
     , opts.fail
 
   doUploadSlides = (opts, file)->
@@ -154,8 +159,8 @@ angular.module 'budweiserApp'
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (data)->
           slides = _.map data.rawPics, (pic) ->
-            raw: '/api/assets/slides/' + pic
-            thumb: '/api/assets/slides/' + pic.replace('-lg.jpg', '-sm.jpg')
+            raw: strategy.prefix + pic
+            thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(slides)
       .error opts.fail
     , opts.fail

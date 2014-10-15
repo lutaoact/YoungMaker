@@ -9,8 +9,8 @@ redisClient = require '../../common/redisClient'
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
-domain                       = config.qiniu.domain
-bucketName                = config.qiniu.bucket_name
+domain                    = config.assetsConfig[config.assetHost.uploadFileType].domain
+bucketName                = config.assetsConfig[config.assetHost.uploadFileType].bucket_name
 signedUrlExpires          = config.qiniu.signed_url_expires
 tempDir = config.local.tempDir
 
@@ -76,6 +76,7 @@ exports.uploadFile = (req, res) ->
   randomDirName = randomstring.generate 10
   key = randomDirName + '/' + fileName
 
+  bucketName = config.assetsConfig[config.assetHost.uploadImageType].bucket_name
   putPolicy = new qiniu.rs.PutPolicy bucketName
   upToken = putPolicy.token()
   extra = new qiniu.io.PutExtra()

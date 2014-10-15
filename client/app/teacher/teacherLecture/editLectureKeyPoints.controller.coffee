@@ -15,7 +15,7 @@ angular.module('budweiserApp')
 
 .controller 'EditLectureKeyPointsCtrl', (
   $scope
-  $tools
+  $filter
 ) ->
 
   saveKeyPoints = ->
@@ -28,15 +28,13 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
 
-    seconds2TimeStrings: $tools.seconds2TimeStrings
-
     seekPlayerTime: (time) ->
       $scope.mediaApi?.seekTime(time) if time >= 0
 
     addKeyPoint: ->
       currentTime = $scope.mediaApi?.mediaElement?[0]?.currentTime
       newKeyPoint =
-        timestamp: Math.ceil(currentTime)
+        timestamp: currentTime
       $scope.lecture.keyPoints.push newKeyPoint
       saveKeyPoints()
       $scope.mediaApi?.pause()
@@ -48,9 +46,9 @@ angular.module('budweiserApp')
       saveKeyPoints()
 
     updateKeyPointTime: (keyPoint, timeStrings) ->
-      keyPoint.timestamp = $tools.timeStrings2Seconds(timeStrings)
+      keyPoint.timestamp = $filter('readableTime2Second')(timeStrings)
       saveKeyPoints()
-      $tools.seconds2TimeStrings(keyPoint.timestamp)
+      $filter('second2ReadableTime')(keyPoint.timestamp)
 
     setKeyPointKp: (keyPoint, kp, input) ->
       if kp?
@@ -65,6 +63,3 @@ angular.module('budweiserApp')
           $scope.keyPoints.push newKp
           keyPoint.kp = newKp
           saveKeyPoints()
-
-
-

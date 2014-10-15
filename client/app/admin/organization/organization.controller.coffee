@@ -1,6 +1,13 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'OrganizationCtrl', ($scope,$http,$upload,Restangular,Auth) ->
+angular.module('budweiserApp').controller 'OrganizationCtrl', (
+  Auth
+  $http
+  $modal
+  $scope
+  $upload
+  Restangular
+) ->
   $scope.message = 'Hello'
   $scope.organization = {}
   $scope.isUploading = false

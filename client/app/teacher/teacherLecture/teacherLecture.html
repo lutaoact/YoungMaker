@@ -206,13 +206,13 @@
               <vg-poster-image></vg-poster-image>
               <vg-buffering></vg-buffering>
               <vg-overlay-play></vg-overlay-play>
-              <vg-controls style="height: 50px;">
+              <vg-controls>
                 <vg-play-pause-button></vg-play-pause-button>
-                <vg-timeDisplay>{{ currentTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
+                <vg-timeDisplay>{{currentTime.getTime()/1000|second2ReadableTime}}</vg-timeDisplay>
                 <vg-scrubBar>
                   <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
                 </vg-scrubBar>
-                <vg-timeDisplay>{{ totalTime|toTimeStamp|uxToHmmss }}</vg-timeDisplay>
+                <vg-timeDisplay>{{totalTime.getTime()/1000|second2ReadableTime}}</vg-timeDisplay>
                 <vg-volume>
                   <vg-mutebutton></vg-mutebutton>
                   <vg-volumebar></vg-volumebar>
@@ -257,7 +257,7 @@
           <label class="empty-ppt-desc">
             <span ng-if="!(lecture.slides.length > 0) && pptUploadState==null">目前没有PPT，请添加</span>
             <span ng-if="pptUploadState=='uploading'">正在上传PPT...</span>
-            <span ng-if="pptUploadState=='converting'">PPT已上传，正在转换...</span>
+            <span ng-if="pptUploadState=='converting'">PPT上传已完成，正在转换...</span>
             <progressbar class="progress-striped active"
                          value="pptUploadProgress"
                          ng-if="pptUploadState!=null"

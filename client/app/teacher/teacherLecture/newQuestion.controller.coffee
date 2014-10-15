@@ -14,7 +14,7 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       body: ''
       detailSolution: ''
       categoryId: categoryId
-      choices: [{}]
+      choices: [{},{}]
 
     addKeyPoint: (keyPoint, input) ->
       if keyPoint?
@@ -49,4 +49,4 @@ angular.module('budweiserApp').controller 'NewQuestionCtrl', (
       $modalInstance.close(question)
       
     onImageUploaded: (key) ->
-      $scope.images.push '/api/assets/images/' + key
+      $scope.images.push key

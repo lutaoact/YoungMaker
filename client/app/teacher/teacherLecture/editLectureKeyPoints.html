@@ -35,7 +35,7 @@
        ng-repeat="keyPoint in lecture.keyPoints">
     <input type="text"
            ng-model="timeInput"
-           ng-init="timeInput=seconds2TimeStrings(keyPoint.timestamp)"
+           ng-init="timeInput=(keyPoint.timestamp|second2ReadableTime)"
            class="keypoint-input"
            ng-focus="seekPlayerTime(keyPoint.timestamp)"
            ng-blur="timeInput=updateKeyPointTime(keyPoint, timeInput)"/>

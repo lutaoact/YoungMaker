@@ -47,7 +47,7 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
           if options.maxWidth
             suffix += '/thumbnail/' + ~~options.maxWidth + 'x'
 
-          result = "/api/assets/images/#{key}" + suffix
+          result = "#{key}" + suffix
 
           $modalInstance.close result,
             key: key

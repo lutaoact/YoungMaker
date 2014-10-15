@@ -2,14 +2,14 @@ AssetUtils = _u.getUtils 'asset'
 config = require '../../config/environment'
 redisClient = require '../../common/redisClient'
 
-imageHost             = config.assetHost.images
-videoHost             = config.assetHost.videos
-slideHost             = config.assetHost.slides
-uploadSlideHost       = config.assetHost.uploadSlide
-uploadImageHost       = config.assetHost.uploadImage
-uploadVideoHost       = config.assetHost.uploadVideo
+uploadSlideHost       = config.assetsConfig[config.assetHost.uploadSlideType].serviceName
+uploadImageHost       = config.assetsConfig[config.assetHost.uploadImageType].serviceName
+uploadVideoHost       = config.assetsConfig[config.assetHost.uploadVideoType].serviceName
+uploadSlideType       = config.assetHost.uploadSlideType
+uploadImageType       = config.assetHost.uploadImageType
+uploadVideoType       = config.assetHost.uploadVideoType
 
-retrieveAsset = (key, assetHost, res) ->
+retrieveAsset = (key, assetType, res) ->
 
   # check cache first
   redisClient.q.get key
@@ -17,69 +17,75 @@ retrieveAsset = (key, assetHost, res) ->
     if cached? then return res.redirect cached
 
     logger.info "No cache found for #{key}"
-    logger.info 'Asset host is ' + assetHost
-    switch assetHost
+    logger.info 'Asset type ' + assetType
+    switch config.assetsConfig[assetType].serviceName
       when 'qiniu'
-        AssetUtils.getAssetFromQiniu key, res
+        AssetUtils.getAssetFromQiniu key, assetType, res
       when 's3'
-        AssetUtils.getAssetFromS3 key, res
+        AssetUtils.getAssetFromS3 key, assetType, res
       when 'azure'
-        AssetUtils.getAssetFromAzure key, res
+        AssetUtils.getAssetFromAzure key, assetType, res
       else
         res.send 404, 'asset host not found'
 
 
-uploadAsset = (assetHost, req, res) ->
-
-  fileName = req.query.fileName
-
-  switch assetHost
+uploadAsset = (assetType, fileName) ->
+  switch config.assetsConfig[assetType].serviceName
     when 'qiniu'
       console.log 'upload host is qiniu'
-      params = AssetUtils.genQiniuUpParams fileName
-      res.send 200, params
+      AssetUtils.genQiniuUpParams assetType, fileName
     when 's3'
       console.log 'upload host is S3'
-      params = AssetUtils.genS3UpParams fileName
-      res.send 200, params
+      AssetUtils.genS3UpParams assetType, fileName
     when 'azure'
       console.log 'upload host is Azure'
-      AssetUtils.genAzureUpParams(fileName)
-      .done (params)->
-        res.send 200, params
-      , (err) ->
-        res.send 404, err
-#      location = AssetUtils.genAzureUpLocation fileName
-#      res.send 200, location
+      AssetUtils.genAzureUpParams assetType, fileName
     else
-      res.send 404, "Asset host #{assetHost} not found"
-
+      throw "Asset host #{assetHost} not found"
 
 ###
   redirect api/assets/images/key to asset host URL
 ###
 exports.getImages = (req, res) ->
-  key = decodeURI(req.url.replace(/(\/|)images\//, ''))
-  logger.info 'Key is ' + key
-  retrieveAsset key, imageHost, res
+  key = decodeURI(req.url.replace(/(\/|)images\/\d+\//, ''))
+  assetType = req.params.assetType
+
+  retrieveAsset key, assetType, res
 
 exports.getVideos = (req, res) ->
-  key = decodeURI(req.url.replace(/(\/|)videos\//, ''))
-  logger.info 'Key is ' + key
-  retrieveAsset key, videoHost, res
+  key = decodeURI(req.url.replace(/(\/|)videos\/\d+\//, ''))
+  assetType = req.params.assetType
+
+  retrieveAsset key, assetType, res
 
 exports.getSlides = (req, res) ->
-  key = decodeURI(req.url.replace(/(\/|)slides\//, ''))
-  logger.info 'Key is ' + key
-  retrieveAsset key, slideHost, res
+  key = decodeURI(req.url.replace(/(\/|)slides\/\d+\//, ''))
+  assetType = req.params.assetType
+
+  retrieveAsset key, assetType, res
 
 
 exports.uploadImage = (req, res) ->
-  uploadAsset uploadImageHost, req, res
+  uploadAsset uploadImageType, req.query.fileName
+  .then (data)->
+    data.prefix = "/api/assets/images/#{uploadImageType}/"
+    res.send data
+  , (err) ->
+    next err
 
-exports.uploadVideo = (req, res) ->
-  uploadAsset uploadVideoHost, req, res
+exports.uploadVideo = (
+  req, res) ->
+  uploadAsset uploadVideoType, req.query.fileName
+  .then (data)->
+    data.prefix = "/api/assets/videos/#{uploadVideoType}/"
+    res.send data
+  , (err) ->
+    next err
 
 exports.uploadSlide = (req, res) ->
-  uploadAsset uploadSlideHost, req, res
-
+  uploadAsset uploadSlideType, req.query.fileName
+  .then (data)->
+    data.prefix = "/api/assets/slides/#{uploadSlideType}/"
+    res.send data
+  , (err) ->
+    next err

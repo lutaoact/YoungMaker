@@ -130,7 +130,9 @@ exports.pubQuiz = (req, res, next) ->
     return tmpResult.quizAnswers.concat newAnswers
   .then (allAnswers) ->
     tmpResult.allAnswers = allAnswers
-    Question.findByIdQ questionId
+    Question.findById questionId
+      .populate 'keyPoints', 'name'
+      .execQ()
   .then (question) ->
     tmpResult.question = question
     SocketUtils.sendQuizMsg(

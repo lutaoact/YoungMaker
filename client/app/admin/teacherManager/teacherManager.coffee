@@ -1,7 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').config ($stateProvider, $urlRouterProvider) ->
-  $urlRouterProvider.when("/admin", "/admin/teacherManager")
+angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider.state 'admin.teacherManager',
     url: '/teacherManager'
     templateUrl: 'app/admin/teacherManager/teacherManager.html'

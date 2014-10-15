@@ -1,27 +1,41 @@
-.push-question-content {
-  margin-top: 40px;
-  border: 1px solid @base-color;
-  .question-option {
-    color: #888888;
-    &.option-correct {
-      background: rgba(70, 216, 116, 0.41);
+.push-question-body {
+  .question-image {
+    display: inline-block;
+    margin: 0px;
+    padding-top: 8px;
+    padding-right: 5px;
+    img {
+      max-width: 100%;
     }
-    &.checkbox {
-      padding: 10px 10px 10px 30px;
-      cursor: pointer;
-      &.submit {
-        cursor: default;
-      }
-    }
-    &.checkbox:hover {
-      background: #eeeeee;
-      &.submit {
-        background: none;
-      }
+  }
+  .question-content {
+    margin-top: 20px;
+    border: 1px solid @base-color;
+    .question-option {
+      color: #888888;
       &.option-correct {
         background: rgba(70, 216, 116, 0.41);
       }
+      &.checkbox {
+        padding: 10px 10px 10px 30px;
+        cursor: pointer;
+        &.submit {
+          cursor: default;
+        }
+      }
+      &.checkbox:hover {
+        background: #eeeeee;
+        &.submit {
+          background: none;
+        }
+        &.option-correct {
+          background: rgba(70, 216, 116, 0.41);
+        }
+      }
     }
+  }
+  .question-answer {
+    margin-top: 10px;
   }
 }
 .teacher {

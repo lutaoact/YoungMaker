@@ -17,7 +17,7 @@ ObjectId = Schema.ObjectId
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
-qiniuDomain           = config.qiniu.domain
+qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
 
 ###
   Get list of users

@@ -82,7 +82,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
 
     calendarToggle.bind 'click', openPopupHandle
 
-.factory 'timetableHelper', ($tools, Auth)->
+.factory 'timetableHelper', ($filter, Auth)->
   genStudentTimetable: (schedules, day)->
     eventSouces = [1..5].map -> []
     today = day or moment()
@@ -97,7 +97,7 @@ angular.module('budweiserApp').directive 'timetable', ($timeout)->
         event = {}
         event.title = schedule.course.name
         event.$course = schedule.course
-        event.color = $tools.genColor(schedule.course._id)
+        event.color = $filter('genColor')(schedule.course._id)
         event.startTime = moment(schedule.start).weeks(today.weeks())
         event.currentWeek = today.diff(moment(schedule.start),'weeks') + 1
         event.weeks = moment(schedule.until).diff(moment(schedule.start),'weeks') + 1

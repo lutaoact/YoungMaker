@@ -35,6 +35,7 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
     topic: null
     me: CurrentUser
     stateParams: $state.params
+    course: course
 
     loadTopic: (replyId)->
       Restangular.one('dis_topics', $state.params.topicId).get()
@@ -64,3 +65,5 @@ angular.module('budweiserApp').controller 'ForumTopicCtrl',
 
   $scope.$on 'forum/reloadReplyList', (event, replyId)->
     $scope.loadTopic(replyId)
+    #   $scope.topic.$currentReplyId = replyId
+    # if replyId

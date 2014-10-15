@@ -1,55 +1,82 @@
 <div class="student-lecture-answers">
-  <tabset class="bud container">
-    <!-- hack off the margin by connect </tab><tab> -->
-    <tab ng-if="lecture.quizzes.$submitted" heading="随堂练习" select="setQuestionType('quizzes')" active="lecture.quizzes.$active"></tab><tab ng-if="lecture.homeworks.length" heading="课后作业" select="setQuestionType('homeworks')" active="lecture.homeworks.$active">
-    </tab>
-  </tabset>
+  <div class="text-center"
+       id="lecture-question">
+    <div class="lecture-nav-tabs">
+      <a ng-click="setQuestionType('quizzes')"
+         ng-if="lecture.quizzes.$submitted"
+         ng-class="{'selected':lecture.quizzes.$active}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-clock-o"></i>
+        随堂练习
+      </a>
+      <a ng-click="setQuestionType('homeworks')"
+         if="lecture.homeworks.length>0"
+         ng-class="{'selected':lecture.homeworks.$active}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-file-o"></i>
+        课后作业
+      </a>
+    </div>
+  </div>
   <div class="questions-panel container" ng-show="displayQuestions">
     <div class="list-group">
 
-      <div class="list-group-item"
-           ng-repeat="question in displayQuestions|filter:{'$notAnswered':false}|paging:viewState.pageSize:displayQuestions.currentPage||1">
-        <div class="row">
-          <div class="col-xs-1">
-            <h4 class="index text-muted">
-              {{$index + 1 + ((displayQuestions.currentPage||1) - 1) * viewState.pageSize}}
-            </h4>
-            <i class="indicator correct fa fa-check" ng-show="question.$correct && displayQuestions.$submitted"></i>
-            <i class="indicator incorrect fa fa-times" ng-show="!question.$correct && displayQuestions.$submitted"></i>
+      <div class="list-group-item question-item"
+           ng-repeat="question in displayQuestions|filter:{'$notAnswered':false}|paging:viewState.pageSize:viewState.currentPage[questionsType]">
+        <div class="mark-group" ng-if="displayQuestions.$submitted">
+          <i class="indicator correct fa fa-check" ng-if="question.$correct"></i>
+          <i class="indicator incorrect fa fa-times" ng-if="!question.$correct"></i>
+        </div>
+        <div class="content-group">
+          <h5 class="text-default">
+            {{$index + 1 + (viewState.currentPage[questionsType] - 1) * viewState.pageSize}}.
+            {{question.body | questionTitle}}
+          </h5>
+          <div class="question-image"
+               ng-repeat="imageKey in question.body | questionImage">
+            <img ng-src="{{imageKey}}">
           </div>
-          <div class="col-md-11 col-xs-10">
-            <h5 class="text-primary">{{question.body | questionTitle}}</h5>
-            <div class="checkbox text-muted"
-                 ng-repeat="option in question.choices">
-              <label class="lable">
-                {{$index|indexToABC}}.
-                <input type="checkbox" class="bud checkbox-primary"
-                       ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
-                       ng-model="option.$selected">
-                {{option.text}}
-              </label>
-            </div>
-            <question-answer question="question" keypoints="keyPoints" ng-if="displayQuestions.$submitted">
-            </question-answer>
+          <div class="checkbox"
+               ng-class="{'text-muted':displayQuestions.$submitted||displayQuestions!=lecture.homeworks}"
+               ng-repeat="option in question.choices">
+            <label>
+              {{$index|indexToABC}}.
+              <input type="checkbox" class="bud checkbox-primary"
+                     ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
+                     ng-model="option.$selected">
+              {{option.text}}
+            </label>
           </div>
+          <question-answer question="question"
+                           keypoints="keyPoints"
+                           ng-if="displayQuestions.$submitted">
+          </question-answer>
         </div>
       </div>
 
     </div>
+    <button type="button"
+            ng-show="displayQuestions==lecture.homeworks"
+            ng-disabled="displayQuestions.$submitted"
+            class="pull-right submit-btn btn btn-danger"
+            ng-click="submitAnswer()">
+      <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
+      <span ng-if="!displayQuestions.$submitted">提交课后作业</span>
+    </button>
     <pager
       total-items="displayQuestions.length"
       items-per-page="viewState.pageSize"
       align="false"
       class="bud"
-      ng-model="displayQuestions.currentPage"
+      ng-model="viewState.currentPage[questionsType]"
       ng-show="displayQuestions.length > viewState.pageSize">
     </pager>
-    <button type="button"
-            ng-show="displayQuestions==lecture.homeworks"
-            ng-disabled="displayQuestions.$submitted"
-            class="pull-right btn btn-danger"
-            ng-click="submitAnswer()">
-      <span ng-if="displayQuestions.$submitted">已经</span>提交
-    </button>
-  </div>
+
+
 </div>

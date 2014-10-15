@@ -1,7 +1,7 @@
 <div class="student-lecture-answers">
   <div class="text-center"
        id="lecture-question">
-    <span class="btn-group lecture-nav-tabs">
+    <div class="lecture-nav-tabs">
       <a ng-click="setQuestionType('quizzes')"
          ng-if="lecture.quizzes.$submitted"
          ng-class="{'selected':lecture.quizzes.$active}"
@@ -22,7 +22,7 @@
         <i class="fa fa-file-o"></i>
         课后作业
       </a>
-    </span>
+    </div>
   </div>
   <div class="questions-panel container" ng-show="displayQuestions">
     <div class="list-group">
@@ -61,6 +61,14 @@
       </div>
 
     </div>
+    <button type="button"
+            ng-show="displayQuestions==lecture.homeworks"
+            ng-disabled="displayQuestions.$submitted"
+            class="pull-right submit-btn btn btn-danger"
+            ng-click="submitAnswer()">
+      <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
+      <span ng-if="!displayQuestions.$submitted">提交课后作业</span>
+    </button>
     <pager
       total-items="displayQuestions.length"
       items-per-page="viewState.pageSize"
@@ -69,12 +77,6 @@
       ng-model="viewState.currentPage[questionsType]"
       ng-show="displayQuestions.length > viewState.pageSize">
     </pager>
-    <button type="button"
-            ng-show="displayQuestions==lecture.homeworks"
-            ng-disabled="displayQuestions.$submitted"
-            class="pull-right btn btn-danger"
-            ng-click="submitAnswer()">
-      <span ng-if="displayQuestions.$submitted">已经</span>提交
-    </button>
-  </div>
+
+
 </div>

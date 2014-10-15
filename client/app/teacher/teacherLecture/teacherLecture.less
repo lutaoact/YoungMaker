@@ -1,92 +1,3 @@
-.lecture-nav-tabs {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  >a {
-    padding: 8px 18px;
-    cursor: pointer;
-    border-color: #59B49F;
-    border-radius: 4px;
-    > i {
-      font-size: 1.4em;
-    }
-    &.selected {
-      color: #ffffff;
-      background-color: @base-color;
-      &:before {
-        content: ' ';
-        position: absolute;
-        border-top: 13px solid #59B49F;
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-        width: 0px;
-        height: 0px;
-        bottom: -13px;
-        left: calc(~'50% - 12px');
-      }
-      &:after {
-        content: ' ';
-        position: absolute;
-        border-top: 12px solid @base-color;
-        border-left: 11px solid transparent;
-        border-right: 11px solid transparent;
-        width: 0px;
-        height: 0px;
-        bottom: -12px;
-        left: calc(~'50% - 11px');
-      }
-    }
-  }
-}
-.lecture-slides-list {
-  -webkit-user-select: none;
-  -user-select: none;
-  -moz-user-select: none;
-  position:relative;
-  max-height: 486px;
-  overflow: auto;
-  margin: 0px;
-  padding-right: 2px;
-  .list-group-item {
-    &:first-child ,
-    &:last-child {
-      margin: 0px;
-    }
-    padding: 3px;
-    margin: 5px 0px 5px 1px;
-    background-color: #fafafa;
-    width: 100%;
-    .slide-thumb {
-      height: 104px;
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
-    &:hover {
-      background-color: #f3f3f3;
-      .close {
-        display: block;
-      }
-    }
-    &.active {
-      color: black;
-      padding: 2px;
-      background-color: #f3f3f3;
-      border-width: 2px;
-    }
-  }
-  .index {
-    cursor: move;
-    display: block;
-    text-align: center;
-    opacity: .8;
-  }
-  .close {
-    display:none;
-    position: absolute;
-    right: 5px;
-    top: 0;
-  }
-}
 .teacher {
   .quick-link {
     .editing-progress {
@@ -301,7 +212,7 @@
   .media-section {
     padding-top: 0px;
     padding-bottom: 45px;
-    background: #EBEBEB;
+    background: @gray-lighter
   }
   .question-section {
     padding-top: 0px;
@@ -577,7 +488,7 @@
     border: 1px solid #dddddd;
   }
   .lecture-question-list-body {
-    background: #EBEBEB;
+    background: @gray-lighter;
     padding-top: 5px;
     padding-bottom: 20px;
   }

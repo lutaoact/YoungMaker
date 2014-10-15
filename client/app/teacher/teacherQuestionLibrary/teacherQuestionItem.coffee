@@ -19,7 +19,7 @@ angular.module('budweiserApp').directive 'teacherQuestionItem', ->
         $timeout ->
           if $scope.question.$expended
             targetElement = angular.element(document.getElementById 'question-item-'+$scope.index)
-            $document.scrollToElement(targetElement, 65, 500)
+            $document.scrollToElement(targetElement, 70, 500)
 
       removeQuestion: (question) ->
         $scope.removeCallback?($question:question)

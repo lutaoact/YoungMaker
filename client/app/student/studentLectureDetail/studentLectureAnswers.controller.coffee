@@ -17,12 +17,18 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     displayQuestions: []
+    questionsType: 'quizzes'
     viewState:
       pageSize: 10
+      currentPage:
+        quizzes: 1
+        homeworks: 1
 
     setQuestionType: (type) ->
-      $scope.displayQuestions = $scope.lecture?[type]
-      $scope.lecture?[type].$active = true
+      $scope.questionsType = type
+      $scope.displayQuestions?.$active = false
+      $scope.displayQuestions = $scope.lecture?[$scope.questionsType]
+      $scope.displayQuestions?.$active = true
 
     submitAnswer: ->
       if $scope.displayQuestions is $scope.lecture.homeworks
@@ -67,7 +73,7 @@ angular.module('budweiserApp')
         # check null
         homeworkAnswer = answers[answers.length-1]
         homeworks = $scope.lecture?.homeworks
-        homeworks.$submitted = true
+#        homeworks.$submitted = true
         for question in homeworks
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
 
@@ -79,6 +85,7 @@ angular.module('budweiserApp')
 
           for choice, index in question.choices
             choice.$selected = answer?.indexOf(index) >= 0
+
     Restangular.all('quiz_answers').getList(lectureId:$scope.lecture._id)
     .then (answers)->
       if answers?.length

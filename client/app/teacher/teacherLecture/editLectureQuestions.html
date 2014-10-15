@@ -1,30 +1,25 @@
 <div>
-  <div class="container">
-    <div class="list-group col-md-12">
-      <div class="text-center"
-           ng-class="{'ppt':!videoActive}">
-        <span class="btn-group lecture-nav-tabs">
-          <a ng-click="setQuestionType('quizzes')"
-             ng-class="{'selected':quizzesActive}"
-             class="btn btn-default"
-             du-smooth-scroll
-             offset="60"
-             href="#lecture-question">
-            <i class="fa fa-clock-o"></i>
-            随堂练习
-          </a>
-          <a ng-click="setQuestionType('homeworks')"
-             ng-class="{'selected':!quizzesActive}"
-             class="btn btn-default"
-             du-smooth-scroll
-             offset="60"
-             href="#lecture-question">
-            <i class="fa fa-file-o"></i>
-            课后作业
-          </a>
-        </span>
-      </div>
-    </div>
+  <div class="text-center">
+    <span class="btn-group lecture-nav-tabs">
+      <a ng-click="setQuestionType('quizzes')"
+         ng-class="{'selected':quizzesActive}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-clock-o"></i>
+        随堂练习
+      </a>
+      <a ng-click="setQuestionType('homeworks')"
+         ng-class="{'selected':!quizzesActive}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-file-o"></i>
+        课后作业
+      </a>
+    </span>
   </div>
   <div class="list-group lecture-question-list-header">
     <div class="list-group-item heading">

@@ -13,7 +13,7 @@
        ng-click="question.$expended=!question.$expended; removeQuestion(question)">&times;</a>
     <label class="title-info"
            ng-class="{'text-muted':question.$exists}">
-      <span class="index">{{index}}</span>{{question.body | questionTitle}}
+      <span class="index">{{index}}.</span>{{question.body | questionTitle}}
     </label>
     <div class="question-image"
          ng-repeat="imageKey in question.body | questionImage">

@@ -206,13 +206,13 @@
               <vg-poster-image></vg-poster-image>
               <vg-buffering></vg-buffering>
               <vg-overlay-play></vg-overlay-play>
-              <vg-controls vg-autohide="'true'">
+              <vg-controls>
                 <vg-play-pause-button></vg-play-pause-button>
-                <vg-timeDisplay>{{currentTime.getSeconds()|second2ReadableTime}}</vg-timeDisplay>
+                <vg-timeDisplay>{{currentTime.getTime()/1000|second2ReadableTime}}</vg-timeDisplay>
                 <vg-scrubBar>
                   <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
                 </vg-scrubBar>
-                <vg-timeDisplay>{{totalTime.getSeconds()|second2ReadableTime}}</vg-timeDisplay>
+                <vg-timeDisplay>{{totalTime.getTime()/1000|second2ReadableTime}}</vg-timeDisplay>
                 <vg-volume>
                   <vg-mutebutton></vg-mutebutton>
                   <vg-volumebar></vg-volumebar>

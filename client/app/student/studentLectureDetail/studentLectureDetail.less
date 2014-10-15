@@ -1,17 +1,69 @@
 .student{
-  .lecture-view{
-    padding-bottom: 50px;
-    .container{
-      background: #FFFFFF;
-      position: relative;
-      border:1px solid #DDDDDD;
-      .box-shadow(0 0 2px #DDDDDD);
-      padding: 0;
+  .lecture-resources{
+    background: @gray;
+    padding-top: 0;
+    .video-container{
+      background: #000;
+      height: 500px;
+      padding-top: 25px;
+      padding-left: 0;
+      padding-right: 0;
     }
-    .lecture-header{
-      padding: 12px 24px;
+    .ppt-container{
+      position: relative;
+      height: 500px;
+      .ppt-content {
+        height: 500px;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+      }
+      .ppt-viewer{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        transition: width .6s;
+        -moz-transition: width .6s;
+        -webkit-transition: width .6s;
+        -o-transition: width .6s;
+        .box-shadow(none);
+        &.toggled {
+          width: calc(~'100% - 170px');
+        }
+      }
+      .lecture-slides-list {
+        top: 0px;
+        right: 4px;
+        position: absolute;
+        max-height: 100%;
+        width: 165px;
+        opacity: 1;
+        transition: all .6s;
+        -moz-transition: all .6s;
+        -webkit-transition: all .6s;
+        -o-transition: all .6s;
+        .index {
+          cursor: default;
+        }
+        &.ng-hide {
+          width: 0px;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .lecture-description{
+    .lecture-title{
+      padding: 20px 34px 0 34px;
       h3{
-        margin: 0;
+        margin-bottom: 20px;
+      }
+      .comments{
+        color: @gray-light;
+        margin-left: 24px;
+      }
+      .comments.active{
+        color: @base-color;
       }
       div.text-muted{
         max-height: 60px;
@@ -21,6 +73,13 @@
       hr{
         margin:15px;
       }
+    }
+    padding-top: 0;
+    .container{
+      .box-shadow(0 0 2px @gray-light);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      margin-bottom: 30px;
     }
     .key-points{
       .indicator{
@@ -50,111 +109,6 @@
           margin: 3px 6px;
           &.active{
             background: @base-color;
-          }
-        }
-      }
-    }
-    &.player{
-      .view{
-        .ppt-content,
-        .ppt-view{
-          height: 420px;
-          position: relative;
-          .ppt-content {
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-          }
-          .ppt-viewer{
-            display: inline-block;
-            height: 100%;
-            width: 100%;
-            transition: width .6s;
-            -moz-transition: width .6s;
-            -webkit-transition: width .6s;
-            -o-transition: width .6s;
-            .box-shadow(none);
-            &.toggled {
-              width: calc(~'100% - 170px');
-            }
-          }
-          .lecture-slides-list {
-            top: 0px;
-            right: 4px;
-            position: absolute;
-            max-height: 100%;
-            width: 165px;
-            opacity: 1;
-            transition: all .6s;
-            -moz-transition: all .6s;
-            -webkit-transition: all .6s;
-            -o-transition: all .6s;
-            .index {
-              cursor: default;
-            }
-            &.ng-hide {
-              width: 0px;
-              opacity: 0;
-            }
-          }
-        }
-        .video-view{
-          width: 100%;
-          margin:auto;
-          height: 420px;
-        }
-      }
-
-      .switch{
-        position: absolute;
-        left: -61px;
-        z-index: 0;
-        top: 150px;
-        width: 60px;
-        display: inline-block;
-        padding-top: 1px;
-        .btn{
-          width: 60px;
-          height: 60px;
-          background: #FFFFFF;
-          color: @gray;
-          padding-left: 5px;
-          padding-right: 5px;
-          border: 1px solid #DDDDDD;
-          border-right: none;
-          margin-top: -1px;
-          position: relative;
-          &:nth-child(1){
-            border-top-left-radius: 3px;
-          }
-          &:nth-last-child(1){
-            border-bottom-left-radius: 3px;
-          }
-          i{
-            font-size: 25px;
-            line-height: 48px;
-          }
-          &.active{
-            background: @base-color;
-            color: #FFFFFF;
-          }
-          &.sub.active{
-            background: #FFFFFF;
-            color: @base-color;
-          }
-          &.selected{
-            &:before{
-              content: '';
-              position: absolute;
-              right: -1px;
-              top: 50%;
-              margin-top: -8px;
-              border-right: 16px solid #FFFFFF;
-              border-top: 8px solid transparent;
-              border-bottom: 8px solid transparent;
-              width: 0;
-              height: 0;
-              z-index: 10;
-            }
           }
         }
       }

@@ -6,6 +6,7 @@ angular.module 'budweiserApp'
   $upload
   configs
   Restangular
+  $timeout
 ) ->
 
   rexDict =
@@ -51,7 +52,7 @@ angular.module 'budweiserApp'
     Restangular.one('assets/upload/videos','').get(fileName: file.name.replace /[^a-z0-9\.-_]+/gi, '')
     .then (strategy)->
       startTime = moment()
-      pipeUpload = (file, segment ,request)->
+      pipeUpload = (file, segment ,request, concurrents)->
         uploadQ = $q.defer()
         pieces = Math.ceil(file.size / segment)
         pad = (number, length) ->
@@ -59,7 +60,7 @@ angular.module 'budweiserApp'
           while str.length < length
             str = '0' + str
           str
-        blocklist = [1..pieces].map (i) -> btoa('blick-' + pad(i, 6))
+        blocklist = [1..pieces].map (i) -> btoa('block-' + pad(i, 6))
         commitBlockList = ()->
           deferred = $q.defer()
           url = request.url + '&comp=blocklist'
@@ -87,38 +88,49 @@ angular.module 'budweiserApp'
           fileReader.onload = (e)->
             deferred.resolve e.target.result
           deferred.promise
-        current = 0
-        currentEnd = if current + segment >= file.size - 1 then file.size - 1 else current + segment
-        uploadPiece = (current, currentEnd)->
-          currentEnd = if currentEnd >= file.size - 1 then file.size - 1 else currentEnd
-          readBlob(current, currentEnd)
-          .then (data)->
-            request.data = data
-            $.ajax
-              url: request.url + '&comp=block&blockid=' + blocklist[Math.ceil(currentEnd / segment) - 1]
-              type: request.method
-              data: data
-              processData: false
-              beforeSend: (xhr)->
-                xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
-                xhr.setRequestHeader('Content-Length', data.length)
 
-              success: (data)->
-                speed = currentEnd / (moment().valueOf() - startTime.valueOf())
-                percentage = parseInt(100.0 * currentEnd / file.size)
-                opts.progress?(speed, percentage)
-                if currentEnd == file.size - 1
-                  # Done
-                  commitBlockList()
-                  .then ()->
-                    uploadQ.resolve data
-                else
-                  uploadPiece(currentEnd, currentEnd + segment)
+        segments = [0..pieces-1].map (i) ->
+          blockName: blocklist[i]
+          start: segment * i
+          end: if segment * (i + 1) >= file.size - 1 then file.size - 1 else segment * (i + 1)
 
-              error: (err)->
-                uploadQ.reject '视频上传失败'
+        finished = 0
+        genJob = (defer)->
+          seg = segments.shift()
+          if seg
+            readBlob(seg.start, seg.end)
+            .then (data)->
+              request.data = data
+              $.ajax
+                url: request.url + '&comp=block&blockid=' + seg.blockName
+                type: request.method
+                data: data
+                processData: false
+                beforeSend: (xhr)->
+                  xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
+                  xhr.setRequestHeader('Content-Length', data.length)
+                success: (data)->
+                  finished += (seg.end - seg.start)
+                  speed = finished / (moment().valueOf() - startTime.valueOf())
+                  percentage = parseInt(100.0 * finished / file.size)
+                  opts.progress?(speed, percentage)
+                  genJob(defer)
+                error: (err)->
+                  # retry
+                  segments.push seg
+                  genJob(defer)
+          else
+            defer?.resolve()
 
-        uploadPiece current, currentEnd
+        $q.all([1..concurrents].map (i)->
+          defer = $q.defer()
+          genJob(defer)
+          defer.promise
+        ).then ()->
+          commitBlockList()
+        .then ()->
+          uploadQ.resolve()
+
         uploadQ.promise
 
       request =
@@ -130,7 +142,7 @@ angular.module 'budweiserApp'
           'Content-Type': 'application/octet-stream'
           'Content-Length': file.size
         withCredentials: false
-      pipeUpload(file, 4 * 1024 * 1024,request)
+      pipeUpload(file, 4 * 1024 * 1024,request, 3)
       .then (data)->
         opts.success?(strategy.prefix + strategy.key)
       , (err)->

@@ -5,8 +5,8 @@
   }
   vg-controls {
     bottom: 0;
-    top: ~'calc(100% - @{video-height})';
     height: @video-height;
+    top: auto;
     #controls-container {
       height: @video-height;
     }
@@ -17,5 +17,8 @@
       font-size: 12px;
       width: 45px;
     }
+  }
+  vg-video{
+    padding-bottom: @video-height;
   }
 }

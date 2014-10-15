@@ -1,84 +1,88 @@
+<section class="lecture-resources">
+  <div class="text-center"
+       ng-class="{'ppt':!videoActive}">
+    <span class="btn-group lecture-nav-tabs">
+      <a ng-class="{'selected':viewState.isVideo}"
+         ng-click="viewState.isVideo = true"
+         class="btn btn-default">
+        <i class="fa fa-file-video-o"></i>
+        视频
+      </a>
+      <a ng-class="{'selected':!viewState.isVideo}"
+         ng-click="viewState.isVideo = false"
+         class="btn btn-default">
+        <i class="fa fa-file-powerpoint-o"></i>
+        PPT
+      </a>
+    </span>
+  </div>
+  <div class="container clearfix video-container" ng-show="viewState.isVideo">
+    <videogular vg-player-ready="onPlayerReady"
+                vg-update-time="onUpdateTime"
+                class="bud"
+                ng-show="lecture.media">
+      <vg-video vg-src="viewState.videos">
+      </vg-video>
+      <vg-poster-image></vg-poster-image>
+      <vg-buffering></vg-buffering>
+      <vg-overlay-play></vg-overlay-play>
+      <vg-controls>
+        <vg-play-pause-button></vg-play-pause-button>
+        <vg-timeDisplay>{{ currentTime.getTime()/1000|second2ReadableTime }}</vg-timeDisplay>
+        <vg-scrubBar>
+          <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
+        </vg-scrubBar>
+        <vg-timeDisplay>{{ totalTime.getTime()/1000|second2ReadableTime }}</vg-timeDisplay>
+        <vg-volume>
+          <vg-mutebutton></vg-mutebutton>
+          <vg-volumebar></vg-volumebar>
+        </vg-volume>
+        <vg-fullscreenButton></vg-fullscreenButton>
+      </vg-controls>
+    </videogular>
+    <div class="empty" ng-show="!lecture.media">
+      该课程没有视频
+    </div>
+  </div>
+  <div class="container clearfix ppt-container" ng-show="!viewState.isVideo">
+    <div ng-show="lecture.slides.length > 0"
+         class="ppt-content">
+      <div ppt-viewer
+           ng-class="{toggled:pptViewer.$listToggled}"
+           slides="lecture.slides"
+           index-visible="true"
+           list-toggled="pptViewer.$listToggled"
+           current-index="pptViewer.$activeIndex">
+      </div>
+      <div class="lecture-slides-list list-group scroll-bar-visible"
+           ng-show="pptViewer.$listToggled">
+        <a class="list-group-item stretch"
+           ng-class="{'active':(pptViewer.$activeIndex==$index)}"
+           ng-click="pptViewer.$activeIndex=$index"
+           ng-repeat="slide in lecture.slides ">
+          <div class="slide-thumb"
+               src-key="slide.thumb"
+               source-attr="background-image"></div>
+          <div class="index">{{$index+1}}</div>
+        </a>
+      </div>
+    </div>
+    <div class="empty" ng-if="!(lecture.slides.length > 0)">
+      该课程没有ppt
+    </div>
+  </div>
+</section>
 
-<section class="lecture-view player">
+<section class="lecture-description">
   <div class="container">
-    <div class="lecture-header text-center">
-      <h3>{{lecture.name}}</h3>
-      <hr>
+    <div class="lecture-title">
+      <h3>{{lecture.name}}
+        <a class="comments" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </h3>
       <div class="text-muted">{{lecture.info}}</div>
     </div>
-    <div id="content-view" class="view">
-      <div class="video-view" ng-show="viewState.isVideo">
-        <videogular vg-player-ready="onPlayerReady"
-                    vg-update-time="onUpdateTime"
-                    class="bud"
-                    ng-show="lecture.media">
-          <vg-video vg-src="viewState.videos">
-          </vg-video>
-          <vg-poster-image></vg-poster-image>
-          <vg-buffering></vg-buffering>
-          <vg-overlay-play></vg-overlay-play>
-          <vg-controls>
-            <vg-play-pause-button></vg-play-pause-button>
-            <vg-timeDisplay>{{ currentTime.getTime()/1000|second2ReadableTime }}</vg-timeDisplay>
-            <vg-scrubBar>
-              <vg-scrubbarcurrenttime></vg-scrubbarcurrenttime>
-            </vg-scrubBar>
-            <vg-timeDisplay>{{ totalTime.getTime()/1000|second2ReadableTime }}</vg-timeDisplay>
-            <vg-volume>
-              <vg-mutebutton></vg-mutebutton>
-              <vg-volumebar></vg-volumebar>
-            </vg-volume>
-            <vg-fullscreenButton></vg-fullscreenButton>
-          </vg-controls>
-        </videogular>
-        <div class="empty" ng-show="!lecture.media">
-          该课程没有视频
-        </div>
-      </div>
-
-      <div class="ppt-view"
-           ng-show="!viewState.isVideo">
-        <div ng-show="lecture.slides.length > 0"
-             class="ppt-content">
-          <div ppt-viewer
-               ng-class="{toggled:pptViewer.$listToggled}"
-               slides="lecture.slides"
-               index-visible="true"
-               list-toggled="pptViewer.$listToggled"
-               current-index="pptViewer.$activeIndex">
-          </div>
-          <div class="lecture-slides-list list-group scroll-bar-visible"
-               ng-show="pptViewer.$listToggled">
-            <a class="list-group-item stretch"
-               ng-class="{'active':(pptViewer.$activeIndex==$index)}"
-               ng-click="pptViewer.$activeIndex=$index"
-               ng-repeat="slide in lecture.slides ">
-              <div class="slide-thumb"
-                   src-key="slide.thumb"
-                   source-attr="background-image"></div>
-              <div class="index">{{$index+1}}</div>
-            </a>
-          </div>
-        </div>
-        <div class="empty" ng-if="!(lecture.slides.length > 0)">
-          该课程没有ppt
-        </div>
-      </div>
-    </div>
-
-    <div class="switch">
-      <a class="btn" ng-class="{'active':viewState.isVideo,'selected':viewState.isVideo}" ng-click="viewState.isVideo = true">
-        <i class="fa fa-toggle-right"></i>
-      </a>
-      <a class="btn" ng-class="{'active':!viewState.isVideo,'selected':!viewState.isVideo}" ng-click="viewState.isVideo = false">
-        <i class="fa fa-file-powerpoint-o"></i>
-      </a>
-      <a class="btn sub" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()">
-        <i class="fa fa-comment-o"></i>
-      </a>
-    </div>
-
-    <!-- keyponits -->
     <div class="key-points" ng-show="lecture.keyPoints.length">
       <div class="indicator text-center pull-left">
         <i class="fa fa-tags"></i>
@@ -97,7 +101,6 @@
       </div>
     </div>
   </div>
-
 </section>
 
 <section class="quiz-and-homework">

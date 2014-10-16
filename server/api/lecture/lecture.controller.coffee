@@ -79,14 +79,14 @@ exports.update = (req, res, next) ->
     updated.markModified 'keyPoints'
     updated.markModified 'quizzes'
     updated.markModified 'homeworks'
-    if config.assetHost.videos == 'azure' && req.body.media?
+    if config.assetsConfig[config.assetHost.uploadVideoType].serviceName == 'azure' && req.body.media?
       #TODO: cache token!
       request.post {
         uri: config.azure.acsBaseAddress
         form:
           grant_type: 'client_credentials'
-          client_id: config.azure.accountName
-          client_secret: config.azure.accountKey
+          client_id: config.assetsConfig[config.assetHost.uploadVideoType].accountName
+          client_secret: config.assetsConfig[config.assetHost.uploadVideoType].accountKey
           scope: 'urn:WindowsAzureMediaServices'
         strictSSL: true
       }, (err, response) ->
@@ -94,7 +94,7 @@ exports.update = (req, res, next) ->
         request.get {
           uri: config.azure.shaAPIServerAddress+'CreateFileInfos'
           qs:
-            assetid: "'"+req.body.media.split('/')[0]+"'"
+            assetid: "'"+req.body.media.split('/')[5]+"'"
           headers: config.azure.defaultHeaders(access_token)
         }, (err, response)->
           if err? then logger.error err

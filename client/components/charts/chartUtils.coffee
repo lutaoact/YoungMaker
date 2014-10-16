@@ -8,7 +8,7 @@ angular.module 'budweiserApp'
         legend:
           enabled: false
         chart:
-          type: 'spline'
+          type: 'area'
           zoomType: 'x'
           height: 230
         # Hide watermark
@@ -17,6 +17,10 @@ angular.module 'budweiserApp'
         tooltip:
           headerFormat: ''
           pointFormat: '{point.y:.1f}%'
+        plotOptions:
+          series:
+            color: '#E6505F'
+            fillOpacity: 0.1
       series: [
       ]
       xAxis:
@@ -25,21 +29,20 @@ angular.module 'budweiserApp'
         labels:
           formatter: ()->
             this.value + 1
-        min: 0
+        min: -0.1
         tickInterval: 1
+        minorTickLength: 0
+        minorTickInterval: 1
+        minorGridLineDashStyle: 'longdash'
       yAxis:
         title:
           text: '百分率(%)'
-        plotLines: [{
-          value: 0,
-          width: 1,
-          color: '#808080'
-        }]
         max: 100
         min: 0
         tickInterval: 25
+        gridLineDashStyle: 'longdash'
       title:
-        text: null
+        text: '<div></div>'
 
     # Pie Chart template
     pieChart:

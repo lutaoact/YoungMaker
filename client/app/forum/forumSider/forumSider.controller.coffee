@@ -12,7 +12,6 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
   $timeout
   $modal
   Auth
-  Tag
   $filter
 ) ->
 
@@ -32,7 +31,7 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
       .then (topics)->
         # pull out the tags in content
         topics.forEach (topic)->
-          topic.$tags = (Tag.genTags topic.content)
+          topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
         $scope.topics = $filter('filter')(topics, $state.params.lectureId)
 
     viewTopic: (topic)->

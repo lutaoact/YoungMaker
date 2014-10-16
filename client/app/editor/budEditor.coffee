@@ -26,11 +26,6 @@ angular.module('budweiserApp').directive 'budEditor', ()->
       $scope.metadata ?= {}
       $scope.metadata.raw ?= ''
       $scope.content = $scope.metadata.raw.replace /\r?\n/g, '<br/>'
-      if $scope.metadata.tags?.length
-        $scope.tags = ''
-        $scope.metadata.tags?.forEach (tag)->
-          $scope.tags = "<div class=\"tag\" href=\"#{tag.type}\" src=\"#{tag.srcId}\">#{tag.name}</div>"  + $scope.tags
-        $scope.content = '<div class="tags clearfix">' + $scope.tags + '</div>' + $scope.content
       $scope.metadata.images?.forEach (image)->
         $scope.content += "<img class=\"sm image-zoom\" src=\"#{image.url}\">"
     , true

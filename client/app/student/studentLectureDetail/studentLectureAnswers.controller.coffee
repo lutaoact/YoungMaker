@@ -73,7 +73,7 @@ angular.module('budweiserApp')
         # check null
         homeworkAnswer = answers[answers.length-1]
         homeworks = $scope.lecture?.homeworks
-#        homeworks.$submitted = true
+        homeworks.$submitted = true
         for question in homeworks
           answer = _.find(homeworkAnswer.result, questionId:question._id)?.answer
 

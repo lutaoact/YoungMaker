@@ -40,8 +40,8 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
 
     pushQuestion: (quizze) ->
       $modal.open
-        templateUrl: 'app/teacher/teacherTeaching/pushQuestion.html'
-        controller: 'PushQuestionCtrl'
+        templateUrl: 'app/teacher/teacherTeaching/pubQuestion.html'
+        controller: 'PubQuestionCtrl'
         backdrop: 'static'
         resolve:
           classe: -> $scope.classe

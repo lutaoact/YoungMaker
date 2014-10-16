@@ -11,6 +11,8 @@
     }
     .ppt-container{
       position: relative;
+      padding-left: 0;
+      padding-right: 0;
       height: 500px;
       .ppt-content {
         height: 500px;
@@ -62,6 +64,9 @@
         cursor: pointer;
         color: @gray-light;
         margin-left: 24px;
+        &:hover{
+          text-decoration: none;
+        }
       }
       .comments.active{
         color: @base-color;

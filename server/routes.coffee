@@ -65,7 +65,7 @@ module.exports = (app) ->
       token = req.cookies.token.replace /"/g, ''
       jwt.verify token, config.secrets.session, null, (err, user) ->
         if err?
-          #console.log 'Cannot verify token'
+          # console.log 'Cannot verify token'
           # failed to verify token, return index.html
           res.sendfile app.get('appPath') + '/index.html'
         else

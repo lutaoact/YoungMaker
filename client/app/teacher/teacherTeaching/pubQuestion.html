@@ -24,10 +24,10 @@
   <div ng-if="pushed">
     <highchart config="questionStats"></highchart>
     <progressbar class="progress-striped active"
-                 max="classe.students.length"
+                 max="publishedAnswers.length"
                  value="getAnswersNum()"
                  type="success">
-      <i style="color:black; font-weight: bold; position: absolute">学生提交数: {{getAnswersNum()}} / {{classe.students.length}}</i>
+      <i style="color:black; font-weight: bold; position: absolute">学生提交数: {{getAnswersNum()}} / {{publishedAnswers.length}}</i>
     </progressbar>
   </div>
 </div>

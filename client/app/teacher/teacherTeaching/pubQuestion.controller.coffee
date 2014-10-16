@@ -16,10 +16,11 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
     classe: classe
     lecture: lecture
     question: question
-    answers: {}
+    submittedAnswers: {}
+    publishedAnswers: []
     questionStats: {}
 
-    getAnswersNum: -> _.keys($scope.answers).length
+    getAnswersNum: -> _.keys($scope.submittedAnswers).length
 
     close: ->
       socket.removeHandler 'quiz_answer'
@@ -36,17 +37,19 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
           lectureId: lecture._id
           classId: classe._id
         , 'quiz'
-        .then ->
+        .then (publishedAnswers) ->
+          $scope.publishedAnswers = publishedAnswers
+          publishedAnswerIds = _.pluck $scope.publishedAnswers, '_id'
           socket.setHandler 'quiz_answer', (answer) ->
             if answer.questionId is question._id &&
                answer.lectureId is lecture._id &&
-               classe.students.indexOf(answer.userId) >= 0
-              $scope.answers[answer.userId] = answer
+               publishedAnswerIds.indexOf(answer._id) >= 0
+              $scope.submittedAnswers[answer.userId] = answer
               $scope.questionStats = makeQuestionStats()
 
   makeQuestionStats = ->
     resultsDict = _
-    .chain($scope.answers)
+    .chain($scope.submittedAnswers)
     .values()
     .pluck('result')
     .flatten((item) -> item)
@@ -69,7 +72,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       text: "学生选择选项统计"
     yAxis:
       min: 0
-      max: classe.students.length
+      max: $scope.publishedAnswers.length
       tickInterval: 10
       title:
         text: '人数'

@@ -3,19 +3,22 @@
 User = _u.getModel "user"
 Classe = _u.getModel 'classe'
 QuizAnswer = _u.getModel 'quiz_answer'
+auth = require '../../auth/auth.service'
 
 {StudentId, ClasseId, UserNum} = Const.Demo
 
 exports.getUser = (req, res, next) ->
   logger.info "global.demoUserCount: #{global.demoUserCount}"
   currentId = _s.sprintf StudentId, global.demoUserCount++ % UserNum
-  tmpResult = {}
+  demoUser = {}
   User.findByIdQ currentId
   .then (user) ->
-    tmpResult.user = user
+    demoUser = user
     Classe.updateQ {_id: ClasseId}, {$addToSet: {students: user._id}}
-  .then () ->
-    res.send tmpResult.user
+  .then ->
+    res.json
+      username: demoUser.username
+      token: auth.signToken(demoUser._id, demoUser.role)
   , next
 
 
@@ -30,5 +33,5 @@ exports.clear = (req, res, next) ->
     Classe.updateQ {_id: ClasseId}, {students: []}
   .then () ->
     global.demoUserCount = 0
-    res.send 200
+    res.send 'clear demo success.'
   , next

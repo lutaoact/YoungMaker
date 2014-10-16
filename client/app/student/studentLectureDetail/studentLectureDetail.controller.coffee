@@ -159,7 +159,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
   # scroll to content-view after document ready
   $document.ready ->
-    ele = angular.element('#content-view')
     #$document.scrollToElement(ele, 60, 2000)
-    $document.scrollTo(0, 150, 2000)
+    $document.scrollTo(0, 80, 2000)
 

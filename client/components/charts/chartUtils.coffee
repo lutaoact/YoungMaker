@@ -42,7 +42,7 @@ angular.module 'budweiserApp'
         tickInterval: 25
         gridLineDashStyle: 'longdash'
       title:
-        text: '<div></div>'
+        text: '折线图'
 
     # Pie Chart template
     pieChart:

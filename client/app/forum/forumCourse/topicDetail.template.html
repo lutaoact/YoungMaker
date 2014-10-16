@@ -39,11 +39,18 @@
       </div>
 
       <div class="article-body">
+        <div class="clearfix title-row tags-bar">
+          <div class="title-row-header">标签<hr></div>
+          <div class="view-section all-tags clearfix">
+            <a href class="tag pull-left" ng-repeat="tag in topic.metadata.tags" tooltip="{{tag.name}}">{{tag.name}}</a>
+          </div>
+          <hr>
+        </div>
         <div class="blog" compile-html="topic.content" >
         </div>
         <div class="article-voteup text-center"
           ng-class="{'active':topic.voteUpUsers.indexOf(me._id)>=0}"
--         ng-click="toggleLike(topic)">
+          ng-click="toggleLike(topic)">
           <i class="fa fa-heart">
           </i>
           <hr>

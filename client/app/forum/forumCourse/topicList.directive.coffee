@@ -69,7 +69,7 @@ angular.module('budweiserApp')
 
     filterByTags: (item)->
       $scope.filterTags.every (tag)->
-        item.content.indexOf(tag.name) > -1
+        item.metadata.tags?.some (x)-> x.name is tag.name
 
     createTopic: ()->
       # validate
@@ -86,7 +86,6 @@ angular.module('budweiserApp')
         keyboard: false
 
       .result.then (dis_topic)->
-        dis_topic.$tags = (Tag.genTags dis_topic.content)
         dis_topic.$heat = 1000 / (moment().diff(moment(dis_topic.created),'hours') + 1)+ dis_topic.repliesNum * 10 + dis_topic.voteUpUsers.length * 10
         $scope.topics.splice 0, 0, dis_topic
 
@@ -96,7 +95,6 @@ angular.module('budweiserApp')
       $scope.queryTags = []
       $scope.topics.forEach (topic)->
         $scope.queryTags = $scope.queryTags.concat topic.metadata?.tags
-        topic.$tags = (Tag.genTags topic.content)
         topic.$heat = 1000 / (moment().diff(moment(topic.created),'hours') + 1)+ topic.repliesNum * 10 + topic.voteUpUsers.length * 10
       $scope.queryTags = _.compact $scope.queryTags
       $scope.queryTags = _.uniq $scope.queryTags, (x)-> x.srcId

@@ -2,7 +2,6 @@
 
 angular.module('budweiserApp').controller 'ForumCourseCtrl', (
   $q
-  Tag
   $scope
   $state
   Navbar

@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   Courses
   Restangular
   $sce
+  $timeout
 ) ->
 
   # TODO: remove this line. Fix in videogular
@@ -50,6 +51,16 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
 
     genTooltip: (showMenu) ->
       if !showMenu then '推送随堂练习'
+
+    moving: false
+    onMouseMove: ()->
+      if not @moving
+        $scope.moving = true
+        $timeout ->
+          angular.element('#controls-container').mousemove()
+        $timeout ->
+          $scope.moving = false
+        , 500
 
   $scope.$watch 'currentIndex', ->
     $scope.currentNum = $scope.currentIndex + 1

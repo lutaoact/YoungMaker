@@ -4,6 +4,33 @@
     background: #FFF;
     border-radius: 4px;
     padding: 25px 30px;
+    .tags-bar{
+      border-bottom: none;
+      .title-row-header{
+        color: @gray-light;
+        position: relative;
+        hr{
+          position: absolute;
+          left: 40px;
+          top: 10px;
+          right: 0;
+          margin-top: 0;
+        }
+      }
+      .all-tags{
+        margin-left: 14px;
+        margin-top: 14px;
+        .tag{
+          &:hover{
+            text-decoration: none;
+            color: @gray-lighter;
+          }
+          &.active{
+            background: @base-color;
+          }
+        }
+      }
+    }
     .article-header.media{
       position: relative;
       min-height: 70px;

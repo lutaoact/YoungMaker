@@ -22,17 +22,26 @@ angular.module('budweiserApp').factory 'Auth', (
   login: (user, callback) ->
     cb = callback or angular.noop
     deferred = $q.defer()
-    $http.post('/auth/local', user).success((data) ->
-      $cookieStore.put 'token', data.token
-      currentUser = User.get()
+    $http.post('/auth/local', user).success ((data) ->
+      @setToken(data.token)
       deferred.resolve currentUser
       cb()
-    ).error ((err) ->
+    ).bind(@)
+    .error ((err) ->
       @logout()
       deferred.reject err
       cb err
-    ).bind(this)
+    ).bind(@)
     deferred.promise
+
+  ###
+  Save token and reset User
+
+  @param {String} token
+  ###
+  setToken: (token) ->
+    $cookieStore.put 'token', token
+    currentUser = User.get()
 
 
   ###
@@ -94,7 +103,6 @@ angular.module('budweiserApp').factory 'Auth', (
   ###
   getCurrentUser: ->
     currentUser
-
 
   ###
   Check if a user is logged in

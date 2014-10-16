@@ -13,7 +13,7 @@ angular.module('budweiserApp')
     onTagClick: '&'
     lectureId: '@'
 
-.controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state, Tag)->
+.controller 'TopicListCtrl', ($scope, Auth, $modal, Restangular, $state)->
   angular.extend $scope,
     selectTopic: (topic)->
       $scope.selectedTopic = topic

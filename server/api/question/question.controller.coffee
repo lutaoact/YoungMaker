@@ -140,8 +140,8 @@ exports.pubQuiz = (req, res, next) ->
       tmpResult.question
       user._id
     )
-  .then () ->
-    res.send 200
+  .then ->
+    res.send tmpResult.allAnswers
   , next
 
 exports.multiDelete = (req, res, next) ->

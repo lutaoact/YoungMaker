@@ -21,9 +21,9 @@ removeAndCreate = (name, data) ->
 module.exports = (seedData) ->
   actions = (removeAndCreate name, data for name, data of seedData)
 
+  console.log 'start load data'
   Q.all actions
-  .then (results) ->
-#    logger.info results
+  .then ->
     console.log 'load data success'
   , (err) ->
     console.log err

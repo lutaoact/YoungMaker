@@ -3,28 +3,26 @@
 angular.module('budweiserApp')
 
 .controller 'ClasseManagerCtrl', (
-  $scope,
-  Restangular) ->
+  $scope
+  Restangular
+) ->
 
   angular.extend $scope,
     classesQ: Restangular.all('classes').getList()
 
-.controller 'ClasseManagerDetailCtrl',
-(
-  Auth
+.controller 'ClasseManagerDetailCtrl', (
   $scope
   $state
-  $http
-  Restangular
-  fileUtils
   notify
+  fileUtils
+  Restangular
   CurrentUser
 ) ->
 
   angular.extend $scope,
 
-    selectedClasse: undefined
-    editingClasse: undefined
+    selectedClasse: null
+    editingClasse: null
 
     saveClasse: (classe, form) ->
       if !form.$valid then return
@@ -41,7 +39,7 @@ angular.module('budweiserApp')
           angular.extend $scope.selectedClasse, data
           angular.extend $scope.editingClasse, data
 
-    loadStudents: ()->
+    loadStudents: ->
       $scope.selectedClasse.all('students').getList().then (students) ->
         $scope.selectedClasse.$students = students
 
@@ -76,7 +74,7 @@ angular.module('budweiserApp')
           orgId: CurrentUser.orgId
           type: 'student'
           classeId: $scope.selectedClasse._id
-        .then (result)->
+        .then ->
           $scope.loadStudents()
           $scope.isExcelProcessing = false
         , (error)->
@@ -85,5 +83,5 @@ angular.module('budweiserApp')
       fail: (error)->
         notify(error)
         $scope.isExcelProcessing = false
-      progress: (speed, percentage, evt)->
-        notify($scope.uploadingP)
+      progress: ->
+        console.debug 'uploading...'

@@ -50,7 +50,7 @@ angular.module 'budweiserApp'
     mkMenu = (title, link) ->
       title: title
       link: link
-    $scope.navInSub = /^(teacher|forum|student).(course|lecture|topic|questionLibrary)/.test($state.current.name)
+    $scope.navInSub = /^(admin|teacher|forum|student).(course|lecture|topic|questionLibrary|teacherManager|classeManager|categoryManager)/.test($state.current.name) or $state.current.name is 'admin.home'
     $scope.additionalMenu =
       if $scope.navInSub
         switch $scope.getCurrentUser()?.role
@@ -67,7 +67,6 @@ angular.module 'budweiserApp'
             ]
           when 'admin'
             [
-              mkMenu '管理组', 'admin.classeManager'
             ]
           else []
       else []

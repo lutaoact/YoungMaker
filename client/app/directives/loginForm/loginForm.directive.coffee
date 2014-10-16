@@ -30,7 +30,7 @@ angular.module('budweiserApp').directive 'loginForm', ->
               socketHandler.init(me)
               if !loginRedirector.apply()
                 if me.role is 'admin'
-                  $location.url('/admin')
+                  $location.url('/a')
                 else if me.role is 'teacher'
                   $location.url('/t')
                 else if me.role is 'student'

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'PushQuestionCtrl', (
+angular.module('budweiserApp').controller 'PubQuestionCtrl', (
   $scope
   classe
   socket
@@ -12,13 +12,13 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
 ) ->
 
   angular.extend $scope,
-    pushed: false
+    publishing: false
     classe: classe
     lecture: lecture
     question: question
     submittedAnswers: {}
     publishedAnswers: []
-    questionStats: {}
+    questionStats: null
 
     getAnswersNum: -> _.keys($scope.submittedAnswers).length
 
@@ -26,26 +26,24 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
       socket.removeHandler 'quiz_answer'
       $modalInstance.dismiss('close')
 
-    push: ->
-      if $scope.pushed
-        $scope.close()
-      else
-        $scope.pushed = true
+    publish: ->
+      $scope.publishing = true
+      Restangular.all('questions').customPOST
+        questionId: question._id
+        lectureId: lecture._id
+        classId: classe._id
+      , 'quiz'
+      .then (publishedAnswers) ->
+        $scope.publishing = false
+        $scope.publishedAnswers = publishedAnswers
+        publishedAnswerIds = _.pluck $scope.publishedAnswers, '_id'
         $scope.questionStats = makeQuestionStats()
-        Restangular.all('questions').customPOST
-          questionId: question._id
-          lectureId: lecture._id
-          classId: classe._id
-        , 'quiz'
-        .then (publishedAnswers) ->
-          $scope.publishedAnswers = publishedAnswers
-          publishedAnswerIds = _.pluck $scope.publishedAnswers, '_id'
-          socket.setHandler 'quiz_answer', (answer) ->
-            if answer.questionId is question._id &&
-               answer.lectureId is lecture._id &&
-               publishedAnswerIds.indexOf(answer._id) >= 0
-              $scope.submittedAnswers[answer.userId] = answer
-              $scope.questionStats = makeQuestionStats()
+        socket.setHandler 'quiz_answer', (answer) ->
+          if answer.questionId is question._id &&
+             answer.lectureId is lecture._id &&
+             publishedAnswerIds.indexOf(answer._id) >= 0
+            $scope.submittedAnswers[answer.userId] = answer
+            $scope.questionStats = makeQuestionStats()
 
   makeQuestionStats = ->
     resultsDict = _
@@ -73,7 +71,7 @@ angular.module('budweiserApp').controller 'PushQuestionCtrl', (
     yAxis:
       min: 0
       max: $scope.publishedAnswers.length
-      tickInterval: 10
+      tickInterval: $scope.publishedAnswers.length
       title:
         text: '人数'
         align: 'high'

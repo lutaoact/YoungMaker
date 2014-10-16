@@ -1,17 +1,17 @@
 <div class="modal-header modal-header-black">
-  <h4 class="modal-title">推送随堂问题
+  <h4 class="modal-title">推送随堂练习
     <a class="close" ng-click="close()">&times;</a>
   </h4>
 </div>
 <div class="modal-body push-question-body">
-  <h4 ng-if="!pushed">Q: {{question.body | questionTitle}}</h4>
+  <h4 ng-if="!questionStats">Q: {{question.body | questionTitle}}</h4>
   <div class="question-image"
-       ng-if="!pushed"
+       ng-if="!questionStats"
        ng-repeat="imageKey in question.body | questionImage">
     <img ng-src="{{imageKey}}">
   </div>
   <ul class="nav nav-pills nav-stacked list-group-item question-content"
-      ng-if="!pushed"
+      ng-if="!questionStats"
       role="tablist">
     <li ng-repeat="option in question.choices"
         role="presentation">
@@ -21,7 +21,7 @@
       </label></a>
     </li>
   </ul>
-  <div ng-if="pushed">
+  <div ng-if="questionStats">
     <highchart config="questionStats"></highchart>
     <progressbar class="progress-striped active"
                  max="publishedAnswers.length"
@@ -32,10 +32,21 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button"
-          class="btn btn-danger"
-          ng-click="push()">
-    <span ng-if="!pushed">开始提问</span>
-    <span ng-if="pushed">结束提问</span>
-  </button>
+  <span ng-if="!questionStats">
+    <button type="button"
+            class="btn btn-danger"
+            ng-disabled="publishing"
+            ng-click="publish()">
+      <span ng-if="!publishing">开始提问</span>
+      <span ng-if="publishing">
+        <i class="fa fa-spinner fa-spin"></i>
+        推送中
+      </span>
+    </button>
+  </span>
+  <span ng-if="questionStats">
+    <button type="button"
+            class="btn btn-danger"
+            ng-click="close()">结束提问</button>
+  </span>
 </div>

@@ -3,23 +3,29 @@
   <div class="container">
     <div class="course-info row">
       <div class="course-info-left">
-        <div class="course-thumbnail" 
+        <div class="course-thumbnail"
           src-key="course.thumbnail"
           source-attr="background-image">
         </div>
       </div>
       <div class="course-info-right">
-        <h4 class="course-title">
+        <h4 class="course-title" tooltip="{{course.name}}" tooltip-placement="bottom">
           {{course.name}}
         </h4>
         <h5>
           {{course.owners[0].name||'某老师'}}
         </h5>
-        <div class="course-summary" tooltip="{{course.info}}">
+        <div class="course-summary">
           {{course.info}}
         </div>
-        <div class="learn-progress" tooltip="{{viewedLectureIndex + '/' + course.$lectures.length}}课时">
-          <div class="learn-progress-inner-bar" ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}"></div>
+        <div class="learn-progress">
+          <div class="learn-progress-inner-bar"
+            ng-style="{'width':viewedLectureIndex / course.$lectures.length * 100 + '%'}"
+            >
+          </div>
+          <div class="tip">
+            {{+viewedLectureIndex + '/' + course.$lectures.length}}课时
+          </div>
         </div>
         <a class="btn btn-danger btn-lg" ng-click="gotoLecture()" ng-show="course.$lectures">
           {{viewedLectureIndex?'继续学习':'开始学习'}}

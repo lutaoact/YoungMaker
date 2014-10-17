@@ -1,24 +1,20 @@
-
-<div class="container" style="margin-top:50px;">
-  <form class="form" name="form">
-    <div class="form-group">
-      <label for="category-name">学科名称</label>
-      <input class="form-control" id="category-name" name="name" ng-model="category.name" placeholder="请输入学科" required>
-      <br>
-      <div>
-        <a class="btn btn-danger btn-sm rounded" ng-click="addCategory()">添加学科</a>
-      </div>
-      <br>
+<form class="form" name="form">
+  <div class="form-group">
+    <label for="category-name">学科名称</label>
+    <input class="form-control" id="category-name" name="name" ng-model="category.name" placeholder="请输入学科" required>
+    <br>
+    <div>
+      <a class="btn btn-danger btn-sm rounded" ng-click="addCategory()">添加学科</a>
+    </div>
+    <br>
 
 
-      <label for="category-list">学科列表</label>
-      <div class="list-group" id="category-list">
-        <div class="list-group-item" ng-repeat="cat in categories">
-          {{cat.name}}
-          <span class="close" ng-click="removeCategory(cat)">&times;</span>
-        </div>
+    <label for="category-list">学科列表</label>
+    <div class="list-group" id="category-list">
+      <div class="list-group-item" ng-repeat="cat in categories">
+        {{cat.name}}
+        <span class="close" ng-click="removeCategory(cat)">&times;</span>
       </div>
     </div>
-    
-  </form>
-</div>
+  </div>
+</form>

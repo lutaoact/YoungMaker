@@ -1,33 +1,25 @@
-.org-view {
-  background: #FEFFFF;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-radius: 4px;
-  border: 1px solid #e4e4e4;
-
-  #org-form {
-    .org-logo {
-      .avatar(130px);
-      border-radius: 0;
-      margin-bottom: 20px;
-      background-image: none;
-      &:before{
-        display: none;
-      }
+#org-form {
+  .org-logo {
+    .avatar(130px);
+    border-radius: 0;
+    margin-bottom: 20px;
+    background-image: none;
+    &:before{
+      display: none;
     }
-    .ui-select-bootstrap {
-      max-width: 200px;
+  }
+  .ui-select-bootstrap {
+    max-width: 200px;
+  }
+  .form-group {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    .form-control {
+      border-radius: 4px;
     }
-    .form-group {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      .form-control {
-        border-radius: 4px;
-      }
-    }
-    .save-btn {
-      padding-left: 25px;
-      padding-right: 25px;
-    }
+  }
+  .save-btn {
+    padding-left: 25px;
+    padding-right: 25px;
   }
 }

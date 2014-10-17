@@ -63,7 +63,11 @@ module.exports = (app) ->
     else
       # remove double quote
       token = req.cookies.token.replace /"/g, ''
+      logger.info 'refreshing, req.cookies:'
+      logger.info req.cookies
       jwt.verify token, config.secrets.session, null, (err, user) ->
+        logger.info "after verity token, we get user:"
+        logger.info user
         if err?
           # console.log 'Cannot verify token'
           # failed to verify token, return index.html

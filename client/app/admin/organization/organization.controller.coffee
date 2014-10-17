@@ -8,6 +8,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
   $upload
   Restangular
 ) ->
+
   $scope.message = 'Hello'
   $scope.organization = {}
   $scope.isUploading = false

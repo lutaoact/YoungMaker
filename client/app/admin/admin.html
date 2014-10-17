@@ -1,20 +1,26 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container admin-menu">
-  <div class="navbar-collapse collapse" id="navbar-main">
-    <ul class="nav navbar-nav">
-      <li>
-        <a ng-href="/admin/organization">机构管理</a>
-      </li>
-      <li>
-        <a ng-href="/admin/categoryManager">学科管理</a>
-      </li>
-      <li>
-          <a ng-href="/admin/teacherManager">老师管理</a>
-      </li>
-      <li>
-          <a ng-href="/admin/classeManager">班级管理</a>
-      </li>
-    </ul>
+
+<div class="admin-menu-bar">
+  <div class="container admin-menu">
+    <div class="col-md-12">
+      <ul class="nav navbar-nav">
+        <li><a class="menu-item"
+               ui-sref-active="active"
+               ui-sref="admin.home">机构管理</a></li>
+        <li><a class="menu-item"
+               ui-sref-active="active"
+               ui-sref="admin.categoryManager">学科管理</a></li>
+        <li><a class="menu-item"
+               ui-sref-active="active"
+               ui-sref="admin.teacherManager">老师管理</a></li>
+        <li><a class="menu-item"
+               ui-sref-active="active"
+               ui-sref="admin.classeManager">班级管理</a></li>
+      </ul>
+    </div>
   </div>
 </div>
+
 <div ui-view="" class="admin fadeIn"></div>
+
+<div ng-include="'components/footer/footer.html'"></div>

@@ -1,8 +1,13 @@
 'use strict'
 require '../common/init'
 
-# 运行时请设置这个ID
-#orgId   = '54265f1d1681140a66ca3cd9'
+unless process.env.orgId?
+  console.log "注意看用法："
+  console.log "Usage: orgId=xxxxx coffee demo_seed.coffee"
+  process.exit 1
+
+orgId = process.env.orgId
+
 {StudentId, TeacherId, ClasseId, CourseId, UserNum} = Const.Demo
 name    = 'Demo 学生 %s'
 email   = 'student%s_demo@cloud3edu.cn'

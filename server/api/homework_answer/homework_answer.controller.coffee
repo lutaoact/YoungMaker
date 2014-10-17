@@ -75,7 +75,7 @@ exports.create = (req, res, next) ->
 
     body.userId = userId
     body.lectureId = lectureId
-    HomeworkAnswer.createQ body
+    HomeworkAnswer.updateQ {userId: userId, lectureId: lectureId}, body, {upsert: true}
     .then (answer) ->
       res.send 201, answer
     , (err) ->

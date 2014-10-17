@@ -33,9 +33,10 @@ exports.index = (req, res, next) ->
       , (err) ->
         next err
     when 'student'
-      QuizAnswer.findQ
-        lectureId : lectureId
-        userId : req.user.id
+      conditions = lectureId : lectureId, userId : req.user.id
+      conditions.created = { $gt: new Date(req.query.created) } if req.query.created?
+
+      QuizAnswer.findQ conditions
       .then (answers) ->
         res.send answers
       , (err) ->

@@ -24,7 +24,6 @@ exports.Question = BaseModel.subclass
         type: Number
         required: true
         default: 1
-      #content.body -> choices
       choices: [
         text: String #rich text
         correct: Boolean

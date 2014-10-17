@@ -4,21 +4,21 @@ angular.module 'budweiserApp', [
   'ngCookies'
   'ngResource'
   'ngSanitize'
+  'ngAnimate'
+  'ngStorage'
   'ui.bootstrap'
   'ui.router'
-  'ngStorage'
   'ui.select'
-  'angularFileUpload'
-  'restangular'
-  'cgNotify'
-  'duScroll'
   'com.2fdevs.videogular'
   'com.2fdevs.videogular.plugins.controls'
   'com.2fdevs.videogular.plugins.overlayplay'
   'com.2fdevs.videogular.plugins.buffering'
   'com.2fdevs.videogular.plugins.poster'
+  'cgNotify'
+  'duScroll'
+  'restangular'
   'highcharts-ng'
-  'ngAnimate'
+  'angularFileUpload'
   'monospaced.elastic'
   'angular-sortable-view'
 ]
@@ -157,7 +157,8 @@ angular.module 'budweiserApp', [
 
   #set the default configuration options for angular-notify
   notify.config
-    duration: 3000
+    startTop: 30
+    duration: 4000
 
   checkInitState = (toState) ->
     checkInitState = null
@@ -175,9 +176,13 @@ angular.module 'budweiserApp', [
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
+  # setup data & config for logged user
+  $rootScope.$on 'loginSuccess', (event, user) ->
+    Msg.init()
+    socketHandler.init(user)
+    $state.go(user.role+'.home') if !loginRedirector.apply()
+
   # Reload Auth
   Auth.getCurrentUser().$promise?.then (me) ->
-    socketHandler.init(me)
-    loginRedirector.apply()
-    Msg.init()
+    $rootScope.$broadcast 'loginSuccess', me
 

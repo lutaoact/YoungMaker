@@ -82,7 +82,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
           .then (data)->
             notify
               message:'课时已保存'
-              template:'components/alert/success.html'
+              classes:'alert-success'
             $state.go 'teacher.lectureDetail',
               courseId: $state.params.courseId
               lectureId: data._id
@@ -114,7 +114,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         #post
         Restangular.all('lectures').post(lecture)
         .then (data)->
-          notify({message:'课时已保存',template:'components/alert/success.html'})
+          notify({message:'课时已保存',classes:'alert-success'})
           $state.go('editLectureDetail',{lectureId:data._id})
       else
         #put
@@ -123,7 +123,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
         lecture.patch(patch)
         .then (data)->
           angular.extend $scope.lecture, data
-          notify({message:'课时已保存',template:'components/alert/success.html'})
+          notify({message:'课时已保存',classes:'alert-success'})
 
     mediaPlayerAPI: undefined
 

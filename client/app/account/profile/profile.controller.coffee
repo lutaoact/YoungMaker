@@ -5,8 +5,6 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
   Auth
   $scope
   notify
-  $modal
-  Restangular
 ) ->
   angular.extend $scope,
 
@@ -15,7 +13,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
         #post
         notify
           message:'网络错误'
-          template:'components/alert/failure.html'
+          classes:'alert-danger'
       else
         #put
         patch = {}
@@ -29,7 +27,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
           angular.extend $scope.oldMe, data
           notify
             message:'已保存'
-            template:'components/alert/success.html'
+            classes:'alert-success'
           $scope.me
 
     saveProfile: ()->
@@ -37,7 +35,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
         #post
         notify
           message:'网络错误'
-          template:'components/alert/failure.html'
+          classes:'alert-danger'
       else
         #put
         @me.patch
@@ -48,7 +46,7 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
           angular.extend $scope.oldMe, data
           notify
             message:'已保存'
-            template:'components/alert/success.html'
+            classes:'alert-success'
           $scope.me
 
     onAvatarUploaded: ($data)->
@@ -67,21 +65,21 @@ angular.module('budweiserApp').controller 'ProfileCtrl',
         if $scope.user.newPassword.length < 6
           notify
             message:'新密码不能小于6位'
-            template:'components/alert/failure.html'
+            classes:'alert-danger'
           return
         if $scope.user.newPassword isnt $scope.user.newPasswordAgain
           notify
             message:'两次输入的密码不一致'
-            template:'components/alert/failure.html'
+            classes:'alert-danger'
           return
         Auth.changePassword($scope.user.oldPassword, $scope.user.newPassword).then(->
           notify
             message:'密码修改成功'
-            template:'components/alert/success.html'
+            classes:'alert-success'
             $scope.user = {}
         ).catch ->
           notify
             message:'原密码错误'
-            template:'components/alert/failure.html'
+            classes:'alert-danger'
 
 

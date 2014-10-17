@@ -2,17 +2,19 @@
 
 angular.module('budweiserApp').controller 'LoginCtrl', (
   Auth
+  $state
   $scope
   $window
   $location
   socketHandler
-  loginRedirector
-  $state
   $localStorage
+  loginRedirector
 ) ->
+
   $localStorage.global ?= {}
   $localStorage.global.loginState = $state.current.name
   $localStorage.global.loginPath = $state.current.url
+
   angular.extend $scope,
     user: {}
     errors: {}
@@ -26,20 +28,9 @@ angular.module('budweiserApp').controller 'LoginCtrl', (
           password: $scope.user.password
         ).then ->
           Auth.getCurrentUser().$promise.then (me)->
-            socketHandler.init(me)
-            if !loginRedirector.apply()
-              if me.role is 'admin'
-                $location.url('/a')
-              else if me.role is 'teacher'
-                $location.url('/t')
-              else if me.role is 'student'
-                $location.url('/s')
-              $location.replace()
+            $scope.$emit 'loginSuccess', me
         .catch (err) ->
           $scope.errors.other = err.message
-
-    loginOauth: (provider) ->
-      $window.location.href = '/auth/' + provider
 
     testLoginUsers: [
       name:'Student'

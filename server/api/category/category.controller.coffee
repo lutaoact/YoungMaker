@@ -15,8 +15,7 @@ exports.index = (req, res, next) ->
   Category.findQ orgId: req.user.orgId
   .then (categories) ->
     res.send categories
-  , (err) ->
-    next err
+  , next
 
 exports.create = (req, res, next) ->
   body = req.body
@@ -26,13 +25,11 @@ exports.create = (req, res, next) ->
   Category.createQ body
   .then (category) ->
     res.json 201, category
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   Category.removeQ
     _id: req.params.id
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next

@@ -15,5 +15,4 @@ exports.show = (req, res, next) ->
     StatsUtils.makeKPStatsForUser person, courseId
   .then (finalStats) ->
     res.send finalStats
-  , (err) ->
-    next err
+  , next

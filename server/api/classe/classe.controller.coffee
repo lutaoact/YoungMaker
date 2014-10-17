@@ -17,8 +17,7 @@ exports.index = (req, res, next) ->
     orgId: user.orgId
   .then (classes) ->
     res.send classes
-  , (err) ->
-    next err
+  , next
 
 exports.show = (req, res, next) ->
   user = req.user
@@ -44,8 +43,7 @@ exports.showStudents = (req, res, next) ->
   .execQ()
   .then (classe) ->
     res.send classe.students
-  , (err) ->
-    next err
+  , next
 
 exports.create = (req, res, next) ->
   body = req.body
@@ -55,8 +53,7 @@ exports.create = (req, res, next) ->
   .then (classe) ->
     logger.info classe
     res.json 201, classe
-  , (err) ->
-    next err
+  , next
 
 exports.update = (req, res, next) ->
   classeId = req.params.id
@@ -71,8 +68,7 @@ exports.update = (req, res, next) ->
     newClasse = result[0]
     logger.info newClasse
     res.send newClasse
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   classeId = req.params.id
@@ -80,5 +76,4 @@ exports.destroy = (req, res, next) ->
     _id: classeId
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next

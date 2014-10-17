@@ -49,8 +49,7 @@ exports.index = (req, res, next) ->
     res.send
       totalNum: data[0]
       questions: data[1]
-  , (err) ->
-    next err
+  , next
 
 
 exports.show = (req, res, next) ->
@@ -73,8 +72,7 @@ exports.create = (req, res, next) ->
   Question.createQ body
   .then (question) ->
     res.json 201, question
-  , (err) ->
-    next err
+  , next
 
 exports.update = (req, res, next) ->
   questionId = req.params.id
@@ -90,8 +88,7 @@ exports.update = (req, res, next) ->
   .then (result) ->
     newClasse = result[0]
     res.send newClasse
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   questionId = req.params.id
@@ -99,8 +96,7 @@ exports.destroy = (req, res, next) ->
     _id: questionId
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next
 
 #找出指定班级中的所有学生，查看他们的quiz_answer记录，若没有，则新增
 #然后将question和answer通过socket发送给每一个学生

@@ -24,8 +24,7 @@ exports.index = (req, res, next) ->
     .execQ()
   .then (disTopics) ->
     res.send disTopics
-  , (err) ->
-    next err
+  , next
 
 exports.show = (req, res, next) ->
   DisTopic.findByIdAndUpdate req.params.id, {$addToSet: {viewers: req.user._id}}
@@ -33,8 +32,7 @@ exports.show = (req, res, next) ->
   .execQ()
   .then (disTopic) ->
     res.send disTopic
-  , (err) ->
-    next err
+  , next
 
 exports.create = (req, res, next) ->
   user     = req.user
@@ -56,8 +54,7 @@ exports.create = (req, res, next) ->
   .then (disTopic) ->
     logger.info disTopic
     res.send 201, disTopic
-  , (err) ->
-    next err
+  , next
 
 exports.update = (req, res, next) ->
   updateBody = {}
@@ -77,8 +74,7 @@ exports.update = (req, res, next) ->
     newValue.populateQ 'postBy', '_id name avatar'
   .then (newDisTopic) ->
     res.send newDisTopic
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   DisTopic.removeQ
@@ -86,8 +82,7 @@ exports.destroy = (req, res, next) ->
     postBy : req.user.id
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next
 
 exports.vote = (req, res, next) ->
   disTopicId = req.params.id
@@ -96,5 +91,4 @@ exports.vote = (req, res, next) ->
   DisUtils.vote DisTopic, disTopicId, userId
   .then (dis) ->
     res.send dis
-  , (err) ->
-    next err
+  , next

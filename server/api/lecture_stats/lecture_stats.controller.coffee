@@ -64,6 +64,5 @@ exports.questionStats = (req, res, next) ->
   .then (hwStats) ->
     finalResult = finalResult.concat hwStats
     res.send 200, finalResult
-  .fail (err) ->
-    next err
+  .fail next
       

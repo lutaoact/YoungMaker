@@ -30,8 +30,7 @@ exports.index = (req, res, next) ->
   , '-salt -hashedPassword'
   .then (users) ->
     res.send users
-  , (err) ->
-    next err
+  , next
 
 ###
   Creates a new user
@@ -51,8 +50,7 @@ exports.create = (req, res, next) ->
       expiresInMinutes: 60*5
     res.json
       token: token
-  , (err) ->
-    next err
+  , next
 
 ###
   Get a single user
@@ -64,8 +62,7 @@ exports.show = (req, res, next) ->
   User.findByIdQ userId
   .then (user) ->
     res.send user.profile
-  , (err) ->
-    next err
+  , next
 
 ###
   Get a single user by email
@@ -76,8 +73,7 @@ exports.showByEmail = (req, res, next) ->
   .then (user) ->
     return res.send 404 if not user?
     res.send user.profile
-  , (err) ->
-    next err
+  , next
 
 ###
   Deletes a user
@@ -98,8 +94,7 @@ exports.destroy = (req, res, next) ->
           students : userId
   .then (classe) ->
     res.send userObj
-  , (err) ->
-    next err
+  , next
 
 ###
   Change a users password
@@ -118,8 +113,7 @@ exports.changePassword = (req, res, next) ->
         res.send 200
     else
       res.send 403
-  , (err) ->
-    next err
+  , next
 
 
 ###
@@ -135,8 +129,7 @@ exports.me = (req, res, next) ->
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
     res.send user
-  , (err) ->
-    next err
+  , next
 
 ###
   Update user
@@ -153,8 +146,7 @@ exports.update = (req, res, next) ->
     updated.saveQ()
   .then (result) ->
     res.send result[0]
-  , (err) ->
-    next err
+  , next
 
 
 updateClasseStudents = (res, next, classeId, studentList, importReport) ->
@@ -168,8 +160,7 @@ updateClasseStudents = (res, next, classeId, studentList, importReport) ->
     classe.saveQ()
   .then (result) ->
     res.send importReport
-  , (err) ->
-    next err
+  , next
 
 
 ###
@@ -244,8 +235,7 @@ exports.bulkImport = (req, res, next) ->
             updateClasseStudents res, next, classeId, importedUser, importReport
           else
             res.send importReport
-        , (err) ->
-          next err
+        , next
 
   .on 'error' , (err) ->
     console.error 'There is an error while downloading file from ' + url
@@ -275,8 +265,7 @@ exports.forget = (req, res, next) ->
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
     res.send 200
-  , (err) ->
-    next err
+  , next
 
 
 exports.reset = (req, res, next) ->
@@ -293,8 +282,7 @@ exports.reset = (req, res, next) ->
     user.saveQ()
   .then (saved) ->
     res.send 200
-  , (err) ->
-    next err
+  , next
 
 ###
  Authentication callback

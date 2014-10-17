@@ -41,8 +41,7 @@ exports.show = (req, res, next) ->
     lecture.populateQ options
   .then (lecture) ->
     res.send lecture
-  , (err) ->
-    next err
+  , next
 
 
 # TODO: add lectureID to classProcess's lectures automatically & keep the list order same as Course's lectureAssembly.
@@ -65,8 +64,7 @@ exports.create = (req, res, next) ->
 #    SocketUtils.sendNotices notices if notices?
   .then () ->
     res.send tmpResult.lecture
-  , (err) ->
-    next err
+  , next
 
 
 exports.update = (req, res, next) ->
@@ -102,8 +100,7 @@ exports.update = (req, res, next) ->
     updated.save (err) ->
       next err if err
       res.send updated
-  , (err) ->
-    next err
+  , next
 
 
 # TODO: delete from classProgress's lecturesStatus
@@ -124,5 +121,4 @@ exports.destroy = (req, res, next) ->
     course.save (err) ->
       next err if err
       res.send 204
-  , (err) ->
-    next err
+  , next

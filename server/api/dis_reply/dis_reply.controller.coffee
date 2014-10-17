@@ -25,8 +25,7 @@ exports.index = (req, res, next) ->
     .execQ()
   .then (disReplies) ->
     res.send disReplies
-  , (err) ->
-    next err
+  , next
 
 exports.create = (req, res, next) ->
   user     = req.user
@@ -63,8 +62,7 @@ exports.create = (req, res, next) ->
         SocketUtils.sendNotices notice
   .then () ->
     res.send 201, tmpResult.disReply
-  , (err) ->
-    next err
+  , next
 
 exports.update = (req, res, next) ->
   user = req.user
@@ -82,8 +80,7 @@ exports.update = (req, res, next) ->
     newValue.populateQ 'postBy', 'name avatar'
   .then (newDisReply) ->
     res.send newDisReply
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   tmpResult = {}
@@ -97,8 +94,7 @@ exports.destroy = (req, res, next) ->
     do tmpResult.disReply.removeQ
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next
 
 exports.vote = (req, res, next) ->
   disReplyId = req.params.id
@@ -108,5 +104,4 @@ exports.vote = (req, res, next) ->
   DisUtils.vote DisReply, disReplyId, userId
   .then (dis) ->
     res.send dis
-  , (err) ->
-    next err
+  , next

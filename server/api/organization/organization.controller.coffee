@@ -17,8 +17,7 @@ exports.index = (req, res, next) ->
   Organization.findQ {}
   .then (organizations) ->
     res.send organizations
-  , (err) ->
-    next err
+  , next
 
 exports.me = (req, res, next) ->
   orgId = req.user.orgId
@@ -27,16 +26,14 @@ exports.me = (req, res, next) ->
     _id: orgId
   .then (organization) ->
     res.send organization
-  , (err) ->
-    next err
+  , next
 
 exports.show = (req, res, next) ->
   orgId = req.params.id
   Organization.findByIdQ orgId
   .then (organization) ->
     res.send organization
-  , (err) ->
-    next err
+  , next
 
 exports.create = (req, res, next) ->
   body = req.body
@@ -44,8 +41,7 @@ exports.create = (req, res, next) ->
   Organization.createQ body
   .then (organization) ->
     res.send 201, organization
-  , (err) ->
-    next err
+  , next
 
 exports.update = (req, res, next) ->
   orgId = req.params.id
@@ -66,8 +62,7 @@ exports.update = (req, res, next) ->
   .then (result) ->
     newValue = result[0]
     res.send newValue
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   orgId = req.params.id
@@ -75,5 +70,4 @@ exports.destroy = (req, res, next) ->
     _id: orgId
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next

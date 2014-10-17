@@ -27,16 +27,14 @@ exports.index = (req, res, next) ->
         .execQ()
         .then (answers) ->
           res.send answers
-        , (err) ->
-          next err
+        , next
       when 'student'
         HomeworkAnswer.findQ
           lectureId : lectureId
           userId : req.user.id
         .then (answers) ->
           res.send answers
-        , (err) ->
-          next err
+        , next
       else
         res.send 404
 
@@ -50,16 +48,14 @@ exports.show = (req, res, next) ->
         _id : answerId
       .then (answer) ->
         res.send answer
-      , (err) ->
-        next err
+      , next
     when 'student'
       HomeworkAnswer.findOneQ
         _id : answerId
         userId : req.user.id
       .then (answer) ->
         res.send answer
-      , (err) ->
-        next err
+      , next
     else
       res.send 404
 
@@ -78,16 +74,14 @@ exports.create = (req, res, next) ->
     HomeworkAnswer.updateQ {userId: userId, lectureId: lectureId}, body, {upsert: true}
     .then (answer) ->
       res.send 201, answer
-    , (err) ->
-      next err
+    , next
 
 exports.destroy = (req, res, next) ->
   HomeworkAnswer.removeQ
     _id: req.params.id
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next
 
 exports.deleteByLectureId = (req, res, next) ->
   lectureId = req.query.lectureId
@@ -97,5 +91,4 @@ exports.deleteByLectureId = (req, res, next) ->
       lectureId: req.query.lectureId
     .then () ->
       res.send 204
-    , (err) ->
-      next err
+    , next

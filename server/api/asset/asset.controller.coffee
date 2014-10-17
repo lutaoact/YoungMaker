@@ -70,8 +70,7 @@ exports.uploadImage = (req, res) ->
   .then (data)->
     data.prefix = "/api/assets/images/#{uploadImageType}/"
     res.send data
-  , (err) ->
-    next err
+  , next
 
 exports.uploadVideo = (
   req, res) ->
@@ -79,13 +78,11 @@ exports.uploadVideo = (
   .then (data)->
     data.prefix = "/api/assets/videos/#{uploadVideoType}/"
     res.send data
-  , (err) ->
-    next err
+  , next
 
 exports.uploadSlide = (req, res) ->
   uploadAsset uploadSlideType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/slides/#{uploadSlideType}/"
     res.send data
-  , (err) ->
-    next err
+  , next

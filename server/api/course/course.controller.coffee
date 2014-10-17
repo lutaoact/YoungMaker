@@ -38,8 +38,7 @@ exports.index = (req, res, next) ->
     res.send courses
   # use Q's fail to make sure error from last then is also caught and passed to next
   # need to change our code all over the place to adapt to this pattern
-  .fail (err) ->
-    next err
+  .fail next
 
 
 exports.show = (req, res, next) ->
@@ -49,16 +48,14 @@ exports.show = (req, res, next) ->
     course.populateQ 'owners classes'
   .then (course) ->
     res.send course
-  .fail (err) ->
-    next err
+  .fail next
 
 exports.create = (req, res, next) ->
   req.body.owners = [req.user.id]
   Course.createQ req.body
   .then (course) ->
     res.json 201, course
-  .fail (err) ->
-    next err
+  .fail next
 
 exports.update = (req, res, next) ->
 
@@ -75,8 +72,7 @@ exports.update = (req, res, next) ->
     course.populateQ 'owners classes'
     .then (course) ->
       res.send course
-  .fail (err) ->
-    next err
+  .fail next
 
 
 exports.destroy = (req, res, next) ->
@@ -87,5 +83,4 @@ exports.destroy = (req, res, next) ->
       _id : course._id
   .then () ->
     res.send 204
-  .fail (err) ->
-    next err
+  .fail next

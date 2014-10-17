@@ -14,23 +14,20 @@ exports.index = (req, res, next) ->
     KeyPoint.findQ categoryId: $in: categoryIds
   .then (keyPoints) ->
     res.send keyPoints
-  , (err) ->
-    next err
+  , next
 
 exports.show = (req, res, next) ->
   KeyPoint.findByIdQ req.params.id
   .then (keyPoint) ->
     res.send keyPoint
-  , (err) ->
-    next err
+  , next
 
 exports.create = (req, res, next) ->
   delete req.body._id
   KeyPoint.createQ req.body
   .then (keyPoint) ->
     res.send 201, keyPoint
-  , (err) ->
-    next err
+  , next
 
 exports.searchByKeyword = (req, res, next) ->
   name = req.params.name
@@ -42,5 +39,4 @@ exports.searchByKeyword = (req, res, next) ->
     name: regex
   .then (keyPoints) ->
     res.send keyPoints
-  , (err) ->
-    next err
+  , next

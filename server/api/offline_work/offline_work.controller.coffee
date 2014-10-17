@@ -55,12 +55,10 @@ exports.create = (req, res, next) ->
     HomeworkAnswer.createQ body
   .then (work) ->
     res.send 201, work
-  , (err) ->
-    next err
+  , next
 
 exports.destroy = (req, res, next) ->
   HomeworkAnswer.removeQ _id: req.params.id
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next

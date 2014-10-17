@@ -78,5 +78,4 @@ exports.show = (req, res, next) ->
           calStats me, courseId, num
   ).then (statsResult) ->
     res.json 200, statsResult
-  , (err) ->
-    next err
+  , next

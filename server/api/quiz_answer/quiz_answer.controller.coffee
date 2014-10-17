@@ -30,8 +30,7 @@ exports.index = (req, res, next) ->
       .execQ()
       .then (answers) ->
         res.send answers
-      , (err) ->
-        next err
+      , next
     when 'student'
       conditions = lectureId : lectureId, userId : req.user.id
       conditions.created = { $gt: new Date(req.query.created) } if req.query.created?
@@ -39,8 +38,7 @@ exports.index = (req, res, next) ->
       QuizAnswer.findQ conditions
       .then (answers) ->
         res.send answers
-      , (err) ->
-        next err
+      , next
     else
       res.send 404
 
@@ -54,16 +52,14 @@ exports.show = (req, res, next) ->
         _id : answerId
       .then (answer) ->
         res.send answer
-      , (err) ->
-        next err
+      , next
     when 'student'
       QuizAnswer.findOneQ
         _id : answerId # to make sure user has access to this answer
         userId : req.user.id
       .then (answer) ->
         res.send answer
-      , (err) ->
-        next err
+      , next
     else
       res.send 404
 
@@ -89,8 +85,7 @@ exports.destroy = (req, res, next) ->
     _id: req.params.id
   .then () ->
     res.send 204
-  , (err) ->
-    next err
+  , next
 
 exports.deleteByLectureId = (req, res, next) ->
   lectureId = req.query.lectureId
@@ -100,5 +95,4 @@ exports.deleteByLectureId = (req, res, next) ->
       lectureId: req.query.lectureId
     .then () ->
       res.send 204
-    , (err) ->
-      next err
+    , next

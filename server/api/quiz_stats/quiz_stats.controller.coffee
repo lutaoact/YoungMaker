@@ -16,8 +16,7 @@ exports.show = (req, res, next) ->
     StatsUtils.makeQuizStatsPromiseForUser person, courseId
   .then (finalStats) ->
     res.send finalStats
-  , (err) ->
-    next err
+  , next
 
 exports.realTimeView = (req, res, next) ->
   lectureId  = req.query.lectureId
@@ -29,5 +28,4 @@ exports.realTimeView = (req, res, next) ->
     StatsUtils.getQuizStats lectureId, questionId
   .then (result) ->
     res.send result
-  , (err) ->
-    next err
+  , next

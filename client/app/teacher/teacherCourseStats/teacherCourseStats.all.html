@@ -15,20 +15,20 @@
   </div>
 </div>
 
-<div class="detail clearfix">
-  <tabset class="trend tabset-non-border">
-    <tab heading="随堂问题">
-      <highchart config="quizTrendChart" class="bud-chart"></highchart>
-    </tab>
-    <tab heading="课后习题" select="triggerResize()">
-      <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
-    </tab>
-  </tabset>
+<div class="col-md-9 clearfix detail-container">
+  <div class="detail">
+    <tabset class="trend">
+      <tab heading="随堂问题">
+        <highchart config="quizTrendChart" class="bud-chart"></highchart>
+      </tab>
+      <tab heading="课后习题" select="triggerResize()">
+        <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
+      </tab>
+    </tabset>
 
-  <hr>
-
-  <div class="keypoints">
-    <highchart config="keypointBarChart" class="bud-chart"></highchart>
+    <div class="keypoints">
+      <highchart config="keypointBarChart" class="bud-chart"></highchart>
+    </div>
   </div>
 </div>
 

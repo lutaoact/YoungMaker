@@ -14,13 +14,17 @@ angular.module 'budweiserApp'
         # Hide watermark
         credits:
           enabled: false
-        tooltip:
-          headerFormat: ''
-          pointFormat: '{point.y:.1f}%'
+
         plotOptions:
           series:
             color: '#E6505F'
             fillOpacity: 0.1
+            dataLabels:
+              enabled: true
+        tooltip:
+          useHTML: true
+          headerFormat: ''
+          pointFormat: '{point.name}:{point.y:.1f}%'
       series: [
       ]
       xAxis:
@@ -49,7 +53,7 @@ angular.module 'budweiserApp'
       options:
         chart:
           type: 'pie'
-          height: 200
+          height: 160
         # hide legend
         legend:
           enabled: false
@@ -78,6 +82,10 @@ angular.module 'budweiserApp'
           data: []
         }
       ]
+      title:
+        verticalAlign: 'bottom'
+        style:
+          fontSize: '12px'
 
     questionChart:
       options:
@@ -158,9 +166,14 @@ angular.module 'budweiserApp'
             borderWidth: 0
             dataLabels:
               enabled: true
+              format: '{point.y:.1f}%'
           bar:
             cursor: 'pointer'
             pointWidth: 30
+        tooltip:
+          useHTML: true
+          headerFormat: ''
+          pointFormat: '掌握度：{point.y:.1f}%'
       xAxis:
         type: 'category'
 
@@ -195,8 +208,7 @@ angular.module 'budweiserApp'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }]
-        $scope.quizStats.title =
-          text: '随堂问题正确率'
+        $scope.quizStats.title.text = '随堂问题正确率'
         result
 
     loadHomeworkStats = ()->
@@ -215,8 +227,7 @@ angular.module 'budweiserApp'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }]
-        $scope.homeworkStats.title =
-          text: '课后习题正确率'
+        $scope.homeworkStats.title.text = '课后习题正确率'
         result
 
     loadKeypointStats = ()->
@@ -236,8 +247,7 @@ angular.module 'budweiserApp'
             color: '#ebebeb'
           }
         ]
-        $scope.keypointStats.title =
-          text: '知识点掌握程度'
+        $scope.keypointStats.title.text = '知识点掌握程度'
         result
       , (err)->
         console.log err
@@ -256,14 +266,21 @@ angular.module 'budweiserApp'
         # fill the trend chart
 
         $scope.quizTrendChart = angular.copy chartConfigs.trendChart
+        console.log $scope.quizTrendChart.xAxis.categories
         $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
           data: results[3].map (lecture)->
-            stats[lecture._id]?.percent ? 0
+            [
+              lecture.name
+              stats[lecture._id]?.percent ? 0
+            ]
 
         $scope.homeworkTrendChart = angular.copy chartConfigs.trendChart
         $scope.homeworkTrendChart.series = results.slice(1,2).map (stats, index)->
           data: results[3].map (lecture)->
-            stats[lecture._id]?.percent ? 0
+            [
+              lecture.name
+              stats[lecture._id]?.percent ? 0
+            ]
 
         # fill the key points
         keypointsMap = _.indexBy $scope.keypoints, '_id'
@@ -274,8 +291,7 @@ angular.module 'budweiserApp'
         $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
 
         $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
-        $scope.keypointBarChart.title =
-          text: '知识点掌握程度统计'
+        $scope.keypointBarChart.title.text = '知识点掌握程度统计'
 
     loadStats()
 

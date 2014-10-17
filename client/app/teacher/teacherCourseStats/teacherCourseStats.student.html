@@ -1,5 +1,5 @@
-<div class="overall clearfix">
-  <div class="col-md-12 clearfix student-info">
+<div class="overall col-md-12 clearfix">
+  <div class="col-md-3 student-info">
     <a class="btn btn-primary btn-md rounded pull-left"
        ui-sref="teacher.courseStats.all({courseid: course._id})">
       <i class="fa fa-arrow-left"></i>
@@ -16,7 +16,7 @@
       </small>
     </h4>
   </div>
-  <div class="col-md-12 pies clearfix">
+  <div class="col-md-9 pies clearfix">
     <div class="col-md-4">
       <highchart config="quizStats" class="bud-chart"></highchart>
       <div class="percentage quiz-percentage">{{quizStats.series[0].data[0].y||0}}<sup>%</sup></div>
@@ -32,20 +32,20 @@
   </div>
 </div>
 
-<div class="detail clearfix">
-  <tabset class="trend tabset-non-border">
-    <tab heading="随堂问题">
-      <highchart config="quizTrendChart" class="bud-chart"></highchart>
-    </tab>
-    <tab heading="课后习题" select="triggerResize()">
-      <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
-    </tab>
-  </tabset>
+<div class="col-md-9 clearfix detail-container">
+  <div class="detail">
+    <tabset class="trend">
+      <tab heading="随堂问题">
+        <highchart config="quizTrendChart" class="bud-chart"></highchart>
+      </tab>
+      <tab heading="课后习题" select="triggerResize()">
+        <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
+      </tab>
+    </tabset>
 
-  <hr>
-
-  <div class="keypoints">
-    <highchart config="keypointBarChart" class="bud-chart"></highchart>
+    <div class="keypoints">
+      <highchart config="keypointBarChart" class="bud-chart"></highchart>
+    </div>
   </div>
 </div>
 

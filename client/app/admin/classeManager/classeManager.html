@@ -1,8 +1,11 @@
-<div>
-  <div class="col-md-4 list-group">
-    <div class="list-group-item">
-      <button class="btn btn-link"
-              ui-sref="admin.classeManager.detail({classeId:'new'})">添加班级</button>
+<div class="classe-manager">
+  <div class="col-md-4 list-group classe-list-group">
+    <div class="list-group-item new-classe-item">
+      <button class="btn btn-danger"
+              ui-sref="admin.classeManager.detail({classeId:'new'})">
+        <i class="fa fa-plus pull-right"></i>
+        新班级
+      </button>
     </div>
     <a ng-repeat="classe in classesQ.$object | orderBy:'name'"
        class="list-group-item"
@@ -12,7 +15,7 @@
       {{classe.name}}
     </a>
   </div>
-  <div class="col-md-8 list-group">
+  <div class="col-md-8 list-group student-list-group">
     <div ui-view></div>
   </div>
 </div>

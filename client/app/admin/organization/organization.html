@@ -1,68 +1,69 @@
-<form id="org-form"
-      class="form-horizontal col-md-10 col-md-offset-1"
-      role="form"
-      name="form">
+<div class="admin-ui-view col-md-12">
+  <form id="org-form"
+        class="form-horizontal col-md-10 col-md-offset-1"
+        role="form"
+        name="form">
 
-  <div class="form-group text-center">
-    <div class="org-logo"
-         src-key="editingInfo.logo"
-         source-attr="background-image"
-         suffix="?imageView2/1/w/130/h/130">
+    <div class="form-group text-center">
+      <div class="org-logo"
+           src-key="editingInfo.logo"
+           source-attr="background-image"
+           suffix="?imageView2/1/w/130/h/130">
+      </div>
+      <uploader class="btn btn-danger btn-sm rounded"
+                limit="2*1024*1024"
+                on-complete="onLogoUpload($data)"
+                accept-type="image">
+        上传 Logo
+      </uploader>
     </div>
-    <uploader class="btn btn-danger btn-sm rounded"
-              limit="2*1024*1024"
-              on-complete="onLogoUpload($data)"
-              accept-type="image">
-      上传 Logo
-    </uploader>
-  </div>
 
-  <hr/>
+    <hr/>
 
-  <div class="form-group">
-    <label for="organization-name" class="col-sm-3 control-label">机构全称</label>
-    <div class="col-sm-7">
-      <input class="form-control"
-             id="organization-name"
-             name="name"
-             ng-model="editingInfo.name"
-             placeholder="机构全称"
-             required>
+    <div class="form-group">
+      <label for="organization-name" class="col-sm-3 control-label">机构全称</label>
+      <div class="col-sm-7">
+        <input class="form-control"
+               id="organization-name"
+               name="name"
+               ng-model="editingInfo.name"
+               placeholder="机构全称"
+               required>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="organization-name"
-           class="col-sm-3 control-label">机构简介</label>
-    <div class="col-sm-7">
-      <textarea class="form-control"
-                id="organization-desc"
-                name="desc"
-                rows="2"
-                ng-model="editingInfo.description"
-                placeholder="机构简介"></textarea>
+    <div class="form-group">
+      <label for="organization-name"
+             class="col-sm-3 control-label">机构简介</label>
+      <div class="col-sm-7">
+        <textarea class="form-control"
+                  id="organization-desc"
+                  name="desc"
+                  rows="2"
+                  ng-model="editingInfo.description"
+                  placeholder="机构简介"></textarea>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="col-sm-3 control-label">机构类型</label>
-    <div class="col-sm-7">
-      <ui-select ng-model="editingInfo.type">
-        <ui-select-match placeholder="请选择">{{editingInfo.type}}</ui-select-match>
-        <ui-select-choices repeat="orgType in orgTypes | filter:$select.search">
-          <span ng-bind-html="orgType | highlight: $select.search"></span>
-        </ui-select-choices>
-      </ui-select>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">机构类型</label>
+      <div class="col-sm-7">
+        <ui-select ng-model="editingInfo.type">
+          <ui-select-match placeholder="请选择">{{editingInfo.type}}</ui-select-match>
+          <ui-select-choices repeat="orgType in orgTypes | filter:$select.search">
+            <span ng-bind-html="orgType | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
     </div>
-  </div>
 
-  <hr/>
+    <hr/>
 
-  <div class="form-group text-center">
-    <button type="submit"
-            class="btn btn-danger rounded save-btn"
-            ng-disabled="saved"
-            ng-click="saveOrg(form)">
+    <div class="form-group text-center">
+      <button type="submit"
+              class="btn btn-danger rounded save-btn"
+              ng-disabled="saved"
+              ng-click="saveOrg(form)">
       <span ng-if="!saving">
         <span ng-if="!saved">保存</span>
         <span ng-if="saved">已保存</span>
@@ -71,7 +72,8 @@
         <i class="fa fa-spinner fa-spin"></i>
         保存中
       </span>
-    </button>
-  </div>
+      </button>
+    </div>
 
-</form>
+  </form>
+</div>

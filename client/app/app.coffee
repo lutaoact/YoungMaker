@@ -176,13 +176,16 @@ angular.module 'budweiserApp', [
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
-  # setup data & config for logged user
-  $rootScope.$on 'loginSuccess', (event, user) ->
+  setupUser = (user, goHome = false) ->
     Msg.init()
     socketHandler.init(user)
-    $state.go(user.role+'.home') if !loginRedirector.apply()
+    if !loginRedirector.apply()
+      $state.go(user.role+'.home')  if goHome
+
+  # setup data & config for logged user
+  $rootScope.$on 'loginSuccess', (event, user) ->
+    setupUser(user, true)
 
   # Reload Auth
-  Auth.getCurrentUser().$promise?.then (me) ->
-    $rootScope.$broadcast 'loginSuccess', me
+  Auth.getCurrentUser().$promise?.then setupUser
 

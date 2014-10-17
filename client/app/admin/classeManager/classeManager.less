@@ -1,0 +1,40 @@
+.admin {
+  .rounded-list-item (@radius) {
+    .list-group-item {
+      &:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      &:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+  }
+
+  .classe-list-group {
+    .rounded-list-item(4px);
+    .new-classe-item {
+      padding: 0px;
+      .btn {
+        text-align: left;
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+        border: none;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        .fa-plus {
+          padding-top: 4px;
+          padding-right: 6px;
+        }
+      }
+    }
+  }
+
+  .student-list-group {
+    .rounded-list-item(4px);
+  }
+
+}

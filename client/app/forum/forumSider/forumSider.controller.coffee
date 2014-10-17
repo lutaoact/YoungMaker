@@ -4,7 +4,6 @@ angular.module('budweiserApp').controller 'ForumSiderCtrl',
 (
   $scope
   Restangular
-  notify
   $state
   $q
   $rootScope

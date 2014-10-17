@@ -81,7 +81,9 @@ angular.module('budweiserApp')
           console.log error
           $scope.isExcelProcessing = false
       fail: (error)->
-        notify(error)
+        notify
+          message: error
+          classes: 'alert-danger'
         $scope.isExcelProcessing = false
       progress: ->
         console.debug 'uploading...'

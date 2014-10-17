@@ -82,7 +82,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         $scope.saving = false
         $scope.editingInfo = null
         $scope.updateEditingProgress(newLecture)
-        notify '课时信息已保存'
+        notify
+          message:'课时信息已保存'
+          classes:'alert-success'
 
     removeSlide: (index) ->
       $modal.open

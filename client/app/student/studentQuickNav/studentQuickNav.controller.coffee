@@ -1,9 +1,7 @@
 angular.module('budweiserApp').controller 'StudentQuickNavCtrl', (
   $scope
   $modalInstance
-  notify
   otherCourses
-  $rootScope
 ) ->
   angular.extend $scope,
     close: ->

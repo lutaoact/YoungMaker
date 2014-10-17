@@ -59,7 +59,9 @@ angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
         $scope.saving = false
         angular.extend course, editingInfo
         Navbar.setTitle course.name, "teacher.course({courseId:'#{course._id}'})"
-        notify '课程信息已保存'
+        notify
+          message:'课程信息已保存'
+          classes:'alert-success'
 
     onThumbUploaded: (key) ->
       $scope.editingInfo.thumbnail = key

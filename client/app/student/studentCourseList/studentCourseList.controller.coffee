@@ -7,11 +7,8 @@ angular.module('budweiserApp').controller 'StudentCourseListCtrl'
   $http
   $state
   $scope
-  notify
   $upload
   Courses
-  Restangular
-  timetableHelper
 ) ->
 
   angular.extend $scope,

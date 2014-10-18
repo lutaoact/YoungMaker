@@ -201,57 +201,21 @@ exports.AssetUtils = BaseUtils.subclass
     }
 
   genAzureUpParams : (assetType, fileName) ->
-    access_token = null
-    assetId = null
-    policyId = null
-    postQ = Q.nfbind request.post
-    azureAccountName = config.assetsConfig[assetType].accountName
-    azureAccountKey = config.assetsConfig[assetType].accountKey
+    auth =
+      client_id: config.assetsConfig[assetType].accountName
+      client_secret: config.assetsConfig[assetType].accountKey
+      base_url: config.azure.bjbAPIServerAddress
+      oauth_url: config.azure.acsBaseAddress
 
-    # 1. get token
-    postQ {
-      uri: config.azure.acsBaseAddress
-      form:
-        grant_type: 'client_credentials'
-        client_id: azureAccountName
-        client_secret: azureAccountKey
-        scope: 'urn:WindowsAzureMediaServices'
-      strictSSL: true
-    }
-    .then (res) ->
-      access_token = JSON.parse(res[0].body).access_token
-      logger.info  "access_token:", access_token
-      # 2. create Asset
-      postQ {
-        uri: config.azure.shaAPIServerAddress+'Assets'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify "Name": fileName
-        strictSSL: true
-      }
-    .then (res) ->
-      assetId = JSON.parse(res[0].body).d.Id
-      # 3. create write policy
-      postQ {
-        uri: config.azure.shaAPIServerAddress+'AccessPolicies'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify {"Name": fileName+'writePolicy', "DurationInMinutes" : "300", "Permissions" : 2}
-        strictSSL: true
-      }
-    .then (res) ->
-      policyId = JSON.parse(res[0].body).d.Id
-      # 4. create upload url
-      postQ {
-        uri: config.azure.shaAPIServerAddress+'Locators'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify {
-          AssetId: assetId
-          AccessPolicyId : policyId
-          StartTime: moment.utc().subtract(10, 'minutes').format('M/D/YYYY hh:mm:ss A')
-          Type: 1
-        }
-      }
+    api = new Azure(auth)
+    apiInit = Q.nbind(api.init, api);
+    apiMediaGetUploadURL = Q.nbind(api.media.getUploadUrl, api.media);
+
+    apiInit()
+    .then (token)->
+      apiMediaGetUploadURL fileName
     .then (res) ->
       {
-        url: JSON.parse(res[0].body).d.Path.replace('?','/'+fileName+'?')
-        key: [assetId, fileName].join('/')
+        url: res.path
+        key: [res.assetId, fileName].join('/')
       }

@@ -9,7 +9,7 @@ redisClient = require '../../common/redisClient'
 request = require 'request'
 redislock = require 'redislock'
 Azure = require 'azure-media'
-#request = request.defaults proxy: config.proxy if config.proxy?
+
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -86,7 +86,7 @@ exports.AssetUtils = BaseUtils.subclass
     lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
     lock.acquire assetId
     .then ()->
-      logger.info "lock: "+ key + "required!"
+      logger.info "lock: "+ key + " acquired!"
       apiInit()
     .then (token)->
       apiMediaGetDownloadURL assetId, config.azure.signed_url_expires

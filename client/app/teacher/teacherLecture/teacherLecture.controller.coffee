@@ -156,13 +156,14 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onMediaConverting: ->
       console.debug 'media converting'
     onMediaUploaded: (data) ->
-      $scope.lecture.media = data
-      $scope.lecture.$mediaSource = [
-        src: $sce.trustAsResourceUrl($scope.lecture.media)
-        type: 'video/mp4'
-      ]
-      $scope.lecture.patch?(media: $scope.lecture.media)
-      .then $scope.updateEditingProgress
+      $scope.lecture.patch?(media: data)
+      .then (newLecture)->
+        $scope.lecture.media = data
+        $scope.lecture.$mediaSource = [
+          src: $sce.trustAsResourceUrl($scope.lecture.media)
+          type: 'video/mp4'
+        ]
+        $scope.updateEditingProgress(newLecture)
 
     onPlayerReady: (api) ->
       $scope.mediaApi = api

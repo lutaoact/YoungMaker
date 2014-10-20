@@ -302,7 +302,7 @@ exports.StatsUtils = BaseUtils.subclass
           myKPStats[kp].total++
 
       @updateTotalLevelForStats tmpResult.userAnswers, myQid2KALMap, myKPStats
-      @computeAvgLevelForStats myKPStats
+      @updateAvgLevelForStats myKPStats
 
       return myKPStats
 
@@ -312,6 +312,6 @@ exports.StatsUtils = BaseUtils.subclass
         for kp in myQid2KALMap[userAnswer.questionId].kps
           myKPStats[kp].totalLevel += myQid2KALMap[userAnswer.questionId].level
 
-  computeAvgLevelForStats: (myKPStats) ->
+  updateAvgLevelForStats: (myKPStats) ->
     for kpId, stat of myKPStats
       stat.avgLevel = stat.totalLevel // stat.total

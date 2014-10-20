@@ -75,13 +75,19 @@
     "angular-i18n": {
       "main": "angular-locale_zh-cn.js"
     },
-    "textAngular":{
+    "textAngular": {
       "main": [
         "./dist/textAngular-rangy.min.js",
         "./dist/textAngular.min.js",
         "./dist/textAngular-sanitize.min.js"
       ]
+    },
+    "videogular":{
+      "dependencies": {
+        "angular": "~1.2.0"
+      }
     }
+
   },
   "resolutions": {
     "angular": "1.2.20",

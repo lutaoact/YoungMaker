@@ -4,23 +4,20 @@
   <div class="container admin-menu">
     <div class="col-md-12">
       <ul class="nav navbar-nav">
-        <li><a class="menu-item"
+        <li ng-repeat="menu in menus">
+          <a class="menu-item"
                ui-sref-active="active"
-               ui-sref="admin.home">机构管理</a></li>
-        <li><a class="menu-item"
-               ui-sref-active="active"
-               ui-sref="admin.categoryManager">学科管理</a></li>
-        <li><a class="menu-item"
-               ui-sref-active="active"
-               ui-sref="admin.teacherManager">老师管理</a></li>
-        <li><a class="menu-item"
-               ui-sref-active="active"
-               ui-sref="admin.classeManager">班级管理</a></li>
+               ui-sref="{{menu.stateName}}">{{menu.label}}</a>
+        </li>
       </ul>
     </div>
   </div>
 </div>
 
-<div ui-view="" class="admin fadeIn"></div>
+<div class="admin">
+  <div class="container">
+    <div ui-view class="fadeIn"></div>
+  </div>
+</div>
 
 <div ng-include="'components/footer/footer.html'"></div>

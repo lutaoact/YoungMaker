@@ -19,8 +19,6 @@ exports.Lecture = BaseModel.subclass
         raw: String
       ]
       media: String
-      accessPolicyId: String # for azure media service
-      locatorId: String # for azure media service
       keyPoints: [
         kp :
           type: Schema.Types.ObjectId

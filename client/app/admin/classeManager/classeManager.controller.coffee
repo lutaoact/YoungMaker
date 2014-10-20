@@ -22,22 +22,19 @@ angular.module('budweiserApp')
   angular.extend $scope,
 
     selectedClasse: null
-    editingClasse: null
 
-    saveClasse: (classe, form) ->
+    saveClasse: (form) ->
       if !form.$valid then return
-      classe.orgId = CurrentUser.orgId
+      classe = $scope.selectedClasse
       if not classe._id
         #create new classe
         Restangular.all('classes').post(classe).then (newClasse)->
-          #TODO refactor
           $scope.classesQ.$object.push(newClasse)
           $state.go('admin.classeManager.detail', classeId:newClasse._id)
       else
         #update classe
         classe.put().then (data)->
           angular.extend $scope.selectedClasse, data
-          angular.extend $scope.editingClasse, data
 
     loadStudents: ->
       $scope.selectedClasse.all('students').getList().then (students) ->
@@ -51,11 +48,8 @@ angular.module('budweiserApp')
         $state.go('admin.classeManager')
 
   $scope.classesQ.then ->
-    $scope.selectedClasse = _.find($scope.classesQ.$object,
-      _id: $state.params.classeId) ? {}
-    $scope.editingClasse = Restangular.copy($scope.selectedClasse)
-    return if !$scope.selectedClasse._id
-    $scope.loadStudents()
+    $scope.selectedClasse = _.find($scope.classesQ.$object, _id: $state.params.classeId) ? {}
+    $scope.loadStudents() if $scope.selectedClasse._id
 
 
   #TODO refactor

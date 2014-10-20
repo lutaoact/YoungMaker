@@ -19,3 +19,4 @@ client/index.html
 /server/common/**/*.js
 dump.rdb
 npm-debug.log
+/server/test/**/*.js

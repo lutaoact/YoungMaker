@@ -8,7 +8,8 @@ crypto = require 'crypto'
 redisClient = require '../../common/redisClient'
 request = require 'request'
 redislock = require 'redislock'
-#request = request.defaults proxy: config.proxy if config.proxy?
+Azure = require 'azure-media'
+
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -70,87 +71,27 @@ exports.AssetUtils = BaseUtils.subclass
     assetId = tk_fn[0]
     fileName = tk_fn[1]
 
-    access_token = null
-    policyId = null
-    locatorId = null
-    lecture = null
     downloadUrl = null
-    requestPostQ = Q.nfbind request.post
-    requestDeleteQ = Q.nfbind request.del
 
-    azureAccountName = config.assetsConfig[assetType].accountName
-    azureAccountKey = config.assetsConfig[assetType].accountKey
+    auth =
+      client_id: config.assetsConfig[assetType].accountName
+      client_secret: config.assetsConfig[assetType].accountKey
+      base_url: config.azure.bjbAPIServerAddress
+      oauth_url: config.azure.acsBaseAddress
+
+    api = new Azure(auth)
+    apiInit = Q.nbind(api.init, api);
+    apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media);
 
     lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
-    lock.acquire assetId # don't use "key" as lock name... otherwise, it will be overwrote by redis cache in step 6
+    lock.acquire assetId
     .then ()->
-      logger.info "lock: "+ key + "required!"
-      Lecture.findOneQ "media": '/api/assets/videos/'+assetType+'/'+key
-    .then (data) ->
-      lecture = data
-      throw "no lecture found" if not lecture
-    # 1. get token
-      requestPostQ {
-        uri: acsBaseAddress
-        form:
-          grant_type: 'client_credentials'
-          client_id: azureAccountName
-          client_secret: azureAccountKey
-          scope: 'urn:WindowsAzureMediaServices'
-        strictSSL: true
-      }
-    .then (response) ->
-      access_token = JSON.parse(response[0].body).access_token
-      logger.info  "access_token:", access_token
-    # 2.1 delete previous Locator
-      if lecture.locatorId
-        requestDeleteQ {
-          uri: config.azure.shaAPIServerAddress+"Locators('#{lecture.locatorId}')"
-          headers: config.azure.defaultHeaders(access_token)
-          strictSSL: true
-        }
-    .then (response) ->
-    # 2.2 delete previous read access policy
-      if lecture.accessPolicyId
-        requestDeleteQ {
-          uri: config.azure.shaAPIServerAddress+"AccessPolicies('#{lecture.accessPolicyId}')"
-          headers: config.azure.defaultHeaders(access_token)
-          strictSSL: true
-        }
-    .then (response) ->
-    # 3. get read access policy
-      requestPostQ {
-        uri: config.azure.shaAPIServerAddress+'AccessPolicies'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify
-          "Name": 'DownloadPolicy',
-          "DurationInMinutes" : config.azure.signed_url_expires,
-          "Permissions" : 1
-        strictSSL: true
-      }
-    .then (response) ->
-    # 4. get download url
-      policyId = JSON.parse(response[0].body).d.Id
-      lecture.accessPolicyId = policyId
-      requestPostQ {
-        uri: config.azure.shaAPIServerAddress+'Locators'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify {
-          AccessPolicyId : policyId
-          AssetId : assetId,
-          StartTime : moment.utc().subtract(10, 'minutes').format('M/D/YYYY hh:mm:ss A')
-          Type : 1
-        }
-        strictSSL: true
-      }
-    .then (response) ->
-      locatorId = JSON.parse(response[0].body).d.Id
-      lecture.locatorId = locatorId
-      downloadUrl = JSON.parse(response[0].body).d.Path.replace('?','/'+fileName+'?')
-    # 5 save locatorId &  AccessPolicyId to DB
-      lecture.saveQ()
-    .then ()->
-    # 6 cache to redis
+      logger.info "lock: "+ key + " acquired!"
+      apiInit()
+    .then (token)->
+      apiMediaGetDownloadURL assetId, config.azure.signed_url_expires
+    .then (url) ->
+      downloadUrl = url
       redisClient.q.set key, downloadUrl, 'EX', (config.azure.signed_url_expires*60-60*60)
     .then () ->
       logger.info "Set #{key}:#{downloadUrl} to redis"
@@ -260,57 +201,21 @@ exports.AssetUtils = BaseUtils.subclass
     }
 
   genAzureUpParams : (assetType, fileName) ->
-    access_token = null
-    assetId = null
-    policyId = null
-    postQ = Q.nfbind request.post
-    azureAccountName = config.assetsConfig[assetType].accountName
-    azureAccountKey = config.assetsConfig[assetType].accountKey
+    auth =
+      client_id: config.assetsConfig[assetType].accountName
+      client_secret: config.assetsConfig[assetType].accountKey
+      base_url: config.azure.bjbAPIServerAddress
+      oauth_url: config.azure.acsBaseAddress
 
-    # 1. get token
-    postQ {
-      uri: config.azure.acsBaseAddress
-      form:
-        grant_type: 'client_credentials'
-        client_id: azureAccountName
-        client_secret: azureAccountKey
-        scope: 'urn:WindowsAzureMediaServices'
-      strictSSL: true
-    }
-    .then (res) ->
-      access_token = JSON.parse(res[0].body).access_token
-      logger.info  "access_token:", access_token
-      # 2. create Asset
-      postQ {
-        uri: config.azure.shaAPIServerAddress+'Assets'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify "Name": fileName
-        strictSSL: true
-      }
-    .then (res) ->
-      assetId = JSON.parse(res[0].body).d.Id
-      # 3. create write policy
-      postQ {
-        uri: config.azure.shaAPIServerAddress+'AccessPolicies'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify {"Name": fileName+'writePolicy', "DurationInMinutes" : "300", "Permissions" : 2}
-        strictSSL: true
-      }
-    .then (res) ->
-      policyId = JSON.parse(res[0].body).d.Id
-      # 4. create upload url
-      postQ {
-        uri: config.azure.shaAPIServerAddress+'Locators'
-        headers: config.azure.defaultHeaders(access_token)
-        body:  JSON.stringify {
-          AssetId: assetId
-          AccessPolicyId : policyId
-          StartTime: moment.utc().subtract(10, 'minutes').format('M/D/YYYY hh:mm:ss A')
-          Type: 1
-        }
-      }
+    api = new Azure(auth)
+    apiInit = Q.nbind(api.init, api);
+    apiMediaGetUploadURL = Q.nbind(api.media.getUploadUrl, api.media);
+
+    apiInit()
+    .then (token)->
+      apiMediaGetUploadURL fileName
     .then (res) ->
       {
-        url: JSON.parse(res[0].body).d.Path.replace('?','/'+fileName+'?')
-        key: [assetId, fileName].join('/')
+        url: res.path
+        key: [res.assetId, fileName].join('/')
       }

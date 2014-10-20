@@ -3,12 +3,64 @@
 angular.module('budweiserApp')
 
 .controller 'ClasseManagerCtrl', (
+  $q
+  $modal
+  $state
   $scope
+  notify
+  Classes
   Restangular
 ) ->
 
+  updateSelected = ->
+    $scope.selectedClasses =  _.filter(Classes, '$selected':true)
+
   angular.extend $scope,
-    classesQ: Restangular.all('classes').getList()
+    selectedClasse: null
+    selectedClasses: []
+    selectedAllClass: false
+    classes: Classes
+
+    deleteClasses: (selectedClasses) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除班级'
+          message: ->
+            """确认要删除这#{selectedClasses.length}个班级？"""
+      .result.then ->
+        $scope.selectedAllClasse = false if $scope.selectedAllClasse
+        $scope.deleting = true
+        Restangular.all('classes').customPOST(ids: _.pluck(selectedClasses, '_id'), 'multiDelete')
+        .then ->
+          $scope.deleting = false
+          angular.forEach selectedClasses, (c) ->
+            $scope.classes.splice($scope.classes.indexOf(c), 1)
+          $state.go('admin.classeManager') if $scope.classes.indexOf($scope.selectedClasse) == -1
+
+    createNewClasse: ->
+      $modal.open
+        templateUrl: 'app/admin/classeManager/newClasseModal.html'
+        controller: 'NewClasseCtrl'
+        size: 'sm'
+      .result.then (newClasse) ->
+        $scope.classes.push(newClasse)
+        $state.go('admin.classeManager.detail', classeId:newClasse._id)
+        notify
+          message: '新班级添加成功'
+          classes: 'alert-success'
+
+    toggleSelect: (classes, selected) ->
+      angular.forEach classes, (c) -> c.$selected = selected
+      updateSelected()
+      console.debug $scope.selectedClasses, selected
+
+  $scope.$watch 'classes.length', updateSelected
+
+  $scope.$on '$stateChangeSuccess', (event, toState) ->
+    if toState.name == 'admin.classeManager' && Classes.length > 0
+      $state.go('admin.classeManager.detail', classeId:Classes[0]._id)
 
 .controller 'ClasseManagerDetailCtrl', (
   $scope
@@ -21,36 +73,20 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
 
-    selectedClasse: null
-
     saveClasse: (form) ->
       if !form.$valid then return
-      classe = $scope.selectedClasse
-      if not classe._id
-        #create new classe
-        Restangular.all('classes').post(classe).then (newClasse)->
-          $scope.classesQ.$object.push(newClasse)
-          $state.go('admin.classeManager.detail', classeId:newClasse._id)
-      else
-        #update classe
-        classe.patch(name:classe.name).then (data)->
-          angular.extend $scope.selectedClasse, data
+      $scope.selectedClasse.patch(name:$scope.selectedClasse.name).then (classe)->
+        angular.extend $scope.selectedClasse, classe
+        notify
+          message: """"#{classe.name}"信息已保存"""
+          classes: 'alert-success'
 
     loadStudents: ->
-      $scope.selectedClasse.all('students').getList().then (students) ->
+      $scope.selectedClasse?.all('students').getList().then (students) ->
         $scope.selectedClasse.$students = students
 
-    deleteClasse: (classe) ->
-      classe.remove().then ->
-        classes = $scope.classesQ.$object
-        index = _.indexOf(classes, classe)
-        classes.splice(index, 1)
-        $state.go('admin.classeManager')
-
-  $scope.classesQ.then ->
-    $scope.selectedClasse = _.find($scope.classesQ.$object, _id: $state.params.classeId) ? {}
-    $scope.loadStudents() if $scope.selectedClasse._id
-
+  $scope.selectedClasse = _.find($scope.classes, _id: $state.params.classeId)
+  $scope.loadStudents() if $scope.selectedClasse?._id
 
   #TODO refactor
   $scope.isExcelProcessing = false

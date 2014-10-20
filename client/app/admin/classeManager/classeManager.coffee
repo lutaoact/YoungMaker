@@ -9,6 +9,11 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/admin/classeManager/classeManager.html'
     controller: 'ClasseManagerCtrl'
     authenticate: true
+    resolve:
+      Classes: (Restangular) ->
+        Restangular.all('classes').getList().then (classes) ->
+          classes
+        , -> []
 
   .state 'admin.classeManager.detail',
     url: '/:classeId'

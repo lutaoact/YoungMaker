@@ -7,8 +7,6 @@ angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
   $scope
   Courses
   Categories
-  Restangular
-  timetableHelper
 ) ->
 
   angular.extend $scope,

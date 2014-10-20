@@ -1,19 +1,19 @@
-.admin {
-  .rounded-list-item (@radius) {
-    .list-group-item {
-      &:first-child {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-      }
-      &:last-child {
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-      }
+.rounded-list (@radius) {
+  .list-group-item {
+    &:first-child {
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    &:last-child {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
     }
   }
+}
 
+.admin {
   .classe-list-group {
-    .rounded-list-item(4px);
+    .rounded-list(4px);
     .new-classe-item {
       padding: 0px;
       .btn {
@@ -84,76 +84,6 @@
           height: 2em;
           border-radius: 15px;
         }
-      }
-    }
-  }
-
-  .student-list-group {
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-bottom: 20px;
-    .liner {
-      position: relative;
-      border-left: 1px solid #ddd;
-      margin-right: 15px;
-      margin-left: 10px;
-      margin-bottom: -8px;
-      display: inline-block;
-      width: 1px;
-      height: 25px;
-    }
-    .search-input {
-      border-radius: 15px;
-      display: inline-block;
-      width: 50%;
-    }
-    hr {
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    #classe-name {
-      margin: 0px;
-      padding: 8px 5px;
-      background-color: #000;
-      .form-control {
-        display: inline-block;
-        background-color: #000;
-        font-size: 1.12em;
-        border-radius: 4px;
-        border: none;
-        color: white;
-        &:focus {
-          background-color: #333;
-        }
-      }
-    }
-    .rounded-list-item(4px);
-    .student-info {
-      padding: 10px 10px;
-      color: #777;
-      border-bottom: 1px solid #ddd;
-      &:hover {
-        background-color: #f5f5f5;
-      }
-      .name {
-        font-weight: normal;
-        display: inline-block;
-        input {
-          width: 25px;
-        }
-        width: 120px;
-      }
-      .username {
-        display: inline-block;
-        width: 180px;
-      }
-      &.header {
-        color: #616265;
-        border: none;
-        background: #EAEBEC;
-        padding-top: 5px;
-        padding-bottom: 0px;
-        margin-bottom: 1px;
       }
     }
   }

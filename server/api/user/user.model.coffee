@@ -38,6 +38,7 @@ exports.User = BaseModel.subclass
         default : 'student'#TODO change role to Number
       salt :
         type : String
+      #TODO check login ?
       status :
         type : String
       resetPasswordToken :
@@ -67,9 +68,14 @@ setupUserSchema = (UserSchema) ->
   UserSchema
   .virtual 'profile'
   .get () ->
+    '_id': this._id
     'name': this.name
     'role': this.role
-    'avatar' : this.avatar
+    'info': this.info
+    'email': this.email
+    'avatar': this.avatar
+    'status': this.status
+    'username': this.username
 
   # Non-sensitive info we will be putting in the token
   UserSchema

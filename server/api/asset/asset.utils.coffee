@@ -9,7 +9,8 @@ redisClient = require '../../common/redisClient'
 request = require 'request'
 redislock = require 'redislock'
 Azure = require 'azure-media'
-
+hash = require 'object-hash'
+getMediaService = require('../../common/azureMS').getMediaService
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -65,7 +66,6 @@ exports.AssetUtils = BaseUtils.subclass
       res.redirect url
 
 
-  # TODO: need to add lock. Try Distributed locks with Redis?
   getAssetFromAzure : (key, assetType, res) ->
     tk_fn = key.split '/'
     assetId = tk_fn[0] # origin or encode
@@ -76,25 +76,24 @@ exports.AssetUtils = BaseUtils.subclass
     auth =
       client_id: config.assetsConfig[assetType].accountName
       client_secret: config.assetsConfig[assetType].accountKey
-      base_url: config.azure.bjbAPIServerAddress
+      base_url: config.azure.serverAddress
       oauth_url: config.azure.acsBaseAddress
 
-    api = new Azure(auth)
-    apiInit = Q.nbind(api.init, api);
-    switch urlType
-      when 'origin'
-        apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media); # get origin url
-      when 'encode'
-        apiMediaGetDownloadURL = Q.nbind(api.media.getOriginURL, api.media); # get encoded url
-      else
-        apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media); # for upward compatibility
-
+    api = null
     lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
     lock.acquire assetId
     .then ()->
       logger.info "lock: "+ key + " acquired!"
-      apiInit()
-    .then (token)->
+      getMediaService(auth)
+    .then (azureMediaService)->
+      api = azureMediaService
+      switch urlType
+        when 'origin'
+          apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media); # get origin url
+        when 'encode'
+          apiMediaGetDownloadURL = Q.nbind(api.media.getOriginURL, api.media); # get encoded url
+        else
+          apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media); # for upward compatibility
       apiMediaGetDownloadURL assetId, config.azure.signed_url_expires
     .then (url) ->
       downloadUrl = url
@@ -210,7 +209,7 @@ exports.AssetUtils = BaseUtils.subclass
     auth =
       client_id: config.assetsConfig[assetType].accountName
       client_secret: config.assetsConfig[assetType].accountKey
-      base_url: config.azure.bjbAPIServerAddress
+      base_url: config.azure.serverAddress
       oauth_url: config.azure.acsBaseAddress
 
     api = new Azure(auth)

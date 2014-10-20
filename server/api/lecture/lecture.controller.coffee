@@ -90,7 +90,7 @@ exports.update = (req, res, next) ->
       auth =
         client_id: config.assetsConfig[config.assetHost.uploadVideoType].accountName
         client_secret: config.assetsConfig[config.assetHost.uploadVideoType].accountKey
-        base_url: config.azure.bjbAPIServerAddress
+        base_url: config.azure.serverAddress
         oauth_url: config.azure.acsBaseAddress
       assetId = req.body.media.split('/')[5]
 

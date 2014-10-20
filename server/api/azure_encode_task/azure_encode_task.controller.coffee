@@ -4,7 +4,7 @@ AzureEncodeTask  = _u.getModel "azure_encode_task"
 auth =
   client_id: config.assetsConfig[config.assetHost.uploadVideoType].accountName
   client_secret: config.assetsConfig[config.assetHost.uploadVideoType].accountKey
-  base_url: config.azure.bjbAPIServerAddress
+  base_url: config.azure.serverAddress
   oauth_url: config.azure.acsBaseAddress
 
 exports.create = (req, res, next) ->

@@ -1,4 +1,4 @@
-var result = {};
+var result = {name: 'kp'};
 db.questions.find().forEach(function(question) {
   question.keyPoints.forEach(function(keyPoint) {
     var keyPointString = keyPoint.valueOf();
@@ -11,7 +11,6 @@ db.questions.find().forEach(function(question) {
     result[keyPointString][question.level].push(question._id.valueOf());
   });
 });
-result.name = "kp";
-db.invert_indexes.drop();
+db.invert_indexes.remove({name: 'kp'});
 db.invert_indexes.save(result);
 printjson(result);

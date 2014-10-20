@@ -95,23 +95,12 @@ angular.module 'budweiserApp'
   $provide.decorator 'taOptions',[
     'taRegisterTool'
     '$delegate'
-    (taRegisterTool, taOptions)->
-      # $delegate is the taOptions we are decorating
-      # register the tool with textAngular
+    '$modal'
+    (taRegisterTool, taOptions, $modal)->
       taRegisterTool 'colourRed',
         iconclass: "fa fa-square red",
         action: ()->
           this.$editor().wrapSelection('forecolor', 'red')
-
-      # add the button to the default toolbar definition
-      taOptions.toolbar[1].push('colourRed');
-      return taOptions;
-    ]
-  $provide.decorator 'taOptions',[
-    'taRegisterTool'
-    '$delegate'
-    '$modal'
-    (taRegisterTool, taOptions, $modal)->
 
       # $delegate is the taOptions we are decorating
       # register the tool with textAngular
@@ -132,13 +121,18 @@ angular.module 'budweiserApp'
             embed = "<img class=\"image-zoom\" src=\"#{result}\">"
             self.$editor().wrapSelection 'insertHTML', embed, true
             $deferred.resolve()
-          return false
+          false
 
         onElementSelect:
           element: 'img'
           action: imgOnSelectAction
 
-      # add the button to the default toolbar definition
-      taOptions.toolbar[1].push('upload');
-      return taOptions
+      taOptions.toolbar = [
+        ['h1', 'h2', 'h3', 'pre', 'quote'],
+        ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'clear'],
+        ['justifyLeft','justifyCenter','justifyRight','indent','outdent'],
+        ['html', 'insertLink', 'upload']
+      ]
+      taOptions
     ]
+

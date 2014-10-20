@@ -16,8 +16,7 @@ Classe = _u.getModel 'classe'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 request = require 'request'
-Azure = require 'azure-media'
-
+#request = request.defaults proxy: config.proxy if config.proxy?
 
 exports.index = (req, res, next) ->
   courseId = req.query.courseId
@@ -72,7 +71,6 @@ exports.create = (req, res, next) ->
 
 exports.update = (req, res, next) ->
   lectureId = req.params.id
-  updated = null
   LectureUtils.getAuthedLectureById req.user, lectureId
   .then (lecture) ->
     delete req.body._id  if req.body._id
@@ -81,27 +79,28 @@ exports.update = (req, res, next) ->
     updated.markModified 'keyPoints'
     updated.markModified 'quizzes'
     updated.markModified 'homeworks'
-    if req.body.media? && config.assetsConfig[config.assetHost.uploadVideoType].serviceName == 'azure'
-      auth =
-        client_id: config.assetsConfig[config.assetHost.uploadVideoType].accountName
-        client_secret: config.assetsConfig[config.assetHost.uploadVideoType].accountKey
-        base_url: config.azure.bjbAPIServerAddress
-        oauth_url: config.azure.acsBaseAddress
-      assetId = req.body.media.split('/')[5]
+    if config.assetsConfig[config.assetHost.uploadVideoType].serviceName == 'azure' && req.body.media?
+      #TODO: cache token!
+      request.post {
+        uri: config.azure.acsBaseAddress
+        form:
+          grant_type: 'client_credentials'
+          client_id: config.assetsConfig[config.assetHost.uploadVideoType].accountName
+          client_secret: config.assetsConfig[config.assetHost.uploadVideoType].accountKey
+          scope: 'urn:WindowsAzureMediaServices'
+        strictSSL: true
+      }, (err, response) ->
+        access_token = JSON.parse(response.body).access_token
+        request.get {
+          uri: config.azure.shaAPIServerAddress+'CreateFileInfos'
+          qs:
+            assetid: "'"+req.body.media.split('/')[5]+"'"
+          headers: config.azure.defaultHeaders(access_token)
+        }, (err, response)->
+          if err? then logger.error err
 
-      api = new Azure(auth)
-      apiInit = Q.nbind(api.init, api)
-      apiDoneUpload = Q.nbind(api.media.doneUpload, api.media)
-
-      apiInit()
-      .then (token)->
-        apilistLocators = Q.nbind(api.rest.asset.listLocators, api.rest.asset)
-        apilistLocators(assetId)
-      .then (locators)->
-        apiDoneUpload assetId, locators[0].toJSON().Id
-  .then ()->
-    updated.saveQ()
-  .then ()->
+    updated.save (err) ->
+      next err if err
       res.send updated
   , (err) ->
     next err

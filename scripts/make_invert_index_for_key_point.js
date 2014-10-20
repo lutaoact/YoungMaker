@@ -11,6 +11,7 @@ db.questions.find().forEach(function(question) {
     result[keyPointString][question.level].push(question._id.valueOf());
   });
 });
+result.name = "kp";
 db.invert_indexes.drop();
 db.invert_indexes.save(result);
 printjson(result);

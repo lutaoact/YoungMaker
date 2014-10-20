@@ -7,6 +7,7 @@
 # * PUT     /classe/:id          ->  update
 # * PATCH   /classe/:id          ->  update
 # * DELETE  /classe/:id          ->  destroy
+# * POST    /classe/multiDelete  ->  destroy
 #
 "use strict"
 
@@ -83,3 +84,11 @@ exports.destroy = (req, res, next) ->
     res.send 204
   , (err) ->
     next err
+
+exports.multiDelete = (req, res, next) ->
+  ids = req.body.ids
+  Classe.removeQ
+    _id: $in: ids
+  .then () ->
+    res.send 204
+  , next

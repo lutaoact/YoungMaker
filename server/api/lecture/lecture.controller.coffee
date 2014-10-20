@@ -23,7 +23,11 @@ exports.index = (req, res, next) ->
   courseId = req.query.courseId
   CourseUtils.getAuthedCourseById req.user, courseId
   .then (course) ->
-    course.populateQ 'lectureAssembly'
+    #TODO: uncomment this after FE implement video encoding process
+#    if req.user.role == 'student'
+#      course.populateQ 'lectureAssembly', '-media'
+#    else
+      course.populateQ 'lectureAssembly'
   .then (course) ->
     return res.send course.lectureAssembly
   , next
@@ -41,6 +45,9 @@ exports.show = (req, res, next) ->
     ]
     lecture.populateQ options
   .then (lecture) ->
+    #TODO: uncomment this after FE implement video encoding process
+#    if req.user.role == 'student'
+#      lecture.select '-media'
     res.send lecture
   , next
 

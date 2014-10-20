@@ -68,8 +68,8 @@ exports.AssetUtils = BaseUtils.subclass
   # TODO: need to add lock. Try Distributed locks with Redis?
   getAssetFromAzure : (key, assetType, res) ->
     tk_fn = key.split '/'
-    assetId = tk_fn[0]
-    fileName = tk_fn[1]
+    assetId = tk_fn[0] # origin or encode
+    urlType = tk_fn[1]
 
     downloadUrl = null
 
@@ -81,7 +81,13 @@ exports.AssetUtils = BaseUtils.subclass
 
     api = new Azure(auth)
     apiInit = Q.nbind(api.init, api);
-    apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media);
+    switch urlType
+      when 'origin'
+        apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media); # get origin url
+      when 'encode'
+        apiMediaGetDownloadURL = Q.nbind(api.media.getOriginURL, api.media); # get encoded url
+      else
+        apiMediaGetDownloadURL = Q.nbind(api.media.getDownloadURL, api.media); # for upward compatibility
 
     lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
     lock.acquire assetId
@@ -217,5 +223,5 @@ exports.AssetUtils = BaseUtils.subclass
     .then (res) ->
       {
         url: res.path
-        key: [res.assetId, fileName].join('/')
+        key: res.assetId + "/origin"
       }

@@ -19,8 +19,8 @@
       .btn {
         text-align: left;
         padding-left: 15px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
         width: 100%;
         border: none;
         border-top-left-radius: 4px;
@@ -31,10 +31,122 @@
         }
       }
     }
+    .classe-info {
+      &:hover {
+        background-color: #f8f8f8;
+      }
+      .checkbox-default {
+        width: 15px;
+      }
+      a {
+        text-decoration: none;
+        &.active {
+          &:before {
+            content: '';
+            position: absolute;
+            border: 2px solid #5abda6;
+            height: 100%;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+      .classe-name {
+        color: #616265;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        width: ~'calc(100% - 50px)';
+      }
+      &.desc {
+        padding-top: 5px;
+        padding-bottom: 2px;
+        background: #F4F4F4;
+        color: #969797;
+        label {
+          font-weight: normal;
+        }
+        .form-control {
+          margin-top: 5px;
+          margin-bottom: 8px;
+          height: 2em;
+          border-radius: 15px;
+        }
+      }
+    }
   }
 
   .student-list-group {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 20px;
+    .liner {
+      position: relative;
+      border-left: 1px solid #ddd;
+      margin-right: 15px;
+      margin-left: 10px;
+      margin-bottom: -8px;
+      display: inline-block;
+      width: 1px;
+      height: 25px;
+    }
+    .search-input {
+      border-radius: 15px;
+      display: inline-block;
+      width: 50%;
+    }
+    hr {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    #classe-name {
+      margin: 0px;
+      padding: 8px 5px;
+      background-color: #000;
+      .form-control {
+        display: inline-block;
+        width: ~'calc(100% - 125px)';
+        background-color: #000;
+        font-size: 1.12em;
+        border-radius: 4px;
+        border: none;
+        color: white;
+        &:focus {
+          background-color: #333;
+        }
+      }
+    }
     .rounded-list-item(4px);
+    .student-info {
+      padding: 10px 10px;
+      color: #777;
+      border-bottom: 1px solid #ddd;
+      &:hover {
+        background-color: #f5f5f5;
+      }
+      .name {
+        font-weight: normal;
+        display: inline-block;
+        input {
+          width: 25px;
+        }
+        width: 120px;
+      }
+      .username {
+        display: inline-block;
+        width: 180px;
+      }
+      &.header {
+        color: #616265;
+        border: none;
+        background: #EAEBEC;
+        padding-top: 5px;
+        padding-bottom: 0px;
+        margin-bottom: 1px;
+      }
+    }
   }
 
 }

@@ -33,7 +33,7 @@ angular.module('budweiserApp')
           $state.go('admin.classeManager.detail', classeId:newClasse._id)
       else
         #update classe
-        classe.put().then (data)->
+        classe.patch(name:classe.name).then (data)->
           angular.extend $scope.selectedClasse, data
 
     loadStudents: ->

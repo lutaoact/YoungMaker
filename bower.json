@@ -50,11 +50,11 @@
         "src/angular-sortable-view.min.js"
       ]
     },
-    "Jcrop":{
-      "main":[
+    "Jcrop": {
+      "main": [
         "js/jquery.Jcrop.min.js"
       ]
-      },
+    },
     "highcharts": {
       "main": [
         "highcharts.js",

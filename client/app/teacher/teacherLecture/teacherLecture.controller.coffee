@@ -156,13 +156,21 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     onMediaConverting: ->
       console.debug 'media converting'
     onMediaUploaded: (data) ->
-      $scope.lecture.media = data
-      $scope.lecture.$mediaSource = [
-        src: $sce.trustAsResourceUrl($scope.lecture.media)
-        type: 'video/mp4'
-      ]
-      $scope.lecture.patch?(media: $scope.lecture.media)
-      .then $scope.updateEditingProgress
+      $scope.lecture.patch?(media: data)
+      .then (newLecture)->
+        # the backend
+        $scope.lecture.media = data
+        $scope.lecture.$mediaSource = [
+          {
+            src: $sce.trustAsResourceUrl($scope.lecture.media)
+            type: 'video/mp4'
+          }
+          {
+            src : 'http://trymedia.origin.mediaservices.chinacloudapi.cn/c8e1a25b-f379-4a79-8f3f-4c92d3b3de37/shit.ism/Manifest'
+            type: 'manifest'
+          }
+        ]
+        $scope.updateEditingProgress(newLecture)
 
     onPlayerReady: (api) ->
       $scope.mediaApi = api
@@ -187,6 +195,9 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         if progress == 0 then '未添加'
         else if progress == 1/2 then '不完整'
         else '已添加'
+
+    # todo: use http://modernizr.com/docs/
+    supportHLS: true
 
   Restangular.one('lectures', $state.params.lectureId).get()
   .then (lecture) ->

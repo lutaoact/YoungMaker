@@ -200,7 +200,23 @@
         <div class="col-md-12 lecture-video"
              ng-if="lecture.media">
           <div class="col-md-6 video-body">
-            <videogular vg-player-ready="onPlayerReady" class="bud">
+            <object ng-if="!supportHLS">
+              <param name="movie" value="assets/images/StrobeMediaPlayback.2.0.swf"></param>
+              <param name="flashvars" value="src=http://trymedia.origin.mediaservices.chinacloudapi.cn/c8e1a25b-f379-4a79-8f3f-4c92d3b3de37/shit.ism/Manifest&autoPlay=true&plugin_AdaptiveStreamingPlugin=assets/images/MSAdaptiveStreamingPlugin-v1.0.10-osmf2.0.swf&AdaptiveStreamingPlugin_retryLive=true&AdaptiveStreamingPlugin_retryInterval=10"></param>
+              <param name="allowFullScreen" value="true"></param>
+              <param name="allowscriptaccess" value="always"></param>
+              <param name="wmode" value="direct"></param>
+              <embed src="assets/images/StrobeMediaPlayback.2.0.swf"
+                type="application/x-shockwave-flash"
+                allowscriptaccess="always"
+                allowfullscreen="true"
+                wmode="direct"
+                width="920"
+                height="640"
+                flashvars="src=http://trymedia.origin.mediaservices.chinacloudapi.cn/c8e1a25b-f379-4a79-8f3f-4c92d3b3de37/shit.ism/Manifest&autoPlay=true&plugin_AdaptiveStreamingPlugin=assets/images/MSAdaptiveStreamingPlugin-v1.0.10-osmf2.0.swf&AdaptiveStreamingPlugin_retryLive=true&AdaptiveStreamingPlugin_retryInterval=10">
+              </embed>
+            </object>
+            <videogular vg-player-ready="onPlayerReady" class="bud" ng-if="supportHLS">
               <vg-video class="videoPlayer" vg-src="lecture.$mediaSource">
               </vg-video>
               <vg-poster-image></vg-poster-image>

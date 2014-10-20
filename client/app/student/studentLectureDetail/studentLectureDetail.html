@@ -80,6 +80,9 @@
         <a class="comments" ng-class="{'active':viewState.showDiscussion}" ng-click="toggleDiscussionPanel()">
           <i class="budon budon-comments"></i>
         </a>
+        <a class="comments" ng-class="{'active':viewState.showNotes}" ng-click="toggleNotesPanel()">
+          <i class="fa fa-pencil-square-o"></i>
+        </a>
       </h3>
       <div class="text-muted">{{lecture.info}}</div>
     </div>
@@ -110,5 +113,9 @@
 
 <div class="mask fade-show-hide" ng-show="viewState.showDiscussion" ng-click="viewState.showDiscussion = false"></div>
   <div ng-if="viewState.discussPanelnitialized" ng-include="'app/forum/forumSider/forumSider.html'" ng-controller="ForumSiderCtrl" ng-show="viewState.showDiscussion" class="sider">
+</div>
+
+<div class="mask fade-show-hide" ng-show="viewState.showNotes" ng-click="viewState.showNotes = false"></div>
+  <div ng-if="viewState.notesPanelnitialized" ng-include="'app/student/notes/lectureNotes.html'" ng-controller="LectureNotesCtrl" ng-show="viewState.showNotes" class="sider">
 </div>
 

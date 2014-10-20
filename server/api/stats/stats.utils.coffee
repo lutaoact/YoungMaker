@@ -3,6 +3,7 @@ Question = _u.getModel 'question'
 CourseUtils = _u.getUtils 'course'
 QuestionUtils = _u.getUtils 'question'
 QuizAnswer = _u.getModel 'quiz_answer'
+UserAnswer = _u.getModel 'user_answer'
 HomeworkAnswer = _u.getModel 'homework_answer'
 
 exports.StatsUtils = BaseUtils.subclass
@@ -278,3 +279,39 @@ exports.StatsUtils = BaseUtils.subclass
     statsMap.summary = summary
 
     Q.resolve statsMap
+
+  computeUserAnswerStats: (userId) ->
+    tmpResult = {}
+    UserAnswer.findQ userId: userId
+    .then (userAnswers) ->
+      tmpResult.userAnswers = userAnswers
+      questionIds = _.pluck userAnswers, 'questionId'
+      Question.findQ _id: $in: questionIds
+    .then (questions) =>
+      tmpResult.questions = questions
+      myQid2KALMap = {}
+      myKPStats = {}
+      for question in questions
+        myQid2KALMap[question._id] =
+          kps: question.keyPoints
+          answer: @getAnswerStringFromQuestion question
+          level: question.level
+
+        for kp in question.keyPoints
+          myKPStats[kp] ?= total: 0, totalLevel: 0, avgLevel: 0
+          myKPStats[kp].total++
+
+      @updateTotalLevelForStats tmpResult.userAnswers, myQid2KALMap, myKPStats
+      @updateAvgLevelForStats myKPStats
+
+      return myKPStats
+
+  updateTotalLevelForStats: (userAnswers, myQid2KALMap, myKPStats) ->
+    for userAnswer in userAnswers
+      if userAnswer.result.toString() is myQid2KALMap[userAnswer.questionId].answer
+        for kp in myQid2KALMap[userAnswer.questionId].kps
+          myKPStats[kp].totalLevel += myQid2KALMap[userAnswer.questionId].level
+
+  updateAvgLevelForStats: (myKPStats) ->
+    for kpId, stat of myKPStats
+      stat.avgLevel = stat.totalLevel // stat.total

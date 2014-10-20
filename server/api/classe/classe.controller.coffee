@@ -5,6 +5,7 @@
 # * POST    /classe              ->  create
 # * GET     /classe/:id          ->  show
 # * PUT     /classe/:id          ->  update
+# * PATCH   /classe/:id          ->  update
 # * DELETE  /classe/:id          ->  destroy
 #
 "use strict"

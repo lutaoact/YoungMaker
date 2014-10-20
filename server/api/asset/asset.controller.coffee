@@ -72,8 +72,7 @@ exports.uploadImage = (req, res, next) ->
     res.send data
   , next
 
-exports.uploadVideo = (
-  req, res, next) ->
+exports.uploadVideo = (req, res, next) ->
   uploadAsset uploadVideoType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/videos/#{uploadVideoType}/"

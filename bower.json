@@ -9,7 +9,6 @@
     "bootstrap": "~3.1.1",
     "angular-resource": ">=1.2.*",
     "angular-cookies": ">=1.2.*",
-    "angular-sanitize": ">=1.2.*",
     "angular-bootstrap": "~0.11.0",
     "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
@@ -38,7 +37,8 @@
     "holderjs": "~2.4.0",
     "angular-sortable-view": "~0.0.10",
     "angular-i18n": "~1.2.26",
-    "Jcrop": "~0.9.12"
+    "Jcrop": "~0.9.12",
+    "textAngular": "v1.3.0-pre5"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -74,9 +74,17 @@
     },
     "angular-i18n": {
       "main": "angular-locale_zh-cn.js"
+    },
+    "textAngular":{
+      "main": [
+        "./dist/textAngular-rangy.min.js",
+        "./dist/textAngular.min.js",
+        "./dist/textAngular-sanitize.min.js"
+      ]
     }
   },
   "resolutions": {
-    "angular": "1.2.20"
+    "angular": "1.2.20",
+    "textAngular": "v1.3.0-pre5"
   }
 }

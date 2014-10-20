@@ -1,3 +1,4 @@
+ObjectId.prototype.toString = function() { return '"' + this.valueOf() + '"'; }
 var result = {name: 'kp'};
 db.questions.find().forEach(function(question) {
   question.keyPoints.forEach(function(keyPoint) {

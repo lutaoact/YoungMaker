@@ -70,6 +70,7 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       # Should not set to ```false```, once it is set to ```true```,
       # because ```ng-if="false"``` will destroy the controller and view
       discussPanelnitialized: false
+      notesPanelnitialized: false
 
     $stateParams: $state.params
 
@@ -138,11 +139,15 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       @viewState.discussPanelnitialized = true
       @viewState.showDiscussion = !@viewState.showDiscussion
 
+    toggleNotesPanel: ()->
+      @viewState.notesPanelnitialized = true
+      @viewState.showNotes = !@viewState.showNotes
+
     disableDownload: ()->
       console.log 'you are not allowed to download this resource'
 
   $scope.$watch 'viewState', (value)->
-    if $scope.viewState.showDiscussion
+    if $scope.viewState.showDiscussion or $scope.viewState.showNotes
       angular.element('body').addClass 'sider-open'
     else
       angular.element('body').removeClass 'sider-open'

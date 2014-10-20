@@ -26,6 +26,8 @@ angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
       $scope.files = files
 
     confirm: () ->
+      if not $scope.files.length
+        return
       $scope.viewState.uploading = true
       fileUtils.uploadFile
         files: $scope.files

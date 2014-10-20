@@ -21,6 +21,7 @@ angular.module 'budweiserApp', [
   'angularFileUpload'
   'monospaced.elastic'
   'angular-sortable-view'
+  'textAngular'
 ]
 
 .constant 'configs',

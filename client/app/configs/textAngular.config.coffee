@@ -1,44 +1,144 @@
-#angular.module 'budweiserApp'
-#.config ($provide)->
-#  $provide.decorator 'taOptions',[
-#    'taRegisterTool'
-#    '$delegate'
-#    (taRegisterTool, taOptions)->
-#      # $delegate is the taOptions we are decorating
-#      # register the tool with textAngular
-#      taRegisterTool 'colourRed',
-#        iconclass: "fa fa-square red",
-#        action: ()->
-#          this.$editor().wrapSelection('forecolor', 'red')
-#
-#      # add the button to the default toolbar definition
-#      taOptions.toolbar[1].push('colourRed');
-#      return taOptions;
-#    ]
-#  $provide.decorator 'taOptions',[
-#    'taRegisterTool'
-#    '$delegate'
-#    '$modal'
-#    (taRegisterTool, taOptions, $modal)->
-#
-#      # $delegate is the taOptions we are decorating
-#      # register the tool with textAngular
-#      taRegisterTool 'upload',
-#        iconclass: "fa fa-image",
-#        action: ($deferred)->
-#          selection = rangy.saveSelection(window)
-#          self = this
-#          $modal.open
-#            templateUrl: 'app/forum/imageUpload/imageUpload.html'
-#            controller: 'ImageUploadCtrl'
-#          .result.then (result)->
-#            rangy.restoreSelection(selection)
-#            # http://placehold.it/32x32
-#            self.$editor().wrapSelection 'insertImage', result, true
-#            $deferred.resolve()
-#          return false
-#
-#      # add the button to the default toolbar definition
-#      taOptions.toolbar[1].push('upload');
-#      return taOptions
-#    ]
+angular.module 'budweiserApp'
+.config ($provide)->
+  imgOnSelectAction = (event, $element, editorScope)->
+    finishEdit = ()->
+      editorScope.updateTaBindtaTextElement()
+      editorScope.hidePopover()
+
+    event.preventDefault()
+    editorScope.displayElements.popover.css 'width', '375px'
+    container = editorScope.displayElements.popoverContainer
+    container.empty()
+    buttonGroup = angular.element '<div class="btn-group" style="padding-right: 6px;">'
+
+    fullButton = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1">100% </button>'
+    fullButton.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'half'
+      $element.removeClass 'quarter'
+      $element.addClass 'full'
+      finishEdit()
+
+    halfButton = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1">50% </button>'
+    halfButton.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'full'
+      $element.removeClass 'quarter'
+      $element.addClass 'half'
+      finishEdit()
+
+    quartButton = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1">25% </button>'
+    quartButton.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'full'
+      $element.removeClass 'half'
+      $element.addClass 'quarter'
+      finishEdit()
+
+    resetButton = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1">Reset</button>'
+    resetButton.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'full'
+      $element.removeClass 'half'
+      $element.removeClass 'quarter'
+      finishEdit()
+
+    buttonGroup.append fullButton
+    buttonGroup.append halfButton
+    buttonGroup.append quartButton
+    buttonGroup.append resetButton
+    container.append buttonGroup
+
+    buttonGroup = angular.element '<div class="btn-group" style="padding-right: 6px;">'
+    floatLeft = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1"><i class="fa fa-align-left"></i></button>'
+    floatLeft.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'pull-right'
+      $element.removeClass 'center'
+      $element.addClass 'pull-left'
+      finishEdit()
+
+    floatRight = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1"><i class="fa fa-align-right"></i></button>'
+    floatRight.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'pull-left'
+      $element.removeClass 'center'
+      $element.addClass 'pull-right'
+      finishEdit()
+
+    floatNone = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1"><i class="fa fa-align-justify"></i></button>'
+    floatNone.on 'click', (event)->
+      event.preventDefault()
+      $element.removeClass 'pull-left'
+      $element.removeClass 'pull-right'
+      $element.addClass 'center'
+      finishEdit()
+
+    buttonGroup.append floatLeft
+    buttonGroup.append floatNone
+    buttonGroup.append floatRight
+    container.append buttonGroup
+
+    buttonGroup = angular.element '<div class="btn-group">'
+    remove = angular.element '<button type="button" class="btn btn-default btn-sm btn-small" unselectable="on" tabindex="-1"><i class="fa fa-trash-o"></i></button>'
+    remove.on 'click', (event)->
+      event.preventDefault()
+      $element.remove()
+      finishEdit()
+
+    buttonGroup.append remove
+    container.append buttonGroup
+
+    editorScope.showPopover $element
+    editorScope.showResizeOverlay $element
+
+  $provide.decorator 'taOptions',[
+    'taRegisterTool'
+    '$delegate'
+    (taRegisterTool, taOptions)->
+      # $delegate is the taOptions we are decorating
+      # register the tool with textAngular
+      taRegisterTool 'colourRed',
+        iconclass: "fa fa-square red",
+        action: ()->
+          this.$editor().wrapSelection('forecolor', 'red')
+
+      # add the button to the default toolbar definition
+      taOptions.toolbar[1].push('colourRed');
+      return taOptions;
+    ]
+  $provide.decorator 'taOptions',[
+    'taRegisterTool'
+    '$delegate'
+    '$modal'
+    (taRegisterTool, taOptions, $modal)->
+
+      # $delegate is the taOptions we are decorating
+      # register the tool with textAngular
+      taRegisterTool 'upload',
+        iconclass: "fa fa-image",
+        action: ($deferred)->
+          selection = rangy.saveSelection(window)
+          self = this
+          $modal.open
+            templateUrl: 'app/imageCrop/imageCropPopup.html'
+            controller: 'ImageCropPopupCtrl'
+            resolve:
+              files: -> null
+              options: ->
+                maxWidth: 640
+          .result.then (result)->
+            rangy.restoreSelection(selection)
+            embed = "<img class=\"image-zoom\" src=\"#{result}\">"
+            self.$editor().wrapSelection 'insertHTML', embed, true
+            $deferred.resolve()
+          return false
+
+        onElementSelect:
+          element: 'img'
+          action: imgOnSelectAction
+
+      # add the button to the default toolbar definition
+      taOptions.toolbar[1].push('upload');
+      return taOptions
+    ]

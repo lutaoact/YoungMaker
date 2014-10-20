@@ -65,22 +65,21 @@ exports.getSlides = (req, res) ->
   retrieveAsset key, assetType, res
 
 
-exports.uploadImage = (req, res) ->
+exports.uploadImage = (req, res, next) ->
   uploadAsset uploadImageType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/images/#{uploadImageType}/"
     res.send data
   , next
 
-exports.uploadVideo = (
-  req, res) ->
+exports.uploadVideo = (req, res, next) ->
   uploadAsset uploadVideoType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/videos/#{uploadVideoType}/"
     res.send data
   , next
 
-exports.uploadSlide = (req, res) ->
+exports.uploadSlide = (req, res, next) ->
   uploadAsset uploadSlideType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/slides/#{uploadSlideType}/"

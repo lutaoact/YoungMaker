@@ -45,7 +45,9 @@ var body = {
     },
 
     createModel : function(name){
-        this.schema.plugin(createdModifiedPlugin, {index: true});
+        if (name !== 'invert_index') {
+          this.schema.plugin(createdModifiedPlugin, {index: true});
+        }
         if(!models[name]) {
             models[name] = mongoose.model(name, this.schema);
         }

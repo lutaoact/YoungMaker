@@ -97,13 +97,39 @@ angular.module 'budweiserApp'
     '$delegate'
     '$modal'
     (taRegisterTool, taOptions, $modal)->
-      taRegisterTool 'colourRed',
-        iconclass: "fa fa-square red",
-        action: ()->
-          this.$editor().wrapSelection('forecolor', 'red')
+      safeColors = [
+        '#000', '#111','#222','#333','#444','#555'
+        '#1FF', '#2FF','#3FF','#4FF','#5FF','#6FF'
+        '#F1F', '#F2F','#F3F','#F4F','#F5F','#F6F'
+      ]
+      safeColorsHtml = safeColors.map (color)->
+        "<i class='fa fa-square' style='color:#{color}'></i>"
+      .join ''
 
-      # $delegate is the taOptions we are decorating
-      # register the tool with textAngular
+      # Color picker
+      taRegisterTool 'fontColour',
+        display: "<span id='colorboard-btn' class='barBtn' dropdown ng-class='displayActiveToolClass(active)' ng-disabled='showHtml()'><span class='dropdown-toggle'><i class='fa fa-square'></i></span><div class='color-board dropdown-menu'>" + safeColorsHtml + "</div></span>"
+        action: ($deferred)->
+          self = this
+          colorboardBtn = angular.element('#colorboard-btn')
+          colorIcons = colorboardBtn.find('.color-board .fa-square')
+
+          colorIconsClickHandle = (event)->
+            color = event.currentTarget.style.color
+            self.$editor().wrapSelection('forecolor', color)
+
+          colorIcons.off()
+          colorIcons.on 'click', colorIconsClickHandle
+
+        activeState: (commonElement)->
+          if commonElement and commonElement[0].tagName is 'FONT'
+            angular.element('#colorboard-btn').css 'color', commonElement[0].color
+            true
+          else
+            angular.element('#colorboard-btn').css 'color', '#000'
+            false
+
+      #image Uploader
       taRegisterTool 'upload',
         iconclass: "fa fa-image",
         action: ($deferred)->
@@ -128,7 +154,7 @@ angular.module 'budweiserApp'
           action: imgOnSelectAction
 
       taOptions.toolbar = [
-        ['h1', 'h2', 'h3', 'pre', 'quote'],
+        ['h1', 'h2', 'h3','fontColour', 'pre', 'quote'],
         ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'clear'],
         ['justifyLeft','justifyCenter','justifyRight','indent','outdent'],
         ['html', 'insertLink', 'upload']

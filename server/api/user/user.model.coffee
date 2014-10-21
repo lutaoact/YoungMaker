@@ -112,7 +112,7 @@ setupUserSchema = (UserSchema) ->
           return respond true
         return respond false
       return respond true
-  , 'The specified email address is already in use.'
+  , '该邮箱地址已经被占用，请选择其他邮箱。'
 
   validatePresenceOf = (value) ->
     value && value.length

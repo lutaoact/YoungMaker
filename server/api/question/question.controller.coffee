@@ -143,6 +143,7 @@ exports.pubQuiz = (req, res, next) ->
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
   Question.updateQ
+    orgId: req.user.orgId
     _id: $in: ids
   ,
     deleteFlag: true

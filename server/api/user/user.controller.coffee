@@ -83,7 +83,9 @@ exports.showByEmail = (req, res, next) ->
 exports.destroy = (req, res, next) ->
   userId = req.params.id
   userObj = undefined
-  User.findByIdAndRemoveQ userId
+  User.removeQ
+    orgId: req.user.orgId
+    _id: userId
   .then (user) ->
     userObj = user
     Classe.findOneQ
@@ -100,6 +102,7 @@ exports.destroy = (req, res, next) ->
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
   User.removeQ
+    orgId: req.user.orgId
     _id: $in: ids
   .then () ->
     res.send 204
@@ -129,7 +132,7 @@ exports.changePassword = (req, res, next) ->
   Get my info
 ###
 exports.me = (req, res, next) ->
-  userId = req.user.id
+  userId = req.user._id
   User.findOne
     _id: userId
     '-salt -hashedPassword'

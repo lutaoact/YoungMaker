@@ -83,6 +83,7 @@ exports.destroy = (req, res, next) ->
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
   Classe.removeQ
+    orgId: req.user.orgId
     _id: $in: ids
   .then () ->
     res.send 204

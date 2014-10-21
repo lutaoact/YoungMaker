@@ -1,6 +1,6 @@
 'use scrict'
 
-angular.module('budweiserApp').controller 'NewClasseCtrl', (
+angular.module('budweiserApp').controller 'NewClasseModalCtrl', (
   $scope
   Restangular
   $modalInstance
@@ -15,5 +15,5 @@ angular.module('budweiserApp').controller 'NewClasseCtrl', (
 
     confirm: (form) ->
       if !form.$valid then return
-      Restangular.all('classes').post($scope.classe).then (newClasse) ->
-        $modalInstance.close newClasse
+      Restangular.all('classes').post($scope.classe)
+      .then $modalInstance.close

@@ -33,6 +33,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
     ]
 
     onLogoUpload: (key) ->
+      console.debug 'onUploaded', data
       $scope.organization.logo = key
       Restangular.one('organizations', $scope.organization._id).patch logo: key
       .then ->

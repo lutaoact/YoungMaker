@@ -12,14 +12,22 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
+  updateSelected = ->
+    $scope.selectedStudents =  _.filter($scope.selectedClasse.$students, '$selected':true)
+
   angular.extend $scope,
 
+    toggleSelectAllStudents: false
     editingClasseName: ''
+    selectedStudents: []
+    deleting: false
 
-    saveClasseName: (form) ->
+    saveClasse: (form) ->
       if !form.$valid then return
       if $scope.editingClasseName != $scope.selectedClasse.name
-        $scope.selectedClasse.patch name:$scope.editingClasseName
+        $scope.selectedClasse.patch
+          name: $scope.editingClasseName
+          students: $scope.selectedClasse.students
         .then (classe)->
           angular.extend $scope.selectedClasse, classe
           notify
@@ -44,7 +52,33 @@ angular.module('budweiserApp')
 
     loadStudents: ->
       $scope.selectedClasse?.all('students').getList().then (students) ->
+        $scope.selectedClasse.students = _.pluck students, '_id'
         $scope.selectedClasse.$students = students
+        updateSelected()
+
+    toggleSelect: (students, selected) ->
+      angular.forEach students, (s) -> s.$selected = selected
+      updateSelected()
+
+    deleteStudents: (students) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除学生'
+          message: ->
+            """确认要删除这#{students.length}个学生？"""
+      .result.then ->
+        $scope.toggledSelectAllStudents = false if $scope.toggledSelectAllStudents
+        $scope.deleting = true
+        Restangular.all('users').customPOST(ids: _.pluck(students, '_id'), 'multiDelete')
+        .then ->
+          newStudents = _.difference($scope.selectedClasse.$students, students)
+          $scope.selectedClasse.patch
+            students: _.pluck newStudents, '_id'
+          .then ->
+            $scope.loadStudents()
+            $scope.deleting = false
 
   $scope.selectedClasse = _.find($scope.classes, _id: $state.params.classeId)
   $scope.editingClasseName = $scope.selectedClasse?.name

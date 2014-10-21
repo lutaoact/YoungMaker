@@ -62,7 +62,6 @@ angular.module('budweiserApp')
         , ()->
           $scope.uploadState = null
       else
-
         $scope.onStart?($files:files)
         fileUtils.uploadFile
           files: files

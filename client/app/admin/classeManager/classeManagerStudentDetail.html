@@ -9,80 +9,79 @@
 
   <hr/>
 
-  <div class="text-center">
-
-    <div class="row">
-      <div class="form-horizontal col-sm-8 col-sm-offset-2" role="form">
-        <div class="form-group">
-          <div class="avatar-lg"
-               src-key="student.avatar"
-               suffix="?imageView2/1/w/64/h/64"
-               source-attr="background-image">
-          </div>
-        </div>
-        <div class="form-group">
-          <uploader class="btn btn-danger btn-sm rounded"
-                    limit="2*1024*1024"
-                    on-complete="onAvatarUploaded($data)"
-                    crop="true"
-                    crop-ratio="1"
-                    max-width="128"
-                    accept-type="image">
-            修改头像
-          </uploader>
+  <div class="row text-center">
+    <div class="form-horizontal col-sm-8 col-sm-offset-2" role="form">
+      <div class="form-group">
+        <div class="avatar-lg"
+             src-key="student.avatar"
+             suffix="?imageView2/1/w/64/h/64"
+             source-attr="background-image">
         </div>
       </div>
+      <div class="form-group">
+        <uploader class="btn btn-danger btn-sm rounded"
+                  limit="2*1024*1024"
+                  on-complete="onAvatarUploaded($data)"
+                  crop="true"
+                  crop-ratio="1"
+                  max-width="128"
+                  accept-type="image">
+          修改头像
+        </uploader>
+      </div>
     </div>
+  </div>
 
-    <hr>
+  <hr>
 
-    <div class="row">
-      <form class="form-horizontal col-sm-8 col-sm-offset-2"
-            role="form"
-            name="profileForm"
-            ng-submit="saveProfile(profileForm)">
-        <div class="form-group">
-          <label for="inputName" class="col-xs-4 control-label">用户名</label>
-          <div class="col-xs-8 text-left">
-            <label class="control-label">{{student.username}}</label>
-          </div>
+  <div class="row">
+    <form class="form-horizontal col-sm-8 col-sm-offset-2"
+          role="form"
+          name="profileForm"
+          ng-submit="saveProfile(profileForm)">
+      <div class="form-group">
+        <label for="inputName" class="col-xs-4 control-label">用户名</label>
+        <div class="col-xs-8 text-left">
+          <label class="control-label">{{student.username}}</label>
         </div>
-        <div class="form-group">
-          <label for="inputName" class="col-xs-4 control-label">姓名</label>
-          <div class="col-xs-8">
-            <input type="text"
-                   class="form-control"
-                   id="inputName"
-                   placeholder="请输入您的姓名"
-                   required
-                   focus-me="nameInputFocus"
-                   ng-init="nameInputFocus=true"
-                   ng-model="editingInfo.name">
-          </div>
+      </div>
+      <div class="form-group">
+        <label for="inputName" class="col-xs-4 control-label">姓名</label>
+        <div class="col-xs-8">
+          <input type="text"
+                 class="form-control"
+                 id="inputName"
+                 placeholder="请输入您的姓名"
+                 required
+                 focus-me="nameInputFocus"
+                 ng-init="nameInputFocus=true"
+                 ng-model="editingInfo.name">
         </div>
-        <div class="form-group">
-          <label for="inputEmail" class="col-xs-4 control-label">邮箱</label>
-          <div class="col-xs-8">
-            <input type="email"
-                   class="form-control"
-                   id="inputEmail"
-                   placeholder="请输入邮箱"
-                   required
-                   ng-model="editingInfo.email">
-          </div>
+      </div>
+      <div class="form-group">
+        <label for="inputEmail" class="col-xs-4 control-label">邮箱</label>
+        <div class="col-xs-8">
+          <input type="email"
+                 class="form-control"
+                 id="inputEmail"
+                 placeholder="请输入邮箱"
+                 required
+                 ng-model="editingInfo.email">
         </div>
-        <div class="form-group">
-          <label for="inputInfo" class="col-xs-4 control-label">备注</label>
-          <div class="col-xs-8">
-            <textarea type="text"
-                      class="form-control"
-                      id="inputInfo"
-                      placeholder="其他信息"
-                      ng-model="editingInfo.info"></textarea>
-          </div>
+      </div>
+      <div class="form-group">
+        <label for="inputInfo" class="col-xs-4 control-label">备注</label>
+        <div class="col-xs-8">
+          <textarea type="text"
+                    class="form-control"
+                    id="inputInfo"
+                    placeholder="其他信息"
+                    ng-model="editingInfo.info"></textarea>
         </div>
+      </div>
 
-        <div class="form-group">
+      <div class="form-group">
+        <div class="col-xs-8 col-xs-offset-4 text-left">
           <button type="submit"
                   ng-disabled="saved || saving"
                   class="btn btn-danger btn-sm rounded" >
@@ -95,35 +94,50 @@
               保存中
             </span>
           </button>
+          <button type="button"
+                  ng-diabled="deleting"
+                  ng-click="removeStudent(student)"
+                  class="btn btn-default btn-sm rounded">
+            <span ng-if="!deleting">
+              删除
+            </span>
+            <span ng-if="deleting">
+              <i class="fa fa-spinner fa-spin"></i>
+              删除中
+            </span>
+          </button>
         </div>
-      </form>
-    </div>
-
-    <hr>
-
-    <div class="row">
-      <form class="form-horizontal col-sm-8 col-sm-offset-2"
-            name="pwdForm"
-            ng-submit="resetPassword(pwdForm)">
-
-        <div class="form-group">
-          <label for="inputNewPassword" class="col-xs-4 control-label">重设密码</label>
-          <div class="col-xs-8">
-            <input id="inputNewPassword"
-                   type="password"
-                   name="newPassword"
-                   class="form-control"
-                   ng-model="user.newPassword"
-                   required/>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <button class="btn btn-danger btn-sm rounded" type="submit">重设密码</button>
-        </div>
-      </form>
-    </div>
-
+      </div>
+    </form>
   </div>
+
+  <hr>
+
+  <div class="row">
+    <form class="form-horizontal col-sm-8 col-sm-offset-2"
+          name="pwdForm"
+          ng-submit="resetPassword(pwdForm)">
+
+      <div class="form-group">
+        <label for="inputNewPassword" class="col-xs-4 control-label">重设密码</label>
+        <div class="col-xs-8">
+          <input id="inputNewPassword"
+                 type="password"
+                 name="newPassword"
+                 class="form-control"
+                 ng-model="user.newPassword"
+                 required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-8 col-xs-offset-4">
+          <button class="btn btn-danger btn-sm rounded"
+                  type="submit">重设密码</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
 
 </div>

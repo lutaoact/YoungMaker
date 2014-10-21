@@ -6,6 +6,7 @@
         id="classe-name">
     <input class="form-control"
            name="name"
+           tooltip="点击即可编辑"
            ng-model="editingClasseName"
            ng-blur="saveClasse(form)"
            placeholder="请输入班级名称"
@@ -17,18 +18,18 @@
     <input class="form-control search-input"
            ng-model="searchStudent"
            placeholder="查找学生">
-    <span class="btn-group pull-right">
-      <button class="btn btn-danger btn-sm"
+    <span class="pull-right">
+      <button class="btn btn-danger btn-sm rounded"
               ng-click="addNewStudent()">
         添加
       </button>
-      <label class="btn btn-danger btn-sm">
+      <label class="btn btn-danger btn-sm rounded">
         <input type="file"
                style="display:none;"
                ng-file-select="onFileSelect($files)"/>
         批量导入
       </label>
-      <button class="btn btn-default btn-sm"
+      <button class="btn btn-default btn-sm rounded"
               ng-click="deleteStudents(selectedStudents)"
               ng-disabled="selectedStudents.length == 0 || deleting">
         <span ng-if="!deleting">

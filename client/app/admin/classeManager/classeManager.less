@@ -34,21 +34,8 @@
     .classe-info {
       padding: 0px 15px;
       cursor: pointer;
-      &:hover {
-        background-color: #f8f8f8;
-      }
       .checkbox-default {
         width: 15px;
-      }
-      &.active {
-        &:before {
-          content: '';
-          position: absolute;
-          border: 2px solid #5abda6;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
       }
       a {
         width: ~'calc(100% - 20px)';
@@ -64,6 +51,27 @@
           overflow: hidden;
           width: ~'calc(100% - 32px)';
         }
+      }
+      &:hover {
+        background-color: #f8f8f8;
+      }
+      &.selected,
+      &.active {
+        &:before {
+          content: '';
+          position: absolute;
+          border: 2px solid @base-color;
+          height: 100%;
+          top: 0;
+          left: 0;
+        }
+      }
+      &.active {
+        color: white;
+        .classe-name {
+          color: white;
+        }
+        background-color: @base-color;
       }
       &.desc {
         cursor: default;

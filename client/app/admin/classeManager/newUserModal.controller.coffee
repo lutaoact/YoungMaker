@@ -11,6 +11,7 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
 
   angular.extend $scope,
 
+    errors: null
     orgUniqueName: orgUniqueName
 
     user:
@@ -24,7 +25,6 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
         when 'admin'   then '创建新管理员'
         else throw "unknown usertype #{userType}"
 
-
     cancel: ->
       $modalInstance.dismiss('cancel')
 
@@ -37,7 +37,5 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
       newUser.username += '_' + orgUniqueName
       Restangular.all('users').post newUser
       .then $modalInstance.close, (error) ->
-        notify
-          message: error
-          classes: 'alert-danger'
+        $scope.errors = error?.data?.errors
 

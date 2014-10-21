@@ -57,7 +57,7 @@
       <div class="col-xs-8">
         <input class="form-control"
                id="inputPassword"
-               type="text"
+               type="password"
                ng-model="user.password"
                required
                placeholder="输入登录密码">
@@ -87,6 +87,7 @@
                placeholder="请输入邮箱"
                required
                ng-model="user.email">
+        <p class="text-danger" ng-if="errors.email">{{ errors.email.message }}</p>
       </div>
     </div>
 

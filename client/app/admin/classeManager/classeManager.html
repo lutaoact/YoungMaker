@@ -28,6 +28,7 @@
     </div>
     <div ng-repeat="classe in classes | filter:{name:searchClasse} | orderBy:'name'"
          class="list-group-item classe-info"
+         ng-class="{'selected':classe.$selected}"
          ui-sref-active="active">
       <input type="checkbox"
              ng-model="classe.$selected"

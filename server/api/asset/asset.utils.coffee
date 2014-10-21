@@ -8,8 +8,6 @@ crypto = require 'crypto'
 redisClient = require '../../common/redisClient'
 request = require 'request'
 redislock = require 'redislock'
-Azure = require 'azure-media'
-hash = require 'object-hash'
 getMediaService = require('../../common/azureMS').getMediaService
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
@@ -83,7 +81,7 @@ exports.AssetUtils = BaseUtils.subclass
     lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
     lock.acquire assetId
     .then ()->
-      logger.info "lock: "+ key + " acquired!"
+      logger.info "lock: "+ assetId + " acquired!"
       getMediaService(auth)
     .then (azureMediaService)->
       api = azureMediaService
@@ -102,11 +100,12 @@ exports.AssetUtils = BaseUtils.subclass
       logger.info "Set #{key}:#{downloadUrl} to redis"
       lock.release()
     .done () ->
-      logger.info "locker #{assetId} released"
+      logger.info "lock: #{assetId} released"
       logger.info downloadUrl
       res.redirect downloadUrl
     , (err) ->
       logger.error err
+      lock.release()
       res.send 404, err
 
 
@@ -212,12 +211,9 @@ exports.AssetUtils = BaseUtils.subclass
       base_url: config.azure.serverAddress
       oauth_url: config.azure.acsBaseAddress
 
-    api = new Azure(auth)
-    apiInit = Q.nbind(api.init, api);
-    apiMediaGetUploadURL = Q.nbind(api.media.getUploadUrl, api.media);
-
-    apiInit()
-    .then (token)->
+    getMediaService(auth)
+    .then (api)->
+      apiMediaGetUploadURL = Q.nbind(api.media.getUploadUrl, api.media);
       apiMediaGetUploadURL fileName
     .then (res) ->
       {

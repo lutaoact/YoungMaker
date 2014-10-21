@@ -16,7 +16,7 @@ Classe = _u.getModel 'classe'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
 request = require 'request'
-Azure = require 'azure-media'
+getMediaService = require('../../common/azureMS').getMediaService
 
 
 exports.index = (req, res, next) ->
@@ -94,12 +94,12 @@ exports.update = (req, res, next) ->
         oauth_url: config.azure.acsBaseAddress
       assetId = req.body.media.split('/')[5]
 
-      api = new Azure(auth)
-      apiInit = Q.nbind(api.init, api)
-      apiDoneUpload = Q.nbind(api.media.doneUpload, api.media)
-
-      apiInit()
-      .then (token)->
+      api = null
+      apiDoneUpload = null
+      getMediaService(auth)
+      .then (azureMediaService)->
+        api = azureMediaService
+        apiDoneUpload = Q.nbind(api.media.doneUpload, api.media)
         apilistLocators = Q.nbind(api.rest.asset.listLocators, api.rest.asset)
         apilistLocators(assetId)
       .then (locators)->

@@ -12,7 +12,7 @@ angular.module('budweiserApp')
     limit: '='
     acceptType: '@'
     multiple: '@'
-    onStart: '&'
+    onBegin: '&'
     onProgress: '&'
     onConvert: '&'
     onComplete: '&'
@@ -62,26 +62,26 @@ angular.module('budweiserApp')
         , ()->
           $scope.uploadState = null
       else
-        $scope.onStart?($files:files)
-        fileUtils.uploadFile
+        $scope.onBegin?($files:files)
+        uploadParam =
           files: files
           validation:
             max: $scope.limit ? 50*1024*1024
             accept: $scope.acceptType
-          success: (data) ->
+          success: (data, meta) ->
             $scope.uploadState = null
-            $scope.onComplete?($data:data)
+            $scope.onComplete?($data:data, $meta: meta)
           fail: (error)->
             $scope.uploadState = 'fail'
             $scope.uploadProgress = ''
             $scope.onError?($error:error)
           progress: (speed, percentage, evt)->
-            $scope.uploadProgress =
-              if files.length == 1
-                parseInt(percentage) + '%'
-              else
-                ''
+            $scope.uploadProgress = parseInt(percentage) + '%'
             $scope.onProgress?($speed:speed, $percentage:percentage, $event:evt)
           convert: ->
             $scope.uploadState = 'converting'
             $scope.onConvert?()
+        if $scope.multiple
+          fileUtils.bulkUpload uploadParam
+        else
+          fileUtils.uploadFile uploadParam

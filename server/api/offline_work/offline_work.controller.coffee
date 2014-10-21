@@ -52,13 +52,35 @@ exports.create = (req, res, next) ->
     body.userId = userId
     body.lectureId = lectureId
 
-    HomeworkAnswer.createQ body
+    OfflineWork.createQ body
   .then (work) ->
     res.send 201, work
   , next
 
+exports.update = (req, res, next) ->
+  userId = req.user.id
+
+  OfflineWork.findOneQ
+    _id : req.params.id
+    userId : req.user.id
+  .then (offlineWork) ->
+    if offlineWork.submitted and req.user.role isnt 'teacher'
+      # only teacher can update
+      console.log 'role is forbidden to do this action'
+      Q.reject
+        status : 403
+        errCode : ErrCode.ForbiddenRole
+        errMsg : 'role is forbidden to do this action'
+    else
+      updated = _.extend offlineWork, req.body
+      do updated.saveQ
+  .then (result) ->
+    newValue = result[0]
+    res.send newValue
+  , next
+
 exports.destroy = (req, res, next) ->
-  HomeworkAnswer.removeQ _id: req.params.id
+  OfflineWork.removeQ _id: req.params.id
   .then () ->
     res.send 204
   , next

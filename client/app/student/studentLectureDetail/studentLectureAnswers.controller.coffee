@@ -9,6 +9,7 @@ angular.module('budweiserApp')
   templateUrl: 'app/student/studentLectureDetail/studentLectureAnswers.html'
   scope:
     lecture: '='
+    course: '='
 
 .controller 'StudentLectureAnswersCtrl', (
   $scope
@@ -25,10 +26,18 @@ angular.module('budweiserApp')
         homeworks: 1
 
     setQuestionType: (type) ->
+      $scope.offlineWorksShown = false
       $scope.questionsType = type
       $scope.displayQuestions?.$active = false
       $scope.displayQuestions = $scope.lecture?[$scope.questionsType]
       $scope.displayQuestions?.$active = true
+
+    offlineWorksShown: false
+
+    showOfflineWorks: ()->
+      $scope.displayQuestions?.$active = false
+      $scope.displayQuestions = undefined
+      $scope.offlineWorksShown = true
 
     submitAnswer: ->
       if $scope.displayQuestions is $scope.lecture.homeworks
@@ -58,6 +67,62 @@ angular.module('budweiserApp')
             for choice, index in question.choices
               choice.$selected = answer?.indexOf(index) >= 0
           $scope.displayQuestions.$submitted = true
+
+    onFilesUploaded: (data, meta)->
+      meta.forEach (fileMeta)->
+        $scope.offlineWork.files.some (file)->
+          # should judge on md5
+          if file.name is fileMeta.name and !file.url
+            file.url = fileMeta.url
+            true
+          else
+            false
+      console.log meta
+
+    removeFile: (file)->
+      $scope.offlineWork.files.splice($scope.offlineWork.files.indexOf(file), 1)
+
+    onError: (err)->
+      console.log err
+
+    onFilesUploadStart: ($files)->
+      $scope.offlineWork.files ?= []
+      $files.forEach (file)->
+        $scope.offlineWork.files.push
+          name: file.name
+          size: file.size
+
+    onFilesUploading: ($speed, $percentage, $event)->
+      $scope.offlineWork.files.some (file)->
+        if file.name is $event.$fileName
+          file.$progress = 100 * $event.loaded // $event.total
+          true
+        else
+          false
+
+    offlineWork: undefined
+
+    submitOfflineWork: (offlineWork)->
+      offlineWork.submitted = true
+      if offlineWork._id
+        offlineWork.put()
+        .then (data)->
+          angular.extend offlineWork, data
+      else
+        Restangular.all('offline_works').post offlineWork, lectureId: $scope.lecture._id
+        .then (data)->
+          angular.extend offlineWork, data
+
+  loadOfflineWork = ()->
+    Restangular.all('offline_works').getList(lectureId: $scope.lecture._id)
+    .then (data)->
+      if data?.length
+        $scope.offlineWork = data[0]
+      else
+        $scope.offlineWork =
+          teacherId: $scope.course.owners[0]._id
+          lectureId: $scope.lecture._id
+      console.log $scope.offlineWork
 
   $scope.$watch 'lecture', ->
     if !$scope.lecture then return
@@ -110,6 +175,7 @@ angular.module('budweiserApp')
       else
         $scope.setQuestionType('homeworks')
 
+    loadOfflineWork()
 
   $scope.$on 'quiz.answered', (event, question, answer)->
     $scope.lecture.quizzes.$submitted = $scope.lecture.quizzes.some (quiz)->

@@ -190,7 +190,6 @@ angular.module 'budweiserApp'
       when 'video'  then doUploadVideo(opts, file)
       else               doUploadFile(opts, file)
 
-  # TODO 暂时没地方调用, 还没有重构
   bulkUpload: (opts)->
 
     if not opts.files? or opts.files.length < 1
@@ -198,15 +197,20 @@ angular.module 'budweiserApp'
       return
 
     promises = []
+    totalSize = 0
+    finishedSize = 0
+
     for file in opts.files
       do (file)->
         error = validate(opts.validation, [file])
         return opts.fail?(error) if error?
 
+        totalSize += file.size
+        loaded = 0
         deferred = $q.defer()
         promises.push deferred.promise
         # get upload token
-        Restangular.one('assets/upload/slides','').get(fileName: file.name)
+        Restangular.one('assets/upload/images','').get(fileName: file.name)
         .then (strategy)->
           start = moment()
           $upload.upload
@@ -218,10 +222,16 @@ angular.module 'budweiserApp'
             fileFormDataName: 'file'
           .progress (evt)->
             speed = evt.loaded / (moment().valueOf() - start.valueOf())
-            percentage = parseInt(100.0 * evt.loaded / evt.total)
-            opts.progress?(speed,percentage, evt)
+            finishedSize += (evt.loaded - loaded)
+            loaded = evt.loaded
+            percentage = 100 * finishedSize // totalSize
+            evt.$fileName = file.name
+            opts.progress?(speed, percentage, evt)
           .success (data) ->
-            deferred.resolve strategy.formData.key
+            deferred.resolve
+              url: strategy.prefix+strategy.formData.key
+              name: file.name
+              size: file.size
           .error (response)->
             deferred.reject()
         , (error)->
@@ -230,8 +240,10 @@ angular.module 'budweiserApp'
 
     $q.all(promises).then (result)->
       keys = []
+      meta = []
       for data in result
-        keys.push data
-      opts.success?(keys)
+        keys.push data.url
+        meta.push data
+      opts.success?(keys, meta)
     , opts.fail
 

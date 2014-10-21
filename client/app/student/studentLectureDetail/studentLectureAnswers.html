@@ -13,7 +13,7 @@
         随堂练习
       </a>
       <a ng-click="setQuestionType('homeworks')"
-         if="lecture.homeworks.length>0"
+         ng-if="lecture.homeworks.length>0"
          ng-class="{'selected':lecture.homeworks.$active}"
          class="btn btn-default"
          du-smooth-scroll
@@ -21,6 +21,15 @@
          href="#lecture-question">
         <i class="fa fa-file-o"></i>
         课后作业
+      </a>
+      <a ng-click="showOfflineWorks()"
+         ng-class="{'selected':offlineWorksShown}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-file-o"></i>
+        作业上传
       </a>
     </div>
   </div>
@@ -77,6 +86,41 @@
       ng-model="viewState.currentPage[questionsType]"
       ng-show="displayQuestions.length > viewState.pageSize">
     </pager>
+  </div>
 
-
+  <div class="question-panel container" ng-show="offlineWorksShown">
+    <form class="offline-homework clearfix" role="form" ng-submit="submitOfflineWork(offlineWork)">
+      <div class="form-group">
+        <text-angular id="inputDesc" class="bud" ng-model="offlineWork.desc"></text-angular>
+      </div>
+      <div class="form-group clearfix">
+        <div class="file col-md-6" ng-repeat="file in offlineWork.files">
+          <div ng-if="!file.url">
+            <progressbar class="active upload-progressbar" value="file.$progress" type="info">
+              类型:{{file.name.split('.').pop()}}{{file.name}}:{{file.size}}
+            </progressbar>
+          </div>
+          <div ng-if="file.url">
+            类型:{{file.name.split('.').pop()}}{{file.name}}:{{file.size}}
+            <a href="{{file.url}}" target="blank" class="btn btn-default"><i class="fa fa-cloud-download"></i></a>
+            <a class="btn btn-danger pull-right" ng-if="!offlineWork.submitted" ng-click="removeFile(file)"><i class="fa fa-times"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="form-group pull-right">
+        <uploader limit="500*1024*1024"
+                  multiple="true"
+                  on-complete="onFilesUploaded($data,$meta)"
+                  on-begin="onFilesUploadStart($files)"
+                  on-progress="onFilesUploading($speed, $percentage, $event)"
+                  on-error="onError($error)"
+                  ng-if="!offlineWork.submitted"
+                  class="btn btn-danger">
+          <i class="fa fa-paperclip"></i>
+          添加附件
+        </uploader>
+        <button type="submit" class="btn btn-primary" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
+      </div>
+    </form>
+  </div>
 </div>

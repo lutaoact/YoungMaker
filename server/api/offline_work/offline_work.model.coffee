@@ -17,12 +17,17 @@ exports.OfflineWork = BaseModel.subclass
         type: ObjectId
         ref: 'lecture'
         required: true
-      files: [ String ]
+      files: [{
+        name: String
+        url: String
+        size: Number
+        }]
       desc: String
       teacherId:
         type: ObjectId
         ref: 'user'
       score: Number
       feedback: String
+      submitted: Boolean
 
     $super()

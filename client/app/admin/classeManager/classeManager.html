@@ -15,23 +15,23 @@
     <div class="list-group-item classe-info desc">
       <label>
         <input type="checkbox"
-               ng-model="selectedAllClasse"
-               ng-change="toggleSelect(classes, selectedAllClasse)"
+               ng-model="toggledSelectAllClasses"
+               ng-change="toggleSelect(classes, toggledSelectAllClasses)"
                class="bud checkbox-default">
-        <span ng-if="!selectedAllClasse">全选</span>
-        <span ng-if="selectedAllClasse">取消全选</span>
+        <span ng-if="!toggledSelectAllClasses">全选</span>
+        <span ng-if="toggledSelectAllClasses">取消全选</span>
       </label>
       <span ng-show="selectedClasses.length > 0" class="pull-right">
         <a class="btn btn-link"
            ng-click="deleteClasses(selectedClasses)">删除 ({{selectedClasses.length}})</a>
       </span>
     </div>
-    <div ng-repeat="classe in classes | filter:{name:searchClasse}"
+    <div ng-repeat="classe in classes | filter:{name:searchClasse} | orderBy:'name'"
          class="list-group-item classe-info"
          ui-sref-active="active">
       <input type="checkbox"
              ng-model="classe.$selected"
-             ng-click="toggleSelect([classe], !classe.$selected)"
+             ng-change="toggleSelect([classe], classe.$selected)"
              class="bud checkbox-default">
       <a ui-sref="admin.classeManager.detail({classeId:classe._id})">
         <span class="classe-name">{{classe.name}}</span>

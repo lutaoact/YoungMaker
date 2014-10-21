@@ -8,5 +8,3 @@ angular.module('budweiserApp').config ($stateProvider) ->
     controller: 'AdminCtrl'
     abstract: true
     authenticate: true
-    resolve:
-      CurrentUser: (Auth) -> Auth.getCurrentUser()

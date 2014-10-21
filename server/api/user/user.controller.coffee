@@ -49,6 +49,7 @@ exports.create = (req, res, next) ->
       config.secrets.session,
       expiresInMinutes: 60*5
     res.json
+      _id: user._id
       token: token
   , next
 
@@ -94,6 +95,14 @@ exports.destroy = (req, res, next) ->
           students : userId
   .then (classe) ->
     res.send userObj
+  , next
+
+exports.multiDelete = (req, res, next) ->
+  ids = req.body.ids
+  User.removeQ
+    _id: $in: ids
+  .then () ->
+    res.send 204
   , next
 
 ###
@@ -206,7 +215,7 @@ exports.bulkImport = (req, res, next) ->
           success : []
           failure : []
 
-        importedUser = []
+        importedUsers = []
 
         savePromises = _.map userList, (userItem) ->
 
@@ -226,13 +235,13 @@ exports.bulkImport = (req, res, next) ->
               user = result.value[0]
               console.log 'Imported user ' + user.name
               importReport.success.push user.name
-              importedUser.push user.id
+              importedUsers.push user.id
             else
               console.error 'Failed to import user ' + user.name
               importReport.failure.push result.reason
 
           if type is 'student'
-            updateClasseStudents res, next, classeId, importedUser, importReport
+            updateClasseStudents res, next, classeId, importedUsers, importReport
           else
             res.send importReport
         , next

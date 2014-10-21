@@ -5,6 +5,7 @@ angular.module('budweiserApp')
 .controller 'ClasseManagerStudentDetailCtrl', (
   $state
   $scope
+  $modal
   notify
   Classes
   Restangular
@@ -19,7 +20,6 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     $state: $state
-    classe: _.find(Classes, _id: $state.params.classeId)
     student: null
     saving: false
     saved: true
@@ -38,9 +38,27 @@ angular.module('budweiserApp')
       $scope.student.patch($scope.editingInfo).then ->
         angular.extend $scope.student, $scope.editingInfo
         $scope.saving = false
+        $scope.loadStudents()
         notify
           message: '基本信息已保存'
           classes: 'alert-success'
+
+    removeStudent: (student) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        size: 'sm'
+        resolve:
+          title: -> '删除学生'
+          message: ->
+            """确认要删除学生"#{student.name}"？"""
+      .result.then ->
+        student.remove().then ->
+          notify
+            message: '该学生已被删除'
+            classes: 'alert-success'
+          $state.go('admin.classeManager.detail', classeId:$state.params.classeId)
+          $scope.loadStudents()
 
   Restangular.one('users', $state.params.studentId).get()
   .then (student) ->

@@ -17,9 +17,9 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     $state: $state
+    toggledSelectAllClasses: false
     selectedClasse: null
     selectedClasses: []
-    selectedAllClass: false
     classes: Classes
 
     deleteClasses: (selectedClasses) ->
@@ -31,7 +31,7 @@ angular.module('budweiserApp')
           message: ->
             """确认要删除这#{selectedClasses.length}个班级？"""
       .result.then ->
-        $scope.selectedAllClasse = false if $scope.selectedAllClasse
+        $scope.toggledSelectAllClasses = false if $scope.toggledSelectAllClasses
         $scope.deleting = true
         Restangular.all('classes').customPOST(ids: _.pluck(selectedClasses, '_id'), 'multiDelete')
         .then ->
@@ -43,7 +43,7 @@ angular.module('budweiserApp')
     createNewClasse: ->
       $modal.open
         templateUrl: 'app/admin/classeManager/newClasseModal.html'
-        controller: 'NewClasseCtrl'
+        controller: 'NewClasseModalCtrl'
         size: 'sm'
       .result.then (newClasse) ->
         $scope.classes.push(newClasse)

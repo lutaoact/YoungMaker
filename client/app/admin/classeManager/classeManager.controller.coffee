@@ -43,7 +43,7 @@ angular.module('budweiserApp')
     createNewClasse: ->
       $modal.open
         templateUrl: 'app/admin/classeManager/newClasseModal.html'
-        controller: 'NewClasseCtrl'
+        controller: 'NewClasseModalCtrl'
         size: 'sm'
       .result.then (newClasse) ->
         $scope.classes.push(newClasse)

@@ -3,29 +3,51 @@
 angular.module('budweiserApp')
 
 .controller 'ClasseManagerDetailCtrl', (
+  Auth
   $scope
   $state
   notify
+  $modal
   fileUtils
   Restangular
-  CurrentUser
 ) ->
 
   angular.extend $scope,
 
-    saveClasse: (form) ->
+    editingClasseName: ''
+
+    saveClasseName: (form) ->
       if !form.$valid then return
-      $scope.selectedClasse.patch(name:$scope.selectedClasse.name).then (classe)->
-        angular.extend $scope.selectedClasse, classe
-        notify
-          message: """"#{classe.name}"信息已保存"""
-          classes: 'alert-success'
+      if $scope.editingClasseName != $scope.selectedClasse.name
+        $scope.selectedClasse.patch name:$scope.editingClasseName
+        .then (classe)->
+          angular.extend $scope.selectedClasse, classe
+          notify
+            message: """"#{classe.name}"信息已保存"""
+            classes: 'alert-success'
+
+    addNewStudent: ->
+      $modal.open
+        templateUrl: 'app/admin/classeManager/newUserModal.html'
+        controller: 'NewUserModalCtrl'
+        resolve:
+          userType: -> 'student'
+          orgUniqueName: -> Auth.getCurrentUser().orgId.uniqueName
+      .result.then (newStudent) ->
+        newStudents = _.union $scope.selectedClasse.students, [newStudent._id]
+        $scope.selectedClasse.patch students:newStudents
+        .then ->
+          $scope.loadStudents()
+          notify
+            message: '新学生添加成功'
+            classes: 'alert-success'
 
     loadStudents: ->
       $scope.selectedClasse?.all('students').getList().then (students) ->
         $scope.selectedClasse.$students = students
 
   $scope.selectedClasse = _.find($scope.classes, _id: $state.params.classeId)
+  $scope.editingClasseName = $scope.selectedClasse?.name
   $scope.loadStudents() if $scope.selectedClasse?._id
 
   #TODO refactor
@@ -41,7 +63,7 @@ angular.module('budweiserApp')
       success: (key)->
         Restangular.one('users').post 'bulk',
           key: key
-          orgId: CurrentUser.orgId
+          orgId: Auth.getCurrentUser().orgId
           type: 'student'
           classeId: $scope.selectedClasse._id
         .then ->

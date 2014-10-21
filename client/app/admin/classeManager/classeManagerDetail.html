@@ -1,13 +1,13 @@
 <div ng-show="selectedClasse"
      class="list-group form col-md-8 student-list-group">
   <form class="form list-group-item"
-        ng-submit="saveClasse(form)"
+        ng-submit="saveClasseName(form)"
         name="form"
         id="classe-name">
     <input class="form-control"
            name="name"
-           ng-model="selectedClasse.name"
-           ng-blur="saveClasse(form)"
+           ng-model="editingClasseName"
+           ng-blur="saveClasseName(form)"
            placeholder="请输入班级名称"
            required>
   </form>
@@ -18,16 +18,17 @@
            ng-model="searchStudent"
            placeholder="查找学生">
     <span class="btn-group pull-right">
-      <button class="btn btn-danger">
+      <button class="btn btn-danger btn-sm"
+              ng-click="addNewStudent()">
         添加
       </button>
-      <label class="btn btn-danger">
+      <label class="btn btn-danger btn-sm">
         <input type="file"
                style="display:none;"
                ng-file-select="onFileSelect($files)"/>
         批量导入
       </label>
-      <button class="btn btn-default">
+      <button class="btn btn-default btn-sm">
         删除
       </button>
     </span>

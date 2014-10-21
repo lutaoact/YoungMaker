@@ -4,6 +4,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
   Auth
   $http
   $modal
+  notify
   $scope
   $upload
   Restangular
@@ -11,7 +12,6 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
 
   editingKeys = [
     'name'
-    'logo'
     'type'
     'description'
     ]
@@ -21,6 +21,7 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
     organization: null
     editingInfo: null
     saving: false
+    saved: true
 
     orgTypes: [
       "小学"
@@ -32,8 +33,13 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
     ]
 
     onLogoUpload: (key) ->
-      $scope.editingInfo.logo = key
+      console.debug 'onUploaded', data
+      $scope.organization.logo = key
       Restangular.one('organizations', $scope.organization._id).patch logo: key
+      .then ->
+        notify
+          message: 'Logo 修改成功'
+          classes: 'alert-success'
 
     saveOrg: (form)->
       if !form.$valid then return

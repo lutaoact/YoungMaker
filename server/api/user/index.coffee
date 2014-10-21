@@ -7,8 +7,9 @@ auth = require '../../auth/auth.service'
 router = express.Router()
 
 router.get '/', auth.hasRole('admin'), controller.index
-router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.get '/me', auth.isAuthenticated(), controller.me
+router.delete '/:id', auth.hasRole('admin'), controller.destroy
+router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete
 router.post '/forgetpassword', controller.forget
 router.post '/resetpassword', controller.reset
 router.put '/:id/password', auth.isAuthenticated(), controller.changePassword

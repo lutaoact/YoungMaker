@@ -2,7 +2,7 @@
   <div class="col-md-4 list-group classe-list-group">
     <div class="list-group-item new-classe-item">
       <button class="btn btn-danger"
-              ui-sref="admin.classeManager.detail({classeId:'new'})">
+              ng-click="createNewClasse()">
         <i class="fa fa-plus pull-right"></i>
         新班级
       </button>
@@ -15,27 +15,30 @@
     <div class="list-group-item classe-info desc">
       <label>
         <input type="checkbox"
-               ng-model="selectedAllClasse"
-               ng-click="toggleSelectAll(selectedAllClasse)"
+               ng-model="toggledSelectAllClasses"
+               ng-change="toggleSelect(classes, toggledSelectAllClasses)"
                class="bud checkbox-default">
-        <span ng-if="!selectedAllClasse">全选</span>
-        <span ng-if="selectedAllClasse">取消全选</span>
+        <span ng-if="!toggledSelectAllClasses">全选</span>
+        <span ng-if="toggledSelectAllClasses">取消全选</span>
       </label>
-      <a class="btn btn-link"
-         ng-show="nSelectedClasse > 0">删除 ({{nSelectedClasse}})</a>
+      <span ng-show="selectedClasses.length > 0" class="pull-right">
+        <a class="btn btn-link"
+           ng-click="deleteClasses(selectedClasses)">删除 ({{selectedClasses.length}})</a>
+      </span>
     </div>
-    <div ng-repeat="classe in classesQ.$object | filter:{name:searchClasse} | orderBy:'name'"
-         class="list-group-item classe-info">
+    <div ng-repeat="classe in classes | filter:{name:searchClasse} | orderBy:'name'"
+         class="list-group-item classe-info"
+         ui-sref-active="active">
       <input type="checkbox"
              ng-model="classe.$selected"
-             ng-click="classe.$selected=!classe.$selected"
+             ng-change="toggleSelect([classe], classe.$selected)"
              class="bud checkbox-default">
-      <a ui-sref-active="active"
-         ui-sref="admin.classeManager.detail({classeId:classe._id})">
+      <a ui-sref="admin.classeManager.detail({classeId:classe._id})">
         <span class="classe-name">{{classe.name}}</span>
         <span class="badge">{{classe.students.length}}</span>
       </a>
     </div>
   </div>
-  <div ui-view class="col-md-8 student-list-group"></div>
+  <div ui-view></div>
+
 </div>

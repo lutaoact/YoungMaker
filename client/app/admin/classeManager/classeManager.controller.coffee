@@ -3,81 +3,62 @@
 angular.module('budweiserApp')
 
 .controller 'ClasseManagerCtrl', (
-  $scope
-  Restangular
-) ->
-
-  angular.extend $scope,
-    classesQ: Restangular.all('classes').getList()
-
-.controller 'ClasseManagerDetailCtrl', (
-  $scope
+  $q
+  $modal
   $state
+  $scope
   notify
-  fileUtils
+  Classes
   Restangular
-  CurrentUser
 ) ->
 
+  updateSelected = ->
+    $scope.selectedClasses =  _.filter(Classes, '$selected':true)
+
   angular.extend $scope,
-
+    $state: $state
+    toggledSelectAllClasses: false
     selectedClasse: null
+    selectedClasses: []
+    classes: Classes
 
-    saveClasse: (form) ->
-      if !form.$valid then return
-      classe = $scope.selectedClasse
-      if not classe._id
-        #create new classe
-        Restangular.all('classes').post(classe).then (newClasse)->
-          $scope.classesQ.$object.push(newClasse)
-          $state.go('admin.classeManager.detail', classeId:newClasse._id)
-      else
-        #update classe
-        classe.patch(name:classe.name).then (data)->
-          angular.extend $scope.selectedClasse, data
-
-    loadStudents: ->
-      $scope.selectedClasse.all('students').getList().then (students) ->
-        $scope.selectedClasse.$students = students
-
-    deleteClasse: (classe) ->
-      classe.remove().then ->
-        classes = $scope.classesQ.$object
-        index = _.indexOf(classes, classe)
-        classes.splice(index, 1)
-        $state.go('admin.classeManager')
-
-  $scope.classesQ.then ->
-    $scope.selectedClasse = _.find($scope.classesQ.$object, _id: $state.params.classeId) ? {}
-    $scope.loadStudents() if $scope.selectedClasse._id
-
-
-  #TODO refactor
-  $scope.isExcelProcessing = false
-
-  $scope.onFileSelect = (files)->
-    $scope.isExcelProcessing = true
-    fileUtils.uploadFile
-      files: files
-      validation:
-        max: 50 * 1024 * 1024
-        accept: 'excel'
-      success: (key)->
-        Restangular.one('users').post 'bulk',
-          key: key
-          orgId: CurrentUser.orgId
-          type: 'student'
-          classeId: $scope.selectedClasse._id
+    deleteClasses: (selectedClasses) ->
+      $modal.open
+        templateUrl: 'components/modal/messageModal.html'
+        controller: 'MessageModalCtrl'
+        resolve:
+          title: -> '删除班级'
+          message: ->
+            """确认要删除这#{selectedClasses.length}个班级？"""
+      .result.then ->
+        $scope.toggledSelectAllClasses = false if $scope.toggledSelectAllClasses
+        $scope.deleting = true
+        Restangular.all('classes').customPOST(ids: _.pluck(selectedClasses, '_id'), 'multiDelete')
         .then ->
-          $scope.loadStudents()
-          $scope.isExcelProcessing = false
-        , (error)->
-          console.log error
-          $scope.isExcelProcessing = false
-      fail: (error)->
+          $scope.deleting = false
+          angular.forEach selectedClasses, (c) ->
+            $scope.classes.splice($scope.classes.indexOf(c), 1)
+          $state.go('admin.classeManager') if $scope.classes.indexOf($scope.selectedClasse) == -1
+
+    createNewClasse: ->
+      $modal.open
+        templateUrl: 'app/admin/classeManager/newClasseModal.html'
+        controller: 'NewClasseModalCtrl'
+        size: 'sm'
+      .result.then (newClasse) ->
+        $scope.classes.push(newClasse)
+        $state.go('admin.classeManager.detail', classeId:newClasse._id)
         notify
-          message: error
-          classes: 'alert-danger'
-        $scope.isExcelProcessing = false
-      progress: ->
-        console.debug 'uploading...'
+          message: '新班级添加成功'
+          classes: 'alert-success'
+
+    toggleSelect: (classes, selected) ->
+      angular.forEach classes, (c) -> c.$selected = selected
+      updateSelected()
+
+  $scope.$watch 'classes.length', updateSelected
+
+  $scope.$on '$stateChangeSuccess', (event, toState) ->
+    if toState.name == 'admin.classeManager' && Classes.length > 0
+      $state.go('admin.classeManager.detail', classeId:Classes[0]._id)
+

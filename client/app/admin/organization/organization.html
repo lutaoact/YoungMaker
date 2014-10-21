@@ -6,7 +6,7 @@
 
     <div class="form-group text-center">
       <div class="org-logo"
-           src-key="editingInfo.logo"
+           src-key="organization.logo"
            source-attr="background-image"
            suffix="?imageView2/1/w/130/h/130">
       </div>
@@ -14,7 +14,7 @@
                 limit="2*1024*1024"
                 on-complete="onLogoUpload($data)"
                 accept-type="image">
-        上传 Logo
+        修改 Logo
       </uploader>
     </div>
 
@@ -62,16 +62,16 @@
     <div class="form-group text-center">
       <button type="submit"
               class="btn btn-danger rounded save-btn"
-              ng-disabled="saved"
+              ng-disabled="saved || saving"
               ng-click="saveOrg(form)">
-      <span ng-if="!saving">
-        <span ng-if="!saved">保存</span>
-        <span ng-if="saved">已保存</span>
-      </span>
-      <span ng-if="saving">
-        <i class="fa fa-spinner fa-spin"></i>
-        保存中
-      </span>
+        <span ng-if="!saving">
+          <span ng-if="!saved">保存</span>
+          <span ng-if="saved">已保存</span>
+        </span>
+        <span ng-if="saving">
+          <i class="fa fa-spinner fa-spin"></i>
+          保存中
+        </span>
       </button>
     </div>
 

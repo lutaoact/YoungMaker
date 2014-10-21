@@ -286,9 +286,10 @@ angular.module 'budweiserApp'
         keypointsMap = _.indexBy $scope.keypoints, '_id'
 
         $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
-        $scope.keypointBarChart.xAxis.categories = _.map results[2].stats, (item, index)->
-          keypointsMap[index]?.name
-        $scope.keypointBarChart.series[0].data = _.pluck results[2].stats, 'percent'
+        sortedStats = _.sortBy results[2].stats, (item) -> item.percent
+        $scope.keypointBarChart.xAxis.categories = _.map sortedStats, (item)->
+          keypointsMap[item.kpId]?.name
+        $scope.keypointBarChart.series[0].data = _.pluck sortedStats, 'percent'
 
         $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
         $scope.keypointBarChart.title.text = '知识点掌握程度统计'

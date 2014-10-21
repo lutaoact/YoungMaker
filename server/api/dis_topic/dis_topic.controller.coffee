@@ -11,8 +11,6 @@ exports.index = (req, res, next) ->
   courseId = req.query.courseId
   from = ~~req.query.from #from参数转为整数
 
-  logger.info user
-
   CourseUtils.getAuthedCourseById user, courseId
   .then (course) ->
     DisTopic.find

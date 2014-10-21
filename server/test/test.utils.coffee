@@ -1,13 +1,11 @@
 require '../common/init'
 
-Recommend = _u.getUtils 'recommend'
-Recommend.recommendQuestions [
-  kpId: '543905e08bfa93952219bcf7', level: 35
-,
-  kpId: '543906828bfa93952219bd18', level: 64
-,
-  kpId: '543906828bfa93952219bd18', level: 74
-]
+RecommendUtils = _u.getUtils 'recommend'
+StatsUtils = _u.getUtils 'stats'
+StatsUtils.computeUserAnswerStats '5438f983f26f910320e27f3b'
+.then (stats) ->
+  kpList = RecommendUtils.convertUserAnswerStats2kpList stats
+  RecommendUtils.recommendQuestions kpList
 .then (questionIds) ->
   console.log questionIds
 , (err) ->

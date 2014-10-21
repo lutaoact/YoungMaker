@@ -89,14 +89,14 @@ setupUserSchema = (UserSchema) ->
   .path 'email'
   .validate (email) ->
     email.length
-  , 'Email cannot be blank'
+  , '邮箱地址不能为空。'
 
   # Validate empty password
   UserSchema
   .path 'hashedPassword'
   .validate (hashedPassword) ->
     hashedPassword.length
-  , 'Password cannot be blank'
+  , '登录密码不能为空。'
 
   # Validate email is not taken
   UserSchema
@@ -107,12 +107,22 @@ setupUserSchema = (UserSchema) ->
       email: value
     , (err, user) ->
       throw err if err
-      if user
-        if self.id is user.id
-          return respond true
-        return respond false
-      return respond true
+      notTaken = !user or user.id == self.id
+      respond notTaken
   , '该邮箱地址已经被占用，请选择其他邮箱。'
+
+  # Validate username is not taken
+  UserSchema
+  .path 'username'
+  .validate (value, respond) ->
+    self = this
+    this.constructor.findOne
+      username: value
+    , (err, user) ->
+      throw err if err
+      notTaken = !user or user.id == self.id
+      respond notTaken
+  , '该用户名已经被占用，请选择其他用户名。'
 
   validatePresenceOf = (value) ->
     value && value.length

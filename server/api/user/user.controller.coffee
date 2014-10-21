@@ -132,7 +132,7 @@ exports.changePassword = (req, res, next) ->
   Get my info
 ###
 exports.me = (req, res, next) ->
-  userId = req.user._id
+  userId = req.user.id
   User.findOne
     _id: userId
     '-salt -hashedPassword'

@@ -43,12 +43,12 @@
                  placeholder="输入用户名">
           <div class="input-group-addon">_{{orgUniqueName}}</div>
         </div>
-      </div>
-      <div class="col-xs-8 col-xs-offset-3"
-           ng-show="user.username.length > 0">
-        <small class="text-muted">
-          您的用户名: {{user.username}}_{{orgUniqueName}}
-        </small>
+        <div ng-show="user.username.length > 0">
+          <small class="text-muted">
+            您的用户名: {{user.username}}_{{orgUniqueName}}
+            <div class="text-danger" ng-if="errors.username">{{ errors.username.message }}</div>
+          </small>
+        </div>
       </div>
     </div>
 
@@ -87,7 +87,7 @@
                placeholder="请输入邮箱"
                required
                ng-model="user.email">
-        <p class="text-danger" ng-if="errors.email">{{ errors.email.message }}</p>
+        <div class="text-danger" ng-if="errors.email"><small>{{ errors.email.message }}</small></div>
       </div>
     </div>
 

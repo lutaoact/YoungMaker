@@ -1,5 +1,5 @@
 <div ng-show="selectedClasse"
-     class="list-group form">
+     class="list-group form col-md-8 student-list-group">
   <form class="form list-group-item"
         ng-submit="saveClasse(form)"
         name="form"
@@ -8,10 +8,10 @@
            name="name"
            ng-model="selectedClasse.name"
            ng-blur="saveClasse(form)"
-           placeholder="班级名称"
+           placeholder="请输入班级名称"
            required>
   </form>
-  <div class="list-group-item">
+  <div ui-view class="list-group-item">
     <strong>学生列表</strong>
     <span class="liner"></span>
     <input class="form-control search-input"
@@ -35,29 +35,26 @@
     <hr/>
 
     <div class="student-info header">
-      <label class="name">
-        <input type="checkbox"
-               ng-model="selectedAllStudent"
-               ng-change="toggleSelectAll(selectedAllStudent)"
-               class="bud checkbox-default">
-        姓名
-      </label>
+      <input type="checkbox"
+             ng-model="selectedAllStudent"
+             ng-change="toggleSelectAll(selectedAllStudent)"
+             class="bud checkbox-default">
+      <span class="name">姓名</span>
       <span class="username">学号</span>
       <span class="email">邮箱</span>
-      <span class="pull-right">
-        账户状态
-      </span>
+    <span class="pull-right">
+      账户状态
+    </span>
     </div>
     <div ng-repeat="student in selectedClasse.$students | filter:searchStudent"
          class="student-info">
-      <label class="name">
-        <input type="checkbox"
-               ng-click="student.$selected = !student.$selected"
-               class="bud checkbox-default">
-        {{student.name}}
-      </label>
-      <span class="username">{{student.username}}</span>
-      <span class="email">{{student.email}}</span>
+      <input type="checkbox"
+             ng-click="student.$selected = !student.$selected"
+             class="bud checkbox-default">
+      <a ui-sref="admin.classeManager.detail.student({classeId:selectedClasse._id, studentId:student._id})">
+        <span class="name">{{student.name}}</span>
+        <span class="username">{{student.username}}</span>
+        <span class="email">{{student.email}}</span>
       <span class="pull-right">
         <span class="status">{{student.status||'活跃'}}</span>
         <button ng-click="delete(student)"
@@ -65,7 +62,7 @@
           <i class="glyphicon glyphicon-trash"></i>
         </button>
       </span>
+      </a>
     </div>
   </div>
-
 </div>

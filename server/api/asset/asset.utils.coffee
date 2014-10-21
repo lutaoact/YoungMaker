@@ -81,7 +81,7 @@ exports.AssetUtils = BaseUtils.subclass
     lock = redislock.createLock redisClient, {timeout: 20000, retries: 3, delay: 100}
     lock.acquire assetId
     .then ()->
-      logger.info "lock: "+ assetId + " acquired!"
+      logger.info "acquired lock: "+ assetId
       getMediaService(auth)
     .then (azureMediaService)->
       api = azureMediaService
@@ -98,16 +98,15 @@ exports.AssetUtils = BaseUtils.subclass
       redisClient.q.set key, downloadUrl, 'EX', (config.azure.signed_url_expires*60-60*60)
     .then () ->
       logger.info "Set #{key}:#{downloadUrl} to redis"
-      lock.release()
-    .done () ->
-      logger.info "lock: #{assetId} released"
       logger.info downloadUrl
       res.redirect downloadUrl
+    .finally ()->
+      lock.release()
+      logger.info "released lock: #{assetId}"
+    .done null
     , (err) ->
       logger.error err
-      lock.release()
       res.send 404, err
-
 
   genQiniuUpParams : (assetType, fileName) ->
     qiniuBucketName = config.assetsConfig[assetType].bucket_name

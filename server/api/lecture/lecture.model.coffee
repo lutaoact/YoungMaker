@@ -14,6 +14,13 @@ exports.Lecture = BaseModel.subclass
         required: true
       thumbnail: String
       info: String
+      files: [
+        fileName: String
+        fileContent: [
+          thumb: String
+          raw: String
+        ]
+      ]
       slides: [
         thumb: String
         raw: String

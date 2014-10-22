@@ -3,7 +3,7 @@ require '../server/common/init'
 
 xlsx = require 'node-xlsx'
 fs = require 'fs'
-obj =  xlsx.parse './xqsh.xls'
+obj =  xlsx.parse "#{__dirname}/xqsh.xls"
 datas = obj.worksheets[0].data[2..]
 #datas = require './testData.coffee'
 #console.log datas

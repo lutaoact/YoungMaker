@@ -1,4 +1,5 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<div ng-include="'components/navbar/navbar.html'"
+     ng-if="!webview"></div>
 
 <div class="admin-menu-bar">
   <div class="container admin-menu">
@@ -20,4 +21,4 @@
   </div>
 </div>
 
-<div ng-include="'components/footer/footer.html'"></div>
+<div ng-if="!webview" ng-include="'components/footer/footer.html'"></div>

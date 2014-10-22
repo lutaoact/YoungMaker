@@ -1,6 +1,12 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'SignupCtrl', ($scope, Auth, $location) ->
+angular.module('budweiserApp').controller 'SignupCtrl', (
+  Auth
+  $scope
+  webview
+  $location
+) ->
+  $scope.webview = webview
   $scope.user = {}
   $scope.errors = {}
   $scope.register = (form) ->

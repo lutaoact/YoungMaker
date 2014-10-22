@@ -81,11 +81,45 @@
       }
     }
     padding-top: 0;
-    .container{
+    .title-keypoints{
+      background: #FFF;
+      position: relative;
       .box-shadow(0 0 2px @gray-light);
       border-top: none;
       border-radius: 0 0 4px 4px;
+      padding-bottom: 7px;
+      z-index: 10;
+      .anchor.anchor-down{
+        .box-shadow(none);
+        bottom: -15px;
+        border-top: 2px solid @gray-lighter;
+      }
+    }
+    .after-title-keypoints{
+      position: relative;
+      border-top: 10px solid @gray;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      z-index: 8;
+    }
+    .desc-container{
+      z-index: 9;
+      position: relative;
+      margin-top: -11px;
       margin-bottom: 30px;
+      .content{
+        overflow: hidden;
+        .lecture-info{
+          margin: 30px;
+        }
+        height: 22px;
+        background: #FFF;
+        border: 1px solid @gray-lighter;
+        &.expanded{
+          min-height: 22px;
+          height: auto;
+        }
+      }
     }
     .key-points{
       .indicator{

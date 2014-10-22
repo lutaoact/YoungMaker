@@ -90,11 +90,21 @@
 
   <div class="question-panel container" ng-show="offlineWorksShown">
     <form class="offline-homework clearfix" role="form" ng-submit="submitOfflineWork(offlineWork)">
-      <div class="form-group">
-        <text-angular id="inputDesc" class="bud" ng-model="offlineWork.desc"></text-angular>
+      <div class="form-group file-drop-box clearfix">
+        <uploader limit="500*1024*1024"
+                  multiple="true"
+                  on-complete="onFilesUploaded($data,$meta)"
+                  on-begin="onFilesUploadStart($files)"
+                  on-progress="onFilesUploading($speed, $percentage, $event)"
+                  on-error="onError($error)"
+                  ng-if="!offlineWork.submitted"
+                  class="btn btn-danger pull-right">
+          <i class="fa fa-paperclip"></i>
+          添加附件
+        </uploader>
       </div>
       <div class="form-group clearfix">
-        <div class="file col-md-6" ng-repeat="file in offlineWork.files">
+        <div class="file col-md-12" ng-repeat="file in offlineWork.files">
           <div ng-if="!file.url">
             <progressbar class="active upload-progressbar" value="file.$progress" type="info">
               类型:{{file.name.split('.').pop()}}{{file.name}}:{{file.size}}
@@ -107,19 +117,12 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label for="descInput">留言</label>
+        <textarea id="descInput" class="form-control" ng-model="offlineWork.desc"></textarea>
+      </div>
       <div class="form-group pull-right">
-        <uploader limit="500*1024*1024"
-                  multiple="true"
-                  on-complete="onFilesUploaded($data,$meta)"
-                  on-begin="onFilesUploadStart($files)"
-                  on-progress="onFilesUploading($speed, $percentage, $event)"
-                  on-error="onError($error)"
-                  ng-if="!offlineWork.submitted"
-                  class="btn btn-danger">
-          <i class="fa fa-paperclip"></i>
-          添加附件
-        </uploader>
-        <button type="submit" class="btn btn-primary" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
+        <button type="submit" class="btn btn-danger" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
       </div>
     </form>
   </div>

@@ -56,25 +56,24 @@ exports.create = (req, res, next) ->
   , next
 
 exports.update = (req, res, next) ->
+  body = req.body
+
+  data =
+    files: body.files,
+    desc: body.desc,
+    submitted: body.submitted
 
   OfflineWork.findOneQ
     _id : req.params.id
   .then (offlineWork) ->
-    if offlineWork.submitted is true and req.user.role isnt 'teacher'
-      # only teacher can update
+    if offlineWork.submitted is true
       Q.reject
         status : 403
         errCode : ErrCode.ForbiddenRole
         errMsg : '学生不能修改已提交的作业'
-    else
-      if offlineWork.userId.toString() isnt req.user.id and offlineWork.teacherId.toString() isnt req.user.id
-        Q.reject
-          status : 403
-          errCode : ErrCode.ForbiddenRole
-          errMsg : '没有权限修改该作业'
-      else
-        updated = _.extend offlineWork, req.body
-        do updated.saveQ
+
+    updated = _.extend offlineWork, data
+    do updated.saveQ
   .then (result) ->
     newValue = result[0]
     res.send newValue
@@ -104,7 +103,6 @@ exports.giveScore = (req, res, next) ->
     newValue = result[0]
     res.send newValue
   , next
-
 
 
 exports.destroy = (req, res, next) ->

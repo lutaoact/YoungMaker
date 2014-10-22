@@ -60,7 +60,7 @@ exports.update = (req, res, next) ->
   OfflineWork.findOneQ
     _id : req.params.id
   .then (offlineWork) ->
-    if offlineWork.submitted and req.user.role isnt 'teacher'
+    if offlineWork.submitted is true and req.user.role isnt 'teacher'
       # only teacher can update
       Q.reject
         status : 403
@@ -79,6 +79,33 @@ exports.update = (req, res, next) ->
     newValue = result[0]
     res.send newValue
   , next
+
+exports.giveScore = (req, res, next) ->
+  offlineWorkId = req.params.id
+  user = req.user
+
+  OfflineWork.findByIdQ offlineWorkId
+  .then (offlineWork) ->
+    if offlineWork.checked is true
+      return Q.reject(
+        status : 403
+        errCode : ErrCode.GiveScore
+        errMsg : '作业已批改，操作不可重复进行'
+      )
+
+    #更新老师批改作业的相应字段
+    offlineWork.teacherId = user._id
+    offlineWork.score    = req.body.score
+    offlineWork.feedback = req.body.feedback
+    offlineWork.checked = true
+
+    do offlineWork.saveQ
+  .then (result) ->
+    newValue = result[0]
+    res.send newValue
+  , next
+
+
 
 exports.destroy = (req, res, next) ->
   OfflineWork.removeQ _id: req.params.id

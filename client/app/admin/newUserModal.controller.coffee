@@ -3,7 +3,7 @@
 angular.module('budweiserApp').controller 'NewUserModalCtrl', (
   $scope
   notify
-  userType
+  userRole
   Restangular
   orgUniqueName
   $modalInstance
@@ -15,15 +15,15 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     orgUniqueName: orgUniqueName
 
     user:
-      type: userType
+      role: userRole
       username: ''
 
     title:
-      switch userType
+      switch userRole
         when 'student' then '添加新学生'
         when 'teacher' then '添加新老师'
         when 'admin'   then '添加新管理员'
-        else throw "unknown usertype #{userType}"
+        else throw "unknown user.role #{userRole}"
 
     cancel: ->
       $modalInstance.dismiss('cancel')

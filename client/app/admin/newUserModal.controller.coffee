@@ -21,8 +21,8 @@ angular.module('budweiserApp').controller 'NewUserModalCtrl', (
     title:
       switch userType
         when 'student' then '添加新学生'
-        when 'teacher' then '创建新老师'
-        when 'admin'   then '创建新管理员'
+        when 'teacher' then '添加新老师'
+        when 'admin'   then '添加新管理员'
         else throw "unknown usertype #{userType}"
 
     cancel: ->

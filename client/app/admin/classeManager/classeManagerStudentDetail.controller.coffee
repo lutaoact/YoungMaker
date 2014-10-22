@@ -38,7 +38,7 @@ angular.module('budweiserApp')
       $scope.student.patch($scope.editingInfo).then ->
         angular.extend $scope.student, $scope.editingInfo
         $scope.saving = false
-        $scope.loadStudents()
+        $scope.reloadStudents()
         notify
           message: '基本信息已保存'
           classes: 'alert-success'
@@ -58,7 +58,7 @@ angular.module('budweiserApp')
             message: '该学生已被删除'
             classes: 'alert-success'
           $state.go('admin.classeManager.detail', classeId:$state.params.classeId)
-          $scope.loadStudents()
+          $scope.reloadStudents()
 
   Restangular.one('users', $state.params.studentId).get()
   .then (student) ->

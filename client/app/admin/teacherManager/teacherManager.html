@@ -1,24 +1,11 @@
-<div class="admin-ui-view col-md-12">
-  <div class="form-group clearfix">
-    <div class="btn-group btn-group-sm pull-right">
-      <a class="btn btn-default" ng-click="addNewTeacher()">添加</a>
-      <label class="btn btn-default" ng-show="!isExcelProcessing">
-        <input type="file" style="display:none;" ng-file-select="onFileSelect($files)"/>
-        导入
-      </label>
-      <label class="btn btn-default disabled" ng-show="isExcelProcessing">
-        <i class="fa fa-spinner fa-spin"></i>导入中
-      </label>
-    </div>
-  </div>
+<div class="admin-ui-view teacher-manager">
 
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="teacher in teachers">
-      <strong>{{teacher.name}}&nbsp;|&nbsp;{{teacher.username}}</strong><br>
-      <span class="text-muted">{{teacher.email}}</span>
-      <div class="pull-right">
-        <a ng-click="deleteTeacher(teacher)" class="trash close"><span class="glyphicon glyphicon-trash"></span></a>
-      </div>
-    </li>
-  </ul>
+  <div ui-view
+       manage-users-list
+       on-create-user="reloadTeachers()"
+       on-delete-user="reloadTeachers()"
+       on-view-user="viewTeacher($user)"
+       user-role="teacher"
+       users="teachers"></div>
+
 </div>

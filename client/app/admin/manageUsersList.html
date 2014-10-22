@@ -1,0 +1,61 @@
+<div class="fadeIn list-group-item manage-users-list">
+  <strong>{{roleTitle}}列表</strong>
+  <span class="liner"></span>
+  <input class="form-control search-input"
+         ng-model="searchUser"
+         placeholder="查找{{roleTitle}}">
+    <span class="pull-right">
+      <button class="btn btn-danger btn-sm rounded"
+              ng-click="addNewUser()">
+        添加
+      </button>
+      <label class="btn btn-danger btn-sm rounded">
+        <input type="file"
+               style="display:none;"
+               ng-file-select="onFileSelect($files)"/>
+        批量导入
+      </label>
+      <button class="btn btn-default btn-sm rounded"
+              ng-click="deleteUsers(selectedUsers)"
+              ng-disabled="selectedUsers.length == 0 || deleting">
+        <span ng-if="!deleting">
+          删除
+        </span>
+        <span ng-if="deleting">
+          <i class="fa fa-spinner fa-spin"></i>
+          删除中
+        </span>
+        <span ng-if="selectedUsers.length > 0">({{selectedUsers.length}})</span>
+      </button>
+    </span>
+
+  <hr/>
+
+  <div class="user-info header">
+    <input type="checkbox"
+           ng-model="toggleSelectAllUsers"
+           ng-change="toggleSelect(users, toggleSelectAllUsers)"
+           class="bud checkbox-default">
+    <span class="name">姓名</span>
+    <span class="username">用户名</span>
+    <span class="email">邮箱</span>
+    <span class="pull-right">
+      账户状态
+    </span>
+  </div>
+  <div ng-repeat="user in users | filter:searchUser"
+       class="user-info">
+    <input type="checkbox"
+           ng-model="user.$selected"
+           ng-change="toggleSelect([user], user.$selected)"
+           class="bud checkbox-default">
+    <a ng-click="showDetail(user)">
+      <span class="name">{{user.name}}</span>
+      <span class="username">{{user.username}}</span>
+      <span class="email">{{user.email}}</span>
+      <span class="pull-right">
+        <span class="status">{{user.status||'活跃'}}</span>
+      </span>
+    </a>
+  </div>
+</div>

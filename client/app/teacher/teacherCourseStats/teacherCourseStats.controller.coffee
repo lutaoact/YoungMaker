@@ -19,35 +19,18 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   angular.extend $scope,
     course: course
     classes: course.classes
-    allStudentsDict: undefined
-    allStudentsArray: []
     viewState: {}
-
-    toggleClasse: (classe)->
-      if @viewState.expandClasse == classe
-        @viewState.expandClasse = undefined
-      else
-        @viewState.expandClasse = classe
-
-    loadStudents: ->
-      $q.all($scope.classes.map (classe)->
-        Restangular.all("classes/#{classe._id}/students").getList()
-        .then (students)->
-          $scope.allStudentsArray = $scope.allStudentsArray.concat students
-          students.forEach (student)->
-            student.$classeInfo =
-              name: classe.name
-              yearGrade: classe.yearGrade
-          classe.$students = students
-      ).then ->
-        $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
 
     triggerResize: ()->
       # trigger to let the chart resize
       $timeout ->
         angular.element($window).resize()
 
-  $scope.loadStudents()
+    viewStudentStats: (student)->
+      console.log 'viewStudentStats'
+      $state.go 'teacher.courseStats.student',
+        courseId: $scope.course._id
+        studentId: student._id or student
 
 .controller 'TeacherCourseStatsMainCtrl', (
   $scope
@@ -63,11 +46,6 @@ angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
   $state
   chartUtils
 ) ->
-
-  $scope.$watch 'allStudentsDict', (value)->
-    if value
-      $scope.viewState.student = value[$state.params.studentId]
-      $scope.student = value[$state.params.studentId]
 
   chartUtils.genStatsOnScope $scope, $state.params.courseId, $state.params.studentId
 

@@ -9,10 +9,8 @@ exports.index = (req, res, next) ->
 
   (switch user.role
     when 'teacher'
-      OfflineWork.find
+      OfflineWork.findQ
         lectureId : lectureId
-      .populate 'userId', 'name, email'
-      .execQ()
     when 'student'
       OfflineWork.findQ
         lectureId : lectureId
@@ -58,22 +56,25 @@ exports.create = (req, res, next) ->
   , next
 
 exports.update = (req, res, next) ->
-  userId = req.user.id
 
   OfflineWork.findOneQ
     _id : req.params.id
-    userId : req.user.id
   .then (offlineWork) ->
     if offlineWork.submitted and req.user.role isnt 'teacher'
       # only teacher can update
-      console.log 'role is forbidden to do this action'
       Q.reject
         status : 403
         errCode : ErrCode.ForbiddenRole
-        errMsg : 'role is forbidden to do this action'
+        errMsg : '学生不能修改已提交的作业'
     else
-      updated = _.extend offlineWork, req.body
-      do updated.saveQ
+      if offlineWork.userId.toString() isnt req.user.id and offlineWork.teacherId.toString() isnt req.user.id
+        Q.reject
+          status : 403
+          errCode : ErrCode.ForbiddenRole
+          errMsg : '没有权限修改该作业'
+      else
+        updated = _.extend offlineWork, req.body
+        do updated.saveQ
   .then (result) ->
     newValue = result[0]
     res.send newValue

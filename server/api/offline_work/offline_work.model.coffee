@@ -29,5 +29,6 @@ exports.OfflineWork = BaseModel.subclass
       score: Number
       feedback: String
       submitted: Boolean
+      checked: Boolean
 
     $super()

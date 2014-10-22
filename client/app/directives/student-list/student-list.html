@@ -1,0 +1,33 @@
+<div class="student-list">
+  <div class="student-search-bar">
+    <div class="bud input-group search">
+      <div class="input-group-addon"><i class="fa fa-search"></i></div>
+      <input class="form-control" type="text" ng-model="viewState.query" placeholder="搜索学生姓名">
+    </div>
+  </div>
+
+  <div ng-repeat="classe in classes" class="classe">
+    <div ng-click="toggleClasse(classe)" class="classe-header">
+      <i class="fa base-color" ng-class="{'fa-caret-down': viewState.expandClasse == classe,'fa-caret-right':viewState.expandClasse != classe}"></i>
+      {{classe.yearGrade + ' ' + classe.name}}
+    </div>
+    <!-- 人数 -->
+    <div class="students" ng-show="viewState.expandClasse == classe">
+      <div ng-repeat="student in classe.$students | filter: {'name':viewState.query}"
+        class="student clearfix"
+        ng-click="selectStudent(student)"
+        ng-class="{'active':selectedStudent == student}">
+        <div class="avatar-xs pull-left"
+          src-key="student.avatar"
+          suffix="?imageView2/1/w/64/h/64"
+          source-attr="background-image">
+        </div>
+        <div class="student-name pull-left">
+          {{student.name||student}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

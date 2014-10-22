@@ -47,6 +47,7 @@ angular.module 'budweiserApp'
         gridLineDashStyle: 'longdash'
       title:
         text: '折线图'
+      loading: true
 
     # Pie Chart template
     pieChart:
@@ -86,6 +87,9 @@ angular.module 'budweiserApp'
         verticalAlign: 'bottom'
         style:
           fontSize: '12px'
+        text: ''
+
+      loading: true
 
     questionChart:
       options:
@@ -190,13 +194,20 @@ angular.module 'budweiserApp'
       ]
       title:
         text: ''
+      loading: true
 
   genStatsOnScope: ($scope, courseId, studentId)->
+    $scope.quizStats = angular.copy(chartConfigs.pieChart)
+    $scope.keypointStats = angular.copy(chartConfigs.pieChart)
+    $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
+    $scope.quizTrendChart = angular.copy chartConfigs.trendChart
+    $scope.homeworkTrendChart = angular.copy chartConfigs.trendChart
+    $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
+
     loadQuizStats = ()->
       Restangular.one('quiz_stats','').get({courseId:courseId, studentId:studentId})
       .then (result)->
         result.$text = '随堂问题'
-        $scope.quizStats = angular.copy(chartConfigs.pieChart)
         $scope.quizStats.series[0].data = [
           {
             name:'正确'
@@ -209,13 +220,13 @@ angular.module 'budweiserApp'
             color: '#ebebeb'
           }]
         $scope.quizStats.title.text = '随堂问题正确率'
+        $scope.quizStats.loading = false
         result
 
     loadHomeworkStats = ()->
       Restangular.one('homework_stats','').get({courseId:courseId, studentId:studentId})
       .then (result)->
         result.$text = '课后习题'
-        $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
         $scope.homeworkStats.series[0].data = [
           {
             name:'正确'
@@ -228,13 +239,13 @@ angular.module 'budweiserApp'
             color: '#ebebeb'
           }]
         $scope.homeworkStats.title.text = '课后习题正确率'
+        $scope.homeworkStats.loading = false
         result
 
     loadKeypointStats = ()->
       Restangular.one('keypoint_stats','').get({courseId:courseId, studentId:studentId})
       .then (result)->
         result.$text = '知识点掌握程度'
-        $scope.keypointStats = angular.copy chartConfigs.pieChart
         $scope.keypointStats.series[0].data = [
           {
             name:'掌握'
@@ -248,6 +259,7 @@ angular.module 'budweiserApp'
           }
         ]
         $scope.keypointStats.title.text = '知识点掌握程度'
+        $scope.keypointStats.loading = false
         result
       , (err)->
         console.log err
@@ -265,27 +277,25 @@ angular.module 'budweiserApp'
       .then (results)->
         # fill the trend chart
 
-        $scope.quizTrendChart = angular.copy chartConfigs.trendChart
-        console.log $scope.quizTrendChart.xAxis.categories
         $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
           data: results[3].map (lecture)->
             [
               lecture.name
               stats[lecture._id]?.percent ? 0
             ]
+        $scope.quizTrendChart.loading = false
 
-        $scope.homeworkTrendChart = angular.copy chartConfigs.trendChart
         $scope.homeworkTrendChart.series = results.slice(1,2).map (stats, index)->
           data: results[3].map (lecture)->
             [
               lecture.name
               stats[lecture._id]?.percent ? 0
             ]
+        $scope.homeworkTrendChart.loading = false
 
         # fill the key points
         keypointsMap = _.indexBy $scope.keypoints, '_id'
 
-        $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
         sortedStats = _.sortBy results[2].stats, (item) -> item.percent
         $scope.keypointBarChart.xAxis.categories = _.map sortedStats, (item)->
           keypointsMap[item.kpId]?.name
@@ -293,6 +303,7 @@ angular.module 'budweiserApp'
 
         $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
         $scope.keypointBarChart.title.text = '知识点掌握程度统计'
+        $scope.keypointBarChart.loading = false
 
     loadStats()
 

@@ -1,7 +1,13 @@
 <div ng-include="'components/navbar/navbar.html'"
+     ng-if="!webview"
      ng-hide="$state.includes('teacher.teaching')"></div>
 
-<div ui-view class="fadeIn margin-top teacher"></div>
+<div ui-view
+     class="fadeIn teacher"
+     ng-class="{'margin-top': !webview}">
+
+</div>
 
 <div ng-include="'components/footer/footer.html'"
+     ng-if="!webview"
      ng-hide="$state.includes('teacher.teaching')"></div>

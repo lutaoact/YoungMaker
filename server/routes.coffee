@@ -75,12 +75,17 @@ module.exports = (app) ->
           # failed to verify token, return index.html
           res.sendfile app.get('appPath') + '/index.html'
         else
-          fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
           userInfo = """
              ("indexUser" , {
                  "_id": "#{user._id}",
                  "role": "#{user.role}"
              })
           """
-          fileString = fileString.replace "('indexUser', null)", userInfo
+          webviewInfo = """
+            ("webview", #{req.query.webview?})
+          """
+          fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
+          fileString = fileString
+            .replace "('indexUser', null)", userInfo
+            .replace "('webview', false)", webviewInfo
           res.send fileString

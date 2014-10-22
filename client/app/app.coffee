@@ -152,8 +152,12 @@ angular.module 'budweiserApp', [
   $rootScope
   socketHandler
   loginRedirector
+  webview
   Page
 ) ->
+
+  console.debug 'webview', webview
+
   $rootScope.Page = Page
 
   #set the default configuration options for angular-notify

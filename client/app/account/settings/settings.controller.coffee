@@ -1,7 +1,13 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'SettingsCtrl', ($scope, $location, Restangular) ->
+angular.module('budweiserApp').controller 'SettingsCtrl', (
+  $scope
+  webview
+  $location
+  Restangular
+) ->
   angular.extend $scope,
+    webview: webview
     menu: [
       {
         title: '基本信息'

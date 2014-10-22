@@ -1,10 +1,12 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'AdminCtrl', (
- $scope
+  $scope
+  webview
 ) ->
 
   angular.extend $scope,
+    webview: webview
     menus: [
      stateName:'admin.home'
      label: '机构管理'

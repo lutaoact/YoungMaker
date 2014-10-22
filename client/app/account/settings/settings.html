@@ -1,6 +1,8 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<div ng-include="'components/navbar/navbar.html'"
+     ng-if="!webview"></div>
 
-<div class="container settings margin-top padding-top-20">
+<div class="container settings padding-top-20"
+     ng-class="{'margin-top':!webview}">
 
   <ul class="col-sm-12 nav navbar-nav navbar-default visible-sm visible-xs ">
     <li>
@@ -39,3 +41,6 @@
 </div>
 
 </div>
+
+<div ng-if="!webview"
+     ng-include="'components/footer/footer.html'"></div>

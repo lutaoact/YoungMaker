@@ -51,7 +51,7 @@ angular.module('budweiserApp')
       .result.then (newUser) ->
         done = ->
           notify
-            message: '新学生添加成功'
+            message: "新#{$scope.roleTitle}添加成功"
             classes: 'alert-success'
           $scope.onCreateUser?($data:newUser)
 
@@ -74,9 +74,9 @@ angular.module('budweiserApp')
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
         resolve:
-          title: -> '删除学生'
+          title: -> "删除#{$scope.roleTitle}"
           message: ->
-            """确认要删除这#{users.length}个学生？"""
+            """确认要删除这#{users.length}个#{$scope.roleTitle}？"""
       .result.then ->
         $scope.toggledSelectAllUsers = false if $scope.toggledSelectAllUsers
         $scope.deleting = true

@@ -1,7 +1,6 @@
-<div class="admin-ui-view teacher-manager">
+<div ui-view class="teacher-manager">
 
-  <div ui-view
-       manage-users-list
+  <div manage-users-list
        on-create-user="reloadTeachers()"
        on-delete-user="reloadTeachers()"
        on-view-user="viewTeacher($user)"

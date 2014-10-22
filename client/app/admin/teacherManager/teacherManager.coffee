@@ -8,3 +8,8 @@ angular.module('budweiserApp').config ($stateProvider) ->
     controller: 'TeacherManagerCtrl'
     authenticate: true
 
+  .state 'admin.teacherManager.detail',
+    url: '/:teacherId'
+    templateUrl: 'app/admin/teacherManager/teacherManagerDetail.html'
+    controller: 'TeacherManagerDetailCtrl'
+    authenticate: true

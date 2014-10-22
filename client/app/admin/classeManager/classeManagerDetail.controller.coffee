@@ -36,10 +36,10 @@ angular.module('budweiserApp')
 
     addNewStudent: ->
       $modal.open
-        templateUrl: 'app/admin/classeManager/newUserModal.html'
+        templateUrl: 'app/admin/newUserModal.html'
         controller: 'NewUserModalCtrl'
         resolve:
-          userType: -> 'student'
+          userRole: -> 'student'
           orgUniqueName: -> Auth.getCurrentUser().orgId.uniqueName
       .result.then (newStudent) ->
         newStudents = _.union $scope.selectedClasse.students, [newStudent._id]
@@ -86,7 +86,6 @@ angular.module('budweiserApp')
 
   #TODO refactor
   $scope.isExcelProcessing = false
-
   $scope.onFileSelect = (files)->
     $scope.isExcelProcessing = true
     fileUtils.uploadFile
@@ -95,11 +94,11 @@ angular.module('budweiserApp')
         max: 50 * 1024 * 1024
         accept: 'excel'
       success: (key)->
-        Restangular.one('users').post 'bulk',
+        Restangular.all('users').customPOST
           key: key
-          orgId: Auth.getCurrentUser().orgId
           type: 'student'
           classeId: $scope.selectedClasse._id
+        , 'bulk'
         .then ->
           $scope.loadStudents()
           $scope.isExcelProcessing = false

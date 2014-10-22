@@ -12,50 +12,12 @@
     </div>
   </div>
 
-  <div class="row" ng-show="newTeacher">
-    <form class="form-horizontal col-sm-8 col-sm-offset-2" role="form" ng-submit="saveNewTeacher(newTeacher)">
-      <div class="form-group">
-        <label for="inputUserName" class="col-xs-4 control-label">用户名</label>
-        <div class="col-xs-8">
-          <input type="text" class="form-control" id="inputUserName" placeholder="请输入教师用户名" required
-                 focus-me="userNameInputFocus"
-                 ng-init="userNameInputFocus=true"
-                 ng-model="newTeacher.username">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputName" class="col-xs-4 control-label">姓名</label>
-        <div class="col-xs-8">
-          <input type="text" class="form-control" id="inputName" placeholder="请输入姓名" required
-                 ng-model="newTeacher.name">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputEmail" class="col-xs-4 control-label">邮箱</label>
-        <div class="col-xs-8">
-          <input type="email" class="form-control" id="inputEmail" placeholder="请输入邮箱" required ng-model="newTeacher.email">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputInfo" class="col-xs-4 control-label">信息</label>
-        <div class="col-xs-8">
-          <input type="text" class="form-control" id="inputInfo" placeholder="请输入信息" required
-                 ng-model="newTeacher.info">
-        </div>
-      </div>
-      <div class="form-group pull-right">
-        <button type="submit" class="btn btn-danger btn-sm rounded" >创建</button>
-        <a class="btn btn-link" ng-click="cancelNewTeacher()">取消</a>
-      </div>
-    </form>
-  </div>
-  
   <ul class="list-group">
-    <li class="list-group-item" ng-repeat="user in users|filter:{role:'teacher'}">
-      <strong>{{user.name}}&nbsp;|&nbsp;{{user.username}}</strong><br>
-      <span class="text-muted">{{user.email}}</span>
+    <li class="list-group-item" ng-repeat="teacher in teachers">
+      <strong>{{teacher.name}}&nbsp;|&nbsp;{{teacher.username}}</strong><br>
+      <span class="text-muted">{{teacher.email}}</span>
       <div class="pull-right">
-        <a ng-click="delete(user)" class="trash close"><span class="glyphicon glyphicon-trash"></span></a>
+        <a ng-click="deleteTeacher(teacher)" class="trash close"><span class="glyphicon glyphicon-trash"></span></a>
       </div>
     </li>
   </ul>

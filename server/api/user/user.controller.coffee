@@ -24,10 +24,11 @@ qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].dom
   restriction: 'admin'
 ###
 exports.index = (req, res, next) ->
-  
-  User.findQ 
+  condition =
     orgId : req.user.orgId
-  , '-salt -hashedPassword'
+  condition.role = req.query.role if req.query.role?
+
+  User.findQ condition, '-salt -hashedPassword'
   .then (users) ->
     res.send users
   , next
@@ -180,8 +181,8 @@ updateClasseStudents = (res, next, classeId, studentList, importReport) ->
 ###
 exports.bulkImport = (req, res, next) ->
   console.log 'start importing...'
+  orgId = req.user.orgId
   resourceKey = req.body.key
-  orgId = req.body.orgId
   type = req.body.type
   classeId = req.body.classeId
 

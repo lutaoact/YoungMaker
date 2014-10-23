@@ -1,21 +1,21 @@
 <div>
   <div class="modal-header modal-header-black">
     <h4 class="modal-title">
-      添加新班级
+      添加新{{itemTitle}}
       <a class="close" ng-click="cancel()">&times;</a>
     </h4>
   </div>
-  <form class="form-horizontal new-classe-form"
+  <form class="form-horizontal new-item-form"
         name="form">
     <div class="form-group">
-      <label class="control-label col-sm-3">班级名</label>
+      <label class="control-label col-sm-3">{{itemTitle}}名</label>
       <div class="col-sm-8">
         <input class="form-control"
-               id="classe-name"
+               id="item-name"
                ng-init="nameInputFocus=true"
                focus-me="nameInputFocus"
-               placeholder="请输入班级名称"
-               ng-model="classe.name"
+               placeholder="请输入{{itemTitle}}名称"
+               ng-model="item.name"
                required>
       </div>
     </div>
@@ -24,7 +24,7 @@
       <button type="submit"
               id="confirm-btn"
               class="btn btn-danger"
-              ng-click="confirm(form)">确认添加新班级</button>
+              ng-click="confirm(form)">确认添加新{{itemTitle}}</button>
     </div>
 
   </form>

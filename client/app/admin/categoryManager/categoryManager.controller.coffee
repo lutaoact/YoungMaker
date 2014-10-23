@@ -1,6 +1,8 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'CategoryManagerCtrl', (
+angular.module('budweiserApp')
+
+.controller 'CategoryManagerCtrl', (
   $scope
   $modal
   Restangular
@@ -8,24 +10,27 @@ angular.module('budweiserApp').controller 'CategoryManagerCtrl', (
 
   angular.extend $scope,
 
-    categories: Restangular.all('categories').getList().$object
+    categories: null
     category: {}
+
+    reloadCategories: ->
+      Restangular.all('categories').getList()
+      .then (categories) ->
+        $scope.categories = categories
 
     addCategory: ->
       $scope.categories.post $scope.category
-      .then (cat) ->
-        $scope.category = {}
-        $scope.categories.push cat
+      .then $scope.reloadCategories
 
-    removeCategory: (cat) ->
+    removeCategory: (category) ->
       $modal.open
         templateUrl : 'components/modal/MessageModal.html'
         controller : 'MessageModalCtrl'
+        size: 'sm'
         resolve :
-          title : -> '确认删除学科 '+cat.name
+          title : -> '确认删除学科 '+category.name
           message : -> """删除学科可能导致已有课程丢失学科信息，确定要删除此学科吗？"""
       .result.then ->
-        cat.remove().then ->
-          index = $scope.categories.indexOf cat
-          $scope.categories.splice index, 1
+        category.remove().then $scope.reloadCategories
 
+  $scope.reloadCategories()

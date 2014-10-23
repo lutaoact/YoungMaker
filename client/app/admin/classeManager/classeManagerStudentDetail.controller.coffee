@@ -7,7 +7,6 @@ angular.module('budweiserApp')
   $scope
   $modal
   notify
-  Classes
   Restangular
 ) ->
 

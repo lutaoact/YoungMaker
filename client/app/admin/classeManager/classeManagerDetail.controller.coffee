@@ -8,21 +8,23 @@ angular.module('budweiserApp')
   notify
 ) ->
 
+  editingKeys = [
+    'name'
+  ]
+
   angular.extend $scope,
 
-    editingClasseName: ''
+    eidtingInfo: null
+    saved: false
 
     saveClasse: (form) ->
-      if !form.$valid then return
-      if $scope.editingClasseName != $scope.selectedClasse.name
-        $scope.selectedClasse.patch
-          name: $scope.editingClasseName
-          students: $scope.selectedClasse.students
-        .then (classe)->
-          angular.extend $scope.selectedClasse, classe
-          notify
-            message: """"#{classe.name}"信息已保存"""
-            classes: 'alert-success'
+      if !form.$valid  || $scope.saved then return
+      $scope.selectedClasse.patch $scope.editingInfo
+      .then (classe)->
+        angular.extend $scope.selectedClasse, classe
+        notify
+          message: """"#{classe.name}"信息已保存"""
+          classes: 'alert-success'
 
     reloadStudents: ->
       $scope.selectedClasse?.all('students').getList()
@@ -33,6 +35,11 @@ angular.module('budweiserApp')
     viewStudent: (student) ->
       $state.go('admin.classeManager.detail.student', classeId:$scope.selectedClasse._id, studentId:student._id)
 
-  $scope.selectedClasse = _.find($scope.classes, _id: $state.params.classeId)
-  $scope.editingClasseName = $scope.selectedClasse?.name
-  $scope.reloadStudents() if $scope.selectedClasse?._id
+  $scope.$parent.selectedClasse = _.find($scope.classes, _id:$state.params.classeId)
+  $scope.editingInfo = _.pick $scope.selectedClasse, editingKeys
+  $scope.reloadStudents()
+
+  $scope.$watch ->
+    _.isEqual($scope.editingInfo, _.pick $scope.selectedClasse, editingKeys)
+  , (isEqual) ->
+    $scope.saved = isEqual

@@ -1,0 +1,92 @@
+.item-list-group {
+  .list-group-item {
+    &:first-child {
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    &:last-child {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+  .new-item {
+    padding: 0px;
+    .btn {
+      text-align: left;
+      padding-left: 15px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      width: 100%;
+      border: none;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      .fa-plus {
+        padding-top: 4px;
+        padding-right: 6px;
+      }
+    }
+  }
+  .item-info {
+    padding: 0px 15px;
+    cursor: pointer;
+    .checkbox-default {
+      width: 15px;
+    }
+    a {
+      width: ~'calc(100% - 20px)';
+      display: inline-block;
+      padding: 10px 0px;
+      text-decoration: none;
+      .item-name {
+        color: #616265;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        width: ~'calc(100% - 32px)';
+      }
+    }
+    &:hover {
+      background-color: #f8f8f8;
+    }
+    &.selected,
+    &.active {
+      &:before {
+        content: '';
+        position: absolute;
+        border: 2px solid @base-color;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+    }
+    &.active {
+      color: white;
+      .item-name {
+        color: white;
+      }
+      background-color: @base-color;
+    }
+    &.desc {
+      cursor: default;
+      padding-top: 5px;
+      padding-bottom: 2px;
+      background: #F4F4F4;
+      color: #969797;
+      label {
+        cursor: pointer;
+        font-weight: normal;
+      }
+      .btn {
+        padding: 0;
+      }
+      .form-control {
+        margin-top: 5px;
+        margin-bottom: 8px;
+        height: 2em;
+        border-radius: 15px;
+      }
+    }
+  }
+}

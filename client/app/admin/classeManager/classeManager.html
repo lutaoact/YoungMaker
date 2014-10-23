@@ -1,45 +1,12 @@
 <div class="classe-manager">
-  <div class="col-md-4 list-group classe-list-group">
-    <div class="list-group-item new-classe-item">
-      <button class="btn btn-danger"
-              ng-click="createNewClasse()">
-        <i class="fa fa-plus pull-right"></i>
-        新班级
-      </button>
-    </div>
-    <div class="list-group-item classe-info desc">
-      <input ng-model="searchClasse"
-             class="form-control"
-             placeholder="查找班级">
-    </div>
-    <div class="list-group-item classe-info desc">
-      <label>
-        <input type="checkbox"
-               ng-model="toggledSelectAllClasses"
-               ng-change="toggleSelect(classes, toggledSelectAllClasses)"
-               class="bud checkbox-default">
-        <span ng-if="!toggledSelectAllClasses">全选</span>
-        <span ng-if="toggledSelectAllClasses">取消全选</span>
-      </label>
-      <span ng-show="selectedClasses.length > 0" class="pull-right">
-        <a class="btn btn-link"
-           ng-click="deleteClasses(selectedClasses)">删除 ({{selectedClasses.length}})</a>
-      </span>
-    </div>
-    <div ng-repeat="classe in classes | filter:{name:searchClasse} | orderBy:'name'"
-         class="list-group-item classe-info"
-         ng-class="{'selected':classe.$selected}"
-         ui-sref-active="active">
-      <input type="checkbox"
-             ng-model="classe.$selected"
-             ng-change="toggleSelect([classe], classe.$selected)"
-             class="bud checkbox-default">
-      <a ui-sref="admin.classeManager.detail({classeId:classe._id})">
-        <span class="classe-name">{{classe.name}}</span>
-        <span class="badge">{{classe.students.length}}</span>
-      </a>
-    </div>
-  </div>
+  <div manage-items-list
+       items="classes"
+       active-item="selectedClasse"
+       item-type="classes"
+       children="students"
+       on-create-item="onCreateClasse($item)"
+       on-delete-items="onDeleteClasses($items)"
+       on-view-item="viewClasse($item)"></div>
   <div ui-view></div>
 
 </div>

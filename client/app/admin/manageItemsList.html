@@ -1,0 +1,40 @@
+<div class="col-md-4 list-group item-list-group">
+  <div class="list-group-item new-item">
+    <button class="btn btn-danger"
+            ng-click="createNewItem()">
+      <i class="fa fa-plus pull-right"></i>
+      新{{itemTitle}}
+    </button>
+  </div>
+  <div class="list-group-item item-info desc">
+    <input ng-model="searchItem"
+           class="form-control"
+           placeholder="查找{{itemTitle}}">
+  </div>
+  <div class="list-group-item item-info desc">
+    <label>
+      <input type="checkbox"
+             ng-model="toggledSelectAllItems"
+             ng-change="toggleSelect(items, toggledSelectAllItems)"
+             class="bud checkbox-default">
+      <span ng-if="!toggledSelectAllItems">全选</span>
+      <span ng-if="toggledSelectAllItems">取消全选</span>
+    </label>
+      <span ng-show="selectedItems.length > 0" class="pull-right">
+        <a class="btn btn-link"
+           ng-click="deleteItems(selectedItems)">删除 ({{selectedItems.length}})</a>
+      </span>
+  </div>
+  <div ng-repeat="item in items | filter:{name:searchItem}"
+       class="list-group-item item-info"
+       ng-class="{'selected':item.$selected, 'active':activeItem == item}">
+    <input type="checkbox"
+           ng-model="item.$selected"
+           ng-change="toggleSelect([item], item.$selected)"
+           class="bud checkbox-default">
+    <a ng-click="viewItem(item)">
+      <span class="item-name">{{item.name}}</span>
+      <span class="badge">{{item[children].length}}</span>
+    </a>
+  </div>
+</div>

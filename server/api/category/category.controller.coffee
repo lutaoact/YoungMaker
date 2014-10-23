@@ -10,6 +10,7 @@
 "use strict"
 
 Category = _u.getModel "category"
+Course = _u.getModel 'course'
 
 exports.index = (req, res, next) ->
   Category.findQ orgId: req.user.orgId, deleteFlag: $ne: true
@@ -25,6 +26,15 @@ exports.create = (req, res, next) ->
   Category.createQ body
   .then (category) ->
     res.json 201, category
+  , next
+
+
+exports.courses = (req, res, next) ->
+  Course.find categoryId: req.params.id
+  .populate 'owners', "-hashedPassword -salt"
+  .execQ()
+  .then (courses) ->
+    res.send courses
   , next
 
 exports.update = (req, res, next) ->

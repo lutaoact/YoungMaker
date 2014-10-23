@@ -1,4 +1,4 @@
-<label class="btn btn-default">
+<label class="btn btn-default" ng-file-drop="onFileSelect($files)">
   <input type="file" style="display:none;"
          ng-if="!multiple"
          ng-disabled="uploadState!=null&&uploadState!='fail'"

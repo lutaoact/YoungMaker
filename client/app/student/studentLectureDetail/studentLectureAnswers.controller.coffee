@@ -74,10 +74,14 @@ angular.module('budweiserApp')
           # should judge on md5
           if file.name is fileMeta.name and !file.url
             file.url = fileMeta.url
+            file.$progress = undefined
             true
           else
             false
       console.log meta
+
+    isImage: (ext)->
+      /(png|jpeg|gif|jpg)/i .test ext
 
     removeFile: (file)->
       $scope.offlineWork.files.splice($scope.offlineWork.files.indexOf(file), 1)

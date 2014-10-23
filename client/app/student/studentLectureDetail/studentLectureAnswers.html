@@ -88,9 +88,10 @@
     </pager>
   </div>
 
-  <div class="question-panel container" ng-show="offlineWorksShown">
-    <form class="offline-homework clearfix" role="form" ng-submit="submitOfflineWork(offlineWork)">
-      <div class="form-group file-drop-box clearfix">
+  <div class="question-panel offline-homework container" ng-show="offlineWorksShown">
+    <form class="clearfix" role="form" ng-submit="submitOfflineWork(offlineWork)">
+      <div class="form-group">
+        <label class="base-color">上传作业</label>
         <uploader limit="500*1024*1024"
                   multiple="true"
                   on-complete="onFilesUploaded($data,$meta)"
@@ -98,32 +99,64 @@
                   on-progress="onFilesUploading($speed, $percentage, $event)"
                   on-error="onError($error)"
                   ng-if="!offlineWork.submitted"
-                  class="btn btn-danger pull-right">
-          <i class="fa fa-paperclip"></i>
-          添加附件
+                  class="file-drop-box clearfix">
+          <span class="tip text-muted"><i class="fa fa-cloud-upload"></i>点击按钮或者拖拽上传作业</span>
+          <span class="btn btn-danger btn-sm rounded pull-right">
+            <i class="fa fa-paperclip"></i>
+            添加附件
+          </span>
         </uploader>
       </div>
-      <div class="form-group clearfix">
-        <div class="file col-md-12" ng-repeat="file in offlineWork.files">
-          <div ng-if="!file.url">
-            <progressbar class="active upload-progressbar" value="file.$progress" type="info">
-              类型:{{file.name.split('.').pop()}}{{file.name}}:{{file.size}}
-            </progressbar>
+      <ul class="list-group form-group clearfix file-list">
+        <li class="list-group-item file col-md-12" ng-repeat="file in offlineWork.files">
+          <div>
+            <div class="progress" ng-style="{width: file.$progress + '%'}" ng-show="file.$progress">
+            </div>
+            <span class="pull-left file-ext" ng-if="!isImage(file.name.split('.').pop())">
+              {{file.name.split('.').pop()}}
+            </span>
+            <span class="pull-left file-ext" ng-style="{'background-image': 'url(\'' + file.url + '-thumbnail\')'}" ng-if="isImage(file.name.split('.').pop())" >
+            </span>
+            <h6 class="pull-left">
+              <a href="{{file.url}}" target="blank" title="点击下载文件">
+                {{file.name}}
+              </a>
+              <br>
+              <small>{{file.size|bytes}}</small>
+            </h6>
+            <a class="btn btn-remove btn-xs pull-right" ng-if="!offlineWork.submitted" ng-click="removeFile(file)"><i class="fa fa-times"></i></a>
           </div>
-          <div ng-if="file.url">
-            类型:{{file.name.split('.').pop()}}{{file.name}}:{{file.size}}
-            <a href="{{file.url}}" target="blank" class="btn btn-default"><i class="fa fa-cloud-download"></i></a>
-            <a class="btn btn-danger pull-right" ng-if="!offlineWork.submitted" ng-click="removeFile(file)"><i class="fa fa-times"></i></a>
-          </div>
-        </div>
-      </div>
+        </li>
+      </ul>
       <div class="form-group">
-        <label for="descInput">留言</label>
-        <textarea id="descInput" class="form-control" ng-model="offlineWork.desc"></textarea>
+        <label for="descInput" class="base-color">留言</label>
+        <textarea id="descInput" placeholder="输入留言内容..." class="form-control bud-editor-input" ng-model="offlineWork.desc" ng-disabled="offlineWork.submitted"></textarea>
       </div>
       <div class="form-group pull-right">
-        <button type="submit" class="btn btn-danger" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
+        <button type="submit" class="btn btn-danger rounded" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
       </div>
     </form>
+
+    <div class="teacher-endorsement" ng-if="offlineWork.checked">
+      <div class="teacher-endorsement-header">
+        老师批阅
+      </div>
+      <div class="teacher-endorsement-row col-md-12">
+        <div class="key">
+          <i class="fa fa-star"></i>分数
+        </div>
+        <div class="value">
+          {{offlineWork.score}}
+        </div>
+      </div>
+      <div class="teacher-endorsement-row col-md-12">
+        <div class="key">
+          <i class="fa fa-comment"></i>评语
+        </div>
+        <div class="value">
+          {{offlineWork.feedback}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

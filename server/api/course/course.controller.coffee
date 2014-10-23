@@ -33,7 +33,8 @@ exports.index = (req, res, next) ->
         CourseUtils.getStudentCourses userId
     when 'admin'
       logger.info 'admin'
-      Course.findQ {}
+      teacherId = req.query.teacherId
+      CourseUtils.getTeacherCourses teacherId
   ).then (courses) ->
     res.send courses
   # use Q's fail to make sure error from last then is also caught and passed to next

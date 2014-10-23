@@ -7,6 +7,7 @@ angular.module('budweiserApp')
   $scope
   $modal
   notify
+  chartUtils
   Restangular
 ) ->
 
@@ -17,8 +18,14 @@ angular.module('budweiserApp')
     'info'
   ]
 
+  resetSelectedCourse = ->
+    selectedCourse = _.find($scope.courses, _id:$scope.selectedCourse?._id) ? $scope.courses?[0]
+    angular.extend $scope.selectedCourse, selectedCourse
+
   angular.extend $scope,
     $state: $state
+    courses: null
+    selectedCourse: {}
     teacher: null
     saving: false
     saved: true
@@ -63,6 +70,13 @@ angular.module('budweiserApp')
   .then (teacher) ->
     $scope.teacher = teacher
     $scope.editingInfo = _.pick $scope.teacher, editingKeys
+
+  Restangular.all('courses').getList(teacherId: $state.params.teacherId)
+  .then (courses) ->
+    $scope.courses = courses
+    resetSelectedCourse()
+
+  $scope.$watch 'selectedCourse._id', resetSelectedCourse
 
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.teacher, editingKeys)

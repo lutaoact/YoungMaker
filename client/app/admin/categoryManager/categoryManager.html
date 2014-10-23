@@ -1,22 +1,11 @@
-<div class="admin-ui-view col-md-12">
-  <form class="form" name="form">
-    <div class="form-group">
-      <label for="category-name">学科名称</label>
-      <input class="form-control" id="category-name" name="name" ng-model="category.name" placeholder="请输入学科" required>
-      <br>
-      <div>
-        <a class="btn btn-danger btn-sm rounded" ng-click="addCategory()">添加学科</a>
-      </div>
-      <br>
-
-
-      <label for="category-list">学科列表</label>
-      <div class="list-group" id="category-list">
-        <div class="list-group-item" ng-repeat="cat in categories">
-          {{cat.name}}
-          <span class="close" ng-click="removeCategory(cat)">&times;</span>
-        </div>
-      </div>
-    </div>
-  </form>
+<div class="category-manager">
+  <div manage-items-list
+       items="categories"
+       active-item="selectedCategory"
+       item-type="categories"
+       children="courses"
+       on-create-item="onCreateCategory($item)"
+       on-delete-items="onDeleteCategories($items)"
+       on-view-item="viewCategory($item)"></div>
+  <div ui-view></div>
 </div>

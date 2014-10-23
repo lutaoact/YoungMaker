@@ -4,33 +4,28 @@ angular.module('budweiserApp')
 
 .controller 'CategoryManagerCtrl', (
   $scope
-  $modal
-  Restangular
+  $state
+  Categories
 ) ->
+
+  viewFirstCategory = ->
+    categories = $scope.categories
+    $scope.viewCategory(categories[0]) if categories.length > 0
 
   angular.extend $scope,
 
-    categories: null
-    category: {}
+    categories: Categories
+    selectedCategory: null
 
-    reloadCategories: ->
-      Restangular.all('categories').getList()
-      .then (categories) ->
-        $scope.categories = categories
+    onCreateCategory: (category) ->
+      $scope.categories.push category
 
-    addCategory: ->
-      $scope.categories.post $scope.category
-      .then $scope.reloadCategories
+    onDeleteCategories: (categories) ->
+      angular.forEach categories, (c) ->
+        $scope.categories.splice($scope.categories.indexOf(c), 1)
 
-    removeCategory: (category) ->
-      $modal.open
-        templateUrl : 'components/modal/MessageModal.html'
-        controller : 'MessageModalCtrl'
-        size: 'sm'
-        resolve :
-          title : -> '确认删除学科 '+category.name
-          message : -> """删除学科可能导致已有课程丢失学科信息，确定要删除此学科吗？"""
-      .result.then ->
-        category.remove().then $scope.reloadCategories
+    viewCategory: (category) ->
+      $state.go('admin.categoryManager.detail', categoryId:category._id)
 
-  $scope.reloadCategories()
+  $scope.$on '$stateChangeSuccess', (event, toState) ->
+    viewFirstCategory() if toState.name == 'admin.categoryManager'

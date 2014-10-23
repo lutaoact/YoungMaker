@@ -18,6 +18,6 @@ angular.module('budweiserApp').controller 'AdminCtrl', (
       label: '班级和学生'
     ,
       stateName:'admin.categoryManager'
-      label: '学科管理'
+      label: '专业管理'
     ]
 

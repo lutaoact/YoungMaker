@@ -1,0 +1,15 @@
+<div ng-show="selectedCategory"
+     class="list-group form col-md-8 item-detail-group">
+  <form class="form list-group-item"
+        ng-submit="saveCategory(form)"
+        name="form"
+        id="item-name">
+    <input class="form-control"
+           name="name"
+           tooltip="点击即可编辑"
+           ng-model="editingInfo.name"
+           ng-blur="saveCategory(form)"
+           placeholder="请输入专业名称"
+           required>
+  </form>
+</div>

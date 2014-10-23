@@ -18,5 +18,8 @@ exports.Category = BaseModel.subclass
         type : ObjectId
         required: true
         ref : 'organization'
+      deleteFlag:
+        type: Boolean
+        default: false
 
     $super()

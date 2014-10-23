@@ -12,7 +12,7 @@
 Category = _u.getModel "category"
 
 exports.index = (req, res, next) ->
-  Category.findQ orgId: req.user.orgId
+  Category.findQ orgId: req.user.orgId, deleteFlag: $ne: true
   .then (categories) ->
     res.send categories
   , next
@@ -27,9 +27,32 @@ exports.create = (req, res, next) ->
     res.json 201, category
   , next
 
+exports.update = (req, res, next) ->
+  Category.findByIdQ req.params.id
+  .then (category) ->
+    category.name = req.body.name
+    do category.saveQ
+  .then (result) ->
+    newValue = result[0]
+    res.send newValue
+  , next
+
 exports.destroy = (req, res, next) ->
   Category.removeQ
     _id: req.params.id
+  .then () ->
+    res.send 204
+  , next
+
+exports.multiDelete = (req, res, next) ->
+  ids = req.body.ids
+  Category.updateQ
+    orgId: req.user.orgId
+    _id: $in: ids
+  ,
+    deleteFlag: true
+  ,
+    multi: true
   .then () ->
     res.send 204
   , next

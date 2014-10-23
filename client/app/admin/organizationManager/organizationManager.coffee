@@ -9,5 +9,5 @@ angular.module('budweiserApp').config (
 
   $stateProvider.state 'admin.home',
     url: '/organization'
-    templateUrl: 'app/admin/organization/organization.html'
-    controller: 'OrganizationCtrl'
+    templateUrl: 'app/admin/organizationManager/organizationManager.html'
+    controller: 'OrganizationManagerCtrl'

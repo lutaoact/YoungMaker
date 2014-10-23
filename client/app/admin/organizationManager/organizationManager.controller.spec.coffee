@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: OrganizationCtrl', ->
+describe 'Controller: OrganizationManagerCtrl', ->
 
   # load the controller's module
   beforeEach module('budweiserApp')
@@ -10,7 +10,7 @@ describe 'Controller: OrganizationCtrl', ->
   # Initialize the controller and a mock scope
   beforeEach inject(($controller, $rootScope) ->
     scope = $rootScope.$new()
-    OrganizationCtrl = $controller('OrganizationCtrl',
+    OrganizationCtrl = $controller('OrganizationManagerCtrl',
       $scope: scope
     )
   )

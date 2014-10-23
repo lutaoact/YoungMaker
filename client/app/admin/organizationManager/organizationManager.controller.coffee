@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'OrganizationCtrl', (
+angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
   Auth
   $http
   $modal
@@ -57,6 +57,5 @@ angular.module('budweiserApp').controller 'OrganizationCtrl', (
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.organization, editingKeys)
   , (isEqual) ->
-    console.debug isEqual
     $scope.saved = isEqual
 

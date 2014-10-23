@@ -1,5 +1,5 @@
 <div ng-show="selectedCategory"
-     class="list-group form col-md-8 item-detail-group">
+     class="list-group col-md-8 item-detail-group">
   <form class="form list-group-item"
         ng-submit="saveCategory(form)"
         name="form"
@@ -12,4 +12,29 @@
            placeholder="请输入专业名称"
            required>
   </form>
+
+  <div class="list-group-item manage-courses-list">
+    <strong>课程列表</strong>
+    <span class="liner"></span>
+    <input class="form-control search-input"
+           ng-model="searchCourse"
+           placeholder="查找课程">
+    <hr/>
+
+    <div class="course-info header">
+      <span class="name">课程名</span>
+      <span class="teacher">授课教师</span>
+      <span class="info">课程简介</span>
+    </div>
+    <div ng-repeat="course in courses | filter:searchCourse"
+         class="course-info">
+      <a ng-click="showDetail(course)">
+        <span class="name">{{course.name}} ({{course.lectureAssembly.length}}课时)</span>
+        <span class="teacher">
+          <span ng-repeat="owner in course.owners">{{owner.name}} </span>
+        </span>
+        <span class="info" tooltip="{{course.info}}">{{course.info}}</span>
+      </a>
+    </div>
+  </div>
 </div>

@@ -5,7 +5,6 @@ angular.module('budweiserApp')
 .controller 'CategoryManagerDetailCtrl', (
   $scope
   $state
-  notify
 ) ->
 
   editingKeys = [
@@ -15,29 +14,19 @@ angular.module('budweiserApp')
   angular.extend $scope,
 
     eidtingInfo: null
-    saved: false
+    courses: null
 
-    saveCategory: (form) ->
-      if !form.$valid  || $scope.saved then return
-      $scope.selectedCategory.patch $scope.editingInfo
-      .then (category)->
-        angular.extend $scope.selectedCategory, category
-        notify
-          message: """"#{category.name}"信息已保存"""
-          categorys: 'alert-success'
+    reloadCourses: ->
+      $scope.selectedCategory?.all('courses').getList()
+      .then (courses) ->
+        $scope.courses = courses
 
-    reloadStudents: ->
-      $scope.selectedCategory?.all('students').getList()
-      .then (students) ->
-        $scope.selectedCategory.students = _.pluck students, '_id'
-        $scope.selectedCategory.$students = students
-
-    viewStudent: (student) ->
-      $state.go('admin.categoryManager.detail.student', categoryId:$scope.selectedCategory._id, studentId:student._id)
+    viewCourse: (course) ->
+      $state.go('admin.categoryManager.detail.course', categoryId:$scope.selectedCategory._id, courseId:course._id)
 
   $scope.$parent.selectedCategory = _.find($scope.categories, _id:$state.params.categoryId)
   $scope.editingInfo = _.pick $scope.selectedCategory, editingKeys
-  $scope.reloadStudents()
+  $scope.reloadCourses()
 
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.selectedCategory, editingKeys)

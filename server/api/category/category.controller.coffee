@@ -31,7 +31,7 @@ exports.create = (req, res, next) ->
 
 exports.courses = (req, res, next) ->
   Course.find categoryId: req.params.id
-  .populate 'owners', "-hashedPassword -salt"
+  .populate 'owners', "name"
   .execQ()
   .then (courses) ->
     res.send courses

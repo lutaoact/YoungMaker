@@ -64,18 +64,35 @@ exports.show = (req, res, next) ->
   role = me.role
 
   courseId = req.query.courseId
+  queryUserId = req.query.studentId ? req.query.userId
 
   (switch role
     when 'student'
       calStats me, courseId, 1, me.id
     when 'teacher'
-      studentId = req.query.studentId
-      if studentId?
-        calStats me, courseId, 1, studentId
+      if queryUserId?
+        calStats me, courseId, 1, queryUserId
       else
         CourseUtils.getStudentsNum me, courseId
         .then (num) ->
           calStats me, courseId, num
+    when 'admin'
+      tmpResult = {}
+      User.findByIdQ queryUserId
+      .then (queryUser) ->
+        if me.orgId.toString() isnt queryUser.orgId.toString()
+          return Q.reject
+            status : 403
+            errCode : ErrCode.NotSameOrg
+            errMsg : 'not the same org'
+
+        tmpResult.queryUser = queryUser
+      .then () ->
+        CourseUtils.getAuthedCourseById me, courseId
+      .then () ->
+        CourseUtils.getStudentsNum tmpResult.queryUser, courseId
+      .then (num) ->
+        calStats tmpResult.queryUser, courseId, num
   ).then (statsResult) ->
     res.json 200, statsResult
   , next

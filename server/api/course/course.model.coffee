@@ -15,6 +15,7 @@ exports.Course = BaseModel.subclass
       categoryId:
         type: Schema.Types.ObjectId
         ref: "category"
+        required: true
       thumbnail: String
       info: String
       lectureAssembly: [

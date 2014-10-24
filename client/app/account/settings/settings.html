@@ -15,7 +15,10 @@
         <h5>{{me.name}}</h5>
       </div>
     </li>
-    <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}"><a ng-href="{{item.link}}">{{item.title}}</a></li>
+    <li ng-repeat="item in menu"
+        ng-class="{active: isActive(item.link)}">
+      <a ng-href="{{item.link}}">{{item.title}}</a>
+    </li>
   </ul>
   <ul class="col-md-3 nav nav-pills nav-stacked hidden-sm hidden-xs">
     <li>
@@ -28,7 +31,10 @@
         <h5>{{me.name}}</h5>
       </div>
     </li>
-    <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}"><a ng-href="{{item.link}}">{{item.title}}</a></li>
+    <li ng-repeat="item in menu"
+        ng-class="{active: isActive(item.link)}">
+      <a ng-href="{{item.link}}">{{item.title}}</a>
+    </li>
   </ul>
 
   <div class="col-md-9 col-sm-12" >

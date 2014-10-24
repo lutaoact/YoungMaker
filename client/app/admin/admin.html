@@ -7,8 +7,8 @@
       <ul class="nav navbar-nav">
         <li ng-repeat="menu in menus">
           <a class="menu-item"
-               ui-sref-active="active"
-               ui-sref="{{menu.stateName}}">{{menu.label}}</a>
+             ui-sref-active="active"
+             ui-sref="{{menu.stateName}}">{{menu.label}}</a>
         </li>
       </ul>
     </div>
@@ -21,4 +21,5 @@
   </div>
 </div>
 
-<div ng-if="!webview" ng-include="'components/footer/footer.html'"></div>
+<div ng-if="!webview"
+     ng-include="'components/footer/footer.html'"></div>

@@ -2,15 +2,21 @@
   <div class="col-md-12 pies clearfix">
     <div class="col-md-4">
       <highchart config="quizStats" class="bud-chart"></highchart>
-      <div class="percentage quiz-percentage">{{quizStats.series[0].data[0].y||0}}<sup>%</sup></div>
+      <div class="percentage quiz-percentage">
+        {{quizStats.series[0].data[0].y||0}}<sup>%</sup>
+      </div>
     </div>
     <div class="col-md-4">
       <highchart config="homeworkStats" class="bud-chart"></highchart>
-      <div class="percentage homework-percentage">{{homeworkStats.series[0].data[0].y||0}}<sup>%</sup></div>
+      <div class="percentage homework-percentage">
+        {{homeworkStats.series[0].data[0].y||0}}<sup>%</sup>
+      </div>
     </div>
     <div class="col-md-4">
       <highchart config="keypointStats" class="bud-chart"></highchart>
-      <div class="percentage keypoint-percentage">{{keypointStats.series[0].data[0].y||0}}<sup>%</sup></div>
+      <div class="percentage keypoint-percentage">
+        {{keypointStats.series[0].data[0].y||0}}<sup>%</sup>
+      </div>
     </div>
   </div>
 </div>
@@ -21,7 +27,8 @@
       <tab heading="随堂问题">
         <highchart config="quizTrendChart" class="bud-chart"></highchart>
       </tab>
-      <tab heading="课后习题" select="triggerResize()">
+      <tab heading="课后习题"
+           select="triggerResize()">
         <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
       </tab>
     </tabset>

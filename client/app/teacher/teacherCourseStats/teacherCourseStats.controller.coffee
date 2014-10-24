@@ -1,14 +1,12 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
-  $q
   $scope
   $state
   Navbar
   Courses
-  Restangular
-  $timeout
   $window
+  $timeout
 ) ->
 
   course = _.find Courses, _id:$state.params.courseId

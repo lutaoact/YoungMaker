@@ -19,28 +19,37 @@ angular.module('budweiserApp')
 
   angular.extend $scope,
     $state: $state
+    errors: null
     student: null
-    saving: false
-    saved: true
+    editingInfo: null
+    viewState:
+      saved: true
+      saving: false
+      deleting: false
 
     onAvatarUploaded: (key) ->
-      $scope.student.avatar = key
+      $scope.editingInfo.avatar = key
       $scope.student.patch avatar: key
-      .then ->
+      .then (newUser) ->
+        angular.extend $scope.student, newUser
         notify
           message: '头像修改成功'
           classes: 'alert-success'
 
     saveProfile: (form) ->
       if !form.$valid then return
-      $scope.saving = true
-      $scope.student.patch($scope.editingInfo).then ->
-        angular.extend $scope.student, $scope.editingInfo
-        $scope.saving = false
+      $scope.viewState.saving = true
+      $scope.student.patch($scope.editingInfo)
+      .then (newUser) ->
+        $scope.viewState.saving = false
+        angular.extend $scope.student, newUser
         $scope.reloadStudents()
         notify
           message: '基本信息已保存'
           classes: 'alert-success'
+      .catch (error) ->
+        $scope.viewState.saving = false
+        $scope.errors = error?.data?.errors
 
     removeStudent: (student) ->
       $modal.open
@@ -52,7 +61,9 @@ angular.module('budweiserApp')
           message: ->
             """确认要删除学生"#{student.name}"？"""
       .result.then ->
+        $scope.viewState.deleting = true
         student.remove().then ->
+          $scope.viewState.deleting = false
           notify
             message: '该学生已被删除'
             classes: 'alert-success'
@@ -67,4 +78,4 @@ angular.module('budweiserApp')
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.student, editingKeys)
   , (isEqual) ->
-    $scope.saved = isEqual
+    $scope.viewState.saved = isEqual

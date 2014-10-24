@@ -13,7 +13,7 @@
     <div class="form-horizontal col-sm-8 col-sm-offset-2" role="form">
       <div class="form-group">
         <div class="avatar-lg"
-             src-key="student.avatar"
+             src-key="editingInfo.avatar"
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image">
         </div>
@@ -67,6 +67,7 @@
                  placeholder="请输入邮箱"
                  required
                  ng-model="editingInfo.email">
+          <small class="text-danger" ng-if="errors.email">{{ errors.email.message }}</small>
         </div>
       </div>
       <div class="form-group">
@@ -83,13 +84,13 @@
       <div class="form-group">
         <div class="col-xs-8 col-xs-offset-4 text-left">
           <button type="submit"
-                  ng-disabled="saved || saving"
+                  ng-disabled="viewState.saved || viewState.saving"
                   class="btn btn-danger btn-sm rounded" >
-            <span ng-if="!saving">
-              <span ng-if="!saved">保存</span>
-              <span ng-if="saved">已保存</span>
+            <span ng-if="!viewState.saving">
+              <span ng-if="!viewState.saved">保存</span>
+              <span ng-if="viewState.saved">已保存</span>
             </span>
-            <span ng-if="saving">
+            <span ng-if="viewState.saving">
               <i class="fa fa-spinner fa-spin"></i>
               保存中
             </span>
@@ -98,10 +99,10 @@
                   ng-diabled="deleting"
                   ng-click="removeStudent(student)"
                   class="btn btn-default btn-sm rounded">
-            <span ng-if="!deleting">
+            <span ng-if="!viewState.deleting">
               删除
             </span>
-            <span ng-if="deleting">
+            <span ng-if="viewState.deleting">
               <i class="fa fa-spinner fa-spin"></i>
               删除中
             </span>

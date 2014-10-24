@@ -81,19 +81,12 @@ exports.CourseUtils = BaseUtils.subclass
 
   getStudentsNum: (user, courseId) ->
     if user.role is 'student'
-      return Q.reject
-        status : 403
-        errCode: ErrCode.TeacherCanAccessOnly
-        errMsg : 'teacher can access only'
+      return Q(1)
 
     @getAuthedCourseById user, courseId
     .then (course) ->
-      Classe.findQ
-        _id:
-          $in: course.classes
+      Classe.findQ _id: $in: course.classes
     .then (classes) ->
       return _.reduce(classes, (sum, classe) ->
         return sum + classe.students.length
       , 0)
-    , (err) ->
-      Q.reject err

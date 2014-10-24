@@ -9,8 +9,8 @@ angular.module('budweiserApp')
   templateUrl: 'app/admin/editUserTile.html'
   scope:
     user: '='
-    canDelete: '@'
-    infoEditable: '@'
+    canDelete: '@' # 能否删除这个用户 - 管理员需要
+    canRemark: '@' # 能否修改用户的备注信息 - 管理员需要
     onUpdateUser: '&'
     onDeleteUser: '&'
 
@@ -22,7 +22,8 @@ angular.module('budweiserApp')
   Restangular
 ) ->
 
-  editingKeys = [
+  # 能被编辑的字段
+  editableFields = [
     'name'
     'email'
     'avatar'
@@ -89,7 +90,7 @@ angular.module('budweiserApp')
   $scope.$watch 'user', (user) ->
     if !user? then return
     $scope.user = user
-    $scope.editingInfo = _.pick user, editingKeys
+    $scope.editingInfo = _.pick user, editableFields
     $scope.roleTitle =
       switch user.role
         when 'student' then '学生'
@@ -97,8 +98,9 @@ angular.module('budweiserApp')
         when 'admin'   then '管理员'
         else throw 'unknown user.role ' + user.role
 
+  # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->
-    _.isEqual($scope.editingInfo, _.pick $scope.user, editingKeys)
+    _.isEqual($scope.editingInfo, _.pick $scope.user, editableFields)
   , (isEqual) ->
     $scope.errors = null
     $scope.viewState.saved = isEqual

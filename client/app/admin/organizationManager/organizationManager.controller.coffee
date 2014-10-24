@@ -10,7 +10,7 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
   Restangular
 ) ->
 
-  editingKeys = [
+  editableFields = [
     'name'
     'type'
     'description'
@@ -52,10 +52,10 @@ angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
     Restangular.one('organizations', me.orgId._id).get()
     .then (org) ->
       $scope.organization = org
-      $scope.editingInfo = _.pick $scope.organization, editingKeys
+      $scope.editingInfo = _.pick $scope.organization, editableFields
 
   $scope.$watch ->
-    _.isEqual($scope.editingInfo, _.pick $scope.organization, editingKeys)
+    _.isEqual($scope.editingInfo, _.pick $scope.organization, editableFields)
   , (isEqual) ->
     $scope.saved = isEqual
 

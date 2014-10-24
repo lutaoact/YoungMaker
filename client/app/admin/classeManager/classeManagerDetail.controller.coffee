@@ -8,7 +8,7 @@ angular.module('budweiserApp')
   notify
 ) ->
 
-  editingKeys = [
+  editableFields = [
     'name'
   ]
 
@@ -36,10 +36,10 @@ angular.module('budweiserApp')
       $state.go('admin.classeManager.detail.student', classeId:$scope.selectedClasse._id, studentId:student._id)
 
   $scope.$parent.selectedClasse = _.find($scope.classes, _id:$state.params.classeId)
-  $scope.editingInfo = _.pick $scope.selectedClasse, editingKeys
+  $scope.editingInfo = _.pick $scope.selectedClasse, editableFields
   $scope.reloadStudents()
 
   $scope.$watch ->
-    _.isEqual($scope.editingInfo, _.pick $scope.selectedClasse, editingKeys)
+    _.isEqual($scope.editingInfo, _.pick $scope.selectedClasse, editableFields)
   , (isEqual) ->
     $scope.saved = isEqual

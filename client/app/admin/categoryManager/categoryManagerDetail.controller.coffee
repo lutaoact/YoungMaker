@@ -7,7 +7,8 @@ angular.module('budweiserApp')
   $state
 ) ->
 
-  editingKeys = [
+  # 能编辑的字段
+  editableFields = [
     'name'
   ]
 
@@ -25,10 +26,10 @@ angular.module('budweiserApp')
       $state.go('admin.categoryManager.detail.course', categoryId:$scope.selectedCategory._id, courseId:course._id)
 
   $scope.$parent.selectedCategory = _.find($scope.categories, _id:$state.params.categoryId)
-  $scope.editingInfo = _.pick $scope.selectedCategory, editingKeys
+  $scope.editingInfo = _.pick $scope.selectedCategory, editableFields
   $scope.reloadCourses()
 
   $scope.$watch ->
-    _.isEqual($scope.editingInfo, _.pick $scope.selectedCategory, editingKeys)
+    _.isEqual($scope.editingInfo, _.pick $scope.selectedCategory, editableFields)
   , (isEqual) ->
     $scope.saved = isEqual

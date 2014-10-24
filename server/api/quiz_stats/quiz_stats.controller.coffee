@@ -2,6 +2,7 @@
 
 StatsUtils  = _u.getUtils 'stats'
 LectureUtils = _u.getUtils 'lecture'
+CourseUtils = _u.getUtils 'course'
 Course = _u.getModel 'course'
 User        = _u.getModel 'user'
 

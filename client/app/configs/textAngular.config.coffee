@@ -98,9 +98,10 @@ angular.module 'budweiserApp'
     '$modal'
     (taRegisterTool, taOptions, $modal)->
       safeColors = [
-        '#000', '#111','#222','#333','#444','#555'
-        '#1FF', '#2FF','#3FF','#4FF','#5FF','#6FF'
-        '#F1F', '#F2F','#F3F','#F4F','#F5F','#F6F'
+        '#EF9D97', '#F7ED3C','#BEE4F9','#C9E1A6','#CEB5D6','#D5D2D1'
+        '#EA573E', '#F7C900','#749CD2','#94C85B','#A581B8','#615C5A'
+        '#E8412F', '#EF7D31','#3963AE','#69B82E','#7E509D','#24201F'
+        '#C4111A', '#EA4D23','#00398A','#138336','#5A1E73','#000000'
       ]
       safeColorsHtml = safeColors.map (color)->
         "<i class='fa fa-square' style='color:#{color}'></i>"
@@ -154,10 +155,11 @@ angular.module 'budweiserApp'
           action: imgOnSelectAction
 
       taOptions.toolbar = [
-        ['h1', 'h2', 'h3','fontColour', 'pre', 'quote'],
-        ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'clear'],
-        ['justifyLeft','justifyCenter','justifyRight','indent','outdent'],
-        ['html', 'insertLink', 'upload']
+        ['fontColour','h1', 'h2', 'h3'],
+        ['bold', 'italics', 'underline', 'strikeThrough', 'clear'],
+        ['justifyLeft','justifyCenter','justifyRight'],
+        ['ul', 'ol','pre', 'quote']
+        ['insertLink', 'upload']
       ]
       taOptions
     ]

@@ -84,6 +84,7 @@
           <i class="fa fa-pencil-square-o"></i>
         </a>
       </h3>
+      <div class="text-muted">{{lecture.info}}</div>
     </div>
     <div class="key-points" ng-show="lecture.keyPoints.length">
       <div class="indicator text-center pull-left">
@@ -102,19 +103,19 @@
         </a>
       </div>
     </div>
-    <a class="anchor anchor-down bottom-up" ng-click="viewState.showInfo = !viewState.showInfo">
-      <i class="fa" ng-class="{'fa-chevron-up':viewState.showInfo,'fa-chevron-down':!viewState.showInfo}"></i>
+    <a class="anchor anchor-down bottom-up" ng-click="viewState.showDesc = !viewState.showDesc">
+      <i class="fa" ng-class="{'fa-chevron-up':viewState.showDesc,'fa-chevron-down':!viewState.showDesc}"></i>
     </a>
   </div>
   <div class="after-title-keypoints container">
   </div>
   <div class="container desc-container">
-    <div class="content" ng-class="{expanded:viewState.showInfo}">
-      <div class="lecture-info">
+    <div class="content" ng-class="{expanded:viewState.showDesc}">
+      <div class="lecture-desc">
         <div>
           <h4><i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课时详细内容</h4>
           <hr>
-          <div compile-html="lecture.info">
+          <div compile-html="lecture.desc">
           </div>
         </div>
       </div>

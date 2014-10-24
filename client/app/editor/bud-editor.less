@@ -53,7 +53,21 @@
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
   }
-
+  .ta-toolbar{
+    background: @gray-lighter;
+    margin-left: 0;
+    .btn-group{
+      margin-left: 0;
+      border-right: 1px solid #ccc;
+      &:nth-last-child(1){
+        border-right: none;
+      }
+      > .btn{
+        border: none;
+        background: @gray-lighter;
+      }
+    }
+  }
   .ta-editor.ta-html, .ta-scroll-window.form-control {
     min-height: 300px;
     height: auto;
@@ -156,11 +170,11 @@
   }
   #colorboard-btn{
     .color-board{
-      width: 100px;
+      width: 130px;
       min-width: 100px;
-      padding: 5px;
+      padding: 9px;
       .fa-square{
-        margin: 1px;
+        margin: 2px;
         float: left;
       }
     }

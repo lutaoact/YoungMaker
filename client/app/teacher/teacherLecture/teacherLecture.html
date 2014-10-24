@@ -359,6 +359,18 @@
         </div>
       </div>
     </div>
+    <!-- rich text -->
+    <div class="container lecture-desc-container">
+      <div class="lecture-desc">
+        <h4>
+          <i class="glyphicon glyphicon-bookmark base-color"></i>&nbsp;课时详细内容
+          <button class="btn btn-danger btn-sm pull-right rounded" ng-click="saveLectureDesc()"><i class="fa fa-check-circle"></i>&nbsp;确认发布</button>
+        </h4>
+
+        <text-angular class="bud" ng-model="lecture.desc"></text-angular>
+      </div>
+    </div>
+
   </section>
   <section class="question-section"
            id="lecture-question"

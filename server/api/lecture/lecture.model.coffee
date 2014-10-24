@@ -14,6 +14,7 @@ exports.Lecture = BaseModel.subclass
         required: true
       thumbnail: String
       info: String
+      desc: String
       files: [
         fileName: String
         fileContent: [
@@ -21,6 +22,7 @@ exports.Lecture = BaseModel.subclass
           raw: String
         ]
       ]
+      # todo: remove
       slides: [
         thumb: String
         raw: String

@@ -86,6 +86,17 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
           message:'课时信息已保存'
           classes:'alert-success'
 
+    saveLectureDesc: () ->
+      $scope.saving = true
+      $scope.lecture.patch desc: $scope.lecture.desc
+      .then (newLecture)->
+        $scope.saving = false
+        $scope.updateEditingProgress(newLecture)
+        notify
+          message:'课时详细内容已保存'
+          classes:'alert-success'
+
+
     removeSlide: (index) ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'

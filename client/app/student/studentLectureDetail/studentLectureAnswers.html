@@ -115,7 +115,7 @@
             <span class="pull-left file-ext" ng-if="!isImage(file.name.split('.').pop())">
               {{file.name.split('.').pop()}}
             </span>
-            <span class="pull-left file-ext" ng-style="{'background-image': 'url(\'' + file.url + '-thumbnail\')'}" ng-if="isImage(file.name.split('.').pop())" >
+            <span class="pull-left file-ext" ng-style="{'background-image': 'url(\'' + file.url + '-thumbnail\')'}" ng-if="isImage(file.name.split('.').pop())" style="background-color: #FFF">
             </span>
             <h6 class="pull-left">
               <a href="{{file.url}}" target="blank" title="点击下载文件">

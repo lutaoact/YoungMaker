@@ -63,13 +63,13 @@
               <div class="key">
                 <i class="fa fa-star"></i>分数
               </div>
-                <input type="number" class="form-control value" ng-model="selectedOfflineWork.score">
+              <input type="number" placeholder="请输入分数" class="form-control value" ng-model="selectedOfflineWork.score">
             </div>
             <div class="teacher-endorsement-row col-md-12">
               <div class="key">
                 <i class="fa fa-comment"></i>评语
               </div>
-                <textarea msd-elastic type="text" class="form-control value" ng-model="selectedOfflineWork.feedback"></textarea>
+              <textarea msd-elastic placeholder="请输入评语" type="text" class="form-control value" ng-model="selectedOfflineWork.feedback"></textarea>
             </div>
             <div class="form-group pull-right">
               <button type="submit" class="btn btn-primary" ng-disabled="selectedOfflineWork.checked">{{selectedOfflineWork.checked?'已批改':'提交'}}</button>

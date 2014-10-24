@@ -1,105 +1,12 @@
 <div class="teacher-manager-detail">
-  <form class="form"
-        role="form"
-        name="profileForm"
-        ng-submit="saveProfile(profileForm)">
 
-    <div class="form-group">
-      <a ui-sref="admin.teacherManager"><strong>返回教师列表</strong></a>
-      <div class="pull-right">
-        <button type="submit"
-                ng-disabled="saved || saving"
-                class="btn btn-danger btn-sm rounded" >
-        <span ng-if="!saving">
-          <span ng-if="!saved">保存</span>
-          <span ng-if="saved">已保存</span>
-        </span>
-        <span ng-if="saving">
-          <i class="fa fa-spinner fa-spin"></i>
-          保存中
-        </span>
-        </button>
-        <button type="button"
-                ng-diabled="deleting"
-                ng-click="removeTeacher(teacher)"
-                class="btn btn-default btn-sm rounded">
-        <span ng-if="!deleting">
-          删除
-        </span>
-        <span ng-if="deleting">
-          <i class="fa fa-spinner fa-spin"></i>
-          删除中
-        </span>
-        </button>
-      </div>
-      <hr/>
-      <strong>基本信息</strong>
-    </div>
-
-    <div class="row teacher-info-group">
-      <div class="col-sm-2 text-center teacher-avatar-col">
-        <div class="form-group teacher-avatar">
-          <div class="avatar-lg"
-               src-key="teacher.avatar"
-               suffix="?imageView2/1/w/64/h/64"
-               source-attr="background-image">
-          </div>
-          <uploader class="btn btn-danger btn-sm rounded"
-                    limit="2*1024*1024"
-                    on-complete="onAvatarUploaded($data)"
-                    crop="true"
-                    crop-ratio="1"
-                    max-width="128"
-                    accept-type="image">
-            修改头像
-          </uploader>
-        </div>
-        <div class="form-group text-left teacher-username">
-          <label for="inputName" class="control-label text-muted">用户名</label>
-          <div class="text-left">
-            <label class="control-label">{{teacher.username}}</label>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-10 teacher-name-col">
-        <div class="form-group">
-          <label for="inputName" class="control-label text-muted">姓名</label>
-          <div class="text-left">
-            <input type="text"
-                   class="form-control"
-                   id="inputName"
-                   placeholder="请输入您的姓名"
-                   tooltip="点击即可编辑"
-                   required
-                   ng-model="editingInfo.name">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="inputEmail" class="control-label text-muted">邮箱</label>
-          <div class="text-left">
-            <input type="email"
-                   class="form-control"
-                   id="inputEmail"
-                   tooltip="点击即可编辑"
-                   placeholder="请输入邮箱"
-                   required
-                   ng-model="editingInfo.email">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="inputInfo" class="control-label text-muted">备注</label>
-          <div class="text-left">
-            <textarea type="text"
-                      class="form-control"
-                      id="inputInfo"
-                      tooltip="点击即可编辑"
-                      placeholder="其他信息"
-                      ng-model="editingInfo.info"></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+  <div edit-teacher-tile
+       info-editable="true"
+       can-delete="true"
+       on-update-user="updateTeacher()"
+       on-delete-user="deleteTeacher()"
+       user="teacher">
+  </div>
 
   <div class="teacher-courses-detail">
     <strong>所授课程</strong>

@@ -1,11 +1,11 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ProfileCtrl',
-(
+angular.module('budweiserApp').controller 'ProfileCtrl',(
   Auth
   $scope
   notify
 ) ->
+
   angular.extend $scope,
 
     patchMe: (field)->

@@ -5,6 +5,7 @@ QuestionUtils = _u.getUtils 'question'
 QuizAnswer = _u.getModel 'quiz_answer'
 UserAnswer = _u.getModel 'user_answer'
 HomeworkAnswer = _u.getModel 'homework_answer'
+User        = _u.getModel 'user'
 
 exports.StatsUtils = BaseUtils.subclass
   classname: 'StatsUtils'
@@ -315,3 +316,25 @@ exports.StatsUtils = BaseUtils.subclass
   updateAvgLevelForStats: (myKPStats) ->
     for kpId, stat of myKPStats
       stat.avgLevel = stat.totalLevel // stat.total
+
+  getQueryUser: (user, queryUserId, courseId) ->
+    tmpResult = {}
+    return (
+      if ~(['teacher', 'admin'].indexOf user.role) and queryUserId?
+        logger.info "#{user._id} is #{user.role}, I have queryUserId: #{queryUserId}"
+        User.findByIdQ queryUserId
+        .then (queryUser) ->
+          if user.orgId.toString() isnt queryUser.orgId.toString()
+            return Q.reject
+              status : 403
+              errCode : ErrCode.NotSameOrg
+              errMsg : 'not the same org'
+
+          tmpResult.queryUser = queryUser
+        .then () ->
+          CourseUtils.getAuthedCourseById user, courseId
+        .then (course) ->
+          return tmpResult.queryUser
+      else
+        Q(user)
+    )

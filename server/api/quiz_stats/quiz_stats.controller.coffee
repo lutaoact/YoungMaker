@@ -11,24 +11,8 @@ exports.show = (req, res, next) ->
   queryUserId = req.query.userId ? req.query.studentId
   user = req.user
 
-  tmpResult = {}
-  (if ~(['teacher', 'admin'].indexOf user.role) and queryUserId?
-    User.findByIdQ queryUserId
-    .then (queryUser) ->
-      if user.orgId.toString() isnt queryUser.orgId.toString()
-        return Q.reject
-          status : 403
-          errCode : ErrCode.NotSameOrg
-          errMsg : 'not the same org'
-
-      tmpResult.queryUser = queryUser
-    .then () ->
-      CourseUtils.getAuthedLectureById user, courseId
-    .then (course) ->
-      return tmpResult.queryUser if course?
-  else
-    Q(user)
-  ).then (person) ->
+  StatsUtils.getQueryUser user, queryUserId, courseId
+  .then (person) ->
     StatsUtils.makeQuizStatsPromiseForUser person, courseId
   .then (finalStats) ->
     res.send finalStats

@@ -7,14 +7,14 @@ exports.CourseUtils = BaseUtils.subclass
 
   getAuthedCourseById: (user, courseId) ->
     switch user.role
-      when 'student' then return @checkStudent user._id, courseId
-      when 'teacher' then return @checkTeacher user._id, courseId
-      when 'admin' then return @checkAdmin courseId
+      when 'student' then return @checkStudent user, courseId
+      when 'teacher' then return @checkTeacher user, courseId
+      when 'admin'   then return @checkAdmin   user, courseId
 
-  checkTeacher: (teacherId, courseId) ->
+  checkTeacher: (user, courseId) ->
     Course.findOneQ
       _id: courseId
-      owners: teacherId
+      owners: user._id
     .then (course) ->
       if course?
         return course
@@ -24,9 +24,9 @@ exports.CourseUtils = BaseUtils.subclass
           errCode : ErrCode.CannotReadThisCourse
           errMsg : 'No course found or no permission to read it'
 
-  checkStudent: (studentId, courseId) ->
+  checkStudent: (user, courseId) ->
     Classe.findOneQ
-      students: studentId
+      students: user._id
     .then (classe) ->
       Course.findOneQ
         _id: courseId
@@ -40,17 +40,19 @@ exports.CourseUtils = BaseUtils.subclass
           errCode: ErrCode.CannotReadThisCourse
           errMsg : 'No course found or no permission to read it'
 
-  checkAdmin : (courseId) ->
-    Course.findOneQ
-      _id: courseId
+  checkAdmin : (user, courseId) ->
+    Course.findById courseId
+          .populate 'categoryId', 'orgId'
+          .execQ()
     .then (course) ->
-      return course if course?
-      Q.reject
-        status : 404
-        errCode: ErrCode.CannotReadThisCourse
-        errMsg : 'No course found or no permission to read it'
-    , (err) ->
-      Q.reject err
+      if course?.categoryId?.orgId.toString() isnt user.orgId.toString()
+        return Q.reject
+          status : 403
+          errCode: ErrCode.CannotReadThisCourse
+          errMsg : 'No course found or no permission to read it'
+
+      return course
+
 
   getTeacherCourses : (teacherId) ->
     Course.find

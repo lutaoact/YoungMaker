@@ -108,6 +108,7 @@ angular.module('budweiserApp')
 
     submitOfflineWork: (offlineWork)->
       offlineWork.submitted = true
+      offlineWork.submittedTime = new Date()
       if offlineWork._id
         offlineWork.put()
         .then (data)->

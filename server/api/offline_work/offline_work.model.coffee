@@ -29,6 +29,9 @@ exports.OfflineWork = BaseModel.subclass
       teacherId:
         type: ObjectId
         ref: 'user'
+      submittedTime:
+        type: Date
+        default: new Date()
       score: Number
       feedback: String
       checked:

@@ -35,7 +35,13 @@ angular.module('budweiserApp')
 
     selectedOfflineWork: undefined
 
+    selectedStudent: undefined
+
+    isImage: (ext)->
+      /(png|jpeg|gif|jpg)/i .test ext
+
     viewStudentOfflineWork: (student)->
+      $scope.selectedStudent = student
       $scope.selectedOfflineWork = _.find $scope.offlineWorks, (item)-> item.userId is student._id
 
     submitOfflineWork: ()->
@@ -43,3 +49,4 @@ angular.module('budweiserApp')
       $scope.selectedOfflineWork.put()
       .then (data)->
         angular.extend $scope.selectedOfflineWork, data
+

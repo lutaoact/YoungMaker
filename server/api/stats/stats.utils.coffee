@@ -228,7 +228,7 @@ exports.StatsUtils = BaseUtils.subclass
 
   getStatsStudentsNum: (user, courseId) ->
     switch user.role
-      when 'teacher' then return CourseUtils.getStudentsNum user, courseId
+      when 'teacher', 'admin' then return CourseUtils.getStudentsNum user, courseId
       when 'student' then return Q(1) #学生只统计他自己的数值
 
 

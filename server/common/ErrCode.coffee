@@ -4,5 +4,6 @@ module.exports =
   NoMatchedEventType: 10003
   ForbiddenRole: 10004
   NotAdminForOrg: 10005
+  NotSameOrg: 10005
 
   GiveScore: 10006

@@ -80,13 +80,13 @@ exports.CourseUtils = BaseUtils.subclass
       Q.reject err
 
   getStudentsNum: (user, courseId) ->
-    if user.role isnt 'teacher'
+    if user.role is 'student'
       return Q.reject
         status : 403
         errCode: ErrCode.TeacherCanAccessOnly
         errMsg : 'teacher can access only'
 
-    @checkTeacher user._id, courseId
+    @getAuthedCourseById user, courseId
     .then (course) ->
       Classe.findQ
         _id:

@@ -1,27 +1,29 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'SignupCtrl', (
-  Auth
   $scope
   webview
   $location
+  Restangular
 ) ->
+
   $scope.webview = webview
   $scope.user = {}
   $scope.errors = {}
+
   $scope.register = (form) ->
+
     $scope.submitted = true
 
     if form.$valid
       # Account created, redirect to home
-      Auth.createUser(
+      Restangular.all('users').post
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
-      ).then(->
+      .then ->
         $location.path '/'
-
-      ).catch (err) ->
+      .catch (err) ->
         err = err.data
         $scope.errors = {}
 

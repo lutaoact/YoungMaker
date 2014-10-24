@@ -19,6 +19,7 @@ angular.module('budweiserApp')
   $scope
   $modal
   notify
+  Restangular
 ) ->
 
   editingKeys = [
@@ -40,9 +41,10 @@ angular.module('budweiserApp')
 
     onAvatarUploaded: (key) ->
       $scope.editingInfo.avatar = key
-      $scope.user.patch avatar: key
-      .then (newUser) ->
-        angular.extend $scope.user, newUser
+      Restangular.one('users', $scope.user._id)
+      .patch avatar: key
+      .then ->
+        $scope.user.avatar = key
         notify
           message: '头像修改成功'
           classes: 'alert-success'
@@ -50,10 +52,12 @@ angular.module('budweiserApp')
     saveProfile: (form) ->
       if !form.$valid then return
       $scope.viewState.saving = true
-      $scope.user.patch($scope.editingInfo)
-      .then (newUser) ->
+      $scope.errors = null
+      Restangular.one('users', $scope.user._id)
+      .patch($scope.editingInfo)
+      .then ->
         $scope.viewState.saving = false
-        angular.extend $scope.user, newUser
+        angular.extend $scope.user, $scope.editingInfo
         notify
           message: '基本信息已保存'
           classes: 'alert-success'
@@ -73,7 +77,9 @@ angular.module('budweiserApp')
             """确认要删除#{$scope.roleTitle}"#{user.name}"？"""
       .result.then ->
         $scope.viewState.deleting = true
-        user.remove().then ->
+        Restangular.one('users', user._id)
+        .remove()
+        .then ->
           $scope.viewState.deleting = false
           notify
             message: "该#{$scope.roleTitle}已被删除"
@@ -94,4 +100,5 @@ angular.module('budweiserApp')
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.user, editingKeys)
   , (isEqual) ->
+    $scope.errors = null
     $scope.viewState.saved = isEqual

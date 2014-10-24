@@ -1,13 +1,16 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'SettingsCtrl', (
+  Auth
   $scope
   webview
   $location
-  Restangular
 ) ->
+
   angular.extend $scope,
     webview: webview
+    me: null
+
     menu: [
       {
         title: '基本信息'
@@ -23,15 +26,7 @@ angular.module('budweiserApp').controller 'SettingsCtrl', (
     isActive: (route) ->
       _.str.trim(route, '/') is _.str.trim($location.path(), '/')
 
-    me: null
-
-    oldMe: null
-
-    getMyProfile: ()->
-      Restangular.one('users','me').get()
-      .then (user)->
-        $scope.me = user
-        $scope.oldMe = Restangular.copy(user)
-
-  $scope.getMyProfile()
+  Auth.getCurrentUser().$promise
+  .then (me) ->
+    $scope.me = me
 

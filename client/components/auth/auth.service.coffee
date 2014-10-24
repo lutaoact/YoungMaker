@@ -4,8 +4,8 @@ angular.module('budweiserApp').factory 'Auth', (
   $q
   User
   $http
-  $location
   $rootScope
+  Restangular
   $cookieStore
 ) ->
 
@@ -43,7 +43,6 @@ angular.module('budweiserApp').factory 'Auth', (
     $cookieStore.put 'token', token
     currentUser = User.get()
 
-
   ###
   Delete access token and user info
 
@@ -53,48 +52,6 @@ angular.module('budweiserApp').factory 'Auth', (
     $cookieStore.remove 'token'
     currentUser = {}
     return
-
-
-  ###
-  Create a new user
-
-  @param  {Object}   user     - user info
-  @param  {Function} callback - optional
-  @return {Promise}
-  ###
-  createUser: (user, callback) ->
-    cb = callback or angular.noop
-    User.save(user, (data) ->
-      $cookieStore.put 'token', data.token
-      currentUser = User.get()
-      cb user
-    , ((err) ->
-      @logout()
-      cb err
-    ).bind(this)).$promise
-
-
-  ###
-  Change password
-
-  @param  {String}   oldPassword
-  @param  {String}   newPassword
-  @param  {Function} callback    - optional
-  @return {Promise}
-  ###
-  changePassword: (oldPassword, newPassword, callback) ->
-    cb = callback or angular.noop
-    User.changePassword(
-      id: currentUser._id
-    ,
-      oldPassword: oldPassword
-      newPassword: newPassword
-    , (user) ->
-      cb user
-    , (err) ->
-      cb err
-    ).$promise
-
 
   ###
   Gets all available info on authenticated user

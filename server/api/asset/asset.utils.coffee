@@ -26,7 +26,7 @@ Lecture = _u.getModel 'lecture'
 exports.AssetUtils = BaseUtils.subclass
   classname: 'AssetUtils'
 
-  getAssetFromQiniu : (key, assetType, res) ->
+  getAssetFromQiniu : (key, assetType) ->
     domain = config.assetsConfig[assetType].domain
 
     baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
@@ -40,10 +40,10 @@ exports.AssetUtils = BaseUtils.subclass
     redisClient.q.set key, downloadUrl, 'EX', (signedUrlExpires-60*60)
     .then (result) ->
       logger.info "Set #{key}:#{downloadUrl} to redis"
-    res.redirect downloadUrl
+      return downloadUrl
 
 
-  getAssetFromS3 : (key, assetType, res) ->
+  getAssetFromS3 : (key, assetType) ->
     S3BucketName = config.assetsConfig[assetType].slideBucket
 
     s3 = new AWS.S3()
@@ -52,19 +52,20 @@ exports.AssetUtils = BaseUtils.subclass
       Key : key
       Expires : signedUrlExpires
 
+    s3GetSignedUrlQ = Q.nbind s3.getSignedUrl, s3
     # use s3 SDK to sign URL
-    s3.getSignedUrl 'getObject', params, (err, url) ->
-      if err
-        return res.send 500, 'Failed to sign URL for S3 asset'
-
+    downloadUrl = null
+    s3GetSignedUrlQ 'getObject', params #, (err, url) ->
+    .then (url)->
+      downloadUrl = url
       logger.info 'Signed S3 URL is ' + url
       redisClient.q.set key, url, 'EX', (signedUrlExpires-60*60)
-      .then (result) ->
-        logger.info "Set #{key}:#{url} to redis"
-      res.redirect url
+    .then (result) ->
+      logger.info "Set #{key}:#{downloadUrl} to redis"
+      return downloadUrl
 
 
-  getAssetFromAzure : (key, assetType, res) ->
+  getAssetFromAzure : (key, assetType) ->
     tk_fn = key.split '/'
     assetId = tk_fn[0] # origin or encode
     urlType = tk_fn[1]
@@ -99,14 +100,10 @@ exports.AssetUtils = BaseUtils.subclass
     .then () ->
       logger.info "Set #{key}:#{downloadUrl} to redis"
       logger.info downloadUrl
-      res.redirect downloadUrl
-    .finally ()->
+    .then ()->
       lock.release()
       logger.info "released lock: #{assetId}"
-    .done null
-    , (err) ->
-      logger.error err
-      res.send 404, err
+      return downloadUrl
 
   genQiniuUpParams : (assetType, fileName) ->
     qiniuBucketName = config.assetsConfig[assetType].bucket_name

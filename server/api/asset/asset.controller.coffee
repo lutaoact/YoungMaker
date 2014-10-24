@@ -14,19 +14,19 @@ retrieveAsset = (key, assetType, res) ->
   # check cache first
   redisClient.q.get key
   .then (cached) ->
-    if cached? then return res.redirect cached
+    if cached? then return cached
 
     logger.info "No cache found for #{key}"
     logger.info 'Asset type ' + assetType
     switch config.assetsConfig[assetType].serviceName
       when 'qiniu'
-        AssetUtils.getAssetFromQiniu key, assetType, res
+        AssetUtils.getAssetFromQiniu key, assetType
       when 's3'
-        AssetUtils.getAssetFromS3 key, assetType, res
+        AssetUtils.getAssetFromS3 key, assetType
       when 'azure'
-        AssetUtils.getAssetFromAzure key, assetType, res
+        AssetUtils.getAssetFromAzure key, assetType
       else
-        res.send 404, 'asset host not found'
+        throw new Error('asset host not found')
 
 
 uploadAsset = (assetType, fileName) ->
@@ -41,28 +41,40 @@ uploadAsset = (assetType, fileName) ->
       console.log 'upload host is Azure'
       AssetUtils.genAzureUpParams assetType, fileName
     else
-      throw "Asset host #{assetHost} not found"
+      throw new Error("Asset host #{assetHost} not found")
 
 ###
   redirect api/assets/images/key to asset host URL
 ###
-exports.getImages = (req, res) ->
+exports.getImages = (req, res, next) ->
   key = decodeURI(req.url.replace(/(\/|)images\/\d+\//, ''))
   assetType = req.params.assetType
 
-  retrieveAsset key, assetType, res
+  retrieveAsset key, assetType
+  .then (downloadUrl)->
+    res.redirect downloadUrl
+  .catch next
+  .done()
 
-exports.getVideos = (req, res) ->
+exports.getVideos = (req, res, next) ->
   key = decodeURI(req.url.replace(/(\/|)videos\/\d+\//, ''))
   assetType = req.params.assetType
 
-  retrieveAsset key, assetType, res
+  retrieveAsset key, assetType
+  .then (downloadUrl)->
+    res.redirect downloadUrl
+  .catch next
+  .done()
 
-exports.getSlides = (req, res) ->
+exports.getSlides = (req, res, next) ->
   key = decodeURI(req.url.replace(/(\/|)slides\/\d+\//, ''))
   assetType = req.params.assetType
 
-  retrieveAsset key, assetType, res
+  retrieveAsset key, assetType
+  .then (downloadUrl)->
+    res.redirect downloadUrl
+  .catch next
+  .done()
 
 
 exports.uploadImage = (req, res, next) ->
@@ -70,18 +82,21 @@ exports.uploadImage = (req, res, next) ->
   .then (data)->
     data.prefix = "/api/assets/images/#{uploadImageType}/"
     res.send data
-  , next
+  .catch next
+  .done()
 
 exports.uploadVideo = (req, res, next) ->
   uploadAsset uploadVideoType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/videos/#{uploadVideoType}/"
     res.send data
-  , next
+  .catch next
+  .done()
 
 exports.uploadSlide = (req, res, next) ->
   uploadAsset uploadSlideType, req.query.fileName
   .then (data)->
     data.prefix = "/api/assets/slides/#{uploadSlideType}/"
     res.send data
-  , next
+  .catch next
+  .done()

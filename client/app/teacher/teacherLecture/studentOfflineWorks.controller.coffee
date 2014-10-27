@@ -46,7 +46,11 @@ angular.module('budweiserApp')
 
     submitOfflineWork: ()->
       $scope.selectedOfflineWork.checked = true
-      $scope.selectedOfflineWork.put()
+
+      $scope.selectedOfflineWork.all('score').post
+        score: $scope.selectedOfflineWork.score
+        feedback: $scope.selectedOfflineWork.feedback
       .then (data)->
+        console.log data
         angular.extend $scope.selectedOfflineWork, data
 

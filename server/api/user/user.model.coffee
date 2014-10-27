@@ -129,9 +129,8 @@ setupUserSchema = (UserSchema) ->
 
   UserSchema
   .pre 'save', (next) ->
-    if  not this.isNew
+    if not this.isNew
       next()
-
     if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
       next new Error 'Invalid password'
     else

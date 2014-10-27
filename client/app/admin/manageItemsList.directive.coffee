@@ -76,4 +76,4 @@ angular.module('budweiserApp')
       angular.forEach items, (o) -> o.$selected = selected
       updateSelected()
 
-  $scope.$watch 'items', updateSelected
+  $scope.$watch 'items.length', updateSelected

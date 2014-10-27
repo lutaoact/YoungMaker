@@ -92,7 +92,7 @@ angular.module('budweiserApp')
           else
             done()
 
-  $scope.$watch 'users', updateSelected
+  $scope.$watch 'users.length', updateSelected
 
   #TODO refactor
   $scope.isExcelProcessing = false

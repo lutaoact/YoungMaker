@@ -13,7 +13,6 @@ exports.Category = BaseModel.subclass
       name:
         type: String
         required: true
-        unique: true
       orgId:
         type : ObjectId
         required: true
@@ -21,5 +20,19 @@ exports.Category = BaseModel.subclass
       deleteFlag:
         type: Boolean
         default: false
+
+    @schema
+    .path 'name'
+    .validate (name, respond) ->
+      self = this
+      this.constructor.findOne
+        name : name
+        orgId: self.orgId
+        deleteFlag: $ne: true
+      , (err, data) ->
+        throw err if err
+        notTaken = !data or data.id == self.id
+        respond notTaken
+    , '专业名称已被占用'
 
     $super()

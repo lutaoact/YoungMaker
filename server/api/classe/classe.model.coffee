@@ -11,7 +11,6 @@ exports.Classe = BaseModel.subclass
       name:
         type: String
         required: true
-        unique: true
       orgId:
         type: Schema.Types.ObjectId
         ref: "organization"
@@ -20,6 +19,19 @@ exports.Classe = BaseModel.subclass
         ref: "user"
       ]
       yearGrade: String
+
+    @schema
+    .path 'name'
+    .validate (name, respond) ->
+      self = this
+      this.constructor.findOne
+        name : name
+        orgId: self.orgId
+      , (err, data) ->
+        throw err if err
+        notTaken = !data or data.id == self.id
+        respond notTaken
+    , '班级名称已被占用'
 
     $super()
 

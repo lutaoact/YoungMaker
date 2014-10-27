@@ -9,6 +9,7 @@ angular.module('budweiserApp').directive 'teacherQuestionItem', ->
     question: '='
     keyPoints: '=keypoints'
     removeCallback: '&'
+    allowStats: '@'
 
   controller: ($scope, $document, $timeout)->
 
@@ -23,3 +24,6 @@ angular.module('budweiserApp').directive 'teacherQuestionItem', ->
 
       removeQuestion: (question) ->
         $scope.removeCallback?($question:question)
+
+      showStats: (question) ->
+        $scope.statsShown = true

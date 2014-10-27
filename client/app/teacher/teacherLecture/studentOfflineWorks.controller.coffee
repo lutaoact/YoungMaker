@@ -59,6 +59,5 @@ angular.module('budweiserApp')
         score: $scope.selectedOfflineWork.score
         feedback: $scope.selectedOfflineWork.feedback
       .then (data)->
-        console.log data
         angular.extend $scope.selectedOfflineWork, data
 

@@ -51,9 +51,7 @@ angular.module('budweiserApp').directive 'studentList', ->
       if $scope.allStudentsDict? and $scope.studentsStatus
         $scope.studentsStatus.forEach (studentStatus)->
           $scope.allStudentsDict[studentStatus.id].$className = studentStatus.className
-        console.log $scope.allStudentsArray
 
     $scope.$watch 'studentsStatus', (value)->
-      console.log $scope.studentsStatus
       updateStudentsStatus()
 

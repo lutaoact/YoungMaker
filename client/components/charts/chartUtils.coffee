@@ -199,6 +199,8 @@ angular.module 'budweiserApp'
         text: ''
       loading: true
 
+  chartConfigs: chartConfigs
+
   genStatsOnScope: ($scope, courseId, userId)->
     $scope.quizStats = angular.copy(chartConfigs.pieChart)
     $scope.keypointStats = angular.copy(chartConfigs.pieChart)
@@ -312,4 +314,3 @@ angular.module 'budweiserApp'
         $scope.keypointBarChart.loading = false
 
     loadStats()
-

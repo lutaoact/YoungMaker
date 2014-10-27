@@ -78,7 +78,6 @@ angular.module('budweiserApp')
             true
           else
             false
-      console.log meta
 
     isImage: (ext)->
       /(png|jpeg|gif|jpg)/i .test ext
@@ -127,7 +126,6 @@ angular.module('budweiserApp')
         $scope.offlineWork =
           teacherId: $scope.course.owners[0]._id
           lectureId: $scope.lecture._id
-      console.log $scope.offlineWork
 
   $scope.$watch 'lecture', ->
     if !$scope.lecture then return

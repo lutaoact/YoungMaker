@@ -1,17 +1,31 @@
-<div class="teacher-question-item"
+<div class="teacher-question-item clearfix"
      id="question-item-{{index}}"
      ng-class="{'expended':question.$expended==true}">
-  <div class="question-title list-group-item"
-       ng-click="expendClick()">
+  <div class="question-title list-group-item">
     <input type="checkbox"
            ng-disabled="question.$exists"
            class="bud checkbox-default title-checkbox"
-           ng-model="question.$selected"
-           ng-click="question.$expended=!question.$expended">
+           ng-model="question.$selected">
     <div class="liner"></div>
-    <a class="close"
-       ng-click="question.$expended=!question.$expended; removeQuestion(question)">&times;</a>
+
+    <div dropdown class="pull-right question-menu" is-open="questionMenu.isopen">
+      <i class="fa fa-bars dropdown-toggle"></i>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-if="allowStats">
+          <a href="" ng-click="showStats(question); questionMenu.isopen = false">
+            <i class="fa fa-pie-chart"></i>统计
+          </a>
+        </li>
+        <li>
+          <a href="" ng-click="removeQuestion(question); questionMenu.isopen = false">
+            <i class="fa fa-times"></i>删除
+          </a>
+        </li>
+      </ul>
+    </div>
+
     <label class="title-info"
+           ng-click="expendClick()"
            ng-class="{'text-muted':question.$exists}">
       <span class="index">{{index}}.</span>{{question.body | questionTitle}}
     </label>
@@ -40,4 +54,8 @@
                      keypoints="keyPoints">
     </question-answer>
   </div>
+
+  <teacher-question-item-stats question="question" class="clearfix" ng-if="statsShown">
+  </teacher-question-item-stats>
+
 </div>

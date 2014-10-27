@@ -130,6 +130,14 @@ angular.module 'budweiserApp'
             angular.element('#colorboard-btn').css 'color', '#000'
             false
 
+      taRegisterTool 'code',
+        iconclass: "fa fa-code"
+        action: ()->
+          this.$editor().wrapSelection("formatBlock", "<PRE>")
+
+        activeState: ()->
+          this.$editor().queryFormatBlockState('pre')
+
       #image Uploader
       taRegisterTool 'upload',
         iconclass: "fa fa-image",
@@ -158,7 +166,7 @@ angular.module 'budweiserApp'
         ['fontColour','h1', 'h2', 'h3'],
         ['bold', 'italics', 'underline', 'strikeThrough', 'clear'],
         ['justifyLeft','justifyCenter','justifyRight'],
-        ['ul', 'ol','pre', 'quote']
+        ['ul', 'ol','code', 'quote']
         ['insertLink', 'upload']
       ]
       taOptions

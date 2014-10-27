@@ -31,7 +31,7 @@
     }
   }
   .question-title {
-    padding: 0px 20px 20px 15px;
+    padding: 0px 20px 0 15px;
     margin: 0px;
     border-radius: 4px;
     .title-checkbox {
@@ -49,26 +49,25 @@
     .title-info {
       padding-top: 20px;
       padding-left: 27px;
+      padding-bottom: 20px;
       margin: 0px;
-      width: calc(~'100% - 90px');
+      width: calc(~'100% - 20px');
       word-wrap: break-word;
+      cursor: pointer;
     }
     .index {
       padding-right: 5px;
     }
-    .close {
-      display: none;
-      margin-top: 20px;
-      margin-right: 10px;
+    .question-menu {
+      position: relative;
+      margin-top: 18px;
+      cursor: pointer;
     }
   }
   .question-title:hover {
     background: #f8f8f8;
     .liner {
       display: block;
-    }
-    .close {
-      display:block;
     }
   }
   .question-content {

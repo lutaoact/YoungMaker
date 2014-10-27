@@ -23,8 +23,12 @@ angular.module('budweiserApp')
       .then (classe)->
         angular.extend $scope.selectedClasse, classe
         notify
-          message: """"#{classe.name}"信息已保存"""
+          message: '班级名称修改成功'
           classes: 'alert-success'
+      .catch (error) ->
+        notify
+          message: error?.data?.errors?.name?.message
+          classes: 'alert-danger'
 
     reloadStudents: ->
       $scope.selectedClasse?.all('students').getList()

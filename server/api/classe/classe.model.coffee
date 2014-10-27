@@ -31,7 +31,7 @@ exports.Classe = BaseModel.subclass
         throw err if err
         notTaken = !data or data.id == self.id
         respond notTaken
-    , '班级名称已被占用'
+    , '该班级名称已被占用，请选择其他名称'
 
     $super()
 

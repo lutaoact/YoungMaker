@@ -89,14 +89,14 @@ setupUserSchema = (UserSchema) ->
   .path 'email'
   .validate (email) ->
     email.length
-  , '邮箱地址不能为空。'
+  , '邮箱地址不能为空'
 
   # Validate empty password
   UserSchema
   .path 'hashedPassword'
   .validate (hashedPassword) ->
     hashedPassword.length
-  , '登录密码不能为空。'
+  , '登录密码不能为空'
 
   # Validate email is not taken
   UserSchema
@@ -109,7 +109,7 @@ setupUserSchema = (UserSchema) ->
       throw err if err
       notTaken = !user or user.id == self.id
       respond notTaken
-  , '该邮箱地址已经被占用，请选择其他邮箱。'
+  , '该邮箱地址已经被占用，请选择其他邮箱'
 
   # Validate username is not taken
   UserSchema
@@ -122,7 +122,7 @@ setupUserSchema = (UserSchema) ->
       throw err if err
       notTaken = !user or user.id == self.id
       respond notTaken
-  , '该用户名已经被占用，请选择其他用户名。'
+  , '该用户名已经被占用，请选择其他用户名'
 
   validatePresenceOf = (value) ->
     value && value.length

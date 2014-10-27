@@ -17,6 +17,7 @@
                placeholder="请输入{{itemTitle}}名称"
                ng-model="item.name"
                required>
+        <small class="text-danger" ng-if="errors.name">{{ errors.name.message }}</small>
       </div>
     </div>
 

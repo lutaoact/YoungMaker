@@ -9,6 +9,7 @@ angular.module('budweiserApp').controller 'NewItemModalCtrl', (
 ) ->
 
   angular.extend $scope,
+    errors: null
     itemTitle: itemTitle
     item:
       name: ''
@@ -18,5 +19,8 @@ angular.module('budweiserApp').controller 'NewItemModalCtrl', (
 
     confirm: (form) ->
       if !form.$valid then return
+      $scope.errors = null
       Restangular.all(itemType).post($scope.item)
       .then $modalInstance.close
+      .catch (error) ->
+        $scope.errors = error?.data?.errors

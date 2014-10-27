@@ -5,6 +5,7 @@ angular.module('budweiserApp')
 .controller 'CategoryManagerDetailCtrl', (
   $scope
   $state
+  notify
 ) ->
 
   # 能编辑的字段
@@ -16,6 +17,20 @@ angular.module('budweiserApp')
 
     eidtingInfo: null
     courses: null
+    saved: false
+
+    saveCategory: (form) ->
+      if !form.$valid  || $scope.saved then return
+      $scope.selectedCategory.patch $scope.editingInfo
+      .then (category)->
+        angular.extend $scope.selectedCategory, category
+        notify
+          message: '专业名称修改成功'
+          classes: 'alert-success'
+      .catch (error) ->
+        notify
+          message: error?.data?.errors?.name?.message
+          classes: 'alert-danger'
 
     reloadCourses: ->
       $scope.selectedCategory?.all('courses').getList()

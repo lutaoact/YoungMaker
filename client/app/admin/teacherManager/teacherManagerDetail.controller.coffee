@@ -12,7 +12,8 @@ angular.module('budweiserApp')
   resetSelectedCourse = ->
     selectedCourse = _.find($scope.courses, _id:$scope.selectedCourse?._id) ? $scope.courses?[0]
     angular.extend $scope.selectedCourse, selectedCourse
-    chartUtils.genStatsOnScope $scope, $scope.selectedCourse?._id, $scope.teacher?._id
+    if selectedCourse?
+      chartUtils.genStatsOnScope($scope, selectedCourse?._id, $scope.teacher?._id)
 
   angular.extend $scope,
     $state: $state

@@ -21,6 +21,7 @@ angular.module 'budweiserApp'
             fillOpacity: 0.1
             dataLabels:
               enabled: true
+              format: '{point.correctNum}/{point.total}'
         tooltip:
           useHTML: true
           headerFormat: ''
@@ -66,14 +67,16 @@ angular.module 'budweiserApp'
           enabled: false
         plotOptions:
           pie:
-            enableMouseTracking: false
             # For responsive
             dataLabels:
               enabled: false
             showInLegend: true
         # Show in percentage
         tooltip:
-          enabled: false
+          useHTML: true
+          headerFormat: ''
+          pointFormat: '{point.name}'
+
       series: [
         {
           type:'pie'
@@ -170,7 +173,7 @@ angular.module 'budweiserApp'
             borderWidth: 0
             dataLabels:
               enabled: true
-              format: '{point.y:.1f}%'
+              format: '{point.correctNum}/{point.total}'
           bar:
             cursor: 'pointer'
             pointWidth: 30
@@ -210,12 +213,12 @@ angular.module 'budweiserApp'
         result.$text = '随堂问题'
         $scope.quizStats.series[0].data = [
           {
-            name:'正确'
+            name: '答对' + result.summary.correctNum + '题'
             y: result.summary.percent
             color: '#E84D50'
           }
           {
-            name:'错误'
+            name: '答错' + ~~(result.summary.correctNum * 100 / result.summary.percent - result.summary.correctNum) + '题'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }]
@@ -229,12 +232,12 @@ angular.module 'budweiserApp'
         result.$text = '课后习题'
         $scope.homeworkStats.series[0].data = [
           {
-            name:'正确'
+            name: '答对' + result.summary.correctNum + '题'
             y: result.summary.percent
             color: '#5cb85c'
           }
           {
-            name:'错误'
+            name: '答错' + ~~(result.summary.correctNum * 100 / result.summary.percent - result.summary.correctNum) + '题'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }]
@@ -248,12 +251,12 @@ angular.module 'budweiserApp'
         result.$text = '知识点掌握程度'
         $scope.keypointStats.series[0].data = [
           {
-            name:'掌握'
+            name: '答对' + result.summary.correctNum + '题'
             y: result.summary.percent
             color: '#F69226'
           }
           {
-            name:'未掌握'
+            name: '答错' + ~~(result.summary.correctNum * 100 / result.summary.percent - result.summary.correctNum) + '题'
             y: 100 - result.summary.percent
             color: '#ebebeb'
           }
@@ -279,18 +282,18 @@ angular.module 'budweiserApp'
 
         $scope.quizTrendChart.series = results.slice(0,1).map (stats, index)->
           data: results[3].map (lecture)->
-            [
-              lecture.name
-              stats[lecture._id]?.percent ? 0
-            ]
+            name: lecture.name
+            y: stats[lecture._id]?.percent ? 0
+            correctNum: stats[lecture._id]?.correctNum ? 0
+            total: ~~(100 * stats[lecture._id]?.correctNum / stats[lecture._id]?.percent)
         $scope.quizTrendChart.loading = false
 
         $scope.homeworkTrendChart.series = results.slice(1,2).map (stats, index)->
           data: results[3].map (lecture)->
-            [
-              lecture.name
-              stats[lecture._id]?.percent ? 0
-            ]
+            name: lecture.name
+            y: stats[lecture._id]?.percent ? 0
+            correctNum: stats[lecture._id]?.correctNum ? 0
+            total: ~~(100 * stats[lecture._id]?.correctNum / stats[lecture._id]?.percent)
         $scope.homeworkTrendChart.loading = false
 
         # fill the key points
@@ -299,7 +302,10 @@ angular.module 'budweiserApp'
         sortedStats = _.sortBy results[2].stats, (item) -> item.percent
         $scope.keypointBarChart.xAxis.categories = _.map sortedStats, (item)->
           keypointsMap[item.kpId]?.name
-        $scope.keypointBarChart.series[0].data = _.pluck sortedStats, 'percent'
+        $scope.keypointBarChart.series[0].data = _.map sortedStats, (item)->
+          y: item.percent
+          correctNum: item.correctNum ? 0
+          total : ~~(100 * item.correctNum / item.percent)
 
         $scope.keypointBarChart.options.chart.height = $scope.keypointBarChart.series[0].data.length * 50 + 120
         $scope.keypointBarChart.title.text = '知识点掌握程度统计'

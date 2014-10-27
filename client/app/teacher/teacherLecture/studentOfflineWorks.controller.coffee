@@ -23,7 +23,15 @@ angular.module('budweiserApp')
   getAllOfflineWorks = ()->
     Restangular.all('offline_works').getList(lectureId: $scope.lecture._id)
     .then (offlineWorks)->
-      console.log offlineWorks
+      $scope.studentsStatus = offlineWorks.map (item)->
+        if item.checked?
+          id: item.userId
+          className: 'fa fa-check'
+        else if item.submitted?
+          id: item.userId
+          className: 'fa fa-paperclip'
+        else
+          id: item.userId
       $scope.offlineWorks = offlineWorks
 
   $scope.$watch 'lecture', (value)->

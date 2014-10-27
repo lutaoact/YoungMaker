@@ -7,6 +7,7 @@ angular.module('budweiserApp').directive 'studentList', ->
   scope:
     classes: '='
     selectedStudent: '='
+    studentsStatus: '='
     onStudentSelect: '&'
   link: (scope, element, attrs) ->
 
@@ -34,6 +35,7 @@ angular.module('budweiserApp').directive 'studentList', ->
             classe.$students = students
         ).then ->
           $scope.allStudentsDict = _.indexBy $scope.allStudentsArray, '_id'
+          updateStudentsStatus()
 
       selectStudent: (student)->
         $scope.selectedStudent = student
@@ -44,4 +46,14 @@ angular.module('budweiserApp').directive 'studentList', ->
     $scope.$watch 'allStudentsDict', (value)->
      if value and $state.params.studentId
        $scope.selectedStudent = value[$state.params.studentId]
+
+    updateStudentsStatus = ()->
+      if $scope.allStudentsDict? and $scope.studentsStatus
+        $scope.studentsStatus.forEach (studentStatus)->
+          $scope.allStudentsDict[studentStatus.id].$className = studentStatus.className
+        console.log $scope.allStudentsArray
+
+    $scope.$watch 'studentsStatus', (value)->
+      console.log $scope.studentsStatus
+      updateStudentsStatus()
 

@@ -3,6 +3,7 @@
 CourseUtils = _u.getUtils 'course'
 HomeworkAnswer = _u.getModel 'homework_answer'
 StatsUtils = _u.getUtils 'stats'
+User = _u.getModel 'user'
 
 calLectureStats = (lecture, summary, studentsNum, userId) ->
   tmpResult = {}

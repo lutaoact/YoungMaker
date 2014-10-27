@@ -199,7 +199,7 @@ angular.module 'budweiserApp'
         text: ''
       loading: true
 
-  genStatsOnScope: ($scope, courseId, studentId)->
+  genStatsOnScope: ($scope, courseId, userId)->
     $scope.quizStats = angular.copy(chartConfigs.pieChart)
     $scope.keypointStats = angular.copy(chartConfigs.pieChart)
     $scope.homeworkStats = angular.copy(chartConfigs.pieChart)
@@ -208,7 +208,7 @@ angular.module 'budweiserApp'
     $scope.keypointBarChart = angular.copy chartConfigs.verticalBarChart
 
     loadQuizStats = ()->
-      Restangular.one('quiz_stats','').get({courseId:courseId, studentId:studentId})
+      Restangular.one('quiz_stats','').get({courseId:courseId, userId:userId})
       .then (result)->
         result.$text = '随堂问题'
         $scope.quizStats.series[0].data = [
@@ -227,7 +227,7 @@ angular.module 'budweiserApp'
         result
 
     loadHomeworkStats = ()->
-      Restangular.one('homework_stats','').get({courseId:courseId, studentId:studentId})
+      Restangular.one('homework_stats','').get({courseId:courseId, userId:userId})
       .then (result)->
         result.$text = '课后习题'
         $scope.homeworkStats.series[0].data = [
@@ -246,7 +246,7 @@ angular.module 'budweiserApp'
         result
 
     loadKeypointStats = ()->
-      Restangular.one('keypoint_stats','').get({courseId:courseId, studentId:studentId})
+      Restangular.one('keypoint_stats','').get({courseId:courseId, userId:userId})
       .then (result)->
         result.$text = '知识点掌握程度'
         $scope.keypointStats.series[0].data = [

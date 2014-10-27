@@ -5,7 +5,7 @@ angular.module('budweiserApp').config ($stateProvider) ->
   $stateProvider
 
   .state 'admin.categoryManager',
-    url: '/category'
+    url: '/categories'
     templateUrl: 'app/admin/categoryManager/categoryManager.html'
     controller: 'CategoryManagerCtrl'
     authenticate: true
@@ -19,4 +19,10 @@ angular.module('budweiserApp').config ($stateProvider) ->
     url: '/:categoryId'
     templateUrl: 'app/admin/categoryManager/categoryManagerDetail.html'
     controller: 'CategoryManagerDetailCtrl'
+    authenticate: true
+
+  .state 'admin.categoryManager.detail.course',
+    url: '/courses/:courseId'
+    templateUrl: 'app/admin/categoryManager/categoryManagerCourseDetail.html'
+    controller: 'CategoryManagerCourseDetailCtrl'
     authenticate: true

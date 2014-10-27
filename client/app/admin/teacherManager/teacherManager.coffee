@@ -3,7 +3,7 @@
 angular.module('budweiserApp').config ($stateProvider) ->
 
   $stateProvider.state 'admin.teacherManager',
-    url: '/teacher'
+    url: '/teachers'
     templateUrl: 'app/admin/teacherManager/teacherManager.html'
     controller: 'TeacherManagerCtrl'
     authenticate: true

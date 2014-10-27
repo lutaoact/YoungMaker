@@ -13,7 +13,8 @@
            required>
   </form>
 
-  <div class="list-group-item manage-courses-list">
+  <div ui-view
+       class="fadeIn list-group-item manage-courses-list">
     <strong>课程列表</strong>
     <span class="liner"></span>
     <input class="form-control search-input"
@@ -28,7 +29,7 @@
     </div>
     <div ng-repeat="course in courses | filter:searchCourse"
          class="course-info">
-      <a ng-click="showDetail(course)">
+      <a ng-click="viewCourse(course)">
         <span class="name">{{course.name}} ({{course.lectureAssembly.length}}课时)</span>
         <span class="teacher">
           <span ng-repeat="owner in course.owners">{{owner.name}} </span>

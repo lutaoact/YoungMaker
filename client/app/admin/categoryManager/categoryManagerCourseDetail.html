@@ -1,0 +1,58 @@
+<div class="category-manager-course-detail">
+
+  <h5>
+    <ol class="breadcrumb">
+      <li><a ui-sref="admin.categoryManager.detail({categoryId:$state.params.categoryId})">课程列表</a></li>
+      <li><a>{{course.name}}的统计信息</a></li>
+    </ol>
+  </h5>
+
+  <div class="stats-view">
+
+    <div class="overall clearfix">
+      <div class="col-md-12 pies clearfix">
+        <div class="col-md-4">
+          <highchart config="quizStats" class="bud-chart"></highchart>
+          <div class="percentage quiz-percentage">
+            {{quizStats.series[0].data[0].y||0}}<sup>%</sup>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <highchart config="homeworkStats" class="bud-chart"></highchart>
+          <div class="percentage homework-percentage">
+            {{homeworkStats.series[0].data[0].y||0}}<sup>%</sup>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <highchart config="keypointStats" class="bud-chart"></highchart>
+          <div class="percentage keypoint-percentage">
+            {{keypointStats.series[0].data[0].y||0}}<sup>%</sup>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="clearfix detail-container">
+      <div class="detail">
+        <tabset class="trend">
+          <tab heading="随堂问题">
+            <highchart config="quizTrendChart" class="bud-chart"></highchart>
+          </tab>
+          <tab heading="课后习题"
+               select="triggerResize()">
+            <highchart config="homeworkTrendChart" class="bud-chart"></highchart>
+          </tab>
+        </tabset>
+
+        <hr/>
+        <div class="keypoints">
+          <highchart config="keypointBarChart" class="bud-chart"></highchart>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -156,17 +156,29 @@ exports.StatsUtils = BaseUtils.subclass
     return QuestionUtils.getAnswerArrayFromQuestion(question).toString()
 
 
-  getQuizStats: (lectureId, questionId) ->
-    QuizAnswer.findQ
+  getQuizStats: (lectureId, questionId, optionsNum, students) ->
+    QuizAnswer.find
       lectureId: lectureId
       questionId: questionId
+      userId: {'$in': students}
+    .populate('userId', '_id username name')
+    .execQ()
     .then (quizAnswers) ->
-      results = _.pluck quizAnswers, 'result'
-      return _.countBy(_.flatten(results), (ele) ->
-        return ele
-      )
-    , (err) ->
-      Q.reject err
+      stats = {}
+      stats['unanswered'] = JSON.parse(JSON.stringify(students));
+      for idx in [0..optionsNum-1]
+        stats[idx.toString()] = []
+
+      for quizAnswer in quizAnswers
+        for result in quizAnswer.result
+          stats[result].push(quizAnswer.userId)
+          # TODO: index the array!
+          # TODO: stats's structure need to be discussed
+          _.remove stats['unanswered'], (user) ->
+            return user._id == quizAnswer.userId.id
+
+      return stats
+
 
 
   makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->

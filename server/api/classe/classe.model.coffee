@@ -41,3 +41,13 @@ exports.Classe = BaseModel.subclass
       return _.reduce classes, (studentIds, classe) ->
         return studentIds.concat classe.students
       , []
+
+  # return [id & name]
+  getAllStudentsInfo: (classeIds) ->
+    @find _id: $in: classeIds
+    .populate('students', '_id username name')
+    .execQ()
+    .then (classes) ->
+      return _.reduce classes, (studentInfos, classe) ->
+        return studentInfos.concat classe.students
+      , []

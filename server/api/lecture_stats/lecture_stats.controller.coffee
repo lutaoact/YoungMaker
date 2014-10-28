@@ -9,23 +9,16 @@ Course = _u.getModel "course"
 CourseUtils = _u.getUtils 'course'
 LectureUtils = _u.getUtils 'lecture'
 Classe = _u.getModel 'classe'
+findIndex = _u.findIndex
 
-buildQuizResult = (lecture, qIds, students) ->
-  Q.all _.map qIds, (qId) ->
-    question = null
-    Question.findByIdQ qId
-    .then (q) ->
-      question = q
-      console.log q
-      optionsNum = q.choices.length
-      StatsUtils.getQuizStats lecture._id, qId, optionsNum, students
-    .then (stats) ->
-      return {
-        question: question
-        stats: stats
-      }
+buildQuizResult = (lectureId, qId, students) ->
+  Question.findByIdQ qId
+  .then (question) ->
+    optionsNum = question.choices.length
+    StatsUtils.getQuizStats lectureId, qId, optionsNum, students
 
-buildHWResult = (lectureId, students) ->
+
+buildHWResult = (lectureId, questionId, students) ->
   HomeworkAnswer.find
     lectureId : lectureId
     userId: {'$in': students}
@@ -40,38 +33,38 @@ buildHWResult = (lectureId, students) ->
       results = hwa.result
       _.forEach results, (result) ->
         qId = result.questionId
+        if qId.toString() != questionId
+          return
         tmpResult[qId] = [] if !tmpResult.hasOwnProperty qId
         answer = {userId: hwa.userId, result: result.answer}
         tmpResult[qId].push answer
       return tmpResult
     , {}
 
-    Q.all _.map hwResult , (answers, qId) ->
-#      stats = _.countBy (_.flatten answers) , (answer) -> answer
-      Question.findByIdQ qId
-      .then (question) ->
-        stats = {}
-        stats['unanswered'] = JSON.parse(JSON.stringify(students));
-        optionsNum = question.choices.length
-        for idx in [0..optionsNum-1]
-          stats[idx.toString()] = []
+    answers = hwResult[questionId]
+    qId = questionId
+    Question.findByIdQ qId
+    .then (question) ->
+      stats = {}
+      stats['unanswered'] = JSON.parse(JSON.stringify(students));
+      optionsNum = question.choices.length
+      for idx in [0..optionsNum-1]
+        stats[idx.toString()] = []
 
-        for answer in answers
-          for result in answer.result
-            stats[result].push(answer.userId)
-          _.remove stats['unanswered'], (user) ->
-            return user._id == answer.userId.id
+      for answer in answers
+        for result in answer.result
+          stats[result].push(answer.userId)
+        _.remove stats['unanswered'], (user) ->
+          return user._id == answer.userId.id
 
-        return {
-          question : question
-          stats : stats
-        }
+      return stats
 
 
 exports.questionStats = (req, res, next) ->
   lectureId = req.query.lectureId
   courseId = req.query.courseId
   classId = req.query.classId
+  questionId = req.query.questionId
   logger.info "Get stats for lecture #{lectureId}"
 
   studentsPromise = null
@@ -85,19 +78,16 @@ exports.questionStats = (req, res, next) ->
     return next("need classId or courseId")
 
   user = req.user
-  finalResult = []
-  students = null
   Q.all [studentsPromise, LectureUtils.getAuthedLectureById user, lectureId]
-  .then (students_lecture) ->
-    students = students_lecture[0]
-    lecture = students_lecture[1]
-    quizIds = lecture.quizzes
-    buildQuizResult lecture, quizIds, students
-  .then (quizStats) ->
-    finalResult = finalResult.concat quizStats
-    buildHWResult lectureId, students
-  .then (hwStats) ->
-    finalResult = finalResult.concat hwStats
-    res.send 200, finalResult
+  .spread (students, lecture) ->
+    if findIndex(lecture.quizzes, questionId) >= 0
+      buildQuizResult lectureId, questionId, students
+    else if findIndex(lecture.homeworks, questionId) >=0
+      buildHWResult lectureId, questionId, students
+    else
+      throw new Error("question #{questionId} cannot find in lecture #{lectureId}")
+  .then (result) ->
+    res.send 200, result
   .fail next
+  .done()
 

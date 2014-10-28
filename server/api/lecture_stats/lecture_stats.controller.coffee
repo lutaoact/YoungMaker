@@ -19,45 +19,37 @@ buildQuizResult = (lectureId, qId, students) ->
 
 
 buildHWResult = (lectureId, questionId, students) ->
-  HomeworkAnswer.find
+  answersPromise = HomeworkAnswer.find
     lectureId : lectureId
     userId: {'$in': students}
   .populate('userId', '_id username name')
   .execQ()
   .then (hwas) ->
-    # hwResult object to save middle result like this:
-    # key : questionId
-    # value : Array of answers for this question. For example
-    # [{userId:"xxx", result: [0,1]} ...]
-    hwResult = _.reduce hwas, (tmpResult, hwa) ->
+    answers = _.reduce hwas, (tmpAnswers, hwa) ->
       results = hwa.result
-      _.forEach results, (result) ->
-        qId = result.questionId
-        if qId.toString() != questionId
-          return
-        tmpResult[qId] = [] if !tmpResult.hasOwnProperty qId
-        answer = {userId: hwa.userId, result: result.answer}
-        tmpResult[qId].push answer
-      return tmpResult
-    , {}
+      idx = _.findIndex results, (ele)->
+        return ele.questionId.toString() == questionId
+      answer = {userId: hwa.userId, result: results[idx].answer}
+      tmpAnswers.push(answer)
+      return tmpAnswers
+    , []
+    return answers
 
-    answers = hwResult[questionId]
-    qId = questionId
-    Question.findByIdQ qId
-    .then (question) ->
-      stats = {}
-      stats['unanswered'] = JSON.parse(JSON.stringify(students));
-      optionsNum = question.choices.length
-      for idx in [0..optionsNum-1]
-        stats[idx.toString()] = []
+  Q.all [answersPromise, Question.findByIdQ questionId]
+  .spread (answers, question)->
+    stats = {}
+    stats['unanswered'] = JSON.parse(JSON.stringify(students));
+    optionsNum = question.choices.length
+    for idx in [0..optionsNum-1]
+      stats[idx.toString()] = []
 
-      for answer in answers
-        for result in answer.result
-          stats[result].push(answer.userId)
-        _.remove stats['unanswered'], (user) ->
-          return user._id == answer.userId.id
+    for answer in answers
+      for result in answer.result
+        stats[result].push(answer.userId)
+      _.remove stats['unanswered'], (user) ->
+        return user._id == answer.userId.id
 
-      return stats
+    return stats
 
 
 exports.questionStats = (req, res, next) ->

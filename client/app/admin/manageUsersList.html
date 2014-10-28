@@ -12,8 +12,15 @@
       <label class="btn btn-danger btn-sm rounded">
         <input type="file"
                style="display:none;"
-               ng-file-select="onFileSelect($files)"/>
-        批量导入
+               onclick="this.value = null"
+               ng-file-select="importUsers($files)"/>
+        <span ng-if="!importing">
+          批量导入
+        </span>
+        <span ng-if="importing">
+          <i class="fa fa-spinner fa-spin"></i>
+          导入中
+        </span>
       </label>
       <button class="btn btn-default btn-sm rounded"
               ng-click="deleteUsers(selectedUsers)"

@@ -25,7 +25,6 @@ angular.module('budweiserApp')
   $scope
   fileUtils
   $modal
-  $timeout
 ) ->
 
   angular.extend $scope,
@@ -81,6 +80,7 @@ angular.module('budweiserApp')
           convert: ->
             $scope.uploadState = 'converting'
             $scope.onConvert?()
+
         if $scope.multiple
           fileUtils.bulkUpload uploadParam
         else

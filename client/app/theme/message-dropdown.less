@@ -1,9 +1,7 @@
-.navbar-nav > li > .dropdown-menu.message-dropdown{
+.dropdown-menu.message-dropdown{
   background-color: #FFFFFF;
   margin-top: 0px;
   border: 1px solid @gray-lighter;
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
   color: #000000;
   border-radius: 4px;
   width: 260px;
@@ -92,6 +90,18 @@
           }
         }
       }
+    }
+  }
+  @media (max-width: @grid-float-breakpoint-max) {
+    .message-filters {
+      border-radius: 0;
+    }
+    border-radius: 0;
+    background-color: white !important;
+    margin-bottom: -7px;
+    &:before{
+      top: 40px;
+      right: 34px
     }
   }
 }

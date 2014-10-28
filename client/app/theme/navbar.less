@@ -115,6 +115,25 @@
 
   }
 
+  .navbar-avatar-group {
+    position: relative;
+    float: right;
+    margin-left: -200px;
+    .navbar-avatar-dropdown {
+      padding-left: 205px;
+      .navbar-avatar{
+        margin-right: 200px;
+        cursor: pointer;
+        .avatar(36px);
+        margin-top: ((@navbar-height - 36px) / 2) !important;
+        margin-bottom: ((@navbar-height - 36px) / 2) !important;
+        &:hover{
+          border:none;
+        }
+      }
+    }
+  }
+
   .badge{
     background: @brand-danger;
     line-height: 1.2em;
@@ -199,6 +218,24 @@
   .bud-navbar(@base-color,#FFFFFF);
   .navbar-brand{
     color: #FFF;
+  }
+}
+.bud.navbar.home {
+  background: #292929;
+  border: none;
+  margin-bottom: 0;
+  height: 55px;
+  overflow:hidden;
+  .navbar-brand{
+    height: 55px;
+    color: #FFFFFF;
+    .logo{
+      max-width:36px;
+      max-height:36px;
+      margin-top: -4px;
+      margin-right: 14px;
+      margin-left: 5px;
+    }
   }
 }
 

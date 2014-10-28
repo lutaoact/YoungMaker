@@ -1,18 +1,21 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
+  $sce
   $scope
   $state
   $modal
+  Navbar
   Classes
   Courses
-  Restangular
-  $sce
   $timeout
+  Restangular
 ) ->
 
+  Navbar.setVisible false
   # TODO: remove this line. Fix in videogular
   $scope.$on '$destroy', ()->
+    Navbar.resetVisible()
     # clear video
     angular.element('video').attr 'src', ''
 

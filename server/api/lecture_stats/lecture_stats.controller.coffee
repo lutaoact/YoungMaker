@@ -14,8 +14,7 @@ findIndex = _u.findIndex
 buildQuizResult = (lectureId, qId, students) ->
   Question.findByIdQ qId
   .then (question) ->
-    optionsNum = question.choices.length
-    StatsUtils.getQuizStats lectureId, qId, optionsNum, students
+    StatsUtils.getQuizStats lectureId, qId, question, students
 
 
 buildHWResult = (lectureId, questionId, students) ->
@@ -38,7 +37,9 @@ buildHWResult = (lectureId, questionId, students) ->
   Q.all [answersPromise, Question.findByIdQ questionId]
   .spread (answers, question)->
     stats = {}
-    stats['unanswered'] = JSON.parse(JSON.stringify(students));
+    stats['right'] = []
+    stats['wrong'] = []
+    stats['unanswered'] = []
     optionsNum = question.choices.length
     for idx in [0..optionsNum-1]
       stats[idx.toString()] = []
@@ -46,8 +47,23 @@ buildHWResult = (lectureId, questionId, students) ->
     for answer in answers
       for result in answer.result
         stats[result].push(answer.userId)
-      _.remove stats['unanswered'], (user) ->
-        return user._id == answer.userId.id
+
+      if answer.result.length == 0
+        correct = -1
+      else
+        correct = question.choices.every (choice, index)->
+          if choice.correct
+            answer.result?.some (item)-> item is index
+          else
+            answer.result?.every (item)-> item isnt index
+        correct = if correct then 1 else 0
+
+      if correct == 1
+        stats['right'].push answer.userId
+      else if correct == 0
+        stats['wrong'].push answer.userId
+      else
+        stats['unanswered'].push answer.userId
 
     return stats
 

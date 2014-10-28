@@ -156,7 +156,8 @@ exports.StatsUtils = BaseUtils.subclass
     return QuestionUtils.getAnswerArrayFromQuestion(question).toString()
 
 
-  getQuizStats: (lectureId, questionId, optionsNum, students) ->
+  getQuizStats: (lectureId, questionId, question, students) ->
+    optionsNum = question.choices.length
     QuizAnswer.find
       lectureId: lectureId
       questionId: questionId
@@ -165,17 +166,33 @@ exports.StatsUtils = BaseUtils.subclass
     .execQ()
     .then (quizAnswers) ->
       stats = {}
-      stats['unanswered'] = JSON.parse(JSON.stringify(students));
+      stats['right'] = []
+      stats['wrong'] = []
+      stats['unanswered'] = []
       for idx in [0..optionsNum-1]
         stats[idx.toString()] = []
 
+      # peruser's quizAnswer
       for quizAnswer in quizAnswers
         for result in quizAnswer.result
           stats[result].push(quizAnswer.userId)
-          # TODO: index the array!
-          # TODO: stats's structure need to be discussed
-          _.remove stats['unanswered'], (user) ->
-            return user._id == quizAnswer.userId.id
+
+        if quizAnswer.result.length == 0
+          correct = -1
+        else
+          correct = question.choices.every (choice, index)->
+            if choice.correct
+              quizAnswer.result?.some (item)-> item is index
+            else
+              quizAnswer.result?.every (item)-> item isnt index
+          correct = if correct then 1 else 0
+
+        if correct == 1
+          stats['right'].push quizAnswer.userId
+        else if correct == 0
+          stats['wrong'].push quizAnswer.userId
+        else
+          stats['unanswered'].push quizAnswer.userId
 
       return stats
 

@@ -156,46 +156,73 @@ exports.StatsUtils = BaseUtils.subclass
     return QuestionUtils.getAnswerArrayFromQuestion(question).toString()
 
 
-  getQuizStats: (lectureId, questionId, question, students) ->
-    optionsNum = question.choices.length
-    QuizAnswer.find
-      lectureId: lectureId
-      questionId: questionId
-      userId: {'$in': students}
-    .populate('userId', '_id username name')
-    .execQ()
-    .then (quizAnswers) ->
-      stats = {}
-      stats['right'] = []
-      stats['wrong'] = []
-      stats['unanswered'] = []
+  getQuestionStats: (answersPromise, questionId)->
+    Q.all [answersPromise, Question.findByIdQ questionId]
+    .spread (qestionAnswers, question) ->
+      stats =
+        right: []
+        wrong: []
+        unanswered: []
+
+      optionsNum = question.choices.length
       for idx in [0..optionsNum-1]
         stats[idx.toString()] = []
 
-      # peruser's quizAnswer
-      for quizAnswer in quizAnswers
-        for result in quizAnswer.result
-          stats[result].push(quizAnswer.userId)
+      for questionAnswer in qestionAnswers
+        for result in questionAnswer.result
+          stats[result].push(questionAnswer.userId)
 
-        if quizAnswer.result.length == 0
+        if questionAnswer.result.length == 0
           correct = -1
         else
           correct = question.choices.every (choice, index)->
             if choice.correct
-              quizAnswer.result?.some (item)-> item is index
+              questionAnswer.result?.some (item)-> item is index
             else
-              quizAnswer.result?.every (item)-> item isnt index
+              questionAnswer.result?.every (item)-> item isnt index
           correct = if correct then 1 else 0
 
         if correct == 1
-          stats['right'].push quizAnswer.userId
+          stats['right'].push questionAnswer.userId
         else if correct == 0
-          stats['wrong'].push quizAnswer.userId
+          stats['wrong'].push questionAnswer.userId
         else
-          stats['unanswered'].push quizAnswer.userId
+          stats['unanswered'].push questionAnswer.userId
 
       return stats
 
+
+  getQuizStats: (lectureId, questionId, students) ->
+    # answersPromise: peruser's questionAnswer promise
+    answersPromise = QuizAnswer.find
+      lectureId: lectureId
+      questionId: questionId
+      userId: {'$in': students}
+    .populate('userId', '_id username name avatar')
+    .execQ()
+
+    this.getQuestionStats answersPromise, questionId
+
+
+  getHomeworkStats: (lectureId, questionId, students) ->
+    # answersPromise: peruser's questionAnswer promise
+    answersPromise = HomeworkAnswer.find
+      lectureId : lectureId
+      userId: {'$in': students}
+    .populate('userId', '_id username name avatar')
+    .execQ()
+    .then (hwas) ->
+      answers = _.reduce hwas, (tmpAnswers, hwa) ->
+        results = hwa.result
+        idx = _.findIndex results, (ele)->
+          return ele.questionId.toString() == questionId
+        answer = {userId: hwa.userId, result: results[idx].answer}
+        tmpAnswers.push(answer)
+        return tmpAnswers
+      , []
+      return answers
+
+    this.getQuestionStats answersPromise, questionId
 
 
   makeQuizStatsPromiseForSpecifiedLecture: (lecture, user) ->

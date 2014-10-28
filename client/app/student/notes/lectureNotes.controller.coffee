@@ -11,6 +11,10 @@ angular.module('budweiserApp').controller 'LectureNotesCtrl',
   if not $state.params.courseId
     return
   angular.extend $scope,
+    note: undefined
+
+  Restangular.one('user_lecture_notes').get
+    lectureId: $state.lectureId
 
   $localStorage[$scope.me._id] ?= {}
   $localStorage[$scope.me._id]['lectures'] ?= {}

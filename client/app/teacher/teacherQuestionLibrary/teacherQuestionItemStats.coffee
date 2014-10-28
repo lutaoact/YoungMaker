@@ -106,8 +106,7 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
 
     $scope.$watch 'question', (value)->
       if value
-        Restangular.all('lecture_stats').getList
-          lectureId: $state.params.lectureId
+        Restangular.one('lecture_stats',value._id).get
           courseId: $state.params.courseId
         .then (data)->
           console.log data

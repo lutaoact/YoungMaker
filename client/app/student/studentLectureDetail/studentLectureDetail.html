@@ -81,7 +81,7 @@
           <i class="budon budon-comments"></i>
         </a>
         <a class="comments" ng-class="{'active':viewState.showNotes}" ng-click="toggleNotesPanel()">
-          <i class="fa fa-pencil-square-o"></i>
+          <i class="fa fa-pencil-square-o" ng-class="{'fa-spinner fa-spin':noteLoading}"></i>
         </a>
       </h3>
       <div class="text-muted">{{lecture.info}}</div>

@@ -140,8 +140,15 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       @viewState.showDiscussion = !@viewState.showDiscussion
 
     toggleNotesPanel: ()->
-      @viewState.notesPanelnitialized = true
-      @viewState.showNotes = !@viewState.showNotes
+      if !@viewState.notesPanelnitialized
+        @viewState.notesPanelnitialized = true
+        $scope.noteLoading = true
+        $timeout ->
+          $scope.noteLoading = false
+          $scope.viewState.showNotes = true
+        , 1000
+      else
+        @viewState.showNotes = !@viewState.showNotes
 
     disableDownload: ()->
       console.log 'you are not allowed to download this resource'

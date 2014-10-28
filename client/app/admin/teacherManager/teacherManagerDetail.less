@@ -69,15 +69,20 @@
         }
       }
       .course-detail {
-        .overall {
-          margin-bottom: 0;
-          box-shadow: none;
-        }
         padding: 10px;
         margin-top: -1px;
         border: 1px solid #ddd;
         background: white;
         min-height: 200px;
+        .overall {
+          margin-bottom: 0;
+          box-shadow: none;
+        }
+        &.empty-courses {
+          margin-top: 10px;
+          padding: 80px 0;
+          border-radius: 4px;
+        }
       }
     }
   }

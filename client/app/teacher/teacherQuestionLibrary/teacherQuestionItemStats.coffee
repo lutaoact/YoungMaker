@@ -55,9 +55,8 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
         yAxis:
           title:
             text: '人数'
-          max: 100
           min: 0
-          tickInterval: 25
+          allowDecimals: false
         series: [
           {
             name: '人数'
@@ -109,9 +108,8 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
         yAxis:
           title:
             text: '人数'
-          max: 100
           min: 0
-          tickInterval: 25
+          allowDecimals: false
         series: [
           {
             name: '人数'

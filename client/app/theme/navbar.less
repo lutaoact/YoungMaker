@@ -15,13 +15,9 @@
   .nav-title {
     position: absolute;
     width: 100%;
-    left: 0;
     text-align: center;
+    left: 0;
     height: 0;
-    li {
-      width: 100%;
-      height: 100%;
-    }
     a {
       font-size: 1.5em !important;
       display: inline-block;
@@ -75,6 +71,14 @@
 
     @media (max-width: @grid-float-breakpoint-max) {
       // Dropdowns get custom display when collapsed
+
+      .nav-title {
+        position: relative;
+        height: auto;
+        a {
+          display: block;
+        }
+      }
       .open .dropdown-menu {
         > li > a,
         .dropdown-header {
@@ -98,10 +102,7 @@
       > li {
         float: left;
         > a {
-          margin-top:    @navbar-padding-vertical;
-          margin-bottom: @navbar-padding-vertical;
-          margin-left: 15px;
-          margin-right: 15px;
+          margin: @navbar-padding-vertical 15px;
           padding-top:    0;
           padding-bottom: 0;
         }

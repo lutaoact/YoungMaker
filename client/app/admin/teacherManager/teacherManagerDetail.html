@@ -10,7 +10,11 @@
 
   <div class="teacher-courses-detail">
     <strong>所授课程</strong>
-    <div>
+    <div ng-if="!(courses.length > 0)"
+         class="text-center empty-courses course-detail">
+      该教师还未添加课程
+    </div>
+    <div ng-if="courses.length > 0">
       <div class="btn-group">
         <label class="btn btn-default"
                btn-radio="course._id"

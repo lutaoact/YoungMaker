@@ -28,10 +28,18 @@ angular.module('budweiserApp')
   updateSelected = ->
     $scope.selectedUsers =  _.filter($scope.users, '$selected':true)
 
+  addNewUserSuccess = (newUser) ->
+    notify
+      message: "新#{$scope.roleTitle}添加成功"
+      classes: 'alert-success'
+    $scope.onCreateUser?($data:newUser)
+
   angular.extend $scope,
 
     toggleSelectAllUsers: false
     selectedUsers: []
+
+    importing: false
     deleting: false
 
     roleTitle:
@@ -49,18 +57,11 @@ angular.module('budweiserApp')
           userRole: -> $scope.userRole
           orgUniqueName: -> Auth.getCurrentUser().orgId.uniqueName
       .result.then (newUser) ->
-        done = ->
-          notify
-            message: "新#{$scope.roleTitle}添加成功"
-            classes: 'alert-success'
-          $scope.onCreateUser?($data:newUser)
-
         if $scope.classe?
           newUsers = _.union $scope.classe.students, [newUser._id]
-          $scope.classe?.patch(students:newUsers).then done
+          $scope.classe?.patch(students:newUsers).then addNewUserSuccess
         else
-          done()
-
+          addNewUserSuccess()
 
     showDetail: (user) ->
       $scope.onViewUser?($user:user)
@@ -92,33 +93,35 @@ angular.module('budweiserApp')
           else
             done()
 
-  $scope.$watch 'users.length', updateSelected
+    importUsers: (files)->
+      $scope.importing = true
 
-  #TODO refactor
-  $scope.isExcelProcessing = false
-  $scope.onFileSelect = (files)->
-    $scope.isExcelProcessing = true
-    fileUtils.uploadFile
-      files: files
-      validation:
-        max: 50 * 1024 * 1024
-        accept: 'excel'
-      success: (key)->
-        Restangular.all('users').customPOST
-          key: key
-          type: $scope.userRole
-          classeId: $scope.classeId
-        , 'bulk'
-        .then ->
-          $scope.onCreateUser?()
-          $scope.isExcelProcessing = false
-        , (error)->
-          console.log error
-          $scope.isExcelProcessing = false
-      fail: (error)->
+      fail = (error) ->
+        $scope.importing = false
         notify
-          message: error
+          message: '批量导入失败 ' + error.data
           classes: 'alert-danger'
-        $scope.isExcelProcessing = false
-      progress: ->
-        console.debug 'uploading...'
+
+      success = (report) ->
+        console.debug report
+        $scope.importing = false
+        addNewUserSuccess(report)
+
+      fileUtils.uploadFile
+        files: files
+        validation:
+          max: 50 * 1024 * 1024
+          accept: 'excel'
+        success: (key)->
+          Restangular.all('users').customPOST
+            key: key
+            type: $scope.userRole
+            classeId: $scope.classe._id
+          , 'bulk'
+          .then success
+          .catch fail
+        fail: fail
+        progress: ->
+          console.debug 'uploading...'
+
+  $scope.$watch 'users.length', updateSelected

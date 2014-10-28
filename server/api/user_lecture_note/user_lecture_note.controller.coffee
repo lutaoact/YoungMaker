@@ -3,10 +3,10 @@
 UserLectureNote = _u.getModel 'user_lecture_note'
 
 exports.index = (req, res, next) ->
-  conditions = orgId: req.user.orgId
-  conditions._id = req.query.categoryId if req.query.categoryId
+  conditions = userId: req.user._id
+  conditions.lectureId = req.query.lectureId if req.query.lectureId
 
-  UserLectureNote.findQ userId: req.user._id
+  UserLectureNote.findQ conditions
   .then (userLectureNotes) ->
     res.send userLectureNotes
   , next

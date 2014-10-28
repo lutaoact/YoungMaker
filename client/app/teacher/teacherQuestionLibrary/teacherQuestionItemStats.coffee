@@ -8,6 +8,17 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
     question: '='
 
   controller: ($scope, chartUtils, Restangular, $state)->
+    students = [1..20].map (i)->
+      _id: '5438f983f26f910320e27f3b'
+      name: '学生啊'
+      avatar: 'http://lorempixel.com/100/100/?r=' + i
+
+    studentListHtml = '<div class="students">' + (students.map (student)->
+      "<label class='pull-left'><div class='avatar-xs pull-left' style='background-image: url(\"#{student.avatar}\")'></div><a href='t/courses/#{$state.params.courseId}/stats/students/#{student._id}'>#{student.name}</a></label>"
+    ).join('') + '</div>'
+
+    tooltipHtml = "<div class='students-tooltip'>#{studentListHtml}</div>"
+
     angular.extend $scope,
       stats: undefined
 
@@ -27,12 +38,20 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
               borderWidth: 0
               dataLabels:
                 enabled: true
+                formatter: ()->
+                  console.log this
             bar:
               cursor: 'pointer'
               pointWidth: 30
+          tooltip:
+            useHTML: true
+            headerFormat: ''
+            pointFormat: '{point.tooltipHtml}'
+            footerFormat: ''
         xAxis:
           type: 'category'
           categories: ['答对','答错','未提交']
+
 
         yAxis:
           title:
@@ -46,12 +65,15 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
             data: [
                 y: 67
                 color: '#5ABDA6'
+                tooltipHtml: tooltipHtml
               ,
                 color: '#E84D50'
                 y: 10
+                tooltipHtml: tooltipHtml
               ,
                 color: '#F6B955'
                 y: 3
+                tooltipHtml: tooltipHtml
             ]
           }
         ]

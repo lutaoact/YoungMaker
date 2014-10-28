@@ -2,3 +2,20 @@
   margin: 5px 0;
   background: #FFF;
 }
+.students-tooltip{
+  width: 240px;
+  max-height: 150px;
+  overflow-y: auto;
+  .students{
+    label{
+      line-height: 24px;
+      width: 75px;
+      .text-overflow();
+      margin-right: 5px;
+      cursor: pointer;
+      &:nth-last-child(1){
+        margin-right: 0;
+      }
+    }
+  }
+}

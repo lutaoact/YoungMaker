@@ -158,19 +158,20 @@ exports.StatsUtils = BaseUtils.subclass
 
   getQuestionStats: (answersPromise, questionId)->
     Q.all [answersPromise, Question.findByIdQ questionId]
-    .spread (qestionAnswers, question) ->
+    .spread (questionAnswers, question) ->
       stats =
         right: []
         wrong: []
         unanswered: []
+        answerStat: {}
 
       optionsNum = question.choices.length
       for idx in [0..optionsNum-1]
-        stats[idx.toString()] = []
+        stats.answerStat[idx.toString()] = []
 
-      for questionAnswer in qestionAnswers
+      for questionAnswer in questionAnswers
         for result in questionAnswer.result
-          stats[result].push(questionAnswer.userId)
+          stats.answerStat[result].push(questionAnswer.userId)
 
         if questionAnswer.result.length == 0
           correct = -1

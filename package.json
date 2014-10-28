@@ -29,7 +29,7 @@
     "mongoose-createdmodified": "~0.0.2",
     "mongoose-q": "0.0.10",
     "morgan": "~1.0.0",
-    "node-xlsx": "^0.4.0",
+    "node-xlsx": "^0.5.0",
     "object-hash": "^0.3.0",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",

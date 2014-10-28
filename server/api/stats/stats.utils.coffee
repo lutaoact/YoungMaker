@@ -163,32 +163,29 @@ exports.StatsUtils = BaseUtils.subclass
         right: []
         wrong: []
         unanswered: []
-        answerStat: {}
+        answerStat: []
 
       optionsNum = question.choices.length
       for idx in [0..optionsNum-1]
-        stats.answerStat[idx.toString()] = []
+        stats.answerStat[idx] = []
 
       for questionAnswer in questionAnswers
         for result in questionAnswer.result
-          stats.answerStat[result].push(questionAnswer.userId)
+          stats.answerStat[parseInt(result)].push(questionAnswer.userId)
 
         if questionAnswer.result.length == 0
-          correct = -1
+          stats['unanswered'].push questionAnswer.userId
         else
           correct = question.choices.every (choice, index)->
             if choice.correct
               questionAnswer.result?.some (item)-> item is index
             else
               questionAnswer.result?.every (item)-> item isnt index
-          correct = if correct then 1 else 0
 
-        if correct == 1
-          stats['right'].push questionAnswer.userId
-        else if correct == 0
-          stats['wrong'].push questionAnswer.userId
-        else
-          stats['unanswered'].push questionAnswer.userId
+          if correct
+            stats['right'].push questionAnswer.userId
+          else
+            stats['wrong'].push questionAnswer.userId
 
       return stats
 

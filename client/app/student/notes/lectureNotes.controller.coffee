@@ -13,10 +13,24 @@ angular.module('budweiserApp').controller 'LectureNotesCtrl',
   angular.extend $scope,
     note: undefined
 
-  Restangular.one('user_lecture_notes').get
-    lectureId: $state.lectureId
+    saveNote: ()->
+      if $scope.note?._id
+        $scope.note.patch note: $scope.note.note
+        .then (note)->
+          angular.extend $scope.note, note
+      else
+        $scope.note.lectureId = $state.params.lectureId
+        Restangular.all('user_lecture_notes').post $scope.note
+        .then (note)->
+          angular.extend $scope.note, note
 
-  $localStorage[$scope.me._id] ?= {}
-  $localStorage[$scope.me._id]['lectures'] ?= {}
-  lectureState = $localStorage[$scope.me._id]['lectures'][$state.params.lectureId] ?= {}
-  $scope.lectureState = lectureState
+  Restangular.all('user_lecture_notes').getList
+    lectureId: $state.params.lectureId
+  .then (note)->
+    if note?.length
+      console.log note[0]
+      $scope.note = note[0]
+    else
+      $scope.note = {}
+
+

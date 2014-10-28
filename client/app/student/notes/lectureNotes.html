@@ -1,4 +1,5 @@
 <div class="container lecture-notes">
   <h4>我的笔记</h4>
-  <text-angular class="bud" ng-model="lectureState.note"></text-angular>
+  <text-angular class="bud" ng-model="note.note"></text-angular>
+  <button class="btn btn-primary pull-right" style="margin-top: 15px;" ng-click="saveNote()" ng-disabled="!note">保存</button>
 </div>

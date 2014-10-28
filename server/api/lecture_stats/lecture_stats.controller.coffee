@@ -16,14 +16,15 @@ buildQuizResult = (lecture, qIds, students) ->
     Question.findByIdQ qId
     .then (q) ->
       question = q
-      optionsNum = q.content.body.length
+      console.log q
+      optionsNum = q.choices.length
       StatsUtils.getQuizStats lecture._id, qId, optionsNum, students
     .then (stats) ->
       return {
         question: question
         stats: stats
       }
-  
+
 buildHWResult = (lectureId, students) ->
   HomeworkAnswer.find
     lectureId : lectureId
@@ -51,7 +52,7 @@ buildHWResult = (lectureId, students) ->
       .then (question) ->
         stats = {}
         stats['unanswered'] = JSON.parse(JSON.stringify(students));
-        optionsNum = question.content.body.length
+        optionsNum = question.choices.length
         for idx in [0..optionsNum-1]
           stats[idx.toString()] = []
 
@@ -65,8 +66,8 @@ buildHWResult = (lectureId, students) ->
           question : question
           stats : stats
         }
-  
-  
+
+
 exports.questionStats = (req, res, next) ->
   lectureId = req.query.lectureId
   courseId = req.query.courseId
@@ -99,4 +100,4 @@ exports.questionStats = (req, res, next) ->
     finalResult = finalResult.concat hwStats
     res.send 200, finalResult
   .fail next
-      
+

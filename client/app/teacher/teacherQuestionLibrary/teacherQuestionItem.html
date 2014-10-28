@@ -8,21 +8,9 @@
            ng-model="question.$selected">
     <div class="liner"></div>
 
-    <div dropdown class="pull-right question-menu" is-open="questionMenu.isopen">
-      <i class="fa fa-bars dropdown-toggle"></i>
-      <ul class="dropdown-menu" role="menu">
-        <li ng-if="allowStats">
-          <a href="" ng-click="showStats(question); questionMenu.isopen = false">
-            <i class="fa fa-pie-chart"></i>统计
-          </a>
-        </li>
-        <li>
-          <a href="" ng-click="removeQuestion(question); questionMenu.isopen = false">
-            <i class="fa fa-times"></i>删除
-          </a>
-        </li>
-      </ul>
-    </div>
+    <a class="close pull-right" ng-click="removeQuestion(question)">
+      <i class="fa fa-times"></i>
+    </a>
 
     <label class="title-info"
            ng-click="expendClick()"
@@ -53,9 +41,10 @@
     <question-answer question="question"
                      keypoints="keyPoints">
     </question-answer>
-  </div>
 
-  <teacher-question-item-stats question="question" class="clearfix" ng-if="statsShown">
-  </teacher-question-item-stats>
+    <teacher-question-item-stats question="question" class="clearfix" ng-if="allowStats">
+    </teacher-question-item-stats>
+
+  </div>
 
 </div>

@@ -7,17 +7,18 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
   scope:
     question: '='
 
-  controller: ($scope, chartUtils, Restangular, $state)->
-    students = [1..20].map (i)->
-      _id: '5438f983f26f910320e27f3b'
-      name: '学生啊'
-      avatar: 'http://lorempixel.com/100/100/?r=' + i
+  controller: ($scope, chartUtils, Restangular, $state, $filter)->
 
-    studentListHtml = '<div class="students">' + (students.map (student)->
-      "<label class='pull-left'><div class='avatar-xs pull-left' style='background-image: url(\"#{student.avatar}\")'></div><a href='t/courses/#{$state.params.courseId}/stats/students/#{student._id}'>#{student.name}</a></label>"
-    ).join('') + '</div>'
+    genTooltip = (students)->
+      if students?.length
+        studentListHtml = '<div class="students">' + (students.map (student)->
+          "<label class='pull-left'><div class='avatar-xs pull-left' style='background-image: url(\"#{student.avatar}\")'></div><a href='t/courses/#{$state.params.courseId}/stats/students/#{student._id}'>#{student.name}</a></label>"
+        ).join('') + '</div>'
 
-    tooltipHtml = "<div class='students-tooltip'>#{studentListHtml}</div>"
+        tooltipHtml = "<div class='students-tooltip'>#{studentListHtml}</div>"
+      else
+        '无'
+
 
     angular.extend $scope,
       stats: undefined
@@ -38,8 +39,6 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
               borderWidth: 0
               dataLabels:
                 enabled: true
-                formatter: ()->
-                  console.log this
             bar:
               cursor: 'pointer'
               pointWidth: 30
@@ -65,20 +64,18 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
             data: [
                 y: 67
                 color: '#5ABDA6'
-                tooltipHtml: tooltipHtml
               ,
                 color: '#E84D50'
                 y: 10
-                tooltipHtml: tooltipHtml
               ,
                 color: '#F6B955'
                 y: 3
-                tooltipHtml: tooltipHtml
             ]
           }
         ]
         title:
           text: ''
+        loading: true
 
       optionsStatsConfig:
         options:
@@ -99,9 +96,15 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
             bar:
               cursor: 'pointer'
               pointWidth: 20
+          tooltip:
+            useHTML: true
+            headerFormat: ''
+            pointFormat: '{point.tooltipHtml}'
+            footerFormat: ''
+
         xAxis:
           type: 'category'
-          categories: ['A','B','C', 'D']
+          categories: []
 
         yAxis:
           title:
@@ -126,6 +129,8 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
         title:
           text: ''
 
+        loading: true
+
     $scope.$watch 'question', (value)->
       if value
         Restangular.one('lecture_stats','').get
@@ -134,4 +139,33 @@ angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
           questionId: value._id
         .then (data)->
           console.log data
+          # right answers
+          $scope.responseRateConfig.series[0].data[0].y = data.right.length
+          $scope.responseRateConfig.series[0].data[0].tooltipHtml = genTooltip(data.right)
+
+          # wrong answers
+          $scope.responseRateConfig.series[0].data[1].y = data.wrong.length
+          $scope.responseRateConfig.series[0].data[1].tooltipHtml = genTooltip(data.wrong)
+
+          # un answered
+          $scope.responseRateConfig.series[0].data[2].y = data.unanswered.length
+          $scope.responseRateConfig.series[0].data[2].tooltipHtml = genTooltip(data.unanswered)
+
+          $scope.responseRateConfig.loading = false
+
+          # right answers
+          data.answerStat.forEach (item, index)->
+            $scope.optionsStatsConfig.series[0].data[index] ?= {}
+            $scope.optionsStatsConfig.series[0].data[index].y = data.answerStat[index].length
+            $scope.optionsStatsConfig.xAxis.categories.push $filter('indexToABC')(index)
+            $scope.optionsStatsConfig.series[0].data[index].tooltipHtml = genTooltip(data.answerStat[index])
+
+          $scope.optionsStatsConfig.loading = false
+
+
+
+
+
+
+
 

@@ -10,7 +10,7 @@ angular.module 'budweiserApp'
 ) ->
 
   rexDict =
-    slides: /^application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/
+    slides: /^application\/(pdf|msword|vnd.openxmlformats-officedocument.wordprocessingml.document|vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.slideshow|vnd.openxmlformats-officedocument.presentationml.presentation)$/
     video: /^video\//
     image: /^image\//
     excel: /^application\//
@@ -150,10 +150,12 @@ angular.module 'budweiserApp'
     , opts.fail
 
   doUploadSlides = (opts, file)->
+    console.debug 'get upload key', file
     # get upload token
     Restangular.one('assets/upload/slides','').get(fileName: file.name)
     .then (strategy)->
       start = moment()
+      console.debug 'start upload', file
       $upload.upload
         url: strategy.url
         method: 'POST'
@@ -162,18 +164,23 @@ angular.module 'budweiserApp'
         file: file
         fileFormDataName: 'file'
       .progress (evt)->
+        console.debug 'start upload', evt
         speed = evt.loaded / (moment().valueOf() - start.valueOf())
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
+        console.debug 'success upload', strategy
         key = strategy.formData.key
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
-        .success (data)->
-          slides = _.map data.rawPics, (pic) ->
-            raw: strategy.prefix + pic
-            thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
-          opts.success?(slides)
+        .success (content)->
+          console.debug 'convert done', content
+          result =
+            fileName: file.name
+            fileContent: _.map content.rawPics, (pic) ->
+              raw: strategy.prefix + pic
+              thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
+          opts.success?(result)
       .error opts.fail
     , opts.fail
 

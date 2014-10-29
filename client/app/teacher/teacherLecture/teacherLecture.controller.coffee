@@ -15,7 +15,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
   $sce
 ) ->
 
-  course =  _.find Courses, _id :$state.params.courseId
+  course = _.find Courses, _id :$state.params.courseId
 
   Navbar.setTitle course.name, "teacher.course({courseId:'#{$state.params.courseId}'})"
   $scope.$on '$destroy', Navbar.resetTitle
@@ -33,9 +33,10 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
     saving: false
     deleting: false
     videoActive: true
-    pptViewer:
+    fileViewer:
       $listToggled: true
     lecture: null
+    selectedFile: null
     editingInfo: null
     editingProgress: # 0=new, 1/2=half, 1=done
       info: 1
@@ -102,15 +103,15 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
         resolve:
-          title: -> '删除PPT页面'
-          message: -> """确认要删除"#{$scope.lecture.name}"中PPT的第#{index+1}页？"""
+          title: -> '删除讲义页面'
+          message: -> """确认要删除"#{$scope.lecture.name}"中讲义的第#{index+1}页？"""
       .result.then ->
-        $scope.lecture.slides.splice(index, 1)
-        $scope.lecture.patch?(slides: $scope.lecture.slides)
+        $scope.selectedFile.fileContent.splice(index, 1)
+        $scope.lecture.patch?(files: $scope.lecture.files)
         .then $scope.updateEditingProgress
 
     sortSlides: ->
-      $scope.lecture.patch?(slides:$scope.lecture.slides)
+      $scope.lecture.patch?(files:$scope.lecture.files)
       .then $scope.updateEditingProgress
 
     removeMedia: ->
@@ -127,38 +128,49 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
         $scope.lecture.patch?(media: $scope.lecture.media)
         .then $scope.updateEditingProgress
 
-    removePPT: ->
+    removeFile: ->
       $modal.open
         templateUrl: 'components/modal/messageModal.html'
         controller: 'MessageModalCtrl'
         resolve:
-          title: -> '删除课时PPT'
-          message: -> """确认要删除"#{$scope.lecture.name}"的PPT？"""
+          title: -> '删除课时讲义'
+          message: -> """确认要删除"#{$scope.lecture.name}"的讲义？"""
       .result.then ->
-        $scope.lecture.slides = []
-        $scope.lecture.patch?(slides: $scope.lecture.slides)
+        index = $scope.lecture.files.indexOf($scope.selectedFile)
+        $scope.lecture.files.splice(index, 1)
+        $scope.switchFile $scope.lecture.files[0]
+        $scope.lecture.patch?(files: $scope.lecture.files)
         .then $scope.updateEditingProgress
 
-    onError: (error) -> notify "上传失败：" + error
-    onPPTUploadStart: ->
-      $scope.pptUploadState = null
-      $scope.pptUploadProgress = 0
-      $scope.pptUploadInfo = ''
-    onPPTUploading: (speed, progress, event) ->
-      $scope.pptUploadState = 'uploading'
-      $scope.pptUploadProgress = progress
-      $scope.pptUploadInfo = "上传率" + $filter('bytes')(event.loaded) + "/" + $filter('bytes')(event.total)
-    onPPTConverting: ->
-      $scope.pptUploadState = 'converting'
-      $scope.pptUploadProgress = 100
-      $scope.pptUploadInfo = ''
-    onPPTUploaded: (data) ->
-      $scope.pptUploadState = null
-      $scope.pptUploadProgress = null
-      $scope.pptUploadInfo = ''
-      $scope.lecture.slides = data
-      $scope.lecture.patch?(slides: $scope.lecture.slides)
+    onError: (error) ->
+      notify
+        message: '上传失败：' + error
+        classes: 'alert-danger'
+    onFileUploadStart: ->
+      $scope.fileUploadState = null
+      $scope.fileUploadProgress = 0
+      $scope.fileUploadInfo = ''
+    onFileUploading: (speed, progress, event) ->
+      $scope.fileUploadState = 'uploading'
+      $scope.fileUploadProgress = progress
+      $scope.fileUploadInfo = "上传率" + $filter('bytes')(event.loaded) + "/" + $filter('bytes')(event.total)
+    onFileConverting: ->
+      $scope.fileUploadState = 'converting'
+      $scope.fileUploadProgress = 100
+      $scope.fileUploadInfo = ''
+    onFileUploaded: (data, replace = false) ->
+      $scope.fileUploadState = null
+      $scope.fileUploadProgress = null
+      $scope.fileUploadInfo = ''
+      if replace
+        angular.extend $scope.selectedFile, data
+      else
+        $scope.selectedFile = data
+        $scope.lecture.files.push data
+      $scope.lecture.patch?(files: $scope.lecture.files)
       .then $scope.updateEditingProgress
+    switchFile: (file) ->
+      $scope.selectedFile = file
 
     onMediaUploadStart: ->
       console.debug 'media upload start'
@@ -196,7 +208,7 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       progress.info += 1/2 if lecture.name?.length > 0
       progress.info += 1/2 if lecture.info?.length > 0
       progress.media += 1/2 if lecture.media?.length > 0
-      progress.media += 1/2 if lecture.slides?.length > 0
+      progress.media += 1/2 if lecture.files?.length > 0
       progress.question += 1/2 if lecture.quizzes?.length > 0
       progress.question += 1/2 if lecture.homeworks?.length > 0
       progress.done = progress.info + progress.media + progress.question
@@ -217,7 +229,8 @@ angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
       type: 'video/mp4'
     ]
     $scope.lecture = lecture
-    $scope.videoActive = lecture.media? || lecture.slides.length == 0
+    $scope.videoActive = lecture.media? || lecture.files.length == 0
+    $scope.switchFile lecture.files[0]
     $scope.switchEdit() if lecture.__v == 0
     $scope.updateEditingProgress()
 

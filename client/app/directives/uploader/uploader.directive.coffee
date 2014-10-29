@@ -32,7 +32,14 @@ angular.module('budweiserApp')
     getAcceptValue: ->
       switch $scope.acceptType
         when 'slides'
-          'application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.slideshow,application/vnd.openxmlformats-officedocument.presentationml.presentation'
+          """
+            application/pdf,
+            application/msword,
+            application/vnd.ms-powerpoint,
+            application/vnd.openxmlformats-officedocument.presentationml.slideshow,
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+            application/vnd.openxmlformats-officedocument.presentationml.presentation
+          """
         when 'image'
           'image/*'
         when 'video'

@@ -21,21 +21,25 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
     $state: $state
     currentPage: 0
     currentNum: 1
-    showAllPPT: false
+    showAllSlide: false
     showVideo: false
-    lecture: undefined
+    lecture: null
+    selectedFile: null
     classe: _.find Classes, _id:$state.params.classeId
     course: _.find Courses, _id:$state.params.courseId
 
     changeCurrentIndex: (index) ->
       $scope.currentIndex = index
 
+    switchFile: (file) ->
+      $scope.selectedFile = file
+
     togglePPT: ->
       $scope.showVideo = false
-      $scope.showAllPPT = !$scope.showAllPPT
+      $scope.showAllSlide = !$scope.showAllSlide
 
     toggleVideo: ->
-      $scope.showAllPPT = false
+      $scope.showAllSlide = false
       $scope.showVideo = !$scope.showVideo
 
     pushQuestion: (quizze) ->
@@ -75,6 +79,7 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   Restangular.one('lectures', $state.params.lectureId).get()
   .then (lecture)->
     $scope.lecture = lecture
+    $scope.switchFile(lecture.files[0])
     $scope.lecture.$mediaSource = [
       src: $sce.trustAsResourceUrl(lecture.media)
       type: 'video/mp4'

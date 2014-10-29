@@ -169,8 +169,8 @@ angular.module 'budweiserApp'
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
-        console.debug 'success upload', strategy
         key = strategy.formData.key
+        console.debug 'success upload', strategy
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
@@ -181,6 +181,8 @@ angular.module 'budweiserApp'
               raw: strategy.prefix + pic
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
+        .error (error) ->
+          console.debug 'error', error
       .error opts.fail
     , opts.fail
 

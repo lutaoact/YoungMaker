@@ -1,20 +1,20 @@
 <div class="teacher-teaching">
-  <div class="ppt-group"
+  <div class="file-group"
        ng-show="!showVideo"
        ppt-viewer
        current-index="currentIndex"
-       slides="lecture.slides"></div>
-  <div class="ppt-all" ng-show="showAllPPT">
+       slides="selectedFile.fileContent"></div>
+  <div class="file-content-all" ng-show="showAllSlide">
     <div class="container" ng-click="togglePPT()">
       <div class="row">
         <div class="col-lg-12">
           <div class="col-md-3 col-lg-3 col-sm-4"
                ng-click="changeCurrentIndex($index)"
-               ng-repeat="slide in lecture.slides">
+               ng-repeat="slide in selectedFile.fileContent">
             <img src-key="slide.thumb"
                  ng-class="{'active':$index==currentIndex}"
-                 class="ppt-img">
-            <label class="ppt-index pull-left">{{$index+1}}</label>
+                 class="file-content-img">
+            <label class="file-content-index pull-left">{{$index+1}}</label>
           </div>
         </div>
       </div>
@@ -56,6 +56,24 @@
      ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
     <i class="fa fa-arrow-left fa-2x"></i>
   </button>
+  <span dropdown
+        ng-show="!showVideo"
+        class="file-dropdown">
+    <a type="button"
+       class="btn btn-link dropdown-toggle">
+      选择讲义 {{lecture.files.indexOf(selectedFile)+1}}/{{lecture.files.length}} ：
+      {{selectedFile.fileName}} <i class="fa fa-chevron-down pull-right"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-toggle" role="menu">
+      <li ng-repeat="file in lecture.files">
+        <a href
+           ng-click="switchFile(file)"
+           ng-class="{'active':$index == lecture.files.indexOf(selectedFile)}">
+          {{file.fileName}}
+        </a>
+      </li>
+    </ul>
+  </span>
   <div class="pull-right questions-button"
        tooltip="{{genTooltip(showMenu)}}"
        tooltip-placement="left">
@@ -84,6 +102,7 @@
       </div>
     </div>
   </div>
+
   <div class="pull-right tools-button" ng-show="!showVideo">
     <button class="btn btn-primary tool-btn"
             tooltip="切换到视频视图"
@@ -94,7 +113,7 @@
     <span class="split-v"></span>
     <button class="btn btn-primary tool-btn"
             tooltip="列出所有幻灯片"
-            ng-class="{'active':showAllPPT}"
+            ng-class="{'active':showAllSlide}"
             ng-click="togglePPT()">
       <i class="glyphicon glyphicon-th fa-2x"></i>
     </button>
@@ -102,7 +121,7 @@
       <input class="page-current"
              type="number"
              ng-model="currentNum"
-             ng-change="changeCurrentIndex(currentNum-1)"/>/<span class="page-total">{{lecture.slides.length}}</span>
+             ng-change="changeCurrentIndex(currentNum-1)"/>/<span class="page-total">{{selectedFile.fileContent.length}}</span>
     </span>
   </div>
 </div>

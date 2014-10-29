@@ -45,11 +45,11 @@
     top: 0px;
     z-index: 1;
     position: absolute;
-    .ppt-group {
+    .file-group {
       width: 100%;
       height: 100%;
     }
-    .ppt-all {
+    .file-content-all {
       width: 100%;
       height: 100%;
       position: absolute;
@@ -62,7 +62,7 @@
         width: calc(~'100% - 100px');
         height: calc(~'100% - 200px');
       }
-      .ppt-img {
+      .file-content-img {
         height: 104px;
         display: inline-block;
         margin-top: 30px;
@@ -76,7 +76,7 @@
           opacity: .9;
         }
       }
-      .ppt-index {
+      .file-content-index {
         font-size: 3em;
         color: #ffffff;
         opacity: .5;
@@ -157,6 +157,35 @@
         height: 30px;
         margin-left: 8px;
         margin-right: 8px;
+      }
+    }
+    .file-dropdown {
+      position: absolute;
+      left: 60px;
+      top: 20px;
+      .btn-link {
+        font-size: 1.4em;
+      }
+      .fa-chevron-down {
+        margin-top: 3px;
+        margin-left: 8px;
+      }
+      ul > li {
+        min-width: 300px;
+        padding: 0px 4px;
+        a {
+          font-size: 1.1em;
+          padding: 4px 8px;
+          margin: 1px 0;
+          border-radius: 3px;
+          &.active {
+            font-weight: bold;
+          }
+          &:hover {
+            color: #ffffff;
+            background-color: @base-color;
+          }
+        }
       }
     }
     .exit-button {

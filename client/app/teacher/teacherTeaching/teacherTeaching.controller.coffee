@@ -5,17 +5,14 @@ angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
   $scope
   $state
   $modal
-  Navbar
   Classes
   Courses
   $timeout
   Restangular
 ) ->
 
-  Navbar.setVisible false
   # TODO: remove this line. Fix in videogular
   $scope.$on '$destroy', ()->
-    Navbar.resetVisible()
     # clear video
     angular.element('video').attr 'src', ''
 

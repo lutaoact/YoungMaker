@@ -6,3 +6,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/teacher/teacherTeaching/teacherTeaching.html'
     controller: 'TeacherTeachingCtrl'
     authenticate: true
+    navClasses: 'hide'

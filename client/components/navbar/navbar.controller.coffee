@@ -4,9 +4,6 @@ angular.module 'budweiserApp'
 
 .factory 'Navbar', ->
   title = null
-  visible = true
-  setVisible: (val) -> visible = val
-  getVisible: -> visible
   getTitle: -> title
   setTitle: (name, link) ->
     title =
@@ -14,8 +11,6 @@ angular.module 'budweiserApp'
       link: link
   resetTitle: ->
     title = null
-  resetVisible: ->
-    visible = true
 
 .controller 'NavbarCtrl', (
   Msg
@@ -71,9 +66,8 @@ angular.module 'budweiserApp'
     mkMenu = (title, link) ->
       title: title
       link: link
-    $scope.navInSub = /^(admin|teacher|forum|student).(course|lecture|topic|questionLibrary|teacherManager|classeManager|categoryManager)/.test($state.current.name) or $state.current.name is 'admin.home'
     $scope.additionalMenu =
-      if $scope.navInSub
+      if $state.params.courseId
         switch $scope.getCurrentUser()?.role
           when 'teacher'
             [

@@ -10,11 +10,12 @@ qiniu = require 'qiniu'
 path = require 'path'
 _ = require 'lodash'
 fs = require 'fs'
-http = require 'http'
+request = require 'request'
 xlsx = require 'node-xlsx'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
+Organization = _u.getModel "organization"
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -163,19 +164,15 @@ exports.update = (req, res, next) ->
   , next
 
 
-updateClasseStudents = (res, next, classeId, studentList, importReport) ->
+updateClasseStudents = (classeId, studentList) ->
   Classe.findByIdQ classeId
   .then (classe) ->
-    return res.send 404 if not classe?
+    return Q.reject 'No classe found for give ID' if not classe?
 
     logger.info 'Found classe with id ' + classe.id
     classe.students = _.union classe.students, studentList
     classe.markModified 'students'
     classe.saveQ()
-  .then (result) ->
-    res.send importReport
-  , next
-
 
 ###
   Bulk import users from excel sheet uploaded by client
@@ -192,69 +189,70 @@ exports.bulkImport = (req, res, next) ->
   if !type? or !orgId? or (type is 'student' and !classeId?)
     return res.send 400, '参数不正确'
 
-  #TODO refactor promise 链式、错误处理
-  ## create download URL
   destFile = config.local.tempDir + path.sep + 'user_list.xlsx'
-  AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
+  stream = fs.createWriteStream destFile
+  streamOnQ = Q.nbind stream.on, stream
+  streamCloseQ = Q.nbind stream.close, stream
+
+  importReport =
+    total : 0
+    success : []
+    failure : []
+
+  importedUsers = []
+  
+  orgUniqueName = ''
+  
+  Organization.findByIdQ orgId
+  .then (org) ->
+    orgUniqueName = org.uniqueName
+    AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
   .then (downloadUrl) ->
+    request.get(downloadUrl).pipe stream
+    streamOnQ 'finish'
+  .then ->
+    streamCloseQ()
+  .then ->
+    console.log 'Start parsing file to ', destFile
+    sheets = xlsx.parse destFile
+    userList = sheets[0].data
 
-    console.log 'create download url', downloadUrl
+    if not userList
+      logger.error 'Failed to parse user list file or empty file'
+      Q.reject '请导入包含用户信息的表格'
 
-    ## download excel sheet and start processing
-    http.get downloadUrl, (stream) ->
-      file = fs.createWriteStream destFile
-      stream.pipe file
-      file.on 'finish', ->
-        file.close ->
-          console.log 'Start parsing file to ', destFile
-          sheets = xlsx.parse destFile
-          userList = sheets[0].data
+    savePromises = _.map userList, (userItem) ->
+      name = userItem[0]
+      email = userItem[1]
+      console.log 'userItem', name, email
+      newUser = new User.model
+        role   :  type
+        name : name
+        email : email
+        username: email + '_' + orgUniqueName
+        password : email #initial password is the same as email
+        orgId : orgId
+      newUser.saveQ()
 
-          if not userList
-            console.error 'Failed to parse user list file or empty file'
-            res.send 500, '请导入包含用户信息的表格'
+    Q.allSettled(savePromises)
+  .then (results) ->
+    _.forEach results, (result) ->
+      if result.state is 'fulfilled'
+        user = result.value[0]
+        console.log 'Imported user ' + user.name
+        importReport.success.push user.name
+        importedUsers.push user.id
+      else
+        console.error 'Failed to import user', result.reason
+        importReport.failure.push result.reason
 
-          importReport =
-            total : 0
-            success : []
-            failure : []
-
-          importedUsers = []
-
-          savePromises = _.map userList, (userItem) ->
-            name = userItem[0]
-            email = userItem[1]
-            console.log 'userItem', name, email
-            newUser = new User.model
-              role   :  type
-              name : name
-              email : email
-              username: email
-              password : email #initial password is the same as email
-              orgId : orgId
-            newUser.saveQ()
-
-          Q.allSettled(savePromises)
-          .then (results) ->
-            _.forEach results, (result) ->
-              if result.state is 'fulfilled'
-                user = result.value[0]
-                console.log 'Imported user ' + user.name
-                importReport.success.push user.name
-                importedUsers.push user.id
-              else
-                console.error 'Failed to import user', result.reason
-                importReport.failure.push result.reason
-
-            if type is 'student'
-              updateClasseStudents res, next, classeId, importedUsers, importReport
-            else
-              res.send importReport
-          .catch (error) ->
-            console.error error
-            res.send 500, error.message
+    if type is 'student'
+      updateClasseStudents classeId, importedUsers
+  .then ->    
+    res.send importReport
+      
   .catch (err) ->
-    console.error 'import users error: ' + err
+    logger.error 'import users error: ' + err
     fs.unlink destFile
     next err
 

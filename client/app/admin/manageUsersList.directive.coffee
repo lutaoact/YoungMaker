@@ -116,7 +116,7 @@ angular.module('budweiserApp')
           Restangular.all('users').customPOST
             key: key
             type: $scope.userRole
-            classeId: $scope.classe._id
+            classeId: $scope.classe?._id
           , 'bulk'
           .then success
           .catch fail

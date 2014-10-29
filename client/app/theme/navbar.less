@@ -212,30 +212,32 @@
 }
 
 .bud.navbar{
-  .bud-navbar(#FFFFFF,@gray);
-}
-.bud.navbar.sub{
-  .bud-navbar(@base-color,#FFFFFF);
-  .navbar-brand{
-    color: #FFF;
-  }
-}
-.bud.navbar.home {
-  background: #292929;
-  border: none;
-  margin-bottom: 0;
-  height: 55px;
-  overflow:hidden;
-  .navbar-brand{
+  &.login {
+    background: #292929;
+    border: none;
+    margin-bottom: 0;
     height: 55px;
-    color: #FFFFFF;
-    .logo{
-      max-width:36px;
-      max-height:36px;
-      margin-top: -4px;
-      margin-right: 14px;
-      margin-left: 5px;
+    overflow: hidden;
+    .navbar-brand {
+      color: #FFF;
+      .logo {
+        max-width: 36px;
+        max-height: 36px;
+        margin-top: -4px;
+        margin-right: 14px;
+        margin-left: 5px;
+      }
     }
+  }
+  &.auth {
+    .navbar-fixed-top;
+    .bud-navbar(@base-color, #FFFFFF);
+    .navbar-brand {
+      color: #FFF;
+    }
+  }
+  &.home {
+    .bud-navbar(#FFFFFF,@gray);
   }
 }
 

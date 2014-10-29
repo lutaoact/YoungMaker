@@ -143,20 +143,19 @@ angular.module 'budweiserApp', [
 .run (
   Msg
   Auth
+  Page
   $modal
-  $state
   notify
+  $state
+  webview
   indexUser
   $location
   $rootScope
   socketHandler
   loginRedirector
-  webview
-  Page
 ) ->
 
   $rootScope.Page = Page
-  $rootScope.Auth = Auth
   $rootScope.webview = webview
 
   #set the default configuration options for angular-notify

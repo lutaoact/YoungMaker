@@ -31,16 +31,16 @@ angular.module 'budweiserApp'
 
   angular.extend $scope,
 
+    $state: $state
     viewState:
       isCollapsed: true
-    isLoggedIn: Auth.isLoggedIn
-    getCurrentUser: Auth.getCurrentUser
     messages: Msg.messages
     getTitle: Navbar.getTitle
     getVisible: Navbar.getVisible
+    isLoggedIn: Auth.isLoggedIn
+    getCurrentUser: Auth.getCurrentUser
 
     switchMenu: (val) ->
-      console.debug 'close menu...', val
       $scope.viewState.isCollapsed = val
 
     logout: ->

@@ -4,7 +4,7 @@
      ng-controller="NavbarCtrl">
 
   <div class="container"
-       ng-if="!$state.current.authenticate">
+       ng-show="!$state.current.authenticate">
     <div class="navbar-header">
       <a href="/" class="navbar-brand">
         <i class="logo budon budon-logo-with-title" style="font-size: 145px;"></i>
@@ -15,7 +15,7 @@
   <div class="container"
        click-outside="switchMenu(true)"
        is-active="!viewState.isCollapsed"
-       ng-if="$state.current.authenticate">
+       ng-show="$state.current.authenticate">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"

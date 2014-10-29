@@ -3,21 +3,18 @@
     <br/>
     <div class="col-md-4"
          ng-if="course._id">
-      <div class="row lectures-header">
+      <div class="lectures-header">
         <a href="#lectures-{{course._id}}"
            du-smooth-scroll
            offset="60">
-          <label class="col-sm-3 title hand-point">班级</label>
+          <label class="title hand-point">班级</label>
         </a>
-        <div class="col-sm-10 search-class">
+        <div class="search-class">
           <ui-select ng-model="addingClasse"
                      on-select="addClasse($item)">
             <ui-select-match placeholder="添加班级"><span class="text-muted">添加班级</span></ui-select-match>
             <ui-select-choices repeat="classe in classes | without:course.classes:'_id' | filter:{name:$select.search}">
-              <span tooltip="{{classe.name}}"
-                    tooltip-placement="left"
-                    tooltip-append-to-body=true
-                    ng-bind-html="classe.name | highlight: $select.search"></span>
+              <span ng-bind-html="classe.name | highlight: $select.search"></span>
             </ui-select-choices>
           </ui-select>
         </div>
@@ -43,18 +40,18 @@
 
     <div class="col-md-8 lecture-list-group"
          ng-if="course._id">
-      <div class="media lectures-header">
+      <div class="lectures-header">
         <a href="#lectures-{{course._id}}"
            du-smooth-scroll
            offset="60">
-          <label class="media-object pull-left title hand-point">课时</label>
+          <label class="pull-left title hand-point">课时</label>
         </a>
-        <div class="media-body form-inline">
+        <div class="form-inline">
           <input type="text"
                  class="form-control search-lecture"
                  placeholder="查找课时"
                  ng-model="keyword"/>
-          <button class="btn btn-danger pull-right"
+          <button class="btn btn-danger"
                   ng-disabled="creating"
                   ng-click="createLecture()">
 
@@ -82,7 +79,7 @@
              sv-element
              ng-show="filter(lecture, keyword)"
              ng-repeat="lecture in course.$lectures">
-          <div class="lecture-icon col-md-1 col-sm-1"
+          <div class="lecture-icon"
                ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}">
             <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)>=0">
               <div class="liner"></div>
@@ -98,7 +95,7 @@
             </span>
             <label class="label-danger lecture-icon-tooltip">开始上课</label>
           </div>
-          <a class="lecture-content list-group-item col-md-11 col-sm-11" >
+          <a class="lecture-content list-group-item">
             <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
               {{lecture.name}}
             </label>

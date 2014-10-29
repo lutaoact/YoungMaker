@@ -1,14 +1,14 @@
 'use strict'
 
 angular.module('budweiserApp').controller 'TeacherTeachingCtrl', (
+  $sce
   $scope
   $state
   $modal
   Classes
   Courses
-  Restangular
-  $sce
   $timeout
+  Restangular
 ) ->
 
   # TODO: remove this line. Fix in videogular

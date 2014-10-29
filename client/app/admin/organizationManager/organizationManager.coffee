@@ -11,3 +11,4 @@ angular.module('budweiserApp').config (
     url: '/organization'
     templateUrl: 'app/admin/organizationManager/organizationManager.html'
     controller: 'OrganizationManagerCtrl'
+    authenticate: true

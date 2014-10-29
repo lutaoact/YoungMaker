@@ -7,3 +7,4 @@ angular.module('budweiserApp').config ($stateProvider) ->
     templateUrl: 'app/teacher/teacherHome/teacherHome.html'
     controller: 'TeacherHomeCtrl'
     authenticate: true
+    navClasses: 'home'

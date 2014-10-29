@@ -1,11 +1,3 @@
-<div ng-include="'components/navbar/navbar.html'"
-     id="forum-header"
-     ng-if="!webview"
-     class="forum"></div>
-
 <div ui-view class="forum fadeIn"
      ng-class="{'margin-top':!webview}"></div>
 
-<div ng-include="'components/footer/footer.html'"
-     ng-if="!webview"
-     class="forum"></div>

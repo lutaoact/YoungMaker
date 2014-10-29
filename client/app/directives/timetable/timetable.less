@@ -1,9 +1,7 @@
-
 .time-table{
   margin-top: 0;
   background-size: cover;
-  background-position: center;
-  background-color: transparent;
+  background: transparent center;
   min-height: 300px;
   position: relative;
   margin-bottom: 0;
@@ -21,6 +19,9 @@
     z-index: -1;
     #gradient .directional(@start-color: #5ABDA6; @end-color: #5DBDA5; @deg: 10deg);
   }
+  @media screen and (max-width: 900px){
+    display: none;
+  }
   .content{
     // clear inline-block margin
     margin-bottom: -4px;
@@ -32,11 +33,6 @@
     }
     @media screen and (max-width: 1000px){
       zoom: 0.8;
-    }
-    @media screen and (max-width: 900px){
-      zoom: 0.6;
-    }
-    .text-center{
     }
     .arrow{
       font-size: 60px;

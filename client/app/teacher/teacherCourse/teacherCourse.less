@@ -165,18 +165,30 @@
         .title {
           color: black;
           font-size: 18px;
-          margin-right: 15px;
           margin-left: 5px;
           font-weight: bold;
           padding-right: 0px;
           margin-right: 0px;
           width: 52px;
+          display: inline-block;
         }
         .search-class {
-          width: calc(~'100% - 68px');
+          display: inline-block;
+          width: calc(~'100% - 65px');
+          max-width: 350px;
+          .ui-select-choices {
+            width: auto;
+            max-width: 500px;
+          }
         }
         .search-lecture {
-          width: calc(~'100% - 250px');
+          display: inline-block;
+          width: calc(~'100% - 180px');
+          max-width: 350px;
+        }
+        .btn-danger {
+          float: right;
+          border-radius: 4px;
         }
         .btn {
           padding: 2px 15px 2px 15px;
@@ -196,12 +208,22 @@
         }
       }
       .classe-list {
+        margin-bottom: 15px;
         li {
           a {
+            height: 40px;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
             cursor: pointer;
+          }
+          .close {
+            display: none;
+          }
+          &:hover {
+            .close {
+              display: block;
+            }
           }
           &.active {
             &:before {
@@ -225,7 +247,6 @@
         position:relative;
         .lecture-placeholder {
           margin-left: 30px;
-          margin-right: 20px;
           border: 2px dashed #ddd;
           height: 65px;
           label {
@@ -243,6 +264,10 @@
           padding-top: 22px;
           padding-left: 0px;
           margin-right: -20px;
+          float: left;
+          display: inline-block;
+          position: relative;
+          width: 45px;
           &:hover {
             .lecture-icon-tooltip {
               display: block;
@@ -356,6 +381,8 @@
           font-size: 1.1em;
           font-weight: bold;
           height: 65px;
+          display: inline-block;
+          width: ~'calc(100% - 25px)';
           label {
             width: calc(~'100% - 60px');
             min-width: 300px;

@@ -33,7 +33,11 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <div ui-view class="fadeIn"></div>
+  <div ng-if="!webview"
+       ng-include="'components/navbar/navbar.html'"></div>
+  <div ui-view class="fadeIn" style="min-height: 400px"></div>
+  <div ng-if="!webview"
+       ng-include="'components/footer/footer.html'"></div>
 
   <!--[if lt IE 9]>
   <script src="bower_components/es5-shim/es5-shim.js"></script>

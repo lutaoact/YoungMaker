@@ -1,40 +1,59 @@
-<!-- navbar-static-top -->
-<div class="bud navbar navbar-default navbar-fixed-top main-nav"
-     ng-class="{'sub':navInSub}"
+<div class="bud navbar navbar-default main-nav"
+     ng-class="[$state.current.navClasses, ($state.current.authenticate?'auth':'login')]"
      ng-controller="NavbarCtrl">
-  <div class="container">
+
+  <div class="container"
+       ng-if="!$state.current.authenticate">
     <div class="navbar-header">
-      <button class="navbar-toggle"
-              type="button"
-              ng-click="isCollapsed = !isCollapsed">
+      <a href="/" class="navbar-brand">
+        <i class="logo budon budon-logo-with-title" style="font-size: 145px;"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="container"
+       click-outside="switchMenu(true)"
+       is-active="!viewState.isCollapsed"
+       ng-if="$state.current.authenticate">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed"
+              ng-click="switchMenu(!viewState.isCollapsed)"
+              type="button">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ui-sref="{{getCurrentUser().role}}.home" class="navbar-brand">
-        <i ng-hide="getCurrentUser().orgId" class="budon budon-logo" style="font-size: 36px;"></i>
-        <span ng-if="getCurrentUser().orgId">{{getCurrentUser().orgId.name}}</span>
+      <a ui-sref="{{getCurrentUser().role}}.home"
+         ng-click="switchMenu(true)"
+         class="navbar-brand">
+        <i ng-hide="getCurrentUser().orgId"
+           class="budon budon-logo"
+           style="font-size: 36px;"></i>
+        <span ng-if="getCurrentUser().orgId">
+          {{getCurrentUser().orgId.name}}
+        </span>
       </a>
     </div>
-    <div collapse="isCollapsed"
-         class="navbar-collapse collapse"
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-collapse collapse"
+         collapse="viewState.isCollapsed"
          id="navbar-main">
-      <ul class="bud nav navbar-nav nav-title"
-          ng-if="getTitle()">
-        <li ng-class="{active: isActive(getTitle().link)}">
+
+      <ul class="bud nav navbar-nav navbar-right">
+        <li ng-if="getTitle()"
+            class="nav-title"
+            ng-class="{active: isActive(getTitle().link)}">
           <a ui-sref="{{getTitle().link}}"
              tooltip-placement="bottom"
              tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
         </li>
-      </ul>
-
-      <ul class="bud nav navbar-nav navbar-right">
         <li ng-repeat="item in additionalMenu"
             ng-class="{active: isActive(item.link)}">
-          <a ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
+          <a class="text-center" ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
         </li>
-        <li ng-show="isLoggedIn()" class="pull-right"
-            ng-class="{active: isActive('/settings')}"
+        <li ng-show="isLoggedIn()"
             dropdown>
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
@@ -44,7 +63,8 @@
              >
           </a>
           <ul class="dropdown-menu message-dropdown" role="menu">
-            <div class="message-filters clearfix" ng-init="viewState.messageType = 'message'">
+            <div class="message-filters clearfix"
+                 ng-init="viewState.messageType = 'message'">
               <span>{{viewState.messageType == 'message'?'消息':'通知'}}</span><span class="text-muted">|</span>
               <a href class="btn btn-nav text-muted"
                  ng-class="{'active':viewState.messageType == 'message'}"
@@ -56,12 +76,15 @@
                  ng-click="viewState.messageType = 'notification'">
                 <i class="fa fa-bell"></i>
               </a>
-              <a class="btn btn-xs btn-clearall pull-right text-muted" ng-click="clearAll()" ng-disabled="!messages.length">
+              <a class="btn btn-xs btn-clearall pull-right text-muted"
+                 ng-click="clearAll()"
+                 ng-if="messages.length>0">
                 清空消息
               </a>
             </div>
-            <ul class="media-list message-list" ng-show="messages.length">
-              <li ng-repeat="message in messages|filter: {'type': viewState.messageType}"
+            <ul class="media-list message-list"
+                ng-if="messages.length > 0">
+              <li ng-repeat="message in messages | filter: {'type': viewState.messageType}"
                   class="message media"
                   ng-click="removeMsg(message)"
                   ui-sref="{{message.link}}">
@@ -70,7 +93,10 @@
                      source-attr="background-image"></div>
                 <div class="media-body">
                   <a class="close" ng-click="removeMsg(message, $event)">&times;</a>
-                  <h6 class="media-heading">{{message.raw.fromWhom.name}} <small>{{message.raw.created|timeToTimeAgo}}</small></h6>
+                  <h6 class="media-heading">
+                    {{message.raw.fromWhom.name}}
+                    <small>{{message.raw.created|timeToTimeAgo}}</small>
+                  </h6>
                   <div class="text-muted">{{message.title}}</div>
                 </div>
               </li>
@@ -84,7 +110,11 @@
               </a>
             </div>
           </ul>
-          <span class="badge" style="position: absolute;top: 10px;left: 25px;" ng-show="messages.length">{{messages.length||'0'}}</span>
+          <span class="badge"
+                style="position: absolute;top: 10px;left: 25px;"
+                ng-show="messages.length">
+            {{messages.length||'0'}}
+          </span>
         </li>
       </ul>
     </div>

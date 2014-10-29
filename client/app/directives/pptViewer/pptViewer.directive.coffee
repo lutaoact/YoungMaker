@@ -24,12 +24,6 @@ angular.module('budweiserApp').directive 'pptViewer', ->
     scope.toggleList = ->
       scope.listToggled = !(scope.listToggled==true)
 
-    scope.genToggleListTooltip = ->
-      if scope.listToggled == true
-        '收起幻灯片列表'
-      else
-        '展开幻灯片列表'
-
     scope.prev = ($event) ->
       $event.stopPropagation()
       if not scope.slides

@@ -160,7 +160,7 @@
            ng-class="{'file':!videoActive}">
         <span class="btn-group lecture-nav-tabs">
           <a ng-click="videoActive = true"
-             ng-class="{'active btn-primary':videoActive}"
+             ng-class="{'active':videoActive}"
              class="btn btn-default"
              du-smooth-scroll
              offset="60"
@@ -169,15 +169,13 @@
             视频
           </a>
           <a ng-click="videoActive = false"
-             ng-class="{'active btn-primary':!videoActive}"
+             ng-class="{'active':!videoActive}"
              class="btn btn-default"
              du-smooth-scroll
              offset="60"
              href="#lecture-media">
             <i class="fa fa-file-powerpoint-o"></i>
             讲义
-            <span class="badge"
-                  ng-if="lecture.files.length > 0">{{lecture.files.length}}</span>
           </a>
         </span>
       </div>
@@ -317,7 +315,7 @@
                    ng-disabled="fileUploadState=='uploading' || fileUploadState=='converting'"
                    class="btn btn-primary dropdown-toggle">
                   选择讲义 {{lecture.files.indexOf(selectedFile)+1}}/{{lecture.files.length}} ：
-                  {{selectedFile.fileName}} <i class="fa fa-chevron-down pull-right"></i>
+                  {{selectedFile.fileName}} <i class="fa fa-chevron-up pull-right"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-toggle" role="menu">
                   <li ng-repeat="file in lecture.files">

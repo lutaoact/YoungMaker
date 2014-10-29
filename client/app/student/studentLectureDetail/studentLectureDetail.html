@@ -1,18 +1,18 @@
 <section class="lecture-resources">
   <div class="text-center"
-       ng-class="{'ppt':!videoActive}">
+       ng-class="{'file':!videoActive}">
     <span class="btn-group lecture-nav-tabs">
-      <a ng-class="{'selected':viewState.isVideo}"
+      <a ng-class="{'active':viewState.isVideo}"
          ng-click="viewState.isVideo = true"
          class="btn btn-default">
         <i class="fa fa-file-video-o"></i>
         视频
       </a>
-      <a ng-class="{'selected':!viewState.isVideo}"
+      <a ng-class="{'active':!viewState.isVideo}"
          ng-click="viewState.isVideo = false"
          class="btn btn-default">
         <i class="fa fa-file-powerpoint-o"></i>
-        PPT
+        讲义
       </a>
     </span>
   </div>
@@ -44,22 +44,38 @@
       该课程没有视频
     </div>
   </div>
-  <div class="container clearfix ppt-container" ng-show="!viewState.isVideo">
-    <div ng-show="lecture.slides.length > 0"
-         class="ppt-content">
+  <div class="container clearfix file-container" ng-show="!viewState.isVideo">
+    <div ng-show="lecture.files.length > 0"
+         class="file-content">
+      <span dropdown class="file-dropdown">
+        <a type="button"
+           class="btn btn-link dropdown-toggle">
+          选择讲义 {{lecture.files.indexOf(selectedFile)+1}}/{{lecture.files.length}} ：
+          {{selectedFile.fileName}} <i class="fa fa-chevron-down pull-right"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-toggle" role="menu">
+          <li ng-repeat="file in lecture.files">
+            <a href
+               ng-click="switchFile(file)"
+               ng-class="{'active':$index == lecture.files.indexOf(selectedFile)}">
+              {{file.fileName}}
+            </a>
+          </li>
+        </ul>
+      </span>
       <div ppt-viewer
-           ng-class="{toggled:pptViewer.$listToggled}"
-           slides="lecture.slides"
+           ng-class="{toggled:fileViewer.$listToggled}"
+           slides="selectedFile.fileContent"
            index-visible="true"
-           list-toggled="pptViewer.$listToggled"
-           current-index="pptViewer.$activeIndex">
+           list-toggled="fileViewer.$listToggled"
+           current-index="fileViewer.$activeIndex">
       </div>
       <div class="lecture-slides-list list-group scroll-bar-visible"
-           ng-show="pptViewer.$listToggled">
+           ng-show="fileViewer.$listToggled">
         <a class="list-group-item stretch"
-           ng-class="{'active':(pptViewer.$activeIndex==$index)}"
-           ng-click="pptViewer.$activeIndex=$index"
-           ng-repeat="slide in lecture.slides ">
+           ng-class="{'active':(fileViewer.$activeIndex==$index)}"
+           ng-click="fileViewer.$activeIndex=$index"
+           ng-repeat="slide in selectedFile.fileContent ">
           <div class="slide-thumb"
                src-key="slide.thumb"
                source-attr="background-image"></div>
@@ -67,8 +83,8 @@
         </a>
       </div>
     </div>
-    <div class="empty" ng-if="!(lecture.slides.length > 0)">
-      该课程没有ppt
+    <div class="empty" ng-if="!(lecture.files.length > 0)">
+      该课程没有讲义
     </div>
   </div>
 </section>

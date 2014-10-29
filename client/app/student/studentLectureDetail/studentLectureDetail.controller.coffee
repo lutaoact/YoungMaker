@@ -37,31 +37,32 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
     angular.element('body').removeClass 'sider-open'
 
   loadLecture = ()->
-    if $state.params.lectureId
-      Restangular.one('lectures',$state.params.lectureId).get()
-      .then (lecture)->
-        $scope.lecture = lecture
-        $scope.viewState.isVideo = lecture.media or !lecture.slides
-        if lecture.media
-          $scope.viewState.videos = [
-            src: $sce.trustAsResourceUrl(lecture.media)
-            type: 'video/mp4'
-          ]
-        # If student stay over 5 seconds. Send view lecture event.
-        handleViewEvent = $timeout ->
-          Restangular.all('activities').post
-            eventType: Const.Student.ViewLecture
-            data:
-              lectureId: $scope.lecture._id
-              courseId: $scope.course._id
-        , 5000
-        $scope.$on '$destroy', ()->
-          $timeout.cancel handleViewEvent
-        $scope.lecture
+    Restangular.one('lectures', $state.params.lectureId).get()
+    .then (lecture)->
+      $scope.lecture = lecture
+      $scope.viewState.isVideo = lecture.media or !lecture.files
+      if lecture.media
+        $scope.viewState.videos = [
+          src: $sce.trustAsResourceUrl(lecture.media)
+          type: 'video/mp4'
+        ]
+      $scope.switchFile(lecture.files[0])
+      # If student stay over 5 seconds. Send view lecture event.
+      handleViewEvent = $timeout ->
+        Restangular.all('activities').post
+          eventType: Const.Student.ViewLecture
+          data:
+            lectureId: $scope.lecture._id
+            courseId: $scope.course._id
+      , 5000
+      $scope.$on '$destroy', ()->
+        $timeout.cancel handleViewEvent
+      $scope.lecture
 
   angular.extend $scope,
     course: course
     lecture: null
+    selectedFile: null
     me: CurrentUser
 
     viewState:
@@ -74,22 +75,8 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
 
     $stateParams: $state.params
 
-    saveLecture: (lecture,form)->
-      if form.$valid
-        if not lecture._id
-          #post
-          $scope.all('lectures').post lecture,
-            courseId: $state.params.courseId
-          .then (data)->
-            notify
-              message:'课时已保存'
-              classes:'alert-success'
-            $state.go 'teacher.lectureDetail',
-              courseId: $state.params.courseId
-              lectureId: data._id
-        else
-          #put
-          lecture.put()
+    switchFile: (file) ->
+      $scope.selectedFile = file
 
     seek: (timestamp)->
       $scope.viewState.isVideo = true
@@ -109,22 +96,6 @@ angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
       $localStorage[$scope.me._id]['lectures'] ?= {}
       lectureState = $localStorage[$scope.me._id]['lectures'][$state.params.lectureId] ?= {}
       lectureState.videoPlayTime = $scope.currentTime
-
-    patchLecture: ()->
-      if not lecture._id
-        #post
-        Restangular.all('lectures').post(lecture)
-        .then (data)->
-          notify({message:'课时已保存',classes:'alert-success'})
-          $state.go('editLectureDetail',{lectureId:data._id})
-      else
-        #put
-        patch = {}
-        patch[field] = lecture[field]
-        lecture.patch(patch)
-        .then (data)->
-          angular.extend $scope.lecture, data
-          notify({message:'课时已保存',classes:'alert-success'})
 
     mediaPlayerAPI: undefined
 

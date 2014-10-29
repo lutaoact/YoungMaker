@@ -9,19 +9,55 @@
       padding-left: 0;
       padding-right: 0;
     }
-    .ppt-container{
+    .file-container{
       position: relative;
       padding-left: 0;
       padding-right: 0;
       height: 500px;
-      .ppt-content {
+      .file-content {
         height: 500px;
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
+        position: relative;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        background: rgb(181, 181, 181);
+        border: 1px solid #aaa;
+      }
+      .file-dropdown {
+        position: relative;
+        display: block;
+        border-bottom: 1px solid #999;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        background: white;
+        .btn-link {
+          font-size: 1.1em;
+          font-weight: bold;
+        }
+        .fa-chevron-down {
+          margin-top: 3px;
+          margin-left: 8px;
+        }
+        ul > li {
+          min-width: 300px;
+          padding: 0px 4px;
+          a {
+            font-size: 1.1em;
+            padding: 4px 8px;
+            margin: 1px 0;
+            border-radius: 3px;
+            &.active {
+              font-weight: bold;
+            }
+            &:hover {
+              color: #ffffff;
+              background-color: @base-color;
+            }
+          }
+        }
       }
       .ppt-viewer{
         display: inline-block;
-        height: 100%;
+        height: ~'calc(100% - 35px)';
         width: 100%;
         transition: width .6s;
         -moz-transition: width .6s;
@@ -29,14 +65,14 @@
         -o-transition: width .6s;
         .box-shadow(none);
         &.toggled {
-          width: calc(~'100% - 170px');
+          width: calc(~'100% - 165px');
         }
       }
       .lecture-slides-list {
-        top: 0px;
-        right: 4px;
+        top: 36px;
+        right: -1px;
         position: absolute;
-        max-height: 100%;
+        max-height: ~'calc(100% - 36px)';
         width: 165px;
         opacity: 1;
         transition: all .6s;

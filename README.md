@@ -1,4 +1,4 @@
 maui
 ====
 
-Cloud3's tax policy learning platform
+Cloud3's online learning platform

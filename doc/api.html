@@ -1,0 +1,98 @@
+
+MVP:{
+
+course
+-title:str
+-info:str
+-grade: str
+-subject: str
+-lectures: []
+-price:Number
+
+
+lecture
+-title:str
+-info:str
+-media: str
+-questions: []
+
+
+question:
+-grade:str
+-subject:str
+-type:Number
+-desc:str
+-keypoints:[]
+-level:int
+-tags:[str]
+-solution:str
+
+user-question-answer:
+-_id
+-userId:
+-questionId:
+-answer:str
+-correct:boolean
+
+录入界面不用设计了
+
+
+
+user
+-subscriptions:[]
+-balance:int
+
+
+payment:
+-userId:
+-amount:
+
+
+subscription:
+type:Number:(grade-subject|grade)
+grade-subject:str
+grade:str
+from:date
+to:date
+
+
+user-order
+
+-userId:
+-amount:int
+-subscriptionId:
+-status: Number(payed|pending)
+
+
+price-plan:
+title: str 
+type:Number:(grade-subject|grade)
+
+grade-subject:str
+grade:str
+amount:
+
+post order
+type:1
+grade-subject:'初一物理'
+-> order
+
+
+if balance < order.amount
+3rd ->
+ api/buy
+     orderId:
+     token:
+->
+     payments.push
+
+ else
+     
+     order.status = paid
+     user.subscriptions.push order.subscriptionId
+     
+     balance -= order.amount
+}
+
+买？余额够？下单订阅:充值且余额够？
+

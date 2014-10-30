@@ -1,0 +1,174 @@
+#home-nav{
+  background: #292929;
+  border: none;
+  margin-bottom: 0;
+  height: 55px;
+  overflow:hidden;
+  .navbar-brand{
+    height: 55px;
+    color: #FFFFFF;
+    .logo{
+      max-width:36px;
+      max-height:36px;
+      margin-top: -4px;
+      margin-right: 14px;
+      margin-left: 5px;
+    }
+  }
+}
+
+.home-section{
+  padding-bottom: 60px;
+  padding-top: 20px;
+  .section_header{
+    h1{
+      margin-top: 34px;
+    }
+    p{
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .diamond{
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+      border-bottom-color: @gray-light;
+      position: relative;
+      top: -30px;
+      margin: 0 10px;
+      &:after {
+        content: '';
+        position: absolute;
+        left: -8px;
+        top: 50px;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-top-color: @gray-light;
+      }
+    }
+  }
+  @media screen and (max-width: @screen-xs-max) {
+    .section_header{
+      h1{
+        margin-top: 0px;
+        font-size: 20px;
+      }
+      p{
+        font-size: 12px;
+      }
+      .diamond{
+        display: none;
+      }
+    }
+  }
+}
+
+#main{
+  height: 587px;
+  padding-top: 20px;
+  background-position: center -10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 50px;
+  .btn-warning{
+    margin: 12px auto 0 auto;
+    width: 165px;
+    i{
+      margin-right: 20px;
+    }
+  }
+  .container{
+    position: relative;
+  }
+  .demo{
+    width: 706px;
+    height: 395px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -79px;
+    top: 231px;
+  }
+  .login-form{
+    position: absolute;
+    right: -65px;
+    top: 172px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    .login-form{
+      right: -5px;
+    }
+  }
+
+  @media screen and (max-width: @screen-xs-max) {
+    height: 570px;
+    margin-bottom: 0;
+    h2{
+      font-size: 16px;
+    }
+    p{
+      font-size: 14px;
+    }
+    .login-form{
+      position: static;
+      margin: 10px auto;
+      width: 290px;
+    }
+  }
+}
+
+
+
+#contacts{
+  background:@gray;
+  color: #FFFFFF;
+  padding-top: 40px;
+  .demo{
+    height: 325px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .advantages{
+    margin-top: 50px;
+    text-align: left;
+    margin-left: 0;
+    li{
+      list-style: none;
+      margin: 10px 0 0 0;
+      font-size: 20px;
+      i.fa{
+        margin-right: 10px;
+      }
+    }
+  }
+  .mail-to{
+    margin-top: 20px;
+    font-size: 20px;
+  }
+  @media screen and (max-width: @screen-xs-max) {
+    padding-bottom: 20px;
+    .advantages{
+      margin-top: 20px;
+      margin-left: 0;
+      li{
+        margin: 10px 0 0 -20px;
+
+        font-size: 16px;
+      }
+    }
+    .mail-to{
+      font-size: 18px;
+    }
+  }
+}
+
+#home-footer {
+  .footer{
+    background:#292929;
+  }
+}

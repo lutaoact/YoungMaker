@@ -1,0 +1,13 @@
+<div class="teacher-stats">
+  <div class="container">
+
+    <div ui-view class="fadeIn stats-view teacher-stats-subview"></div>
+
+    <student-list class="col-md-3"
+                  classes="classes"
+                  selected-student="viewState.student"
+                  on-student-select="viewStudentStats">
+    </student-list>
+
+  </div>
+</div>

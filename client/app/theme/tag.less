@@ -1,0 +1,51 @@
+
+.tag(@background: @gray-light;@foreground: #FFFFFF){
+  color: @foreground;
+  background: @background;
+  margin: 2px;
+  max-width: 300px;
+  .remove{
+    cursor: pointer;
+  }
+  .label();
+  .text-overflow();
+  font-size: 14px;
+}
+
+tag,
+.tag{
+  &{
+    .tag();
+  }
+  &.red{
+    .tag(@brand-danger, #FFFFFF);
+  }
+  &.tag-primary{
+    .tag(@brand-primary, #FFFFFF);
+  }
+}
+
+.flag(@background: @gray;@foreground: #FFFFFF){
+  color: @foreground;
+  display: inline;
+  background: @background;
+  padding: 4px 5px;
+  margin: 2px 10px 2px 2px;
+  border-radius: 2px;
+}
+
+.flag{
+  .flag(@gray-light, #FFFFFF);
+  &.flag-primary{
+    .flag(@brand-primary, #FFFFFF);
+  }
+  &.flag-danger{
+    .flag(@brand-danger, #FFFFFF);
+  }
+  &.flag-warning{
+    .flag(@brand-warning, #FFFFFF);
+  }
+  &.flag-success{
+    .flag(@brand-success, #FFFFFF);
+  }
+}

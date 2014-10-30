@@ -1,0 +1,25 @@
+<div ng-show="selectedClasse"
+     class="list-group form col-md-8 item-detail-group">
+  <form class="form list-group-item"
+        ng-submit="saveClasse(form)"
+        name="form"
+        id="item-name">
+    <input class="form-control"
+           name="name"
+           tooltip="点击即可编辑"
+           ng-model="editingInfo.name"
+           ng-blur="saveClasse(form)"
+           placeholder="请输入班级名称"
+           required>
+  </form>
+
+  <div ui-view
+       class="fadeIn"
+       manage-users-list
+       on-create-user="reloadStudents()"
+       on-delete-user="reloadStudents()"
+       on-view-user="viewStudent($user)"
+       user-role="student"
+       users="selectedClasse.$students"
+       classe="selectedClasse"></div>
+</div>

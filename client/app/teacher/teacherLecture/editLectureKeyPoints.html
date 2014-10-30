@@ -1,0 +1,54 @@
+<div>
+  <div class="list-group-item keypoint-heading">
+    视频知识点关联
+    <a class="btn btn-danger pull-right"
+       id="add-keypoint-btn"
+       ng-click="addKeyPoint()">
+      <i class="fa fa-plus-circle"></i>
+      创建关联
+    </a>
+  </div>
+  <div ng-if="lecture.keyPoints.length==0"
+       class="keypoint-help-info">
+    <i class="fa fa-question"></i>
+    <div class="info">
+      <h4 class="title">如何创建视频知识点关联？</h4>
+      <ol>
+        <li>请 “播放” <i class="fa fa-youtube-play"></i> 视频时间至想要的时间点。</li>
+        <li>点击
+          <a class="btn btn-danger"
+             ng-click="addKeyPoint()">
+            <i class="fa fa-plus-circle"></i>
+            创建关联
+          </a> 即可插入该时间点。</li>
+        <li>再输入添加知识点的内容，按回车确认。</li>
+      </ol>
+    </div>
+  </div>
+  <div class="list-group-item keypoint-desc"
+       ng-if="lecture.keyPoints.length>0">
+    <span>时间点</span>
+    <span>知识点</span>
+  </div>
+  <div class="list-group-item keypoint-item"
+       ng-if="lecture.keyPoints.length>0"
+       ng-repeat="keyPoint in lecture.keyPoints">
+    <input type="text"
+           ng-model="timeInput"
+           ng-init="timeInput=(keyPoint.timestamp|second2ReadableTime)"
+           class="keypoint-input"
+           ng-focus="seekPlayerTime(keyPoint.timestamp)"
+           ng-blur="timeInput=updateKeyPointTime(keyPoint, timeInput)"/>
+    <ui-select ng-model="keyPoint.kp"
+               on-select="setKeyPointKp(keyPoint, $item, $select.search)"
+               class="keypoint-select">
+      <ui-select-match placeholder="请输入要添加的知识点，然后按回车">
+        <span>{{$select.selected.name}}</span>
+      </ui-select-match>
+      <ui-select-choices repeat="keyPoint in keyPoints | filter:{categoryId:categoryId} | filter:$select.search">
+        <span ng-bind-html="keyPoint.name | highlight: $select.search"></span>
+      </ui-select-choices>
+    </ui-select>
+    <a ng-click="removeKeyPoint(keyPoint)" class="close">&times;</a>
+  </div>
+</div>

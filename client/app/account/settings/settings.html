@@ -1,0 +1,46 @@
+<div class="container settings padding-top-20"
+     ng-class="{'margin-top':!webview}">
+
+  <ul class="col-sm-12 nav navbar-nav navbar-default visible-sm visible-xs ">
+    <li>
+      <div class="personal-info clearfix">
+        <div class="avatar-md pull-left"
+          src-key="me.avatar"
+          suffix="?imageView2/1/w/64/h/64"
+          source-attr="background-image">
+        </div>
+        <h5>{{me.name}}</h5>
+      </div>
+    </li>
+    <li ng-repeat="item in menu"
+        ng-class="{active: isActive(item.link)}">
+      <a ng-href="{{item.link}}">{{item.title}}</a>
+    </li>
+  </ul>
+  <ul class="col-md-3 nav nav-pills nav-stacked hidden-sm hidden-xs">
+    <li>
+      <div class="personal-info clearfix">
+        <div class="avatar-md pull-left"
+          src-key="me.avatar"
+          suffix="?imageView2/1/w/64/h/64"
+          source-attr="background-image">
+        </div>
+        <h5>{{me.name}}</h5>
+      </div>
+    </li>
+    <li ng-repeat="item in menu"
+        ng-class="{active: isActive(item.link)}">
+      <a ng-href="{{item.link}}">{{item.title}}</a>
+    </li>
+  </ul>
+
+  <div class="col-md-9 col-sm-12" >
+    <div class="panel panel-default setting-panel">
+      <div class="panel-body" style="position: relative;">
+        <div ui-view class="fadeIn"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

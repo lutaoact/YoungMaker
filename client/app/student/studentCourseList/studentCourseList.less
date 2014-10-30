@@ -1,0 +1,23 @@
+.student{
+  .course-list{
+    background: #EBEBEB;
+    position: relative;
+    padding-bottom: 50px;
+    &.limit-height{
+      overflow: hidden;
+      @media screen and (min-height: 0px) {
+        height: 550px;
+      }
+      @media screen and (min-height: 700px) {
+        height: 915px;
+      }
+    }
+    .more{
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      margin-left: -61px;
+    }
+  }
+}
+

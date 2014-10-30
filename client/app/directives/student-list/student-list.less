@@ -1,0 +1,66 @@
+.student-list{
+  padding-left: 0;
+  padding-right: 0;
+  border: 1px solid @gray-lighter;
+  background: #FFF;
+  min-height: 600px;
+  max-height: 1000px;
+  overflow: auto;
+  .student-search-bar{
+    background: #000000;
+    height: 54px;
+    padding: 16px 8px;
+    overflow: hidden;
+
+    .search{
+      height: 20px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      .input-group-addon{
+        padding: 0 6px;
+        height: 20px;
+      }
+      .form-control{
+        padding: 0 6px;
+        height: 20px;
+      }
+    }
+    margin-bottom: 10px;
+  }
+
+  .classe{
+    .classe-header{
+      cursor: pointer;
+      padding: 6px 16px;
+      i{
+        width: 10px;
+      }
+    }
+    border-bottom: 1px solid @gray-lighter;
+    .students{
+      .student{
+        cursor: pointer;
+        &.active{
+          background: @base-color;
+          color: #FFFFFF;
+          .student-status{
+            color: #FFFFFF;
+          }
+        }
+        padding: 6px 30px 6px 16px;
+
+        .student-name{
+          width: 85px;
+          margin-left: 10px;
+          line-height: 24px;
+          .text-overflow();
+        }
+        .student-status{
+          line-height: 24px;
+          color: @base-color;
+        }
+      }
+    }
+
+  }
+}

@@ -1,0 +1,70 @@
+.bud.nav {
+  @nav-link-padding: 0;
+  > li {
+    > a {
+      padding: @nav-link-padding;
+    }
+  }
+}
+
+.bud>.nav-tabs,
+.bud.nav-tabs {
+  @nav-tabs-border-color:            @base-color;
+  @nav-tabs-active-link-hover-bg:    @base-color;
+  @nav-tabs-link-hover-border-color: @base-color;
+  @nav-tabs-active-link-hover-color: #fff;
+
+  border-bottom: 1px solid @nav-tabs-border-color;
+  > li {
+    border: 1px solid @nav-tabs-border-color;
+    border-bottom: none;
+    padding: 0;
+    &.active,
+    &.active > a{
+      background-color: @nav-tabs-active-link-hover-bg;
+      color: @nav-tabs-active-link-hover-color;
+    }
+    > a {
+      cursor: pointer;
+      border: none;
+      padding: 10px 15px;
+      margin-right: 0;
+      font-size: 18px;
+      &:hover{
+        border: none;
+      }
+      &:focus {
+        background-color: @nav-tabs-active-link-hover-bg;
+        color: @nav-tabs-active-link-hover-color;
+        border: none;
+      }
+    }
+  }
+}
+
+.tabset-non-border>.nav-tabs{
+  .nav{
+    margin-bottom: 0;
+  }
+  border-bottom: none;
+  a{
+    cursor: pointer;
+  }
+  > li{
+    margin-bottom: 0;
+  }
+  > li > a{
+    border: none;
+    background: @gray-light;
+    color: #FFFFFF;
+    padding: 6px 18px;
+    border-radius: 2px 2px 0 0;
+  }
+  > li.active > a,
+  > li.active > a:hover,
+  > li.active > a:focus{
+    background: #FFFFFF;
+    border: none;
+    color: #000000;
+  }
+}

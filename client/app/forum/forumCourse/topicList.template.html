@@ -1,0 +1,89 @@
+<div class="bud topic-list">
+  <div class="clearfix title-row search-bar">
+    <div class="pull-left search col-md-6">
+      <div class="bud input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input class="form-control" type="text" ng-model="viewState.query" placeholder="查询">
+        <i class="fa fa-times clear-text-icon" ng-show="viewState.query" ng-click="viewState.query = ''"></i>
+      </div>
+    </div>
+    <button class="bud btn btn-danger pull-right rounded" ng-click="createTopic()">
+      <i class="fa fa-plus"></i>新讨论
+    </button>
+  </div>
+  <div class="clearfix title-row tags-bar">
+    <div class="title-row-header">标签<hr></div>
+    <div class="view-section all-tags clearfix">
+      <a href class="tag pull-left" ng-class="{'active':tag.$active}" ng-repeat="tag in queryTags" ng-click="searchByTag(tag)" tooltip="{{tag.name}}">{{tag.name}}</a>
+    </div>
+    <hr>
+  </div>
+  <ul class="list-group">
+    <div class="clearfix title-row actions-bar">
+      <div class="pull-left" ng-init="viewState.orderBy = '-$heat' ">
+        <a href class="btn btn-nav text-muted"
+          ng-class="{'active':viewState.orderBy == '-created'}"
+          ng-click="viewState.orderBy = '-created'">
+          最新贴
+        </a>
+        <a href class="btn btn-nav text-muted"
+          ng-class="{'active':viewState.orderBy == '-$heat'}"
+          ng-click="viewState.orderBy = '-$heat'">
+          最热贴
+        </a>
+      </div>
+      <span class="pull-left text-muted" style="line-height: 30px;">&nbsp;|&nbsp;</span>
+      <div class="pull-left">
+        <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
+          <a type="button" class="btn dropdown-toggle text-muted">
+            {{viewState.filterMethod=='all'?'全部':'只看我的'}}<span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href ng-click="viewState.filterMethod='all';status.isopen = false">全部</a></li>
+            <li><a href ng-click="viewState.filterMethod='createdByMe';status.isopen = false">只看我的</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <li class="bud col-md-12 topic media fade-repeat"
+        ng-repeat="topic in topics|filter:viewState.query|filter: filterByTags|filter: topicsFilter|orderBy:viewState.orderBy"
+        ng-class="{'selected':topic._id==selectedTopic._id}"
+        ng-click="selectTopic(topic)">
+      <div class="avatar pull-left"
+        source-attr="background-image"
+        src-key="topic.postBy.avatar"
+        suffix="?imageView2/1/w/64/h/64">
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{topic.title}}</h4>
+        <p class="topic-summary">{{topic.metadata.raw}}</p>
+        <div class="spans">
+          <span>
+            <span class="poster-name">
+              {{topic.postBy.name}}
+            </span>
+            <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
+            <span class="topic-type base-color">
+              {{topic.metadata.postType||'提问'}}
+            </span>
+          </span>
+          <span class="status">
+            <i class="fa fa-eye"></i>
+            {{topic.viewers.length||0}}
+            <i class="fa fa-comments"></i>
+            {{topic.repliesNum||0}}
+            <i class="fa fa-heart"></i>
+            {{topic.voteUpUsers.length||0}}
+          </span>
+          <div class="tag" ng-show="topic.metadata.tags.length">
+            标签
+          </div>
+          <span class="comma-split" ng-repeat="tag in topic.metadata.tags" href="{{tag.type}}" src="{{tag.srcId}}">
+            {{tag.name}}
+          </span>
+        </div>
+      </div>
+      <a href class="btn remove-topic" ng-click="deleteTopic(topic, $event)" ng-show="topic.postBy._id==me._id"><i class="fa fa-times"></i></a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,250 @@
+.student{
+  .lecture-resources{
+    background: @gray;
+    padding-top: 0;
+    .video-container{
+      background: #000;
+      height: 500px;
+      padding-top: 25px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .file-container{
+      position: relative;
+      padding-left: 0;
+      padding-right: 0;
+      height: 500px;
+      .file-content {
+        height: 500px;
+        position: relative;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        background: rgb(181, 181, 181);
+        border: 1px solid #aaa;
+      }
+      .file-dropdown {
+        position: relative;
+        display: block;
+        border-bottom: 1px solid #999;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        background: white;
+        .btn-link {
+          font-size: 1.1em;
+          font-weight: bold;
+        }
+        .fa-chevron-down {
+          margin-top: 3px;
+          margin-left: 8px;
+        }
+        ul > li {
+          min-width: 300px;
+          padding: 0px 4px;
+          a {
+            font-size: 1.1em;
+            padding: 4px 8px;
+            margin: 1px 0;
+            border-radius: 3px;
+            &.active {
+              font-weight: bold;
+            }
+            &:hover {
+              color: #ffffff;
+              background-color: @base-color;
+            }
+          }
+        }
+      }
+      .ppt-viewer{
+        display: inline-block;
+        height: ~'calc(100% - 35px)';
+        width: 100%;
+        transition: width .6s;
+        -moz-transition: width .6s;
+        -webkit-transition: width .6s;
+        -o-transition: width .6s;
+        .box-shadow(none);
+        &.toggled {
+          width: calc(~'100% - 165px');
+        }
+      }
+      .lecture-slides-list {
+        top: 36px;
+        right: -1px;
+        position: absolute;
+        max-height: ~'calc(100% - 36px)';
+        width: 165px;
+        opacity: 1;
+        transition: all .6s;
+        -moz-transition: all .6s;
+        -webkit-transition: all .6s;
+        -o-transition: all .6s;
+        .index {
+          cursor: default;
+        }
+        &.ng-hide {
+          width: 0px;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .lecture-description{
+    .lecture-title{
+      padding: 20px 34px 0 34px;
+      h3{
+        margin-bottom: 20px;
+      }
+      .comments{
+        cursor: pointer;
+        color: @gray-light;
+        margin-left: 24px;
+        &:hover{
+          text-decoration: none;
+        }
+      }
+      .comments.active{
+        color: @base-color;
+      }
+      div.text-muted{
+        max-height: 60px;
+        .text-overflow();
+        white-space: initial;
+      }
+      hr{
+        margin:15px;
+      }
+    }
+    padding-top: 0;
+    .title-keypoints{
+      background: #FFF;
+      position: relative;
+      .box-shadow(0 0 2px @gray-light);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding-bottom: 7px;
+      z-index: 10;
+      .anchor.anchor-down{
+        .box-shadow(none);
+        bottom: -15px;
+        border-top: 2px solid @gray-lighter;
+      }
+    }
+    .after-title-keypoints{
+      position: relative;
+      border-top: 10px solid @gray;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      z-index: 8;
+    }
+    .desc-container{
+      z-index: 9;
+      position: relative;
+      margin-top: -11px;
+      margin-bottom: 30px;
+      .content{
+        overflow: hidden;
+        .lecture-desc{
+          margin: 30px;
+        }
+        height: 22px;
+        background: #FFF;
+        border: 1px solid @gray-lighter;
+        &.expanded{
+          min-height: 22px;
+          height: auto;
+        }
+      }
+    }
+    .key-points{
+      .indicator{
+        width: 90px;
+        height: 60px;
+        padding: 10px 20px;
+        margin-left: 10px;
+        i{
+          font-size: 24px;
+          color: @base-color;
+        }
+      }
+      .list-group{
+        margin-left: 110px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        margin-top: 25px;
+        margin-right: 35px;
+        .key-point{
+          height: 30px;
+          min-width: 55px;
+          padding: 4px 12px;
+          .text-overflow();
+          background: @gray;
+          color: #FFFFFF;
+          border-radius: 5px;
+          margin: 3px 6px;
+          &.active{
+            background: @base-color;
+          }
+        }
+      }
+    }
+  }
+
+  .mask{
+    position: fixed;
+    right: 0;
+    top:60px;
+    bottom: 0;
+    left: 0;
+    z-index: 998;
+    background: rgba(0,0,0,.3);
+    opacity: 1;
+  }
+
+  .sider{
+    position: fixed;
+    right: 0;
+    top:60px;
+    bottom: 0;
+    width:550px;
+    background: @gray-lighter;
+    .box-shadow(0 3px 3px 3px rgba(0,0,0,0.3));
+    z-index: 999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .container{
+      width: 550px;
+    }
+    .transition(right ease-in-out 0.2s);
+    &.ng-hide-add,
+    &.ng-hide-remove{
+      display: block !important;
+    }
+    .topic-detail{
+      .btn-back{
+        display: none;
+      }
+    }
+    &.ng-hide {
+      display: none;
+      right: -550px;
+    }
+  }
+  .empty{
+    padding: 50px;
+    text-align: center;
+    font-size: 20px;
+    color: @gray-light;
+    border: @base-color dashed 2px;
+    margin: 50px;
+  }
+  .quiz-and-homework{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background: @gray-lighter;
+  }
+}
+.sider-open{
+  overflow: hidden;
+}

@@ -1,0 +1,125 @@
+.stats-view{
+  .overall{
+    background: #FFF;
+    .box-shadow(0 0 2px @gray-light);
+    overflow: hidden;
+    margin-bottom: 40px;
+    .col-md-4, .col-md-8{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .student-info{
+      .rounded {
+        margin-top: 15px;
+        margin-right: 10px;
+      }
+      margin: 30px 0;
+      border-right: 1px solid @gray-lighter;
+      .avatar-lg{
+        display: inline-block;
+      }
+      h4{
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 46px;
+      }
+    }
+    .pies{
+      .col-md-4{
+        // height: 106px;
+        position: relative;
+        text-align: center;
+        overflow: hidden;
+        margin-bottom: 30px;
+        margin-top: 10px;
+        .percentage{
+          position: absolute;
+          left: 50%;
+          margin-left: -18px;
+          top: 55px;
+          font-size: 32px;
+        }
+
+        .quiz-percentage{
+          color: @brand-danger;
+        }
+        .homework-percentage{
+          color: @brand-success;
+        }
+        .keypoint-percentage{
+          color: @brand-warning;
+        }
+      }
+      // .bud-chart{
+      //   -webkit-transform: translate(0, -63px) scale(0.4, 0.4);
+      //   -ms-transform: translate(0, -63px) scale(0.4, 0.4); // IE9 only
+      //   transform: translate(0, -63px) scale(0.4, 0.4);
+      // }
+      // .highcharts-title{
+      //   display: none;
+      // }
+    }
+  }
+  .detail-container{
+    padding-left: 0;
+  }
+  .detail{
+    background: #FFF;
+    padding: 50px;
+    .bud-chart{
+    }
+  }
+  margin-bottom: 40px;
+
+  .trend{
+    .nav-tabs{
+      .nav{
+        margin-bottom: 0;
+      }
+      border-bottom: none;
+      a{
+        cursor: pointer;
+      }
+      > li{
+        margin-bottom: 0;
+      }
+      > li > a{
+        background: @gray-light;
+        color: #FFFFFF;
+        padding: 6px 18px;
+        border-radius: 2px 2px 0 0;
+      }
+      > li.active > a,
+      > li.active > a:hover,
+      > li.active > a:focus{
+        background: #FFFFFF;
+        color: #000000;
+      }
+    }
+    .tab-content{
+      border: 1px solid @gray-lighter;
+      .highcharts-title{
+        opacity: 0;
+      }
+    }
+    margin-bottom: 40px;
+  }
+
+  .keypoints{
+    border: 1px solid @gray-lighter;
+    padding-top: 10px;
+  }
+}
+.teacher-stats{
+  background: @gray-lighter;
+  padding-bottom: 50px;
+}
+.teacher-stats .teacher-stats-subview{
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 38px;
+}
+
+.teacher-stats .student-list{
+
+}

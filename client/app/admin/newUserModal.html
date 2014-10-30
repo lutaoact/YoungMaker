@@ -1,0 +1,115 @@
+<div>
+  <div class="modal-header modal-header-black">
+    <h4 class="modal-title">
+      {{title}}
+      <a class="close" ng-click="cancel()">&times;</a>
+    </h4>
+  </div>
+
+  <form class="form-horizontal new-user-form"
+        name="form">
+
+    <div class="form-group">
+      <div class="avatar-lg"
+           src-key="user.avatar"
+           suffix="?imageView2/1/w/64/h/64"
+           source-attr="background-image">
+      </div>
+    </div>
+    <div class="form-group text-center">
+      <uploader class="btn btn-danger btn-sm rounded"
+                limit="2*1024*1024"
+                on-complete="onAvatarUploaded($data)"
+                crop="true"
+                crop-ratio="1"
+                max-width="128"
+                accept-type="image">
+        上传头像
+      </uploader>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+      <label for="inputUserName"
+             class="col-xs-3 control-label">用户名</label>
+      <div class="col-xs-8">
+        <div class="input-group">
+          <input class="form-control"
+                 id="inputUserName"
+                 type="text"
+                 ng-model="user.username"
+                 required
+                 placeholder="输入用户名">
+          <div class="input-group-addon">_{{orgUniqueName}}</div>
+        </div>
+        <div ng-show="user.username.length > 0">
+          <small class="text-muted">
+            您的用户名: {{user.username}}_{{orgUniqueName}}
+            <div class="text-danger" ng-if="errors.username">{{ errors.username.message }}</div>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword" class="col-xs-3 control-label">密码</label>
+      <div class="col-xs-8">
+        <input class="form-control"
+               id="inputPassword"
+               type="password"
+               ng-model="user.password"
+               required
+               placeholder="输入登录密码">
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-group">
+      <label for="inputName" class="col-xs-3 control-label">姓名</label>
+      <div class="col-xs-8">
+        <input type="text"
+               class="form-control"
+               id="inputName"
+               placeholder="请输入您的姓名"
+               required
+               ng-model="user.name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail" class="col-xs-3 control-label">邮箱</label>
+      <div class="col-xs-8">
+        <input type="email"
+               class="form-control"
+               id="inputEmail"
+               placeholder="请输入邮箱"
+               required
+               ng-model="user.email">
+        <div class="text-danger" ng-if="errors.email"><small>{{ errors.email.message }}</small></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputInfo" class="col-xs-3 control-label">备注</label>
+      <div class="col-xs-8">
+        <textarea type="text"
+                  class="form-control"
+                  id="inputInfo"
+                  placeholder="其他信息"
+                  ng-model="user.info"></textarea>
+      </div>
+    </div>
+
+    <div class="form-group text-center">
+      <button type="submit"
+              id="confirm-btn"
+              class="btn btn-danger"
+              ng-click="confirm(form)">
+        确认{{title}}
+      </button>
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,70 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <base href="/">
+  <title>云立方学院 cloud3edu 提供教育云服务，教育的云计算时代，从云立方学院开始</title>
+  <meta name="Description" content="云立方学院提供教育SaaS, 教育云服务, 帮助你的机构利用云计算，移动互联网，提高在线教育水平；云端管理教学内容，实现教学时间空间的延伸；通过实时互动，多维统计，可视化图标，实现个性化教学，提高所有学生的参与度和学习兴趣；提高教育机构的竞争力，和学习体验">
+  <meta name="Keywords" content="教育云服务,互联网教育,SaaS,个性化教育,实时互动,多维统计,学习分享,知识积累,在线教育,网校平台">
+  <meta name="viewport" content="width=device-width,minimal-ui">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(client) app/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css({.tmp,client}) app/app.css -->
+  <link rel="stylesheet" href="app/app.css">
+  <!-- injector:css -->
+  <!-- endinjector -->
+  <!-- endbuild -->
+  <!-- TODO: remove these two libs -->
+  <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.min.css"/>
+
+</head>
+<body ng-app="budweiserAppDev">
+  <!--[if lt IE 9]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div ng-if="!webview"
+       ng-include="'components/navbar/navbar.html'"></div>
+  <div ui-view class="fadeIn" style="min-height: 400px"></div>
+  <div ng-if="!webview"
+       ng-include="'components/footer/footer.html'"></div>
+
+  <!--[if lt IE 9]>
+  <script src="bower_components/es5-shim/es5-shim.js"></script>
+  <script src="bower_components/json3/lib/json3.min.js"></script>
+  <![endif]-->
+
+  <!-- common js -->
+  <script src="/common/Const.js"></script>
+
+  <!-- build:js(client) app/vendor.js -->
+  <!-- bower:js -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:remove:dist -->
+  <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+  <!-- /build -->
+
+  <!-- build:js({.tmp,client}) app/app.js -->
+  <script src="app/app.js"></script>
+  <!-- injector:js -->
+  <!-- endinjector -->
+  <!-- endbuild -->
+  <script>
+    angular.module('budweiserAppDev')
+      .constant('indexUser', null)
+      .constant('webview', false)
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+
+@thumbnail-padding:           7px;
+
+.overflow-hidden {
+  overflow: hidden;
+}
+.bud.thumbnail {
+  .transition(all .2s ease-in-out);
+
+  &:hover{
+    box-shadow: 0 0 8px #ddd;
+  }
+}
+
+.thumbnail-kenburn:hover img {
+  -webkit-transform: scale(1.2) rotate(2deg);
+  -moz-transform: scale(1.2) rotate(2deg);
+  -o-transform: scale(1.2) rotate(2deg);
+  -ms-transform: scale(1.2) rotate(2deg);
+  transform: scale(1.2) rotate(2deg);
+}
+.thumbnail-kenburn img {
+  left: 10px;
+  margin-left: -10px;
+  position: relative;
+  -webkit-transition: all 0.8s ease-in-out;
+  -moz-transition: all 0.8s ease-in-out;
+  -o-transition: all 0.8s ease-in-out;
+  -ms-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+}

@@ -1,0 +1,162 @@
+<div class="student-lecture-answers">
+  <div class="text-center"
+       id="lecture-question">
+    <div class="lecture-nav-tabs">
+      <a ng-click="setQuestionType('quizzes')"
+         ng-if="lecture.quizzes.$submitted"
+         ng-class="{'selected':lecture.quizzes.$active}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-clock-o"></i>
+        随堂练习
+      </a>
+      <a ng-click="setQuestionType('homeworks')"
+         ng-if="lecture.homeworks.length>0"
+         ng-class="{'selected':lecture.homeworks.$active}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-file-o"></i>
+        课后作业
+      </a>
+      <a ng-click="showOfflineWorks()"
+         ng-class="{'selected':offlineWorksShown}"
+         class="btn btn-default"
+         du-smooth-scroll
+         offset="60"
+         href="#lecture-question">
+        <i class="fa fa-cloud-upload"></i>
+        作业上传
+      </a>
+    </div>
+  </div>
+  <div class="questions-panel container" ng-show="displayQuestions">
+    <div class="list-group">
+
+      <div class="list-group-item question-item"
+           ng-repeat="question in displayQuestions|filter:{'$notAnswered':false}|paging:viewState.pageSize:viewState.currentPage[questionsType]">
+        <div class="mark-group" ng-if="displayQuestions.$submitted">
+          <i class="indicator correct fa fa-check" ng-if="question.$correct"></i>
+          <i class="indicator incorrect fa fa-times" ng-if="!question.$correct"></i>
+        </div>
+        <div class="content-group">
+          <h5 class="text-default">
+            {{$index + 1 + (viewState.currentPage[questionsType] - 1) * viewState.pageSize}}.
+            {{question.body | questionTitle}}
+          </h5>
+          <div class="question-image"
+               ng-repeat="imageKey in question.body | questionImage">
+            <img ng-src="{{imageKey}}">
+          </div>
+          <div class="checkbox"
+               ng-class="{'text-muted':displayQuestions.$submitted||displayQuestions!=lecture.homeworks}"
+               ng-repeat="option in question.choices">
+            <label>
+              {{$index|indexToABC}}.
+              <input type="checkbox" class="bud checkbox-primary"
+                     ng-disabled="displayQuestions.$submitted||displayQuestions!=lecture.homeworks"
+                     ng-model="option.$selected">
+              {{option.text}}
+            </label>
+          </div>
+          <question-answer question="question"
+                           keypoints="keyPoints"
+                           ng-if="displayQuestions.$submitted">
+          </question-answer>
+        </div>
+      </div>
+
+    </div>
+    <button type="button"
+            ng-show="displayQuestions==lecture.homeworks"
+            ng-disabled="displayQuestions.$submitted"
+            class="pull-right submit-btn btn btn-danger"
+            ng-click="submitAnswer()">
+      <span ng-if="displayQuestions.$submitted">课后作业已经提交</span>
+      <span ng-if="!displayQuestions.$submitted">提交课后作业</span>
+    </button>
+    <pager
+      total-items="displayQuestions.length"
+      items-per-page="viewState.pageSize"
+      align="false"
+      class="bud"
+      ng-model="viewState.currentPage[questionsType]"
+      ng-show="displayQuestions.length > viewState.pageSize">
+    </pager>
+  </div>
+
+  <div class="question-panel offline-homework container" ng-show="offlineWorksShown">
+    <form class="clearfix" role="form" ng-submit="submitOfflineWork(offlineWork)">
+      <div class="form-group">
+        <label class="base-color">上传作业</label>
+        <uploader limit="500*1024*1024"
+                  multiple="true"
+                  on-complete="onFilesUploaded($data,$meta)"
+                  on-begin="onFilesUploadStart($files)"
+                  on-progress="onFilesUploading($speed, $percentage, $event)"
+                  on-error="onError($error)"
+                  ng-if="!offlineWork.submitted"
+                  class="file-drop-box clearfix">
+          <span class="tip text-muted"><i class="fa fa-cloud-upload"></i>点击按钮或者拖拽上传作业</span>
+          <span class="btn btn-danger btn-sm rounded pull-right">
+            <i class="fa fa-paperclip"></i>
+            添加附件
+          </span>
+        </uploader>
+      </div>
+      <ul class="list-group form-group clearfix file-list">
+        <li class="list-group-item file col-md-12" ng-repeat="file in offlineWork.files">
+          <div>
+            <div class="progress" ng-style="{width: file.$progress + '%'}" ng-show="file.$progress">
+            </div>
+            <span class="pull-left file-ext" ng-if="!isImage(file.name.split('.').pop())">
+              {{file.name.split('.').pop()}}
+            </span>
+            <span class="pull-left file-ext" ng-style="{'background-image': 'url(\'' + file.url + '-thumbnail\')'}" ng-if="isImage(file.name.split('.').pop())" style="background-color: #FFF">
+            </span>
+            <h6 class="pull-left">
+              <a href="{{file.url}}" target="blank" title="点击下载文件">
+                {{file.name}}
+              </a>
+              <br>
+              <small>{{file.size|bytes}}</small>
+            </h6>
+            <a class="btn btn-remove btn-xs pull-right" ng-if="!offlineWork.submitted" ng-click="removeFile(file)"><i class="fa fa-times"></i></a>
+          </div>
+        </li>
+      </ul>
+      <div class="form-group">
+        <label for="descInput" class="base-color">留言</label>
+        <textarea id="descInput" placeholder="输入留言内容..." class="form-control bud-editor-input" ng-model="offlineWork.desc" ng-disabled="offlineWork.submitted"></textarea>
+      </div>
+      <div class="form-group pull-right">
+        <button type="submit" class="btn btn-danger rounded" ng-disabled="offlineWork.submitted">{{offlineWork.submitted?'已提交':'交作业'}}</button>
+      </div>
+    </form>
+
+    <div class="teacher-endorsement" ng-if="offlineWork.checked">
+      <div class="teacher-endorsement-header">
+        老师批阅
+      </div>
+      <div class="teacher-endorsement-row col-md-12">
+        <div class="key">
+          <i class="fa fa-star"></i>分数
+        </div>
+        <div class="value">
+          {{offlineWork.score}}
+        </div>
+      </div>
+      <div class="teacher-endorsement-row col-md-12">
+        <div class="key">
+          <i class="fa fa-comment"></i>评语
+        </div>
+        <div class="value">
+          {{offlineWork.feedback}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.text-shadow(@shadow){
+  text-shadow: @shadow;
+  -webkit-text-shadow: @shadow;
+  -moz-text-shadow: @shadow;
+}
+
+.blur(@value){
+  filter: blur(@value);
+  -webkit-filter: blur(@value);
+  -moz-filter: blur(@value);
+}
+
+i, h1, h2, h3, h4, h5, span, label{
+  &.base-color{
+    color: @base-color;
+  }
+}

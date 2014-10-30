@@ -1,0 +1,60 @@
+
+//
+// Override Variables
+// --------------------------------------------------
+
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+@base-color-lighter: lighter(@base-color, 20%);
+@base-color-light: lighter(@base-color, 13.5%);
+@base-color: #5ABDA6;
+@base-color-dark: darken(@base-color, 13.5%); //#5fb611
+@base-color-darker: darken(@base-color, 20%);
+
+@base-text-color: #555;
+
+@base-body-color: #fff;
+
+@gray:                   #606060;
+@gray-light:             #9D9C99;
+@gray-lighter:           #EBEBEB;
+
+// @font-size-base: 14*0.75pt;
+
+@pt2px:   1;
+
+@link-color: @base-color-dark;
+@link-hover-color:      @base-color-darker;
+@brand-primary:         @base-color;
+@brand-success:         #5cb85c;
+@brand-info:            #5bc0de;
+@brand-warning:         #FAC11F;             // #F69226;
+@brand-danger:          #E84D50;
+
+@input-border-focus:    @base-color-dark;
+
+@border-radius-base:          0;
+@border-radius-large:         0;
+@border-radius-small:         0;
+
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Large screen / wide desktop
+// Note: Deprecated @screen-lg and @screen-lg-desktop as of v3.0.1
+@screen-lg:                  992px;
+
+//** Padding between columns. Gets divided in half for the left and right.
+@grid-gutter-width:         30px;
+
+
+// Large screen / wide desktop
+@container-large-desktop:      ((940px + @grid-gutter-width));
+
+// Large modal width
+@modal-lg: 950px;

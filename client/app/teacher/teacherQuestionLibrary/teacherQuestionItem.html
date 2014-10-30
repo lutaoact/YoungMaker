@@ -1,0 +1,50 @@
+<div class="teacher-question-item clearfix"
+     id="question-item-{{index}}"
+     ng-class="{'expended':question.$expended==true}">
+  <div class="question-title list-group-item">
+    <input type="checkbox"
+           ng-disabled="question.$exists"
+           class="bud checkbox-default title-checkbox"
+           ng-model="question.$selected">
+    <div class="liner"></div>
+
+    <a class="close pull-right" ng-click="removeQuestion(question)">
+      <i class="fa fa-times"></i>
+    </a>
+
+    <label class="title-info"
+           ng-click="expendClick()"
+           ng-class="{'text-muted':question.$exists}">
+      <span class="index">{{index}}.</span>{{question.body | questionTitle}}
+    </label>
+    <div class="question-image"
+         ng-repeat="imageKey in question.body | questionImage">
+      <img ng-src="{{imageKey}}">
+    </div>
+  </div>
+  <div ng-if="question.$expended" class="list-group-item question-content">
+    <ul class="nav nav-pills nav-stacked "
+        role="tablist">
+      <li ng-repeat="option in question.choices"
+          class="question-option"
+          role="presentation">
+        <label ng-class="{'label-correct':option.correct}">
+          <input type="checkbox"
+                 class="bud checkbox-primary"
+                 ng-disabled="true"
+                 ng-model="option.correct">
+          <span class="index">{{$index | indexToABC}}. </span>
+          {{option.text}}
+        </label>
+      </li>
+    </ul>
+    <question-answer question="question"
+                     keypoints="keyPoints">
+    </question-answer>
+
+    <teacher-question-item-stats question="question" class="clearfix" ng-if="allowStats">
+    </teacher-question-item-stats>
+
+  </div>
+
+</div>

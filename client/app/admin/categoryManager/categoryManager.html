@@ -1,0 +1,11 @@
+<div class="category-manager">
+  <div manage-items-list
+       items="categories"
+       active-item="selectedCategory"
+       item-type="categories"
+       children="courses"
+       on-create-item="onCreateCategory($item)"
+       on-delete-items="onDeleteCategories($items)"
+       on-view-item="viewCategory($item)"></div>
+  <div ui-view class="fadeIn"></div>
+</div>

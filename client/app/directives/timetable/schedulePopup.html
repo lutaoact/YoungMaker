@@ -1,0 +1,68 @@
+<div class="modal-header schedule-popup">
+  <h4 class="modal-title">制定课程计划</h4>
+  <a href ng-click="close()" class="btn btn-crystal rounded close"><i class="fa fa-times"></i></a>
+</div>
+<div class="modal-body  schedule-popup">
+
+  <div class="clearfix title-row row">
+    <div class="form-group col-xs-6">
+      <div class="bud input-group">
+        <div class="input-group-addon">课程:</div>
+         <ui-select ng-model="viewState.course" ng-disabled="isBusy()" on-select="resetClasse($item)">
+          <ui-select-match placeholder="选择课程">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="option as option in courses |filter: $select.search" >
+            <div ng-bind-html="option.name | highlight: $select.search" class="tag-option" ></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group col-xs-6">
+      <div class="bud input-group">
+        <div class="input-group-addon">班级:</div>
+        <ui-select ng-model="viewState.classe" ng-disabled="isBusy()||!viewState.course">
+          <ui-select-match placeholder="选择班级">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="option as option in viewState.course.classes | filter: $select.search">
+            <div ng-bind-html="option.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix title-row row">
+    <div class="form-group col-xs-6">
+      <label>
+        开始日期:
+        <datepicker ng-model="viewState.startDate" show-weeks="false" class="bud datepicker"></datepicker>
+      </label>
+    </div>
+    <div class="form-group col-xs-6">
+      <label>
+        结束日期:
+        <datepicker ng-model="viewState.endDate" show-weeks="false" class="bud datepicker"></datepicker>
+      </label>
+    </div>
+  </div>
+
+  <div class="clearfix title-row row">
+    <div class="form-group col-xs-6">
+      <label>
+        课堂开始时间
+        <timepicker ng-model="viewState.startTime" hour-step="'1'" minute-step="'5'"></timepicker>
+      </label>
+    </div>
+    <div class="form-group col-xs-6">
+      <label>
+        课堂结束时间
+        <timepicker ng-model="viewState.endTime" hour-step="'1'" minute-step="'5'"></timepicker>
+      </label>
+    </div>
+  </div>
+  
+
+</div>
+<div class=" modal-footer schedule-popup">
+  <button class="btn btn-danger" ng-click="create()"
+  ng-disabled="!viewState.course||!viewState.classe||!viewState.startDate||!viewState.endDate||!viewState.startTime||!viewState.endTime">提交</button>
+  <button class="btn btn-default" ng-click="close()">取消</button>
+</div>

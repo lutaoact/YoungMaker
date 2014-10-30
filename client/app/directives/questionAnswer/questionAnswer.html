@@ -1,0 +1,26 @@
+<div class="question-answer">
+  <div class="list-group-item answer-title">
+    <i class="fa fa-check"></i>正确答案
+    <label class="answer-label">
+      {{getCorrectInfo(question)}}
+    </label>
+  </div>
+  <div class="list-group-item"
+       ng-if="question.detailSolution">
+    <span class="item-desc">
+      <i class="fa fa-bookmark"></i>
+      注&nbsp;&nbsp;&nbsp;解
+    </span>
+    <div class="item-body">{{question.detailSolution}}</div>
+  </div>
+  <div class="list-group-item"
+       ng-if="question.keyPoints.length > 0">
+    <span class="item-desc">
+      <i class="fa fa-tag"></i>
+      知识点
+    </span>
+    <div class="item-body">
+      <span ng-repeat="keypoint in question.keyPoints">{{getKeyPointName(keypoint)}} </span>
+    </div>
+  </div>
+</div>

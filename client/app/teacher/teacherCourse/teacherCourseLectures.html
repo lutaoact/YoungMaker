@@ -1,0 +1,119 @@
+<div id="lectures-{{course._id}}" >
+  <div class="row course-lectures">
+    <br/>
+    <div class="col-md-4"
+         ng-if="course._id">
+      <div class="lectures-header">
+        <a href="#lectures-{{course._id}}"
+           du-smooth-scroll
+           offset="60">
+          <label class="title hand-point">班级</label>
+        </a>
+        <div class="search-class">
+          <ui-select ng-model="addingClasse"
+                     on-select="addClasse($item)">
+            <ui-select-match placeholder="添加班级"><span class="text-muted">添加班级</span></ui-select-match>
+            <ui-select-choices repeat="classe in classes | without:course.classes:'_id' | filter:{name:$select.search}">
+              <span ng-bind-html="classe.name | highlight: $select.search"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <hr class="hr-title"/>
+
+      <tabset vertical="true"
+              type="pills"
+              class="classe-list">
+        <tab ng-repeat="classe in course.classes"
+             select="selectClasse(classe)"
+             active="classe.$active">
+          <tab-heading>
+            <button type="button"
+                    class="close"
+                    ng-click="removeClasse(classe)">&times;</button>
+            <span tooltip="{{classe.name | minLength:20}}"
+                  tooltip-append-to-body="true">{{classe.name}}</span>
+          </tab-heading>
+        </tab>
+      </tabset>
+    </div>
+
+    <div class="col-md-8 lecture-list-group"
+         ng-if="course._id">
+      <div class="lectures-header">
+        <a href="#lectures-{{course._id}}"
+           du-smooth-scroll
+           offset="60">
+          <label class="pull-left title hand-point">课时</label>
+        </a>
+        <div class="form-inline">
+          <input type="text"
+                 class="form-control search-lecture"
+                 placeholder="查找课时"
+                 ng-model="keyword"/>
+          <button class="btn btn-danger"
+                  ng-disabled="creating"
+                  ng-click="createLecture()">
+
+            <span ng-if="!creating">
+              <i class="fa fa-plus"></i>
+              添加课时
+            </span>
+            <span ng-if="creating">
+              <i class="fa fa-spinner fa-spin"></i>
+              添加中
+            </span>
+          </button>
+        </div>
+      </div>
+      <hr class="hr-title"/>
+      <div class="list-group lecture-list"
+           sv-root
+           sv-on-sort="sortLecture()"
+           sv-part="course.$lectures"
+           ng-if="course.$lectures.length>0">
+        <div sv-placeholder class="lecture-placeholder text-center">
+          <label>释放鼠标，可将课时放置在这个位置</label>
+        </div>
+        <div class="stretch lecture-item"
+             sv-element
+             ng-show="filter(lecture, keyword)"
+             ng-repeat="lecture in course.$lectures">
+          <div class="lecture-icon"
+               ng-class="{'active':progressMap[activeProgressKey].indexOf(lecture._id)>=0}">
+            <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)>=0">
+              <div class="liner"></div>
+              <a class="fa fa-check done btn"
+                 ng-click="startTeaching(course, lecture)">
+              </a>
+            </span>
+            <span ng-if="progressMap[activeProgressKey].indexOf(lecture._id)==-1">
+              <a class="new btn"
+                 ng-class="{'start':firstUndoLecture._id == lecture._id}"
+                 ng-click="startTeaching(course, lecture)">
+              </a>
+            </span>
+            <label class="label-danger lecture-icon-tooltip">开始上课</label>
+          </div>
+          <a class="lecture-content list-group-item">
+            <label ui-sref="teacher.lecture({courseId:course._id, lectureId:lecture._id})">
+              {{lecture.name}}
+            </label>
+            <div class="pull-right">
+              <button type="button"
+                      tooltip="点住鼠标，上下拖动可以改变课时的顺序"
+                      tooltip-append-to-body="true"
+                      class="btn btn-default glyphicon glyphicon-sort"></button>
+              <button type="button"
+                      tooltip="删除该课时"
+                      tooltip-append-to-body="true"
+                      class="btn btn-default glyphicon glyphicon-remove"
+                      ng-click="deleteLecture(lecture)">
+              </button>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.bud.pager{
+  @icon-size: 54px;
+  >li >a{
+    .transition(all .2s ease-in-out);
+    font-size: 0;
+    width: @icon-size;
+    border-radius: @icon-size;
+    height: @icon-size;
+    position: relative;
+    background: @gray-light;
+    margin: 0 20px;
+    &:before{
+      content: '\f053';
+      font-size: 32px;
+      position: absolute;
+      font-family: FontAwesome;
+      left: 28%;
+      color: #FFFFFF;
+    }
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background-color: @base-color;
+    }
+  }
+  >li:nth-last-child(1) >a:before{
+    content: '\f054';
+  }
+  .disabled {
+    > a,
+    > a:hover,
+    > a:focus,
+    > span {
+      color: @pager-disabled-color;
+      background-color: @gray-lighter;
+      cursor: not-allowed;
+    }
+  }
+}

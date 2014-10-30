@@ -1,0 +1,152 @@
+<div class="bud topic-detail">
+  <div ng-show="topic">
+    <a class="btn btn-md btn-back"
+      ui-sref="forum.course({courseId: topic.courseId})">
+      <i class="fa fa-chevon-left"></i>返回列表
+    </a>
+    <div class="bud article">
+      <div class="article-header media">
+
+        <div class="avatar-lg pull-left"
+          source-attr="background-image"
+          src-key="topic.postBy.avatar"
+          suffix="?imageView2/1/w/64/h/64">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            {{topic.title}}
+          </h4>
+          <div class="spans">
+            <span>
+              <span class="poster-name">
+                {{topic.postBy.name}}
+              </span>
+              <span class="text-muted created-time">发表于{{topic.created|timeToTimeAgo}}</span>
+              <span class="topic-type base-color">
+                {{topic.metadata.postType||'提问'}}
+              </span>
+            </span>
+            <span class="status">
+              <i class="fa fa-eye"></i>
+              {{topic.viewers.length||0}}
+              <i class="fa fa-comments"></i>
+              {{topic.repliesNum||0}}
+              <i class="fa fa-heart"></i>
+              {{topic.voteUpUsers.length||0}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-body">
+        <div class="clearfix title-row tags-bar">
+          <div class="title-row-header">标签<hr></div>
+          <div class="view-section all-tags clearfix">
+            <a href class="tag pull-left" ng-repeat="tag in topic.metadata.tags" tooltip="{{tag.name}}">{{tag.name}}</a>
+          </div>
+          <hr>
+        </div>
+        <div class="blog" compile-html="topic.content" >
+        </div>
+        <div class="article-voteup text-center"
+          ng-class="{'active':topic.voteUpUsers.indexOf(me._id)>=0}"
+          ng-click="toggleLike(topic)">
+          <i class="fa fa-heart">
+          </i>
+          <hr>
+          {{topic.voteUpUsers.length||0}}
+        </div>
+      </div>
+    </div>
+
+    <div class="replies clearfix">
+      <div class="new-reply clearfix">
+        <div class="new-reply-left">
+          <div class="media-object avatar-md"
+               source-attr="background-image"
+               src="http://placehold.it/32x32"
+               src-key="me.avatar"
+               suffix="?imageView2/1/w/64/h/64">
+          </div>
+        </div>
+        <div class="new-reply-right" id="new-reply" is-visible="viewState.newReplyVisible">
+          <bud-editor
+            content="newReply.content"
+            metadata="newReply.metadata">
+          </bud-editor>
+        </div>
+
+        <div>
+          <button
+            class="btn btn-danger btn-sm rounded submit pull-right"
+            ng-click="replyTo(topic, newReply)"
+            ng-disabled="!newReply.content">提交</button>
+        </div>
+      </div>
+      <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">
+        <div class="pull-left" ng-init="viewState.orderBy = '-created'">
+          <a href class="btn btn-nav text-muted"
+            ng-class="{'active':viewState.orderBy == '-created'}"
+            ng-click="viewState.orderBy = '-created'">
+            最新回复
+          </a>
+          <a href class="btn btn-nav text-muted"
+            ng-class="{'active':viewState.orderBy != '-created'}"
+            ng-click="viewState.orderBy = ['-voteUpUsers.length', '-created']">
+            最热回复
+          </a>
+        </div>
+        <span class="pull-left text-muted" style="line-height: 30px;">&nbsp;|&nbsp;</span>
+        <div class="pull-left">
+          <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
+            <a type="button" class="btn dropdown-toggle text-muted">
+              {{viewState.filterMethod=='all'?'全部':'只看我的'}}<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href ng-click="viewState.filterMethod='all';status.isopen = false">全部</a></li>
+              <li><a href ng-click="viewState.filterMethod='createdByMe';status.isopen = false">只看我的</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <ul class="list-group ">
+        <li class="bud thumbnail media col-md-12 reply"
+            ng-repeat="reply in topic.$replies|orderBy: viewState.orderBy|filter: repliesFilter" id="{{reply._id}}" >
+          <a class="pull-left" href>
+            <div class="media-object avatar-md"
+                 source-attr="background-image"
+                 src-key="reply.postBy.avatar"
+                 suffix="?imageView2/1/w/64/h/64">
+            </div>
+          </a>
+          <div class="media-body">
+
+            <h5 class="base-color reply-author-name">{{reply.postBy.name}}
+              <small>|</small>
+              <small>{{reply.created|timeToTimeAgo}}</small>
+              <small>|</small>
+              <small>
+                <i
+                  class="fa fa-heart vote"
+                  ng-class="{'active':reply.voteUpUsers.indexOf(me._id)>=0}"
+                  ng-click="toggleVote(reply)">
+                </i>
+                {{reply.voteUpUsers.length||0}}
+              </small>
+              <a href ng-show="reply.postBy._id == me._id" class="pull-right" ng-click="deleteReply(topic, reply)"><i class="fa fa-times"></i></a>
+            </h5>
+            <div class="reply-body blog" compile-html="reply.content" ></div>
+          </div>
+        </li>
+      </ul>
+
+      <a class="btn form-control btn-primary btn-md rounded back-to-editor"
+        style="margin: 20px 0;border-radius: 3px;"
+        ng-class="{'hide': viewState.newReplyVisible}"
+        href="#new-reply" du-smooth-scroll du-scrollspy offset="200">
+        发表回复
+      </a>
+    </div>
+
+  </div>
+</div>

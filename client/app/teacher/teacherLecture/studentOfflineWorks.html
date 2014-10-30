@@ -1,0 +1,91 @@
+<div class="student-offline-works">
+  <div class="text-center">
+    <span class="btn-group lecture-nav-tabs">
+      <a class="btn btn-default selected"
+         du-smooth-scroll
+         offset="60"
+         href="#students-offline-works-section">
+        <i class="fa fa-clock-o"></i>
+        作业批改
+      </a>
+    </span>
+  </div>
+  <div class="row">
+    <div class="container clearfix">
+      <div class="col-md-9" ng-if="selectedOfflineWork&&selectedOfflineWork.submitted">
+        <div class="offline-work-head">
+          <div class="left">
+            <div class="avatar-lg" src-key="selectedStudent.avatar" source-attr="background-image">
+            </div>
+          </div>
+          <div class="center">
+            <h3><small>{{selectedStudent.name}}</small></h3>
+            <div class="blog">
+              <div compile-html="selectedOfflineWork.desc"></div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="submitted-time">
+              <span class="date">{{selectedOfflineWork.submittedTime|date:'MM月dd日'}}</span>
+              <span class="base-color">|</span>
+              <span class="time"><sup>{{selectedOfflineWork.submittedTime|date:'a'}}</sup>{{selectedOfflineWork.submittedTime|date:'hh:mm'}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="offline-work-body">
+          作业区
+          <ul class="list-group clearfix file-list">
+            <li class="list-group-item file col-md-12" ng-repeat="file in selectedOfflineWork.files">
+              <div>
+                <div class="progress" ng-style="{width: file.$progress + '%'}" ng-show="file.$progress">
+                </div>
+                <span class="pull-left file-ext" ng-if="!isImage(file.name.split('.').pop())">
+                  {{file.name.split('.').pop()}}
+                </span>
+                <span class="pull-left file-ext" ng-style="{'background-image': 'url(\'' + file.url + '-thumbnail\')'}" ng-if="isImage(file.name.split('.').pop())" style="background-color: #FFF">
+                </span>
+                <h6 class="pull-left">
+                  <a href="{{file.url}}" target="blank" title="点击下载文件">
+                    {{file.name}}
+                  </a>
+                  <br>
+                  <small>{{file.size|bytes}}</small>
+                </h6>
+                <a class="btn btn-remove btn-xs pull-right" ng-if="!selectedOfflineWork.submitted" ng-click="removeFile(file)"><i class="fa fa-times"></i></a>
+              </div>
+            </li>
+          </ul>
+          <form role="form" class="teacher-endorsement correct-form" ng-submit="submitOfflineWork(selectedOfflineWork)">
+            <div class="teacher-endorsement-header">
+              老师批阅
+            </div>
+            <div class="teacher-endorsement-row col-md-12">
+              <div class="key">
+                <i class="fa fa-star"></i>分数
+              </div>
+              <input type="number" placeholder="请输入分数" class="form-control value" ng-model="selectedOfflineWork.score">
+            </div>
+            <div class="teacher-endorsement-row col-md-12">
+              <div class="key">
+                <i class="fa fa-comment"></i>评语
+              </div>
+              <textarea msd-elastic placeholder="请输入评语" type="text" class="form-control value" ng-model="selectedOfflineWork.feedback"></textarea>
+            </div>
+            <div class="form-group pull-right">
+              <button type="submit" class="btn btn-primary" ng-disabled="selectedOfflineWork.checked">{{selectedOfflineWork.checked?'已批改':'提交'}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-9" ng-if="!selectedOfflineWork||!selectedOfflineWork.submitted">
+        <div class="placeholder">
+          还未提交作业
+        </div>
+      </div>
+      <div class="col-md-3">
+        <student-list classes="classes" selected-student="selectedStudent" on-student-select="viewStudentOfflineWork" students-status="studentsStatus">
+        </student-list>
+      </div>
+    </div>
+  </div>
+</div>

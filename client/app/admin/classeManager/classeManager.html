@@ -1,0 +1,11 @@
+<div class="classe-manager">
+  <div manage-items-list
+       items="classes"
+       active-item="selectedClasse"
+       item-type="classes"
+       children="students"
+       on-create-item="onCreateClasse($item)"
+       on-delete-items="onDeleteClasses($items)"
+       on-view-item="viewClasse($item)"></div>
+  <div ui-view class="fadeIn"></div>
+</div>

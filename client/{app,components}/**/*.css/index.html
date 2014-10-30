@@ -1,0 +1,326 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <base href="/">
+  <title>云立方学院 cloud3edu 提供教育云服务，教育的云计算时代，从云立方学院开始</title>
+  <meta name="Description" content="云立方学院提供教育SaaS, 教育云服务, 帮助你的机构利用云计算，移动互联网，提高在线教育水平；云端管理教学内容，实现教学时间空间的延伸；通过实时互动，多维统计，可视化图标，实现个性化教学，提高所有学生的参与度和学习兴趣；提高教育机构的竞争力，和学习体验">
+  <meta name="Keywords" content="教育云服务,互联网教育,SaaS,个性化教育,实时互动,多维统计,学习分享,知识积累,在线教育,网校平台">
+  <meta name="viewport" content="width=device-width,minimal-ui">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(client) app/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+  <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css({.tmp,client}) app/app.css -->
+  <link rel="stylesheet" href="app/app.css">
+  <!-- injector:css -->
+  <link rel="stylesheet" href="app/admin/admin.less">
+  <link rel="stylesheet" href="app/admin/manageItemsList.less">
+  <link rel="stylesheet" href="app/admin/manageUsersList.less">
+  <link rel="stylesheet" href="app/admin/newItemModal.less">
+  <link rel="stylesheet" href="app/admin/newUserModal.less">
+  <link rel="stylesheet" href="app/editor/bud-editor.less">
+  <link rel="stylesheet" href="app/forum/forum.less">
+  <link rel="stylesheet" href="app/imageCrop/image-crop.less">
+  <link rel="stylesheet" href="app/main/main.less">
+  <link rel="stylesheet" href="app/teacher/teacher.less">
+  <link rel="stylesheet" href="app/theme/Jcrop.less">
+  <link rel="stylesheet" href="app/theme/anchor.less">
+  <link rel="stylesheet" href="app/theme/animations.less">
+  <link rel="stylesheet" href="app/theme/avatar.less">
+  <link rel="stylesheet" href="app/theme/blog.less">
+  <link rel="stylesheet" href="app/theme/breadcrumb.less">
+  <link rel="stylesheet" href="app/theme/bud-font.less">
+  <link rel="stylesheet" href="app/theme/buttons.less">
+  <link rel="stylesheet" href="app/theme/chart.less">
+  <link rel="stylesheet" href="app/theme/checkbox.less">
+  <link rel="stylesheet" href="app/theme/datepicker.less">
+  <link rel="stylesheet" href="app/theme/footer.less">
+  <link rel="stylesheet" href="app/theme/form.less">
+  <link rel="stylesheet" href="app/theme/images.less">
+  <link rel="stylesheet" href="app/theme/jumbotron.less">
+  <link rel="stylesheet" href="app/theme/list-group.less">
+  <link rel="stylesheet" href="app/theme/message-dropdown.less">
+  <link rel="stylesheet" href="app/theme/mixin.less">
+  <link rel="stylesheet" href="app/theme/modals.less">
+  <link rel="stylesheet" href="app/theme/navbar.less">
+  <link rel="stylesheet" href="app/theme/navs.less">
+  <link rel="stylesheet" href="app/theme/navtabs.less">
+  <link rel="stylesheet" href="app/theme/pager.less">
+  <link rel="stylesheet" href="app/theme/pages.less">
+  <link rel="stylesheet" href="app/theme/radio.less">
+  <link rel="stylesheet" href="app/theme/scrollbar.less">
+  <link rel="stylesheet" href="app/theme/section.less">
+  <link rel="stylesheet" href="app/theme/slides-list.less">
+  <link rel="stylesheet" href="app/theme/tag.less">
+  <link rel="stylesheet" href="app/theme/theme.less">
+  <link rel="stylesheet" href="app/theme/thumbnails.less">
+  <link rel="stylesheet" href="app/theme/videos.less">
+  <link rel="stylesheet" href="app/account/login/login.less">
+  <link rel="stylesheet" href="app/account/profile/profile.less">
+  <link rel="stylesheet" href="app/account/settings/settings.less">
+  <link rel="stylesheet" href="app/admin/categoryManager/categoryManager.less">
+  <link rel="stylesheet" href="app/admin/categoryManager/categoryManagerCourseDetail.less">
+  <link rel="stylesheet" href="app/admin/categoryManager/categoryManagerDetail.less">
+  <link rel="stylesheet" href="app/admin/classeManager/classeManager.less">
+  <link rel="stylesheet" href="app/admin/classeManager/classeManagerDetail.less">
+  <link rel="stylesheet" href="app/admin/organizationManager/organizationManager.less">
+  <link rel="stylesheet" href="app/admin/teacherManager/teacherManager.less">
+  <link rel="stylesheet" href="app/admin/teacherManager/teacherManagerDetail.less">
+  <link rel="stylesheet" href="app/directives/coolProjector/coolProjector.less">
+  <link rel="stylesheet" href="app/directives/courseTile/courseTile.less">
+  <link rel="stylesheet" href="app/directives/features/featureList.less">
+  <link rel="stylesheet" href="app/directives/imageZoom/imageZoomViewer.less">
+  <link rel="stylesheet" href="app/directives/loginForm/loginForm.less">
+  <link rel="stylesheet" href="app/directives/pptViewer/pptViewer.less">
+  <link rel="stylesheet" href="app/directives/questionAnswer/questionAnswer.less">
+  <link rel="stylesheet" href="app/directives/student-list/student-list.less">
+  <link rel="stylesheet" href="app/directives/timetable/timetable.less">
+  <link rel="stylesheet" href="app/forum/discussionComposerPopup/discussionComposerPopup.less">
+  <link rel="stylesheet" href="app/forum/forumCourse/forumCourse.less">
+  <link rel="stylesheet" href="app/forum/forumCourse/topicDetail.less">
+  <link rel="stylesheet" href="app/forum/forumCourse/topicList.less">
+  <link rel="stylesheet" href="app/forum/forumTopic/forumTopic.less">
+  <link rel="stylesheet" href="app/forum/imageUpload/imageUpload.less">
+  <link rel="stylesheet" href="app/main/xqsh/xqsh.less">
+  <link rel="stylesheet" href="app/student/notes/lectureNotes.less">
+  <link rel="stylesheet" href="app/student/studentCourseDetail/studentCourseDetail.less">
+  <link rel="stylesheet" href="app/student/studentCourseList/studentCourseList.less">
+  <link rel="stylesheet" href="app/student/studentCourseStats/studentCourseStats.less">
+  <link rel="stylesheet" href="app/student/studentHome/studentHome.less">
+  <link rel="stylesheet" href="app/student/studentLectureDetail/studentLectureAnswers.less">
+  <link rel="stylesheet" href="app/student/studentLectureDetail/studentLectureDetail.less">
+  <link rel="stylesheet" href="app/student/studentQuickNav/studentQuickNav.less">
+  <link rel="stylesheet" href="app/teacher/teacherCourse/teacherCourse.less">
+  <link rel="stylesheet" href="app/teacher/teacherCourseStats/teacherCourseStats.less">
+  <link rel="stylesheet" href="app/teacher/teacherHome/teacherHome.less">
+  <link rel="stylesheet" href="app/teacher/teacherLecture/newQuestion.less">
+  <link rel="stylesheet" href="app/teacher/teacherLecture/teacherLecture.less">
+  <link rel="stylesheet" href="app/teacher/teacherQuestionLibrary/teacherQuestionItem.less">
+  <link rel="stylesheet" href="app/teacher/teacherQuestionLibrary/teacherQuestionItemStats.less">
+  <link rel="stylesheet" href="app/teacher/teacherQuestionLibrary/teacherQuestionLibrary.less">
+  <link rel="stylesheet" href="app/teacher/teacherTeaching/teacherTeaching.less">
+  <link rel="stylesheet" href="app/test/test/test.less">
+  <!-- endinjector -->
+  <!-- endbuild -->
+  <!-- TODO: remove these two libs -->
+  <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.min.css"/>
+
+</head>
+<body ng-app="mauiApp">
+  <!--[if lt IE 9]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div ng-if="!webview"
+       ng-include="'components/navbar/navbar.html'"></div>
+  <div ui-view class="fadeIn" style="min-height: 400px"></div>
+  <div ng-if="!webview"
+       ng-include="'components/footer/footer.html'"></div>
+
+  <!--[if lt IE 9]>
+  <script src="bower_components/es5-shim/es5-shim.js"></script>
+  <script src="bower_components/json3/lib/json3.min.js"></script>
+  <![endif]-->
+
+  <!-- common js -->
+  <script src="/common/Const.js"></script>
+
+  <!-- build:js(client) app/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/json3/lib/json3.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/ngstorage/ngStorage.js"></script>
+  <script src="bower_components/angular-ui-select/dist/select.js"></script>
+  <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+  <script src="bower_components/ng-file-upload-shim/angular-file-upload-shim.js"></script>
+  <script src="bower_components/restangular/dist/restangular.js"></script>
+  <script src="bower_components/angular-notify/dist/angular-notify.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/moment/lang/zh-cn.js"></script>
+  <script src="bower_components/videogular/videogular.js"></script>
+  <script src="bower_components/videogular-controls/controls.js"></script>
+  <script src="bower_components/videogular-buffering/buffering.js"></script>
+  <script src="bower_components/videogular-overlay-play/overlay-play.js"></script>
+  <script src="bower_components/videogular-poster/poster.js"></script>
+  <script src="bower_components/angular-scroll/angular-scroll.js"></script>
+  <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+  <script src="bower_components/highcharts/highcharts.js"></script>
+  <script src="bower_components/highcharts/highcharts-more.js"></script>
+  <script src="bower_components/highcharts/modules/exporting.js"></script>
+  <script src="bower_components/highcharts/modules/drilldown.js"></script>
+  <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/utf8/utf8.js"></script>
+  <script src="bower_components/sockjs/sockjs.js"></script>
+  <script src="bower_components/angular-elastic/elastic.js"></script>
+  <script src="bower_components/holderjs/holder.js"></script>
+  <script src="bower_components/angular-sortable-view/src/angular-sortable-view.min.js"></script>
+  <script src="bower_components/angular-i18n/angular-locale_zh-cn.js"></script>
+  <script src="bower_components/Jcrop/js/jquery.Jcrop.min.js"></script>
+  <script src="bower_components/rangy/rangy-core.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular-rangy.min.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular.min.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular-sanitize.min.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js({.tmp,client}) app/app.js -->
+  <script src="app/app.js"></script>
+  <!-- injector:js -->
+  <script src="app/mock.js"></script>
+  <script src="app/account/account.js"></script>
+  <script src="app/admin/admin.controller.js"></script>
+  <script src="app/admin/admin.js"></script>
+  <script src="app/admin/editUserTile.directive.js"></script>
+  <script src="app/admin/manageItemsList.directive.js"></script>
+  <script src="app/admin/manageUsersList.directive.js"></script>
+  <script src="app/admin/newItemModal.controller.js"></script>
+  <script src="app/admin/newUserModal.controller.js"></script>
+  <script src="app/editor/budEditor.js"></script>
+  <script src="app/configs/highcharts.lang.js"></script>
+  <script src="app/configs/textAngular.config.js"></script>
+  <script src="app/forum/forum.controller.js"></script>
+  <script src="app/forum/forum.js"></script>
+  <script src="app/imageCrop/imageCropPopup.js"></script>
+  <script src="app/main/main.controller.js"></script>
+  <script src="app/main/main.js"></script>
+  <script src="app/messages/message.service.js"></script>
+  <script src="app/teacher/teacher.controller.js"></script>
+  <script src="app/teacher/teacher.js"></script>
+  <script src="components/auth/auth.service.js"></script>
+  <script src="components/auth/user.service.js"></script>
+  <script src="components/category/category.service.js"></script>
+  <script src="components/charts/chartUtils.js"></script>
+  <script src="components/holder/holder.directive.js"></script>
+  <script src="components/modal/messageModal.controller.js"></script>
+  <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+  <script src="components/navbar/navbar.controller.js"></script>
+  <script src="components/socket/socket.service.js"></script>
+  <script src="components/utils/fileUtils.js"></script>
+  <script src="components/utils/string.js"></script>
+  <script src="app/account/login/login.controller.js"></script>
+  <script src="app/account/profile/profile.controller.js"></script>
+  <script src="app/account/settings/settings.controller.js"></script>
+  <script src="app/account/signup/signup.controller.js"></script>
+  <script src="app/admin/categoryManager/categoryManager.controller.js"></script>
+  <script src="app/admin/categoryManager/categoryManager.js"></script>
+  <script src="app/admin/categoryManager/categoryManagerCourseDetail.controller.js"></script>
+  <script src="app/admin/categoryManager/categoryManagerDetail.controller.js"></script>
+  <script src="app/admin/classeManager/classeManager.controller.js"></script>
+  <script src="app/admin/classeManager/classeManager.js"></script>
+  <script src="app/admin/classeManager/classeManagerDetail.controller.js"></script>
+  <script src="app/admin/classeManager/classeManagerStudentDetail.controller.js"></script>
+  <script src="app/admin/organizationManager/organizationManager.controller.js"></script>
+  <script src="app/admin/organizationManager/organizationManager.js"></script>
+  <script src="app/admin/teacherManager/editTeacherTile.directive.js"></script>
+  <script src="app/admin/teacherManager/teacherManager.controller.js"></script>
+  <script src="app/admin/teacherManager/teacherManager.js"></script>
+  <script src="app/admin/teacherManager/teacherManagerDetail.controller.js"></script>
+  <script src="app/directives/clickOutside/clickOutside.directive.js"></script>
+  <script src="app/directives/compileHtml/compileHtml.directive.js"></script>
+  <script src="app/directives/coolProjector/coolProjector.directive.js"></script>
+  <script src="app/directives/courseTile/courseTile.directive.js"></script>
+  <script src="app/directives/disableAnimation/disableAnimation.directive.js"></script>
+  <script src="app/directives/features/featureList.directive.js"></script>
+  <script src="app/directives/fixWhenReachTop/fixWhenReachTop.directive.js"></script>
+  <script src="app/directives/focus/focus.directive.js"></script>
+  <script src="app/directives/fullscreen/fullscreen.directive.js"></script>
+  <script src="app/directives/imageZoom/imageZoom.directive.js"></script>
+  <script src="app/directives/isVisible/isVisible.directive.js"></script>
+  <script src="app/directives/loginForm/loginForm.directive.js"></script>
+  <script src="app/directives/pptViewer/pptViewer.directive.js"></script>
+  <script src="app/directives/questionAnswer/questionAnswer.directive.js"></script>
+  <script src="app/directives/srcKey/srcKey.directive.js"></script>
+  <script src="app/directives/student-list/student-list.directive.js"></script>
+  <script src="app/directives/timetable/timetable.directive.js"></script>
+  <script src="app/directives/uploader/uploader.directive.js"></script>
+  <script src="app/filters/bytes/bytes.filter.js"></script>
+  <script src="app/filters/genColor/genColor.filter.js"></script>
+  <script src="app/filters/htmlToPlaintext/htmlToPlaintext.filter.js"></script>
+  <script src="app/filters/include/include.filter.js"></script>
+  <script src="app/filters/minLength/minLength.filter.js"></script>
+  <script src="app/filters/paging/paging.filter.js"></script>
+  <script src="app/filters/question/indexToABC.filter.js"></script>
+  <script src="app/filters/question/questionImage.filter.js"></script>
+  <script src="app/filters/question/questionTitle.filter.js"></script>
+  <script src="app/filters/readableTime/readableTime.filter.js"></script>
+  <script src="app/filters/timeToTimeAgo/timeToTimeAgo.filter.js"></script>
+  <script src="app/filters/without/without.filter.js"></script>
+  <script src="app/forum/discussionComposerPopup/discussionComposerPopup.controller.js"></script>
+  <script src="app/forum/forumCourse/forumCourse.controller.js"></script>
+  <script src="app/forum/forumCourse/forumCourse.js"></script>
+  <script src="app/forum/forumCourse/topicDetail.directive.js"></script>
+  <script src="app/forum/forumCourse/topicList.directive.js"></script>
+  <script src="app/forum/forumSider/forumSider.controller.js"></script>
+  <script src="app/forum/forumTopic/forumTopic.controller.js"></script>
+  <script src="app/forum/forumTopic/forumTopic.js"></script>
+  <script src="app/forum/imageUpload/imageUpload.controller.js"></script>
+  <script src="app/main/demo/demo.controller.js"></script>
+  <script src="app/main/demo/demo.js"></script>
+  <script src="app/main/xqsh/xqsh.controller.js"></script>
+  <script src="app/main/xqsh/xqsh.js"></script>
+  <script src="app/teacher/teacherCourse/teacherCourse.controller.js"></script>
+  <script src="app/teacher/teacherCourse/teacherCourse.js"></script>
+  <script src="app/teacher/teacherCourse/teacherCourseForm.controller.js"></script>
+  <script src="app/teacher/teacherCourse/teacherCourseLectures.controller.js"></script>
+  <script src="app/teacher/teacherCourse/teacherNewCourse.controller.js"></script>
+  <script src="app/teacher/teacherCourseStats/teacherCourseStats.controller.js"></script>
+  <script src="app/teacher/teacherCourseStats/teacherCourseStats.js"></script>
+  <script src="app/teacher/teacherHome/teacherHome.controller.js"></script>
+  <script src="app/teacher/teacherHome/teacherHome.js"></script>
+  <script src="app/teacher/teacherLecture/editLectureKeyPoints.controller.js"></script>
+  <script src="app/teacher/teacherLecture/editLectureQuestions.controller.js"></script>
+  <script src="app/teacher/teacherLecture/newQuestion.controller.js"></script>
+  <script src="app/teacher/teacherLecture/questionLibrary.controller.js"></script>
+  <script src="app/teacher/teacherLecture/studentOfflineWorks.controller.js"></script>
+  <script src="app/teacher/teacherLecture/teacherLecture.controller.js"></script>
+  <script src="app/teacher/teacherLecture/teacherLecture.js"></script>
+  <script src="app/teacher/teacherQuestionLibrary/teacherQuestionItem.js"></script>
+  <script src="app/teacher/teacherQuestionLibrary/teacherQuestionItemStats.js"></script>
+  <script src="app/teacher/teacherQuestionLibrary/teacherQuestionLibrary.controller.js"></script>
+  <script src="app/teacher/teacherQuestionLibrary/teacherQuestionLibrary.js"></script>
+  <script src="app/teacher/teacherTeaching/pubQuestion.controller.js"></script>
+  <script src="app/teacher/teacherTeaching/receiveQuestion.controller.js"></script>
+  <script src="app/teacher/teacherTeaching/teacherTeaching.controller.js"></script>
+  <script src="app/teacher/teacherTeaching/teacherTeaching.js"></script>
+  <script src="app/student/notes/lectureNotes.controller.js"></script>
+  <script src="app/student/studentCourseDetail/studentCourseDetail.controller.js"></script>
+  <script src="app/student/studentCourseDetail/studentCourseDetail.js"></script>
+  <script src="app/student/studentCourseList/studentCourseList.controller.js"></script>
+  <script src="app/student/studentCourseList/studentCourseList.js"></script>
+  <script src="app/student/studentCourseStats/studentCourseStats.controller.js"></script>
+  <script src="app/student/studentCourseStats/studentCourseStats.js"></script>
+  <script src="app/student/studentHome/studentHome.controller.js"></script>
+  <script src="app/student/studentHome/studentHome.js"></script>
+  <script src="app/student/studentLectureDetail/studentLectureAnswers.controller.js"></script>
+  <script src="app/student/studentLectureDetail/studentLectureDetail.controller.js"></script>
+  <script src="app/student/studentLectureDetail/studentLectureDetail.js"></script>
+  <script src="app/student/studentQuickNav/studentQuickNav.controller.js"></script>
+  <script src="app/test/test/test.controller.js"></script>
+  <script src="app/test/test/test.js"></script>
+  <!-- endinjector -->
+  <!-- endbuild -->
+  <script>
+    angular.module('mauiApp')
+      .constant('indexUser', null)
+      .constant('webview', false)
+  </script>
+</body>
+</html>

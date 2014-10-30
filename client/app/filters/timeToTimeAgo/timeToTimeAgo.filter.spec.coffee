@@ -3,7 +3,7 @@
 describe 'Filter: timeToTimeAgo', ->
 
   # load the filter's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
 
   # initialize a new instance of the filter before each test
   timeToTimeAgo = undefined

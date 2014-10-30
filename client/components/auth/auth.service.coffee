@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').factory 'Auth', (
+angular.module('mauiApp').factory 'Auth', (
   $q
   User
   $http

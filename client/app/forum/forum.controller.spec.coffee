@@ -3,7 +3,7 @@
 describe 'Controller: ForumCtrl', ->
 
   # load the controller's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   ForumCtrl = undefined
   scope = undefined
 

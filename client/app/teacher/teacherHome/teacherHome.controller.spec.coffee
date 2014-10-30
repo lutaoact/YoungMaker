@@ -3,7 +3,7 @@
 describe 'Controller: TeacherhomeCtrl', ->
 
   # load the controller's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   TeacherhomeCtrl = undefined
   scope = undefined
 

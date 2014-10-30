@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'NewUserModalCtrl', (
+angular.module('mauiApp').controller 'NewUserModalCtrl', (
   $scope
   notify
   userRole

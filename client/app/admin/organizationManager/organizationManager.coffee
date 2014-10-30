@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').config (
+angular.module('mauiApp').config (
   $stateProvider
   $urlRouterProvider
 ) ->

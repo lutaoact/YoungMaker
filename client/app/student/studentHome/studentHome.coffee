@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').config ($stateProvider) ->
+angular.module('mauiApp').config ($stateProvider) ->
   $stateProvider.state 'student',
     url: '/s'
     templateUrl: 'app/student/studentHome/studentHome.html'

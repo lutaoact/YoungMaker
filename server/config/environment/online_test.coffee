@@ -5,10 +5,10 @@
 module.exports =
   # MongoDB connection options
   mongo:
-    uri: 'mongodb://localhost/budweiser'
+    uri: 'mongodb://localhost/maui'
 
   logger:
-    path: '/data/log/budweiser.log'
+    path: '/data/log/maui.log'
     level: 'DEBUG'
 
   local:

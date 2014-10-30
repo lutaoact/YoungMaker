@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').config ($stateProvider, $urlRouterProvider) ->
+angular.module('mauiApp').config ($stateProvider, $urlRouterProvider) ->
   $urlRouterProvider.when('/s','/s/courses')
   $stateProvider.state 'student.home',
     url: '/courses'

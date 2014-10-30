@@ -1,6 +1,6 @@
 'user strict'
 
-angular.module('budweiserApp').directive 'teacherCourseLectures', ->
+angular.module('mauiApp').directive 'teacherCourseLectures', ->
   restrict: 'EA'
   replace: true
   controller: 'TeacherCourseLecturesCtrl'
@@ -9,7 +9,7 @@ angular.module('budweiserApp').directive 'teacherCourseLectures', ->
     course: '='
     classes: '='
 
-angular.module('budweiserApp').controller 'TeacherCourseLecturesCtrl', (
+angular.module('mauiApp').controller 'TeacherCourseLecturesCtrl', (
   $scope
   $state
   $modal

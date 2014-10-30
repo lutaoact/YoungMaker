@@ -3,7 +3,7 @@
 describe 'Directive: fixWhenReachTop', ->
 
   # load the directive's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   element = undefined
   scope = undefined
   beforeEach inject(($rootScope) ->

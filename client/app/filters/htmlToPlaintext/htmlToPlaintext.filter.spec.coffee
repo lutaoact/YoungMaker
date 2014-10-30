@@ -3,7 +3,7 @@
 describe 'Filter: htmlToPlaintext', ->
 
   # load the filter's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
 
   # initialize a new instance of the filter before each test
   htmlToPlaintext = undefined

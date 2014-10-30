@@ -1,5 +1,5 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'timeToTimeAgo', ->
+angular.module('mauiApp').filter 'timeToTimeAgo', ->
   (input) ->
     moment(String(input)).fromNow()

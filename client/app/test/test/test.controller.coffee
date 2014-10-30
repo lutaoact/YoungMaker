@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TestCtrl', (
+angular.module('mauiApp').controller 'TestCtrl', (
   Auth
   $http
   $scope

@@ -1,4 +1,4 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'indexToABC', ->
+angular.module('mauiApp').filter 'indexToABC', ->
   (index) -> String.fromCharCode(65+index)

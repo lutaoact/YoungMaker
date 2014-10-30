@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ForumTopicCtrl',
+angular.module('mauiApp').controller 'ForumTopicCtrl',
 (
   $q
   $scope

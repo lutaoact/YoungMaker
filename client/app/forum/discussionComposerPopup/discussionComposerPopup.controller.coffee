@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'DiscussionComposerPopupCtrl',
+angular.module('mauiApp').controller 'DiscussionComposerPopupCtrl',
 (
   $scope
   $modalInstance

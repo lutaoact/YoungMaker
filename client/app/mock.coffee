@@ -1,8 +1,8 @@
 'use strict'
 
 # 封装主App，用 ngMockE2E 模拟其中的服务器请求
-angular.module 'budweiserAppDev', [
-  'budweiserApp'
+angular.module 'mauiAppDev', [
+  'mauiApp'
   'ngMockE2E'
 ]
 

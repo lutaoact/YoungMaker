@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp')
+angular.module('mauiApp')
 
 .filter 'questionImage', ->
   QUESTION_IMAGE_REG = /<img[^>]*>/g

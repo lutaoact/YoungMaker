@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').service 'socket', (
+angular.module('mauiApp').service 'socket', (
   $timeout
   $interval
   $cookieStore

@@ -1,4 +1,4 @@
-angular.module('budweiserApp').controller 'ImageCropPopupCtrl', (
+angular.module('mauiApp').controller 'ImageCropPopupCtrl', (
   $scope
   $modalInstance
   fileUtils

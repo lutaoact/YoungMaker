@@ -1,6 +1,6 @@
 'use scrict'
 
-angular.module('budweiserApp').filter 'include', ->
+angular.module('mauiApp').filter 'include', ->
   (items, includes, itemKey, includeKey=itemKey) ->
     includeValues = if includeKey?.length > 0 then _.pluck(includes, includeKey) else includes
     _.filter items, (item) ->

@@ -1,6 +1,6 @@
 'use scrict'
 
-angular.module('budweiserApp').controller 'DemoCtrl', (
+angular.module('mauiApp').controller 'DemoCtrl', (
   Msg
   Auth
   $scope

@@ -3,7 +3,7 @@
 describe 'Directive: studentCourseTile', ->
 
   # load the directive's module and view
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   beforeEach module('app/student/studentCourseTile/studentCourseTile.html')
   element = undefined
   scope = undefined

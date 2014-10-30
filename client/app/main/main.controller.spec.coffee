@@ -3,7 +3,7 @@
 describe 'Controller: MainCtrl', ->
 
   # load the controller's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   beforeEach module('socketMock')
 
   MainCtrl = undefined

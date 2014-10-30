@@ -1,4 +1,4 @@
-angular.module('budweiserApp').controller 'StudentQuickNavCtrl', (
+angular.module('mauiApp').controller 'StudentQuickNavCtrl', (
   $scope
   $modalInstance
   otherCourses

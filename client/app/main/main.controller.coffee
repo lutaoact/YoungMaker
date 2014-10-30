@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'MainCtrl', (
+angular.module('mauiApp').controller 'MainCtrl', (
   Page
 ) ->
 

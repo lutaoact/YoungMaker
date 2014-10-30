@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp')
+angular.module('mauiApp')
 
 .directive 'topicList', ->
   restrict: 'E'

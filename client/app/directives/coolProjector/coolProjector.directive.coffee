@@ -8,7 +8,7 @@
 # AngularJS version of an image projector.
 ###
 
-angular.module('budweiserApp')
+angular.module('mauiApp')
 .controller 'coolProjectorController', ['$scope', '$timeout', '$transition', ($scope, $timeout, $transition) ->
   self = this
   frames = self.frames = $scope.frames = []

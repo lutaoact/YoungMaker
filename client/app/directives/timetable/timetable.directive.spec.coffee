@@ -3,7 +3,7 @@
 describe 'Directive: timetable', ->
 
   # load the directive's module and view
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   beforeEach module('app/directives/timetable/timetable.html')
   element = undefined
   scope = undefined

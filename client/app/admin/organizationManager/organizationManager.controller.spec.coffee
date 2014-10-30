@@ -3,7 +3,7 @@
 describe 'Controller: OrganizationManagerCtrl', ->
 
   # load the controller's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   OrganizationCtrl = undefined
   scope = undefined
 

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'SettingsCtrl', (
+angular.module('mauiApp').controller 'SettingsCtrl', (
   Auth
   $scope
   webview

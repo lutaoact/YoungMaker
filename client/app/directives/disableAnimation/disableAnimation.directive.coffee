@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'disableAnimation', ($animate)->
+angular.module('mauiApp').directive 'disableAnimation', ($animate)->
   restrict: 'A'
   link: (scope, element, attrs) ->
     attrs.$observe 'disableAnimation', (value)->

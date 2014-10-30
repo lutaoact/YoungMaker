@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'timetable', ($timeout)->
+angular.module('mauiApp').directive 'timetable', ($timeout)->
   templateUrl: 'app/directives/timetable/timetable.html'
   restrict: 'E'
   scope:

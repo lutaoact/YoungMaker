@@ -314,7 +314,7 @@ options: {
     ngtemplates: {
       options: {
         // This should be the name of your apps angular module
-        module: 'budweiserApp',
+        module: 'mauiApp',
         // remove htmlmin because it is not compatible with angular
         // htmlmin: {
         //   collapseBooleanAttributes: true,
@@ -597,8 +597,8 @@ options: {
         options: {
           patterns: [
           {
-            match: /budweiserAppDev/g,
-            replacement: 'budweiserApp'
+            match: /mauiAppDev/g,
+            replacement: 'mauiApp'
           }
           ]
         },

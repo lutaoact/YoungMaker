@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'studentList', ->
+angular.module('mauiApp').directive 'studentList', ->
   templateUrl: 'app/directives/student-list/student-list.html'
   replace: true
   restrict: 'E'

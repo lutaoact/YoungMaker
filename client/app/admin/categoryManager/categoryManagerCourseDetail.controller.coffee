@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'CategoryManagerCourseDetailCtrl', (
+angular.module('mauiApp').controller 'CategoryManagerCourseDetailCtrl', (
   $scope
   $state
   chartUtils

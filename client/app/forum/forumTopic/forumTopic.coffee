@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').config ($stateProvider) ->
+angular.module('mauiApp').config ($stateProvider) ->
   $stateProvider.state 'forum.topic',
     url: '/courses/:courseId/topics/:topicId?replyId'
     templateUrl: 'app/forum/forumTopic/forumTopic.html'

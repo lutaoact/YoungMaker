@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherHomeCtrl', (
+angular.module('mauiApp').controller 'TeacherHomeCtrl', (
   Auth
   $modal
   $state

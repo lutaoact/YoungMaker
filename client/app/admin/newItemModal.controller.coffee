@@ -1,6 +1,6 @@
 'use scrict'
 
-angular.module('budweiserApp').controller 'NewItemModalCtrl', (
+angular.module('mauiApp').controller 'NewItemModalCtrl', (
   $scope
   itemType
   itemTitle

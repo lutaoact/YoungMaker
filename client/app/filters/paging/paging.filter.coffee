@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'paging', ->
+angular.module('mauiApp').filter 'paging', ->
 
   (items, itemsPerPage, currentPage) ->
 

@@ -2,7 +2,7 @@
 
 # currently used in topic detail view. When I click comment button, the page
 # scrolls to bottom. And it should tell the editor is visible
-angular.module('budweiserApp').directive 'isVisible', ($document, $timeout, $window)->
+angular.module('mauiApp').directive 'isVisible', ($document, $timeout, $window)->
   restrict: 'A'
   scope:
     isVisible: '='

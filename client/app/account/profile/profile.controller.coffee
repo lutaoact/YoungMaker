@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ProfileCtrl',(
+angular.module('mauiApp').controller 'ProfileCtrl',(
   Auth
   $scope
   notify

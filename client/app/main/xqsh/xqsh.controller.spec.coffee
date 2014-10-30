@@ -3,7 +3,7 @@
 describe 'Controller: XqshCtrl', ->
 
   # load the controller's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   XqshCtrl = undefined
   scope = undefined
 

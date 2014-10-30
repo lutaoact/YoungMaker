@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'fixWhenReachTop', ($timeout, $window, $document)->
+angular.module('mauiApp').directive 'fixWhenReachTop', ($timeout, $window, $document)->
   restrict: 'A'
   link: (scope, element, attrs) ->
     $timeout ->

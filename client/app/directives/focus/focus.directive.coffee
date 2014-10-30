@@ -1,4 +1,4 @@
-angular.module('budweiserApp')
+angular.module('mauiApp')
 
 .directive 'focusMe', ($timeout) ->
   scope:

@@ -1,4 +1,4 @@
-angular.module('budweiserApp').controller 'ImageUploadCtrl', (
+angular.module('mauiApp').controller 'ImageUploadCtrl', (
   $scope
   $modalInstance
   fileUtils

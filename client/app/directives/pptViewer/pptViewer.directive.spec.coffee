@@ -3,7 +3,7 @@
 describe 'Directive: pptViewer', ->
 
   # load the directive's module and view
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   beforeEach module('app/directives/pptViewer/pptViewer.html')
   element = undefined
   scope = undefined

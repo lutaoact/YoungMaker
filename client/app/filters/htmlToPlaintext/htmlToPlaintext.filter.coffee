@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'htmlToPlaintext', ->
+angular.module('mauiApp').filter 'htmlToPlaintext', ->
   (input) ->
     String(input).replace(/<[^>]+>/gm, '')
 

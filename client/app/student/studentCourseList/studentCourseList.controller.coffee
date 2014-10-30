@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'StudentCourseListCtrl'
+angular.module('mauiApp').controller 'StudentCourseListCtrl'
 , (
   User
   Auth

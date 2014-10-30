@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'ngRightClick', ($parse) ->
+angular.module('mauiApp').directive 'ngRightClick', ($parse) ->
   link: (scope, element, attrs) ->
     fn = $parse(attrs.ngRightClick)
     element.bind 'contextmenu', (event) ->

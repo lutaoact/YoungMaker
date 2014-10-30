@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp')
+angular.module('mauiApp')
 
 .directive 'clickOutside', ($document, $timeout) ->
   restrict: 'A'

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherCourseStatsCtrl', (
+angular.module('mauiApp').controller 'TeacherCourseStatsCtrl', (
   $scope
   $state
   Navbar

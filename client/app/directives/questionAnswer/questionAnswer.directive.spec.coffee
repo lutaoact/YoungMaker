@@ -3,7 +3,7 @@
 describe 'Directive: questionAnswer', ->
 
   # load the directive's module and view
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   beforeEach module('app/directives/questionAnswer/questionAnswer.html')
   element = undefined
   scope = undefined

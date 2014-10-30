@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'LectureNotesCtrl',
+angular.module('mauiApp').controller 'LectureNotesCtrl',
 (
   $scope
   Restangular

@@ -3,7 +3,7 @@
 ###
 Removes server error when user updates input
 ###
-angular.module('budweiserApp').directive 'mongooseError', ->
+angular.module('mauiApp').directive 'mongooseError', ->
   restrict: 'A'
   require: 'ngModel'
   link: (scope, element, attrs, ngModel) ->

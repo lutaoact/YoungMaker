@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'PubQuestionCtrl', (
+angular.module('mauiApp').controller 'PubQuestionCtrl', (
   $scope
   classe
   socket

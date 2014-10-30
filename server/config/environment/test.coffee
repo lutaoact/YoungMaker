@@ -5,7 +5,7 @@
 module.exports =
   # MongoDB connection options
   mongo:
-    uri: 'mongodb://localhost/budweiser-test'
+    uri: 'mongodb://localhost/maui-test'
 
   # Qiniu access_key and secret_key
   qiniu:

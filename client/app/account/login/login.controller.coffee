@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'LoginCtrl', (
+angular.module('mauiApp').controller 'LoginCtrl', (
   Auth
   $state
   $scope

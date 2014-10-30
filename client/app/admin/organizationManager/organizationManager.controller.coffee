@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'OrganizationManagerCtrl', (
+angular.module('mauiApp').controller 'OrganizationManagerCtrl', (
   Auth
   $http
   $modal

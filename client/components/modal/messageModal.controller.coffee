@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'MessageModalCtrl', (
+angular.module('mauiApp').controller 'MessageModalCtrl', (
   title
   $scope
   message

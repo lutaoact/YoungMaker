@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'loginForm', ->
+angular.module('mauiApp').directive 'loginForm', ->
   templateUrl: 'app/directives/loginForm/loginForm.html'
   restrict: 'E'
   replace: true

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'without', ->
+angular.module('mauiApp').filter 'without', ->
   (items, excepts, itemKey, exceptKey=itemKey) ->
     exceptValues = if exceptKey?.length > 0 then _.pluck(excepts, exceptKey) else excepts
     _.filter items, (item) ->

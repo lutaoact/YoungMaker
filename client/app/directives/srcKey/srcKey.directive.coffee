@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'srcKey', ($http)->
+angular.module('mauiApp').directive 'srcKey', ($http)->
   restrict: 'A'
   scope:
     srcKey:'='

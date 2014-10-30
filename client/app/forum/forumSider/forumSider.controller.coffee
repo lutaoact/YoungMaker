@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ForumSiderCtrl',
+angular.module('mauiApp').controller 'ForumSiderCtrl',
 (
   $scope
   Restangular

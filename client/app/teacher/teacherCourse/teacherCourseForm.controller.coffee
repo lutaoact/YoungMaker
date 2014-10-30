@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'teacherCourseForm', ->
+angular.module('mauiApp').directive 'teacherCourseForm', ->
   restrict: 'EA'
   replace: true
   controller: 'TeacherCourseFormCtrl'
@@ -10,7 +10,7 @@ angular.module('budweiserApp').directive 'teacherCourseForm', ->
     categories: '='
     deleteCallback: '&'
 
-angular.module('budweiserApp').controller 'TeacherCourseFormCtrl', (
+angular.module('mauiApp').controller 'TeacherCourseFormCtrl', (
   $http
   $scope
   notify

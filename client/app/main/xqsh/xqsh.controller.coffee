@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'XqshCtrl',
+angular.module('mauiApp').controller 'XqshCtrl',
 (
   $scope
   Page

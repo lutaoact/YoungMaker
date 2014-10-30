@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'featureList', ->
+angular.module('mauiApp').directive 'featureList', ->
   templateUrl: 'app/directives/features/featureList.html'
   restrict: 'EA'
   replace: true

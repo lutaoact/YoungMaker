@@ -19,7 +19,7 @@
     port: process.env.PORT || 9000,
     seedDB: false,
     secrets: {
-      session: process.env.EXPRESS_SECRET || 'budweiser-secret'
+      session: process.env.EXPRESS_SECRET || 'maui-secret'
     },
     userRoles: ['student', 'teacher', 'admin'],
     mongo: {

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'courseTile', ->
+angular.module('mauiApp').directive 'courseTile', ->
   templateUrl: 'app/directives/courseTile/courseTile.html'
   restrict: 'EA'
   replace: true

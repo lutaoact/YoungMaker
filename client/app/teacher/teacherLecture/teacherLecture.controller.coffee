@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherLectureCtrl', (
+angular.module('mauiApp').controller 'TeacherLectureCtrl', (
   Auth
   $http
   $scope

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'genColor', ->
+angular.module('mauiApp').filter 'genColor', ->
   (str) ->
     str = utf8.encode str
     r = 256 - str.substr(-1,1).charCodeAt()

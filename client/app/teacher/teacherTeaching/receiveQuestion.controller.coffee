@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ReceiveQuestionCtrl', (
+angular.module('mauiApp').controller 'ReceiveQuestionCtrl', (
   $scope
   answer
   question

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').filter 'bytes', ->
+angular.module('mauiApp').filter 'bytes', ->
   (bytes, precision) ->
     if isNaN(parseFloat(bytes)) || !isFinite(bytes) then return '-'
     precision = 1 if !precision?

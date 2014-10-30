@@ -3,7 +3,7 @@
 describe 'Directive: loginForm', ->
 
   # load the directive's module and view
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   beforeEach module('app/directives/loginForm/loginForm.html')
   element = undefined
   scope = undefined

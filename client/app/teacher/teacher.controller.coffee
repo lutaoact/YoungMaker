@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'TeacherCtrl', (
+angular.module('mauiApp').controller 'TeacherCtrl', (
   $scope
   $state
   webview

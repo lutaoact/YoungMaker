@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ForumCtrl', (
+angular.module('mauiApp').controller 'ForumCtrl', (
   $scope
   webview
 ) ->

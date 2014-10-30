@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'pptViewer', ->
+angular.module('mauiApp').directive 'pptViewer', ->
   templateUrl: 'app/directives/pptViewer/pptViewer.html'
   restrict: 'AE'
   replace: true

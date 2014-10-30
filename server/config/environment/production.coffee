@@ -18,10 +18,10 @@ module.exports =
     uri : process.env.MONGOLAB_URI or
            process.env.MONGOHQ_URL or
            process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME or
-            'mongodb://vm2mongo.wckvrx.pek2.qingcloud.com/budweiser,vm5mongo.sec.wckvrx.pek2.qingcloud.com/budweiser'
+            'mongodb://vm2mongo.wckvrx.pek2.qingcloud.com/maui,vm5mongo.sec.wckvrx.pek2.qingcloud.com/maui'
 
   logger:
-    path: '/data/log/budweiser.log'
+    path: '/data/log/maui.log'
     level: 'DEBUG'
 
   local:

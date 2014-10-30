@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'teacherQuestionItemStats', ->
+angular.module('mauiApp').directive 'teacherQuestionItemStats', ->
   templateUrl: 'app/teacher/teacherQuestionLibrary/teacherQuestionItemStats.html'
   restrict: 'E'
   replace: true

@@ -3,7 +3,7 @@
 describe 'Controller: ProfileCtrl', ->
 
   # load the controller's module
-  beforeEach module('budweiserApp')
+  beforeEach module('mauiApp')
   ProfileCtrl = undefined
   scope = undefined
 

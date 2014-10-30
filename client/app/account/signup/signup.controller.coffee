@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'SignupCtrl', (
+angular.module('mauiApp').controller 'SignupCtrl', (
   $scope
   webview
   $location

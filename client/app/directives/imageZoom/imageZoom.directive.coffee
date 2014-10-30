@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'imageZoom', (imageZoomViewer)->
+angular.module('mauiApp').directive 'imageZoom', (imageZoomViewer)->
   restrict: 'C'
   link: (scope, element, attrs) ->
     element.on 'click', ->

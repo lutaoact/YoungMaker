@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'budEditor', ()->
+angular.module('mauiApp').directive 'budEditor', ()->
   restrict: 'E'
   scope:
     metadata: '='

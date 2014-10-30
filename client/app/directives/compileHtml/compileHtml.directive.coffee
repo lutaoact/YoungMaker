@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'compileHtml', ($timeout, $compile, $sce, $parse)->
+angular.module('mauiApp').directive 'compileHtml', ($timeout, $compile, $sce, $parse)->
   restrict: 'A'
   compile: (tElement) ->
     (scope, element, attr) ->

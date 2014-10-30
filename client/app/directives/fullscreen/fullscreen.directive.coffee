@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').directive 'fullScreen', ($window) ->
+angular.module('mauiApp').directive 'fullScreen', ($window) ->
   restrict: 'A'
   scope: true
   link:($scope,$element, $attrs) ->

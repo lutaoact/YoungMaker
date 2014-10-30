@@ -1,4 +1,4 @@
-angular.module('budweiserApp').controller 'NewQuestionCtrl', (
+angular.module('mauiApp').controller 'NewQuestionCtrl', (
   $scope
   $timeout
   keyPoints

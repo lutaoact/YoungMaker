@@ -126,7 +126,7 @@ function saveSpecifiedModelData(datas, modelObj, cb) {
 exports.saveSpecifiedModelData = saveSpecifiedModelData;
 
 function getModel(key) {
-  return new (require('../api/' + key + '/' + key + '.model'));
+  return require('../api/' + key + '/' + key + '.model').Instance;
 }
 exports.getModel = getModel;
 

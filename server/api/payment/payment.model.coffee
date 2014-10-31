@@ -12,4 +12,5 @@ class Payment extends BaseModel
 
     super
 
-module.exports = Payment
+exports.Class = Payment
+exports.Instance = new Payment()

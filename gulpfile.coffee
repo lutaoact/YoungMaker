@@ -212,6 +212,14 @@ gulp.task 'ngtemplates', ->
     )
   .pipe gulp.dest('.tmp/')
 
+gulp.task 'concat:template', ->
+  sources = gulp.src [
+      'dist/public/app/app.js'
+      '.tmp/templates.js'
+    ]
+  sources.pipe $.concat('app.js')
+  .pipe gulp.dest('dist/public/app/')
+
 gulp.task 'concat:js', ->
   sources = gulp.src [
     '{.tmp,client}/{app,components}/**/*.js',
@@ -334,6 +342,7 @@ gulp.task 'build', ->
     'bower'
     'autoprefixer'
     'usemin'
+    'concat:template'
     'ngmin' # may cause error
     'copy:dist'
     'cssmin' # may cause error

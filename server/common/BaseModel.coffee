@@ -28,6 +28,8 @@ class BaseModel
 
 
   createModel : (name) ->
+    @schema.plugin createdModifiedPlugin, {index: true}
+
     unless models[name]?
       models[name] = mongoose.model name, @schema
 

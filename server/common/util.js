@@ -126,7 +126,7 @@ function saveSpecifiedModelData(datas, modelObj, cb) {
 exports.saveSpecifiedModelData = saveSpecifiedModelData;
 
 function getModel(key) {
-  return new (require('../api/' + key + '/' + key + '.model')[_u.convertToCamelCase(key)]);
+  return new (require('../api/' + key + '/' + key + '.model'));
 }
 exports.getModel = getModel;
 

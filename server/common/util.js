@@ -1,5 +1,5 @@
 var async = require('async');
-require('./initGlobal');
+require('./init');
 
 /*
  * @param  [String] key textMap中指定的key

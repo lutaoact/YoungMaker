@@ -1,18 +1,12 @@
-require './initGlobal'
+global._  = require 'lodash'
+global._s = require 'underscore.string'
+global.socketMap = {}
+global.demoUserCount = 0
+global._u = require './util'
+global.ErrCode = require './ErrCode'
 
-#不在继续使用modelMap全局对象，如果需要使用，取消注释以下代码
-#makeModelMap = (cb) ->
-#  FileUtils = require 'fileutils'
-#  map = {}
-#  FileUtils.eachFileMatching /\.model\.js$/, __dirname + '/../api'
-#  , (err, file, stat) ->
-#    modelName = file.replace /^.*\/(\w+)\.model.js$/, "$1"
-#    map[modelName] = new (require(file)[_u.convertToCamelCase(modelName)])
-#  , (err, files, stats) ->
-#    global.modelMap = map
-#    do cb
-#
-#module.exports = makeModelMap
-#
-#makeModelMap () ->
-#  console.log 'model load finished'
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+global.config = require '../config/environment'
+global.logger = require('./logger').logger
+global.Q = require 'q'
+global.Const = require './Const'

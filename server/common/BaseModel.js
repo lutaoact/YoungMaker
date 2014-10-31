@@ -55,47 +55,6 @@ var body = {
         this.model = models[name];
         return this.model;
     },
-
-    newModel : function(data){
-        if(!this.model) return null;
-
-        return new this.model(data);
-    },
-
-    save : function(data, cb) {
-        var newData = this.newModel(data);
-        newData.save(function(err, res) {
-            cb(err, res);
-        });
-    },
-
-    getSaveFunc : function(data) {
-        return this.save.bind(this, data);
-    },
-
-    validate: function(data, cb) {
-        var newData = this.newModel(data);
-        newData.validate(cb);
-    },
-
-    findAll : function(cb) {
-        return this.model.find.apply(this.model, [{}].concat(_.toArray(arguments)));
-    },
-
-    /*
-     * @description Return result as hash
-     * // return { 2 : { id: 1, id2: 2 } }
-     * Model.findIndexBy("id2", conditions, function(err, map) {...});
-     */
-    findIndexBy : function() {
-        var index = Array.prototype.shift.apply(arguments);
-        var callback = arguments[arguments.length - 1];
-        arguments[arguments.length - 1] = function(err, list) {
-            callback(err, _.indexBy(list, index));
-        };
-        this.find.apply(this, arguments);
-    },
-
 };
 
 _.each(methods, function(method) {

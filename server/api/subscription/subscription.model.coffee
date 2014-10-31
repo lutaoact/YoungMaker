@@ -5,9 +5,8 @@ ObjectId = Schema.Types.ObjectId
 
 class Subscription extends BaseModel
   schema: new Schema
-    type: Number
-    gradeSubject: String
-    grade: String
+    type: String
+    productId : ObjectId
     from: Date
     to: Date
 

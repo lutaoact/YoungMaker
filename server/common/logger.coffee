@@ -27,10 +27,10 @@ log4js.configure
       pattern   : "%d{ISO8601} %x{filename} %-5p - %c %m"
       tokens    :
         filename: getCallerFile
-    category    : '[BUDWEISER]'
+    category    : '[MAUI]'
   ]
 
-logger = log4js.getLogger '[BUDWEISER]'
+logger = log4js.getLogger '[MAUI]'
 logger.setLevel config.logger.level
 
 exports.logger = logger

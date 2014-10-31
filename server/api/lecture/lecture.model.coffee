@@ -1,47 +1,19 @@
-"use strict"
-
+BaseModel = require '../../common/BaseModel'
 mongoose = require("mongoose")
 Schema = mongoose.Schema
+ObjectId = Schema.Types.ObjectId
 
-BaseModel = (require '../../common/BaseModel').BaseModel
+class Lecture extends BaseModel
+  schema: new Schema
+    title:
+      type: String
+      required: true
+    info    : String
+    media: String
+    questions: [
+      type: ObjectId
+      ref: "question"
+    ]
 
-exports.Lecture = BaseModel.subclass
-  classname: 'Lecture'
-  initialize: ($super) ->
-    @schema = new Schema
-      name:
-        type: String
-        required: true
-      thumbnail: String
-      info: String
-      desc: String
-      files: [
-        fileName: String
-        fileContent: [
-          thumb: String
-          raw: String
-        ]
-      ]
-      # todo: remove
-      slides: [
-        thumb: String
-        raw: String
-      ]
-      media: String
-      encodedMedia: String
-      keyPoints: [
-        kp :
-          type: Schema.Types.ObjectId
-          ref : "key_point"
-        timestamp: Number
-      ]
-      quizzes: [
-        type: Schema.Types.ObjectId
-        ref: "question"
-      ]
-      homeworks: [
-        type: Schema.Types.ObjectId
-        ref: "question"
-      ]
-
-    $super()
+exports.Class = Lecture
+exports.Instance = new Lecture()

@@ -82,15 +82,13 @@
         "./dist/textAngular-sanitize.min.js"
       ]
     },
-    "videogular":{
+    "videogular": {
       "dependencies": {
         "angular": "~1.2.0"
       }
     }
-
   },
   "resolutions": {
-    "angular": "1.2.20",
-    "textAngular": "v1.3.0-pre5"
+    "angular": "1.2.20"
   }
 }

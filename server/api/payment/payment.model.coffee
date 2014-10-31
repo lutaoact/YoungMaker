@@ -5,7 +5,9 @@ Schema = mongoose.Schema
 class Payment extends BaseModel
   constructor: () ->
     @schema = new Schema
-      userId: String
+      userId:
+        type: Schema.Types.ObjectId
+        ref: "user"
       amount: Number
 
     super

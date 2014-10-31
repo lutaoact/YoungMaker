@@ -1,4 +1,5 @@
 gulp = require('gulp')
+del = require 'del'
 
 $ = require('gulp-load-plugins')
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
@@ -9,8 +10,7 @@ gulp.task 'default', ->
   console.log 'default'
 
 gulp.task 'clean', ()->
-  gulp.src ['.tmp', 'dist'], { read: false }
-  .pipe $.rimraf()
+  del ['.tmp', 'dist']
 
 gulp.task 'copy:index', ->
   gulp.src 'client/index.tmpl.html'

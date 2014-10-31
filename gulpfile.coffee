@@ -1,13 +1,15 @@
-gulp = require('gulp')
+gulp = require 'gulp'
 del = require 'del'
+runSequence = require 'run-sequence'
 
 $ = require('gulp-load-plugins')
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
 
-sync = $.sync(gulp).sync
-
 gulp.task 'clean', ()->
   del ['.tmp', 'dist']
+
+gulp.task 'clean:dev', ()->
+  del ['.tmp']
 
 gulp.task 'copy:index', ->
   gulp.src 'client/index.tmpl.html'
@@ -26,8 +28,12 @@ gulp.task 'copy:dist', ->
   .pipe gulp.dest('dist/public')
 
   gulp.src [
-      'package.json',
       'server/**/*'
+    ]
+  .pipe gulp.dest('dist/server')
+
+  gulp.src [
+      'package.json'
     ]
   .pipe gulp.dest('dist')
 
@@ -92,7 +98,7 @@ gulp.task 'injector:css', ->
 
 gulp.task 'injector', ['injector:less','injector:scripts','injector:css']
 
-gulp.task 'concurrent:server', ['coffee','less']
+gulp.task 'concurrent:server', ['coffee:client', 'coffee:server','less']
 
 gulp.task 'concurrent:dist', ['coffee:clientDist','coffee:server','less','imagemin','svgmin']
 
@@ -107,9 +113,9 @@ gulp.task 'coffee:client', ->
 
 gulp.task 'coffee:clientDist', ->
   gulp.src ['client/{app,components}/**/*.coffee'
-            'client/!{app,components}/**/*.spec.coffee'
-            'client/!{app,components}/**/*.mock.coffee'
-            'client/!app/mock.coffee'
+            '!client/{app,components}/**/*.spec.coffee'
+            '!client/{app,components}/**/*.mock.coffee'
+            '!client/app/mock.coffee'
           ]
   .pipe($.coffee({bare: true}))
   .pipe(gulp.dest('.tmp'))
@@ -177,10 +183,9 @@ gulp.task 'autoprefixer', ->
   .pipe gulp.dest('.tmp/')
 
 gulp.task 'express:dev', ->
-  $.express.run
-    port: process.env.PORT or 9000
-    file: 'server/app.js',
-    debug: true
+  require './server/app.js'
+  gulp.src "client/index.html"
+  .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9000}")
 
 gulp.task 'express:prod', ->
   $.express.run
@@ -263,26 +268,65 @@ gulp.task 'rev', ->
   sources.pipe($.rev())
   .pipe(gulp.dest('dist/public/'))
 
+gulp.task 'iconfont', ->
+  gulp.src ['client/assets/images/vectors/*.svg']
+  .pipe($.iconfont({fontName: 'bud-font', appendCodepoints: true}))
+  .on('codepoints', (codepoints, options)->
+    gulp.src('client/app/theme/template/font-template.less')
+    .pipe($.consolidate('lodash',
+        glyphs: codepoints,
+        fontName: 'bud-font' # required
+        fontPath: '../../assets/fonts/bud-font/'
+        className: 'budon'
+      )
+    )
+    .pipe(gulp.dest('client/app/theme/'))
+  )
+  .pipe(gulp.dest('client/assets/fonts/bud-font'))
+
 gulp.task 'watch', ->
+  $.livereload.listen()
+  $.wait(1000)
+  gulp.watch [
+      'client/{app,components}/**/*.coffee'
+      'client/{app,components}/**/*.spec.coffee'
+      'client/{app,components}/**/*.mock.coffee'
+      'client/app/mock.coffee'
+    ]
+  , ['coffee:client']
+  gulp.watch ['server/{*,*/*,*/*/*}.{coffee,litcoffee,coffee.md}']
+  , ['coffee:server','express:dev']
 
+  gulp.watch ['.tmp/**/*.js', 'server/**/*.js']
+  .on('change', $.livereload.changed)
 
-gulp.task 'serve:dist', sync(
-  [
+  gulp.watch ['client/bower_components', 'client/app', 'client/components']
+  , ['less']
+
+  gulp.watch ['.tmp/**/*.css']
+  .on('change', $.livereload.changed)
+
+  gulp.watch [
+      '{.tmp,client}/{app,components}/**/*.html',
+      'client/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
+    ]
+  .on('change', $.livereload.changed)
+
+gulp.task 'dist', ->
+  runSequence(
     'build'
     'env:all'
     'env:prod'
     'express:prod'
-    'open'
-  ]
-)
+  )
 
-gulp.task 'build', sync(
-  [
+gulp.task 'build', ->
+  runSequence(
     'clean'
     'copy:index'
     'injector:less'
     'concurrent:dist'
-    'ngtemplates'
+    'ngtemplates' # may cause error
     'injector:scripts'
     'injector:css'
     'replace'
@@ -290,16 +334,15 @@ gulp.task 'build', sync(
     'bower'
     'autoprefixer'
     'usemin'
-    'ngmin'
+    'ngmin' # may cause error
     'copy:dist'
-    'cssmin'
+    'cssmin' # may cause error
     'uglify'
-  ]
-)
+  )
 
-gulp.task 'dev', sync(
-  [
-    'clean'
+gulp.task 'dev', ->
+  runSequence(
+    'clean:dev'
     'copy:index'
     'env:all'
     'injector:less'
@@ -311,9 +354,6 @@ gulp.task 'dev', sync(
     'bower'
     'autoprefixer'
     'express:dev'
-    'wait'
-    'open'
     'watch'
-  ]
-)
+  )
 

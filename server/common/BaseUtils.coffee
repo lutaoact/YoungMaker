@@ -1,4 +1,3 @@
-AsyncClass = require('./AsyncClass').AsyncClass
+class BaseUtils
 
-exports.BaseUtils = AsyncClass.subclass
-  classname: 'BaseUtils'
+module.exports = BaseUtils

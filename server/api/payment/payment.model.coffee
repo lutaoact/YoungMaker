@@ -3,13 +3,11 @@ mongoose = require("mongoose")
 Schema = mongoose.Schema
 
 class Payment extends BaseModel
-  constructor: () ->
-    @schema = new Schema
-      userId:
-        type: Schema.Types.ObjectId
-        ref: "user"
-      amount: Number
+  schema: new Schema
+    userId:
+      type: Schema.Types.ObjectId
+      ref: "user"
+    amount: Number
 
-    super
-
-module.exports = Payment
+exports.Class = Payment
+exports.Instance = new Payment()

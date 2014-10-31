@@ -25,6 +25,12 @@ gulp.task 'copy:dist', ->
   , base: 'client'
   .pipe gulp.dest('dist/public')
 
+  gulp.src [
+      'package.json',
+      'server/**/*'
+    ]
+  .pipe gulp.dest('dist')
+
 gulp.task 'env:all', ->
   $.env
     vars: require('./server/config/local.env')
@@ -173,13 +179,13 @@ gulp.task 'autoprefixer', ->
 gulp.task 'express:dev', ->
   $.express.run
     port: process.env.PORT or 9000
-    script: 'server/app.js',
+    file: 'server/app.js',
     debug: true
 
 gulp.task 'express:prod', ->
   $.express.run
     port: process.env.PORT or 9000
-    script: 'dist/server/app.js'
+    file: 'dist/server/app.js'
 
 gulp.task 'wait', ->
   $.wait(1000)
@@ -189,7 +195,7 @@ gulp.task 'open', ->
   gulp.src "client/index.html"
   .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9000}")
 
-gulp.task 'useminPrepare', ->
+gulp.task 'usemin', ->
   gulp.src 'client/index.html'
   .pipe $.usemin()
   .pipe(gulp.dest('dist/public'))
@@ -257,28 +263,9 @@ gulp.task 'rev', ->
   sources.pipe($.rev())
   .pipe(gulp.dest('dist/public/'))
 
-gulp.task 'usemin', ->
+gulp.task 'watch', ->
 
 
-gulp.task 'serve', sync(
-  [
-    'clean'
-    'copy:index'
-    'env:all'
-    'injector:less'
-    'concurrent:server'
-    'injector:scripts'
-    'injector:css'
-    'replace'
-    'processhtml'
-    'bower'
-    'autoprefixer'
-    'express:dev'
-    'wait'
-    'open'
-    'watch'
-  ]
-)
 gulp.task 'serve:dist', sync(
   [
     'build'
@@ -302,13 +289,31 @@ gulp.task 'build', sync(
     'processhtml'
     'bower'
     'autoprefixer'
-    'useminPrepare'
-    # 'ngmin'
+    'usemin'
+    'ngmin'
     'copy:dist'
     'cssmin'
-    # 'uglify'
-    'rev'
-    'usemin'
+    'uglify'
+  ]
+)
+
+gulp.task 'dev', sync(
+  [
+    'clean'
+    'copy:index'
+    'env:all'
+    'injector:less'
+    'concurrent:server'
+    'injector:scripts'
+    'injector:css'
+    'replace'
+    'processhtml'
+    'bower'
+    'autoprefixer'
+    'express:dev'
+    'wait'
+    'open'
+    'watch'
   ]
 )
 

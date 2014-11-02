@@ -27,20 +27,26 @@ exports.AssetUtils = BaseUtils.subclass
   classname: 'AssetUtils'
 
   getAssetFromQiniu : (key, assetType) ->
-    domain = config.assetsConfig[assetType].domain
-
-    baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
-
-    # the query should not encode before signature
-    baseUrl += if key.split('?')[1] then ('?' + key.split('?')[1]) else ''
-    policy = new qiniu.rs.GetPolicy(signedUrlExpires)
-    downloadUrl = policy.makeRequest(baseUrl)
-
-    # cache expiration is one hour less than signedURL expiration from qiniu
-    redisClient.q.set key, downloadUrl, 'EX', (signedUrlExpires-60*60)
+    redisClient.q.get key
     .then (result) ->
-      logger.info "Set #{key}:#{downloadUrl} to redis"
-      return downloadUrl
+      if result
+        logger.info "Get #{key}:#{downloadUrl} from redis"
+        result
+      else
+        domain = config.assetsConfig[assetType].domain
+
+        baseUrl = qiniu.rs.makeBaseUrl domain, key.split('?')[0]
+
+        # the query should not encode before signature
+        baseUrl += if key.split('?')[1] then ('?' + key.split('?')[1]) else ''
+        policy = new qiniu.rs.GetPolicy(signedUrlExpires)
+        downloadUrl = policy.makeRequest(baseUrl)
+
+        # cache expiration is one hour less than signedURL expiration from qiniu
+        redisClient.q.set key, downloadUrl, 'EX', (signedUrlExpires-60*60)
+        .then (result) ->
+          logger.info "Set #{key}:#{downloadUrl} to redis"
+          downloadUrl
 
 
   getAssetFromS3 : (key, assetType) ->

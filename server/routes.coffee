@@ -17,7 +17,7 @@ errorHandler = (err, req, res, next) ->
 module.exports = (app) ->
 
   # Insert routes below
-#  app.use '/api/users', require './api/user'
+  app.use '/api/users', require './api/user'
 #  app.use '/api/courses', require './api/course'
 #  app.use '/api/categories', require './api/category'
 #  app.use '/api/classes', require './api/classe'
@@ -44,10 +44,10 @@ module.exports = (app) ->
 #  app.use '/api/notices', require './api/notice'
 #  app.use '/api/offline_works', require './api/offline_work'
 #  app.use '/api/demo', require './api/demo'
-#  app.use '/auth', require './auth'
+  app.use '/auth', require './auth'
 #  app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
 #  app.use '/api/user_lecture_notes', require './api/user_lecture_note'
-#  app.use errorHandler
+  app.use errorHandler
 
   # All undefined asset or api routes should return a 404
   app.route '/:url(api|auth|components|app|bower_components|assets)/*'

@@ -1,7 +1,7 @@
 'use strict'
 
 User = _u.getModel "user"
-Classe = _u.getModel 'classe'
+#Classe = _u.getModel 'classe'
 AssetUtils = _u.getUtils 'asset'
 passport = require 'passport'
 config = require '../../config/environment'
@@ -15,7 +15,7 @@ xlsx = require 'node-xlsx'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
-Organization = _u.getModel "organization"
+#Organization = _u.getModel "organization"
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
 qiniu.conf.SECRET_KEY = config.qiniu.secret_key
@@ -84,23 +84,23 @@ exports.showByEmail = (req, res, next) ->
   restriction: 'admin'
 ###
 exports.destroy = (req, res, next) ->
-  userId = req.params.id
-  userObj = undefined
-  User.removeQ
-    orgId: req.user.orgId
-    _id: userId
-  .then (user) ->
-    userObj = user
-    Classe.findOneQ
-      students : userId
-  .then (classe) ->
-    if classe?
-      classe.updateQ
-        $pull :
-          students : userId
-  .then (classe) ->
-    res.send userObj
-  , next
+#  userId = req.params.id
+#  userObj = undefined
+#  User.removeQ
+#    orgId: req.user.orgId
+#    _id: userId
+#  .then (user) ->
+#    userObj = user
+#    Classe.findOneQ
+#      students : userId
+#  .then (classe) ->
+#    if classe?
+#      classe.updateQ
+#        $pull :
+#          students : userId
+#  .then (classe) ->
+#    res.send userObj
+#  , next
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
@@ -165,97 +165,97 @@ exports.update = (req, res, next) ->
 
 
 updateClasseStudents = (classeId, studentList) ->
-  Classe.findByIdQ classeId
-  .then (classe) ->
-    return Q.reject 'No classe found for give ID' if not classe?
-
-    logger.info 'Found classe with id ' + classe.id
-    classe.students = _.union classe.students, studentList
-    classe.markModified 'students'
-    classe.saveQ()
+#  Classe.findByIdQ classeId
+#  .then (classe) ->
+#    return Q.reject 'No classe found for give ID' if not classe?
+#
+#    logger.info 'Found classe with id ' + classe.id
+#    classe.students = _.union classe.students, studentList
+#    classe.markModified 'students'
+#    classe.saveQ()
 
 ###
   Bulk import users from excel sheet uploaded by client
 ###
 exports.bulkImport = (req, res, next) ->
-  orgId = req.user.orgId
-  resourceKey = decodeURI(req.body.key.replace(/.*images\/\d+\//, ''))
-  type = req.body.type
-  classeId = req.body.classeId
-
-  console.log 'start importing...', resourceKey
-
-  # do some sanity check
-  if !type? or !orgId? or (type is 'student' and !classeId?)
-    return res.send 400, '参数不正确'
-
-  destFile = config.local.tempDir + path.sep + 'user_list.xlsx'
-  stream = fs.createWriteStream destFile
-  streamOnQ = Q.nbind stream.on, stream
-  streamCloseQ = Q.nbind stream.close, stream
-
-  importReport =
-    total : 0
-    success : []
-    failure : []
-
-  importedUsers = []
-  
-  orgUniqueName = ''
-  
-  Organization.findByIdQ orgId
-  .then (org) ->
-    orgUniqueName = org.uniqueName
-    AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
-  .then (downloadUrl) ->
-    request.get(downloadUrl).pipe stream
-    streamOnQ 'finish'
-  .then ->
-    streamCloseQ()
-  .then ->
-    console.log 'Start parsing file to ', destFile
-    sheets = xlsx.parse destFile
-    userList = sheets[0].data
-
-    if not userList
-      logger.error 'Failed to parse user list file or empty file'
-      Q.reject '请导入包含用户信息的表格'
-
-    savePromises = _.map userList, (userItem) ->
-      name = userItem[0]
-      email = userItem[1]
-      console.log 'userItem', name, email
-      newUser = new User.model
-        role   :  type
-        name : name
-        email : email
-        username: email + '_' + orgUniqueName
-        password : email #initial password is the same as email
-        orgId : orgId
-      newUser.saveQ()
-
-    Q.allSettled(savePromises)
-  .then (results) ->
-    _.forEach results, (result) ->
-      if result.state is 'fulfilled'
-        user = result.value[0]
-        console.log 'Imported user ' + user.name
-        importReport.success.push user.name
-        importedUsers.push user.id
-      else
-        console.error 'Failed to import user', result.reason
-        importReport.failure.push result.reason
-
-    if type is 'student'
-      updateClasseStudents classeId, importedUsers
-  .then ->    
-    res.send importReport
-      
-  .catch (err) ->
-    logger.error 'import users error: ' + err
-    fs.unlink destFile
-    next err
-
+#  orgId = req.user.orgId
+#  resourceKey = decodeURI(req.body.key.replace(/.*images\/\d+\//, ''))
+#  type = req.body.type
+#  classeId = req.body.classeId
+#
+#  console.log 'start importing...', resourceKey
+#
+#  # do some sanity check
+#  if !type? or !orgId? or (type is 'student' and !classeId?)
+#    return res.send 400, '参数不正确'
+#
+#  destFile = config.local.tempDir + path.sep + 'user_list.xlsx'
+#  stream = fs.createWriteStream destFile
+#  streamOnQ = Q.nbind stream.on, stream
+#  streamCloseQ = Q.nbind stream.close, stream
+#
+#  importReport =
+#    total : 0
+#    success : []
+#    failure : []
+#
+#  importedUsers = []
+#  
+#  orgUniqueName = ''
+#  
+#  Organization.findByIdQ orgId
+#  .then (org) ->
+#    orgUniqueName = org.uniqueName
+#    AssetUtils.getAssetFromQiniu(resourceKey, uploadImageType)
+#  .then (downloadUrl) ->
+#    request.get(downloadUrl).pipe stream
+#    streamOnQ 'finish'
+#  .then ->
+#    streamCloseQ()
+#  .then ->
+#    console.log 'Start parsing file to ', destFile
+#    sheets = xlsx.parse destFile
+#    userList = sheets[0].data
+#
+#    if not userList
+#      logger.error 'Failed to parse user list file or empty file'
+#      Q.reject '请导入包含用户信息的表格'
+#
+#    savePromises = _.map userList, (userItem) ->
+#      name = userItem[0]
+#      email = userItem[1]
+#      console.log 'userItem', name, email
+#      newUser = new User.model
+#        role   :  type
+#        name : name
+#        email : email
+#        username: email + '_' + orgUniqueName
+#        password : email #initial password is the same as email
+#        orgId : orgId
+#      newUser.saveQ()
+#
+#    Q.allSettled(savePromises)
+#  .then (results) ->
+#    _.forEach results, (result) ->
+#      if result.state is 'fulfilled'
+#        user = result.value[0]
+#        console.log 'Imported user ' + user.name
+#        importReport.success.push user.name
+#        importedUsers.push user.id
+#      else
+#        console.error 'Failed to import user', result.reason
+#        importReport.failure.push result.reason
+#
+#    if type is 'student'
+#      updateClasseStudents classeId, importedUsers
+#  .then ->    
+#    res.send importReport
+#      
+#  .catch (err) ->
+#    logger.error 'import users error: ' + err
+#    fs.unlink destFile
+#    next err
+#
 
 exports.forget = (req, res, next) ->
   if not req.body.email? then return res.send 400

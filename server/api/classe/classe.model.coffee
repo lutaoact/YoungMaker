@@ -2,10 +2,9 @@
 mongoose = require("mongoose")
 Schema = mongoose.Schema
 
-BaseModel = (require '../../common/BaseModel').BaseModel
+BaseModel = require '../../common/BaseModel'
 
-exports.Classe = BaseModel.subclass
-  classname: 'Classe'
+class Classe extends BaseModel
   initialize: ($super) ->
     @schema = new Schema
       name:
@@ -51,3 +50,6 @@ exports.Classe = BaseModel.subclass
       return _.reduce classes, (studentInfos, classe) ->
         return studentInfos.concat classe.students
       , []
+
+exports.Class = Classe
+exports.Instance = nwe Classe()

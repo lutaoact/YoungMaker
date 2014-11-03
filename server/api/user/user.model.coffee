@@ -30,7 +30,7 @@ class User extends BaseModel
       type : String
     role :
       type : String
-      default : 'user'
+      default : 'student'
     salt :
       type : String
     resetPasswordToken :

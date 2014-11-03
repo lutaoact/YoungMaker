@@ -27,7 +27,7 @@ all =
     session: process.env.EXPRESS_SECRET or 'maui-secret'
 
   # List of user roles
-  userRoles: ['user', 'teacher', 'admin']
+  userRoles: ['student', 'teacher', 'admin']
 
   # MongoDB connection options
   mongo:

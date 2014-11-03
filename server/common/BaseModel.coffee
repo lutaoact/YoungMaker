@@ -31,6 +31,10 @@ class BaseModel
     @model = models[name]
 
 
+  findAllQ: () ->
+    @model.findQ.apply @model, [{}].concat(_.toArray(arguments))
+
+
 methods = [
     # mongoose.Model static
     'remove', 'ensureIndexes', 'find', 'findById', 'findOne', 'count', 'distinct',

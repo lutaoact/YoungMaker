@@ -4,16 +4,7 @@ angular.module('mauiApp').controller 'LoginCtrl', (
   Auth
   $state
   $scope
-  $window
-  $location
-  socketHandler
-  $localStorage
-  loginRedirector
 ) ->
-
-  $localStorage.global ?= {}
-  $localStorage.global.loginState = $state.current.name
-  $localStorage.global.loginPath = $state.current.url
 
   angular.extend $scope,
     user: {}

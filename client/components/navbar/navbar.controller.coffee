@@ -41,7 +41,7 @@ angular.module 'mauiApp'
     logout: ->
       Auth.logout()
       socket.close()
-      $state.go($localStorage.global?.loginState or 'main')
+      $state.go('main')
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name

@@ -60,7 +60,7 @@ angular.module 'mauiApp', [
 .factory 'loginRedirector', ($location, $localStorage) ->
 
   redirectKey = 'r'
-  loginPath = $localStorage?.global?.loginPath or '/' #/login?r=xxx
+  loginPath = '/'
 
   getRedirectUrl = ->
     redirect = $location.search()[redirectKey]

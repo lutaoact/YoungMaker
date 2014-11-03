@@ -1,9 +1,7 @@
-BaseUtils = require('../../common/BaseUtils').BaseUtils
+BaseUtils = require('../../common/BaseUtils')
 jwt = require('jsonwebtoken')
 
-exports.SocketUtils = BaseUtils.subclass
-  classname: 'SocketUtils'
-
+class SocketUtils extends BaseUtils
   verify: (token, cb) ->
     deferred = do Q.defer
     jwt.verify token, config.secrets.session, null, (err, user) ->
@@ -11,18 +9,18 @@ exports.SocketUtils = BaseUtils.subclass
 
     return deferred.promise.nodeify cb
 
-  $_buildMsg: (type, data) ->
+  _buildMsg: (type, data) ->
     return JSON.stringify type: type, payload: data
 
-  $buildErrMsg: (err) ->
+  buildErrMsg: (err) ->
     util = require 'util'
     return @_buildMsg Const.MsgType.Error, {status: 401, errMsg: util.inspect err}
 
-  $sendNotices: (notices...) ->
+  sendNotices: (notices...) ->
     for notice in _.flatten notices
       @sendToOne notice.userId, Const.MsgType.Notice, notice
 
-  $sendQuizMsg: (answers, question, teacherId) ->
+  sendQuizMsg: (answers, question, teacherId) ->
     for answer in answers
       @sendToOne(
         answer.userId
@@ -30,15 +28,18 @@ exports.SocketUtils = BaseUtils.subclass
         answer:answer, question:question, teacherId: teacherId
       )
 
-  $sendQuizAnswerMsg: (userId, answer) ->
+  sendQuizAnswerMsg: (userId, answer) ->
     @sendToOne userId, Const.MsgType.QuizAnswer, answer
 
-  $sendToGroup: (userIds, msg) ->
+  sendToGroup: (userIds, msg) ->
     for userId in userIds
       @sendToOne userId, msg
 
 
-  $sendToOne: (userId, type, payload) ->
+  sendToOne: (userId, type, payload) ->
     unless global.socketMap[userId]? then return
     logger.info "send #{type} message to userId: #{userId}"
     global.socketMap[userId].ws.write @_buildMsg(type, payload)
+
+exports.Class = SocketUtils
+exports.Instance = new SocketUtils()

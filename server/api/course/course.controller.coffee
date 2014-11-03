@@ -1,15 +1,5 @@
-#
-# * Using Rails-like standard naming convention for endpoints.
-# * GET     /courses              ->  index
-# * POST    /courses              ->  create
-# * GET     /courses/:id          ->  show
-# * PUT     /courses/:id          ->  update
-# * DELETE  /courses/:id          ->  destroy
-# 
-
 "use strict"
 
-_ = require("lodash")
 Course = _u.getModel "course"
 Lecture = _u.getModel "lecture"
 KeyPoint = _u.getModel "key_point"

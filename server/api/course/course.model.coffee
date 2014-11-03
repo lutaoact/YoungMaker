@@ -11,6 +11,7 @@ class Course extends BaseModel
     info    : String
     grade   : String
     subject : String
+    topic: String
     lectures: [
       type: ObjectId
       ref: "lecture"

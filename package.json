@@ -110,7 +110,7 @@
     "gulp-imagemin": "^1.2.1",
     "gulp-inject": "^1.0.2",
     "gulp-livereload": "^2.1.1",
-    "gulp-ngmin": "^0.3.0",
+    "gulp-ng-annotate": "^0.3.3",
     "gulp-replace": "^0.4.0",
     "gulp-rev": "^2.0.1",
     "gulp-sync": "^0.1.3",

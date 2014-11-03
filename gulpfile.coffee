@@ -255,7 +255,7 @@ gulp.task 'concat', ['concat:js','concat:css','concat:vendorjs','concat:vendorcs
 # very slow task
 gulp.task 'ngmin', ->
   gulp.src 'dist/public/app/**/*.js'
-  .pipe $.ngmin()
+  .pipe $.ngAnnotate()
   .pipe gulp.dest('dist/public/app/')
 
 gulp.task 'cssmin', ->

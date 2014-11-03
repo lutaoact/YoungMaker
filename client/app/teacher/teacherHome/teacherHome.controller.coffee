@@ -8,8 +8,4 @@ angular.module('mauiApp').controller 'TeacherHomeCtrl', (
 ) ->
 
   angular.extend $scope,
-
-    sayHello: ->
-      console.debug 'hello teacher.'
-
-  $scope.sayHello()
+    auth: Auth

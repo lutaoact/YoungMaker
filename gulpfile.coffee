@@ -183,8 +183,13 @@ gulp.task 'autoprefixer', ->
   .pipe gulp.dest('.tmp/')
 
 gulp.task 'express:dev', ->
-  require './server/app.js'
+  $.nodemon { script: './server/app.js'}
+  .on 'change', ()->
+    console.log 'changed'
+  .on 'restart', ()->
+    console.log 'restarted!'
   gulp.src "client/index.html"
+  .pipe $.wait(1000)
   .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9000}")
 
 gulp.task 'express:prod', ->
@@ -303,12 +308,12 @@ gulp.task 'watch', ->
     ]
   , ['coffee:client']
   gulp.watch ['server/{*,*/*,*/*/*}.{coffee,litcoffee,coffee.md}']
-  , ['coffee:server','express:dev']
+  , ['coffee:server']
 
   gulp.watch ['.tmp/**/*.js', 'server/**/*.js']
   .on('change', $.livereload.changed)
 
-  gulp.watch ['client/bower_components', 'client/app', 'client/components']
+  gulp.watch ['client/bower_components/**/*.less', 'client/{app,components}/**/*.less']
   , ['less']
 
   gulp.watch ['.tmp/**/*.css']

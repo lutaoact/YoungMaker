@@ -33,7 +33,7 @@ class User extends BaseModel
       type : String
     role :
       type : String
-      default : 'student'#TODO change role to Number
+      default : 'user'#TODO change role to Number
     salt :
       type : String
     #TODO check login ?

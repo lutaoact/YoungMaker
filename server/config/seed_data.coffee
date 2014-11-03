@@ -3,7 +3,6 @@ require '../common/init'
 categoryId   = '0000000000000000000000%02d'
 userId       = '1111111111111111111111%02d'
 keyPointId   = '2222222222222222222222%02d'
-orgId        = '3333333333333333333333%02d'
 classeId     = '4444444444444444444444%02d'
 lectureId    = '5555555555555555555555%02d'
 courseId     = '6666666666666666666666%02d'
@@ -36,7 +35,6 @@ module.exports =
     username: 'admin@admin.com'
     email: 'admin@admin.com'
     password: 'admin'
-    orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/2'
   ,
     _id: _s.sprintf userId, 2
@@ -46,7 +44,6 @@ module.exports =
     username: 'teacher@teacher.com'
     email: 'teacher@teacher.com'
     password: 'teacher'
-    orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/3'
   ,
     _id: _s.sprintf userId, 3
@@ -56,7 +53,6 @@ module.exports =
     username: 'student@student.com'
     email: 'student@student.com'
     password: 'student'
-    orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/4'
   ,
     _id: _s.sprintf userId, 4
@@ -66,7 +62,6 @@ module.exports =
     username: 'student@student4.com'
     email: 'student@student4.com'
     password: 'student'
-    orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/5'
   ,
     _id: _s.sprintf userId, 5
@@ -76,7 +71,6 @@ module.exports =
     username: 'student@student5.com'
     email: 'student@student5.com'
     password: 'student'
-    orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/4'
   ,
     _id: _s.sprintf userId, 6
@@ -86,7 +80,6 @@ module.exports =
     username: 'student@student6.com'
     email: 'student@student6.com'
     password: 'student'
-    orgId: _s.sprintf orgId, 0
     avatar: 'http://lorempixel.com/128/128/people/5'
   ]
   key_point: _.map [
@@ -111,14 +104,12 @@ module.exports =
         else if index < 10 then 1
         else 2
   organization: [
-    _id: _s.sprintf orgId, 0
     uniqueName : 'cloud3'
     name : 'Cloud3 Edu'
     logo : 'http://cloud3edu.com/logo.jpg'
     description : 'This is a test organization'
     type : 'school'
   ,
-    _id: _s.sprintf orgId, 1
     uniqueName : 'shangkele'
     name : 'shang kele'
     logo : 'http://shangkele.com/logo.jpg'
@@ -128,7 +119,6 @@ module.exports =
   classe: [
     _id: _s.sprintf classeId, 0
     name : 'Class one'
-    orgId: _s.sprintf orgId, 0
     students : [
       _s.sprintf userId, 3
       _s.sprintf userId, 4
@@ -137,7 +127,6 @@ module.exports =
   ,
     _id: _s.sprintf classeId, 1
     name : 'Class two'
-    orgId: _s.sprintf orgId, 0
     students : [
       _s.sprintf userId, 5
       _s.sprintf userId, 6
@@ -287,7 +276,6 @@ module.exports =
   ]
   question: [
     _id: _s.sprintf questionId, 0
-    orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
     keyPoints : [
       _s.sprintf keyPointId, 0
@@ -314,7 +302,6 @@ module.exports =
     solution: '1 + 1 = 2太简单了，上课了'
   ,
     _id: _s.sprintf questionId, 1
-    orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 0
     keyPoints : [
       _s.sprintf keyPointId, 1
@@ -337,7 +324,6 @@ module.exports =
     solution: '连AgBr的光解都不会，高中没读吧'
   ,
     _id: _s.sprintf questionId, 2
-    orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 1
     keyPoints : [
       _s.sprintf keyPointId, 2
@@ -359,7 +345,6 @@ module.exports =
     solution: '连AgBr的光解都不会，高中没读吧'
   ,
     _id: _s.sprintf questionId, 3
-    orgId: _s.sprintf orgId, 0
     categoryId: _s.sprintf categoryId, 1
     keyPoints : [
       _s.sprintf keyPointId, 2

@@ -4,11 +4,6 @@ models = {}
 createdModifiedPlugin = require('mongoose-createdmodified').createdModifiedPlugin
 
 class BaseModel
-  model     : null
-  mongoose  : null
-  schema    : null
-  dbURL     : ''
-
   constructor: () ->
     if _.isEmpty mongoose
       mongoose = require('mongoose-q')(null, {spread: true})
@@ -21,10 +16,10 @@ class BaseModel
       connection.once 'open', () ->
           console.log('open mongodb success')
 
-    @mongoose = mongoose
-
     if @schema?
       @createModel _u.convertToSnakeCase @constructor.name
+    else
+      throw 'no schema error'
 
 
   createModel : (name) ->

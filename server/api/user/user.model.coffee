@@ -24,20 +24,14 @@ class User extends BaseModel
       type : String
     name :
       type : String
-    orgId :
-      type : ObjectId
-      ref : 'organization'
     hashedPassword :
       type : String
     provider :
       type : String
     role :
       type : String
-      default : 'user'#TODO change role to Number
+      default : 'user'
     salt :
-      type : String
-    #TODO check login ?
-    status :
       type : String
     resetPasswordToken :
       type: String
@@ -47,7 +41,7 @@ class User extends BaseModel
   constructor : ->
     @setupUserSchema @schema
     super
-    
+
   setupUserSchema : (UserSchema) ->
     UserSchema
     .virtual 'password'
@@ -68,30 +62,29 @@ class User extends BaseModel
       'info': this.info
       'email': this.email
       'avatar': this.avatar
-      'status': this.status
       'username': this.username
-  
+
     # Non-sensitive info we will be putting in the token
     UserSchema
     .virtual 'token'
     .get () ->
       '_id': this._id
       'role': this.role
-  
+
     # Validate empty email
     UserSchema
     .path 'email'
     .validate (email) ->
       email.length
     , '邮箱地址不能为空'
-  
+
     # Validate empty password
     UserSchema
     .path 'hashedPassword'
     .validate (hashedPassword) ->
       hashedPassword.length
     , '登录密码不能为空'
-  
+
     # Validate email is not taken
     UserSchema
     .path 'email'
@@ -104,7 +97,7 @@ class User extends BaseModel
         notTaken = !user or user.id == self.id
         respond notTaken
     , '该邮箱地址已经被占用，请选择其他邮箱'
-  
+
     # Validate username is not taken
     UserSchema
     .path 'username'
@@ -117,10 +110,10 @@ class User extends BaseModel
         notTaken = !user or user.id == self.id
         respond notTaken
     , '该用户名已经被占用，请选择其他用户名'
-  
+
     validatePresenceOf = (value) ->
       value && value.length
-  
+
     UserSchema
     .pre 'save', (next) ->
       if not this.isNew
@@ -128,8 +121,8 @@ class User extends BaseModel
       if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
         next new Error 'Invalid password'
       else
-        next()    
-        
+        next()
+
     UserSchema.methods =
       ###
         Authenticate - check if the passwords are the same
@@ -160,5 +153,5 @@ class User extends BaseModel
         salt = new Buffer this.salt, 'base64'
         crypto.pbkdf2Sync password, salt, 10000, 64
         .toString 'base64'
-        
+
 exports.Instance = new User()

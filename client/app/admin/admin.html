@@ -1,19 +1,5 @@
-<div class="admin-menu-bar">
-  <div class="container admin-menu">
-    <div class="col-md-12 h-padding-15">
-      <ul class="nav navbar-nav">
-        <li ng-repeat="menu in menus">
-          <a class="menu-item"
-             ui-sref-active="active"
-             ui-sref="{{menu.stateName}}">{{menu.label}}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div ui-view
+     class="fadeIn admin"
+     ng-class="{'webview': webview}">
 </div>
 
-<div class="admin">
-  <div class="container">
-    <div ui-view class="fadeIn"></div>
-  </div>
-</div>

@@ -54,12 +54,13 @@ gulp.task 'env:test', ->
 gulp.task 'injector:less', ->
   target = gulp.src 'client/app/app.less'
   sources = gulp.src ['client/{app,components}/**/*.less','!client/app/app.less'], {read: false}
+                .pipe $.order()
   target.pipe($.inject sources,
     transform: (filePath) ->
       filePath = filePath.replace('/client/app/', '')
       filePath = filePath.replace('/client/components/', '')
       '@import \'' + filePath + '\';'
-    starttag: '// injector'
+    starttag: '// injector:less'
     endtag: '// endinjector'
   )
   .pipe(gulp.dest('client/app/'))

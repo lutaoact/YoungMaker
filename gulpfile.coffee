@@ -183,9 +183,7 @@ gulp.task 'autoprefixer', ->
   .pipe gulp.dest('.tmp/')
 
 gulp.task 'express:dev', ->
-  $.nodemon { script: './server/app.js'}
-  .on 'change', ()->
-    console.log 'changed'
+  $.nodemon { script: './server/app.js',ext: 'js', ignore: 'client/**/*', delay: 1.5}
   .on 'restart', ()->
     console.log 'restarted!'
   gulp.src "client/index.html"
@@ -310,7 +308,7 @@ gulp.task 'watch', ->
   gulp.watch ['server/{*,*/*,*/*/*}.{coffee,litcoffee,coffee.md}']
   , ['coffee:server']
 
-  gulp.watch ['.tmp/**/*.js', 'server/**/*.js']
+  gulp.watch ['.tmp/**/*.js']
   .on('change', $.livereload.changed)
 
   gulp.watch ['client/bower_components/**/*.less', 'client/{app,components}/**/*.less']

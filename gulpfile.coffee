@@ -184,7 +184,7 @@ gulp.task 'autoprefixer', ->
   .pipe gulp.dest('.tmp/')
 
 gulp.task 'express:dev', ->
-  $.nodemon { script: './server/app.js',ext: 'js', ignore: 'client/**/*', delay: 1.5}
+  $.nodemon { script: './server/app.js',ext: 'js', watch: 'server', ignore: 'client/**/*', delay: 1.5}
   .on 'restart', ()->
     console.log 'restarted!'
   gulp.src "client/index.html"

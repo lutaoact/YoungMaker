@@ -9,9 +9,12 @@ class Course extends BaseModel
       type: String
       required: true
     info    : String
-    grade   : String
-    subject : String
-    topic: String
+    gradeSubject:
+      type: ObjectId
+      ref: 'grade_subject'
+    topic:
+      type: ObjectId
+      ref: 'topic'
     lectures: [
       type: ObjectId
       ref: "lecture"

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mauiApp').factory 'Category', (Restangular, $q) ->
+angular.module('maui.components').factory 'Category', (Restangular, $q) ->
   allCategoriesQ = Restangular.all('categories').getList()
 
   find: (id)->

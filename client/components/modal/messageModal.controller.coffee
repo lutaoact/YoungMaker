@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mauiApp').controller 'MessageModalCtrl', (
+angular.module('maui.components').controller 'MessageModalCtrl', (
   title
   $scope
   message

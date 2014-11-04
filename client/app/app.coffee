@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module 'mauiApp', [
+  'maui.components'
   'ngCookies'
   'ngResource'
   'ngSanitize'

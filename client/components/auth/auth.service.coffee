@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mauiApp').factory 'Auth', (
+angular.module('maui.components').factory 'Auth', (
   $q
   User
   $http

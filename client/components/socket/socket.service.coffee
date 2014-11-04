@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mauiApp').service 'socket', (
+angular.module('maui.components').service 'socket', (
   $timeout
   $interval
   $cookieStore

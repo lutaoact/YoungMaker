@@ -1,4 +1,4 @@
-angular.module 'mauiApp'
+angular.module 'maui.components'
 
 .factory 'fileUtils', (
   $q

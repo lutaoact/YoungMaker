@@ -57,6 +57,10 @@ module.exports = (app) ->
   .get (req, res) ->
     res.sendfile __dirname + '/common/Const.js'
 
+  app.route '/admin/*'
+  .get (req, res) ->
+    res.sendfile(app.get('appPath') + '/admin/index.html')
+
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->

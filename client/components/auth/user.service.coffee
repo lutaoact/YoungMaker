@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mauiApp')
+angular.module('maui.components')
 
 .factory 'User', ($resource) ->
 

@@ -184,7 +184,7 @@ gulp.task 'autoprefixer', ->
   .pipe gulp.dest('.tmp/')
 
 gulp.task 'express:dev', ->
-  $.nodemon { script: './server/app.js',ext: 'js', watch: 'server', ignore: 'client/**/*', delay: 1.5}
+  $.nodemon { script: './server/app.js',ext: 'js', watch: 'server', delay: 1.5}
   .on 'restart', ()->
     console.log 'restarted!'
   gulp.src "client/index.html"
@@ -223,34 +223,6 @@ gulp.task 'concat:template', ->
     ]
   sources.pipe $.concat('app.js')
   .pipe gulp.dest('dist/public/app/')
-
-gulp.task 'concat:js', ->
-  sources = gulp.src [
-    '{.tmp,client}/{app,components}/**/*.js',
-    '!{.tmp,client}/{app,components}/**/*.spec.js',
-    '!{.tmp,client}/{app,components}/**/*.mock.js'
-    ]
-  sources.pipe $.concat('app.js')
-  .pipe gulp.dest('.tmp/concat/app/')
-
-gulp.task 'concat:css', ->
-  sources = gulp.src [
-    '{.tmp,client}/{app,components}/**/*.css',
-    ]
-  sources.pipe $.concat('app.css')
-  .pipe gulp.dest('.tmp/concat/app/')
-
-gulp.task 'concat:vendorjs', ->
-  sources = gulp.src bowerFiles(filter: /.js$/), { base: 'client/bower_components'}
-  sources.pipe $.concat('vendor.js')
-  .pipe gulp.dest('.tmp/concat/app/')
-
-gulp.task 'concat:vendorcss', ->
-  sources = gulp.src bowerFiles(filter: /.css$/), { base: 'client/bower_components'}
-  sources.pipe $.concat('vendor.css')
-  .pipe gulp.dest('.tmp/concat/app/')
-
-gulp.task 'concat', ['concat:js','concat:css','concat:vendorjs','concat:vendorcss']
 
 # very slow task
 gulp.task 'ngmin', ->
@@ -335,6 +307,7 @@ gulp.task 'dist', ->
 gulp.task 'build', ->
   runSequence(
     'clean'
+    'admin'
     'copy:index'
     'injector:less'
     'concurrent:dist'
@@ -356,6 +329,7 @@ gulp.task 'build', ->
 gulp.task 'dev', ->
   runSequence(
     'clean:dev'
+    'admin'
     'copy:index'
     'env:all'
     'injector:less'
@@ -369,3 +343,23 @@ gulp.task 'dev', ->
     'express:dev'
     'watch'
   )
+
+# admin
+gulp.task 'coffee:admin', ->
+  gulp.src ['client/admin/**/*.coffee'], base: 'client/admin'
+  .pipe($.coffee({bare: true}))
+  .pipe(gulp.dest('.tmp/admin'))
+
+gulp.task 'less:admin', ->
+  gulp.src('client/admin/app.less')
+  .pipe $.less({paths: ['client/bower_components', 'client/admin']})
+  .pipe(gulp.dest('.tmp/admin/'))
+
+gulp.task 'admin', ->
+  runSequence 'coffee:admin', 'less:admin', ->
+    gulp.src 'client/admin/index.html'
+    .pipe(gulp.dest('.tmp/admin'))
+    .pipe $.usemin()
+    .pipe(gulp.dest('dist/public/admin'))
+
+# end of admin

@@ -14,6 +14,7 @@ class Lecture extends BaseModel
       type: ObjectId
       ref: "question"
     ]
+    free : Boolean
 
 exports.Class = Lecture
 exports.Instance = new Lecture()

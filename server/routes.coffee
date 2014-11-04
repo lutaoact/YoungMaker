@@ -19,6 +19,7 @@ module.exports = (app) ->
   # Insert routes below
   app.use '/api/users', require './api/user'
   app.use '/api/courses', require './api/course'
+  app.use '/api/grade_subjects', require './api/grade_subject'
 #  app.use '/api/categories', require './api/category'
 #  app.use '/api/classes', require './api/classe'
 #  app.use '/api/organizations', require './api/organization'

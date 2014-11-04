@@ -7,6 +7,7 @@ class Question extends BaseModel
   schema: new Schema
     grade   : String
     subject : String
+    topic : String
     type: Number
     desc: String
     keyPoints : [

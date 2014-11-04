@@ -26,14 +26,14 @@ uploadImageType       = config.assetHost.uploadImageType
   restriction: 'admin'
 ###
 exports.index = (req, res, next) ->
-  condition =
-    orgId : req.user.orgId
+  condition = {}
   condition.role = req.query.role if req.query.role?
 
   User.findQ condition, '-salt -hashedPassword'
   .then (users) ->
     res.send users
-  , next
+  .catch next
+  .done()
 
 ###
   Creates a new user
@@ -43,7 +43,6 @@ exports.create = (req, res, next) ->
   body.provider = 'local'
 
   delete body._id
-  body.orgId = req.user.orgId
 
   User.createQ body
   .then (user) ->
@@ -54,7 +53,8 @@ exports.create = (req, res, next) ->
     res.json
       _id: user._id
       token: token
-  , next
+  .catch next
+  .done()
 
 ###
   Get a single user
@@ -66,7 +66,8 @@ exports.show = (req, res, next) ->
   User.findByIdQ userId
   .then (user) ->
     res.send user.profile
-  , next
+  .catch next
+  .done()
 
 ###
   Get a single user by email
@@ -77,7 +78,8 @@ exports.showByEmail = (req, res, next) ->
   .then (user) ->
     return res.send 404 if not user?
     res.send user.profile
-  , next
+  .catch next
+  .done()
 
 ###
   Deletes a user
@@ -105,7 +107,6 @@ exports.destroy = (req, res, next) ->
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
   User.removeQ
-    orgId: req.user.orgId
     _id: $in: ids
   .then () ->
     res.send 204
@@ -139,7 +140,7 @@ exports.me = (req, res, next) ->
   User.findOne
     _id: userId
     '-salt -hashedPassword'
-  .populate 'orgId'
+  .populate 'subscriptions'
   .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
@@ -151,7 +152,7 @@ exports.me = (req, res, next) ->
 ###
 exports.update = (req, res, next) ->
   body = req.body
-  body = _.omit body, ['_id', 'password', 'orgId', 'username']
+  body = _.omit body, ['_id', 'password', 'username']
 
   User.findByIdQ req.params.id
   .then (user) ->

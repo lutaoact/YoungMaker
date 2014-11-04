@@ -37,10 +37,6 @@ class User extends BaseModel
       type: String
     resetPasswordExpires :
       type: Date
-    subscriptions : [
-      type : ObjectId
-      ref : 'subscription'
-    ]
 
   constructor : ->
     @setupUserSchema @schema

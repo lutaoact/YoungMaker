@@ -13,6 +13,22 @@ questionId   = 'aaaaaaaaaaaaaaaaaaaaaa%02d'
 quizAnswerId = 'bbbbbbbbbbbbbbbbbbbbbb%02d'
 hwAnswerId   = 'cccccccccccccccccccccc%02d'
 
+grades = [
+ '初一'
+ '初二'
+ '初三'
+ '高一'
+ '高二'
+ '高三'
+]
+
+subjects = [
+  '物理'
+  '数学'
+  '化学'
+  '英语'
+]
+
 module.exports =
 #  category: (
 #    for value, i in ['初一物理', '初二物理', '初三物理']
@@ -82,6 +98,18 @@ module.exports =
     password: 'student'
     avatar: 'http://lorempixel.com/128/128/people/5'
   ]
+  
+  grade : _.map grades, (g) ->
+    name : g
+    price : 1000
+  
+  grade_subject : _.flatten(
+    _.map grades, (g) ->
+      _.map subjects, (s) ->
+        name : (g + s)
+        price : 500)
+      
+  
 #  key_point: _.map [
 #    '力和物体的平衡'
 #    '直线运动'

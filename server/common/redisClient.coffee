@@ -1,6 +1,4 @@
 redis         = require 'redis'
-config        = require '../config/environment'
-
 redisPort     = config.redis.port
 redisHost     = config.redis.host
 redisClient   = redis.createClient redisPort, redisHost

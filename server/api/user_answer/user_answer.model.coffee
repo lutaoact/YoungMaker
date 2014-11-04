@@ -1,25 +1,20 @@
-'use strict'
-mongoose = require 'mongoose'
+BaseModel = require '../../common/BaseModel'
+mongoose = require("mongoose")
 Schema = mongoose.Schema
 ObjectId = Schema.Types.ObjectId
 
-BaseModel = require('../../common/BaseModel').BaseModel
+class UserAnswer extends BaseModel
+  schema: new Schema
+    userId:
+      type: ObjectId
+      ref: "user"
+    questionId:
+      type: ObjectId
+      ref: "question"
+    answer: String
+    correct:
+      type: Boolean
+      default: false
 
-exports.UserAnswer = BaseModel.subclass
-  classname: 'UserAnswer'
-  initialize: ($super) ->
-    @schema = new Schema
-      questionId :
-        type : ObjectId
-        required : true
-        ref : 'question'
-      userId :
-        type : ObjectId
-        required : true
-        ref : 'user'
-      result : [ Number ]
-        # For choice questions, element should be numbers starting from 0
-        # for example: [0, 3]
-
-    $super()
-
+exports.Class = UserAnswer
+exports.Instance = new UserAnswer()

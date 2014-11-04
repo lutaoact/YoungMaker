@@ -22,17 +22,14 @@
   <!-- TODO: remove these two libs -->
 
 </head>
-<body ng-app="mauiApp">
+<body ng-app="mauidmin">
   <!--[if lt IE 9]>
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <div ng-if="!webview"
-       ng-include="'components/navbar/navbar.html'"></div>
+  <a ui-sref="main">main</a>
   <div ui-view class="fadeIn" style="min-height: 400px"></div>
-  <div ng-if="!webview"
-       ng-include="'components/footer/footer.html'"></div>
 
   <!--[if lt IE 9]>
   <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -87,7 +84,10 @@
   <!-- endbuild -->
 
   <!-- build:js(.tmp) app.js -->
+  <!-- injector:js -->
   <script src="admin/app.js"></script>
+  <script src="admin/main/main.js"></script>
+  <!-- endinjector -->
   <!-- endbuild -->
 
 </body>

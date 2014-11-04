@@ -345,6 +345,31 @@ gulp.task 'dev', ->
   )
 
 # admin
+gulp.task 'injector:admin', ->
+  lessSources = gulp.src ['client/{admin,components}/**/*.less','!client/admin/app.less'], {read: false}
+            .pipe $.order()
+  gulp.src 'client/admin/app.less'
+  .pipe($.inject lessSources,
+    transform: (filePath) ->
+      filePath = filePath.replace('/client/admin/', '')
+      filePath = filePath.replace('/client/components/', '')
+      '@import \'' + filePath + '\';'
+    starttag: '// injector:less'
+    endtag: '// endinjector'
+  )
+  .pipe(gulp.dest('client/admin/'))
+
+  gulp.src 'client/admin/index.html'
+  .pipe($.inject (gulp.src '.tmp/{admin,components}/**/*.js', {read: false}),
+    transform: (filePath) ->
+      filePath = filePath.replace('/client/', '')
+      filePath = filePath.replace('/.tmp/', '')
+      '<script src="' + filePath + '"></script>'
+    starttag: '<!-- injector:js -->'
+    endtag: '<!-- endinjector -->'
+  )
+  .pipe(gulp.dest('client/admin'))
+
 gulp.task 'coffee:admin', ->
   gulp.src ['client/admin/**/*.coffee'], base: 'client/admin'
   .pipe($.coffee({bare: true}))
@@ -356,7 +381,7 @@ gulp.task 'less:admin', ->
   .pipe(gulp.dest('.tmp/admin/'))
 
 gulp.task 'admin', ->
-  runSequence 'coffee:admin', 'less:admin', ->
+  runSequence 'coffee:admin', 'injector:admin', 'less:admin', ->
     gulp.src 'client/admin/index.html'
     .pipe(gulp.dest('.tmp/admin'))
     .pipe $.usemin()

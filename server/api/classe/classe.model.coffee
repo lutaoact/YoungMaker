@@ -5,34 +5,19 @@ Schema = mongoose.Schema
 BaseModel = require '../../common/BaseModel'
 
 class Classe extends BaseModel
-  initialize: ($super) ->
-    @schema = new Schema
-      name:
-        type: String
-        required: true
-      orgId:
-        type: Schema.Types.ObjectId
-        ref: "organization"
-      students: [
-        type: Schema.Types.ObjectId
-        ref: "user"
-      ]
-      yearGrade: String
-
-    @schema
-    .path 'name'
-    .validate (name, respond) ->
-      self = this
-      this.constructor.findOne
-        name : name
-        orgId: self.orgId
-      , (err, data) ->
-        throw err if err
-        notTaken = !data or data.id == self.id
-        respond notTaken
-    , '该班级名称已被占用，请选择其他名称'
-
-    $super()
+  schema: new Schema
+    name:
+      type: String
+      required: true
+    teachers: [
+      type: Schema.Types.ObjectId
+      ref: "user"
+    ]
+    students: [
+      type: Schema.Types.ObjectId
+      ref: "user"
+    ]
+    info: String
 
   getAllStudents: (classeIds) ->
     @findQ _id: $in: classeIds

@@ -108,7 +108,7 @@ gulp.task 'concurrent:test', ['coffee','less']
 gulp.task 'coffee', ['coffee:client', 'coffee:clientDist', 'coffee:server']
 
 gulp.task 'coffee:client', ->
-  gulp.src ['client/{app,components}/**/*.coffee', '!client/{app,components}/**/*.spec.coffee']
+  gulp.src ['client/{app,components,test}/**/*.coffee', '!client/{app,components}/**/*.spec.coffee']
   .pipe($.coffee({bare: true}))
   .pipe(gulp.dest('.tmp'))
 
@@ -369,4 +369,3 @@ gulp.task 'dev', ->
     'express:dev'
     'watch'
   )
-

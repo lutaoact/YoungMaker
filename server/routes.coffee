@@ -60,9 +60,10 @@ module.exports = (app) ->
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->
+    indexFile = (if req.url.indexOf('/test') == 0 then '/test' else '') + '/index.html'
     # if there is no cookie token, return index.html immediately
     if not req.cookies.token?
-      res.sendfile app.get('appPath') + '/index.html'
+      res.sendfile app.get('appPath') + indexFile
     else
       # remove double quote
       token = req.cookies.token.replace /"/g, ''
@@ -74,7 +75,7 @@ module.exports = (app) ->
         if err?
           # console.log 'Cannot verify token'
           # failed to verify token, return index.html
-          res.sendfile app.get('appPath') + '/index.html'
+          res.sendfile app.get('appPath') + indexFile
         else
           userInfo = """
              ("indexUser" , {
@@ -85,7 +86,7 @@ module.exports = (app) ->
           webviewInfo = """
             ("webview", #{req.query.webview?})
           """
-          fileString = (fs.readFileSync app.get('appPath') + '/index.html').toString()
+          fileString = (fs.readFileSync app.get('appPath') + indexFile).toString()
           fileString = fileString
             .replace "('indexUser', null)", userInfo
             .replace "('webview', false)", webviewInfo

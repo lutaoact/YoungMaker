@@ -14,9 +14,7 @@ angular.module 'mauidmin', [
   baseUrl: ''
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
-  $locationProvider.html5Mode
-    enabled: true
-
+  $urlRouterProvider.otherwise('/')
   $httpProvider.interceptors.push 'authInterceptor'
   $httpProvider.interceptors.push 'urlInterceptor'
   $httpProvider.interceptors.push 'patchInterceptor'

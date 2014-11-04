@@ -342,6 +342,7 @@ gulp.task 'dev', ->
     'autoprefixer'
     'express:dev'
     'watch'
+    'watch:admin'
   )
 
 # admin
@@ -379,6 +380,23 @@ gulp.task 'less:admin', ->
   gulp.src('client/admin/app.less')
   .pipe $.less({paths: ['client/bower_components', 'client/admin']})
   .pipe(gulp.dest('.tmp/admin/'))
+
+gulp.task 'watch:admin', ->
+  gulp.watch [
+      'client/admin/**/*.coffee'
+      'client/admin/**/*.spec.coffee'
+      'client/admin/**/*.mock.coffee'
+      'client/admin/mock.coffee'
+    ]
+  , ['coffee:admin']
+
+  gulp.watch ['client/bower_components/**/*.less', 'client/{admin,components}/**/*.less']
+  , ['less:admin']
+
+  gulp.watch [
+      '{.tmp,client}/admin/**/*.html',
+    ]
+  .on('change', $.livereload.changed)
 
 gulp.task 'admin', ->
   runSequence 'coffee:admin', 'injector:admin', 'less:admin', ->

@@ -28,9 +28,21 @@ log4js.configure
       tokens    :
         filename: getCallerFile
     category    : '[MAUI]'
+  ,
+    type        : 'file'
+    filename    : '/data/log/maui.data.log'
+    layout      :
+      type      : 'pattern'
+      pattern   : "%m"
+    category    : 'DATA'
   ]
 
 logger = log4js.getLogger '[MAUI]'
 logger.setLevel config.logger.level
 
+loggerD = log4js.getLogger 'DATA'
+loggerD.setLevel 'INFO'
+loggerD.write = loggerD.info
+
 exports.logger = logger
+exports.loggerD = loggerD

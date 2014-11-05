@@ -3,11 +3,11 @@
 angular.module 'mauidmin'
 .config ($stateProvider) ->
   $stateProvider
-  .state('main',
-    url: '/',
+  .state 'main',
+    url: '/'
     templateUrl: 'admin/main/main.html'
     controller: 'MainCtrl'
-  )
+    authenticate: true
 
 .controller 'MainCtrl', ($scope, Restangular) ->
 

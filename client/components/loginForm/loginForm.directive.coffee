@@ -1,18 +1,16 @@
 'use strict'
 
-angular.module('mauiApp').directive 'loginForm', ->
-  templateUrl: 'app/directives/loginForm/loginForm.html'
+angular.module('maui.components').directive 'loginForm', ->
+  templateUrl: 'components/loginForm/loginForm.html'
   restrict: 'E'
   replace: true
 
   controller: (
-    Msg
     Auth
     $scope
     $state
     notify
     $location
-    socketHandler
     $localStorage
   ) ->
 

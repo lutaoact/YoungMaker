@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module 'mauidmin', [
+  'maui.components'
   'ngCookies'
   'ngResource'
   'ngSanitize'
@@ -92,7 +93,7 @@ angular.module 'mauidmin', [
 .factory 'loginRedirector', ($location) ->
 
   redirectKey = 'r'
-  loginPath = '/'
+  loginPath = '/login'
 
   getRedirectUrl = ->
     redirect = $location.search()[redirectKey]
@@ -119,6 +120,7 @@ angular.module 'mauidmin', [
   $location
   $rootScope
   loginRedirector
+  Auth
 ) ->
 
   $rootScope.webview = webview
@@ -133,7 +135,7 @@ angular.module 'mauidmin', [
     if !toState.authenticate
       Auth.getCurrentUser().$promise?.then (me) ->
         event.preventDefault()
-        $state.go(me.role+'.home')
+        $state.go('main')
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
@@ -145,10 +147,8 @@ angular.module 'mauidmin', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   setupUser = (user, goHome = false) ->
-    Msg.init()
-    socketHandler.init(user)
     if !loginRedirector.apply()
-      $state.go(user.role+'.home')  if goHome
+      $state.go('main')  if goHome
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->

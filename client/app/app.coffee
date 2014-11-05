@@ -170,7 +170,7 @@ angular.module 'mauiApp', [
     if !toState.authenticate
       Auth.getCurrentUser().$promise?.then (me) ->
         event.preventDefault()
-        $state.go(me.role+'.home')
+        $state.go('main')
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
@@ -185,7 +185,7 @@ angular.module 'mauiApp', [
     Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply()
-      $state.go(user.role+'.home')  if goHome
+      $state.go('main')  if goHome
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->

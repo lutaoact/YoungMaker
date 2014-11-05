@@ -625,7 +625,7 @@ options: {
       icons: {
         src: '<%= yeoman.client %>/assets/images/vectors/**/*.svg',
         dest: '<%= yeoman.client %>/assets/fonts/bud-font',
-        destCss: '<%= yeoman.client %>/app/theme',
+        destCss: '<%= yeoman.client %>/components/theme',
         options: {
           font: 'bud-font',
           hashes: false,

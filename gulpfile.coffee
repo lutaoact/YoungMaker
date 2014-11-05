@@ -334,11 +334,11 @@ gulp.task 'build', ->
 gulp.task 'dev', ->
   runSequence(
     'clean:dev'
-    'admin'
     'copy:index'
     'env:all'
     'injector:less'
     'concurrent:server'
+    'admin'
     'injector:scripts'
     'injector:css'
     'replace'
@@ -383,7 +383,7 @@ gulp.task 'coffee:admin', ->
 
 gulp.task 'less:admin', ->
   gulp.src('client/admin/app.less')
-  .pipe $.less({paths: ['client/bower_components', 'client/admin']})
+  .pipe $.less({paths: ['client/bower_components', 'client/admin', 'client/components']})
   .pipe(gulp.dest('.tmp/admin/'))
 
 gulp.task 'watch:admin', ->

@@ -1,3 +1,5 @@
 'use strict'
 
-angular.module 'maui.components', []
+angular.module 'maui.components', [
+  'ngStorage'
+]

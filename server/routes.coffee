@@ -60,15 +60,16 @@ module.exports = (app) ->
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->
-    subContext = (switch true
-      when req.url.indexOf('/test') is 0
-        '/test'
-      when req.url.indexOf('/admin') is 0
-        '/admin'
-      else
-        ''
-    )
+    subContext =
+      switch true
+        when req.url.indexOf('/test') is 0
+          '/test'
+        when req.url.indexOf('/admin') is 0
+          '/admin'
+        else
+          ''
     indexFile = subContext + '/index.html'
+    console.log 'token....', req.cookies.token
     # if there is no cookie token, return index.html immediately
     if not req.cookies.token?
       res.sendfile app.get('appPath') + indexFile

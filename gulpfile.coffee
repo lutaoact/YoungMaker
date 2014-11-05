@@ -1,6 +1,7 @@
 gulp = require 'gulp'
 del = require 'del'
 runSequence = require 'run-sequence'
+merge = require 'merge-stream'
 
 $ = require('gulp-load-plugins')
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
@@ -52,56 +53,84 @@ gulp.task 'env:test', ->
       NODE_ENV: 'test'
 
 gulp.task 'injector:less', ->
-  target = gulp.src 'client/app/app.less'
-  sources = gulp.src ['client/{app,components}/**/*.less','!client/app/app.less'], {read: false}
-                .pipe $.order()
-  target.pipe($.inject sources,
-    transform: (filePath) ->
-      filePath = filePath.replace('/client/app/', '')
-      filePath = filePath.replace('/client/components/', '')
-      '@import \'' + filePath + '\';'
-    starttag: '// injector:less'
-    endtag: '// endinjector'
-  )
-  .pipe(gulp.dest('client/app/'))
+  doInjectLess = (appPath) ->
+    target = gulp.src "client/#{appPath}/app.less"
+    sources = gulp.src ["client/{#{appPath},components}/**/*.less","!client/#{appPath}/app.less"], {read: false}
+                  .pipe $.order()
+    target.pipe($.inject sources,
+      transform: (filePath) ->
+        filePath = filePath.replace("/client/#{appPath}/", '')
+        filePath = filePath.replace('/client/components/', '')
+        '@import \'' + filePath + '\';'
+      starttag: '// injector:less'
+      endtag: '// endinjector'
+    )
+    .pipe gulp.dest("client/#{appPath}/")
+
+  merge [
+    doInjectLess('app')
+    doInjectLess('test')
+  ]
 
 gulp.task 'injector:scripts', ->
-  target = gulp.src 'client/index.html'
-  sources = gulp.src [
-    '{.tmp,client}/{app,components}/**/*.js',
-    '!{.tmp,client}/app/app.js',
-    '!{.tmp,client}/{app,components}/**/*.spec.js',
-    '!{.tmp,client}/{app,components}/**/*.mock.js'
-    ]
-  , {read: false}
-  target.pipe($.inject sources,
-    transform: (filePath) ->
-      filePath = filePath.replace('/client/', '')
-      filePath = filePath.replace('/.tmp/', '')
-      '<script src="' + filePath + '"></script>'
-    starttag: '<!-- injector:js -->'
-    endtag: '<!-- endinjector -->'
-  )
-  .pipe(gulp.dest('client/'))
+  doInjectJs = (appPath, indexPath) ->
+    target = gulp.src indexPath + 'index.html'
+    sources = gulp.src [
+      "{.tmp,client}/{#{appPath},components}/**/*.js",
+      "!{.tmp,client}/#{appPath}/app.js",
+      "!{.tmp,client}/{#{appPath},components}/**/*.spec.js",
+      "!{.tmp,client}/{#{appPath},components}/**/*.mock.js"
+      ]
+    , {read: false}
+    target.pipe($.inject sources,
+      transform: (filePath) ->
+        filePath = filePath.replace('/client/', '')
+        filePath = filePath.replace('/.tmp/', '')
+        '<script src="' + filePath + '"></script>'
+      starttag: '<!-- injector:js -->'
+      endtag: '<!-- endinjector -->'
+    )
+    .pipe gulp.dest(indexPath)
 
-gulp.task 'injector:css', ->
-  target = gulp.src 'client/index.html'
-  sources = gulp.src ['client/{app,components}/**/*.css'], {read: false}
-  target.pipe($.inject sources,
-    transform: (filePath) ->
-      filePath = filePath.replace('/client/', '')
-      filePath = filePath.replace('/.tmp/', '')
-      '<link rel="stylesheet" href="' + filePath + '">'
-    starttag: '<!-- injector:css -->'
-    endtag: '<!-- endinjector -->'
-  )
-  .pipe(gulp.dest('client/'))
+  merge [
+    doInjectJs('app', 'client/')
+    doInjectJs('test', 'client/test/')
+  ]
 
-gulp.task 'injector', ['injector:less','injector:scripts','injector:css']
+#injector bower
+gulp.task 'bower', ->
+  doInjectBower = (appPath, indexPath) ->
+    bowerFiles = require('main-bower-files')
+    gulp.src indexPath + '/index.html'
+    .pipe $.inject(gulp.src(bowerFiles(filter: /.js$/), { base: 'client/bower_components',read: false}),
+      transform: (filePath) ->
+        filePath = filePath.replace('/client/', '')
+        filePath = filePath.replace('/.tmp/', '')
+        '<script src="' + filePath + '"></script>'
+      starttag: '<!-- bower:js -->'
+      endtag: '<!-- endbower -->'
+    )
+    .pipe $.inject(gulp.src(bowerFiles(filter: /.css$/), { base: 'client/bower_components',read: false}),
+      transform: (filePath) ->
+        filePath = filePath.replace('/client/', '')
+        filePath = filePath.replace('/.tmp/', '')
+        '<link rel="stylesheet" href="' + filePath + '">'
+      starttag: '<!-- bower:css -->'
+      endtag: '<!-- endbower -->'
+    )
+    .pipe gulp.dest(indexPath)
 
-gulp.task 'concurrent:server', ['coffee:client', 'coffee:server','less']
+  merge [
+    doInjectBower('app', 'client/')
+    doInjectBower('test', 'client/test/')
+  ]
 
-gulp.task 'concurrent:dist', ['coffee:clientDist','coffee:server','less','imagemin','svgmin']
+
+gulp.task 'injector', ['injector:less','injector:scripts']
+
+gulp.task 'concurrent:server', ['coffee:client', 'coffee:server', 'less']
+
+gulp.task 'concurrent:dist', ['coffee:clientDist','coffee:server', 'less', 'imagemin', 'svgmin']
 
 gulp.task 'concurrent:test', ['coffee','less']
 
@@ -127,14 +156,15 @@ gulp.task 'coffee:server', ->
   .pipe(gulp.dest('server'))
 
 gulp.task 'less', ->
-  gulp.src('client/app/app.less')
-  .pipe $.less({paths: ['client/bower_components', 'client/app', 'client/components']})
-  .pipe(gulp.dest('.tmp/app/'))
+  doLess = (appPath) ->
+    gulp.src "client/#{appPath}/app.less"
+    .pipe $.less(paths:['client/bower_components', "client/#{appPath}", 'client/components'])
+    .pipe gulp.dest(".tmp/#{appPath}/")
 
-#  TODO
-#  gulp.src('client/test/app.less')
-#  .pipe $.less({paths: ['client/bower_components', 'client/test', 'client/components']})
-#  .pipe(gulp.dest('.tmp/test/'))
+  merge [
+    doLess('app')
+    doLess('test')
+  ]
 
 gulp.task 'imagemin', ->
   gulp.src ['client/assets/images/{,*/}*.{png,jpg,jpeg,gif}']
@@ -155,28 +185,6 @@ gulp.task 'replace', ->
 gulp.task 'processhtml', ->
   gulp.src('client/index.html')
   .pipe($.processhtml())
-  .pipe(gulp.dest('client/'))
-
-bowerFiles = require('main-bower-files')
-
-gulp.task 'bower', ->
-  gulp.src 'client/index.html'
-  .pipe $.inject(gulp.src(bowerFiles(filter: /.js$/), { base: 'client/bower_components',read: false}),
-      transform: (filePath) ->
-        filePath = filePath.replace('/client/', '')
-        filePath = filePath.replace('/.tmp/', '')
-        '<script src="' + filePath + '"></script>'
-      starttag: '<!-- bower:js -->'
-      endtag: '<!-- endbower -->'
-    )
-  .pipe $.inject(gulp.src(bowerFiles(filter: /.css$/), { base: 'client/bower_components',read: false}),
-      transform: (filePath) ->
-        filePath = filePath.replace('/client/', '')
-        filePath = filePath.replace('/.tmp/', '')
-        '<link rel="stylesheet" href="' + filePath + '">'
-      starttag: '<!-- bower:css -->'
-      endtag: '<!-- endbower -->'
-    )
   .pipe(gulp.dest('client/'))
 
 # Changes the CSS indentation to create a nice visual cascade of prefixes.
@@ -318,7 +326,6 @@ gulp.task 'build', ->
     'concurrent:dist'
     'ngtemplates' # may cause error
     'injector:scripts'
-    'injector:css'
     'replace'
     'processhtml'
     'bower'
@@ -340,7 +347,6 @@ gulp.task 'dev', ->
     'concurrent:server'
     'admin'
     'injector:scripts'
-    'injector:css'
     'replace'
     'processhtml'
     'bower'

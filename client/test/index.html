@@ -1,34 +1,98 @@
 <!doctype html>
-<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <base href="/">
+  <title>Maui 测试页面</title>
+  <meta name="viewport" content="width=device-width,minimal-ui">
 
-<head lang="en">
-  <meta charset="UTF-8">
-  <title>Maui Test App</title>
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(client) vendor.css -->
+  <!-- endbuild -->
+
+  <!-- build:js(.tmp) app.css -->
+  <link rel="stylesheet" href="test/app.css">
+  <!-- endbuild -->
 </head>
 
 <body ng-app="mauiTestApp">
 
-  <div ng-include="'/test/test.html'"></div>
+  <div ng-include="'test/main/test.html'"></div>
 
-  <script src="/bower_components/angular/angular.js"></script>
-  <script src="/bower_components/angular-resource/angular-resource.js"></script>
-  <script src="/bower_components/sockjs/sockjs.js"></script>
-  <script src="/bower_components/jquery/dist/jquery.js"></script>
-  <script src="/bower_components/restangular/dist/restangular.js"></script>
-  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
-  <script src="/bower_components/ngstorage/ngStorage.js"></script>
-  <script src="/bower_components/lodash/dist/lodash.compat.js"></script>
-  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <!-- build:js(client) app/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/json3/lib/json3.js"></script>
+  <script src="bower_components/es5-shim/es5-shim.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/ngstorage/ngStorage.js"></script>
+  <script src="bower_components/angular-ui-select/dist/select.js"></script>
+  <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+  <script src="bower_components/ng-file-upload-shim/angular-file-upload-shim.js"></script>
+  <script src="bower_components/restangular/dist/restangular.js"></script>
+  <script src="bower_components/angular-notify/dist/angular-notify.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/moment/lang/zh-cn.js"></script>
+  <script src="bower_components/videogular/videogular.js"></script>
+  <script src="bower_components/videogular-controls/controls.js"></script>
+  <script src="bower_components/videogular-buffering/buffering.js"></script>
+  <script src="bower_components/videogular-overlay-play/overlay-play.js"></script>
+  <script src="bower_components/videogular-poster/poster.js"></script>
+  <script src="bower_components/angular-scroll/angular-scroll.js"></script>
+  <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+  <script src="bower_components/highcharts/highcharts.js"></script>
+  <script src="bower_components/highcharts/highcharts-more.js"></script>
+  <script src="bower_components/highcharts/modules/exporting.js"></script>
+  <script src="bower_components/highcharts/modules/drilldown.js"></script>
+  <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/utf8/utf8.js"></script>
+  <script src="bower_components/sockjs/sockjs.js"></script>
+  <script src="bower_components/angular-elastic/elastic.js"></script>
+  <script src="bower_components/angular-sortable-view/src/angular-sortable-view.min.js"></script>
+  <script src="bower_components/angular-i18n/angular-locale_zh-cn.js"></script>
+  <script src="bower_components/Jcrop/js/jquery.Jcrop.min.js"></script>
+  <script src="bower_components/rangy/rangy-core.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular-rangy.min.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular.min.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular-sanitize.min.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
 
-  <script src="/components/components.js"></script>
-  <script src="/components/auth/auth.service.js"></script>
-  <script src="/components/auth/user.service.js"></script>
-  <script src="/components/socket/socket.service.js"></script>
+  <!-- build:js(.tmp) app.js -->
+  <script src="test/app.js"></script>
+  <!-- injector:js -->
+  <script src="components/components.js"></script>
+  <script src="test/main/test.controller.js"></script>
+  <script src="components/auth/auth.service.js"></script>
+  <script src="components/auth/user.service.js"></script>
+  <script src="components/category/category.service.js"></script>
+  <script src="components/charts/chartUtils.js"></script>
+  <script src="components/holder/holder.directive.js"></script>
+  <script src="components/loginForm/loginForm.directive.js"></script>
+  <script src="components/modal/messageModal.controller.js"></script>
+  <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+  <script src="components/navbar/navbar.controller.js"></script>
+  <script src="components/socket/socket.service.js"></script>
+  <script src="components/utils/fileUtils.js"></script>
+  <script src="components/utils/string.js"></script>
+  <!-- endinjector -->
+  <!-- endbuild -->
 
-  <script src="/test/test.controller.js"></script>
 
+  <script>
+    angular.module('mauiTestApp')
+        .constant('indexUser', null)
+        .constant('webview', false)
+  </script>
 </body>
 
 </html>

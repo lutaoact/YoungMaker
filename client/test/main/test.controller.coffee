@@ -1,16 +1,6 @@
 'use strict'
 
-angular.module 'mauiTestApp', [
-  'maui.components'
-  'ngCookies'
-  'ngResource'
-  'ngStorage'
-  'ui.bootstrap'
-  'restangular'
-]
-
-.run ->
-  console.debug 'start mauiTestApp'
+angular.module 'mauiTestApp'
 
 .controller 'TestCtrl', (
   Auth
@@ -89,3 +79,5 @@ angular.module 'mauiTestApp', [
 
   $scope.setRequest('') if !$scope.$storage.request
 
+  Auth.getCurrentUser().$promise?.then (me)->
+    console.debug 'me', me

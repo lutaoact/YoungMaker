@@ -147,8 +147,7 @@ angular.module 'mauidmin', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   setupUser = (user, goHome = false) ->
-    if !loginRedirector.apply()
-      $state.go('main')  if goHome
+    $state.go('main') if goHome
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->

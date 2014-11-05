@@ -131,6 +131,11 @@ gulp.task 'less', ->
   .pipe $.less({paths: ['client/bower_components', 'client/app', 'client/components']})
   .pipe(gulp.dest('.tmp/app/'))
 
+#  TODO
+#  gulp.src('client/test/app.less')
+#  .pipe $.less({paths: ['client/bower_components', 'client/test', 'client/components']})
+#  .pipe(gulp.dest('.tmp/test/'))
+
 gulp.task 'imagemin', ->
   gulp.src ['client/assets/images/{,*/}*.{png,jpg,jpeg,gif}']
   .pipe $.imagemin()
@@ -272,9 +277,9 @@ gulp.task 'watch', ->
   $.livereload.listen()
   $.wait(1000)
   gulp.watch [
-      'client/{app,components}/**/*.coffee'
-      'client/{app,components}/**/*.spec.coffee'
-      'client/{app,components}/**/*.mock.coffee'
+      'client/{app,components,test}/**/*.coffee'
+      'client/{app,components,test}/**/*.spec.coffee'
+      'client/{app,components,test}/**/*.mock.coffee'
       'client/app/mock.coffee'
     ]
   , ['coffee:client']
@@ -284,14 +289,14 @@ gulp.task 'watch', ->
   gulp.watch ['.tmp/**/*.js']
   .on('change', $.livereload.changed)
 
-  gulp.watch ['client/bower_components/**/*.less', 'client/{app,components}/**/*.less']
+  gulp.watch ['client/bower_components/**/*.less', 'client/{app,components,test}/**/*.less']
   , ['less']
 
   gulp.watch ['.tmp/**/*.css']
   .on('change', $.livereload.changed)
 
   gulp.watch [
-      '{.tmp,client}/{app,components}/**/*.html',
+      '{.tmp,client}/{app,components,test}/**/*.html',
       'client/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
     ]
   .on('change', $.livereload.changed)

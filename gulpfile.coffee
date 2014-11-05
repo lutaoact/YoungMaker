@@ -87,6 +87,7 @@ gulp.task 'injector:scripts', ->
       "{.tmp,client}/{#{appPath},components}/**/*.js"
       "!{.tmp,client}/{#{appPath},components}/{app,components,mock}.js"
       "!{.tmp,client}/{#{appPath},components}/**/*.spec.js"
+      "!{.tmp,client}/{#{appPath},components}/templates.js"
       ]
     , {read: false}).pipe $.order()
 
@@ -140,11 +141,9 @@ gulp.task 'bower', ->
     doInjectBower 'test/'
   ]
 
-gulp.task 'injector', ['injector:less','injector:scripts']
+gulp.task 'compileJSAndCSS', ['coffee:client', 'coffee:server', 'less']
 
-gulp.task 'concurrent:dev', ['coffee:client', 'coffee:server', 'less']
-
-gulp.task 'concurrent:dist', ['coffee:client','coffee:server', 'less', 'imagemin', 'svgmin']
+gulp.task 'minImageAndSVG', ['imagemin', 'svgmin']
 
 gulp.task 'coffee:client', ->
   clientPaths = 'app,components,admin,test'
@@ -288,7 +287,7 @@ gulp.task 'uglify', ->
   doUglify = (appPath) ->
     gulp.src "#{clientDistFolder}/#{appPath}/**/*.js"
     .pipe $.uglify()
-    .pipe gulp.dest("#{clientDistFolder}/#{appContext}/")
+    .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
   merge [
     doUglify 'app'
@@ -360,10 +359,11 @@ gulp.task 'build', ->
     'clean'
     'copy:index'
     'injector:less'
-    'concurrent:dist'
-    'ngtemplates' # may cause error
+    'compileJSAndCSS'
+    'minImageAndSVG'
     'injector:scripts'
     'replace'
+    'ngtemplates' # may cause error
     'processhtml'
     'bower'
     'autoprefixer'
@@ -378,10 +378,10 @@ gulp.task 'build', ->
 gulp.task 'dev', ->
   runSequence(
     'clean:dev'
-    'copy:index'
     'env:all'
+    'copy:index'
     'injector:less'
-    'concurrent:dev'
+    'compileJSAndCSS'
     'injector:scripts'
     'replace'
     'processhtml'

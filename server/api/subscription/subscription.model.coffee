@@ -9,9 +9,9 @@ class Subscription extends BaseModel
     grade : 
       type : ObjectId # objectId of purchased grade
       ref : 'grade'
-    grade_subject :
+    gradeSubject :
       type : ObjectId # objectId of purchased grade_subject
-      ref : 'grade'
+      ref : 'grade_subject'
     from: Date
     to: Date
 

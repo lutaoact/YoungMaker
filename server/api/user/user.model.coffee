@@ -6,6 +6,7 @@ ObjectId = Schema.ObjectId
 crypto = require 'crypto'
 authTypes = ['google']
 BaseModel = require '../../common/BaseModel'
+Subscription = _u.getModel 'subscription'
 
 class User extends BaseModel
   schema : new Schema
@@ -158,4 +159,5 @@ class User extends BaseModel
         crypto.pbkdf2Sync password, salt, 10000, 64
         .toString 'base64'
 
+exports.Class = User
 exports.Instance = new User()

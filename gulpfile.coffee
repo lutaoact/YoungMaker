@@ -6,10 +6,13 @@ merge = require 'merge-stream'
 $ = require('gulp-load-plugins')
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
 
-gulp.task 'clean', ()->
+clientDistFolder = 'dist/public'
+serverDistFolder = 'dist/server'
+
+gulp.task 'clean', ->
   del ['.tmp', 'dist']
 
-gulp.task 'clean:dev', ()->
+gulp.task 'clean:dev', ->
   del ['.tmp']
 
 gulp.task 'copy:index', ->
@@ -26,12 +29,12 @@ gulp.task 'copy:dist', ->
       'client/assets/fonts/**/*'
     ]
   , base: 'client'
-  .pipe gulp.dest('dist/public')
+  .pipe gulp.dest(clientDistFolder)
 
   gulp.src [
       'server/**/*'
     ]
-  .pipe gulp.dest('dist/server')
+  .pipe gulp.dest(serverDistFolder)
 
   gulp.src [
       'package.json'
@@ -72,18 +75,18 @@ gulp.task 'injector:less', ->
     .pipe gulp.dest("client/#{appPath}/")
 
   merge [
-    doInjectLess('app')
-    doInjectLess('test')
+    doInjectLess 'app'
+    doInjectLess 'test'
+    doInjectLess 'admin'
   ]
 
 gulp.task 'injector:scripts', ->
   doInjectJs = (appPath, indexPath) ->
-    target = gulp.src indexPath + 'index.html'
+    target = gulp.src 'client/' + indexPath + 'index.html'
     sources = gulp.src([
-      "{.tmp,client}/{#{appPath},components}/**/*.js",
-      "!{.tmp,client}/#{appPath}/{app,components}.js",
-      "!{.tmp,client}/{#{appPath},components}/**/*.spec.js",
-      "!{.tmp,client}/{#{appPath},components}/**/*.mock.js"
+      "{.tmp,client}/{#{appPath},components}/**/*.js"
+      "!{.tmp,client}/{#{appPath},components}/{app,components,mock}.js"
+      "!{.tmp,client}/{#{appPath},components}/**/*.spec.js"
       ]
     , {read: false}).pipe $.order()
 
@@ -96,18 +99,19 @@ gulp.task 'injector:scripts', ->
       starttag: '<!-- injector:js -->'
       endtag: '<!-- endinjector -->'
     )
-    .pipe gulp.dest(indexPath)
+    .pipe gulp.dest('client/' + indexPath)
 
   merge [
-    doInjectJs('app', 'client/')
-    doInjectJs('test', 'client/test/')
+    doInjectJs 'app'  , ''
+    doInjectJs 'test' , 'test/'
+    doInjectJs 'admin', 'admin/'
   ]
 
 #injector bower
 gulp.task 'bower', ->
-  doInjectBower = (appPath, indexPath) ->
+  doInjectBower = (indexPath) ->
     bowerFiles = require('main-bower-files')
-    target = gulp.src indexPath + '/index.html'
+    target = gulp.src 'client/' + indexPath + '/index.html'
     jsSources = gulp.src bowerFiles(filter: /.js$/), {base: 'client/bower_components', read: false}
     cssSources = gulp.src bowerFiles(filter: /.css$/), {base: 'client/bower_components', read: false}
 
@@ -128,34 +132,26 @@ gulp.task 'bower', ->
       starttag: '<!-- bower:css -->'
       endtag: '<!-- endbower -->'
     )
-    .pipe gulp.dest(indexPath)
+    .pipe gulp.dest('client/' + indexPath)
 
   merge [
-    doInjectBower('app', 'client/')
-    doInjectBower('test', 'client/test/')
+    doInjectBower ''
+    doInjectBower 'admin/'
+    doInjectBower 'test/'
   ]
 
 gulp.task 'injector', ['injector:less','injector:scripts']
 
-gulp.task 'concurrent:server', ['coffee:client', 'coffee:server', 'less']
+gulp.task 'concurrent:dev', ['coffee:client', 'coffee:server', 'less']
 
-gulp.task 'concurrent:dist', ['coffee:clientDist','coffee:server', 'less', 'imagemin', 'svgmin']
-
-gulp.task 'concurrent:test', ['coffee','less']
-
-gulp.task 'coffee', ['coffee:client', 'coffee:clientDist', 'coffee:server']
+gulp.task 'concurrent:dist', ['coffee:client','coffee:server', 'less', 'imagemin', 'svgmin']
 
 gulp.task 'coffee:client', ->
-  gulp.src ['client/{app,components,test}/**/*.coffee', '!client/{app,components}/**/*.spec.coffee']
-  .pipe($.coffee({bare: true}))
-  .pipe(gulp.dest('.tmp'))
-
-gulp.task 'coffee:clientDist', ->
-  gulp.src ['client/{app,components}/**/*.coffee'
-            '!client/{app,components}/**/*.spec.coffee'
-            '!client/{app,components}/**/*.mock.coffee'
-            '!client/app/mock.coffee'
-          ]
+  clientPaths = 'app,components,admin,test'
+  gulp.src [
+    "client/{#{clientPaths}}/**/*.coffee",
+    "!client/{#{clientPaths}/**/*.spec.coffee"
+  ]
   .pipe($.coffee({bare: true}))
   .pipe(gulp.dest('.tmp'))
 
@@ -171,19 +167,20 @@ gulp.task 'less', ->
     .pipe gulp.dest(".tmp/#{appPath}/")
 
   merge [
-    doLess('app')
-    doLess('test')
+    doLess 'app'
+    doLess 'test'
+    doLess 'admin'
   ]
 
 gulp.task 'imagemin', ->
   gulp.src ['client/assets/images/{,*/}*.{png,jpg,jpeg,gif}']
   .pipe $.imagemin()
-  .pipe gulp.dest('dist/public/assets/images/')
+  .pipe gulp.dest(clientDistFolder + '/assets/images/')
 
 gulp.task 'svgmin', ->
   gulp.src ['client/assets/images/{,*/}*.svg']
   .pipe $.svgmin()
-  .pipe gulp.dest('dist/public/assets/images/')
+  .pipe gulp.dest(clientDistFolder + '/assets/images/')
 
 gulp.task 'replace', ->
   gulp.src(['client/index.html'])
@@ -216,63 +213,88 @@ gulp.task 'express:dev', ->
 gulp.task 'express:prod', ->
   $.express.run
     port: process.env.PORT or 9000
-    file: 'dist/server/app.js'
+    file: serverDistFolder + '/app.js'
 
 gulp.task 'wait', ->
   $.wait(1000)
 
-# should point to a file src :(
-gulp.task 'open', ->
-  gulp.src "client/index.html"
-  .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9000}")
-
 gulp.task 'usemin', ->
-  gulp.src 'client/index.html'
-  .pipe $.usemin()
-  .pipe(gulp.dest('dist/public'))
+  doUseMin = (indexPath, outputRelativePath) ->
+    gulp.src 'client/' + indexPath + 'index.html'
+    .pipe $.usemin( outputRelativePath: outputRelativePath )
+    .pipe gulp.dest( clientDistFolder + '/' + indexPath )
+
+  merge [
+    doUseMin ''      , ''
+    doUseMin 'admin/', '../'
+    doUseMin 'test/' , '../'
+  ]
 
 gulp.task 'ngtemplates', ->
-  gulp.src 'client/{app,components}/**/*.html'
-  .pipe $.angularTemplatecache(
-      module: 'mauiApp'
-    )
-  .pipe gulp.dest('.tmp/')
+  doNgTemplates = (appPath, indexPath, moudleName) ->
+    gulp.src "client/{#{appPath},components}/**/*.html"
+    .pipe $.angularTemplatecache(
+        module: moudleName
+      )
+    .pipe gulp.dest('.tmp/' + indexPath)
+
+  merge [
+    doNgTemplates 'app'  , ''       , 'mauiApp'
+    doNgTemplates 'admin', 'admin/' , 'mauidmin'
+    doNgTemplates 'test' , 'test/'  , 'mauiTestApp'
+  ]
 
 gulp.task 'concat:template', ->
-  sources = gulp.src [
-      'dist/public/app/app.js'
-      '.tmp/templates.js'
-    ]
-  sources.pipe $.concat('app.js')
-  .pipe gulp.dest('dist/public/app/')
+  doConcat = (appPath, indexPath) ->
+    sources = gulp.src [
+        "#{clientDistFolder}/#{appPath}/app.js"
+        ".tmp/#{indexPath}templates.js"
+      ]
+    sources.pipe $.concat('app.js')
+    .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
+
+  merge [
+    doConcat 'app'  , ''
+    doConcat 'admin', 'admin/'
+    doConcat 'test' , 'test/'
+  ]
 
 # very slow task
 gulp.task 'ngmin', ->
-  gulp.src 'dist/public/app/**/*.js'
-  .pipe $.ngAnnotate()
-  .pipe gulp.dest('dist/public/app/')
+  doNgMin = (appPath) ->
+    gulp.src "#{clientDistFolder}/#{appPath}/**/*.js"
+    .pipe $.ngAnnotate()
+    .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
+
+  merge [
+    doNgMin 'app'
+    doNgMin 'admin'
+    doNgMin 'test'
+  ]
 
 gulp.task 'cssmin', ->
-  gulp.src 'dist/public/app/**/*.css'
-  .pipe $.cssmin()
-  .pipe gulp.dest('dist/public/app/')
+  doCssMin = (appPath) ->
+    gulp.src "#{clientDistFolder}/#{appPath}/**/*.css"
+    .pipe $.cssmin()
+    .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
+
+  merge [
+    doCssMin 'app'
+    doCssMin 'admin'
+    doCssMin 'test'
+  ]
 
 gulp.task 'uglify', ->
-  gulp.src 'dist/public/app/**/*.js'
-  .pipe $.uglify()
-  .pipe gulp.dest('dist/public/app/')
+  doUglify = (appPath) ->
+    gulp.src "#{clientDistFolder}/#{appPath}/**/*.js"
+    .pipe $.uglify()
+    .pipe gulp.dest("#{clientDistFolder}/#{appContext}/")
 
-gulp.task 'rev', ->
-  sources = gulp.src [
-      'dist/public/{,*/}*.js'
-      'dist/public/{,*/}*.css'
-      'dist/public/assets/images/**/*'
-      'dist/public/assets/fonts/**/*'
-    ]
-  , base: 'dist/public'
-
-  sources.pipe($.rev())
-  .pipe(gulp.dest('dist/public/'))
+  merge [
+    doUglify 'app'
+    doUglify 'admin'
+    doUglify 'test'
+  ]
 
 gulp.task 'iconfont', ->
   gulp.src ['client/assets/images/vectors/*.svg']
@@ -293,27 +315,34 @@ gulp.task 'iconfont', ->
 gulp.task 'watch', ->
   $.livereload.listen()
   $.wait(1000)
+  watchPaths = 'app,components,admin,test'
   gulp.watch [
-      'client/{app,components,test}/**/*.coffee'
-      'client/{app,components,test}/**/*.spec.coffee'
-      'client/{app,components,test}/**/*.mock.coffee'
-      'client/app/mock.coffee'
+      "client/{#{watchPaths}}/**/*.coffee"
+      "client/{#{watchPaths}}/**/*.spec.coffee"
+      "client/{#{watchPaths}}/**/*.mock.coffee"
+      "client/{#{watchPaths}}/*.coffee"
     ]
   , ['coffee:client']
+
   gulp.watch ['server/{*,*/*,*/*/*}.{coffee,litcoffee,coffee.md}']
   , ['coffee:server']
 
+  # 'coffee:client, coffee:server' 这俩 task 有点慢, 所以要等等
+  # TODO use as a stream ?
   gulp.watch ['.tmp/**/*.js']
-  .on('change', $.livereload.changed)
+  .on 'change', (file) ->
+    gulp.src(file.path)
+    .pipe($.wait(2000))
+    .pipe($.livereload())
 
-  gulp.watch ['client/bower_components/**/*.less', 'client/{app,components,test}/**/*.less']
+  gulp.watch ['client/bower_components/**/*.less', "client/{#{watchPaths}/**/*.less"]
   , ['less']
 
   gulp.watch ['.tmp/**/*.css']
   .on('change', $.livereload.changed)
 
   gulp.watch [
-      '{.tmp,client}/{app,components,test}/**/*.html',
+      "{.tmp,client}/{#{watchPaths}}/**/*.html"
       'client/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
     ]
   .on('change', $.livereload.changed)
@@ -329,7 +358,6 @@ gulp.task 'dist', ->
 gulp.task 'build', ->
   runSequence(
     'clean'
-    'admin'
     'copy:index'
     'injector:less'
     'concurrent:dist'
@@ -353,8 +381,7 @@ gulp.task 'dev', ->
     'copy:index'
     'env:all'
     'injector:less'
-    'concurrent:server'
-    'admin'
+    'concurrent:dev'
     'injector:scripts'
     'replace'
     'processhtml'
@@ -362,67 +389,4 @@ gulp.task 'dev', ->
     'autoprefixer'
     'express:dev'
     'watch'
-    'watch:admin'
   )
-
-# admin
-gulp.task 'injector:admin', ->
-  lessSources = gulp.src ['client/{admin,components}/**/*.less','!client/admin/app.less'], {read: false}
-            .pipe $.order()
-  gulp.src 'client/admin/app.less'
-  .pipe($.inject lessSources,
-    transform: (filePath) ->
-      filePath = filePath.replace('/client/admin/', '')
-      filePath = filePath.replace('/client/components/', '')
-      '@import \'' + filePath + '\';'
-    starttag: '// injector:less'
-    endtag: '// endinjector'
-  )
-  .pipe(gulp.dest('client/admin/'))
-
-  gulp.src 'client/admin/index.html'
-  .pipe($.inject (gulp.src '.tmp/{admin,components}/**/*.js', {read: false}),
-    transform: (filePath) ->
-      filePath = filePath.replace('/client/', '')
-      filePath = filePath.replace('/.tmp/', '')
-      '<script src="' + filePath + '"></script>'
-    starttag: '<!-- injector:js -->'
-    endtag: '<!-- endinjector -->'
-  )
-  .pipe(gulp.dest('client/admin'))
-
-gulp.task 'coffee:admin', ->
-  gulp.src ['client/admin/**/*.coffee'], base: 'client/admin'
-  .pipe($.coffee({bare: true}))
-  .pipe(gulp.dest('.tmp/admin'))
-
-gulp.task 'less:admin', ->
-  gulp.src('client/admin/app.less')
-  .pipe $.less({paths: ['client/bower_components', 'client/admin', 'client/components']})
-  .pipe(gulp.dest('.tmp/admin/'))
-
-gulp.task 'watch:admin', ->
-  gulp.watch [
-      'client/admin/**/*.coffee'
-      'client/admin/**/*.spec.coffee'
-      'client/admin/**/*.mock.coffee'
-      'client/admin/mock.coffee'
-    ]
-  , ['coffee:admin']
-
-  gulp.watch ['client/bower_components/**/*.less', 'client/{admin,components}/**/*.less']
-  , ['less:admin']
-
-  gulp.watch [
-      '{.tmp,client}/admin/**/*.html',
-    ]
-  .on('change', $.livereload.changed)
-
-gulp.task 'admin', ->
-  runSequence 'coffee:admin', 'injector:admin', 'less:admin', ->
-    gulp.src 'client/admin/index.html'
-    .pipe(gulp.dest('.tmp/admin'))
-    .pipe $.usemin()
-    .pipe(gulp.dest('dist/public/admin'))
-
-# end of admin

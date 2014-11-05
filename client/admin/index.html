@@ -12,10 +12,10 @@
   <title>云立方学院管理员</title>
   <meta name="viewport" content="width=device-width,minimal-ui">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(client) vendor.css -->
+  <!-- build:css(client) admin/vendor.css -->
   <!-- endbuild -->
 
-  <!-- build:js(.tmp) app.css -->
+  <!-- build:css({.tmp,client}) admin/app.css -->
   <link rel="stylesheet" href="admin/app.css">
   <!-- endbuild -->
 
@@ -37,7 +37,7 @@
   <!-- common js -->
   <script src="/common/Const.js"></script>
 
-  <!-- build:js(client) vendor.js -->
+  <!-- build:js(client) admin/vendor.js -->
   <script src="bower_components/json3/lib/json3.js"></script>
   <script src="bower_components/es5-shim/es5-shim.js"></script>
   <script src="bower_components/angular/angular.js"></script>
@@ -81,13 +81,14 @@
   <script src="bower_components/textAngular/dist/textAngular-sanitize.min.js"></script>
   <!-- endbuild -->
 
-  <!-- build:js(.tmp) app.js -->
-  <!-- injector:js -->
+  <!-- build:js({.tmp,client}) admin/app.js -->
   <script src="admin/app.js"></script>
   <script src="components/components.js"></script>
+  <!-- injector:js -->
   <script src="admin/login/login.controller.js"></script>
   <script src="admin/main/main.controller.js"></script>
   <script src="admin/navbar/navbar.controller.js"></script>
+  <script src="admin/templates.js"></script>
   <script src="components/auth/auth.service.js"></script>
   <script src="components/auth/user.service.js"></script>
   <script src="components/category/category.service.js"></script>

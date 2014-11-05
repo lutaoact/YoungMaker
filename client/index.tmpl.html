@@ -52,12 +52,14 @@
   <!-- endbower -->
   <!-- endbuild -->
 
-  <!-- build:remove:dist -->
+  <!-- build:remove -->
   <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-  <!-- /build -->
+  <script src="app/mock.js"></script>
+  <!-- endbuild -->
 
   <!-- build:js({.tmp,client}) app/app.js -->
   <script src="app/app.js"></script>
+  <script src="components/components.js"></script>
   <!-- injector:js -->
   <!-- endinjector -->
   <!-- endbuild -->

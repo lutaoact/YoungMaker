@@ -57,14 +57,18 @@ module.exports = (app) ->
   .get (req, res) ->
     res.sendfile __dirname + '/common/Const.js'
 
-  app.route '/admin/*'
-  .get (req, res) ->
-    res.sendfile(app.get('appPath') + '/admin/index.html')
-
   # All other routes should redirect to the index.html
   app.route '/*'
   .get (req, res) ->
-    indexFile = (if req.url.indexOf('/test') == 0 then '/test' else '') + '/index.html'
+    subContext = (switch true
+      when req.url.indexOf('/test') is 0
+        '/test'
+      when req.url.indexOf('/admin') is 0
+        '/admin'
+      else
+        ''
+    )
+    indexFile = subContext + '/index.html'
     # if there is no cookie token, return index.html immediately
     if not req.cookies.token?
       res.sendfile app.get('appPath') + indexFile

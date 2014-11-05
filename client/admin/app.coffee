@@ -13,8 +13,9 @@ angular.module 'mauidmin', [
 .constant 'configs',
   baseUrl: ''
 
-.config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
+.config ($stateProvider, $urlRouterProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
+  $httpProvider.interceptors.push 'errorInterceptor'
   $httpProvider.interceptors.push 'authInterceptor'
   $httpProvider.interceptors.push 'urlInterceptor'
   $httpProvider.interceptors.push 'patchInterceptor'
@@ -40,6 +41,12 @@ angular.module 'mauidmin', [
     if config.method is 'PATCH'
       config.method = 'PUT'
     config
+
+.factory 'errorInterceptor', ($rootScope, $q) ->
+  # notify errors
+  responseError: (response) ->
+    $rootScope.$broadcast 'network.error', response
+    $q.reject response
 
 .factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
   # Add authorization token to headers
@@ -102,3 +109,50 @@ angular.module 'mauidmin', [
     $location.url getRedirectUrl()
     $location.replace()
     true
+
+.run (
+  $modal
+  notify
+  $state
+  webview
+  indexUser
+  $location
+  $rootScope
+  loginRedirector
+) ->
+
+  $rootScope.webview = webview
+
+  #set the default configuration options for angular-notify
+  notify.config
+    startTop: 30
+    duration: 4000
+
+  checkInitState = (toState) ->
+    checkInitState = null
+    if !toState.authenticate
+      Auth.getCurrentUser().$promise?.then (me) ->
+        event.preventDefault()
+        $state.go(me.role+'.home')
+
+  # Redirect to login if route requires auth and you're not logged in
+  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
+    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !indexUser?
+    checkInitState?(toState)
+
+  # fix bug, the view does not scroll to top when changing view.
+  $rootScope.$on '$stateChangeSuccess', ->
+    $("html, body").animate({ scrollTop: 0 }, 100)
+
+  setupUser = (user, goHome = false) ->
+    Msg.init()
+    socketHandler.init(user)
+    if !loginRedirector.apply()
+      $state.go(user.role+'.home')  if goHome
+
+  # setup data & config for logged user
+  $rootScope.$on 'loginSuccess', (event, user) ->
+    setupUser(user, true)
+
+  # Reload Auth
+  Auth.getCurrentUser().$promise?.then setupUser

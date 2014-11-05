@@ -1,5 +1,50 @@
 <div class="main">
-  <p>
-    {{message}}
-  </p>
+  <div class="container">
+    <div class="panel panel-info course-panel">
+      <div class="panel-heading">
+        课程
+      </div>
+      <div class="panel-body">
+        <ul class="media-list">
+          <li class="media" ng-repeat="course in courses">
+            <a class="media-left" href="#">
+              <img holder-src="" ng-src="{{course.thumbnail}}">
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading">{{course.title}}</h4>
+              <p>{{course.info}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+   <div class="panel panel-info">
+      <div class="panel-heading">
+        课程
+      </div>
+      <div class="panel-body">
+
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        课程
+      </div>
+      <div class="panel-body">
+
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        课程
+      </div>
+      <div class="panel-body">
+
+      </div>
+    </div>
+
+  </div>
 </div>

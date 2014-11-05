@@ -16,6 +16,28 @@
           <a class="text-center" ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
         </li>
       </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li>
+          <div class="btn-group" dropdown>
+            <button type="button" class="btn btn-default dropdown-toggle">
+              errors({{errors.length}}) <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" style="right:0;left:auto;min-width:600px" role="menu">
+              <li ng-show="errors.length">
+                <a ng-click="clearErrors()" href="">
+                  remove all
+                </a>
+              </li>
+              <li class="error clearfix alert alert-warning" ng-repeat="error in errors">
+                <button type="button" class="close" ng-click="removeError(error)"><i class="fa fa-times"></i></button>
+                <div class="pull-left">{{error.status}}</div>
+                <div class="pull-left">{{error.statusText}}</div>
+                <div class="pull-left">{{error.data}}</div>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

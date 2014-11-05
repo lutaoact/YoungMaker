@@ -231,10 +231,10 @@ gulp.task 'usemin', ->
   ]
 
 gulp.task 'ngtemplates', ->
-  doNgTemplates = (appPath, indexPath, moudleName) ->
+  doNgTemplates = (appPath, indexPath, moduleName) ->
     gulp.src "client/{#{appPath},components}/**/*.html"
     .pipe $.angularTemplatecache(
-        module: moudleName
+        module: moduleName
       )
     .pipe gulp.dest('.tmp/' + indexPath)
 

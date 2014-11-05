@@ -1,6 +1,8 @@
+BaseUtils = require '../../common/BaseUtils'
+
 Notice = _u.getModel 'notice'
 
-class NoticeUtils
+class NoticeUtils extends BaseUtils
   addNotice: (userId, fromWhom, type, objectId) ->
     data =
       userId: userId
@@ -44,4 +46,5 @@ class NoticeUtils
 
     Notice.createQ datas
 
-exports.NoticeUtils = NoticeUtils
+exports.Instance = new NoticeUtils()
+exports.Class = NoticeUtils

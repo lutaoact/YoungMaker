@@ -87,7 +87,6 @@ gulp.task 'injector:scripts', ->
       "{.tmp,client}/{#{appPath},components}/**/*.js"
       "!{.tmp,client}/{#{appPath},components}/{app,components,mock}.js"
       "!{.tmp,client}/{#{appPath},components}/**/*.spec.js"
-      "!{.tmp,client}/{#{appPath},components}/templates.js"
       ]
     , {read: false}).pipe $.order()
 
@@ -231,7 +230,10 @@ gulp.task 'usemin', ->
 
 gulp.task 'ngtemplates', ->
   doNgTemplates = (appPath, indexPath, moduleName) ->
-    gulp.src "client/{#{appPath},components}/**/*.html"
+    gulp.src [
+      "client/{#{appPath},components}/**/*.html"
+      "!client/#{appPath}/index.html"
+    ]
     .pipe $.angularTemplatecache(
         module: moduleName
       )

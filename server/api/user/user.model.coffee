@@ -6,48 +6,47 @@ ObjectId = Schema.ObjectId
 crypto = require 'crypto'
 authTypes = ['google']
 BaseModel = require '../../common/BaseModel'
-Subscription = _u.getModel 'subscription'
 
 class User extends BaseModel
-  schema : new Schema
-    avatar :
-      type : String
-    username :
-      type : String
+  schema: new Schema
+    email:#用于登录
+      type: String
+      lowercase: true
       unique: true
       required: true
-    email :
-      type : String
-      lowercase : true
-      unique: true
-      sparse: true
-    info :
-      type : String
-    name :
-      type : String
-    hashedPassword :
-      type : String
-    provider :
-      type : String
-    role :
-      type : String
-      default : 'student'
-    salt :
-      type : String
-    resetPasswordToken :
+    hashedPassword:
       type: String
-    resetPasswordExpires :
+    salt:
+      type: String
+    avatar:
+      type: String
+    info:
+      type: String
+    name:#真实姓名
+      type: String
+    provider:
+      type: String
+    role:
+      type: String
+      default: 'student'
+    weibo:
+      id: String
+      name: String
+      token: String
+    qq:
+      id: String
+      name: String
+      token: String
+    resetPasswordToken:
+      type: String
+    resetPasswordExpires:
       type: Date
-    subscriptions : [
-      type : ObjectId
-      ref : 'subscription'
-    ]
 
-  constructor : ->
+  constructor: ->
     @setupUserSchema @schema
     super
 
-  setupUserSchema : (UserSchema) ->
+  setupUserSchema: (UserSchema) ->
     UserSchema
     .virtual 'password'
     .set (password) ->
@@ -67,7 +66,6 @@ class User extends BaseModel
       'info': this.info
       'email': this.email
       'avatar': this.avatar
-      'username': this.username
 
     # Non-sensitive info we will be putting in the token
     UserSchema
@@ -102,19 +100,6 @@ class User extends BaseModel
         notTaken = !user or user.id == self.id
         respond notTaken
     , '该邮箱地址已经被占用，请选择其他邮箱'
-
-    # Validate username is not taken
-    UserSchema
-    .path 'username'
-    .validate (value, respond) ->
-      self = this
-      this.constructor.findOne
-        username: value
-      , (err, user) ->
-        throw err if err
-        notTaken = !user or user.id == self.id
-        respond notTaken
-    , '该用户名已经被占用，请选择其他用户名'
 
     validatePresenceOf = (value) ->
       value && value.length

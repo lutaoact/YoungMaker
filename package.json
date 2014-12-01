@@ -56,10 +56,11 @@
     "randomstring": "^1.0.3",
     "redis": "^0.12.1",
     "redislock": "^1.0.1",
-    "request": "^2.44.0",
+    "request": "^2.49.0",
     "sockjs": "^0.3.9",
     "stack-trace": "^0.0.9",
     "static-favicon": "~1.0.1",
+    "tough-cookie": "^0.12.1",
     "underscore.string": "^2.3.3"
   },
   "devDependencies": {

@@ -4,6 +4,8 @@
 # ==================================
 module.exports =
   # MongoDB connection options
+  nbUrl: 'http://localhost:4567'
+
   mongo:
     uri: 'mongodb://localhost/maui-dev'
 

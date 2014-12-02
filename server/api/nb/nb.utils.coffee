@@ -24,7 +24,7 @@ class NbUtils extends BaseUtils
 #      console.log body
 #      <input type="hidden" name="_csrf" value="D9IFTOX7-e-31jEMD" />
       regexp = /<input type="hidden" name="_csrf" value="(.*?)" .>/
-      csrftoken = regexp.exec(body)[1]
+      csrftoken = regexp.exec(body)[1]#正则表达式匹配出csrftoken
 #      console.log csrftoken
       postBody =
         _csrf: csrftoken

@@ -8,20 +8,26 @@ class Course extends BaseModel
     title:
       type: String
       required: true
-    info    : String
-    gradeSubject:
-      type: ObjectId
-      ref: 'grade_subject'
-    topic:
-      type: ObjectId
-      ref: 'topic'
-    lectures: [
-      type: ObjectId
-      ref: "lecture"
+    cover: [ Number ]#表示年龄段的区间吧，其实我也不清楚
+    videos: [
+      type: String
     ]
-    price:
+    content: String
+    commentsNum:
       type: Number
+      required: true
       default: 0
+    viewers: [
+      type: ObjectId
+      ref: 'user'
+    ]
+    likeUsers: [
+      type: ObjectId
+      ref: 'user'
+    ]
+    tags: [
+      type: String
+    ]
 
 exports.Class = Course
 exports.Instance = new Course()

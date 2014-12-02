@@ -29,11 +29,14 @@ class NbUtils extends BaseUtils
       postBody =
         _csrf: csrftoken
         email: email
-        username: email
+        #如果不去掉@，无法通过NB的校验，最重要的是，他妈的不报错
+        username: email.replace(/@/, '')
         password: password
         'password-confirm': password
 
-      request.post(url, {body: postBody, json: true}, cb)
+      request.post(url, {body: postBody, json: true}, (err, res) ->
+        cb err, res
+      )
     )
 
   registerQ: (email, password) ->

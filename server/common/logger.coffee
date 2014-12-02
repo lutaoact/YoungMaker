@@ -33,7 +33,7 @@ log4js.configure
     filename    : '/data/log/maui.data.log'
     layout      :
       type      : 'pattern'
-      pattern   : "%m"
+      pattern   : "%d{ISO8601}\t%m"
     category    : 'DATA'
   ]
 

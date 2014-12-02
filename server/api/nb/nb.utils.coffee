@@ -35,7 +35,11 @@ class NbUtils extends BaseUtils
         'password-confirm': password
 
       request.post(url, {body: postBody, json: true}, (err, res) ->
-        cb err, res
+        if err
+          return cb err
+
+        LogUtils.write 'register', postBody
+        do cb
       )
     )
 

@@ -48,7 +48,6 @@ module.exports = (app) ->
 #  app.use '/api/notices', require './api/notice'
 #  app.use '/api/offline_works', require './api/offline_work'
   app.use '/auth', require './auth'
-  app.use '/api/register', require './api/register'
 #  app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
 #  app.use '/api/user_lecture_notes', require './api/user_lecture_note'
   app.use errorHandler

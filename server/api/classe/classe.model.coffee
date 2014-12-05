@@ -37,4 +37,4 @@ class Classe extends BaseModel
       , []
 
 exports.Class = Classe
-exports.Instance = nwe Classe()
+exports.Instance = new Classe()

@@ -10,9 +10,11 @@ config = require './config/environment'
 
 errorHandler = (err, req, res, next) ->
   logger.error err
-  util = require 'util'
-  err = err.message if util.isError(err)
-  res.json err.status || 500, err
+  result =
+    name: err?.name
+    message: err?.message
+    errors: err?.errors
+  res.json err.status || 500, result
 
 module.exports = (app) ->
 

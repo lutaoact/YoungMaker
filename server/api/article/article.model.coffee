@@ -22,7 +22,7 @@ class Article extends BaseModel
       type: Number
       required: true
       default: 0
-    viewers:
+    viewersNum:
       type: Number
       required: true
       default: 0

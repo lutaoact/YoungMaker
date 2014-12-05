@@ -24,8 +24,6 @@ class User extends BaseModel
       type: String
     name:#真实姓名
       type: String
-    provider:
-      type: String
     weibo:
       id: String
       name: String
@@ -109,7 +107,7 @@ class User extends BaseModel
     .pre 'save', (next) ->
       if not this.isNew
         next()
-      if not validatePresenceOf(this.hashedPassword) and authTypes.indexOf(this.provider) is -1
+      if not validatePresenceOf(this.hashedPassword)
         next new Error 'Invalid password'
       else
         next()

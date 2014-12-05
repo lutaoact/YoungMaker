@@ -16,6 +16,12 @@ angular.module('mauiApp')
     templateUrl: 'app/account/login/login.html'
     controller: 'LoginCtrl'
 
+  .state 'forgot',
+    url: '/forgot'
+    templateUrl: 'app/account/forgot/forgot.html'
+    controller: 'ForgotCtrl'
+    navClasses: 'home-nav'
+
   .state 'signup',
     url: '/signup'
     templateUrl: 'app/account/signup/signup.html'

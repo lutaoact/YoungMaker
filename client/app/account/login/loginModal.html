@@ -1,0 +1,69 @@
+<div>
+  <!--<div class="modal-header">-->
+    <!--<h4 class="modal-title">-->
+      <!--title-->
+      <!--<a class="close" ng-click="cancel()">&times;</a>-->
+    <!--</h4>-->
+  <!--</div>-->
+  <div class="text-center modal-body login-modal">
+    无需注册，直接使用社交账号登录
+    <hr>
+
+    <form name="form" ng-submit="login(form)">
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control"
+                 type="text"
+                 placeholder="邮箱"
+                 ng-model="user.email"
+                 name="username"
+                 required>
+          <div class="input-group-addon">
+            <i class="budon budon-user"></i>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control"
+                 type="password"
+                 placeholder="密码"
+                 name="password"
+                 ng-model="user.password"
+                 required>
+          <div class="input-group-addon">
+            <i class="budon budon-lock"></i>
+          </div>
+        </div>
+      </div>
+      <!--<div class="form-group">-->
+        <div class="text-left">
+          <a href="" ui-sref="forgot" class="login-forget">忘记密码&nbsp;<i class="fa fa-question-circle"></i></a>
+          <button class="btn btn-danger pull-right rounded"
+                  ng-disabled="loggingIn"
+                  type="submit">
+            <span ng-if="!loggingIn">
+              登录
+            </span>
+            <span ng-if="loggingIn" >
+              <i class="fa fa-spinner fa-spin"></i>
+              登录中
+            </span>
+          </button>
+        <!--</div>-->
+      <!--<div class="lines clearfix">-->
+        <!--<div class="col-xs-12">-->
+          <!--<div class="left-line"></div>-->
+        <!--</div>-->
+      <!--</div>-->
+    </div>
+    </form>
+
+    <hr>
+
+    <div class="pull-left">
+    没有账号？<button class="btn btn-xs btn-warning rounded register-btn" ui-sref="signup">注册</button>
+    </div>
+
+  </div>
+</div>

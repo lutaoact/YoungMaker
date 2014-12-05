@@ -1,0 +1,79 @@
+<div class="forgot ">
+  <div class="container">
+    <div class="row">
+      <div class="header text-center">
+        <h3>通过注册/登录邮箱找回密码</h3>
+      </div>
+      <div class="content col-md-offset-2 col-md-8" ng-show="viewState.sended">
+        电子邮件已发送到
+        <span class="text-primary">{{email}}</span>
+        <p>
+          请按照您在以上电子邮件地址中收到的相关说明进行操作。
+        </p>
+
+        <button type="button"
+                ng-disabled="timeout > 0"
+                ng-click="sendVerifyEmail(form)"
+                class="btn btn-danger rounded">
+            <span ng-if="viewState.sending">
+              <i class="fa fa-spin fa-spinner"></i>
+              正在发送
+            </span>
+            <span ng-show="!viewState.sending">
+              重发验证邮件
+            </span>
+        </button>
+
+        <small class="text-muted"
+               ng-show="timeout > 0">
+          {{timeout}}秒后重发
+        </small>
+
+        <p class="info">
+          <span class="text-primary">
+            没有收到“找回密码”的电子邮件？
+          </span>
+          <br/>
+          <span class="text-muted">
+            请查看您的垃圾邮件中是否有来自 noreply@cloud3edu.com的
+            电子邮件。如果您仍未看到该电子邮件，请尝试使用其他方法登
+            录帐户。
+          </span>
+        </p>
+
+      </div>
+      <form class="form content col-md-offset-2 col-md-8"
+            ng-submit="sendVerifyEmail(form)"
+            ng-show="!viewState.sended"
+            name="form">
+        <div class="form-group">
+          <label>邮箱地址</label>
+          <p class="text-muted">
+            要找回登录密码，请输入您注册/登录<span class="text-success">云立方</span>时的邮箱地址
+          </p>
+          <input type="email"
+                 id="email-input"
+                 class="form-control"
+                 placeholder="请输入您的注册/登录邮箱地址"
+                 ng-model="email"
+                 required/>
+          <span class="text-danger" ng-if="viewState.errors">{{viewState.errors.data}}</span>
+        </div>
+        <div class="form-group content-footer">
+          <a ui-sref="main">返回</a>
+          <button type="submit" class="btn btn-danger rounded pull-right">
+            <span ng-if="viewState.sending">
+              <i class="fa fa-spin fa-spinner"></i>
+              正在发送
+            </span>
+            <span ng-show="!viewState.sending">
+              发送验证邮件
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>

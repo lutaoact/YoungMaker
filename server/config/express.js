@@ -31,15 +31,15 @@ module.exports = function(app) {
 
   if ('production' === env || 'online_test' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
+    app.use(express.static(path.join(config.root, 'public'), {index: 'index'}));
     app.set('appPath', config.root + '/public');
     app.use(morgan('dev'));
   }
 
   if ('development' === env || 'test' === env) {
     app.use(require('connect-livereload')());
-    app.use(express.static(path.join(config.root, '.tmp')));
-    app.use(express.static(path.join(config.root, 'client')));
+    app.use(express.static(path.join(config.root, '.tmp'), {index: 'index'}));
+    app.use(express.static(path.join(config.root, 'client'), {index: 'index'}));
     app.set('appPath', 'client');
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last

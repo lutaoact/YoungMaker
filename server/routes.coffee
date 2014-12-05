@@ -3,8 +3,6 @@
 'use strict'
 
 errors = require './components/errors'
-fs = require 'fs'
-byline = require 'byline'
 jwt = require 'jsonwebtoken'
 config = require './config/environment'
 ejs = require 'ejs'

@@ -1,5 +1,4 @@
-<div class="bud navbar navbar-default main-nav"
-     ng-class="[$state.current.navClasses, ($state.current.authenticate?'auth':'login')]"
+<div class="bud navbar navbar-default main-nav auth"
      ng-controller="NavbarCtrl">
 
   <div class="container">
@@ -54,17 +53,6 @@
          id="navbar-main">
 
       <ul class="bud nav navbar-nav navbar-right">
-        <li ng-if="getTitle()"
-            class="nav-title"
-            ng-class="{active: isActive(getTitle().link)}">
-          <a ui-sref="{{getTitle().link}}"
-             tooltip-placement="bottom"
-             tooltip="{{getTitle().name | minLength:10}}">{{getTitle().name}}</a>
-        </li>
-        <li ng-repeat="item in additionalMenu"
-            ng-class="{active: isActive(item.link)}">
-          <a class="text-center" ui-sref="{{item.link}}" ng-bind-html="item.title"></a>
-        </li>
         <li ng-show="isLoggedIn()"
             dropdown>
           <a style="margin-right:20px;"

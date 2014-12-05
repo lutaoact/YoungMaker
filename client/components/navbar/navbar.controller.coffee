@@ -2,26 +2,14 @@
 
 angular.module 'maui.components'
 
-.factory 'Navbar', ->
-  title = null
-  getTitle: -> title
-  setTitle: (name, link) ->
-    title =
-      name: name
-      link: link
-  resetTitle: ->
-    title = null
-
 .controller 'NavbarCtrl', (
   Msg
   Auth
   $scope
   $state
-  Navbar
   socket
   $rootScope
   Restangular
-  $localStorage
 ) ->
 
   angular.extend $scope,
@@ -30,8 +18,6 @@ angular.module 'maui.components'
     viewState:
       isCollapsed: true
     messages: Msg.messages
-    getTitle: Navbar.getTitle
-    getVisible: Navbar.getVisible
     isLoggedIn: Auth.isLoggedIn
     getCurrentUser: Auth.getCurrentUser
 
@@ -61,15 +47,6 @@ angular.module 'maui.components'
       Restangular.all('notices/read').post ids:[noticeId]
       .then ()->
         $scope.messages.splice $scope.messages.indexOf(message), 1
-
-  generateAdditionalMenu = ->
-    mkMenu = (title, link) ->
-      title: title
-      link: link
-    $scope.additionalMenu = []
-
-  generateAdditionalMenu()
-  $scope.$on '$stateChangeSuccess', generateAdditionalMenu
 
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->

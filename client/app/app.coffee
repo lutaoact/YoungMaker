@@ -185,7 +185,7 @@ angular.module 'mauiApp', [
     Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply()
-      $state.go('main')  if goHome
+      $state.go('settings.profile')  if goHome
 
   # setup data & config for logged user
   $rootScope.$on 'loginSuccess', (event, user) ->

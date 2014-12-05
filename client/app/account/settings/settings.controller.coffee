@@ -16,11 +16,6 @@ angular.module('mauiApp').controller 'SettingsCtrl', (
         title: '基本信息'
         link: 'settings/profile'
       }
-#     暂时不用
-#      {
-#        title: '支付信息'
-#        link: 'settings/billing'
-#      }
     ]
 
     isActive: (route) ->

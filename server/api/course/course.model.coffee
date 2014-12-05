@@ -17,10 +17,10 @@ class Course extends BaseModel
       type: Number
       required: true
       default: 0
-    viewers: [
-      type: ObjectId
-      ref: 'user'
-    ]
+    viewersNum:
+      type: Number
+      required: true
+      default: 0
     likeUsers: [
       type: ObjectId
       ref: 'user'

@@ -7,6 +7,7 @@ fs = require 'fs'
 byline = require 'byline'
 jwt = require 'jsonwebtoken'
 config = require './config/environment'
+ejs = require 'ejs'
 
 errorHandler = (err, req, res, next) ->
   logger.error err
@@ -72,34 +73,31 @@ module.exports = (app) ->
         else
           ''
     indexFile = subContext + '/index.html'
-    console.log 'token....', req.cookies.token
+    indexPath = app.get('appPath') + indexFile
+    locals =
+      webview: "#{req.query.webview?}"
+      initUser: "null"
+      initNotify: "#{req.query.message}"
+
     # if there is no cookie token, return index.html immediately
     if not req.cookies.token?
-      res.sendfile app.get('appPath') + indexFile
+      ejs.renderFile indexPath, locals, (err, htmlStr) ->
+        if err then return res.render 404
+
+        res.send htmlStr
     else
-      # remove double quote
-      token = req.cookies.token.replace /"/g, ''
       logger.info 'refreshing, req.cookies:'
       logger.info req.cookies
+      # remove double quote
+      token = req.cookies.token.replace /"/g, ''
       jwt.verify token, config.secrets.session, null, (err, user) ->
         logger.info "after verity token, we get user:"
         logger.info user
-        if err?
-          # console.log 'Cannot verify token'
-          # failed to verify token, return index.html
-          res.sendfile app.get('appPath') + indexFile
-        else
-          userInfo = """
-             ("indexUser" , {
-                 "_id": "#{user._id}",
-                 "role": "#{user.role}"
-             })
-          """
-          webviewInfo = """
-            ("webview", #{req.query.webview?})
-          """
-          fileString = (fs.readFileSync app.get('appPath') + indexFile).toString()
-          fileString = fileString
-            .replace "('indexUser', null)", userInfo
-            .replace "('webview', false)", webviewInfo
-          res.send fileString
+
+        unless err?
+          locals.initUser = JSON.stringify  _id: user._id
+
+        ejs.renderFile indexPath, locals, (err, htmlStr) ->
+          if err then return res.render 404
+
+          res.send htmlStr

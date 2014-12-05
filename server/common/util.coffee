@@ -76,3 +76,11 @@ exports.getModel = getModel
 exports.getUtils = getUtils
 exports.findIndex = findIndex
 exports.union = union
+
+ejs = require 'ejs'
+fs = require 'fs'
+render = (path, locals) ->
+  fileString = fs.readFileSync path, {encoding: 'utf-8'}
+  return ejs.render fileString, locals
+
+exports.render = render

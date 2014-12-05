@@ -68,7 +68,7 @@ angular.module('maui.components').factory 'Auth', (
   ###
   isLoggedIn: ->
     #To support pasted url navigation
-    currentUser.hasOwnProperty('role')
+    currentUser.hasOwnProperty('_id')
 
   ###
   Check if a user is an admin

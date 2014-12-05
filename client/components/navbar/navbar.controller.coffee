@@ -66,25 +66,7 @@ angular.module 'maui.components'
     mkMenu = (title, link) ->
       title: title
       link: link
-    $scope.additionalMenu =
-      if $state.params.courseId
-        switch $scope.getCurrentUser()?.role
-          when 'teacher'
-            [
-              mkMenu '题库', "teacher.questionLibrary({courseId:'#{$state.params.courseId}'})"
-              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
-              mkMenu '统计', "teacher.courseStats.all({courseId:'#{$state.params.courseId}'})"
-            ]
-          when 'student'
-            [
-              mkMenu '统计', "student.courseStats({courseId:'#{$state.params.courseId}'})"
-              mkMenu '讨论', "forum.course({courseId:'#{$state.params.courseId}'})"
-            ]
-          when 'admin'
-            [
-            ]
-          else []
-      else []
+    $scope.additionalMenu = []
 
   generateAdditionalMenu()
   $scope.$on '$stateChangeSuccess', generateAdditionalMenu

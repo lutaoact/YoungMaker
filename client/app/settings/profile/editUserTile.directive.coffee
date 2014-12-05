@@ -91,12 +91,7 @@ angular.module('mauiApp')
     if !user? then return
     $scope.user = user
     $scope.editingInfo = _.pick user, editableFields
-    $scope.roleTitle =
-      switch user.role
-        when 'student' then '学生'
-        when 'teacher' then '教师'
-        when 'admin'   then '管理员'
-        else throw 'unknown user.role ' + user.role
+    $scope.roleTitle = '用户'
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

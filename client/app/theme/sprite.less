@@ -1,0 +1,22 @@
+@sprite-size: 100px 510px;
+[class^="sprite-"]{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  background: url('/assets/images/sprites@1x.png');
+  background-repeat: no-repeat;
+  background-size: @sprite-size;
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (min--moz-device-pixel-ratio: 1.5),
+  only screen and (min-resolution: 240dpi){
+    background: url('/assets/images/sprites@2x.png');
+    background-size: @sprite-size;
+  }
+}
+
+.sprite-logo-big{ background-position: 0 0; width: 100px; height: 106px; }
+.sprite-nav-course{ background-position: 0 -156px; width: 80px; height: 51px; }
+.sprite-nav-find{ background-position: 0 -257px; width: 80px; height: 51px; }
+.sprite-nav-market{ background-position: 0 -358px; width: 81px; height: 51px; }
+.sprite-nav-topic{ background-position: 0 -459px; width: 80px; height: 51px; }

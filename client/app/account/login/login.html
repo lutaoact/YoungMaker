@@ -7,20 +7,20 @@
         <button class="btn btn-default"
                 tooltip="CMD+Click 自动登录 {{user.name}} 用户"
                 ng-click="setLoginUser($event, form, user)">
-          {{user.name}}： <code>{{user.username}}</code> / <code>{{user.password}}</code>
+          {{user.name}}： <code>{{user.email}}</code> / <code>{{user.password}}</code>
         </button>
       </p>
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="login(form)" novalidate>
         <div class="form-group">
-          <label>用户名</label>
+          <label>邮箱</label>
           <input type="text"
                  name="username"
                  focus-me="loginInputFocus"
                  ng-init="loginInputFocus=true"
                  class="form-control"
-                 ng-model="user.username">
+                 ng-model="user.email">
         </div>
         <div class="form-group">
           <label>密码</label>

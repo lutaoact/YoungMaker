@@ -3,8 +3,6 @@
 'use strict'
 
 errors = require './components/errors'
-fs = require 'fs'
-byline = require 'byline'
 jwt = require 'jsonwebtoken'
 config = require './config/environment'
 ejs = require 'ejs'
@@ -21,6 +19,7 @@ module.exports = (app) ->
 
   # Insert routes below
   app.use '/api/users', require './api/user'
+  app.use '/api/articles', require './api/article'
   app.use '/api/courses', require './api/course'
   app.use '/api/grade_subjects', require './api/grade_subject'
 #  app.use '/api/categories', require './api/category'
@@ -48,7 +47,6 @@ module.exports = (app) ->
 #  app.use '/api/notices', require './api/notice'
 #  app.use '/api/offline_works', require './api/offline_work'
   app.use '/auth', require './auth'
-  app.use '/api/register', require './api/register'
 #  app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
 #  app.use '/api/user_lecture_notes', require './api/user_lecture_note'
   app.use errorHandler

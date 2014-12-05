@@ -24,8 +24,6 @@
 
 // @font-size-base: 14*0.75pt;
 
-@pt2px:   1;
-
 @link-color: @base-color-dark;
 @link-hover-color:      @base-color-darker;
 @brand-primary:         @base-color;
@@ -36,25 +34,8 @@
 
 @input-border-focus:    @base-color-dark;
 
-@border-radius-base:          0;
-@border-radius-large:         0;
-@border-radius-small:         0;
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial,"Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 
-
-//== Media queries breakpoints
-//
-//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
-
-// Large screen / wide desktop
-// Note: Deprecated @screen-lg and @screen-lg-desktop as of v3.0.1
-@screen-lg:                  992px;
-
-//** Padding between columns. Gets divided in half for the left and right.
-@grid-gutter-width:         30px;
-
-
-// Large screen / wide desktop
-@container-large-desktop:      ((940px + @grid-gutter-width));
-
-// Large modal width
-@modal-lg: 950px;

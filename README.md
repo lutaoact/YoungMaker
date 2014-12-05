@@ -53,6 +53,9 @@ Install Coffee/Less
 [Editor Config for Sublime](https://github.com/sindresorhus/editorconfig-sublime)  
 [Coffee Syntax for Sublime](https://github.com/jashkenas/coffee-script-tmbundle)  
 HTML/CSS Coding Style: follow [Github Coding Sytle](https://github.com/styleguide/css)  
-JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/node-style-guide)
-
+JS/Coffee Coding Sytle: follow [node-style-guide](https://github.com/felixge/node-style-guide)  
+Make sprites  
+go to this website: http://cn.spritegen.website-performance.org/  
+- Normal Desktop: upload the zip of 1x, do not change any configs, generate. Then copy the css. change the @sprite-size to the result png's size.  
+- For retina: upload the zip of 2x, change `水平偏移` and `垂直偏移` to 100, generate.  
 

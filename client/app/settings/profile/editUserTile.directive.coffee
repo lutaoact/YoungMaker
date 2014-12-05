@@ -6,7 +6,7 @@ angular.module('mauiApp')
   restrict: 'EA'
   replace: true
   controller: 'EditUserTileCtrl'
-  templateUrl: 'app/account/profile/editUserTile.html'
+  templateUrl: 'app/settings/profile/editUserTile.html'
   scope:
     user: '='
     canDelete: '@' # 能否删除这个用户 - 管理员需要
@@ -91,12 +91,7 @@ angular.module('mauiApp')
     if !user? then return
     $scope.user = user
     $scope.editingInfo = _.pick user, editableFields
-    $scope.roleTitle =
-      switch user.role
-        when 'student' then '学生'
-        when 'teacher' then '教师'
-        when 'admin'   then '管理员'
-        else throw 'unknown user.role ' + user.role
+    $scope.roleTitle = '用户'
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

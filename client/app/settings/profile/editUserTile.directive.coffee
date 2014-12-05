@@ -6,7 +6,7 @@ angular.module('mauiApp')
   restrict: 'EA'
   replace: true
   controller: 'EditUserTileCtrl'
-  templateUrl: 'app/account/profile/editUserTile.html'
+  templateUrl: 'app/settings/profile/editUserTile.html'
   scope:
     user: '='
     canDelete: '@' # 能否删除这个用户 - 管理员需要

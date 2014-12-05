@@ -4,10 +4,7 @@ angular.module('mauiApp')
 
 .config (
   $stateProvider
-  $urlRouterProvider
 ) ->
-
-  $urlRouterProvider.when('/settings','/settings/profile')
 
   $stateProvider
 
@@ -21,15 +18,3 @@ angular.module('mauiApp')
     templateUrl: 'app/account/signup/signup.html'
     controller: 'SignupCtrl'
 
-  .state 'settings',
-    abstract: true
-    url: '/settings'
-    templateUrl: 'app/account/settings/settings.html'
-    controller: 'SettingsCtrl'
-    authenticate:true
-
-  .state 'settings.profile',
-    url: '/profile',
-    templateUrl: 'app/account/profile/profile.html'
-    controller: 'ProfileCtrl'
-    authenticate:true

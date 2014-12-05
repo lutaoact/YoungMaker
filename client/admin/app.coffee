@@ -116,7 +116,7 @@ angular.module 'mauidmin', [
   notify
   $state
   webview
-  indexUser
+  initUser
   $location
   $rootScope
   loginRedirector
@@ -139,7 +139,7 @@ angular.module 'mauidmin', [
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !indexUser?
+    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !initUser?
     checkInitState?(toState)
 
   # fix bug, the view does not scroll to top when changing view.

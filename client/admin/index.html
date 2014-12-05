@@ -130,8 +130,9 @@
 
   <script>
     angular.module('mauidmin')
-      .constant('indexUser', null)
-      .constant('webview', false)
+      .constant('webview', <%- webview %>)
+      .constant('initUser', <%- initUser %>)
+      .constant('initNotify', <%- initNotify %>)
   </script>
 
 </body>

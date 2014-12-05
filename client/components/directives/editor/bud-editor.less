@@ -1,0 +1,185 @@
+.bud-editor{
+  .bud-editor-tools{
+    width: 100%;
+    background: @gray-lighter;
+    padding: 6px;
+    .new-img{
+      background: transparent;
+      color: @gray;
+      border:none;
+      padding: 0;
+      margin-left: 6px;
+    }
+    .image-to-insert{
+      display: inline-block;
+      vertical-align: top;
+      max-width: 31%;
+      margin-left: 10px;
+      position: relative;
+      img{
+        max-width: 100%;
+        max-height: 107px;
+      }
+      &:hover{
+        .remove-image-icon{
+          opacity: 1;
+          .scale(1.5,1.5);
+        }
+      }
+      .remove-image-icon{
+        .transition(all .2s ease-in-out);
+        cursor: pointer;
+        opacity: 0.3;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #FFFFFF;
+//        .text-shadow(0 0 2px @gray);
+      }
+    }
+  }
+}
+.bud-editor-input{
+  border-radius: 4px;
+}
+
+// text angular
+.bud{
+  /* add generic styling for the editor */
+  .ta-root.focussed > .ta-scroll-window.form-control {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+  .ta-toolbar{
+    background: @gray-lighter;
+    margin-left: 0;
+    .btn-group{
+      margin-left: 0;
+      border-right: 1px solid #ccc;
+      &:nth-last-child(1){
+        border-right: none;
+      }
+      > .btn{
+        border: none;
+        background: @gray-lighter;
+      }
+    }
+  }
+  .ta-editor.ta-html, .ta-scroll-window.form-control {
+    min-height: 300px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+  }
+  .ta-editor.ta-html{
+    display: none !important;
+  }
+
+  .ta-scroll-window.form-control {
+    position: relative;
+    padding: 0;
+  }
+
+  .ta-scroll-window > .ta-bind {
+    height: auto;
+    min-height: 300px;
+    padding: 6px 12px;
+    img{
+      max-width: 100%;
+      &.full{
+        width: 100%;
+      }
+      &.quarter{
+        width: 25%;
+      }
+      &.half{
+        width: 50%;
+      }
+      &.center{
+        display: block;
+        margin: auto;
+      }
+    }
+  }
+
+  .ta-editor:focus {
+    user-select: text;
+  }
+
+  /* add the styling for the awesomness of the resizer */
+  .ta-resizer-handle-overlay {
+    z-index: 100;
+    position: absolute;
+    display: none;
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-info {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    border: 1px solid black;
+    background-color: #FFF;
+    padding: 0 4px;
+    opacity: 0.7;
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-background {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    left: 5px;
+    top: 5px;
+    border: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-corner {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-corner-tl{
+    top: 0;
+    left: 0;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-corner-tr{
+    top: 0;
+    right: 0;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-corner-bl{
+    bottom: 0;
+    left: 0;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+
+  .ta-resizer-handle-overlay > .ta-resizer-handle-corner-br{
+    bottom: 0;
+    right: 0;
+    border: 1px solid black;
+    cursor: se-resize;
+    background-color: white;
+  }
+  #colorboard-btn{
+    .color-board{
+      width: 130px;
+      min-width: 100px;
+      padding: 9px;
+      .fa-square{
+        margin: 2px;
+        float: left;
+      }
+    }
+  }
+}

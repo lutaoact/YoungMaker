@@ -1,0 +1,41 @@
+<form class="login-form" name="form" ng-submit="login(form)">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control input-lg"
+      type="text"
+      placeholder="用户名"
+      ng-model="user.username"
+      name="username"
+      required>
+      <div class="input-group-addon">
+        <i class="budon budon-user"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control input-lg"
+      type="password"
+      placeholder="密码"
+      name="password"
+      ng-model="user.password"
+      required>
+      <div class="input-group-addon">
+        <i class="budon budon-lock"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-danger btn-lg rounded"
+            ng-disabled="loggingIn"
+            type="submit">
+      <span ng-if="!loggingIn">
+        登录
+      </span>
+      <span ng-if="loggingIn" >
+        <i class="fa fa-spinner fa-spin"></i>
+        登录中
+      </span>
+    </button>
+  </div>
+</form>

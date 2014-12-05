@@ -23,10 +23,10 @@
 
   <!-- build:js(client) test/vendor.js -->
   <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/json3/lib/json3.js"></script>
   <script src="bower_components/es5-shim/es5-shim.js"></script>
   <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -73,16 +73,37 @@
   <!-- injector:js -->
   <script src="components/auth/auth.service.js"></script>
   <script src="components/auth/user.service.js"></script>
-  <script src="components/category/category.service.js"></script>
-  <script src="components/charts/chartUtils.js"></script>
-  <script src="components/holder/holder.directive.js"></script>
-  <script src="components/loginForm/loginForm.directive.js"></script>
-  <script src="components/modal/messageModal.controller.js"></script>
-  <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+  <script src="components/configs/highcharts.lang.js"></script>
+  <script src="components/configs/textAngular.config.js"></script>
+  <script src="components/directives/clickOutside.directive.js"></script>
+  <script src="components/directives/compileHtml.directive.js"></script>
+  <script src="components/directives/editor/budEditor.js"></script>
+  <script src="components/directives/fixWhenReachTop.directive.js"></script>
+  <script src="components/directives/focus.directive.js"></script>
+  <script src="components/directives/holder.directive.js"></script>
+  <script src="components/directives/imageZoom/imageZoom.directive.js"></script>
+  <script src="components/directives/isVisible.directive.js"></script>
+  <script src="components/directives/loginForm/loginForm.directive.js"></script>
+  <script src="components/directives/mongoose-error.directive.js"></script>
+  <script src="components/directives/srcKey.directive.js"></script>
+  <script src="components/directives/uploader/fileUtils.js"></script>
+  <script src="components/directives/uploader/uploader.directive.js"></script>
+  <script src="components/filters/bytes.filter.js"></script>
+  <script src="components/filters/genColor.filter.js"></script>
+  <script src="components/filters/htmlToPlaintext.filter.js"></script>
+  <script src="components/filters/include.filter.js"></script>
+  <script src="components/filters/minLength.filter.js"></script>
+  <script src="components/filters/paging.filter.js"></script>
+  <script src="components/filters/readableTime.filter.js"></script>
+  <script src="components/filters/timeToTimeAgo.filter.js"></script>
+  <script src="components/filters/without.filter.js"></script>
+  <script src="components/modals/imageCrop/imageCropPopup.js"></script>
+  <script src="components/modals/message/messageModal.controller.js"></script>
   <script src="components/navbar/navbar.controller.js"></script>
-  <script src="components/socket/socket.service.js"></script>
-  <script src="components/utils/fileUtils.js"></script>
-  <script src="components/utils/string.js"></script>
+  <script src="components/services/category.service.js"></script>
+  <script src="components/services/chartUtils.js"></script>
+  <script src="components/services/message.service.js"></script>
+  <script src="components/services/socket.service.js"></script>
   <script src="test/main/test.controller.js"></script>
   <!-- endinjector -->
   <!-- endbuild -->

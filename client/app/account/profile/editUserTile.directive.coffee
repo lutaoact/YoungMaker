@@ -69,7 +69,7 @@ angular.module('mauiApp')
 
     removeUser: (user) ->
       $modal.open
-        templateUrl: 'components/modal/messageModal.html'
+        templateUrl: 'components/modals/message/messageModal.html'
         controller: 'MessageModalCtrl'
         size: 'sm'
         resolve:

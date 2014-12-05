@@ -33,6 +33,9 @@ class Article extends BaseModel
     tags: [
       type: String
     ]
+    deleteFlag:
+      type: Boolean
+      default: false
 
 exports.Class = Article
 exports.Instance = new Article()

@@ -2,13 +2,6 @@ AssetUtils = _u.getUtils 'asset'
 config = require '../../config/environment'
 redisClient = require '../../common/redisClient'
 
-uploadSlideHost       = config.assetsConfig[config.assetHost.uploadSlideType].serviceName
-uploadImageHost       = config.assetsConfig[config.assetHost.uploadImageType].serviceName
-uploadVideoHost       = config.assetsConfig[config.assetHost.uploadVideoType].serviceName
-uploadSlideType       = config.assetHost.uploadSlideType
-uploadImageType       = config.assetHost.uploadImageType
-uploadVideoType       = config.assetHost.uploadVideoType
-
 retrieveAsset = (key, assetType, res) ->
 
   # check cache first
@@ -46,57 +39,35 @@ uploadAsset = (assetType, fileName) ->
 ###
   redirect api/assets/images/key to asset host URL
 ###
-exports.getImages = (req, res, next) ->
-  key = decodeURI(req.url.replace(/(\/|)images\/\d+\//, ''))
-  assetType = req.params.assetType
 
-  retrieveAsset key, assetType
-  .then (downloadUrl)->
-    res.redirect downloadUrl
-  .catch next
-  .done()
+makeGetFunc = (type) ->
+  return (req, res, next) ->
+    logger.info "req.url: #{req.url}"
+    regex = new RegExp('/' + type + 's/\\d+/')
+    key = decodeURI(req.url.replace(regex, ''))
+    assetType = req.params.assetType
 
-exports.getVideos = (req, res, next) ->
-  key = decodeURI(req.url.replace(/(\/|)videos\/\d+\//, ''))
-  assetType = req.params.assetType
+    retrieveAsset key, assetType
+    .then (downloadUrl)->
+      res.redirect downloadUrl
+    .catch next
+    .done()
 
-  retrieveAsset key, assetType
-  .then (downloadUrl)->
-    res.redirect downloadUrl
-  .catch next
-  .done()
+makeUploadFunc = (type) ->
+  ucfirst = _s.capitalize type
+  return (req, res, next) ->
+    uploadType = config.assetHost["upload#{ucfirst}Type"]
 
-exports.getSlides = (req, res, next) ->
-  key = decodeURI(req.url.replace(/(\/|)slides\/\d+\//, ''))
-  assetType = req.params.assetType
+    uploadAsset uploadType, req.query.fileName
+    .then (data)->
+      data.prefix = "/api/assets/#{type}s/#{uploadType}/"
+      res.send data
+    .catch next
+    .done()
 
-  retrieveAsset key, assetType
-  .then (downloadUrl)->
-    res.redirect downloadUrl
-  .catch next
-  .done()
-
-
-exports.uploadImage = (req, res, next) ->
-  uploadAsset uploadImageType, req.query.fileName
-  .then (data)->
-    data.prefix = "/api/assets/images/#{uploadImageType}/"
-    res.send data
-  .catch next
-  .done()
-
-exports.uploadVideo = (req, res, next) ->
-  uploadAsset uploadVideoType, req.query.fileName
-  .then (data)->
-    data.prefix = "/api/assets/videos/#{uploadVideoType}/"
-    res.send data
-  .catch next
-  .done()
-
-exports.uploadSlide = (req, res, next) ->
-  uploadAsset uploadSlideType, req.query.fileName
-  .then (data)->
-    data.prefix = "/api/assets/slides/#{uploadSlideType}/"
-    res.send data
-  .catch next
-  .done()
+exports.getImages = makeGetFunc 'image'
+exports.getVideos = makeGetFunc 'video'
+exports.getSlides = makeGetFunc 'slide'
+exports.uploadImage = makeUploadFunc 'image'
+exports.uploadVideo = makeUploadFunc 'video'
+exports.uploadSlide = makeUploadFunc 'slide'

@@ -40,11 +40,13 @@ exports.index = (req, res, next) ->
 ###
 exports.create = (req, res, next) ->
   body = req.body
-  body.provider = 'local'
 
-  delete body._id
+  data =
+    email   : body.email
+    password: body.password
+    name    : body.name
 
-  User.createQ body
+  User.createQ data
   .then (user) ->
     token = jwt.sign
       _id: user._id,

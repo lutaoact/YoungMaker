@@ -26,9 +26,6 @@ class User extends BaseModel
       type: String
     provider:
       type: String
-    role:
-      type: String
-      default: 'student'
     weibo:
       id: String
       name: String
@@ -37,6 +34,12 @@ class User extends BaseModel
       id: String
       name: String
       token: String
+    canManage:
+      type: Boolean
+      default: false
+    canPub:
+      type: Boolean
+      default: false
     resetPasswordToken:
       type: String
     resetPasswordExpires:
@@ -62,7 +65,6 @@ class User extends BaseModel
     .get () ->
       '_id': this._id
       'name': this.name
-      'role': this.role
       'info': this.info
       'email': this.email
       'avatar': this.avatar
@@ -72,7 +74,6 @@ class User extends BaseModel
     .virtual 'token'
     .get () ->
       '_id': this._id
-      'role': this.role
 
     # Validate empty email
     UserSchema

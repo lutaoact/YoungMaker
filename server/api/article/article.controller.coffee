@@ -58,3 +58,9 @@ exports.update = (req, res, next) ->
   .done()
 
 exports.destroy = (req, res, next) ->
+  articleId = req.params.id
+  Article.updateQ {_id: articleId}, {deleteFlag: true}
+  .then () ->
+    res.send 204
+  .catch next
+  .done()

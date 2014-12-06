@@ -37,5 +37,24 @@ exports.create = (req, res, next) ->
   .done()
 
 exports.update = (req, res, next) ->
+  articleId = req.params.id
+  user = req.user
+  body = req.body
+  #以下字段不允许外部更新，会有相应的内部处理逻辑
+  delete body._id
+  delete body.author
+  delete body.commentsNum
+  delete body.viewersNum
+  delete body.likeUsers
+  delete body.deleteFlag
+
+  Article.getByIdAndAuthor articleId, user._id
+  .then (article) ->
+    updated = _.extend article, body
+    do updated.saveQ
+  .then (result) ->
+    res.send result[0]
+  .catch next
+  .done()
 
 exports.destroy = (req, res, next) ->

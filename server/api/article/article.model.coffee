@@ -40,5 +40,8 @@ class Article extends BaseModel
   getAll: () ->
     return @findQ {deleteFlag: {$ne: true}}, '-deleteFlag'
 
+  getByIdAndAuthor: (id, authorId) ->
+    return @findOneQ {_id: id, author: authorId, deleteFlag: {$ne: true}}, '-deleteFlag'
+
 exports.Class = Article
 exports.Instance = new Article()

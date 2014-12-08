@@ -18,13 +18,13 @@ exports.create = (req, res, next) ->
   user = req.user
   body = req.body
   data =
-    content : data.content
+    content : body.content
     author  : user._id
-    type    : data.type
-    belongTo: data.belongTo
-    tags    : data.tags
+    type    : body.type
+    belongTo: body.belongTo
+    tags    : body.tags
 
-  Model = CommentUtils.getCommentRefByType data.type
+  Model = CommentUtils.getCommentRefByType body.type
   Q.all [
     Comment.createQ data
     Model.updateQ {_id: belongTo}, {$inc: {viewersNum: 1}}

@@ -38,7 +38,9 @@ class Article extends BaseModel
       default: false
 
   getAll: () ->
-    return @findQ {deleteFlag: {$ne: true}}, '-deleteFlag'
+    return @find {deleteFlag: {$ne: true}}, '-deleteFlag'
+    .populate 'author', 'name'
+    .execQ()
 
   getByIdAndAuthor: (id, authorId) ->
     return @findOneQ {_id: id, author: authorId, deleteFlag: {$ne: true}}, '-deleteFlag'

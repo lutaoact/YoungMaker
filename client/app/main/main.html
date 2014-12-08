@@ -67,7 +67,9 @@
           </div>
         </div>
 
-        <div class="block-pager"></div>
+        <div class="block-pager">
+
+        </div>
       </div>
 
       <!-- newest courses -->
@@ -76,6 +78,40 @@
           <i class="title-icon budon budon-course"></i>
           最新趣课
         </h4>
+        <div class="col-sm-6" ng-repeat="course in courses">
+          <div class="course-tile">
+            <div class="course-cover-image" src-key="course.image" source-attr="background-image">
+            </div>
+            <h4 class="course-title">
+              {{course.title}}
+            </h4>
+            <hr>
+            <div class="tool">
+              <i class="budon budon-tool"></i>
+              <div class="badge">{{course.ingredients.length||0}}</div>
+            </div>
+            <div class="ingredients">
+              <div class="scroll">
+                <div class="ingredient text-muted" ng-repeat="ingredient in course.ingredients">
+                  <div class="ingredient-image" src-key="ingredient.image" source-attr="background-image"></div>
+                  x
+                  {{ingredient.quantity}}
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="status text-muted">
+              <i class="fa fa-heart">
+              </i>
+              {{course.likes}}
+            </div>
+
+            <div class="pull-right">
+              <div class="avatar-xs" src-key="course.postBy.avatar" source-attr="backgroud-image"></div>
+              {{course.postBy.name}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

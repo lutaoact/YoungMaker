@@ -64,3 +64,6 @@ exports.destroy = (req, res, next) ->
     res.send 204
   .catch next
   .done()
+
+exports.like = (req, res, next) ->
+  articleId = req.params.id

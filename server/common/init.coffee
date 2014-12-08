@@ -2,6 +2,7 @@ global._  = require 'lodash'
 global._s = require 'underscore.string'
 global.socketMap = {}
 global._u = require './util'
+global.BaseUtils = require './BaseUtils'
 global.ErrCode = require './ErrCode'
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'

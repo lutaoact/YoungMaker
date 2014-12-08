@@ -40,12 +40,7 @@ exports.update = (req, res, next) ->
   user = req.user
   body = req.body
   #以下字段不允许外部更新，会有相应的内部处理逻辑
-  delete body._id
-  delete body.author
-  delete body.type
-  delete body.belongTo
-  delete body.likeUsers
-  delete body.deleteFlag
+  body = _.omit body, ['_id', 'author', 'type', 'belongTo', 'likeUsers', 'deleteFlag']
 
   Comment.getByIdAndAuthor commentId, user._id
   .then (comment) ->

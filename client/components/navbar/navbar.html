@@ -1,7 +1,10 @@
-<div class="bud navbar navbar-default main-nav auth"
+
+<div class="navbar-default navbar-inverse fixed-top"
      ng-controller="NavbarCtrl">
 
-  <div class="container">
+  <div class="container-fluid"
+       click-outside="switchMenu(true)"
+       is-active="!viewState.isCollapsed">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
@@ -19,8 +22,8 @@
 
     <div class="navbar-collapse collapse"
          collapse="viewState.isCollapsed"
-         id="navbar-main">
-      <ul class="bud nav navbar-nav navbar-left">
+         >
+      <ul class="nav navbar-nav navbar-left">
         <li>
           <a href="" class="sprite-nav-find"></a>
         </li>
@@ -29,30 +32,13 @@
         </li>
       </ul>
 
-      <ul class="bud nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="" class="sprite-nav-topic"></a>
         </li>
         <li>
           <a href="" class="sprite-nav-market"></a>
         </li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="container"
-       click-outside="switchMenu(true)"
-       is-active="!viewState.isCollapsed"
-       ng-if="$state.current.authenticate">
-
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-         id="navbar-main">
-
-      <ul class="bud nav navbar-nav navbar-right">
         <li ng-show="isLoggedIn()"
             dropdown>
           <a style="margin-right:20px;"
@@ -117,7 +103,10 @@
           </span>
         </li>
       </ul>
+
     </div>
+
   </div>
+
   <div class="nav-loading" ng-show="$loading"></div>
 </div>

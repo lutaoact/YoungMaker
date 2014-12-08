@@ -1,0 +1,38 @@
+.nav-hat{
+  img{
+    width: 100%;
+  }
+}
+.navbar-main{
+  &.navbar{
+    background-color: #47d5bb;
+    height: 46px;
+    min-height: 46px;
+  }
+  .navbar-nav {
+    > li > a {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      &[class^="sprite-"]{
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-left: 40px;
+        margin-right: 40px;
+      }
+    }
+  }
+  .navbar-logo{
+    margin: -45px 0 0 -75px;
+    display: block;
+    position: absolute;
+    width: 150px;
+    height: 130px;
+    padding: 10px;
+    left: 50%;
+    text-align: center;
+    background: #fff;
+    border-radius: 100px;
+    .sprite-logo-big{
+    }
+  }
+}

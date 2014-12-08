@@ -47,6 +47,18 @@ class User extends BaseModel
     @setupUserSchema @schema
     super
 
+  findBy: (userInfo) ->
+    conditions = {$or: []}
+    conditions.$or.push(email   : userInfo.email)    if userInfo.email?
+
+    if _.isEmpty conditions.$or
+      return Q.reject
+        status: 400
+        errCode: ErrCode.IllegalFields
+        errMsg: 'email字段不能为空'
+
+    @findOneQ conditions
+
   setupUserSchema: (UserSchema) ->
     UserSchema
     .virtual 'password'

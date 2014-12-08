@@ -6,15 +6,14 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
   Auth,
   notify,
   $modalInstance,
-  Restangular
+  Restangular,
+  $timeout
 ) ->
 
   angular.extend $scope,
-#    email: email
-#    emailHostAddress: mailAddressService.getAddress email
-#    viewState:
-#      sending: false
     currentPage: "login"
+    checkEmailPromise: null
+
     changePage: (pageName)->
       $scope.currentPage = pageName
     user: {}
@@ -27,10 +26,10 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
         email: $scope.user.email
         password: $scope.user.password
       ).then ->
-        Auth.getCurrentUser().$promise.then (me)->
-          $scope.loggingIn = false
+#        Auth.getCurrentUser().$promise.then (me)->
 #          $scope.$emit 'loginSuccess', me
-          $modalInstance.close()
+        $scope.loggingIn = false
+        $modalInstance.close()
       , (error)->
         console.debug error
         $scope.loggingIn = false
@@ -40,14 +39,17 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
 
     signup: (form) ->
       if !form.$valid then return
-      # Account created, redirect to home
       Restangular.all('users').post
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
-      .then ->
+      .then (res)->
+        Auth.setToken res.token
+#        Auth.getCurrentUser().$promise.then (me)->
+#          $scope.$emit 'loginSuccess', me
         $modalInstance.close()
       .catch (err) ->
+        console.log err
         err = err.data
         $scope.errors = {}
 
@@ -55,3 +57,18 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
+
+    checkEmail: (email)->
+      $timeout.cancel($scope.checkEmailPromise)
+      if email.$modelValue
+        email.$remoteChecked = 'pending'
+        email.$setValidity 'remote', true
+        $scope.checkEmailPromise = $timeout ->
+          Restangular.one('users','check').get(email: email.$modelValue)
+          .then (data)->
+            email.$setValidity 'remote', true
+            email.$remoteChecked = true
+          , (err)->
+            email.$setValidity 'remote', false
+            email.$remoteChecked = false
+        , 800

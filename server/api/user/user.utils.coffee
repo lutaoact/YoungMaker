@@ -81,4 +81,6 @@ class UserUtils extends BaseUtils
     return [students, teachers]
 
 
-exports.UserUtils = UserUtils
+#exports.UserUtils = UserUtils
+exports.Instance = new UserUtils()
+exports.Class = UserUtils

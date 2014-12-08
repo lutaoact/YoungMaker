@@ -15,6 +15,7 @@ xlsx = require 'node-xlsx'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
+UserUtils = _u.getUtils 'user'
 #Organization = _u.getModel "organization"
 
 qiniu.conf.ACCESS_KEY = config.qiniu.access_key
@@ -70,6 +71,15 @@ exports.show = (req, res, next) ->
     res.send user.profile
   .catch next
   .done()
+
+
+exports.check = (req, res, next) ->
+  UserUtils.check email: req.query.email
+  .then () ->
+    res.send 200
+  .catch next
+  .done()
+
 
 ###
   Get a single user by email

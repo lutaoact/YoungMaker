@@ -7,3 +7,5 @@ module.exports =
   NotSameOrg: 10005
 
   GiveScore: 10006
+
+  UserEmailInUsed: 10008

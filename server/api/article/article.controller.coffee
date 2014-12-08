@@ -1,6 +1,7 @@
 'use strict'
 
 Article = _u.getModel 'article'
+LikeUtils = _u.getUtils 'like'
 
 exports.index = (req, res, next) ->
   Article.getAll()
@@ -67,3 +68,9 @@ exports.destroy = (req, res, next) ->
 
 exports.like = (req, res, next) ->
   articleId = req.params.id
+  user = req.user
+  LikeUtils.like Article, articleId, user._id
+  .then (article) ->
+    res.send article
+  .catch next
+  .done()

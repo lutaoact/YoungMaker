@@ -5,7 +5,8 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
   $modal,
   Auth,
   notify,
-  $modalInstance
+  $modalInstance,
+  Restangular
 ) ->
 
   angular.extend $scope,
@@ -13,6 +14,9 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
 #    emailHostAddress: mailAddressService.getAddress email
 #    viewState:
 #      sending: false
+    currentPage: "login"
+    changePage: (pageName)->
+      $scope.currentPage = pageName
     user: {}
     errors: {}
     login: (form) ->
@@ -25,26 +29,29 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
       ).then ->
         Auth.getCurrentUser().$promise.then (me)->
           $scope.loggingIn = false
-          $scope.$emit 'loginSuccess', me
+#          $scope.$emit 'loginSuccess', me
+          $modalInstance.close()
       , (error)->
         console.debug error
         $scope.loggingIn = false
+        notify
+          message:'用户名或密码错误'
+          classes:'alert-danger'
 
-        if error.unactivated
-          $modal.open
-            templateUrl: 'app/directives/loginForm/activateModal.html'
-            controller: 'ActivateModalCtrl'
-            windowClass: 'center-modal'
-            size: 'sm'
-            resolve:
-              email: -> $scope.user.email
-          .result.then () ->
-            notify
-              message: "一封激活邮件即将发送到'#{$scope.user.email}'，请注意查收。"
-              classes: 'alert-success'
-              duration: 10000
+    signup: (form) ->
+      if !form.$valid then return
+      # Account created, redirect to home
+      Restangular.all('users').post
+        name: $scope.user.name
+        email: $scope.user.email
+        password: $scope.user.password
+      .then ->
+        $modalInstance.close()
+      .catch (err) ->
+        err = err.data
+        $scope.errors = {}
 
-        else
-          notify
-            message:'用户名或密码错误'
-            classes:'alert-danger'
+        # Update validity of form fields that match the mongoose errors
+        angular.forEach err.errors, (error, field) ->
+          form[field].$setValidity 'mongoose', false
+          $scope.errors[field] = error.message

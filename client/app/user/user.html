@@ -1,13 +1,40 @@
-<div class="text-center">
+<div class="container has-header">
+  <div class="row">
+    <div class="col-md-9">
 
-  <h2>
-    用户ID {{$state.params.userId}}
-  </h2>
-  <h2>
-    发表文章：{{articles.length}}
-  </h2>
-  <h2>
-    回复帖子：{{comments.length}}
-  </h2>
+      <h4>
+        最近文章
+        <a ui-sref="settings.newArticle"
+           class="btn btn-link pull-right"
+           ng-if="user._id==me._id">创建新文章</a>
+      </h4>
 
+      <hr/>
+
+      <span ng-if="!articles.length">
+        暂无发表文章
+      </span>
+      <div class="list-group">
+        <div class="list-group-item" ng-repeat="article in articles">
+          <a target="_blank" ui-sref="article({articleId: article._id})">{{article.title}} - {{article.created | date}}</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="avatar-lg"
+           src-key="user.avatar"
+           suffix="?imageView2/1/w/64/h/64"
+           source-attr="background-image">
+      </div>
+      <div class="caption">
+        <h3 class="text-info">
+          <a ng-if="user._id == me._id" ui-sref="settings.profile">{{user.name}}</a>
+          <span ng-if="user._id != me._id">{{user.name}}</span>
+        </h3>
+        <p>{{user.info}}</p>
+        <p class="btn-group"><a class="btn btn-primary">文章 {{articles.length}}</a> <a class="btn btn-default">评论 {{comments.length}}</a></p>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,8 +1,5 @@
 BaseUtils = require('../../common/BaseUtils')
 
-#SocketUtils = _u.getUtils 'socket'
-#NoticeUtils = _u.getUtils 'notice'
-
 class LikeUtils extends BaseUtils
   like: (Model, objectId, userId) ->
     tmpResult = {}

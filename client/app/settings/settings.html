@@ -1,7 +1,7 @@
 <div class="container settings padding-top-20"
      ng-class="{'margin-top':!webview}">
 
-  <ul class="col-sm-12 nav navbar-nav navbar-default visible-sm visible-xs ">
+  <ul class="col-md-3 nav nav-pills nav-stacked">
     <li>
       <div class="personal-info clearfix">
         <div class="avatar-md pull-left"
@@ -12,25 +12,10 @@
         <h5>{{me.name}}</h5>
       </div>
     </li>
-    <li ng-repeat="item in menu"
-        ng-class="{active: isActive(item.link)}">
-      <a ng-href="{{item.link}}">{{item.title}}</a>
-    </li>
-  </ul>
-  <ul class="col-md-3 nav nav-pills nav-stacked hidden-sm hidden-xs">
     <li>
-      <div class="personal-info clearfix">
-        <div class="avatar-md pull-left"
-          src-key="me.avatar"
-          suffix="?imageView2/1/w/64/h/64"
-          source-attr="background-image">
-        </div>
-        <h5>{{me.name}}</h5>
-      </div>
-    </li>
-    <li ng-repeat="item in menu"
-        ng-class="{active: isActive(item.link)}">
-      <a ng-href="{{item.link}}">{{item.title}}</a>
+      <a ui-sref="user({userId:me._id})">个人主页</a>
+      <a ui-sref="settings.profile">基本信息</a>
+      <a ui-sref="settings.myArticles">我的文章</a>
     </li>
   </ul>
 

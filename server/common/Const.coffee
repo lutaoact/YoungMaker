@@ -6,6 +6,14 @@ Const =
     Comment: 3
     Lecture: 4
 
+  CommentType:
+    Article: 1
+    Course: 2
+
+  CommentRef:
+    1: 'article'
+    2: 'course'
+
   MsgType:
     Login: 'login'
     Notice: 'notice'

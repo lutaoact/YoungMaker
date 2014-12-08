@@ -21,10 +21,6 @@ class Comment extends BaseModel
     belongTo: # article或者course的id
       type: ObjectId
       required: true
-    viewers: [
-      type: ObjectId
-      ref: 'user'
-    ]
     likeUsers: [
       type: ObjectId
       ref: 'user'
@@ -32,6 +28,12 @@ class Comment extends BaseModel
     tags: [
       type: String
     ]
+    deleteFlag:
+      type: Boolean
+      default: false
+
+  getByTypeAndBelongTo: (type, belongTo) ->
+    return @findQ {type: type, belongTo: belongTo, deleteFlag: {$ne: true}}, '-deleteFlag'
 
 exports.Class = Comment
 exports.Instance = new Comment()

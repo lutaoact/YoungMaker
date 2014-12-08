@@ -3,16 +3,17 @@
 angular.module('mauiApp')
 
 .controller 'UserCtrl', (
+  Auth
   $scope
   $state
+  Restangular
 ) ->
-
-  console.debug 'user ...'
 
   angular.extend $scope,
     $state: $state
-    user: null
-    articles: []
+    me: Auth.getCurrentUser()
+    user: Restangular.one('users', $state.params.userId).get().$object
+    articles: Restangular.all('articles').getList(author: $state.params.userId).$object
     comments: []
 
 

@@ -1,0 +1,14 @@
+<div>
+  <h4>
+    我的文章
+    {{articles.length}}
+    <a ui-sref="settings.newArticle" class="btn btn-link pull-right">创建新文章</a>
+  </h4>
+  <hr/>
+  <div class="list-group">
+    <div class="list-group-item" ng-repeat="article in articles">
+      <a target="_blank" ui-sref="article({articleId: article._id})">{{article.title}} - {{article.created | date}}</a>
+      <a class="pull-right close" ng-click="removeArticle(article)">&times;</a>
+    </div>
+  </div>
+</div>

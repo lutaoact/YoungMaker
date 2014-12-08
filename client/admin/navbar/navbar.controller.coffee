@@ -1,6 +1,7 @@
 'use strict'
 
 angular.module 'mauidmin'
+
 .controller 'NavbarCtrl', ($scope, $location, notify) ->
   $scope.menu = [
       title: 'Home'

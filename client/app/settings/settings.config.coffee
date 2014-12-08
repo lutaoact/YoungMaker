@@ -32,6 +32,12 @@ angular.module('mauiApp')
 
   .state 'settings.newArticle',
     url: '/articles/new'
-    templateUrl: 'app/settings/article/newArticle.html'
-    controller: 'NewArticleCtrl'
+    templateUrl: 'app/settings/article/editArticle.html'
+    controller: 'EditArticleCtrl'
+    authenticate: true
+
+  .state 'settings.editArticle',
+    url: '/articles/:articleId'
+    templateUrl: 'app/settings/article/editArticle.html'
+    controller: 'EditArticleCtrl'
     authenticate: true

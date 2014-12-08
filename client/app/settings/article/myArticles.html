@@ -7,8 +7,12 @@
   <hr/>
   <div class="list-group">
     <div class="list-group-item" ng-repeat="article in articles">
-      <a target="_blank" ui-sref="article({articleId: article._id})">{{article.title}} - {{article.created | date}}</a>
-      <a class="pull-right close" ng-click="removeArticle(article)">&times;</a>
+      <a target="_blank" ui-sref="article({articleId: article._id})">{{article.title}}</a>
+      <small class="text-muted">- {{article.created | moment:'fromNow'}}</small>
+      <span class="pull-right">
+        <a style="cursor: pointer" ui-sref="settings.editArticle({articleId:article._id})">编辑</a>&nbsp;
+        <a style="cursor: pointer" ng-click="removeArticle(article)">删除</a>
+      </span>
     </div>
   </div>
 </div>

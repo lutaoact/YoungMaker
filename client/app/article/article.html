@@ -2,7 +2,11 @@
 
   <article>
     <h3>{{article.title}}</h3>
-    <small>post by {{article.author.name}} - {{article.created | date}}</small>
+    <small class="text-muted">post by
+      <a class="text-info"
+         ui-sref="user({userId: article.author._id})">{{article.author.name}}</a>
+      - {{article.created | moment: 'fromNow'}}
+    </small>
     <hr/>
     <p>{{article.content}}</p>
   </article>

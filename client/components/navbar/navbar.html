@@ -89,7 +89,7 @@
                   <a class="close" ng-click="removeMsg(message, $event)">&times;</a>
                   <h6 class="media-heading">
                     {{message.raw.fromWhom.name}}
-                    <small>{{message.raw.created|timeToTimeAgo}}</small>
+                    <small>{{message.raw.created | moment:'fromNow'}}</small>
                   </h6>
                   <div class="text-muted">{{message.title}}</div>
                 </div>

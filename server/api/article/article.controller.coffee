@@ -3,25 +3,23 @@
 Article = _u.getModel 'article'
 LikeUtils = _u.getUtils 'like'
 
-# TODO
-# populate article.author.name
-# ?author=authorId : condition.author = author
-# ?limit=10  :
-# ?sort='created' : 创建日期排序 desc
-#
-# 找一个分页插件？
 exports.index = (req, res, next) ->
-  Article.getAll()
+  conditions = {}
+  conditions.author = req.query.author if req.query.author
+  from = ~~req.query.from #from参数转为整数
+
+  Article.getAll conditions, from
   .then (articles) ->
     res.send articles
   .catch next
   .done()
 
-# TODO populate author.name
 exports.show = (req, res, next) ->
   articleId = req.params.id
 
-  Article.findByIdQ articleId
+  Article.findById articleId
+  .populate 'author', 'name'
+  .execQ()
   .then (article) ->
     article.viewersNum += 1 #每次调用API，相当于查看一次
     do article.saveQ
@@ -30,7 +28,6 @@ exports.show = (req, res, next) ->
   .catch next
   .done()
 
-# TODO article modal 加验证器：title, content 为空？
 exports.create = (req, res, next) ->
   propertiesToSave = ['title', 'content', 'tags']
   newArticle = _.pick(req.body, propertiesToSave) # tidy new article from client side

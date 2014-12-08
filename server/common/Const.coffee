@@ -33,6 +33,7 @@ Const =
     Lecture: 10
     Course: 10
     Question: 300
+    Article: 10
 
   QuestionType:
     Choice: 1

@@ -3,6 +3,13 @@
 Article = _u.getModel 'article'
 LikeUtils = _u.getUtils 'like'
 
+# TODO
+# populate article.author.name
+# ?author=authorId : condition.author = author
+# ?limit=10  :
+# ?sort='created' : 创建日期排序 desc
+#
+# 找一个分页插件？
 exports.index = (req, res, next) ->
   Article.getAll()
   .then (articles) ->
@@ -10,6 +17,7 @@ exports.index = (req, res, next) ->
   .catch next
   .done()
 
+# TODO populate author.name
 exports.show = (req, res, next) ->
   articleId = req.params.id
 
@@ -22,18 +30,15 @@ exports.show = (req, res, next) ->
   .catch next
   .done()
 
+# TODO article modal 加验证器：title, content 为空？
 exports.create = (req, res, next) ->
-  user = req.user
-  body = req.body
-  data =
-    title:  data.title
-    content:data.content
-    author: user._id
-    tags:   data.tags
+  propertiesToSave = ['title', 'content', 'tags']
+  newArticle = _.pick(req.body, propertiesToSave) # tidy new article from client side
+  newArticle.author = req.user._id
 
-  Article.createQ data
-  .then (article) ->
-    res.send article
+  Article.createQ newArticle
+  .then (dbArticle) ->
+    res.send dbArticle
   .catch next
   .done()
 

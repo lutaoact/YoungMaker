@@ -10,7 +10,6 @@ angular.module('mauiApp')
   scope:
     user: '='
     canDelete: '@' # 能否删除这个用户 - 管理员需要
-    canRemark: '@' # 能否修改用户的备注信息 - 管理员需要
     onUpdateUser: '&'
     onDeleteUser: '&'
 

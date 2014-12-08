@@ -16,10 +16,22 @@ angular.module('mauiApp')
     url: '/settings'
     templateUrl: 'app/settings/settings.html'
     controller: 'SettingsCtrl'
-    authenticate:true
+    authenticate: true
 
   .state 'settings.profile',
     url: '/profile',
     templateUrl: 'app/settings/profile/profile.html'
     controller: 'ProfileCtrl'
-    authenticate:true
+    authenticate: true
+
+  .state 'settings.myArticles',
+    url: '/articles'
+    templateUrl: 'app/settings/article/myArticles.html'
+    controller: 'MyArticlesCtrl'
+    authenticate: true
+
+  .state 'settings.newArticle',
+    url: '/articles/new'
+    templateUrl: 'app/settings/article/newArticle.html'
+    controller: 'NewArticleCtrl'
+    authenticate: true

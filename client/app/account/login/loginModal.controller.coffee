@@ -7,12 +7,18 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
   notify,
   $modalInstance,
   Restangular,
-  $timeout
+  $timeout,
+  $interval
 ) ->
-
+  maxTimeout = 15
   angular.extend $scope,
     currentPage: "login"
     checkEmailPromise: null
+    viewState:
+      init: true
+      sending: false
+      sent: false
+      errors: null
 
     changePage: (pageName)->
       $scope.currentPage = pageName
@@ -26,16 +32,13 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
         email: $scope.user.email
         password: $scope.user.password
       ).then ->
-#        Auth.getCurrentUser().$promise.then (me)->
-#          $scope.$emit 'loginSuccess', me
         $scope.loggingIn = false
         $modalInstance.close()
       , (error)->
         console.debug error
         $scope.loggingIn = false
-        notify
-          message:'用户名或密码错误'
-          classes:'alert-danger'
+        $scope.viewState.errors =
+          data: "用户名或密码错误"
 
     signup: (form) ->
       if !form.$valid then return
@@ -45,8 +48,6 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
         password: $scope.user.password
       .then (res)->
         Auth.setToken res.token
-#        Auth.getCurrentUser().$promise.then (me)->
-#          $scope.$emit 'loginSuccess', me
         $modalInstance.close()
       .catch (err) ->
         console.log err
@@ -57,6 +58,20 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
+
+    sendVerifyEmail: (form) ->
+      if !form.$valid then return
+      $scope.viewState.init = false
+      $scope.viewState.sending = true
+      $scope.viewState.errors = null
+      Restangular.all('users').customPOST(email:$scope.user.email, 'forgotPassword')
+      .then ->
+        $scope.viewState.sent = true
+        $scope.viewState.sending = false
+        countTimeout()
+      .catch (errors) ->
+        $scope.viewState.sending = false
+        $scope.viewState.errors = errors
 
     checkEmail: (email)->
       $timeout.cancel($scope.checkEmailPromise)
@@ -72,3 +87,10 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
             email.$setValidity 'remote', false
             email.$remoteChecked = false
         , 800
+
+    timeout: 0
+    countTimeout = ->
+      $scope.timeout = maxTimeout
+      $interval ->
+        $scope.timeout -= 1
+      , 1000, maxTimeout

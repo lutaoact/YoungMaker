@@ -14,7 +14,7 @@ angular.module('mauiApp').controller 'ForgotCtrl', (
     timeout: maxTimeout
     viewState:
       sending: false
-      sended: false
+      sent: false
       errors: null
 
     sendVerifyEmail: (form) ->
@@ -24,7 +24,7 @@ angular.module('mauiApp').controller 'ForgotCtrl', (
       Restangular.all('users').customPOST(email:$scope.email, 'forgotPassword')
       .then ->
         $scope.viewState.sending = false
-        $scope.viewState.sended = true
+        $scope.viewState.sent = true
         countTimeout()
       .catch (errors) ->
         $scope.viewState.errors = errors

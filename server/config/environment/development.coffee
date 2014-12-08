@@ -67,3 +67,9 @@ module.exports =
       serviceName: 'azure'
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+
+  host: "http://localhost:9000"
+  emailConfig:
+    auth:
+      api_user: 'cloud3edu'
+      api_key: 'gXI2WTs8w4D6BF09'

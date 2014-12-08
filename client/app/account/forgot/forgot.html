@@ -4,7 +4,7 @@
       <div class="header text-center">
         <h3>通过注册/登录邮箱找回密码</h3>
       </div>
-      <div class="content col-md-offset-2 col-md-8" ng-show="viewState.sended">
+      <div class="content col-md-offset-2 col-md-8" ng-show="viewState.sent">
         电子邮件已发送到
         <span class="text-primary">{{email}}</span>
         <p>
@@ -44,7 +44,7 @@
       </div>
       <form class="form content col-md-offset-2 col-md-8"
             ng-submit="sendVerifyEmail(form)"
-            ng-show="!viewState.sended"
+            ng-show="!viewState.sent"
             name="form">
         <div class="form-group">
           <label>邮箱地址</label>

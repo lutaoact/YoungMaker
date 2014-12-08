@@ -6,8 +6,11 @@
     <!--</h4>-->
   <!--</div>-->
   <div class="modal-body login-modal">
-    <p class="text-center">
+    <p class="text-center" ng-hide="currentPage == 'forget'">
       无需注册，直接使用社交账号登录
+    </p>
+    <p class="text-center" ng-show="currentPage == 'forget'">
+      重新设置密码
     </p>
     <hr>
     <div ng-show="currentPage == 'login'">
@@ -15,10 +18,10 @@
         <div class="form-group">
           <div class="input-group">
             <input class="form-control"
-                   type="text"
+                   type="email"
                    placeholder="邮箱"
                    ng-model="user.email"
-                   name="username"
+                   name="email"
                    required>
             <div class="input-group-addon">
               <i class="fa fa-envelope"></i>
@@ -38,9 +41,9 @@
             </div>
           </div>
         </div>
-
+        <span class="text-danger" ng-if="viewState.errors">{{viewState.errors.data}}</span>
         <div class="text-left">
-          <a href="" ui-sref="forgot" class="login-forget">忘记密码&nbsp;<i class="fa fa-question-circle"></i></a>
+          <a ng-click="changePage('forget')" class="login-forget">忘记密码&nbsp;<i class="fa fa-question-circle"></i></a>
           <button class="btn btn-danger pull-right rounded"
                   ng-disabled="loggingIn"
                   type="submit">
@@ -71,7 +74,7 @@
                    type="text"
                    placeholder="用户名"
                    ng-model="user.name"
-                   name="username"
+                   name="name"
                    required>
             <div class="input-group-addon">
               <i class="budon budon-user"></i>
@@ -81,7 +84,7 @@
         <div class="form-group">
           <div class="input-group">
             <input class="form-control"
-                   type="text"
+                   type="email"
                    placeholder="邮箱"
                    ng-model="user.email"
                    ng-change="checkEmail(form.email)"
@@ -93,7 +96,7 @@
           </div>
           <p ng-show="form.email.$error.remote">
             <i class="fa fa-exclamation-triangle text-danger"></i>
-            该邮箱已被注册，请尝试<a ng-click="changePage('login')">登录</a>或者<a ui-sref="forgot">密码找回</a>
+            该邮箱已被注册，请尝试<a ng-click="changePage('login')">登录</a>或者<a ng-click="changePage('forget')">密码找回</a>
           </p>
         </div>
         <div class="form-group">
@@ -110,7 +113,7 @@
           </div>
         </div>
         <div class="text-left">
-          <span class="login-forget">已有账号&nbsp;<a ng-click="changePage('login')">登录</a></span>
+          <span class="login-forget">已有账号？&nbsp;<a ng-click="changePage('login')">登录</a></span>
           <button class="btn btn-danger pull-right rounded"
                   ng-disabled="loggingIn"
                   type="submit">
@@ -119,6 +122,59 @@
             </span>
           </button>
         </div>
+      </form>
+    </div>
+
+    <div ng-show="currentPage == 'forget'">
+      <form name="form" ng-submit="sendVerifyEmail(form)">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control"
+                   type="email"
+                   placeholder="请输入注册邮箱"
+                   ng-model="user.email"
+                   name="email"
+                   required>
+            <div class="input-group-addon">
+              <i class="fa fa-envelope"></i>
+            </div>
+          </div>
+        </div>
+        <div ng-show="viewState.sent">
+          您将收到密码重置的电子邮件。
+          <p class="info">
+          <span class="text-primary">
+            没有收到“找回密码”的电子邮件？
+          </span>
+            <br/>
+          <span class="text-muted">
+            请注意查看您的垃圾邮件，或点击重发验证邮件。
+          </span>
+          </p>
+
+        </div>
+
+        <span class="text-danger" ng-if="viewState.errors">{{viewState.errors.data}}</span>
+
+        <div class="text-left">
+          <span class="login-forget"><a ng-click="changePage('login')">返回登录页面</a></span>
+          <button class="btn btn-danger pull-right rounded"
+                  ng-disabled="timeout > 0"
+                  type="submit">
+            <span ng-show="viewState.init">
+              发送验证邮件
+            </span>
+            <span ng-if="!viewState.init && viewState.sending">
+              <i class="fa fa-spin fa-spinner"></i>
+              正在发送
+            </span>
+            <span ng-show="!viewState.init && !viewState.sending">
+              重发验证邮件
+            </span>
+
+          </button>
+        </div>
+
       </form>
     </div>
   </div>

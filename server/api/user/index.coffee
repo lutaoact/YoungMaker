@@ -11,8 +11,8 @@ router.get '/me', auth.isAuthenticated(), controller.me
 router.get '/check', controller.check #?email=xxxxx
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete
-router.post '/forgetpassword', controller.forget
-router.post '/resetpassword', controller.reset
+router.post '/forgotPassword', controller.forgotPassword
+router.post '/resetPassword', controller.resetPassword
 router.put '/:id/password', auth.isAuthenticated(), controller.changePassword
 router.put '/:id', auth.isAuthenticated(), controller.update
 router.patch '/:id', auth.isAuthenticated(), controller.update

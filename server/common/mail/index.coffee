@@ -1,18 +1,30 @@
 jade = require 'jade'
 fs = require('fs')
+querystring = require("querystring");
+nodemailer = require('nodemailer');
+scTransport = require('./sendcloud-transport');
 
 pwdResetTpl = require('fs').readFileSync(__dirname + '/views/pwdReset.jade', 'utf8')
 pwdResetFn = jade.compile pwdResetTpl, pretty: true
 
-emailjs = require 'emailjs/email'
+pwdActivationTpl = require('fs').readFileSync(__dirname + '/views/pwdActivation.jade', 'utf8')
+pwdActivationFn = jade.compile pwdActivationTpl, pretty: true
 
-# TODO: move to config
-credentials =
-  user: 'noreply.cloud3edu@gmail.com'
-  password:  'cloud3eduuuu'
-  host: 'smtp.gmail.com'
-  ssl: true
-  timeout: 20000
+config = require '../../config/environment'
+host = config.host
+emailConfig = config.emailConfig
+transporter = nodemailer.createTransport(scTransport(emailConfig))
+
+
+sendMail = (receiverEmail, htmlOutput, subject) ->
+  mailOptions =
+    from: "学之方 <noreply@cloud3edu.cn>"
+    to: receiverEmail
+    subject: subject
+    html: htmlOutput
+
+  transporter.sendMail mailOptions, (error, info) ->
+    console.log(error || 'Message sent: ' + info)
 
 
 exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
@@ -22,13 +34,20 @@ exports.sendPwdResetMail = (receiverName, receiverEmail, resetLink) ->
 
   htmlOutput = pwdResetFn locals
 
-  message =
-    from: "学之方" + ' <' + credentials.user + '>'
-    to: receiverEmail
-    subject: "学之方 -- 找回密码邮件"
-    attachment: [{data: htmlOutput, alternative:true}]
+  sendMail receiverEmail, htmlOutput, "学之方 -- 密码找回邮件"
 
-  server = emailjs.server.connect credentials
-  server.send message, (err, message) ->
-    console.log(err || message)
+
+exports.sendActivationMail = (receiverEmail, activationCode) ->
+  activationLinkQS = querystring.stringify
+    email: receiverEmail
+    activation_code: activationCode
+
+  activation_link = host+'/api/users/completeActivation?'+ activationLinkQS
+  locals =
+    email: receiverEmail
+    activation_link: activation_link
+
+  htmlOutput = pwdActivationFn locals
+
+  sendMail receiverEmail, htmlOutput, "学之方 -- 账户激活邮件"
 

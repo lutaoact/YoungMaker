@@ -1,0 +1,91 @@
+.discover{
+
+  /**  search bar. todo: responsive */
+  .discover-search{
+    .sprite-search-bar-hat{
+
+    }
+    .sprite-search-bar-addon{
+      position: absolute;
+      z-index: 4;
+      top: 6px;
+      left: 10px;
+    }
+    .input-group{
+      input.form-control{
+        padding-left: 40px;
+      }
+    }
+  }
+
+  /**  discover-body. */
+  .discover-body{
+    margin-top: 28px;
+    background: #f1f1f1;
+    min-height: 576px;
+
+    .block{
+      .block-title{
+        .title-icon{
+          color: #f1f1f1;
+          background: #000;
+          width: 32px;
+          height: 32px;
+          border-radius: 16px;
+          font-size: 16px;
+          padding: 8px 9px;
+        }
+      }
+    }
+  }
+
+}
+
+/**  discover article tile. todo: responsive */
+.article-tile{
+  position: relative;
+  background: #FFF;
+  .box-shadow(1px 1px 1px 1px rgba(0,0,0,0.3));
+  height: 215px;
+  width: 100%;
+  padding: 18px;
+  margin: 20px 0;
+
+  .article-image{
+    float: left;
+    height: 100%;
+    width: 300px;
+    margin-right: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .article-title{
+    max-height: 76px;
+  }
+  .article-summary{
+  }
+  .article-info{
+    position: absolute;
+    height: 54px;
+    display: inline-block;
+    right: 18px;
+    bottom: 0px;
+    width: 190px;
+    border-top: 1px solid #f1f1f1;
+    .article-post-time{
+      margin: -9px auto 5px auto;
+      background: #FFF;
+      width: 100px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .avatar-xs{
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .budon-send{
+      font-size: 18px;
+    }
+  }
+}

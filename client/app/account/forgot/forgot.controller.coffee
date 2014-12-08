@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('budweiserApp').controller 'ForgotCtrl', (
+angular.module('mauiApp').controller 'ForgotCtrl', (
   $scope
   $state
   $interval

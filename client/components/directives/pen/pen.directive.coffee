@@ -29,6 +29,7 @@ angular.module('maui.components')
     else
       config = angular.copy defaults
     config.editor = element[0]
-    editor = new Pen(config)
-    console.log ngModel
+    pen = new Pen(config)
+    scope.$on '$destroy', ->
+      pen.destroy()
 

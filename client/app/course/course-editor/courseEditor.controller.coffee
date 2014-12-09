@@ -6,20 +6,46 @@ angular.module('mauiApp')
   $state
   Restangular
   CurrentUser
+  notify
 ) ->
 
   angular.extend $scope,
     article: {}
 
-    content: ''
+    editingTitle: !$state.params.courseId
 
-    saveArticle: (form) ->
-      console.debug form
+    course:
+      content: ''
+      steps: []
+
+    categories: [
+      {
+        id: '1'
+        name: '物理'
+      }
+      {
+        id: '2'
+        name: '化学'
+      }
+      {
+        id: '3'
+        name: '数学'
+      }
+    ]
+
+    saveCourse: (form, isTitle) ->
       if !form.$valid then return
-      $scope.article.author = CurrentUser._id
-      Restangular.all('articles').post($scope.article)
-      .then ->
-        $state.go 'settings.myArticles'
+      Restangular.all('courses').post($scope.course)
+      .then (course)->
+        if isTitle
+          $scope.editingTitle = false
+          if $scope.course.
+        angular.extend $scope.course, course
       .catch (error) ->
         console.log 'error', error
+
+    if $state.params.courseId
+      Restangular.one('courses', $state.params.courseId).get()
+      .then (course)->
+        angular.extend $scope.course, course
 

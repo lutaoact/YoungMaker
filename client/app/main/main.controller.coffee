@@ -3,6 +3,7 @@
 angular.module('mauiApp').controller 'MainCtrl', (
   Page
   $scope
+  Restangular
 ) ->
 
   Page.setTitle 'STEM 教育'
@@ -94,5 +95,9 @@ angular.module('mauiApp').controller 'MainCtrl', (
         mades: 4
       }
     ]
+
+  Restangular.all('articles').getList()
+  .then (data)->
+    console.log data
 
 

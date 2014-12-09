@@ -336,7 +336,7 @@ gulp.task 'watch', ->
     .pipe($.wait(2000))
     .pipe($.livereload())
 
-  gulp.watch ['client/bower_components/**/*.less', "client/{#{watchPaths}/**/*.less"]
+  gulp.watch ['client/bower_components/**/*.less', "client/{#{watchPaths}}/**/*.less"]
   , ['less']
 
   gulp.watch ['.tmp/**/*.css']

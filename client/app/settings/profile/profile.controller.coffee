@@ -44,4 +44,3 @@ angular.module('mauiApp').controller 'ProfileCtrl',(
         notify
           message:'原密码错误'
           classes:'alert-danger'
-

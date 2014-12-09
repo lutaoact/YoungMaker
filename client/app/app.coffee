@@ -22,7 +22,6 @@ angular.module 'mauiApp', [
   'angularFileUpload'
   'monospaced.elastic'
   'angular-sortable-view'
-  'textAngular'
 ]
 
 .constant 'configs',
@@ -44,6 +43,12 @@ angular.module 'mauiApp', [
   # add a response intereceptor
   RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: "_id")
+  RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
+    if operation is "getList" and data.results
+      extractedData = data.results
+    else
+      extractedData = data
+    return extractedData
 
 .factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
   # Add authorization token to headers

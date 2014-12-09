@@ -8,9 +8,14 @@ exports.index = (req, res, next) ->
   conditions.author = req.query.author if req.query.author
   from = ~~req.query.from #from参数转为整数
 
-  Article.getAll conditions, from
-  .then (articles) ->
-    res.send articles
+  Q.all [
+    Article.getAll conditions, from
+    Article.countQ conditions
+  ]
+  .then (data) ->
+    res.send
+      results: data[0]
+      count: data[1]
   .catch next
   .done()
 

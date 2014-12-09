@@ -29,6 +29,13 @@ angular.module 'mauidmin', [
   # add a response intereceptor
   RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: '_id')
+  RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
+    console.log operation
+    if operation is "getList" and data.results
+      extractedData = data.results
+    else
+      extractedData = data
+    return extractedData
 
 .factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
   # Add authorization token to headers

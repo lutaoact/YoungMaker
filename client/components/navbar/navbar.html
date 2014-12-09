@@ -20,7 +20,7 @@
 
     <div class="navbar-collapse collapse"
          collapse="viewState.isCollapsed"
-         >
+      >
       <ul class="nav navbar-nav navbar-left">
         <li>
           <a href="" class="fa fa-square"></a>
@@ -54,61 +54,30 @@
              src-key="getCurrentUser().avatar"
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image"
-             >
+            >
           </a>
-          <ul class="dropdown-menu message-dropdown" role="menu">
-            <div class="message-filters clearfix"
-                 ng-init="viewState.messageType = 'message'">
-              <span>{{viewState.messageType == 'message'?'消息':'通知'}}</span><span class="text-muted">|</span>
-              <a href class="btn btn-nav text-muted"
-                 ng-class="{'active':viewState.messageType == 'message'}"
-                 ng-click="viewState.messageType = 'message'">
-                <i class="fa fa-envelope"></i>
-              </a>
-              <a href class="btn btn-nav text-muted"
-                 ng-class="{'active':viewState.messageType == 'notification'}"
-                 ng-click="viewState.messageType = 'notification'">
-                <i class="fa fa-bell"></i>
-              </a>
-              <a class="btn btn-xs btn-clearall pull-right text-muted"
-                 ng-click="clearAll()"
-                 ng-if="messages.length>0">
-                清空消息
-              </a>
-            </div>
-            <ul class="media-list message-list"
-                ng-if="messages.length > 0">
-              <li ng-repeat="message in messages | filter: {'type': viewState.messageType}"
-                  class="message media"
-                  ng-click="removeMsg(message)"
-                  ui-sref="{{message.link}}">
-                <div class="avatar-xs pull-left"
-                     src-key="message.raw.fromWhom.avatar"
-                     source-attr="background-image"></div>
-                <div class="media-body">
-                  <a class="close" ng-click="removeMsg(message, $event)">&times;</a>
-                  <h6 class="media-heading">
-                    {{message.raw.fromWhom.name}}
-                    <small>{{message.raw.created | moment:'fromNow'}}</small>
-                  </h6>
-                  <div class="text-muted">{{message.title}}</div>
-                </div>
+
+
+          <ul class="dropdown-menu profile-menu" role="menu">
+              <li><a ui-sref="user({userId:getCurrentUser()._id})" target="{{getCurrentUser()._id}}">
+                我的主页</a></li>
+              <li><a href="/settings">
+                个人设置</a></li>
+              <li><a href="/" data-no-turbolink="true">
+                我的收藏</a></li>
+              <li><a href="/">
+              通知中心</a></li>
+              <li>
+                <a href ng-click="logout()"
+                   class="dropdown_login_out_link"
+                   data-method="delete"
+                   rel="nofollow">
+                  注销登录
+                </a>
               </li>
-            </ul>
-            <div class="bottom-btns clearfix">
-              <a class="col-xs-6 text-center btn btn-setting" href="/settings">
-                <i class="glyphicon glyphicon-cog"></i>个人设置
-              </a>
-              <a class="col-xs-6 text-center btn btn-logout" href ng-click="logout()">
-                <i class="glyphicon glyphicon-off"></i>退出登录
-              </a>
-            </div>
           </ul>
-          <span class="badge"
-                style="position: absolute;top: 10px;left: 25px;"
-                ng-show="messages.length">
-            {{messages.length||'0'}}
-          </span>
+
+
         </li>
       </ul>
 

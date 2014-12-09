@@ -11,6 +11,8 @@ angular.module('mauiApp')
   angular.extend $scope,
     article: {}
 
+    content: ''
+
     saveArticle: (form) ->
       console.debug form
       if !form.$valid then return

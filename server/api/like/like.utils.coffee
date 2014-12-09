@@ -17,5 +17,24 @@ class LikeUtils extends BaseUtils
       tmpResult.newObj = result[0]
       return tmpResult.newObj
 
+  buildConditions: (query) ->
+    conditions = {}
+    conditions.author = query.author if query.author
+    return conditions
+
+  getAllForPage: (Model, conditions, from) ->
+    return Model.find((_.extend conditions, {deleteFlag: {$ne: true}}), '-deleteFlag')
+    .sort created: -1
+    .limit Const.PageSize[Model.constructor.name]#Article or Course
+    .skip from
+    .populate 'author', 'name'
+    .execQ()
+
+  getCountAndPageInfo: (Model, conditions, from) ->
+    return Q.all [
+      @getAllForPage Model, conditions, from
+      Model.countQ conditions
+    ]
+
 exports.Instance = new LikeUtils()
 exports.Class = LikeUtils

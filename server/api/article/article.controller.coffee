@@ -4,14 +4,10 @@ Article = _u.getModel 'article'
 LikeUtils = _u.getUtils 'like'
 
 exports.index = (req, res, next) ->
-  conditions = {}
-  conditions.author = req.query.author if req.query.author
+  conditions = LikeUtils.buildConditions req.query
   from = ~~req.query.from #from参数转为整数
 
-  Q.all [
-    Article.getAll conditions, from
-    Article.countQ conditions
-  ]
+  LikeUtils.getCountAndPageInfo Article, conditions, from
   .then (data) ->
     res.send
       results: data[0]

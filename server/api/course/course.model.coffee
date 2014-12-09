@@ -13,6 +13,10 @@ class Course extends BaseModel
       type: String
     ]
     content: String
+    author:
+      type: ObjectId
+      ref: 'user'
+      required: true
     commentsNum:
       type: Number
       required: true
@@ -28,6 +32,13 @@ class Course extends BaseModel
     tags: [
       type: String
     ]
+    pubAt:
+      type: Date
+      index: true
+      sparse: true
+    deleteFlag:
+      type: Boolean
+      default: false
 
 exports.Class = Course
 exports.Instance = new Course()

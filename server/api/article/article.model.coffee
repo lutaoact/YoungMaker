@@ -33,6 +33,10 @@ class Article extends BaseModel
     tags: [
       type: String
     ]
+    pubAt:
+      type: Date
+      index: true
+      sparse: true
     deleteFlag:
       type: Boolean
       default: false

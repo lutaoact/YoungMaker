@@ -4,9 +4,10 @@
   }
 }
 .navbar-main{
+  @navbar-height: 46px;
   &.navbar{
     background-color: #47d5bb;
-    height: 46px;
+    height: @navbar-height;
     min-height: 46px;
     margin-bottom: 40px;
   }
@@ -19,6 +20,15 @@
         padding-bottom: 0;
         margin-left: 40px;
         margin-right: 40px;
+      }
+    }
+    .navbar-avatar {
+      cursor: pointer;
+      .avatar(36px);
+      margin-top: ((@navbar-height - 36px) / 2) !important;
+      margin-bottom: ((@navbar-height - 36px) / 2) !important;
+      &:hover{
+        border:none;
       }
     }
   }

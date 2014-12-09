@@ -22,7 +22,6 @@ angular.module 'mauiApp', [
   'angularFileUpload'
   'monospaced.elastic'
   'angular-sortable-view'
-  'textAngular'
 ]
 
 .constant 'configs',

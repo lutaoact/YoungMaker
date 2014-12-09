@@ -1,0 +1,13 @@
+angular.module('mauiApp')
+
+.config ($stateProvider) ->
+
+  $stateProvider
+
+  .state 'courseEditor',
+    url: '/courses/new'
+    templateUrl: 'app/course/course-editor/course-editor.html'
+    controller: 'CourseEditorCtrl'
+    resolve:
+      CurrentUser: (Auth)->
+        Auth.getCurrentUser()

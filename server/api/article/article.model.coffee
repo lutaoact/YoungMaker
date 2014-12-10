@@ -41,16 +41,6 @@ class Article extends BaseModel
       type: Boolean
       default: false
 
-  getAll: (conditions, from) ->
-    return @find((_.extend conditions, {deleteFlag: {$ne: true}}), '-deleteFlag')
-    .sort created: -1
-    .limit Const.PageSize.Article
-    .skip from
-    .populate 'author', 'name'
-    .execQ()
-
-  getByIdAndAuthor: (id, authorId) ->
-    return @findOneQ {_id: id, author: authorId, deleteFlag: {$ne: true}}, '-deleteFlag'
 
 exports.Class = Article
 exports.Instance = new Article()

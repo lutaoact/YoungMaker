@@ -34,6 +34,9 @@ class BaseModel
   findAllQ: () ->
     @model.findQ.apply @model, [{}].concat(_.toArray(arguments))
 
+  getByIdAndAuthor: (id, authorId) ->
+    return @findOneQ {_id: id, author: authorId, deleteFlag: {$ne: true}}, '-deleteFlag'
+
 
 methods = [
     # mongoose.Model static

@@ -5,9 +5,11 @@ LikeUtils = _u.getUtils 'like'
 
 exports.index = (req, res, next) ->
   conditions = LikeUtils.buildConditions req.query
-  from = ~~req.query.from #from参数转为整数
+  options =
+    from : ~~req.query.from #from参数转为整数
+    limit: ~~req.query.limit
 
-  LikeUtils.getCountAndPageInfo Article, conditions, from
+  LikeUtils.getCountAndPageInfo Article, conditions, options
   .then (data) ->
     res.send
       results: data[0]

@@ -22,11 +22,11 @@ class LikeUtils extends BaseUtils
     conditions.author = query.author if query.author
     return conditions
 
-  getAllForPage: (Model, conditions, from) ->
+  getAllForPage: (Model, conditions, options) ->
     return Model.find((_.extend conditions, {deleteFlag: {$ne: true}}), '-deleteFlag')
     .sort created: -1
-    .limit Const.PageSize[Model.constructor.name]#Article or Course
-    .skip from
+    .limit options.limit ? Const.PageSize[Model.constructor.name]#Article or Course
+    .skip options.from
     .populate 'author', 'name'
     .execQ()
 

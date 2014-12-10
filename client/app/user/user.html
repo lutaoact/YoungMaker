@@ -50,8 +50,13 @@
               - {{article.created | moment: 'fromNow'}}
             </small>
             <span class="pull-right">
-              <small class="text-muted" ng-if="user._id==me._id">{{article.likeUsers.length}}个赞</small>&nbsp;
-              <small class="text-muted" ng-if="user._id!=me._id"><a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a></small>&nbsp;
+              <small class="text-muted" ng-if="user._id==me._id">
+                {{article.likeUsers.length}}个赞
+              </small>
+              <small class="text-muted" ng-if="user._id!=me._id">
+                <a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+              </small>
+              &nbsp;
               <a ng-if="article.author._id == me._id"
                  style="cursor: pointer"
                  ui-sref="settings.editArticle({articleId:article._id})">

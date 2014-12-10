@@ -30,7 +30,6 @@ angular.module('mauiApp')
   $q.all [
     Restangular.all('articles').getList(author: $state.params.userId)
     .then (articles) ->
-      console.log articles
       $scope.articles = articles
   ,
     Restangular.all('courses').getList(author: $state.params.userId)

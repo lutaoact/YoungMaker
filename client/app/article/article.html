@@ -1,5 +1,6 @@
 <div class="container has-header">
 
+  <!-- article content -->
   <article>
     <h3>{{article.title}}</h3>
     <small class="text-muted">
@@ -13,5 +14,28 @@
     <hr/>
     <p><div ng-bind-html="article.content"></div></p>
   </article>
+
+  <!-- article like & share buttons -->
+  <div class="article-like">
+    <small class="text-muted" ng-if="!me._id || article.author._id==me._id">
+      {{article.likeUsers.length}}个赞
+    </small>
+    <small class="text-muted" ng-if="me._id && article.author._id!=me._id">
+      <a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+    </small>
+    &nbsp;
+  </div>
+
+  <hr>
+
+  <!-- article comment list -->
+  <h4>所有评论</h4>
+
+  <div class="article-comment text-center">
+
+    暂无评论
+
+  </div>
+
 
 </div>

@@ -50,7 +50,7 @@ angular.module 'mauiTestApp'
       $scope.$storage.request.method = method if method
       request = $scope.$storage.request
 
-      console.debug 'Send Request:', request
+      console.log 'Send Request:', request
 
       $scope.$storage.requests = {} if !$scope.$storage.requests
       $scope.$storage.requests[request.url] = angular.copy request
@@ -60,7 +60,7 @@ angular.module 'mauiTestApp'
       $http(request)
       .success (data)->
         $scope.response = data if !_.isString(data)
-        console.debug 'Response:', data
+        console.log 'Response:', data
       .error (err)->
         $scope.response = err
 
@@ -80,4 +80,4 @@ angular.module 'mauiTestApp'
   $scope.setRequest('') if !$scope.$storage.request
 
   Auth.getCurrentUser().$promise?.then (me)->
-    console.debug 'me', me
+    console.log 'me', me

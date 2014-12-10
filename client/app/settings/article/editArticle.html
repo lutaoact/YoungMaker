@@ -2,27 +2,29 @@
 
   <form role="form"
         name="newArticleForm"
-        ng-submit="saveArticle(newArticleForm)">
+        class="article-form"
+        ng-submit="">
     <div class="form-group">
-      <label for="article-title">标题</label>
       <input type="text"
-             class="form-control"
+             class="form-control article-title"
              ng-model="article.title"
-             id="article-title"
+             focus-on="articleTitle"
              placeholder="请输入文章标题"
              required>
+    </div>    <div class="form-group">
+      <div pen
+           focus-on="articleContent"
+           class="article-content"
+           placeholder="请输入话题内容"
+           ng-model="article.content">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="article-content">内容</label>
-      <textarea id="article-content"
-                class="form-control"
-                ng-model="article.content"
-                rows="6"
-                placeholder="请输入文章内容"
-                required></textarea>
-    </div>
-    <button type="submit" class="btn btn-default">保存</button>
-    <a class="btn btn-link" ui-sref="settings.myArticles">返回</a>
+    <span class="pull-right">
+      <a class="btn btn-link" ui-sref="settings.myArticles">返回</a>
+      <button type="submit"
+              ng-click="saveArticle(newArticleForm)"
+              class="btn btn-primary">保存</button>
+    </span>
   </form>
 
 </div>

@@ -6,41 +6,24 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = require '../../common/BaseModel'
 
-class Article extends BaseModel
+class Group extends BaseModel
   schema: new Schema
     title:
       type: String
       required: true
-    content:
+    description:
       type: String
-      required: true
-    author:
+    creator:
       type: ObjectId
       ref: 'user'
       required: true
-    commentsNum:
-      type: Number
-      required: true
-      default: 0
-    viewersNum:
-      type: Number
-      required: true
-      default: 0
-    likeUsers: [
+    members:[
       type: ObjectId
       ref: 'user'
     ]
-    tags: [
-      type: String
-    ]
-    pubAt:
-      type: Date
-      index: true
-      sparse: true
     deleteFlag:
       type: Boolean
       default: false
 
-
-exports.Class = Article
-exports.Instance = new Article()
+exports.Class = Group
+exports.Instance = new Group()

@@ -7,6 +7,8 @@ dist
 server/**/*.map
 server/app.js.map
 client/index.html
+client/*.js
+client/**/*.js
 .idea
 /server/test.coffee
 /server/test.js
@@ -20,3 +22,4 @@ client/index.html
 dump.rdb
 npm-debug.log
 /server/test/**/*.js
+/server/utils/*.js

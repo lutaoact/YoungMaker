@@ -9,6 +9,7 @@ class Course extends BaseModel
       type: String
       required: true
     cover: [ Number ]#表示年龄段的区间吧，其实我也不清楚
+    image: String
     videos: [
       type: String
     ]
@@ -31,6 +32,10 @@ class Course extends BaseModel
     ]
     tags: [
       type: String
+    ]
+    steps: [
+      title: String
+      content: String
     ]
     pubAt:
       type: Date

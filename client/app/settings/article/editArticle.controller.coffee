@@ -2,6 +2,7 @@ angular.module('mauiApp')
 
 .controller 'EditArticleCtrl', (
   Auth
+  focus
   $scope
   $state
   notify
@@ -13,7 +14,10 @@ angular.module('mauiApp')
 
     saveArticle: (form) ->
       if !form.$valid then return
-      console.debug $scope.article
+      if _.isEmpty $scope.article.content
+        focus 'articleContent'
+        return
+      console.log $scope.article
       if $scope.article.save?
         $scope.article.save()
         .then ->
@@ -36,16 +40,17 @@ angular.module('mauiApp')
             message: '创建文章出错啦：' + error
             classes: 'alert-danger'
 
-  if $state.params.articleId is 'new'
+  if !$state.params.articleId
+    console.log 'new article'
     $scope.article = {}
+    focus 'articleTitle'
   else
     Restangular.one('articles', $state.params.articleId).get()
     .then (article) ->
       $scope.article = article
+      focus 'articleTitle'
     .catch (error) ->
       notify
         message: '文章不存在或者已经删除：' + error
         classes: 'alert-danger'
       $state.go 'settings.myArticles'
-
-

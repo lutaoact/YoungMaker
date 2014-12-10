@@ -5,7 +5,7 @@ angular.module('mauiApp')
   $stateProvider
 
   .state 'courseEditor',
-    url: '/courses/new'
+    url: '/course-editor/:courseId'
     templateUrl: 'app/course/course-editor/course-editor.html'
     controller: 'CourseEditorCtrl'
     resolve:

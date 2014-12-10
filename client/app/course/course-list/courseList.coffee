@@ -7,4 +7,7 @@ angular.module('mauiApp')
   .state 'courseList',
     url: '/courses'
     templateUrl: 'app/course/course-list/course-list.html'
-    controller: 'ArticleCtrl'
+    controller: 'CourseListCtrl'
+    resolve:
+      CurrentUser: (Auth)->
+        Auth.getCurrentUser()

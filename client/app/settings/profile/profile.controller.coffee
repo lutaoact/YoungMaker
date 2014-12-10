@@ -15,7 +15,7 @@ angular.module('mauiApp').controller 'ProfileCtrl',(
       again: ''
 
     saveProfile: ->
-      console.debug 'profile saved'
+      console.log 'profile saved'
 
     changePassword: (form) ->
       if !form.$valid then return

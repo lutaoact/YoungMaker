@@ -27,6 +27,10 @@ angular.module 'mauiApp', [
 .constant 'configs',
   baseUrl: ''
   fpUrl: 'http://54.223.144.96:9090/'
+  imageSizeLimitation: 3 * 1024 * 1024
+  fileSizeLimitation: 30 * 1024 * 1024
+  videoSizeLimitation: 30 * 1024 * 1024
+  proVideoSizeLimitation: 1024 * 1024 * 1024
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
@@ -45,10 +49,10 @@ angular.module 'mauiApp', [
   RestangularProvider.setRestangularFields(id: "_id")
   RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
     if operation is "getList" and data.results
-      extractedData = data.results
+      data.results.$count = data.count
+      data.results
     else
-      extractedData = data
-    return extractedData
+      data
 
 .factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
   # Add authorization token to headers
@@ -160,10 +164,12 @@ angular.module 'mauiApp', [
   $rootScope
   socketHandler
   loginRedirector
+  configs
 ) ->
 
   $rootScope.Page = Page
   $rootScope.webview = webview
+  $rootScope.imageSizeLimitation = configs.imageSizeLimitation
 
   #set the default configuration options for angular-notify
   notify.config
@@ -179,7 +185,8 @@ angular.module 'mauiApp', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   setupUser = (user, goHome = false) ->
-    Msg.init()
+    # todo: init message
+    # Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply()
       $state.go('settings.profile')  if goHome
@@ -190,4 +197,3 @@ angular.module 'mauiApp', [
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then setupUser
-

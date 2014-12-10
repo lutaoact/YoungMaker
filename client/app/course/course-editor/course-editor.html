@@ -1,8 +1,8 @@
 <div class="course-editor">
   <div class="container">
 
-    <div class="panel" ng-if="editingTitle">
-      <form name="form" ng-submit="saveCourse(form, true)" novalidate>
+    <div class="panel" ng-show="editingTitle">
+      <form name="form" ng-submit="submitCourse(form, true)" novalidate>
         <div class="form-group">
           <input type="text" required placeholder="请输入课程名称。。。" ng-model="course.title" class="form-control">
         </div>
@@ -12,34 +12,46 @@
         <button type="submit" class="btn btn-primary">下一步</button>
       </form>
     </div>
-    <div class="panel" ng-if="!editingTitle">
-      <div class="panel-heading">
-        <div class="assets"></div>
-        <div class="tool-bar">
-          <div class="pull-left tools">
-            <button class="btn btn-xs tool-btn">列表</button>
-            <button class="btn btn-xs tool-btn">步骤</button>
-            <button class="btn btn-xs tool-btn">新增步骤</button>
-            <button class="btn btn-xs tool-btn">上传</button>
-            <button class="btn btn-xs tool-btn">插件</button>
-          </div>
-          <div class="pull-right actions">
-            <button class="btn btn-xs tool-btn">预览</button>
-            <button class="btn btn-xs tool-btn">保存</button>
-            <button class="btn btn-xs tool-btn">发布</button>
+    <form name="form" ng-submit="submitCourse(form, true)" novalidate>
+      <div class="panel" ng-show="!editingTitle">
+        <div class="panel-heading">
+          <div class="assets"></div>
+          <div class="tool-bar">
+            <div class="pull-left tools">
+              <a class="btn btn-xs btn-default tool-btn" ng-click="editingTitle=!editingTitle">修改基本信息</a>
+              <a class="btn btn-xs btn-default tool-btn">步骤</a>
+              <a class="btn btn-xs btn-default tool-btn" ng-click="addStep()">新增步骤</a>
+              <a class="btn btn-xs btn-default tool-btn">上传</a>
+              <a class="btn btn-xs btn-default tool-btn">插件</a>
+            </div>
+            <div class="pull-right actions">
+              <a class="btn btn-xs btn-default tool-btn">预览</a>
+              <button class="btn btn-xs btn-default tool-btn" type="submit">保存</button>
+              <a class="btn btn-xs btn-default tool-btn">发布</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="panel-body">
-        <div class="col-md-10 col-md-offset-1 editor">
-          <div class="assets">
+        <div class="panel-body">
+          <div class="col-md-10 col-md-offset-1 editor" ng-repeat="step in course.steps">
+            <div class="assets">
+            </div>
+            <input type="text" required placeholder="请输入标题。。。" class="form-control" ng-model="step.title">
+            <div pen ng-model="step.content" placeholder="请输入内容">
+            </div>
+            <hr>
           </div>
-          <input type="text" placeholder="请输入标题。。。" class="form-control">
 
-          <div pen placeholder="im a placeholder" data-placeholder="请输入内容。。。" ng-model="course.content">
+          <div class="preview" style="display:none">
+            <h1>{{course.title}}</h1>
+            <img ng-src="{{image}}" alt="" ng-repeat="image in step.images">
+            <h2 ng-repeat-start="step in course.steps">
+              {{step.title}}
+            </h2>
+            <p ng-bind-html="step.content"></p>
+            <hr ng-repeat-end>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>

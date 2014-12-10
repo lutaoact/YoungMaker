@@ -1,4 +1,42 @@
-course-list.html
+<div class="container">
+  <div class="col-lg-12">
+  <!-- todo: change course url -->
+    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="course in courses" ui-sref="courseEditor({courseId:course._id})">
+      <div class="course-tile">
+        <div class="course-cover-image" src-key="course.image" source-attr="background-image">
+        </div>
+        <h4 class="course-title">
+          {{course.title}}
+        </h4>
+        <hr>
+        <div class="tool">
+          <i class="budon budon-tool"></i>
+          <div class="badge">{{course.ingredients.length||0}}</div>
+        </div>
+        <div class="ingredients">
+          <div class="scroll">
+            <div class="ingredient text-muted" ng-repeat="ingredient in course.ingredients">
+              <div class="ingredient-image" src-key="ingredient.image" source-attr="background-image"></div>
+              x
+              {{ingredient.quantity}}
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="status text-muted">
+          <i class="fa fa-heart">
+          </i>
+          {{course.likes}}
+        </div>
+
+        <div class="pull-right">
+          <div class="avatar-xs" src-key="course.postBy.avatar" source-attr="backgroud-image"></div>
+          {{course.postBy.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <a ui-sref="courseEditor" class="btn btn-default">创建课程</a>

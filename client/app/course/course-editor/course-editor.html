@@ -1,30 +1,27 @@
 <div class="course-editor">
   <div class="container">
 
-    <div class="panel" ng-show="viewState.editingTitle">
-      <form name="form" ng-submit="submitCourse(form, true)" novalidate>
-        <div class="form-group">
-          <input type="text" required placeholder="请输入课程名称。。。" ng-model="course.title" class="form-control">
+    <form name="form" ng-submit="submitCourse(form)" novalidate>
+      <div class="panel panel-defualt">
+        <div class="panel-body">
+          <div class="form-group col-md-10 col-md-offset-1">
+            <input type="text" required placeholder="请输入课程名称。。。" ng-model="course.title" class="form-control">
+          </div>
+          <!-- todo: category -->
+          <!-- <div class="form-group">
+            <select ng-model="course.category" class="form-control" ng-options="category.name for category in categories"></select>
+          </div> -->
         </div>
-        <!-- todo: category -->
-        <!-- <div class="form-group">
-          <select ng-model="course.category" class="form-control" ng-options="category.name for category in categories"></select>
-        </div> -->
-        <button type="submit" class="btn btn-primary">下一步</button>
-        <a href="" class="btn btn-default" ng-click="viewState.editingTitle = false" ng-if="course._id">取消</a>
-      </form>
-    </div>
-    <form name="form" ng-submit="submitCourse(form, true)" novalidate>
-      <div class="panel" ng-show="!viewState.editingTitle">
+      </div>
+      <div class="panel panel-defualt">
         <div class="panel-heading">
           <div class="assets"></div>
-          <div class="tool-bar">
+          <div class="tool-bar" fix-when-reach-top offset="290">
             <div class="pull-left tools">
-              <a class="btn btn-xs btn-default tool-btn" ng-click="viewState.editingTitle=!viewState.editingTitle">修改基本信息</a>
               <a class="btn btn-xs btn-default tool-btn">步骤</a>
               <a class="btn btn-xs btn-default tool-btn" ng-click="addStep()">新增步骤</a>
-              <a class="btn btn-xs btn-default tool-btn">上传</a>
-              <a class="btn btn-xs btn-default tool-btn">插件</a>
+              <a class="btn btn-xs btn-default tool-btn" href="" tooltip="coming soon" ng-click="">上传</a>
+              <a class="btn btn-xs btn-default tool-btn" href="" tooltip="coming soon" ng-click="">插件</a>
             </div>
             <div class="pull-right actions">
               <a class="btn btn-xs btn-default tool-btn" ng-click="viewState.showPreview=true">预览</a>

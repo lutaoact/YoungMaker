@@ -1,7 +1,7 @@
 <div class="container">
   <div class="col-lg-12">
   <!-- todo: change course url -->
-    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="course in courses" ui-sref="courseEditor({courseId:course._id})">
+    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
       <div class="course-tile">
         <div class="course-cover-image" src-key="course.image" source-attr="background-image">
         </div>

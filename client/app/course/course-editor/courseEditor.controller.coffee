@@ -12,12 +12,10 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     viewState:
-      editingTitle: !$state.params.courseId
       showPreview: false
 
     course:
       content: ''
-      steps: []
 
     categories: [
       {
@@ -35,16 +33,16 @@ angular.module('mauiApp')
     ]
 
 
-    submitCourse: (form, isTitle)->
+    submitCourse: (form)->
       if !form.$valid then return
-      $scope.saveCourse(isTitle)
+      $scope.saveCourse()
 
-    saveCourse: (isTitle) ->
+    saveCourse: () ->
       # compile content todo: may not need this. Client can decide how to display according to steps
       $scope.course.content = $sanitize($('.preview').html()).replace /(ng-binding|ng-scope)/g, ''
       # get the first image. todo: move to server side
-      if $scope.course.image
-        firstImage = $('.preview ~ img:first')
+      if !$scope.course.image
+        firstImage = $('.preview img')
         if firstImage?.length
           $scope.course.image = firstImage.attr('src')
       if !$scope.course._id
@@ -57,8 +55,6 @@ angular.module('mauiApp')
         console.log $scope.course
         $scope.course.put()
         .then (course)->
-          if isTitle
-            $scope.viewState.editingTitle = false
           angular.extend $scope.course, course
         .catch (error) ->
           console.log 'error', error
@@ -66,8 +62,10 @@ angular.module('mauiApp')
     addStep: ()->
       $scope.course.steps.push {}
 
-    if $state.params.courseId
-      Restangular.one('courses', $state.params.courseId).get()
-      .then (course)->
-        angular.extend $scope.course, course
+  if $state.params.courseId
+    Restangular.one('courses', $state.params.courseId).get()
+    .then (course)->
+      $scope.course = course
+  else
+    $scope.course.steps = [{}]
 

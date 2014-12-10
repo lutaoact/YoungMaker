@@ -185,7 +185,8 @@ angular.module 'mauiApp', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   setupUser = (user, goHome = false) ->
-    Msg.init()
+    # todo: init message
+    # Msg.init()
     socketHandler.init(user)
     if !loginRedirector.apply()
       $state.go('settings.profile')  if goHome

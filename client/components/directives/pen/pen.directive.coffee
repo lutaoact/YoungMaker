@@ -13,6 +13,7 @@ angular.module('maui.components')
     stay: false
   scope:
     pen: '='
+    placeholder: '@'
   replace: false
   templateUrl: 'components/directives/pen/pen.html'
   restrict: 'EA'
@@ -42,6 +43,3 @@ angular.module('maui.components')
   controller: ($scope) ->
     $scope.onImageUploaded = (key)->
       $scope.$broadcast 'pen.image.uploaded', key
-
-
-

@@ -1,6 +1,6 @@
 BaseUtils = require('../../common/BaseUtils')
 
-class LikeUtils extends BaseUtils
+class AdapterUtils extends BaseUtils
   like: (Model, objectId, userId) ->
     tmpResult = {}
     Model.findByIdQ objectId
@@ -36,5 +36,5 @@ class LikeUtils extends BaseUtils
       Model.countQ conditions
     ]
 
-exports.Instance = new LikeUtils()
-exports.Class = LikeUtils
+exports.Instance = new AdapterUtils()
+exports.Class = AdapterUtils

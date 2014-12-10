@@ -25,6 +25,7 @@ angular.module('maui.components')
         penEl.html(ngModel.$viewValue)
       else
         penEl.html('')
+      penEl.off 'blur', extractContent
       penEl.on 'blur', extractContent
     extractContent = ()->
       ngModel.$setViewValue(penEl.html())

@@ -101,7 +101,6 @@ angular.module 'mauiApp', [
   # Intercept 401s and redirect you to login
   responseError: (response) ->
     if response.status is 401
-      loginRedirector.set($location.url())
       # remove any stale tokens
       $cookieStore.remove 'token'
       $q.reject response

@@ -32,13 +32,13 @@
     <tabset type="pills"
             justified="true"
             class="col-md-9">
-      <tab heading="我的课程" active="courses.$active">
+      <tab heading="{{'#mine#课程' | mine:user._id}}" active="courses.$active">
         <br/>
         <div ng-if="!courses.length" class="text-center">
           暂无发布课程
         </div>
       </tab>
-      <tab heading="我的话题" active="articles.$active">
+      <tab heading="{{'#mine#话题' | mine:user._id}}" active="articles.$active">
         <br/>
         <div ng-if="!articles.length" class="text-center">
           暂无发表话题
@@ -50,6 +50,8 @@
               - {{article.created | moment: 'fromNow'}}
             </small>
             <span class="pull-right">
+              <small class="text-muted" ng-if="user._id==me._id">{{article.likeUsers.length}}个赞</small>&nbsp;
+              <small class="text-muted" ng-if="user._id!=me._id"><a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a></small>&nbsp;
               <a ng-if="article.author._id == me._id"
                  style="cursor: pointer"
                  ui-sref="settings.editArticle({articleId:article._id})">

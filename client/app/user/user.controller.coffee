@@ -18,6 +18,11 @@ angular.module('mauiApp')
     articles : []
     comments : []
 
+    likeClick: (article) ->
+      Restangular.one('articles', article._id).customPOST(null, 'like')
+      .then (dbArticle) ->
+        angular.extend article, dbArticle
+
   Restangular.one('users', $state.params.userId).get()
   .then (user) ->
     $scope.user = user

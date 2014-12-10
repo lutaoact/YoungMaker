@@ -39,7 +39,6 @@ angular.module('mauiApp')
       .then (course)->
         if isTitle
           $scope.editingTitle = false
-          if $scope.course.
         angular.extend $scope.course, course
       .catch (error) ->
         console.log 'error', error

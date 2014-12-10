@@ -17,7 +17,7 @@ angular.module('mauiApp')
       if _.isEmpty $scope.article.content
         focus 'articleContent'
         return
-      console.debug $scope.article
+      console.log $scope.article
       if $scope.article.save?
         $scope.article.save()
         .then ->

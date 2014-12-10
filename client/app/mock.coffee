@@ -29,25 +29,25 @@ angular.module 'mauiAppDev', [
 
   $httpBackend.whenGET(/^api\/courses$/)
   .respond (method, url, data)->
-    console.debug 'Mock get courses'
+    console.log 'Mock get courses'
     [200, 'get courses']
 
   $httpBackend.whenGET(/^api\/courses\/[0-9]+$/)
   .respond (method, url, data)->
-    console.debug 'Mock get course by id'
+    console.log 'Mock get course by id'
     [200, 'get course by id']
 
   $httpBackend.whenGET(/^api\/lectures\?courseId=/)
   .respond (method, url, data)->
-    console.debug 'get lectures by courseId'
+    console.log 'get lectures by courseId'
     [200, 'get lectures by courseId']
 
   $httpBackend.whenGET(/^api\/lectures\/[0-9]+$/)
   .respond (method, url, data)->
-    console.debug 'get lecture by id'
+    console.log 'get lecture by id'
     [200, 'get lecture by id']
 
-  console.debug "Start Mock HttpBackend ..."
+  console.log "Start Mock HttpBackend ..."
 
   $httpBackend.whenGET(/.*/).passThrough()
   $httpBackend.whenPUT(/.*/).passThrough()

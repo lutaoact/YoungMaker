@@ -179,7 +179,7 @@ angular.module 'maui.components'
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
         .error (error) ->
-          console.debug 'error', error
+          console.log 'error', error
       .error opts.fail
     , opts.fail
 

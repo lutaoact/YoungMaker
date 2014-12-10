@@ -35,7 +35,7 @@ angular.module('mauiApp').controller 'loginModalCtrl', (
         $scope.loggingIn = false
         $modalInstance.close()
       , (error)->
-        console.debug error
+        console.log error
         $scope.loggingIn = false
         $scope.viewState.errors =
           data: "用户名或密码错误"

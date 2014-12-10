@@ -1,51 +1,21 @@
-"use strict"
+'use strict'
 
-Course = _u.getModel "course"
-Lecture = _u.getModel "lecture"
+LikeUtils = _u.getUtils 'like'
+Course = _u.getModel 'course'
+WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
-exports.index = (req, res, next) ->
-  Course.findAllQ()
-  .then (result) ->
-    res.send result
-  .catch next
-  .done()
+exports.index = WrapRequest.wrapIndex()
 
+exports.show = WrapRequest.wrapShow()
 
-exports.show = (req, res, next) ->
-  Course.findByIdQ req.params.id
-  .then (course) ->
-    res.send course
-  .catch next
-  .done()
+pickedKeys = ['title', 'cover', 'image', 'videos', 'content', 'tags', 'steps']
+exports.create = WrapRequest.wrapCreate pickedKeys
 
+omittedKeys = ['_id', 'author', 'commentsNum', 'viewersNum', 'likeUsers'
+  'deleteFlag', 'pubAt'
+]
+exports.update = WrapRequest.wrapUpdate omittedKeys
 
-exports.create = (req, res, next) ->
-  body = req.body
-  delete body._id
-  Course.createQ body
-  .then (result) ->
-    res.json 201, result
-  .catch next
-  .done()
+exports.destroy = WrapRequest.wrapDestroy()
 
-
-exports.update = (req, res, next) ->
-  body = req.body
-  delete body._id
-
-  Course.findByIdQ req.params.id
-  .then (course) ->
-    updated = _.extend course, body
-    do updated.saveQ
-  .then (result) ->
-    res.send result[0]
-  .catch next
-  .done()
-
-
-exports.destroy = (req, res, next) ->
-  Course.removeQ _id : course._id
-  .then () ->
-    res.send 204
-  .catch next
-  .done()
+exports.like = WrapRequest.wrapLike()

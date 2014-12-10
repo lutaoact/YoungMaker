@@ -25,10 +25,10 @@
         <li>
           <a href="" class="fa fa-square"></a>
         </li>
-        <li>
+        <li ng-class="{active:isActive('main')}">
           <a href="/" class="sprite-nav-find"></a>
         </li>
-        <li>
+        <li ng-class="{active:isActive('courseList')}">
           <a ui-sref="courseList" class="sprite-nav-course"></a>
         </li>
       </ul>
@@ -38,7 +38,7 @@
       </a>
 
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li ng-class="{active:isActive('articleList')}">
           <a ui-sref="articleList" class="sprite-nav-topic"></a>
         </li>
         <li>

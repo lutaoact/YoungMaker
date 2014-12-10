@@ -11,8 +11,9 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-
-    editingTitle: !$state.params.courseId
+    viewState:
+      editingTitle: !$state.params.courseId
+      showPreview: false
 
     course:
       content: ''
@@ -49,9 +50,7 @@ angular.module('mauiApp')
       if !$scope.course._id
         Restangular.all('courses').post($scope.course)
         .then (course)->
-          if isTitle
-            $scope.editingTitle = false
-          angular.extend $scope.course, course
+          $state.go 'courseEditor', {courseId: course._id}
         .catch (error) ->
           console.log 'error', error
       else
@@ -59,7 +58,7 @@ angular.module('mauiApp')
         $scope.course.put()
         .then (course)->
           if isTitle
-            $scope.editingTitle = false
+            $scope.viewState.editingTitle = false
           angular.extend $scope.course, course
         .catch (error) ->
           console.log 'error', error

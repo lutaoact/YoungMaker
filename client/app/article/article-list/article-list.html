@@ -1,10 +1,34 @@
 <div class="container has-header">
   <div class="row">
-    <div class="col-md-3">
+
+    <div class="col-md-3" text-center>
       <a ui-sref="groupNew"><i>+</i>申请创建小组</a>
     </div>
-    <div class="col-md-9">
-      haha
+
+    <div class="col-md-9 col-sm-12" >
+      <div class="panel panel-default setting-panel">
+        <div class="panel-body" style="position: relative;">
+          <div>
+            <h4>
+              话题
+              <a ui-sref="settings.newArticle" class="btn btn-link pull-right">创建新文章</a>
+            </h4>
+            <hr/>
+            <div class="list-group">
+              <div class="list-group-item" ng-repeat="article in articles">
+                <a target="_blank" ui-sref="article({articleId: article._id})">{{article.title}}</a>
+                <small class="text-muted">- {{article.created | moment:'fromNow'}}</small>
+                <span class="pull-right">
+
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+
   </div>
 </div>

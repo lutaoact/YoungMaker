@@ -45,10 +45,10 @@ angular.module 'mauiApp', [
   RestangularProvider.setRestangularFields(id: "_id")
   RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
     if operation is "getList" and data.results
-      extractedData = data.results
+      data.results.$count = data.count
+      data.results
     else
-      extractedData = data
-    return extractedData
+      data
 
 .factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
   # Add authorization token to headers
@@ -190,4 +190,3 @@ angular.module 'mauiApp', [
 
   # Reload Auth
   Auth.getCurrentUser().$promise?.then setupUser
-

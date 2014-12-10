@@ -1,26 +1,7 @@
 <div class="container has-header">
   <div class="row">
-    <div class="col-md-9">
-      <h4>
-        最近文章
-      </h4>
-      <hr/>
-      <span ng-if="!articles.length">
-        暂无发表文章
-      </span>
-      <div class="list-group">
-        <div class="list-group-item" ng-repeat="article in articles">
-          <a ui-sref="article({articleId: article._id})">{{article.title}}</a>
-          <small class="pull-right text-muted">
-            <a class="text-info"
-               target="{{article.author._id}}"
-               ui-sref="user({userId: article.author._id})">{{article.author.name}}</a>
-            - {{article.created | date}}
-          </small>
-        </div>
-      </div>
-    </div>
 
+    <!-- user info -->
     <div class="col-md-3 text-center">
       <div class="avatar-lg"
            src-key="user.avatar"
@@ -32,8 +13,58 @@
           {{user.name}}
         </h3>
         <p>{{user.info}}</p>
-        <p class="btn-group"><a class="btn btn-primary">文章 {{articles.length}}</a> <a class="btn btn-default">评论 {{comments.length}}</a></p>
+        <p class="btn-group">
+          <a ng-click="courses.$active=true"
+             ng-class="{'btn-primary':courses.$active}"
+             class="btn btn-default">
+             课程 {{courses.$count}}
+          </a>
+          <a ng-click="articles.$active=true"
+             ng-class="{'btn-primary':articles.$active}"
+             class="btn btn-default">
+             话题 {{articles.$count}}
+          </a>
+        </p>
       </div>
     </div>
+
+    <!-- user articles & courses-->
+    <tabset type="pills"
+            justified="true"
+            class="col-md-9">
+      <tab heading="我的课程" active="courses.$active">
+        <br/>
+        <div ng-if="!courses.length" class="text-center">
+          暂无发布课程
+        </div>
+      </tab>
+      <tab heading="我的话题" active="articles.$active">
+        <br/>
+        <div ng-if="!articles.length" class="text-center">
+          暂无发表话题
+        </div>
+        <div class="list-group">
+          <div class="list-group-item" ng-repeat="article in articles">
+            <a ui-sref="article({articleId: article._id})">{{article.title}}</a>
+            <small class="text-muted">
+              - {{article.created | moment: 'fromNow'}}
+            </small>
+            <span class="pull-right">
+              <a ng-if="article.author._id == me._id"
+                 style="cursor: pointer"
+                 ui-sref="settings.editArticle({articleId:article._id})">
+                 编辑
+              </a>
+              <a ng-if="article.author._id == me._id"
+                 style="cursor: pointer"
+                 ng-click="removeArticle(article)">
+                 删除
+              </a>
+            </span>
+          </div>
+        </div>
+
+      </tab>
+    </tabset>
   </div>
 </div>

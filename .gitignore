@@ -7,6 +7,8 @@ dist
 server/**/*.map
 server/app.js.map
 client/index.html
+client/*.js
+client/**/*.js
 .idea
 /server/test.coffee
 /server/test.js

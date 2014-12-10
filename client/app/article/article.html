@@ -2,10 +2,13 @@
 
   <article>
     <h3>{{article.title}}</h3>
-    <small class="text-muted">post by
+    <small class="text-muted">
       <a class="text-info"
          ui-sref="user({userId: article.author._id})">{{article.author.name}}</a>
       - {{article.created | moment: 'fromNow'}}
+    </small>
+    <small class="pull-right text-muted">
+      {{article.viewersNum}}次查看
     </small>
     <hr/>
     <p>{{article.content}}</p>

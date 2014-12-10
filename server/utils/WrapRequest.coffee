@@ -45,5 +45,41 @@ class WrapRequest
       .catch next
       .done()
 
+  wrapUpdate: (omittedKeys) ->
+    return (req, res, next) =>
+      _id = req.params.id
+      user = req.user
+      body = req.body
+      #以下字段不允许外部更新，会有相应的内部处理逻辑
+      body = _.omit body, omittedKeys
+
+      @Model.getByIdAndAuthor _id, user._id
+      .then (doc) ->
+        updated = _.extend doc, body
+        do updated.saveQ
+      .then (result) ->
+        res.send result[0]
+      .catch next
+      .done()
+
+  wrapDestroy: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+      @Model.updateQ {_id: _id}, {deleteFlag: true}
+      .then () ->
+        res.send 204
+      .catch next
+      .done()
+
+  wrapLike: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+      user = req.user
+      LikeUtils.like @Model, _id, user._id
+      .then (doc) ->
+        res.send doc
+      .catch next
+      .done()
+
 
 module.exports = WrapRequest

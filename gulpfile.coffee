@@ -1,7 +1,7 @@
-gulp = require 'gulp'
-del = require 'del'
+gulp        = require 'gulp'
+del         = require 'del'
 runSequence = require 'run-sequence'
-merge = require 'merge-stream'
+merge       = require 'merge-stream'
 
 $ = require('gulp-load-plugins')
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']

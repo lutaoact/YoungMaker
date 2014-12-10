@@ -34,5 +34,16 @@ class WrapRequest
       .catch next
       .done()
 
+  wrapCreate: (pickedKeys) ->
+    return (req, res, next) =>
+      data = _.pick req.body, pickedKeys
+      data.author = req.user._id
+
+      @Model.createQ data
+      .then (newDoc) ->
+        res.send newDoc
+      .catch next
+      .done()
+
 
 module.exports = WrapRequest

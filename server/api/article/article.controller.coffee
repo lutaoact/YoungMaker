@@ -8,23 +8,16 @@ exports.index = WrapRequest.wrapIndex()
 
 exports.show = WrapRequest.wrapShow()
 
-exports.create = (req, res, next) ->
-  propertiesToSave = ['title', 'content', 'tags']
-  newArticle = _.pick(req.body, propertiesToSave) # tidy new article from client side
-  newArticle.author = req.user._id
+pickedKeys = ['title', 'content', 'tags']
+exports.create = WrapRequest.wrapCreate pickedKeys
 
-  Article.createQ newArticle
-  .then (dbArticle) ->
-    res.send dbArticle
-  .catch next
-  .done()
-
+omittedKeys = ['_id', 'author', 'commentsNum', 'viewersNum', 'likeUsers', 'deleteFlag']
 exports.update = (req, res, next) ->
   articleId = req.params.id
   user = req.user
   body = req.body
   #以下字段不允许外部更新，会有相应的内部处理逻辑
-  body = _.omit body, ['_id', 'author', 'commentsNum', 'viewersNum', 'likeUsers', 'deleteFlag']
+  body = _.omit body, omittedKeys
 
   Article.getByIdAndAuthor articleId, user._id
   .then (article) ->

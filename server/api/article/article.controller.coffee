@@ -2,34 +2,11 @@
 
 Article = _u.getModel 'article'
 LikeUtils = _u.getUtils 'like'
+WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
-exports.index = (req, res, next) ->
-  conditions = LikeUtils.buildConditions req.query
-  options =
-    from : ~~req.query.from #from参数转为整数
-    limit: ~~req.query.limit
+exports.index = WrapRequest.wrapIndex()
 
-  LikeUtils.getCountAndPageInfo Article, conditions, options
-  .then (data) ->
-    res.send
-      results: data[0]
-      count: data[1]
-  .catch next
-  .done()
-
-exports.show = (req, res, next) ->
-  articleId = req.params.id
-
-  Article.findById articleId
-  .populate 'author', 'name'
-  .execQ()
-  .then (article) ->
-    article.viewersNum += 1 #每次调用API，相当于查看一次
-    do article.saveQ
-  .then (result) ->
-    res.send result[0]
-  .catch next
-  .done()
+exports.show = WrapRequest.wrapShow()
 
 exports.create = (req, res, next) ->
   propertiesToSave = ['title', 'content', 'tags']

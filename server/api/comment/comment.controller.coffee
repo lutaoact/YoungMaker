@@ -1,7 +1,7 @@
 'use strict'
 
 Comment = _u.getModel 'comment'
-LikeUtils = _u.getUtils 'like'
+AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
 
 exports.index = (req, res, next) ->
@@ -62,7 +62,7 @@ exports.destroy = (req, res, next) ->
 exports.like = (req, res, next) ->
   commentId = req.params.id
   user = req.user
-  LikeUtils.like Comment, commentId, user._id
+  AdapterUtils.like Comment, commentId, user._id
   .then (comment) ->
     res.send comment
   .catch next

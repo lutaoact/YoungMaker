@@ -1,6 +1,6 @@
 'use strict'
 
-LikeUtils = _u.getUtils 'like'
+AdapterUtils = _u.getUtils 'adapter'
 Course = _u.getModel 'course'
 WrapRequest = new (require '../../utils/WrapRequest')(Course)
 

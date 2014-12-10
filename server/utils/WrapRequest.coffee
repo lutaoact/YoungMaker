@@ -1,17 +1,17 @@
 require '../common/init'
-LikeUtils = _u.getUtils 'like'
+AdapterUtils = _u.getUtils 'adapter'
 
 class WrapRequest
   constructor: (@Model) ->
 
   wrapIndex: () ->
     return (req, res, next) =>
-      conditions = LikeUtils.buildConditions req.query
+      conditions = AdapterUtils.buildConditions req.query
       options =
         from : ~~req.query.from #from参数转为整数
         limit: ~~req.query.limit
 
-      LikeUtils.getCountAndPageInfo @Model, conditions, options
+      AdapterUtils.getCountAndPageInfo @Model, conditions, options
       .then (data) ->
         res.send
           results: data[0]
@@ -75,7 +75,7 @@ class WrapRequest
     return (req, res, next) =>
       _id = req.params.id
       user = req.user
-      LikeUtils.like @Model, _id, user._id
+      AdapterUtils.like @Model, _id, user._id
       .then (doc) ->
         res.send doc
       .catch next

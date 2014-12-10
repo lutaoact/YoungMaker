@@ -1,7 +1,7 @@
 'use strict'
 
 Article = _u.getModel 'article'
-LikeUtils = _u.getUtils 'like'
+AdapterUtils = _u.getUtils 'adapter'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
 exports.index = WrapRequest.wrapIndex()

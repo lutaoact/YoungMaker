@@ -9,7 +9,7 @@ angular.module('maui.components')
   controller: 'UploadCtrl'
   templateUrl: 'components/directives/uploader/uploader.html'
   scope:
-    limit: '='
+    limit: '@'
     acceptType: '@'
     multiple: '@'
     onBegin: '&'

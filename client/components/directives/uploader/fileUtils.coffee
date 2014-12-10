@@ -150,12 +150,10 @@ angular.module 'maui.components'
     , opts.fail
 
   doUploadSlides = (opts, file)->
-    console.debug 'get upload key', file
     # get upload token
     Restangular.one('assets/upload/slides','').get(fileName: file.name)
     .then (strategy)->
       start = moment()
-      console.debug 'start upload', file
       $upload.upload
         url: strategy.url
         method: 'POST'
@@ -164,18 +162,17 @@ angular.module 'maui.components'
         file: file
         fileFormDataName: 'file'
       .progress (evt)->
-        console.debug 'start upload', evt
         speed = evt.loaded / (moment().valueOf() - start.valueOf())
         percentage = parseInt(100.0 * evt.loaded / evt.total)
         opts.progress?(speed, percentage, evt)
       .success (data) ->
         key = strategy.formData.key
-        console.debug 'success upload', strategy
         opts.convert?(key)
         $http.post configs.fpUrl + 'api/convert?key=' + encodeURIComponent(key)
         .success (content)->
-          console.debug 'convert done', content
           result =
+            fileWidth: content.width
+            fileHeight: content.height
             fileName: file.name
             fileContent: _.map content.rawPics, (pic) ->
               raw: strategy.prefix + pic

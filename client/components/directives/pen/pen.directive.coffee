@@ -7,7 +7,7 @@ angular.module('maui.components')
     class: 'pen',
     textarea: '<textarea name="content"></textarea>',
     list: [
-      'blockquote', 'h2', 'h3', 'p', 'insertorderedlist', 'insertunorderedlist',
+      'blockquote','pre', 'h3', 'p', 'insertorderedlist', 'insertunorderedlist',
       'indent', 'outdent', 'bold', 'italic', 'underline', 'createlink'
     ],
     stay: false

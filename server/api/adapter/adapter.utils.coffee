@@ -25,15 +25,12 @@ class AdapterUtils extends BaseUtils
     return conditions
 
   getAllForPage: (Model, conditions, options) ->
-    userInfoFiledName = 'author'
-    for prop in ['creator']
-      userInfoFiledName = prop if conditions.hasOwnProperty(prop)
-
+    modelName = Model.constructor.name
     return Model.find((_.extend conditions, {deleteFlag: {$ne: true}}), '-deleteFlag')
     .sort created: -1
-    .limit options.limit ? Const.PageSize[Model.constructor.name]#Article or Course
+    .limit options.limit ? Const.PageSize[modelName]#Article or Course
     .skip options.from
-    .populate userInfoFiledName, 'name avatar info'
+    .populate fieldMap[modelName].field, fieldMap[modelName].populate
     .execQ()
 
   getCountAndPageInfo: (Model, conditions, from) ->

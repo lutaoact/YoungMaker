@@ -4,6 +4,7 @@ global.socketMap = {}
 global._u = require './util'
 global.BaseUtils = require './BaseUtils'
 global.ErrCode = require './ErrCode'
+global.fieldMap = require './fieldMap'
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 global.config = require '../config/environment'

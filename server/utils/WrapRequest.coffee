@@ -1,11 +1,6 @@
 require '../common/init'
 AdapterUtils = _u.getUtils 'adapter'
 
-filedMap =
-  'Course': 'author'
-  'Article': 'author'
-  'Group': 'creator'
-
 class WrapRequest
   constructor: (@Model) ->
 

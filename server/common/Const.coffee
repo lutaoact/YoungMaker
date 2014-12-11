@@ -34,6 +34,7 @@ Const =
     Course: 10
     Question: 300
     Article: 10
+    Group: 10
 
   QuestionType:
     Choice: 1

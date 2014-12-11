@@ -40,6 +40,9 @@
         <div class="col-lg-4 col-md-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
           <course-tile course="course"></course-tile>
         </div>
+        <div id="new-course" class="text-center">
+          <a href ng-if="user._id==me()._id" ng-click="createCourse()">创建新课程</a>
+        </div>
       </tab>
       <tab heading="{{'#mine#话题' | mine:user._id}}" active="articles.$active">
         <br/>

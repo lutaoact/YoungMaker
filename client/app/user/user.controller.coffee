@@ -39,6 +39,9 @@ angular.module('mauiApp')
       .then (article) ->
         $state.go 'article-edit', articleId: article._id
 
+    createCourse: ->
+      $state.go 'courseEditor'
+
   Restangular.one('users', $state.params.userId).get()
   .then (user) ->
     $scope.user = user
@@ -55,3 +58,5 @@ angular.module('mauiApp')
   .then ->
     if $scope.articles.length && !$scope.courses.length
       $scope.articles.$active = true
+    else
+      $scope.courses.$active = true

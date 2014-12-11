@@ -14,5 +14,3 @@ omittedKeys = ['_id', 'creator', 'members', 'deleteFlag']
 exports.update = WrapRequest.wrapUpdate omittedKeys
 
 exports.destroy = WrapRequest.wrapDestroy()
-
-exports.like = WrapRequest.wrapLike()

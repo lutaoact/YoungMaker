@@ -17,8 +17,5 @@ angular.module('mauiApp').directive 'courseTile', ->
         $scope.course.one('like').post()
         .then (res)->
           $scope.course.likeUsers = res.likeUsers
-
-      Auth.getCurrentUser()
-      .$promise?.then (result)->
-        $scope.me = result
+      getMe: Auth.getCurrentUser
 

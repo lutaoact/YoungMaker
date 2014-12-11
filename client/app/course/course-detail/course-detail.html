@@ -1,3 +1,3 @@
 <div class="all" ng-bind-html="course.content">
 </div>
-<a ui-sref="courseEditor({courseId:course._id})" ng-if="course.author._id==me._id">修改</a>
+<a ui-sref="courseEditor({courseId:course._id})" ng-if="course.author._id==getMe()._id">修改</a>

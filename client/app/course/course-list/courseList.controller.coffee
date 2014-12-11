@@ -5,13 +5,11 @@ angular.module('mauiApp')
   $scope
   $state
   Restangular
-  CurrentUser
   notify
 ) ->
 
   angular.extend $scope,
     courses: []
-    me: CurrentUser
 
   Restangular.all('courses').getList({from: 0, limit: 10})
   .then (courses)->

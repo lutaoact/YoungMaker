@@ -5,13 +5,12 @@ angular.module('mauiApp')
   $scope
   $state
   Restangular
-  CurrentUser
   notify
 ) ->
 
   angular.extend $scope,
     courses: []
-    me: CurrentUser
+    getMe: Auth.getCurrentUser
 
   if $state.params.courseId
       Restangular.one('courses', $state.params.courseId).get()

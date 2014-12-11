@@ -8,6 +8,3 @@ angular.module('mauiApp')
     url: '/course-editor/:courseId'
     templateUrl: 'app/course/course-editor/course-editor.html'
     controller: 'CourseEditorCtrl'
-    resolve:
-      CurrentUser: (Auth)->
-        Auth.getCurrentUser()

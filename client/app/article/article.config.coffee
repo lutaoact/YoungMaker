@@ -14,3 +14,8 @@ angular.module('mauiApp')
     templateUrl: 'app/article/article-editor/article-editor.html'
     controller: 'ArticleEditorCtrl'
     authenticate: true
+
+  .state 'articleList',
+    url: '/topics'
+    templateUrl: 'app/article/article-list/article-list.html'
+    controller: 'ArticleListCtrl'

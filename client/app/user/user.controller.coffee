@@ -21,8 +21,8 @@ angular.module('mauiApp')
 
     likeClick: (article) ->
       article.customPOST(null, 'like')
-      .then (dbArticle) ->
-        article.likeUsers = dbArticle.likeUsers
+      .then (newArticle) ->
+        article.likeUsers = newArticle.likeUsers
 
     removeArticle: (article) ->
       article.remove().then ->

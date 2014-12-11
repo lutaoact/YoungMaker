@@ -12,7 +12,7 @@
         <div class="list-group">
           <div class="list-group-item" ng-repeat="group in groups">
             <a target="_blank" ui-sref="group({groupId: group._id})">{{group.title}}</a>
-            
+
           </div>
         </div>
       </div>
@@ -24,18 +24,35 @@
           <div>
             <h4>
               话题
-              <a ui-sref="settings.newArticle" class="btn btn-link pull-right">创建新文章</a>
             </h4>
             <hr/>
-            <div class="list-group">
-              <div class="list-group-item" ng-repeat="article in articles">
-                <a target="_blank" ui-sref="article({articleId: article._id})">{{article.title}}</a>
-                <small class="text-muted">- {{article.created | moment:'fromNow'}}</small>
-                <span class="pull-right">
+        <br/>
+        <div ng-if="!articles.length" class="text-center">
+          暂无发表话题
+        </div>
+        <div class="list-group">
+          <div class="list-group-item" ng-repeat="article in articles">
+            <a ui-sref="articleDetail({articleId: article._id})">{{article.title}}</a>
 
-                </span>
-              </div>
-            </div>
+            <small class="text-muted">
+              post by
+              <a class="text-info"
+                 ui-sref="user({userId: article.author._id})">{{article.author.name}}</a>
+              - {{article.created | moment: 'fromNow'}}
+            </small>
+            <span class="pull-right">
+              <small class="text-muted" ng-if="!me()._id">
+                {{article.likeUsers.length}}个赞
+              </small>
+              <small class="text-muted" ng-if="me()._id">
+                <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+              </small>
+            </span>
+          </div>
+        </div>
+        <div id="new-article" class="text-center">
+          <a href ng-if="me()._id" ng-click="createArticle()">创建新话题</a>
+        </div>
           </div>
         </div>
       </div>

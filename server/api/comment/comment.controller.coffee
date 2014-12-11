@@ -5,15 +5,7 @@ AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
 WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
-exports.index = (req, res, next) ->
-  type = req.query.type
-  belongTo = req.query.belongTo
-
-  Comment.getByTypeAndBelongTo type, belongTo
-  .then (comments) ->
-    res.send comments
-  .catch next
-  .done()
+exports.index = WrapRequest.wrapIndex()
 
 exports.create = (req, res, next) ->
   user = req.user

@@ -8,3 +8,6 @@ module.exports =
   Group:
     field: 'creator'
     populate: 'name avatar info'
+  Comment:
+    field: 'author'
+    populate: 'name avatar info'

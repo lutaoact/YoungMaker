@@ -21,6 +21,8 @@ class AdapterUtils extends BaseUtils
     conditions = {}
     conditions.author = query.author if query.author
     conditions.creator = query.creator if query.creator
+    conditions.type = query.type if query.type
+    conditions.belongTo = query.belongTo if query.belongTo
 
     return conditions
 

@@ -19,3 +19,5 @@ angular.module('mauiApp')
           windowClass: 'center-modal'
         .result.then ->
           scope.loginSuccess?()
+      else
+        scope.loginSuccess?()

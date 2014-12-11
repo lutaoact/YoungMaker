@@ -7,6 +7,7 @@ angular.module('mauiApp')
   Auth
   $scope
   $state
+  notify
   Restangular
 ) ->
 
@@ -23,14 +24,15 @@ angular.module('mauiApp')
         index = $scope.articles.indexOf article
         $scope.articles.splice index, 1
         notify
-          message: '文章已经删除'
+          message: '话题已经删除'
           classes: 'alert-success'
 
     createArticle: ->
       Restangular.all('articles').post
-        title: '未命名的文章'
+        title: '新建话题'
+        content: ''
       .then (article) ->
-        $state.go 'edit-article', articleId: article._id
+        $state.go 'article-edit', articleId: article._id
 
   Restangular.one('users', $state.params.userId).get()
   .then (user) ->

@@ -48,7 +48,7 @@
         </div>
         <div class="list-group">
           <div class="list-group-item" ng-repeat="article in articles">
-            <a ui-sref="article({articleId: article._id})">{{article.title}}</a>
+            <a ui-sref="article-detail({articleId: article._id})">{{article.title}}</a>
             <small class="text-muted">
               - {{article.created | moment: 'fromNow'}}
             </small>

@@ -17,24 +17,21 @@ angular.module('mauiApp')
         focus 'articleContent'
         return
       console.log $scope.article
-      onSave = (article) ->
-        $scope.onSave?(article:article)
+      $scope.article.save()
+      .then (article) ->
+        angular.extend $scope.article, article
         notify
-          message: '文章已保存'
+          message: '话题已保存'
           classes: 'alert-success'
-      onError = (error) ->
-        $scope.onError?(error:error)
+      .catch (error) ->
+        console.log error
         notify
-          message: '保存文章出错啦：' + error
+          message: '保存话题出错啦：' + error
           classes: 'alert-danger'
-      if $scope.article.save?
-        $scope.article.save()
-        .then onSave
-        .catch onError
-      else
-        Restangular.all('articles').post($scope.article)
-        .then onSave
-        .catch onError
+
+    deleteArticle: ->
+      $scope.article.remove().then ->
+        $state.go('user', userId:$scope.article.author._id)
 
   Restangular.one('articles', $state.params.articleId).get()
   .then (article) ->
@@ -42,5 +39,5 @@ angular.module('mauiApp')
     focus 'articleTitle'
   .catch (error) ->
     notify
-      message: '文章不存在或者已经删除：' + error
+      message: '话题不存在或者已经删除：' + error
       classes: 'alert-danger'

@@ -4,7 +4,7 @@ angular.module('mauiApp')
 
   $stateProvider
 
-  .state 'article',
+  .state 'article-detail',
     url: '/articles/:articleId'
     templateUrl: 'app/article/article-detail/article-detail.html'
     controller: 'ArticleDetailCtrl'

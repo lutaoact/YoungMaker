@@ -13,7 +13,6 @@ class Article extends BaseModel
       required: true
     content:
       type: String
-      required: true
     author:
       type: ObjectId
       ref: 'user'

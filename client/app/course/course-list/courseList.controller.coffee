@@ -11,6 +11,7 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     courses: []
+    me: CurrentUser
 
   Restangular.all('courses').getList({from: 0, limit: 10})
   .then (courses)->

@@ -68,9 +68,17 @@
   .status{
     display: inline-block;
     margin-right: 15px;
-    .fa-heart{
-      color: @brand-danger;
+    .toggle{
+      cursor: pointer;
+      .transition(all 0.2s ease-in-out);
+      &:hover{
+        .scale(1.2,1.2);
+      }
+      &.active{
+        color: @brand-danger;
+      }
     }
+
   }
   .avatar-xs{
     display: inline-block;

@@ -13,6 +13,7 @@ angular.module('mauiApp')
   angular.extend $scope,
     viewState:
       showPreview: false
+    me: CurrentUser
 
     course:
       content: ''

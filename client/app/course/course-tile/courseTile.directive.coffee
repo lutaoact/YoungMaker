@@ -8,6 +8,17 @@ angular.module('mauiApp').directive 'courseTile', ->
     course: '='
   link: (scope, element, attrs) ->
 
-  controller: ($scope)->
-    $scope.stopPropagation = ($event)->
-      $event.stopPropagation()
+  controller: ($scope, Restangular, Auth)->
+    angular.extend $scope,
+      stopPropagation: ($event)->
+        $event.preventDefault()
+        $event.stopPropagation()
+      toggleVote: ()->
+        $scope.course.one('like').post()
+        .then (res)->
+          $scope.course.likeUsers = res.likeUsers
+
+      Auth.getCurrentUser()
+      .$promise?.then (result)->
+        $scope.me = result
+

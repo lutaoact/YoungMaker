@@ -1,0 +1,9 @@
+<div>
+
+<h2>{{group.title}}</h2>
+<p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
+<article>{{group.description}}</article>
+
+
+<a href=""><i>+</i>发言</a>
+</div>

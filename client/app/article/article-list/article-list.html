@@ -2,7 +2,20 @@
   <div class="row">
 
     <div class="col-md-3" text-center>
+
       <a ui-sref="groupNew"><i>+</i>申请创建小组</a>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">值得加入的小组</h3>
+        </div>
+        <div class="list-group">
+          <div class="list-group-item" ng-repeat="group in groups">
+            <a target="_blank" ui-sref="group({groupId: group._id})">{{group.title}}</a>
+            
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col-md-9 col-sm-12" >

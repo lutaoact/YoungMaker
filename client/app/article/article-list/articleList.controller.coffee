@@ -19,3 +19,10 @@ angular.module('mauiApp')
       article.remove().then reloadArticles
 
   reloadArticles()
+
+  loadGroups = ->
+    Restangular.all('groups').getList()
+    .then (groups) ->
+      $scope.groups = groups
+
+  loadGroups()

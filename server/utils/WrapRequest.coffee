@@ -69,7 +69,7 @@ class WrapRequest
 
       @Model.getByIdAndUser _id, user._id
       .then (doc) ->
-        updated = _.extend doc, body
+        updated = _.extend doc, data
         do updated.saveQ
       .then (result) ->
         res.send result[0]

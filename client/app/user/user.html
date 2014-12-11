@@ -57,7 +57,7 @@
                 {{article.likeUsers.length}}个赞
               </small>
               <small class="text-muted" ng-if="user._id!=me()._id">
-                <a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+                <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
               </small>
               &nbsp;
               <a ng-if="article.author._id == me()._id"

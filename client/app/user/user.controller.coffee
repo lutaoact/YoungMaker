@@ -19,6 +19,11 @@ angular.module('mauiApp')
     articles : []
     comments : []
 
+    likeClick: (article) ->
+      article.customPOST(null, 'like')
+      .then (dbArticle) ->
+        article.likeUsers = dbArticle.likeUsers
+
     removeArticle: (article) ->
       article.remove().then ->
         index = $scope.articles.indexOf article

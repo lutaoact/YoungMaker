@@ -51,7 +51,7 @@ class WrapRequest
   wrapCreate: (pickedKeys) ->
     return (req, res, next) =>
       data = _.pick req.body, pickedKeys
-      data[filedMap[@Model.constructor.name].field] = req.user._id
+      data[fieldMap[@Model.constructor.name].field] = req.user._id
 
       @Model.createQ data
       .then (newDoc) ->

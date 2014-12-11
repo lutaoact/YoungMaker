@@ -13,7 +13,8 @@ angular.module('maui.components')
         phEl.removeClass 'title'
       element.val(ngModel.$modelValue)
       element.change()
-
+    phEl.on 'click', ->
+      element.focus()
     element.on 'change', ->
       if ngModel?.$viewValue
         phEl.addClass 'title'

@@ -1,6 +1,11 @@
 require '../common/init'
 AdapterUtils = _u.getUtils 'adapter'
 
+filedMap =
+  'Course': 'author'
+  'Article': 'author'
+  'Group': 'creator'
+
 class WrapRequest
   constructor: (@Model) ->
 
@@ -19,7 +24,7 @@ class WrapRequest
       .catch next
       .done()
 
-  wrapShow: () ->
+  wrapCommonShow: () ->
     return (req, res, next) =>
       _id = req.params.id
 
@@ -34,10 +39,25 @@ class WrapRequest
       .catch next
       .done()
 
+  wrapShow: () ->
+    return (req, res, next) =>
+      _id = req.params.id
+
+      @Model.findByIdQ _id
+      .then (doc) ->
+        doc.viewersNum += 1 #每次调用API，相当于查看一次
+        do doc.saveQ
+      .then (result) ->
+        result[0].populateQ 'author', 'profile'
+      .then (doc) ->
+        res.send doc
+      .catch next
+      .done()
+
   wrapCreate: (pickedKeys) ->
     return (req, res, next) =>
       data = _.pick req.body, pickedKeys
-      data.author = req.user._id
+      data[filedMap[@Model.constructor.name]] = req.user._id
 
       @Model.createQ data
       .then (newDoc) ->

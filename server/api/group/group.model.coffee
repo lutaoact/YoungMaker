@@ -11,7 +11,10 @@ class Group extends BaseModel
     title:
       type: String
       required: true
+      unique : true
     description:
+      type: String
+    avatar:
       type: String
     creator:
       type: ObjectId

@@ -7,10 +7,10 @@ exports.index = WrapRequest.wrapIndex()
 
 exports.show = WrapRequest.wrapShow()
 
-pickedKeys = ['title', 'content', 'tags']
+pickedKeys = ['title', 'description']
 exports.create = WrapRequest.wrapCreate pickedKeys
 
-omittedKeys = ['_id', 'author', 'commentsNum', 'viewersNum', 'likeUsers', 'deleteFlag']
+omittedKeys = ['_id', 'creator', 'members', 'deleteFlag']
 exports.update = WrapRequest.wrapUpdate omittedKeys
 
 exports.destroy = WrapRequest.wrapDestroy()

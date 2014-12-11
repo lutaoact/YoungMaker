@@ -67,7 +67,7 @@ class WrapRequest
       #以下字段不允许外部更新，会有相应的内部处理逻辑
       body = _.omit body, omittedKeys
 
-      @Model.getByIdAndAuthor _id, user._id
+      @Model.getByIdAndUser _id, user._id
       .then (doc) ->
         updated = _.extend doc, body
         do updated.saveQ

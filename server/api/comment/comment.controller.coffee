@@ -42,7 +42,7 @@ exports.update = (req, res, next) ->
   #以下字段不允许外部更新，会有相应的内部处理逻辑
   body = _.omit body, ['_id', 'author', 'type', 'belongTo', 'likeUsers', 'deleteFlag']
 
-  Comment.getByIdAndAuthor commentId, user._id
+  Comment.getByIdAndUser commentId, user._id
   .then (comment) ->
     updated = _.extend comment, body
     do updated.saveQ

@@ -37,6 +37,9 @@
         <div ng-if="!courses.length" class="text-center">
           暂无发布课程
         </div>
+        <div class="col-lg-4 col-md-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
+          <course-tile course="course"></course-tile>
+        </div>
       </tab>
       <tab heading="{{'#mine#话题' | mine:user._id}}" active="articles.$active">
         <br/>

@@ -1,0 +1,32 @@
+<div class="course-tile">
+  <div class="course-cover-image" src-key="course.image" source-attr="background-image">
+  </div>
+  <h4 class="course-title">
+    {{course.title}}
+  </h4>
+  <hr ng-if="course.ingredients.length">
+  <div class="tool" ng-if="course.ingredients.length">
+    <i class="budon budon-tool"></i>
+    <div class="badge">{{course.ingredients.length||0}}</div>
+  </div>
+  <div class="ingredients" ng-if="course.ingredients.length">
+    <div class="scroll">
+      <div class="ingredient text-muted" ng-repeat="ingredient in course.ingredients">
+        <div class="ingredient-image" src-key="ingredient.image" source-attr="background-image"></div>
+        x
+        {{ingredient.quantity}}
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="status text-muted">
+    <i class="fa fa-heart">
+    </i>
+    {{course.likeUsers.length||0}}
+  </div>
+
+  <a class="pull-right" ui-sref="user({userId:course.author._id})" ng-click="stopPropagation($event)">
+    <div class="avatar-xs" src-key="course.author.avatar" source-attr="backgroud-image"></div>
+    {{course.author.name}}
+  </a>
+</div>

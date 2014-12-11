@@ -17,11 +17,12 @@
 
   <!-- article like & share buttons -->
   <div class="article-like">
-    <small class="text-muted" ng-if="!me._id || article.author._id==me._id">
+    <small class="text-muted" ng-if="article.author._id==me()._id">
       {{article.likeUsers.length}}个赞
     </small>
-    <small class="text-muted" ng-if="me._id && article.author._id!=me._id">
-      <a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+    <small class="text-muted" ng-if="article.author._id!=me()._id">
+      <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+      <span ng-if="article.likeUsers.indexOf(me()._id)>=0">已赞</span>
     </small>
     &nbsp;
   </div>

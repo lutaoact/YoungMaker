@@ -27,7 +27,6 @@ angular.module 'maui.components'
     logout: ->
       Auth.logout()
       socket.close()
-      $state.go('main')
 
     isActive: (route) ->
       route?.replace(/\(.*?\)/g, '') is $state.current.name
@@ -51,4 +50,3 @@ angular.module 'maui.components'
   $scope.$on 'message.notice', (event, data)->
     Msg.genMessage(data).then (msg)->
       $scope.messages.splice 0, 0, msg
-

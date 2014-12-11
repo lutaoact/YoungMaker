@@ -1,11 +1,21 @@
-angular.module('mauiApp').directive 'loginWindow', (
+angular.module('mauiApp')
+
+.directive 'loginWindow', (
+  Auth
   $modal
 ) ->
 
   restrict: 'A'
+
+  scope:
+    loginSuccess: '&'
+
   link: (scope, element)->
     element.bind 'click', ()->
-      $modal.open
-        templateUrl: 'app/account/loginModal.html'
-        controller: 'loginModalCtrl'
-        windowClass: 'center-modal'
+      if !Auth.isLoggedIn()
+        $modal.open
+          templateUrl: 'app/account/loginModal.html'
+          controller: 'loginModalCtrl'
+          windowClass: 'center-modal'
+        .result.then ->
+          scope.loginSuccess?()

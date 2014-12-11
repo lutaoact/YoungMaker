@@ -23,12 +23,10 @@ class WrapRequest
     return (req, res, next) =>
       _id = req.params.id
 
-      @Model.findByIdQ _id
-      .then (doc) ->
-        doc.viewersNum += 1 #每次调用API，相当于查看一次
-        do doc.saveQ
-      .then (result) ->
-        result[0].populateQ 'author', 'name'
+      modelName = @Model.constructor.name
+      @Model.findById _id
+      .populate fieldMap[modelName].field, fieldMap[modelName].populate
+      .execQ()
       .then (doc) ->
         res.send doc
       .catch next
@@ -38,12 +36,13 @@ class WrapRequest
     return (req, res, next) =>
       _id = req.params.id
 
+      modelName = @Model.constructor.name
       @Model.findByIdQ _id
       .then (doc) ->
         doc.viewersNum += 1 #每次调用API，相当于查看一次
         do doc.saveQ
       .then (result) ->
-        result[0].populateQ 'author', 'profile'
+        result[0].populateQ fieldMap[modelName].field, fieldMap[modelName].populate
       .then (doc) ->
         res.send doc
       .catch next
@@ -52,7 +51,7 @@ class WrapRequest
   wrapCreate: (pickedKeys) ->
     return (req, res, next) =>
       data = _.pick req.body, pickedKeys
-      data[filedMap[@Model.constructor.name]] = req.user._id
+      data[filedMap[@Model.constructor.name].field] = req.user._id
 
       @Model.createQ data
       .then (newDoc) ->

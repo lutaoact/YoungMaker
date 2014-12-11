@@ -5,7 +5,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Group)
 
 exports.index = WrapRequest.wrapIndex()
 
-exports.show = WrapRequest.wrapShow()
+exports.show = WrapRequest.wrapCommonShow()
 
 pickedKeys = ['title', 'description']
 exports.create = WrapRequest.wrapCreate pickedKeys

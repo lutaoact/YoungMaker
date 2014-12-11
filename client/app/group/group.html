@@ -1,9 +1,64 @@
-<div>
+<div class="container">
 
-<h2>{{group.title}}</h2>
-<p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
-<article>{{group.description}}</article>
+  <form class="form-horizontal"
+        name="form"
+        role="form"
+        ng-submit="saveDesc(form)"
+        ng-show="showEditingForm">
+    <div class="form-group">
+      <div class="avatar-lg"
+           src-key="group.avatar"
+           suffix="?imageView2/1/w/64/h/64"
+           source-attr="background-image">
+      </div>
+    </div>
+    <div class="form-group">
+      <uploader class="btn btn-danger btn-sm rounded"
+                limit="2*1024*1024"
+                on-complete="onAvatarUploaded($data)"
+                crop="true"
+                crop-ratio="1"
+                max-width="128"
+                accept-type="image">
+        修改小组图标
+      </uploader>
+    </div>
+      <!--<article>{{group.description}}</article>-->
+    <div class="form-group">
+      <label class="control-label">小组简介</label>
+      <textarea type="text"
+                class="form-control"
+                style="margin-top: 0px; margin-bottom: 0px; height: 247px;"
+                placeholder="简单的介绍一下小组吧"
+                ng-model="group.description"
+                required></textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit"
+              class="btn btn-danger btn-sm rounded" >
+            <span>保存</span>
+      </button>
+    </div>
+  </form>
 
-
-<a href=""><i>+</i>发言</a>
+  <div ng-hide="showEditingForm">
+    <div>
+      <div class="avatar-lg"
+           src-key="group.avatar"
+           suffix="?imageView2/1/w/64/h/64"
+           source-attr="background-image">
+      </div>
+      <h1>{{group.title}}</h1>
+      <div ng-show="role=='creator'">我是小组组长</div>
+      <div ng-show="role=='member'">我是小组成员> <a href="" ng-click="leaveGroup()">退出小组</a></div>
+      <div ng-show="role=='passerby'"><button login-window login-success="joinGroup()">申请加入小组</button></div>
+    </div>
+    <p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
+    <button
+      ng-show="role=='creator'"
+      ng-click="editGroupInfo()">修改小组信息</button>
+  </div>
+  <div>
+    <a href=""><i>+</i>发言</a>
+  </div>
 </div>

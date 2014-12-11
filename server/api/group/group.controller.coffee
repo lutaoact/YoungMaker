@@ -10,7 +10,7 @@ exports.show = WrapRequest.wrapCommonShow()
 pickedKeys = ['title', 'description']
 exports.create = WrapRequest.wrapCreate pickedKeys
 
-omittedKeys = ['_id', 'creator', 'members', 'deleteFlag']
-exports.update = WrapRequest.wrapUpdate omittedKeys
+pickedUpdatedKeys = ['title', 'description', 'avatar']
+exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
 
 exports.destroy = WrapRequest.wrapDestroy()

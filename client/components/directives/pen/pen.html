@@ -1,8 +1,19 @@
-<div class="pen" placeholder="{{placeholder}}"></div>
-<uploader class="add-image-btn"
-  limit="{{imageSizeLimitation}}"
-  on-complete="onImageUploaded($data)"
-  crop="true"
-  accept-type="image">
-  图片上传
-</uploader>
+<div class="pen-wrapper">
+  <div class="pen" placeholder="{{placeholder}}"></div>
+  <div class="pen-wrapper-tools">
+    <uploader class="icon-btn fa fa-camera"
+      limit="{{imageSizeLimitation}}"
+      on-complete="onImageUploaded($data)"
+      crop="true"
+      accept-type="image">
+    </uploader>
+    <span dropdown class="emojis-dropdown">
+      <i class="icon-btn fa fa-smile-o dropdown-toggle"></i>
+      <div class="dropdown-menu" role="menu">
+        <a href="" class="emoji-icon" ng-repeat="emoji in emojis" ng-click="insertEmoji(emoji)">
+          <img ng-src="{{configs.cdn+'/emojis/'+emoji+'.png'}}" title="{{':'+emoji+':'}}" alt="{{':'+emoji+':'}}">
+        </a>
+      </div>
+    </span>
+  </div>
+</div>

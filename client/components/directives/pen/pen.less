@@ -1,0 +1,70 @@
+[contentEditable=true]:empty:not(:focus):before{
+  content:attr(placeholder);
+  color: #999;
+  cursor: text;
+}
+.pen{
+  min-height: 100px;
+  .add-image-btn{
+  }
+  img {
+    max-width: 100%;
+  }
+}
+
+.pen, .pen-menu, .pen-input, .pen textarea {
+  font:400 1.16em/1.45 @font-family-sans-serif;
+}
+.pen-wrapper{
+  position: relative;
+  padding-bottom: 30px;
+  border: 1px solid #eee;
+  padding: 6px 6px 30px 6px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  .pen-wrapper-tools{
+    position: absolute;
+    padding: 1px 5px;
+    left: 0px;
+    bottom: 0;
+    width: 100px;
+    height: 24px;
+    border-radius: 0 8px 0 4px;
+    background: rgba(200, 200, 200, 0.3);
+    .icon-btn{
+      cursor: pointer;
+      border-radius: 20px;
+      border: 1px solid #aaa;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      padding-top: 3px;
+      vertical-align: middle;
+      padding-left: 3px;
+      margin-bottom: 0px;
+      margin-right: 6px;
+      color: #888;
+      .transition(all .13s ease-in-out);
+      &:hover{
+        color: #FFF;
+        background: #888;
+      }
+    }
+    .emojis-dropdown{
+      position: relative;
+      .dropdown-menu{
+        top: -120px;
+        width: 250px;
+        bottom: 20px;
+        left: -30px;
+        padding: 2px;
+        .emoji-icon{
+          img{
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+}

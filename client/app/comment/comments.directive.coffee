@@ -20,7 +20,7 @@ angular.module('mauiApp').directive 'comments', ->
       const: Const
 
       submitComment: ()->
-        if $scope.newComment?.content and $filter('htmlToPlaintext')($scope.newComment?.content).trim()
+        if $scope.newComment?.content and ($scope.newComment?.content.indexOf('img')>0 or $filter('htmlToPlaintext')($scope.newComment?.content).trim())
           Restangular.all('comments').post $scope.newComment
           .then (data)->
             $scope.newComment.content = ''

@@ -11,7 +11,6 @@ angular.module('mauiApp').directive 'courseTile', ->
   controller: ($scope, Restangular, Auth)->
     angular.extend $scope,
       stopPropagation: ($event)->
-        $event.preventDefault()
         $event.stopPropagation()
       toggleVote: ()->
         $scope.course.one('like').post()

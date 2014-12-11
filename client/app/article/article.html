@@ -30,13 +30,6 @@
   <hr>
 
   <!-- article comment list -->
-  <h4>所有评论</h4>
-
-  <div class="article-comment text-center">
-
-    暂无评论
-
-  </div>
-
+  <comments belong-to="{{article._id}}" type="{{const.CommentType.Article}}"></comments>
 
 </div>

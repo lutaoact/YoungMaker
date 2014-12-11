@@ -1,0 +1,14 @@
+<div class="comments">
+  {{comments.length||0}}条评论
+  <form name="form" class="comments-header clearfix">
+    <div pen ng-model="newComment.content" placeholder="请输入内容">
+    </div>
+    <button class="btn btn-primary" login-window login-success="submitComment(form)">发表</button>
+  </form>
+  <div class="comment-list">
+    <div class="text-center" ng-if="!comments.length">暂无评论，赶快来抢沙发吧</div>
+    <div class="comment" ng-repeat="comment in comments|orderBy:'-created' " ng-if="comments.length">
+      <div ng-bind-html="comment.content"></div>
+    </div>
+  </div>
+</div>

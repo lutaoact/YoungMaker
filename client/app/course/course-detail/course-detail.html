@@ -1,3 +1,19 @@
-<div class="all" ng-bind-html="course.content">
+<div class="course-detail">
+  <div class="container">
+    <article>
+      <h3>{{course.title}}</h3>
+      <small class="text-muted">
+        <a class="text-info"
+           ui-sref="user({userId: course.author._id})">{{course.author.name}}</a>
+        - {{course.created | moment: 'fromNow'}}
+      </small>
+      <small class="pull-right text-muted">
+        {{course.viewersNum}}次查看
+      </small>
+      <hr/>
+      <p><div ng-bind-html="course.content"></div></p>
+    </article>
+    <comments belong-to="{{course._id}}" type="{{const.CommentType.Course}}"></comments>
+  </div>
 </div>
 <a ui-sref="courseEditor({courseId:course._id})" ng-if="course.author._id==getMe()._id">修改</a>

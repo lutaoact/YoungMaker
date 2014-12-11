@@ -14,7 +14,7 @@ angular.module('mauiApp')
     element.bind 'click', ()->
       if !Auth.isLoggedIn()
         $modal.open
-          templateUrl: 'app/account/loginModal.html'
+          templateUrl: 'app/login/loginModal.html'
           controller: 'loginModalCtrl'
           windowClass: 'center-modal'
         .result.then ->

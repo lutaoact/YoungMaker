@@ -11,17 +11,26 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    me: Auth.getCurrentUser()
+    me: Auth.getCurrentUser
     user: null
     $state: $state
     courses  : []
     articles : []
     comments : []
 
-    likeClick: (article) ->
-      Restangular.one('articles', article._id).customPOST(null, 'like')
-      .then (dbArticle) ->
-        angular.extend article, dbArticle
+    removeArticle: (article) ->
+      article.remove().then ->
+        index = $scope.articles.indexOf article
+        $scope.articles.splice index, 1
+        notify
+          message: '文章已经删除'
+          classes: 'alert-success'
+
+    createArticle: ->
+      Restangular.all('articles').post
+        title: '未命名的文章'
+      .then (article) ->
+        $state.go 'edit-article', articleId: article._id
 
   Restangular.one('users', $state.params.userId).get()
   .then (user) ->

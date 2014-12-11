@@ -7,22 +7,13 @@ angular.module('mauiApp')
   Restangular
 ) ->
 
-  reloadArticles = ->
-    Restangular.all('articles').getList()
-    .then (articles) ->
-      $scope.articles = articles
-
   angular.extend $scope,
     articles: null
 
-    removeArticle: (article) ->
-      article.remove().then reloadArticles
+  Restangular.all('groups').getList()
+  .then (groups) ->
+    $scope.groups = groups
 
-  reloadArticles()
-
-  loadGroups = ->
-    Restangular.all('groups').getList()
-    .then (groups) ->
-      $scope.groups = groups
-
-  loadGroups()
+  Restangular.all('articles').getList(author: me._id)
+  .then (articles) ->
+    $scope.articles = articles

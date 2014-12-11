@@ -53,25 +53,28 @@
               - {{article.created | moment: 'fromNow'}}
             </small>
             <span class="pull-right">
-              <small class="text-muted" ng-if="user._id==me._id">
+              <small class="text-muted" ng-if="user._id==me()._id">
                 {{article.likeUsers.length}}个赞
               </small>
-              <small class="text-muted" ng-if="user._id!=me._id">
+              <small class="text-muted" ng-if="user._id!=me()._id">
                 <a href ng-click="likeClick(article)">{{article.likeUsers.length}}个赞</a>
               </small>
               &nbsp;
-              <a ng-if="article.author._id == me._id"
+              <a ng-if="article.author._id == me()._id"
                  style="cursor: pointer"
-                 ui-sref="settings.editArticle({articleId:article._id})">
+                 ui-sref="article-edit({articleId:article._id})">
                  编辑
               </a>
-              <a ng-if="article.author._id == me._id"
+              <a ng-if="article.author._id == me()._id"
                  style="cursor: pointer"
                  ng-click="removeArticle(article)">
                  删除
               </a>
             </span>
           </div>
+        </div>
+        <div id="new-article" class="text-center">
+          <a href ng-if="user._id==me()._id" ng-click="createArticle()">创建新话题</a>
         </div>
 
       </tab>

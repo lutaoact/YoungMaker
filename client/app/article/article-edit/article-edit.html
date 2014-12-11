@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form role="form"
+            name="newArticleForm"
+            class="article-form"
+            ng-submit="">
+        <div class="form-group">
+          <input type="text"
+                 class="form-control article-title"
+                 ng-model="article.title"
+                 focus-on="articleTitle"
+                 placeholder="请输入文章标题"
+                 required>
+        </div>    <div class="form-group">
+          <div pen
+               focus-on="articleContent"
+               class="article-content"
+               placeholder="请输入话题内容"
+               ng-model="article.content">
+          </div>
+        </div>
+        <span class="pull-right">
+          <a class="btn btn-link" ui-sref="settings.myArticles">返回</a>
+          <button type="submit"
+                  ng-click="saveArticle(newArticleForm)"
+                  class="btn btn-primary">保存</button>
+        </span>
+      </form>
+    </div>
+  </div>
+</div>

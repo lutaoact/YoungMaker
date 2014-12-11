@@ -1,6 +1,6 @@
 angular.module('mauiApp')
 
-.controller 'ArticleCtrl', (
+.controller 'ArticleDetailCtrl', (
   Auth
   $scope
   $state

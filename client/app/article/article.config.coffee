@@ -4,13 +4,13 @@ angular.module('mauiApp')
 
   $stateProvider
 
-  .state 'article-detail',
+  .state 'articleDetail',
     url: '/articles/:articleId'
     templateUrl: 'app/article/article-detail/article-detail.html'
     controller: 'ArticleDetailCtrl'
 
-  .state 'article-edit',
+  .state 'articleEditor',
     url: '/articles/:articleId/edit'
-    templateUrl: 'app/article/article-edit/article-edit.html'
-    controller: 'ArticleEditCtrl'
+    templateUrl: 'app/article/article-editor/article-editor.html'
+    controller: 'ArticleEditorCtrl'
     authenticate: true

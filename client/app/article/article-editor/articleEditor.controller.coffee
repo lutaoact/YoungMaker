@@ -1,12 +1,14 @@
 angular.module('mauiApp')
 
-.controller 'ArticleEditCtrl', (
+.controller 'ArticleEditorCtrl', (
   focus
   $scope
   $state
   notify
   Restangular
 ) ->
+
+  console.log 'article editor...'
 
   angular.extend $scope,
     article: {}
@@ -35,6 +37,7 @@ angular.module('mauiApp')
 
   Restangular.one('articles', $state.params.articleId).get()
   .then (article) ->
+    console.log article
     $scope.article = article
     focus 'articleTitle'
   .catch (error) ->

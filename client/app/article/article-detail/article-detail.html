@@ -5,7 +5,7 @@
     <h3>
       {{article.title}}
       <small ng-if="article.author._id == me()._id" class="pull-right">
-        <a ui-sref="article-edit({articleId:article._id})">编辑</a>
+        <a ui-sref="articleEditor({articleId:article._id})">编辑</a>
       </small>
     </h3>
     <small class="text-muted">

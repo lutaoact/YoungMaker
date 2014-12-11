@@ -37,7 +37,7 @@ angular.module('mauiApp')
         title: '新建话题'
         content: ''
       .then (article) ->
-        $state.go 'article-edit', articleId: article._id
+        $state.go 'articleEditor', articleId: article._id
 
     createCourse: ->
       $state.go 'courseEditor'

@@ -9,3 +9,7 @@ module.exports =
   GiveScore: 10006
 
   UserEmailInUsed: 10008
+
+  HasBeenHere: 20001
+  HasNotBeenHere: 20002
+  IllegalPath: 20003

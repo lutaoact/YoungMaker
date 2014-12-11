@@ -5,7 +5,10 @@
       <div class="panel panel-defualt">
         <div class="panel-body">
           <div class="form-group col-md-10 col-md-offset-1">
-            <input type="text" required placeholder="请输入课程名称。。。" ng-model="course.title" class="form-control">
+            <input type="text" name="title" required title-placeholder="课程名称" ng-model="course.title" class="form-control">
+            <p class="help-block text-danger" ng-show="form.title.$error.required && submitted">
+              请输入课程名称
+            </p>
           </div>
           <!-- todo: category -->
           <!-- <div class="form-group">

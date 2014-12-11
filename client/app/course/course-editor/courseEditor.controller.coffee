@@ -33,6 +33,7 @@ angular.module('mauiApp')
 
 
     submitCourse: (form)->
+      $scope.submitted = true
       if !form.$valid then return
       $scope.saveCourse()
 

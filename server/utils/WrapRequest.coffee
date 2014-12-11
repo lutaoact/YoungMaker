@@ -59,15 +59,15 @@ class WrapRequest
       .catch next
       .done()
 
-  wrapUpdate: (omittedKeys) ->
+  wrapUpdate: (pickedUpdatedKeys) ->
     return (req, res, next) =>
       _id = req.params.id
       user = req.user
-      body = req.body
-      #以下字段不允许外部更新，会有相应的内部处理逻辑
-      body = _.omit body, omittedKeys
 
-      @Model.getByIdAndAuthor _id, user._id
+      #拣选出允许更新的字段
+      data = _.pick req.body, pickedUpdatedKeys
+
+      @Model.getByIdAndUser _id, user._id
       .then (doc) ->
         updated = _.extend doc, body
         do updated.saveQ

@@ -18,8 +18,6 @@ class BaseModel
 
     if @schema?
       @createModel _u.convertToSnakeCase @constructor.name
-    else
-      throw 'no schema error'
 
 
   createModel : (name) ->
@@ -34,8 +32,10 @@ class BaseModel
   findAllQ: () ->
     @model.findQ.apply @model, [{}].concat(_.toArray(arguments))
 
-  getByIdAndAuthor: (id, authorId) ->
-    return @findOneQ {_id: id, author: authorId, deleteFlag: {$ne: true}}, '-deleteFlag'
+  getByIdAndUser: (id, userId) ->
+    conditions = {_id: id, deleteFlag: {$ne: true}}
+    conditions[fieldMap[@constructor.name].field] = userId if userId?
+    return @findOneQ conditions, '-deleteFlag'
 
 
 methods = [

@@ -17,6 +17,9 @@ class Article extends BaseModel
       type: ObjectId
       ref: 'user'
       required: true
+    group:
+      type: ObjectId
+      ref: 'group'
     commentsNum:
       type: Number
       required: true

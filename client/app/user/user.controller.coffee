@@ -19,11 +19,6 @@ angular.module('mauiApp')
     articles : []
     comments : []
 
-    likeClick: (article) ->
-      article.customPOST(null, 'like')
-      .then (newArticle) ->
-        article.likeUsers = newArticle.likeUsers
-
     createArticle: ->
       Restangular.all('articles').post
         title: '新建话题'

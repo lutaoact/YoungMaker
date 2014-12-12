@@ -12,12 +12,7 @@ angular.module('mauiApp')
     groupes  : []
     articles : []
 
-    likeClick: (article) ->
-      article.customPOST(null, 'like')
-      .then (newArticle) ->
-        article.likeUsers = newArticle.likeUsers
-
-    createArticle: ->
+  createArticle: ->
       Restangular.all('articles').post
         title: '新建话题'
         content: ''

@@ -81,7 +81,7 @@
           </div>
           <div class="list-group">
             <div class="list-group-item" ng-repeat="article in groupArticles">
-              <a ui-sref="articleDetail({articleId: article._id})">{{article.title}}</a>
+              <a ui-sref="groupArticleDetail({groupId: group._id, articleId: article._id})">{{article.title}}</a>
 
               <small class="text-muted">
                 post by

@@ -5,7 +5,10 @@
     <h3>
       {{article.title}}
       <small ng-if="article.author._id == me()._id" class="pull-right">
-        <a ui-sref="articleEditor({articleId:article._id})">编辑</a>
+        <a ng-show="$state.current.name=='articleDetail'"
+           ui-sref="articleEditor({articleId: article._id})">编辑</a>
+        <a ng-show="$state.current.name=='groupArticleDetail'"
+           ui-sref="groupArticleEditor({groupId: $state.params.groupId, articleId: article._id})">编辑</a>
       </small>
     </h3>
     <small class="text-muted">

@@ -13,9 +13,9 @@ angular.module('mauiApp')
     showEditingForm: false
     me: Auth.getCurrentUser()
     group: null
+    groupArticles: []
 
     onAvatarUploaded: (key) ->
-#      $scope.editingInfo.avatar = key
       Restangular.one('groups', $scope.group._id)
       .patch avatar: key
       .then ->
@@ -24,7 +24,6 @@ angular.module('mauiApp')
           message: '头像修改成功'
           classes: 'alert-success'
     saveDesc: (form) ->
-      console.log 'wtf'
       if !form.$valid then return
       $scope.errors = null
       Restangular.one('groups', $scope.group._id)
@@ -45,8 +44,8 @@ angular.module('mauiApp')
     joinGroup: ->
       Restangular.one('groups', $scope.group._id).one('join')
       .post()
-      .then ->
-        $scope.role = 'member'
+      .then (data)->
+        $scope.group = data
         notify
           message: '已加入小组'
           classes: 'alert-success'
@@ -56,8 +55,8 @@ angular.module('mauiApp')
     leaveGroup: ->
       Restangular.one('groups', $scope.group._id).one('leave')
       .post()
-      .then ->
-        $scope.role = 'passerby'
+      .then (data)->
+        $scope.group = data
         notify
           message: '已退出小组'
           classes: 'alert-success'
@@ -74,13 +73,23 @@ angular.module('mauiApp')
           groupId: $state.params.groupId
           articleId: article._id
 
+    getRole: ->
+      if !$scope.me._id?
+        return 'passerby'
+      if $scope.me._id == $scope.group?.creator._id
+        return 'creator'
+      else if ($scope.group?.members.indexOf $scope.me._id) >= 0
+        return 'member'
+      else
+        return 'passerby'
+
 
   groupAPI.get().then (group) ->
     $scope.group = group
 
-    if $scope.me._id == $scope.group.creator._id
-      $scope.role = 'creator'
-    else if $scope.me._id in $scope.group.members
-      $scope.role = 'member'
-    else
-      $scope.role = 'passerby'
+  $scope.$watch Auth.getCurrentUser, (value)->
+    $scope.me = value
+
+  Restangular.all('articles').getList({group: $state.params.groupId})
+  .then (articles) ->
+    $scope.groupArticles = articles

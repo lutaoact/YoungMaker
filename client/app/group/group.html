@@ -59,9 +59,11 @@
           </img>
           <h1>{{group.title}}</h1> &nbsp; &nbsp;
           <div class="group-misc">
-            <div ng-show="role=='creator'">我是小组组长</div>
-            <div ng-show="role=='member'">我是小组成员&nbsp;> <a href="" ng-click="leaveGroup()">退出小组</a></div>
-            <div ng-show="role=='passerby'"><button class="btn btn-success" login-window login-success="joinGroup()">申请加入小组</button></div>
+            <div ng-switch="getRole()">
+              <div ng-switch-when='creator'>我是小组组长</div>
+              <div ng-switch-when='member'>我是小组成员&nbsp;> <a href="" ng-click="leaveGroup()">退出小组</a></div>
+              <div ng-switch-default><button class="btn btn-success" login-window login-success="joinGroup()">申请加入小组</button></div>
+            </div>
           </div>
         </div>
         <p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
@@ -69,9 +71,36 @@
         <button
           ng-show="role=='creator'"
           ng-click="editGroupInfo()">修改小组信息</button>
+
         <div>
           <a href="" ng-click="createGroupArticle()"><i>+</i>发言</a>
         </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">小组话题</h3>
+          </div>
+          <div class="list-group">
+            <div class="list-group-item" ng-repeat="article in groupArticles">
+              <a ui-sref="articleDetail({articleId: article._id})">{{article.title}}</a>
+
+              <small class="text-muted">
+                post by
+                <a class="text-info"
+                   ui-sref="user({userId: article.author._id})">{{article.author.name}}</a>
+                - {{article.created | moment: 'fromNow'}}
+              </small>
+            <span class="pull-right">
+              <small class="text-muted" ng-if="!me._id">
+                {{article.likeUsers.length}}个赞
+              </small>
+              <small class="text-muted" ng-if="me._id">
+                <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
+              </small>
+            </span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

@@ -23,6 +23,7 @@ class AdapterUtils extends BaseUtils
     conditions.creator = query.creator if query.creator
     conditions.type = query.type if query.type
     conditions.belongTo = query.belongTo if query.belongTo
+    conditions.group = query.group if query.group
 
     return conditions
 

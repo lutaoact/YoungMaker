@@ -11,6 +11,8 @@ class Article extends BaseModel
     title:
       type: String
       required: true
+    image:
+      type: String
     content:
       type: String
     author:

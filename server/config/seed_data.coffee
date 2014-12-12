@@ -13,22 +13,6 @@ questionId   = 'aaaaaaaaaaaaaaaaaaaaaa%02d'
 quizAnswerId = 'bbbbbbbbbbbbbbbbbbbbbb%02d'
 hwAnswerId   = 'cccccccccccccccccccccc%02d'
 
-grades = [
- '初一'
- '初二'
- '初三'
- '高一'
- '高二'
- '高三'
-]
-
-subjects = [
-  '物理'
-  '数学'
-  '化学'
-  '英语'
-]
-
 module.exports =
 #  category: (
 #    for value, i in ['初一物理', '初二物理', '初三物理']
@@ -37,79 +21,48 @@ module.exports =
 #  )
   user: [
     _id: _s.sprintf userId, 0
-    provider: 'local'
-    name: 'Test User'
-    username: 'test@test.com'
-    email: 'test@test.com'
-    password: 'test'
+    name: 'Student0'
+    email: '0@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/1'
   ,
     _id: _s.sprintf userId, 1
-    provider: 'local'
-    role: 'admin'
-    name: 'Admin'
-    username: 'admin@admin.com'
-    email: 'admin@admin.com'
-    password: 'admin'
+    name: 'Student1'
+    email: '1@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/2'
   ,
     _id: _s.sprintf userId, 2
-    provider: 'local'
-    role: 'teacher'
-    name: 'Teacher'
-    username: 'teacher@teacher.com'
-    email: 'teacher@teacher.com'
-    password: 'teacher'
+    name: 'Student2'
+    email: '2@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/3'
   ,
     _id: _s.sprintf userId, 3
-    provider: 'local'
-    role: 'student'
     name: 'Student3'
-    username: 'student@student.com'
-    email: 'student@student.com'
-    password: 'student'
+    email: '3@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/4'
   ,
     _id: _s.sprintf userId, 4
-    provider: 'local'
-    role: 'student'
     name: 'Student4'
-    username: 'student@student4.com'
-    email: 'student@student4.com'
-    password: 'student'
+    email: '4@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/5'
   ,
     _id: _s.sprintf userId, 5
-    provider: 'local'
-    role: 'student'
     name: 'Student5'
-    username: 'student@student5.com'
-    email: 'student@student5.com'
-    password: 'student'
+    email: '5@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/4'
   ,
     _id: _s.sprintf userId, 6
-    provider: 'local'
-    role: 'student'
     name: 'Student6'
-    username: 'student@student6.com'
-    email: 'student@student6.com'
-    password: 'student'
+    email: '6@i.com'
+    password: '1'
     avatar: 'http://lorempixel.com/128/128/people/5'
   ]
-  
-  grade : _.map grades, (g) ->
-    name : g
-    price : 1000
-  
-  grade_subject : _.flatten(
-    _.map grades, (g) ->
-      _.map subjects, (s) ->
-        name : (g + s)
-        price : 500)
-      
-  
+
 #  key_point: _.map [
 #    '力和物体的平衡'
 #    '直线运动'

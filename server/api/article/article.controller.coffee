@@ -8,10 +8,10 @@ exports.index = WrapRequest.wrapIndex()
 
 exports.show = WrapRequest.wrapShow()
 
-pickedKeys = ['title', 'content', 'tags', 'group']
+pickedKeys = ['title', 'image', 'content', 'tags', 'group']
 exports.create = WrapRequest.wrapCreate pickedKeys
 
-pickedUpdatedKeys = ['title', 'content', 'tags']
+pickedUpdatedKeys = ['title', 'image', 'content', 'tags']
 exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
 
 exports.destroy = WrapRequest.wrapDestroy()

@@ -64,6 +64,16 @@ angular.module('mauiApp')
       .catch (error) ->
         $scope.errors = error?.data?.errors
 
+    createGroupArticle: ->
+      Restangular.all('articles').post
+        title: '新建小组话题'
+        content: ''
+        group: $state.params.groupId
+      .then (article) ->
+        $state.go 'groupArticleEditor',
+          groupId: $state.params.groupId
+          articleId: article._id
+
 
   groupAPI.get().then (group) ->
     $scope.group = group

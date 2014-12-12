@@ -11,6 +11,7 @@ angular.module('mauiApp')
   console.log 'article editor...'
 
   angular.extend $scope,
+    $state: $state
     article: {}
 
     saveArticle: (form) ->

@@ -98,6 +98,6 @@ angular.module('mauiApp').controller 'MainCtrl', (
 
   Restangular.all('articles').getList()
   .then (data)->
-    console.log data
+    $scope.articles = data
 
 

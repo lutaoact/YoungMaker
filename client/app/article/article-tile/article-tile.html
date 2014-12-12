@@ -1,0 +1,70 @@
+<div class="article-tile">
+  <div ng-if="article.image" src-key="article.image" source-attr="background-image" class="article-image pull-right"></div>
+  <h4 class="article-title">
+    <a href="" ui-sref="articleDetail({articleId: article._id})">
+      {{article.title}}
+    </a>
+  </h4>
+  <p class="article-summary text-muted">
+    {{article.title||htmlToPlaintext}}
+  </p>
+  <hr>
+  <div class="article-info">
+    <span>
+      <a href="" ui-sref="user({userId: article.author._id})">
+        <!-- <div class="avatar-xs" src-key="article.author.avatar" source-attr="background-image">
+        </div> -->
+        {{article.author.name}}
+      </a>
+    </span>
+    <span class="text-muted">发布于</span>
+    <span ng-if="article.group">
+      {{article.group.name}}&#183;
+    </span>
+    <span ng-if="article.column">
+      专栏－{{article.column.name}}&#183;
+    </span>
+    <span class="text-muted">
+     {{article.created | moment: 'fromNow'}}
+    </span>
+    <span class="text-muted">|</span>
+    <span class="text-muted">
+      <i class="fa fa-star"></i>
+      {{article.likeUsers.length||0}}
+    </span>
+    <span class="text-muted">|</span>
+    <span class="text-muted">
+      <i class="fa fa-comment"></i>
+      {{article.commentsNum||0}}
+    </span>
+  </div>
+
+  <div class="vote-area">
+    <i class="fa fa-heart toggle" login-window login-success="getMe()._id&&toggleVote()" ng-class="{'active':article.likeUsers.indexOf(getMe()._id)>=0}" ng-click="stopPropagation($event)">
+    </i>
+    <div>
+      {{article.likeUsers.length||0}}
+    </div>
+  </div>
+
+  <a class="share-btn btn btn-primary btn-sm">
+    <i class="budon budon-send"></i>
+    {{article.shareNum||0}}
+  </a>
+  <div dropdown class="actions-dropdown">
+    <a class="dropdown-toggle btn btn-md">
+      <i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li ng-if="getMe()._id==article._id">
+        <a href=""
+        ui-sref="articleEditor({articleId:article._id})">编辑</a>
+      </li>
+      <li ng-if="getMe()._id==article._id">
+        <a href=""
+        ng-click="removeArticle(article)">删除</a>
+      </li>
+    </ul>
+  </div>
+
+</div>

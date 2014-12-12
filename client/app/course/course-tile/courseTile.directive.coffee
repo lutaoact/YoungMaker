@@ -12,9 +12,16 @@ angular.module('mauiApp').directive 'courseTile', ->
     angular.extend $scope,
       stopPropagation: ($event)->
         $event.stopPropagation()
+
       toggleVote: ()->
         $scope.course.one('like').post()
         .then (res)->
           $scope.course.likeUsers = res.likeUsers
       getMe: Auth.getCurrentUser
+
+      toggleCollect: ()->
+        $scope.course.one('like').post()
+        .then (res)->
+          $scope.course.likeUsers = res.likeUsers
+
 

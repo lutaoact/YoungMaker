@@ -24,14 +24,6 @@ angular.module('mauiApp')
       .then (newArticle) ->
         article.likeUsers = newArticle.likeUsers
 
-    removeArticle: (article) ->
-      article.remove().then ->
-        index = $scope.articles.indexOf article
-        $scope.articles.splice index, 1
-        notify
-          message: '话题已经删除'
-          classes: 'alert-success'
-
     createArticle: ->
       Restangular.all('articles').post
         title: '新建话题'

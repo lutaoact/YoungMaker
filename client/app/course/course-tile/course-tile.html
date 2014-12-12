@@ -25,6 +25,12 @@
     {{course.likeUsers.length||0}}
   </div>
 
+  <div class="status text-muted">
+    <i class="fa fa-star toggle" login-window login-success="getMe()._id&&toggleCollect()" ng-class="{'active':course.likeUsers.indexOf(getMe()._id)>=0}" ng-click="stopPropagation($event)">
+    </i>
+    {{course.likeUsers.length||0}}
+  </div>
+
   <a class="pull-right" ui-sref="user({userId:course.author._id})" ng-click="stopPropagation($event)">
     <div class="avatar-xs" src-key="course.author.avatar" source-attr="backgroud-image"></div>
     {{course.author.name}}

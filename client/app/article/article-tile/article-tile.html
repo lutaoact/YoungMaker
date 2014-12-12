@@ -1,7 +1,14 @@
 <div class="article-tile">
   <div ng-if="article.image" src-key="article.image" source-attr="background-image" class="article-image pull-right"></div>
   <h4 class="article-title">
-    <a href="" ui-sref="articleDetail({articleId: article._id})">
+    <a href=""
+       ng-hide="article.group"
+       ui-sref="articleDetail({articleId: article._id})">
+      {{article.title}}
+    </a>
+    <a href=""
+       ng-show="article.group"
+       ui-sref="groupArticleDetail({groupId: article.group, articleId: article._id})">
       {{article.title}}
     </a>
   </h4>
@@ -57,8 +64,13 @@
     </a>
     <ul class="dropdown-menu" role="menu">
       <li ng-if="getMe()._id==article._id">
+        article.group
         <a href=""
-        ui-sref="articleEditor({articleId:article._id})">编辑</a>
+           ng-hide="article.group"
+           ui-sref="articleEditor({articleId:article._id})">编辑</a>
+        <a href=""
+           ng-show="article.group"
+           ui-sref="groupArticleEditor({groupId: article.group, articleId: article._id})">编辑</a>
       </li>
       <li ng-if="getMe()._id==article._id">
         <a href=""

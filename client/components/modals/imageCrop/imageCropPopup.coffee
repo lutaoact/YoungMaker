@@ -47,7 +47,7 @@ angular.module('maui.components').controller 'ImageCropPopupCtrl', (
               y: $scope.viewState.originSize.height / $scope.viewState.size.height * $scope.viewState.start.y
             suffix += "/crop/!" + ~~cropSize.width + 'x' + ~~cropSize.height + 'a' + ~~cropOffset.x + 'a' + ~~cropOffset.y
           if options.maxWidth
-            suffix += '&/thumbnail/' + ~~options.maxWidth + 'x'
+            suffix += '/thumbnail/' + ~~options.maxWidth + 'x'
 
           result = "#{key}" + suffix
 

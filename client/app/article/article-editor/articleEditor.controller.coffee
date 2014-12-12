@@ -19,8 +19,18 @@ angular.module('mauiApp')
       if _.isEmpty $scope.article.content
         focus 'articleContent'
         return
-      console.log $scope.article
-      $scope.article.save()
+
+      # TODO refactor -> html1stImage.filter.coffee
+      FIRST_IMG_R = /.*<img src="([^"]*)"[^>]*>.*/g
+      imageResult = (FIRST_IMG_R.exec $scope.article.content)
+      if imageResult?.length > 0
+        firstImage = imageResult[1]
+      else
+        firstImage = null
+      $scope.article.image = firstImage
+
+      Restangular.one('articles', $state.params.articleId)
+      .patch $scope.article
       .then (article) ->
         angular.extend $scope.article, article
         notify

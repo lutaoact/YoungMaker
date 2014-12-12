@@ -29,10 +29,7 @@ angular.module('maui.components')
       penEl.on 'blur', extractContent
     extractContent = ()->
       ngModel.$setViewValue(penEl.html())
-    if scope.pen
-      config = angular.copy scope.pen
-    else
-      config = angular.copy defaults
+    config = angular.copy(scope.pen ? defaults)
     config.editor = penEl[0]
     pen = new Pen(config)
     scope.$on '$destroy', ->
@@ -42,7 +39,7 @@ angular.module('maui.components')
       extractContent()
     scope.$on 'pen.emoji.inserted', (event,emoji)->
       path = "#{configs.cdn}/emojis/#{emoji}.png"
-      penEl.append("<img class=\"emoji\" src=\"#{path}\" alt=\":#{emoji}:\" height=\"20\" width=\"20\" align=\"absmiddle\" title=\":#{emoji}:\">")
+      penEl.append("""<img class="emoji" src="#{path}" alt=":#{emoji}:" height="20" width="20" align="absmiddle" title=":#{emoji}:">""")
       extractContent()
 
   controller: ($scope, configs) ->

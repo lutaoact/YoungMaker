@@ -68,4 +68,3 @@ angular.module('mauiApp')
       $scope.course = course
   else
     $scope.course.steps = [{}]
-

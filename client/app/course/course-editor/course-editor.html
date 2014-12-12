@@ -49,7 +49,6 @@
   <div class="preview-wrap" ng-show="viewState.showPreview" ng-click="viewState.showPreview=false">
     <div class="preview" >
       <h1>{{course.title}}</h1>
-      <img ng-src="{{image}}" alt="" ng-repeat="image in step.images">
       <h2 ng-repeat-start="step in course.steps">
         {{step.title}}
       </h2>

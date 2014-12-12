@@ -42,7 +42,7 @@ angular.module('mauiApp')
       $scope.course.content = $sanitize($('.preview').html()).replace /(ng-binding|ng-scope)/g, ''
       # get the first image. todo: move to server side
       if !$scope.course.image
-        firstImage = $('.preview img')
+        firstImage = $('.preview img:not(.emoji)')
         if firstImage?.length
           $scope.course.image = firstImage.attr('src')
       if !$scope.course._id

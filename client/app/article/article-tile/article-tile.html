@@ -40,7 +40,7 @@
   </div>
 
   <div class="vote-area">
-    <i class="fa fa-heart toggle" login-window login-success="getMe()._id&&toggleVote()" ng-class="{'active':article.likeUsers.indexOf(getMe()._id)>=0}" ng-click="stopPropagation($event)">
+    <i class="fa fa-heart toggle" login-window login-success="toggleVote()" ng-class="{'active':article.likeUsers.indexOf(getMe()._id)>=0}" ng-click="stopPropagation($event)">
     </i>
     <div>
       {{article.likeUsers.length||0}}

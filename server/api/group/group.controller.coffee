@@ -51,9 +51,9 @@ exports.joinOrLeave = (req, res, next) ->
     do group.saveQ
   .then (result) ->
     group = result[0]
-    group.populate 'creator', 'name avatar'
-         .populateQ 'members', 'name avatar'
-  .then (group) ->
+#    group.populate 'creator', 'name avatar'
+#         .populateQ 'members', 'name avatar'
+#  .then (group) ->
     res.send group
   .catch next
   .done()

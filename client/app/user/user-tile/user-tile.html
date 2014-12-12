@@ -1,0 +1,53 @@
+<div class="user-tile text-center">
+  <div class="avatar-lg"></div>
+  <h4>
+    <a href="" ui-sref="user({userId: user._id})" class="user-name">
+      {{user.name}}
+      <i class="fa fa-male" ng-if="user.gender"></i><i class="fa fa-female" ng-if="!user.gender"></i>
+    </a><br>
+    <small>
+      {{user.signature||'个性签名开发中'}}
+    </small>
+  </h4>
+  <button login-window login-success="toggleFollow()" class="btn btn-sm btn-primary follow-btn">
+    <i class="fa fa-check-circle"></i>&nbsp;关注
+  </button>
+  <hr>
+  <div class="user-status clearfix">
+    <div class="status">
+      关注
+      <div class="number">
+        {{user.followings.length||0}}
+      </div>
+    </div>
+    <div class="status">
+      我的趣课
+      <div class="number">
+        {{user.courses.length||0}}
+      </div>
+    </div>
+    <div class="status">
+      粉丝
+      <div class="number">
+        {{user.followers.length||0}}
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="user-columns" ng-if="user.columns.length">
+    <hr>
+  </div>
+  <div class="user-medals" ng-if="user.medals.length">
+    <i class="fa fa-trophy"></i>
+    <span ng-repeat="tag in user.tags">
+      {{tag}}
+    </span>
+    <hr>
+  </div>
+  <div class="user-tags" ng-if="user.tags.length">
+    <i class="fa fa-tags"></i>
+    <span ng-repeat="tag in user.tags">
+      {{tag}}
+    </span>
+  </div>
+</div>

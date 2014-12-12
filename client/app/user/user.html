@@ -3,29 +3,7 @@
 
     <!-- user info -->
     <div class="col-md-3 text-center">
-      <div class="avatar-lg"
-           src-key="user.avatar"
-           suffix="?imageView2/1/w/64/h/64"
-           source-attr="background-image">
-      </div>
-      <div class="caption">
-        <h3 class="text-info">
-          {{user.name}}
-        </h3>
-        <p>{{user.info}}</p>
-        <p class="btn-group">
-          <a ng-click="courses.$active=true"
-             ng-class="{'btn-primary':courses.$active}"
-             class="btn btn-default">
-             课程 {{courses.$count}}
-          </a>
-          <a ng-click="articles.$active=true"
-             ng-class="{'btn-primary':articles.$active}"
-             class="btn btn-default">
-             话题 {{articles.$count}}
-          </a>
-        </p>
-      </div>
+      <user-tile user="user"></user-tile>
     </div>
 
     <!-- user articles & courses-->

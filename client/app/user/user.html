@@ -56,12 +56,7 @@
               - {{article.created | moment: 'fromNow'}}
             </small>
             <span class="pull-right">
-              <small class="text-muted" ng-if="user._id==me()._id">
-                {{article.likeUsers.length}}个赞
-              </small>
-              <small class="text-muted" ng-if="user._id!=me()._id">
-                <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
-              </small>
+              <a href class="text-muted small" login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
               &nbsp;
               <a ng-if="article.author._id == me()._id"
                  style="cursor: pointer"

@@ -1,8 +1,9 @@
 <div class="comments">
   {{comments.length||0}}条评论
   <form name="form" class="comments-header clearfix">
-    <div pen ng-model="newComment.content" placeholder="请输入内容">
-    </div>
+    <span login-window>
+      <div pen ng-model="newComment.content" placeholder="请输入内容"></div>
+    </span>
     <button class="btn btn-primary" login-window login-success="submitComment(form)">发表</button>
   </form>
   <div class="comment-list">

@@ -41,12 +41,7 @@
               - {{article.created | moment: 'fromNow'}}
             </small>
             <span class="pull-right">
-              <small class="text-muted" ng-if="!me()._id">
-                {{article.likeUsers.length}}个赞
-              </small>
-              <small class="text-muted" ng-if="me()._id">
-                <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
-              </small>
+              <a class="small text-muted" href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
             </span>
           </div>
         </div>

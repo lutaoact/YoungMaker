@@ -20,7 +20,7 @@ exports.create = (req, res, next) ->
   Model = CommentUtils.getCommentRefByType body.type
   Q.all [
     Comment.createQ data
-    Model.updateQ {_id: data.belongTo}, {$inc: {viewersNum: 1}}
+    Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}}
   ]
   .then (result) ->
     comment = result[0]

@@ -5,7 +5,7 @@ angular.module 'mauidmin'
   $stateProvider
   .state 'course',
     url: '/courses/:courseId'
-    templateUrl: 'admin/course/course-detail.html'
+    templateUrl: 'admin/course/courseDetail.html'
     controller: 'CourseDetailCtrl'
     authenticate: true
 

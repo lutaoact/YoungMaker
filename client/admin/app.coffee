@@ -6,7 +6,6 @@ angular.module 'mauidmin', [
   'ngResource'
   'ngSanitize'
   'ui.router'
-  'ui.bootstrap'
   'restangular'
   'cgNotify'
 ]
@@ -122,15 +121,12 @@ angular.module 'mauidmin', [
   $modal
   notify
   $state
-  webview
   initUser
   $location
   $rootScope
   loginRedirector
   Auth
 ) ->
-
-  $rootScope.webview = webview
 
   #set the default configuration options for angular-notify
   notify.config
@@ -161,4 +157,7 @@ angular.module 'mauidmin', [
     setupUser(user, true)
 
   # Reload Auth
-  Auth.getCurrentUser().$promise?.then setupUser
+  Auth.refreshCurrentUser()
+  $rootScope.$watch Auth.getCurrentUser, (newUser) ->
+    $rootScope.me = newUser
+

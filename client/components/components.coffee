@@ -2,5 +2,5 @@
 
 angular.module 'maui.components', [
   'ngStorage'
-  'highcharts-ng'
+  'ui.bootstrap'
 ]

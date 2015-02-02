@@ -78,19 +78,6 @@
               保存中
             </span>
           </button>
-          <button type="button"
-                  ng-if="canDelete"
-                  ng-diabled="deleting"
-                  ng-click="removeUser(user)"
-                  class="btn btn-default btn-sm rounded">
-            <span ng-if="!viewState.deleting">
-              删除
-            </span>
-            <span ng-if="viewState.deleting">
-              <i class="fa fa-spinner fa-spin"></i>
-              删除中
-            </span>
-          </button>
         </div>
       </div>
     </form>

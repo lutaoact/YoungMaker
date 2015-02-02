@@ -44,9 +44,9 @@ angular.module('maui.components').factory 'Auth', (
   @param  {Function}
   ###
   logout: ->
-    $rootScope.$emit 'logoutSuccess'
     $cookieStore.remove 'token'
     currentUser = {}
+    $rootScope.$emit 'logoutSuccess'
     return
 
   ###
@@ -75,18 +75,7 @@ angular.module('maui.components').factory 'Auth', (
 
   @return {Boolean}
   ###
-  isLoggedIn: ->
-    #To support pasted url navigation
-    currentUser.hasOwnProperty('_id')
-
-  ###
-  Check if a user is an admin
-
-  @return {Boolean}
-  ###
-  isAdmin: ->
-    currentUser.role is 'admin'
-
+  isLoggedIn: -> currentUser._id?
 
   ###
   Get auth token

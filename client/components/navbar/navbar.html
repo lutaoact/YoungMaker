@@ -51,32 +51,31 @@
             dropdown>
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
+             dropdown-toggle
              src-key="getCurrentUser().avatar"
              suffix="?imageView2/1/w/64/h/64"
              source-attr="background-image"
             >
           </a>
 
-
           <ul class="dropdown-menu profile-menu" role="menu">
-              <li><a ui-sref="user({userId:getCurrentUser()._id})" target="{{getCurrentUser()._id}}">
-                我的主页</a></li>
-              <li><a href="/settings">
-                个人设置</a></li>
-              <li><a href="/" data-no-turbolink="true">
-                我的收藏</a></li>
-              <li><a href="/">
-              通知中心</a></li>
-              <li>
-                <a href ng-click="logout()"
-                   class="dropdown_login_out_link"
-                   data-method="delete"
-                   rel="nofollow">
-                  注销登录
-                </a>
-              </li>
+            <li><a ui-sref="user({userId:getCurrentUser()._id})" target="{{getCurrentUser()._id}}">
+              我的主页</a></li>
+            <li><a href="/settings">
+              个人设置</a></li>
+            <li><a href="/" data-no-turbolink="true">
+              我的收藏</a></li>
+            <li><a href="/">
+            通知中心</a></li>
+            <li>
+              <a href ng-click="logout()"
+                 class="dropdown_login_out_link"
+                 data-method="delete"
+                 rel="nofollow">
+                注销登录
+              </a>
+            </li>
           </ul>
-
 
         </li>
       </ul>

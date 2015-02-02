@@ -21,8 +21,6 @@ AWSAlgorithm         = config.s3.algorithm
 
 acsBaseAddress = config.azure.acsBaseAddress
 
-Lecture = _u.getModel 'lecture'
-
 class AssetUtils extends BaseUtils
   classname: 'AssetUtils'
 

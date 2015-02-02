@@ -121,15 +121,12 @@ angular.module 'mauidmin', [
   $modal
   notify
   $state
-  webview
   initUser
   $location
   $rootScope
   loginRedirector
   Auth
 ) ->
-
-  $rootScope.webview = webview
 
   #set the default configuration options for angular-notify
   notify.config

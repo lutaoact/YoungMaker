@@ -10,6 +10,12 @@
 
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(client) test/vendor.css -->
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
+  <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.css">
+  <link rel="stylesheet" href="bower_components/pen/src/pen.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="bower_components/animate.css/animate.css">
   <!-- endbuild -->
 
   <!-- build:css({.tmp,client}) test/app.css -->
@@ -22,7 +28,6 @@
   <div ng-include="'test/main/test.html'"></div>
 
   <!-- build:js(client) test/vendor.js -->
-  <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/json3/lib/json3.js"></script>
   <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -51,7 +56,6 @@
   <script src="bower_components/angular-i18n/angular-locale_zh-cn.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
-  <!-- endbower -->
   <!-- endbuild -->
 
   <!-- build:js({.tmp,client}) test/app.js -->
@@ -96,9 +100,7 @@
 
   <script>
     angular.module('mauiTestApp')
-      .constant('webview', <%- webview %>)
       .constant('initUser', <%- initUser %>)
-      .constant('initNotify', <%- initNotify %>)
   </script>
 </body>
 

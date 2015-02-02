@@ -4,6 +4,11 @@ angular.module('mauiApp')
 
   $stateProvider
 
+  .state 'groupNew',
+    url: '/groups/new'
+    templateUrl: 'app/group/groupNew/groupNew.html'
+    controller: 'GroupNewCtrl'
+
   .state 'group',
     url: '/groups/:groupId'
     templateUrl: 'app/group/group.html'

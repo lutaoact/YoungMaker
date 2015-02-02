@@ -1,0 +1,6 @@
+<div class="container">
+  <a ui-sref="groupNew"><i>+</i>申请创建小组</a>
+  <div ng-repeat="group in groups">
+    <a ui-sref="group({groupId: group._id})">{{group.title}}</a>
+  </div>
+</div>

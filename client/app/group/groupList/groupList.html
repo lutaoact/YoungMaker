@@ -1,6 +1,10 @@
-<div class="container">
-  <a ui-sref="groupNew"><i>+</i>申请创建小组</a>
-  <div ng-repeat="group in groups">
-    <a ui-sref="group({groupId: group._id})">{{group.title}}</a>
+<section class="group-list">
+  <div class="container">
+    <a ui-sref="groupNew"><i>+</i>申请创建小组</a>
+    <div class="row all-groups">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="group in groups">
+        <group-tile group="group"></group-tile>
+      </div>
+    </div>
   </div>
-</div>
+</section>

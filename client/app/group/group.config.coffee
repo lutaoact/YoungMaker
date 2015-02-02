@@ -24,3 +24,8 @@ angular.module('mauiApp')
     url: '/groups/:groupId/articles/:articleId'
     templateUrl: 'app/article/article-detail/article-detail.html'
     controller: 'ArticleDetailCtrl'
+
+  .state 'groupList',
+    url: '/groups'
+    templateUrl: 'app/group/groupList/groupList.html'
+    controller: 'GroupListCtrl'

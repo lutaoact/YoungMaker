@@ -1,4 +1,4 @@
-angular.module('mauiApp')
+angular.module('maui.components')
 
 .directive 'loginWindow', (
   Auth
@@ -14,7 +14,7 @@ angular.module('mauiApp')
     element.bind 'click', ()->
       if !Auth.isLoggedIn()
         $modal.open
-          templateUrl: 'app/login/loginModal.html'
+          templateUrl: 'components/login/loginModal.html'
           controller: 'loginModalCtrl'
           windowClass: 'center-modal'
         .result.then ->

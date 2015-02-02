@@ -139,18 +139,23 @@ angular.module 'mauiApp', [
     startTop: 30
     duration: 4000
 
+  # Redirect to login if route requires auth and you're not logged in
+  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
+    if toState.authenticate and !Auth.isLoggedIn() and !initUser?
+      loginRedirector.set($state.href(toState, toParams))
+      $modal.open
+        templateUrl: 'app/login/loginModal.html'
+        controller: 'loginModalCtrl'
+        windowClass: 'login-window-modal'
+        size: 'md'
+
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
-
   checkState = (state, params) ->
     if state.authenticate
       loginRedirector.set $state.href(state, params)
-
-  # Redirect to login if route requires auth and you're not logged in
-  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    checkState(toState, toParams) if !Auth.isLoggedIn()
 
   # Setup data & config for logged user
   $rootScope.configs = configs

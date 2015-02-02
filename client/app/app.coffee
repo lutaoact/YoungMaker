@@ -122,28 +122,6 @@ angular.module 'mauiApp', [
       $rootScope.$loading = false
     $q.reject response
 
-.service 'socketHandler', (
-  socket
-  $modal
-  $rootScope
-) ->
-
-  init: (me) ->
-    socket.setup()
-    if me?
-      socket.setHandler Const.MsgType.Notice, (data) ->
-        $rootScope.$broadcast 'message.notice', data
-    if me?.role is 'student'
-      socket.setHandler Const.MsgType.Quiz, (data) ->
-        $modal.open
-          templateUrl: 'app/teacher/teacherTeaching/receiveQuestion.html'
-          controller: 'ReceiveQuestionCtrl'
-          backdrop: 'static'
-          resolve:
-            answer: -> data.answer
-            question: -> data.question
-            teacherId: -> data.teacherId
-
 .run (
   Auth
   $modal
@@ -151,8 +129,8 @@ angular.module 'mauiApp', [
   $state
   configs
   initUser
+  $timeout
   $rootScope
-  socketHandler
   loginRedirector
 ) ->
 
@@ -161,14 +139,18 @@ angular.module 'mauiApp', [
     startTop: 30
     duration: 4000
 
-  # Redirect to login if route requires auth and you're not logged in
-  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    if toState.authenticate and !Auth.isLoggedIn() and !initUser?
-      loginRedirector.set($state.href(toState, toParams))
-
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
+
+
+  checkState = (state, params) ->
+    if state.authenticate
+      loginRedirector.set $state.href(state, params)
+
+  # Redirect to login if route requires auth and you're not logged in
+  $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
+    checkState(toState, toParams) if !Auth.isLoggedIn()
 
   # Setup data & config for logged user
   $rootScope.configs = configs
@@ -176,5 +158,8 @@ angular.module 'mauiApp', [
   Auth.refreshCurrentUser() if initUser?
   $rootScope.$watch Auth.getCurrentUser, (newUser) ->
     $rootScope.me = newUser
-    socketHandler.init(newUser) if Auth.isLoggedIn()
+    if Auth.isLoggedIn()
+      loginRedirector.apply()
+    else
+      checkState($state.current, $state.params)
 

@@ -14,9 +14,6 @@ angular.module('mauiApp').controller 'ProfileCtrl',(
       new: ''
       again: ''
 
-    saveProfile: ->
-      console.log 'profile saved'
-
     changePassword: (form) ->
       if !form.$valid then return
       if $scope.password.new.length < 6

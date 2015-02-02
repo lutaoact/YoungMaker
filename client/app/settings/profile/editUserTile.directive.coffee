@@ -9,9 +9,7 @@ angular.module('mauiApp')
   templateUrl: 'app/settings/profile/editUserTile.html'
   scope:
     user: '='
-    canDelete: '@' # 能否删除这个用户 - 管理员需要
     onUpdateUser: '&'
-    onDeleteUser: '&'
 
 .controller 'EditUserTileCtrl', (
   $state
@@ -32,12 +30,11 @@ angular.module('mauiApp')
   angular.extend $scope,
     $state: $state
     errors: null
-    editingInfo: null
+    editingInfo: _.pick $scope.user, editableFields
     viewState:
       saved: true
       saving: false
       deleting: false
-    roleTitle: ''
 
     onAvatarUploaded: (key) ->
       $scope.editingInfo.avatar = key
@@ -65,32 +62,6 @@ angular.module('mauiApp')
       .catch (error) ->
         $scope.viewState.saving = false
         $scope.errors = error?.data?.errors
-
-    removeUser: (user) ->
-      $modal.open
-        templateUrl: 'components/modals/message/messageModal.html'
-        controller: 'MessageModalCtrl'
-        size: 'sm'
-        resolve:
-          title: -> '删除' + $scope.roleTitle
-          message: ->
-            """确认要删除#{$scope.roleTitle}"#{user.name}"？"""
-      .result.then ->
-        $scope.viewState.deleting = true
-        Restangular.one('users', user._id)
-        .remove()
-        .then ->
-          $scope.viewState.deleting = false
-          notify
-            message: "该#{$scope.roleTitle}已被删除"
-            classes: 'alert-success'
-          $scope.onDeleteUser?()
-
-  $scope.$watch 'user', (user) ->
-    if !user? then return
-    $scope.user = user
-    $scope.editingInfo = _.pick user, editableFields
-    $scope.roleTitle = '用户'
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

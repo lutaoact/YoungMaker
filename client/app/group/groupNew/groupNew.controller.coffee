@@ -11,6 +11,10 @@ angular.module('mauiApp')
     groupData:
       title: null
       description: null
+      avatar: null
+
+    onAvatarUploaded: ($data)->
+      $scope.groupData.avatar = $data
 
     # TODO: check if group title is unique
     createGroup: (form) ->

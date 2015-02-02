@@ -9,20 +9,36 @@
             role="form"
             ng-submit="saveDesc(form)"
             ng-show="showEditingForm">
+        <!--<div class="form-group">-->
+          <!--<img align="left" valign="top"-->
+               <!--src-key="group.avatar">-->
+          <!--</img>-->
+        <!--</div>-->
         <div class="form-group">
-          <img align="left" valign="top"
-               src-key="group.avatar">
-          </img>
-        </div>
-        <div class="form-group">
-          <uploader class="btn btn-danger btn-sm rounded"
-                    limit="2*1024*1024"
-                    on-complete="onAvatarUploaded($data)"
-                    crop="true"
-                    crop-ratio="1"
-                    max-width="128"
-                    accept-type="image">
-            修改小组图标
+          <uploader
+            class="cover-uploder"
+            limit="{{imageSizeLimitation}}"
+            on-complete="onAvatarUploaded($data)"
+            accept-type="image"
+            crop="true"
+            style="height: 228px;"
+            crop-ratio="1.5"
+            max-width="600">
+            <div class="cover" ng-if="group.avatar" src-key="group.avatar" source-attr="background-image">
+              <div class="mask">
+                <div class="btn btn-xs btn-danger">
+                  <i class="fa fa-image"></i>
+                  修改图片
+                </div>
+              </div>
+            </div>
+            <div class="drag-uploder" ng-if="!group.avatar">
+              <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
+              <div class="btn btn-xs btn-danger">
+                <i class="fa fa-image"></i>
+                上传图片
+              </div>
+            </div>
           </uploader>
         </div>
 
@@ -69,7 +85,7 @@
         <p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
         <div ng-bind-html="group.description"></div>
         <button
-          ng-show="role=='creator'"
+          ng-show="getRole()=='creator'"
           ng-click="editGroupInfo()">修改小组信息</button>
 
         <div>

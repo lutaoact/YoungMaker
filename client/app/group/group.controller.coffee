@@ -15,6 +15,7 @@ angular.module('mauiApp')
     groupArticles: []
 
     onAvatarUploaded: (key) ->
+      console.log key
       Restangular.one('groups', $scope.group._id)
       .patch avatar: key
       .then ->

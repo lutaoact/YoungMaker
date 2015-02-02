@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mauiApp').directive 'userTile', ->
-  templateUrl: 'app/user/user-tile/user-tile.html'
+  templateUrl: 'app/user/userTile/userTile.html'
   restrict: 'EA'
   replace: true
   scope:

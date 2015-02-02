@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mauiApp').directive 'articleTile', ->
-  templateUrl: 'app/article/article-tile/article-tile.html'
+  templateUrl: 'app/article/articleTile/articleTile.html'
   restrict: 'EA'
   replace: true
   scope:

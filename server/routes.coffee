@@ -52,9 +52,7 @@ module.exports = (app) ->
     indexFile = subContext + '/index.html'
     indexPath = app.get('appPath') + indexFile
     locals =
-      webview: "#{req.query.webview?}"
       initUser: "null"
-      initNotify: "#{req.query.message}"
 
     # if there is no cookie token, return index.html immediately
     if not req.cookies.token?

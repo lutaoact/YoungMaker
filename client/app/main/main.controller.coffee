@@ -1,12 +1,9 @@
 'use strict'
 
 angular.module('mauiApp').controller 'MainCtrl', (
-  Page
   $scope
   Restangular
 ) ->
-
-  Page.setTitle 'STEM 教育'
 
   angular.extend $scope,
     courses: [

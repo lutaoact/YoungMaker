@@ -152,12 +152,10 @@ angular.module 'mauiApp', [
 
 .run (
   Auth
-  Page
   $modal
   notify
   $state
   configs
-  webview
   initUser
   $rootScope
   socketHandler
@@ -179,9 +177,7 @@ angular.module 'mauiApp', [
     $("html, body").animate({ scrollTop: 0 }, 100)
 
   # Setup data & config for logged user
-  $rootScope.Page = Page
   $rootScope.configs = configs
-  $rootScope.webview = webview
   $rootScope.$state = $state
   Auth.refreshCurrentUser() if initUser?
   $rootScope.$watch Auth.getCurrentUser, (newUser) ->

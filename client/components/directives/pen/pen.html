@@ -8,7 +8,7 @@
       accept-type="image">
     </uploader>
     <span dropdown class="emojis-dropdown">
-      <i class="icon-btn fa fa-smile-o dropdown-toggle"></i>
+      <i class="icon-btn fa fa-smile-o dropdown-toggle" dropdown-toggle></i>
       <div class="dropdown-menu" role="menu">
         <a href="" class="emoji-icon" ng-repeat="emoji in emojis" ng-click="insertEmoji(emoji)">
           <img ng-src="{{configs.cdn+'/emojis/'+emoji+'.png'}}" title="{{':'+emoji+':'}}" alt="{{':'+emoji+':'}}">

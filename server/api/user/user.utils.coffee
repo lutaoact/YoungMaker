@@ -2,7 +2,6 @@ BaseUtils = require '../../common/BaseUtils'
 
 User = _u.getModel 'user'
 Course = _u.getModel 'course'
-Classe = _u.getModel 'classe'
 
 class UserUtils extends BaseUtils
   check: (userInfo) ->
@@ -40,19 +39,6 @@ class UserUtils extends BaseUtils
       tmpResult.classes = result[0]
 
       User.removeQ conditions
-    .then () ->
-      return tmpResult.classes
-
-  removeStudents: (ids) ->
-    tmpResult = {}
-    Classe.findQ
-      students: $in: ids
-    .then (classes) ->
-      tmpResult.classes = classes
-      promises = _.map classes, (classe) ->
-        classe.students.pull.apply classe.students, ids
-        return do classe.saveQ
-      Q.all promises
     .then () ->
       return tmpResult.classes
 

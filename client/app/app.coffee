@@ -6,7 +6,6 @@ angular.module 'mauiApp', [
   'ngSanitize'
   'ngAnimate'
   'ngStorage'
-  'ui.bootstrap'
   'ui.router'
   'ui.select'
   'com.2fdevs.videogular'

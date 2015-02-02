@@ -6,7 +6,6 @@ angular.module 'mauidmin', [
   'ngResource'
   'ngSanitize'
   'ui.router'
-  'ui.bootstrap'
   'restangular'
   'cgNotify'
 ]
@@ -161,4 +160,7 @@ angular.module 'mauidmin', [
     setupUser(user, true)
 
   # Reload Auth
-  Auth.getCurrentUser().$promise?.then setupUser
+  Auth.refreshCurrentUser()
+  $rootScope.$watch Auth.getCurrentUser, (newUser) ->
+    $rootScope.me = newUser
+

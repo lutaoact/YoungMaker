@@ -5,7 +5,6 @@ angular.module 'mauiTestApp', [
   'ngCookies'
   'ngResource'
   'ngStorage'
-  'ui.bootstrap'
   'restangular'
 ]
 

@@ -1,6 +1,6 @@
 'use scrict'
 
-angular.module('mauiApp').controller 'loginModalCtrl', (
+angular.module('maui.components').controller 'loginModalCtrl', (
   $scope,
   $modal,
   Auth,

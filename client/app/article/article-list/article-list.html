@@ -31,10 +31,10 @@
           暂无发表话题
         </div>
         <div class="" ng-repeat="article in articles">
-          <article-tile article="article"></article-tile>
+          <article-tile article="article" me="me"></article-tile>
         </div>
         <div id="new-article" class="text-center">
-          <a href ng-if="me()._id" ng-click="createArticle()">创建新话题</a>
+          <a href ng-if="me._id" ng-click="createArticle()">创建新话题</a>
         </div>
           </div>
         </div>

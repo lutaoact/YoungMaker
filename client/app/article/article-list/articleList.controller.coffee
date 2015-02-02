@@ -8,7 +8,6 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    me: Auth.getCurrentUser
     groupes  : []
     articles : []
 

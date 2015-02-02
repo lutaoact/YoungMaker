@@ -68,7 +68,7 @@ angular.module 'mauiApp', [
       config.method = 'PUT'
     config
 
-.factory 'loginRedirector', ($location, $localStorage) ->
+.factory 'loginRedirector', ($location) ->
 
   redirectKey = 'r'
   loginPath = '/'
@@ -152,24 +152,18 @@ angular.module 'mauiApp', [
             teacherId: -> data.teacherId
 
 .run (
-  Msg
   Auth
   Page
   $modal
   notify
   $state
+  configs
   webview
   initUser
-  $location
   $rootScope
   socketHandler
   loginRedirector
-  configs
 ) ->
-
-  $rootScope.Page = Page
-  $rootScope.webview = webview
-  $rootScope.imageSizeLimitation = configs.imageSizeLimitation
 
   #set the default configuration options for angular-notify
   notify.config
@@ -178,22 +172,20 @@ angular.module 'mauiApp', [
 
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !initUser?
+    if toState.authenticate and !Auth.isLoggedIn() and !initUser?
+      loginRedirector.set($state.href(toState, toParams))
 
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
-  setupUser = (user, goHome = false) ->
-    # todo: init message
-    # Msg.init()
-    socketHandler.init(user)
-    if !loginRedirector.apply()
-      $state.go('settings.profile')  if goHome
+  # Setup data & config for logged user
+  $rootScope.Page = Page
+  $rootScope.configs = configs
+  $rootScope.webview = webview
+  $rootScope.$state = $state
+  Auth.refreshCurrentUser() if initUser?
+  $rootScope.$watch Auth.getCurrentUser, (newUser) ->
+    $rootScope.me = newUser
+    socketHandler.init(newUser) if Auth.isLoggedIn()
 
-  # setup data & config for logged user
-  $rootScope.$on 'loginSuccess', (event, user) ->
-    setupUser(user, true)
-
-  # Reload Auth
-  Auth.getCurrentUser().$promise?.then setupUser

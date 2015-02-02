@@ -5,6 +5,7 @@ angular.module('mauiApp').directive 'courseTile', ->
   restrict: 'EA'
   replace: true
   scope:
+    me: '='
     course: '='
   link: (scope, element, attrs) ->
 
@@ -17,7 +18,6 @@ angular.module('mauiApp').directive 'courseTile', ->
         $scope.course.one('like').post()
         .then (res)->
           $scope.course.likeUsers = res.likeUsers
-      getMe: Auth.getCurrentUser
 
       toggleCollect: ()->
         $scope.course.one('like').post()

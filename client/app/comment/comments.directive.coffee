@@ -5,13 +5,13 @@ angular.module('mauiApp').directive 'comments', ->
   restrict: 'EA'
   replace: true
   scope:
-    belongTo: '@'
+    me: '='
     type: '@'
+    belongTo: '@'
   link: (scope, element, attrs) ->
 
   controller: ($scope, Restangular, $filter, Auth)->
     angular.extend $scope,
-      getMe: Auth.getCurrentUser
       newComment: {
         type    : Const.CommentType.Course
         belongTo: $scope.belongTo

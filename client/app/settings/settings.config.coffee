@@ -19,7 +19,7 @@ angular.module('mauiApp')
     authenticate: true
 
   .state 'settings.profile',
-    url: '/profile',
+    url: '/profile'
     templateUrl: 'app/settings/profile/profile.html'
     controller: 'ProfileCtrl'
     authenticate: true

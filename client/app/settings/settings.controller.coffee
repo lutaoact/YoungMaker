@@ -9,7 +9,6 @@ angular.module('mauiApp').controller 'SettingsCtrl', (
 
   angular.extend $scope,
     webview: webview
-    me: Auth.getCurrentUser()
 
     isActive: (route) ->
       _.str.trim(route, '/') is _.str.trim($location.path(), '/')

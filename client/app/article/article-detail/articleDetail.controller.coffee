@@ -10,10 +10,8 @@ angular.module('mauiApp')
   articleAPI = Restangular.one('articles', $state.params.articleId)
 
   angular.extend $scope,
-    me: Auth.getCurrentUser
     article: null
     const: Const
-    $state: $state
 
     likeClick: (article) ->
       articleAPI.customPOST(null, 'like')

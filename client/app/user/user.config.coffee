@@ -9,6 +9,6 @@ angular.module('mauiApp')
   $stateProvider
 
   .state 'user',
-    url: '/users/:userId',
+    url: '/users/:userId'
     templateUrl: 'app/user/user.html'
     controller: 'UserCtrl'

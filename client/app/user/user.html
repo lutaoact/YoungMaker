@@ -10,7 +10,7 @@
     <tabset type="pills"
             justified="true"
             class="col-md-9">
-      <tab heading="{{'#mine#课程' | mine:user._id}}" active="courses.$active">
+      <tab heading="{{'#mine#课程' | mine:me._id==user._id}}" active="courses.$active">
         <br/>
         <div ng-if="!courses.length" class="text-center">
           暂无发布课程
@@ -19,10 +19,10 @@
           <course-tile course="course"></course-tile>
         </div>
         <div id="new-course" class="text-center">
-          <a href ng-if="user._id==me()._id" ng-click="createCourse()">创建新课程</a>
+          <a href ng-if="user._id==me._id" ng-click="createCourse()">创建新课程</a>
         </div>
       </tab>
-      <tab heading="{{'#mine#话题' | mine:user._id}}" active="articles.$active">
+      <tab heading="{{'#mine#话题' | mine:me._id==user._id}}" active="articles.$active">
         <br/>
         <div ng-if="!articles.length" class="text-center">
           暂无发表话题
@@ -31,7 +31,7 @@
           <article-tile article="article"></article-tile>
         </div>
         <div id="new-article" class="text-center">
-          <a href ng-if="user._id==me()._id" ng-click="createArticle()">创建新话题</a>
+          <a href ng-if="user._id==me._id" ng-click="createArticle()">创建新话题</a>
         </div>
 
       </tab>

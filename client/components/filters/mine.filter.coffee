@@ -1,9 +1,9 @@
 angular.module('maui.components')
 
 .filter 'mine', (Auth) ->
-  (item, userId) ->
+  (item, isMine) ->
     label =
-      if Auth.getCurrentUser()._id is userId
+      if isMine
         '我的'
       else
         'TA的'

@@ -12,9 +12,7 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    me: Auth.getCurrentUser
     user: null
-    $state: $state
     courses  : []
     articles : []
     comments : []

@@ -47,8 +47,11 @@
   </div>
 
   <div class="vote-area">
-    <i class="fa fa-heart toggle" login-window login-success="toggleVote()" ng-class="{'active':article.likeUsers.indexOf(getMe()._id)>=0}" ng-click="stopPropagation($event)">
-    </i>
+    <i class="fa fa-heart toggle"
+       login-window
+       login-success="toggleVote()"
+       ng-class="{'active':article.likeUsers.indexOf(me._id)>=0}"
+       ng-click="stopPropagation($event)"></i>
     <div>
       {{article.likeUsers.length||0}}
     </div>
@@ -58,13 +61,14 @@
     <i class="budon budon-send"></i>
     {{article.shareNum||0}}
   </a>
-  <div dropdown class="actions-dropdown">
+  <div dropdown
+       class="actions-dropdown"
+       ng-if="me._id==article.author._id">
     <a class="dropdown-toggle btn btn-md">
       <i class="fa fa-angle-down"></i>
     </a>
     <ul class="dropdown-menu" role="menu">
-      <li ng-if="getMe()._id==article._id">
-        article.group
+      <li>
         <a href=""
            ng-hide="article.group"
            ui-sref="articleEditor({articleId:article._id})">编辑</a>
@@ -72,7 +76,7 @@
            ng-show="article.group"
            ui-sref="groupArticleEditor({groupId: article.group, articleId: article._id})">编辑</a>
       </li>
-      <li ng-if="getMe()._id==article._id">
+      <li>
         <a href=""
         ng-click="removeArticle(article)">删除</a>
       </li>

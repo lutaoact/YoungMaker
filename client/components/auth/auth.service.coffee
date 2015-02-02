@@ -2,35 +2,30 @@
 
 angular.module('maui.components').factory 'Auth', (
   $q
-  User
   $http
   $rootScope
   Restangular
   $cookieStore
+  $localStorage
 ) ->
 
-  currentUser =
-    if $cookieStore.get('token') then User.get() else {}
+  currentUser = {}
 
   ###
   Authenticate user and save token
 
   @param  {Object}   user     - login info
-  @param  {Function} callback - optional
   @return {Promise}
   ###
-  login: (user, callback) ->
-    cb = callback or angular.noop
+  login: (user) ->
     deferred = $q.defer()
     $http.post('/auth/local', user).success ((data) ->
-      @setToken(data.token)
-      deferred.resolve currentUser
-      cb()
+      $rootScope.$emit 'loginSuccess'
+      deferred.resolve @setToken(data.token)
     ).bind(@)
     .error ((err) ->
       @logout()
       deferred.reject err
-      cb err
     ).bind(@)
     deferred.promise
 
@@ -41,7 +36,7 @@ angular.module('maui.components').factory 'Auth', (
   ###
   setToken: (token) ->
     $cookieStore.put 'token', token
-    currentUser = User.get()
+    @refreshCurrentUser()
 
   ###
   Delete access token and user info
@@ -49,6 +44,7 @@ angular.module('maui.components').factory 'Auth', (
   @param  {Function}
   ###
   logout: ->
+    $rootScope.$emit 'logoutSuccess'
     $cookieStore.remove 'token'
     currentUser = {}
     return
@@ -60,6 +56,19 @@ angular.module('maui.components').factory 'Auth', (
   ###
   getCurrentUser: ->
     currentUser
+  ###
+  Refresh info on authenticated user
+
+  ###
+  refreshCurrentUser: (callback) ->
+    Restangular
+    .one('users', 'me')
+    .get()
+    .then (user) ->
+      currentUser = user
+      $localStorage.user = user
+    .finally ->
+      callback?(currentUser)
 
   ###
   Check if a user is logged in

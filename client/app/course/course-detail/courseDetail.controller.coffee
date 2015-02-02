@@ -10,7 +10,6 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    getMe: Auth.getCurrentUser
     newComment: {
       type    : Const.CommentType.Course
       belongTo: $state.params.courseId

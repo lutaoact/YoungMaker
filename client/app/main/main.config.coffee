@@ -4,7 +4,7 @@ angular.module('mauiApp')
   .config ($stateProvider) ->
     $stateProvider
     .state('main',
-      url: '/',
+      url: '/'
       templateUrl: 'app/main/main.html'
       controller: 'MainCtrl'
     )

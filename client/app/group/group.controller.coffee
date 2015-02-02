@@ -11,7 +11,6 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     showEditingForm: false
-    me: Auth.getCurrentUser()
     group: null
     groupArticles: []
 
@@ -86,9 +85,6 @@ angular.module('mauiApp')
 
   groupAPI.get().then (group) ->
     $scope.group = group
-
-  $scope.$watch Auth.getCurrentUser, (value)->
-    $scope.me = value
 
   Restangular.all('articles').getList({group: $state.params.groupId})
   .then (articles) ->

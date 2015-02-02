@@ -5,10 +5,12 @@ angular.module('mauiApp').directive 'articleTile', ->
   restrict: 'EA'
   replace: true
   scope:
+    me: '='
     article: '='
   link: (scope, element, attrs) ->
 
-  controller: ($scope, Restangular, Auth, notify)->
+  controller: ($scope, notify)->
+
     angular.extend $scope,
       stopPropagation: ($event)->
         $event.stopPropagation()
@@ -17,7 +19,6 @@ angular.module('mauiApp').directive 'articleTile', ->
         $scope.article.one('like').post()
         .then (res)->
           $scope.article.likeUsers = res.likeUsers
-      getMe: Auth.getCurrentUser
 
       toggleCollect: ()->
         $scope.article.one('like').post()
@@ -33,5 +34,4 @@ angular.module('mauiApp').directive 'articleTile', ->
           notify
             message: '话题已经删除'
             classes: 'alert-success'
-
 

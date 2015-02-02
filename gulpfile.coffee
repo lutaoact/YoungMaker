@@ -206,11 +206,11 @@ gulp.task 'express:dev', ->
     console.log 'restarted!'
   gulp.src "client/index.html"
   .pipe $.wait(1000)
-  .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9000}")
+  .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9001}")
 
 gulp.task 'express:prod', ->
   $.express.run
-    port: process.env.PORT or 9000
+    port: process.env.PORT or 9001
     file: serverDistFolder + '/app.js'
 
 gulp.task 'wait', ->

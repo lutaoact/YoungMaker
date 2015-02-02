@@ -17,7 +17,7 @@ all =
   root: path.normalize __dirname + '/../../..'
 
   # Server port
-  port: process.env.PORT or 9000
+  port: process.env.PORT or 9001
 
   # Should we populate the DB with sample data?
   seedDB: false

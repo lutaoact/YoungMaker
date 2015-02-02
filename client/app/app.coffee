@@ -1,7 +1,6 @@
 'use strict'
 
 angular.module 'mauiApp', [
-  'maui.components'
   'ngCookies'
   'ngResource'
   'ngSanitize'
@@ -22,6 +21,7 @@ angular.module 'mauiApp', [
   'angularFileUpload'
   'monospaced.elastic'
   'angular-sortable-view'
+  'maui.components'
 ]
 
 .constant 'configs',

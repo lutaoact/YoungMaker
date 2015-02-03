@@ -20,6 +20,10 @@ angular.module('maui.components')
   require: 'ngModel'
   link: (scope, element, attr, ngModel)->
     penEl = element.find('.pen')
+    imgHandle = (e)->
+      # should fire img edit plugin
+      # console.log this
+
     ngModel.$render = ()->
       if ngModel.$viewValue
         penEl.html(ngModel.$viewValue)
@@ -27,6 +31,8 @@ angular.module('maui.components')
         penEl.html('')
       penEl.off 'blur', extractContent
       penEl.on 'blur', extractContent
+      element.find("img").off 'click', imgHandle
+      element.find("img").on 'click', imgHandle
     extractContent = ()->
       ngModel.$setViewValue(penEl.html())
     config = angular.copy(scope.pen ? defaults)
@@ -35,7 +41,7 @@ angular.module('maui.components')
     scope.$on '$destroy', ->
       pen.destroy()
     scope.$on 'pen.image.uploaded', (event,key)->
-      penEl.append("<p><img src=\"#{key}\"></p>")
+      penEl.append("""<p><img src="#{key}"></p>""")
       extractContent()
     scope.$on 'pen.emoji.inserted', (event,emoji)->
       path = "#{configs.cdn}/emojis/#{emoji}.png"

@@ -5,16 +5,29 @@ AdapterUtils = _u.getUtils 'adapter'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
 # TODO: only get published articles, add conditions!
-exports.index = WrapRequest.wrapIndex()
+exports.index = (req, res, next) ->
+  conditions = {}
+  WrapRequest.wrapIndex req, res, next, conditions
 
-exports.show = WrapRequest.wrapShow()
+exports.show = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions
 
 pickedKeys = ['title', 'image', 'content', 'tags', 'group']
-exports.create = WrapRequest.wrapCreate pickedKeys
+exports.create = (req, res, next) ->
+  data = _.pick req.body, pickedKeys
+  data.author = req.user._id
+  WrapRequest.wrapCreate req, res, next, data
+
 
 pickedUpdatedKeys = ['title', 'image', 'content', 'tags', 'isPublished']
-exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
+exports.update = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
-exports.destroy = WrapRequest.wrapDestroy()
 
-exports.like = WrapRequest.wrapLike()
+exports.destroy = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapDestroy req, res, next, conditions
+
+exports.like = WrapRequest.wrapLike

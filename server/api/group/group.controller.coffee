@@ -5,6 +5,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Group)
 
 exports.index = (req, res, next) ->
   conditions = {}
+  conditions.creator = req.query.creator if req.query.creator
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

@@ -5,6 +5,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
   conditions = {}
+  conditions.author   = req.query.author if req.query.author
   WrapRequest.wrapIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

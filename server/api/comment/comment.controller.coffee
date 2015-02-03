@@ -7,6 +7,9 @@ WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
 exports.index = (req, res, next) ->
   conditions = {}
+  conditions.type     = req.query.type if req.query.type
+  conditions.author   = req.query.author if req.query.author
+  conditions.belongTo = req.query.belongTo
   WrapRequest.wrapIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->

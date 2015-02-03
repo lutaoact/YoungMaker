@@ -15,7 +15,6 @@ angular.module('mauiApp')
       belongTo: $state.params.courseId
     }
     comments: null
-    const: Const
 
     submitComment: ()->
       if $scope.newComment?.content and $filter('htmlToPlaintext')($scope.newComment?.content).trim()

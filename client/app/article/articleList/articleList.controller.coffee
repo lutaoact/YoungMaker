@@ -8,10 +8,10 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    groupes  : []
-    articles : []
+    groupes: null
+    articles: null
 
-  createArticle: ->
+    createArticle: ->
       Restangular.all('articles').post
         title: '新建话题'
         content: ''

@@ -60,7 +60,7 @@ angular.module 'mauiTestApp'
       $http(request)
       .success (data)->
         $scope.response = data if !_.isString(data)
-        console.log 'Response:', data
+        console.log 'Http Response:', $scope.response
       .error (err)->
         $scope.response = err
 

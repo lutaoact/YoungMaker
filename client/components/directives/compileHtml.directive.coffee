@@ -6,11 +6,11 @@ angular.module('maui.components')
   restrict: 'A'
   compile: (tElement) ->
     (scope, element, attr) ->
-      element.data('$binding', attr.compileHtml);
-      parsed = $parse(attr.compileHtml);
+      element.data('$binding', attr.compileHtml)
+      parsed = $parse(attr.compileHtml)
 
       getStringValue = () ->
-        (parsed(scope) or '').toString();
+        (parsed(scope) or '').toString()
 
       scope.$watch getStringValue, (value) ->
         element.html($sce.getTrustedHtml(parsed(scope)) or '')

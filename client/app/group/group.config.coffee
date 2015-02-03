@@ -16,13 +16,13 @@ angular.module('mauiApp')
 
   .state 'groupArticleEditor',
     url: '/groups/:groupId/articles/:articleId/edit'
-    templateUrl: 'app/article/article-editor/article-editor.html'
+    templateUrl: 'app/article/articleEditor/articleEditor.html'
     controller: 'ArticleEditorCtrl'
     authenticate: true
 
   .state 'groupArticleDetail',
     url: '/groups/:groupId/articles/:articleId'
-    templateUrl: 'app/article/article-detail/article-detail.html'
+    templateUrl: 'app/article/articleDetail/articleDetail.html'
     controller: 'ArticleDetailCtrl'
 
   .state 'groupList',

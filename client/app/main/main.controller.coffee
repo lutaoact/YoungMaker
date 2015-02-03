@@ -9,36 +9,36 @@ angular.module('mauiApp').controller 'MainCtrl', (
     courses: [
       {
         title: 'EV3智能机器人RSTORM'
-        image: '0/Cr7cgZp88w/20140324094718680.jpg'
+        image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
         ingredients: [
           {
             name: '路由器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '照相机'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '网线'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 2
           }
           {
             name: '遥控器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '遥控器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '遥控器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
         ]
@@ -51,36 +51,36 @@ angular.module('mauiApp').controller 'MainCtrl', (
       }
       {
         title: '香蕉触摸板'
-        image: '0/Cr7cgZp88w/20140324094718680.jpg'
+        image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
         ingredients: [
           {
             name: '路由器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '照相机'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '网线'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 2
           }
           {
             name: '遥控器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '遥控器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
           {
             name: '遥控器'
-            image: '0/Cr7cgZp88w/20140324094718680.jpg'
+            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
             quantity: 1
           }
         ]

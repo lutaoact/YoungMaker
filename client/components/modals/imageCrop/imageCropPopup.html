@@ -1,7 +1,12 @@
-<div class="modal-header image-crop">
-  <h3 class="modal-title">图片上传</h3>
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="budon budon-cut"></i>
+    调整图片的位置和尺寸
+    <small>支持png, jpg, gif等</small>
+  </h4>
+  <a class="close" ng-click="cancel()">&times;</a>
 </div>
-<div class="modal-body image-crop">
+<div class="modal-body">
   <div class="row">
     <div class="col-md-12">
       <div class="bud thumbnail">
@@ -10,26 +15,37 @@
         ng-show="viewState.previewUrl"
         alt="预览" class="img-preview"
         >
-        <img src="/assets/images/empty.jpg"
-        ng-hide="viewState.previewUrl"
+        <img
+          holder-src="holder.js/300x300/:#9c9c99:#bbb/text:请上传图片"
+          ng-if="!viewState.previewUrl"
         alt="">
-
       </div>
-      <label class="btn btn-default" ng-show="!viewState.uploading">
-        <input type="file"
-        style="display:none;"
-        accept="image/*"
-        ng-file-select="onFileSelect($event,$files)"/>
-        重新选择图片
-      </label>
-      <label class="btn btn-default disabled ng-hide" ng-hide="!viewState.uploading">
-        <i class="fa fa-spinner fa-spin"></i>上传中 {{viewState.progress}}
-      </label>
+      <div ng-if="!viewState.previewUrl">
+        <label class="btn btn-default">
+          <input type="file"
+          style="display:none;"
+          accept="image/*"
+          ng-file-select="onFileSelect($event,$files)"/>
+          选择图片
+        </label>
+      </div>
+      <div ng-if="viewState.uploading">
+        <label class="btn btn-default disabled ng-hide">
+          <i class="fa fa-spinner fa-spin"></i>上传中 {{viewState.progress}}
+        </label>
+      </div>
+      <div class="alert-warning" ng-if="message">{{message}}</div>
     </div>
   </div>
-</div>
-<div class="modal-footer image-crop">
-  <button class="btn btn-primary" ng-click="confirm()"
-  ng-disabled="!files">插入</button>
-  <button class="btn btn-warning" ng-click="close()">关闭</button>
+  <div class="modal-footer">
+    <button class="btn btn-default btn-sm"
+            ng-click="cancel()">
+      取消
+    </button>
+    <button class="btn btn-danger btn-sm"
+            ng-click="confirm()"
+            ng-disabled="!files">
+      应用
+    </button>
+  </div>
 </div>

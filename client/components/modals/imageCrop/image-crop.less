@@ -1,39 +1,41 @@
-.image-crop{
-  -moz-user-select: none; 
-  -webkit-user-select: none; 
-  -ms-user-select:none; user-select:none;
-  .thumbnail{
-    position: relative;
-    padding: 0;
-    cursor: move;
+.image-crop-modal {
+  .modal-dialog {
+    margin-top: 120px;
   }
-  .mask{
-    position: absolute;
-    left: 0;
-    top:0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.6);
-  }
-  
-  .img-preview{
-  }
-  .crop-preview-container{
-    position: absolute;
-    left: 50px;
-    top:50px;
-    right: 50px;
-    bottom: 50px;
-    overflow: hidden;
-    .crop-preview{
+  .modal-body {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none; user-select:none;
+    .thumbnail {
+      position: relative;
+      padding: 0;
+      cursor: move;
+    }
+    .mask {
       position: absolute;
-      left: -50px;
-      top:-50px;
-      right: -50px;
-      bottom: -50px;
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-      background-size: contain;
+      left: 0;
+      top:0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.6);
+    }
+    .crop-preview-container {
+      position: absolute;
+      left: 50px;
+      top:50px;
+      right: 50px;
+      bottom: 50px;
+      overflow: hidden;
+      .crop-preview {
+        position: absolute;
+        left: -50px;
+        top:-50px;
+        right: -50px;
+        bottom: -50px;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: contain;
+      }
     }
   }
 }

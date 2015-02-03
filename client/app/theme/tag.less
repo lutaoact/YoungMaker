@@ -1,15 +1,22 @@
 
-.tag(@background: @gray-light;@foreground: #FFFFFF){
-  color: @foreground;
-  background: @background;
+.tag(@background: @gray-lighter;@foreground: @gray-light){
   margin: 2px;
   max-width: 300px;
   .remove{
     cursor: pointer;
   }
   .label();
+  background: @background;
+  color: @foreground;
   .text-overflow();
   font-size: 14px;
+  display: inline-block;
+  .close{
+    .transition();
+    font-size: 18px;
+    line-height: 0px;
+    float: none;
+  }
 }
 
 tag,

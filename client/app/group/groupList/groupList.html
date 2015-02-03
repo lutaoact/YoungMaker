@@ -6,5 +6,19 @@
         <group-tile group="group"></group-tile>
       </div>
     </div>
+
+    <div class="row pagination-row text-center"
+         ng-if="groups.$count > pageConf.itemsPerPage">
+      <pagination
+        total-items="groups.$count"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        ng-change="reload()"
+        max-size="pageConf.maxSize">
+      </pagination>
+    </div>
   </div>
 </section>

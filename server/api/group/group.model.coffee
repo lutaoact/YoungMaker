@@ -27,6 +27,10 @@ class Group extends BaseModel
     deleteFlag:
       type: Boolean
       default: false
+    postsCount:
+      type: Number
+      required: true
+      default: 0
 
 exports.Class = Group
 exports.Instance = new Group()

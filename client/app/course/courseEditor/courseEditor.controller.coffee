@@ -38,7 +38,7 @@ angular.module('mauiApp')
 
     saveCourse: () ->
       # compile content todo: may not need this. Client can decide how to display according to steps
-      $scope.course.content = """<h1>#{$scope.course.title}</h1>"""
+      $scope.course.content = ''
       $scope.course.steps.forEach (step)->
         $scope.course.content += """<h2>#{step.title}</h2>"""
         switch step.type

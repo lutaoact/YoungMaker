@@ -20,6 +20,12 @@ angular.module('mauiApp')
     controller: 'ArticleEditorCtrl'
     authenticate: true
 
+  .state 'groupArticleNew',
+    url: '/groups/:groupId/articles/new'
+    templateUrl: 'app/article/articleEditor/articleEditor.html'
+    controller: 'ArticleEditorCtrl'
+    authenticate: true
+
   .state 'groupArticleDetail',
     url: '/groups/:groupId/articles/:articleId'
     templateUrl: 'app/article/articleDetail/articleDetail.html'

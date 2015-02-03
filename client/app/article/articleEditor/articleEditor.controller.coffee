@@ -27,7 +27,6 @@ angular.module('mauiApp')
       else
         firstImage = null
       $scope.article.image = firstImage
-      $scope.article.isPublished = true
 
       if $scope.article._id
         Restangular.one('articles', $scope.article._id)
@@ -43,6 +42,7 @@ angular.module('mauiApp')
             message: '保存话题出错啦：' + error
             classes: 'alert-danger'
       else
+        $scope.article.group = $state.params.groupId
         Restangular.all('articles')
         .post($scope.article)
         .then ->

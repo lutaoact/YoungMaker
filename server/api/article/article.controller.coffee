@@ -4,9 +4,9 @@ Article = _u.getModel 'article'
 AdapterUtils = _u.getUtils 'adapter'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
+indexConditionKeys = ['author', 'group']
 exports.index = (req, res, next) ->
-  conditions = {}
-  conditions.author = req.query.author if req.query.author
+  conditions = _.pick req.query, indexConditionKeys
   WrapRequest.wrapIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

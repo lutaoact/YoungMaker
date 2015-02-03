@@ -63,6 +63,14 @@ angular.module('mauiApp')
       .catch (error) ->
         $scope.errors = error?.data?.errors
 
+    createGroupArticle: ->
+      if $scope.getRole() == 'passerby'
+        notify
+          message: '加入小组后才能发言'
+          classes: 'alert-danger'
+        return
+      $state.go 'groupArticleNew', {groupId: $scope.group._id}
+
     getRole: ->
       if !$scope.me._id?
         return 'passerby'

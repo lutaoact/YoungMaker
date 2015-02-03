@@ -15,6 +15,7 @@ exports.show = (req, res, next) ->
 
 pickedKeys = ['title', 'image', 'content', 'tags', 'group']
 exports.create = (req, res, next) ->
+  #TODO: check if user is group number
   data = _.pick req.body, pickedKeys
   data.author = req.user._id
   WrapRequest.wrapCreate req, res, next, data

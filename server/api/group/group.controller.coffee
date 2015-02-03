@@ -3,17 +3,29 @@
 Group = _u.getModel 'group'
 WrapRequest = new (require '../../utils/WrapRequest')(Group)
 
-exports.index = WrapRequest.wrapIndex()
+exports.index = (req, res, next) ->
+  conditions = {}
+  WrapRequest.wrapIndex req, res, next, conditions
 
-exports.show = WrapRequest.wrapCommonShow()
+exports.show = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapShow req, res, next, conditions
 
 pickedKeys = ['title', 'description']
-exports.create = WrapRequest.wrapCreate pickedKeys
+exports.create = (req, res, next) ->
+  data = _.pick req.body, pickedKeys
+  data.author = req.user._id
+  WrapRequest.wrapCreate req, res, next, data
 
 pickedUpdatedKeys = ['title', 'description', 'avatar']
-exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
+exports.update = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
-exports.destroy = WrapRequest.wrapDestroy()
+
+exports.destroy = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.joinOrLeave = (req, res, next) ->
   console.log req.url

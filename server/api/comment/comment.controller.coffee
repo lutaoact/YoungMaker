@@ -5,7 +5,9 @@ AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
 WrapRequest = new (require '../../utils/WrapRequest')(Comment)
 
-exports.index = WrapRequest.wrapIndex()
+exports.index = (req, res, next) ->
+  conditions = {}
+  WrapRequest.wrapIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->
   user = req.user
@@ -29,8 +31,12 @@ exports.create = (req, res, next) ->
   .done()
 
 pickedUpdatedKeys = ['content', 'tags']
-exports.update = WrapRequest.wrapUpdate pickedUpdatedKeys
+exports.update = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
-exports.destroy = WrapRequest.wrapDestroy()
+exports.destroy = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  WrapRequest.wrapDestroy req, res, next, conditions
 
-exports.like = WrapRequest.wrapLike()
+exports.like = WrapRequest.wrapLike

@@ -27,7 +27,6 @@ angular.module('mauiApp')
       else
         firstImage = null
       $scope.article.image = firstImage
-      $scope.article.isPublished = true
 
       if $scope.article._id
         Restangular.one('articles', $scope.article._id)

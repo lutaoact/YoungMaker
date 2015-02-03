@@ -7,6 +7,19 @@ ObjectId = Schema.Types.ObjectId
 BaseModel = require '../../common/BaseModel'
 
 class Comment extends BaseModel
+  populates:
+    index: [
+      path: 'author', select: 'name avatar info'
+    ]
+    show: [
+      path: 'author', select: 'name avatar info'
+    ]
+    create: [
+      path: 'author', select: 'name avatar info'
+    ]
+    update: [
+      path: 'author', select: 'name avatar info'
+    ]
   schema: new Schema
     content:
       type: String

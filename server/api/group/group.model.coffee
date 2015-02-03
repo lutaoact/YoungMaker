@@ -9,16 +9,16 @@ BaseModel = require '../../common/BaseModel'
 class Group extends BaseModel
   populates:
     index: [
-      path: 'creator', select: 'name avatar'
-    ]
-    create: [
-      path: 'creator', select: 'name avatar'
-    ]
-    update: [
-      path: 'creator', select: 'name avatar'
+      path: 'creator', select: 'name avatar info'
     ]
     show: [
-      path: 'creator', select: 'name avatar'
+      path: 'creator', select: 'name avatar info'
+    ]
+    create: [
+      path: 'creator', select: 'name avatar info'
+    ]
+    update: [
+      path: 'creator', select: 'name avatar info'
     ]
   schema: new Schema
     title:

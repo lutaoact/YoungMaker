@@ -34,7 +34,8 @@
     "exif-js": "*",
     "textAngular": "~1.3.4",
     "holderjs": "~2.5.0",
-    "rangy": "~1.2.3"
+    "rangy": "~1.2.3",
+    "showdown": "~0.3.4"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

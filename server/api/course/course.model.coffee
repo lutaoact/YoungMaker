@@ -50,6 +50,8 @@ class Course extends BaseModel
     steps: [
       title: String
       content: String
+      type:
+        type: String
     ]
     pubAt:
       type: Date

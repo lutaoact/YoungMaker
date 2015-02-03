@@ -7,30 +7,29 @@ angular.module('mauiApp')
   Restangular
   notify
   $sanitize
+  $location
+  $anchorScroll
+  $filter
 ) ->
 
   angular.extend $scope,
     viewState:
       showPreview: false
+      lastPlugin: undefined
+
+    plugins: [
+        text: 'Html'
+        type: 'wysiwyg'
+      ,
+        text: 'Markdown'
+        type: 'md'
+      ,
+        text: 'embed'
+        type: 'embed'
+    ]
 
     course:
       content: ''
-
-    categories: [
-      {
-        id: '1'
-        name: '物理'
-      }
-      {
-        id: '2'
-        name: '化学'
-      }
-      {
-        id: '3'
-        name: '数学'
-      }
-    ]
-
 
     submitCourse: (form)->
       $scope.submitted = true
@@ -39,7 +38,18 @@ angular.module('mauiApp')
 
     saveCourse: () ->
       # compile content todo: may not need this. Client can decide how to display according to steps
-      $scope.course.content = $sanitize($('.preview').html()).replace /(ng-binding|ng-scope)/g, ''
+      $scope.course.content = """<h1>#{$scope.course.title}</h1>"""
+      $scope.course.steps.forEach (step)->
+        $scope.course.content += """<h2>#{step.title}</h2>"""
+        switch step.type
+          when 'wysiwyg'
+            $scope.course.content += $sanitize(step.content).replace /(ng-binding|ng-scope)/g, ''
+          when 'embed'
+            $scope.course.content += $filter('embed')(step.content)
+          when 'md'
+            $scope.course.content += $filter('showdown')(step.content)
+        $scope.course.content += """<hr/>"""
+
       # get the first image. todo: move to server side
       if !$scope.course.image
         firstImage = $('.preview img:not(.emoji)')
@@ -52,19 +62,32 @@ angular.module('mauiApp')
         .catch (error) ->
           console.log 'error', error
       else
-        console.log $scope.course
         $scope.course.put()
         .then (course)->
           angular.extend $scope.course, course
         .catch (error) ->
           console.log 'error', error
 
-    addStep: ()->
-      $scope.course.steps.push {}
+    addStep: (plugin)->
+      @viewState.lastPlugin = plugin
+      switch plugin.type
+        when 'wysiwyg'
+          $scope.course.steps.push {type:plugin.type}
+        when 'embed'
+          $scope.course.steps.push (type:plugin.type)
+        when 'md'
+          $scope.course.steps.push (type:plugin.type)
+        else
+          $scope.course.steps.push {type:'wysiwyg'}
+      $location.hash('bottom')
+      # call $anchorScroll()
+      $anchorScroll()
+
+  $scope.viewState.lastPlugin = $scope.plugins[0]
 
   if $state.params.courseId
     Restangular.one('courses', $state.params.courseId).get()
     .then (course)->
       $scope.course = course
   else
-    $scope.course.steps = [{}]
+    $scope.course.steps = [{type:plugin.type}]

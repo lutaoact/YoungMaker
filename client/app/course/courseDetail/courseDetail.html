@@ -11,7 +11,7 @@
         {{course.viewersNum}}次查看
       </small>
       <hr/>
-      <p><div ng-bind-html="course.content"></div></p>
+      <p><div compile-html="course.content|trusted"></div></p>
     </article>
     <comments belong-to="{{course._id}}" type="{{const.CommentType.Course}}" me="me"></comments>
   </div>

@@ -26,6 +26,6 @@ angular.module('mauiApp')
     controller: 'ArticleDetailCtrl'
 
   .state 'groupList',
-    url: '/groups?page&keyword&sort'
+    url: '/groups?page&keyword&sort=postsCount'
     templateUrl: 'app/group/groupList/groupList.html'
     controller: 'GroupListCtrl'

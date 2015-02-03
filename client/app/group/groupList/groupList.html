@@ -1,6 +1,42 @@
 <section class="group-list">
+  <div class="header-row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="title" href ui-sref="{page:'', keyword:''}">所有小组</a>
+          <span class="border-left">
+            共 <span class="text-primary" style="font-size: 1.2em">{{groups.$count}}</span> 个
+          </span>
+          <search-input keyword="viewState.keyword"
+                        on-submit="reload(true)"
+                        placeholder="讨论组关键字搜索">
+          </search-input>
+          <span ng-if="me">
+            <button class="btn btn-sm btn-danger pull-right"
+                    ui-sref="groupNew">
+              <i class="fa fa-plus-circle"></i>
+              新建小组
+            </button>
+          </span>
+          <ul>
+            <li ng-class="{'active': pageConf.sort==undefined || pageConf.sort=='postsCount'}">
+              <a href ng-click="pageConf.sort='postsCount';reload()">
+                最热
+                <i class="fa fa-heart"></i>
+              </a>
+            </li>
+            <li ng-class="{'active':pageConf.sort=='created'}">
+              <a href ng-click="pageConf.sort='created';reload()">
+                最新
+                <i class="fa fa-clock-o"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="container">
-    <a ui-sref="groupNew"><i>+</i>申请创建小组</a>
     <div class="row all-groups">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="group in groups">
         <group-tile group="group"></group-tile>

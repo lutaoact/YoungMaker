@@ -19,14 +19,12 @@
   <div class="article-info">
     <span>
       <a href="" ui-sref="user({userId: article.author._id})">
-        <!-- <div class="avatar-xs" ng-src="{{article.author.avatar}}">
-        </div> -->
         {{article.author.name}}
       </a>
     </span>
-    <span class="text-muted">发布于</span>
+    <span class="text-muted" ng-if="article.group">发布于</span>
     <span ng-if="article.group">
-      {{article.group.name}}&#183;
+      {{article.group.title}}&#183;
     </span>
     <span ng-if="article.column">
       专栏－{{article.column.name}}&#183;

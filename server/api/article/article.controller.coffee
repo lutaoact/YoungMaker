@@ -2,6 +2,7 @@
 
 Article = _u.getModel 'article'
 AdapterUtils = _u.getUtils 'adapter'
+Group = _u.getModel 'group'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
 indexConditionKeys = ['author', 'group']
@@ -18,8 +19,11 @@ exports.create = (req, res, next) ->
   #TODO: check if user is group number
   data = _.pick req.body, pickedKeys
   data.author = req.user._id
-  WrapRequest.wrapCreate req, res, next, data
 
+  updateConds = {_id: data.group}
+  update = {$inc: {postsCount: 1}}
+
+  WrapRequest.wrapCreateAndUpdate req, res, next, data, Group, updateConds, update
 
 pickedUpdatedKeys = ['title', 'image', 'content', 'tags', 'isPublished']
 exports.update = (req, res, next) ->

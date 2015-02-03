@@ -3,6 +3,7 @@
 angular.module 'maui.components', [
   'ngStorage'
   'ui.bootstrap'
+  'textAngular'
 ]
 
 .constant 'configs',

@@ -149,13 +149,13 @@ angular.module 'mauiApp', [
       loginRedirector.set $state.href(state, params)
 
   # Setup data & config for logged user
-  $rootScope.configs = configs
+  $rootScope.const = Const
   $rootScope.$state = $state
-  Auth.refreshCurrentUser() if initUser?
+  $rootScope.configs = configs
   $rootScope.$watch Auth.getCurrentUser, (newUser) ->
     $rootScope.me = newUser
     if Auth.isLoggedIn()
       loginRedirector.apply()
     else
       checkState($state.current, $state.params)
-
+  Auth.refreshCurrentUser() if initUser?

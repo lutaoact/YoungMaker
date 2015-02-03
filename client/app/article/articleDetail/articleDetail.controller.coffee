@@ -11,7 +11,6 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     article: null
-    const: Const
 
     likeClick: (article) ->
       articleAPI.customPOST(null, 'like')

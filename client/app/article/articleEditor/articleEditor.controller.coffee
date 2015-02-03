@@ -49,11 +49,17 @@ angular.module('mauiApp')
           notify
             message: '话题已创建'
             classes: 'alert-success'
-          $state.go 'user', userId:$scope.me._id
+          if $state.params.groupId?
+            $state.go 'group', groupId: $state.params.groupId
+          else
+            $state.go 'user', userId: $scope.me._id
 
     deleteArticle: ->
       $scope.article.remove().then ->
-        $state.go('user', userId:$scope.article.author._id)
+        if $state.params.groupId?
+          $state.go 'group', groupId: $state.params.groupId
+        else
+          $state.go('user', userId:$scope.article.author._id)
 
   if $state.params.articleId
     Restangular.one('articles', $state.params.articleId).get()

@@ -1,23 +1,21 @@
-gulp        = require 'gulp'
-del         = require 'del'
-runSequence = require 'run-sequence'
-merge       = require 'merge-stream'
+gulp = require 'gulp'
 
 $ = require('gulp-load-plugins')
-  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
+  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del', 'merge-stream', 'run-sequence']
 
-handleError = (err) ->
-  console.log err.toString()
-  @emit 'end'
+handleError =
+  $.notify.onError
+    title: "Gulp Error: <%= error.plugin %>"
+    message: "<%= error.name %>: <%= error.toString() %>"
 
 clientDistFolder = 'dist/public'
 serverDistFolder = 'dist/server'
 
 gulp.task 'clean', ->
-  del ['.tmp', 'dist']
+  $.del ['.tmp', 'dist']
 
 gulp.task 'clean:dev', ->
-  del ['.tmp']
+  $.del ['.tmp']
 
 gulp.task 'copy:index', ->
   gulp.src 'client/index.tmpl.html'
@@ -74,7 +72,7 @@ gulp.task 'injector:less', ->
     )
     .pipe gulp.dest("client/#{appPath}/")
 
-  merge [
+  $.mergeStream [
     doInjectLess 'app'
     doInjectLess 'test'
     doInjectLess 'admin'
@@ -101,7 +99,7 @@ gulp.task 'injector:scripts', ->
     )
     .pipe gulp.dest('client/' + indexPath)
 
-  merge [
+  $.mergeStream [
     doInjectJs 'app'  , ''
     doInjectJs 'test' , 'test/'
     doInjectJs 'admin', 'admin/'
@@ -110,10 +108,9 @@ gulp.task 'injector:scripts', ->
 #injector bower
 gulp.task 'bower', ->
   doInjectBower = (indexPath) ->
-    bowerFiles = require('main-bower-files')
     target = gulp.src('client/' + indexPath + '/index.html')
-    jsSources = gulp.src(bowerFiles(filter:/.js$/), {base:'client/bower_components', read:false})
-    cssSources = gulp.src(bowerFiles(filter:/.css$/), {base:'client/bower_components', read:false})
+    jsSources = gulp.src($.mainBowerFiles(filter:/.js$/), {base:'client/bower_components', read:false})
+    cssSources = gulp.src($.mainBowerFiles(filter:/.css$/), {base:'client/bower_components', read:false})
 
     target
     .pipe($.inject jsSources,
@@ -134,7 +131,7 @@ gulp.task 'bower', ->
     )
     .pipe gulp.dest('client/' + indexPath)
 
-  merge [
+  $.mergeStream [
     doInjectBower ''
     doInjectBower 'admin/'
     doInjectBower 'test/'
@@ -165,7 +162,7 @@ gulp.task 'less', ->
     .pipe $.less(paths:paths).on('error', handleError)
     .pipe gulp.dest(".tmp/#{appPath}/")
 
-  merge [
+  $.mergeStream [
     doLess 'app'
     doLess 'test'
     doLess 'admin'
@@ -223,7 +220,7 @@ gulp.task 'usemin', ->
     .pipe $.usemin( outputRelativePath: outputRelativePath )
     .pipe gulp.dest( clientDistFolder + '/' + indexPath )
 
-  merge [
+  $.mergeStream [
     doUseMin ''      , ''
     doUseMin 'admin/', '../'
     doUseMin 'test/' , '../'
@@ -240,7 +237,7 @@ gulp.task 'ngtemplates', ->
       )
     .pipe gulp.dest('.tmp/' + indexPath)
 
-  merge [
+  $.mergeStream [
     doNgTemplates 'app'  , ''       , 'mauiApp'
     doNgTemplates 'admin', 'admin/' , 'mauidmin'
     doNgTemplates 'test' , 'test/'  , 'mauiTestApp'
@@ -255,7 +252,7 @@ gulp.task 'concat:template', ->
     sources.pipe $.concat('app.js')
     .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
-  merge [
+  $.mergeStream [
     doConcat 'app'  , ''
     doConcat 'admin', 'admin/'
     doConcat 'test' , 'test/'
@@ -268,7 +265,7 @@ gulp.task 'ngmin', ->
     .pipe $.ngAnnotate()
     .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
-  merge [
+  $.mergeStream [
     doNgMin 'app'
     doNgMin 'admin'
     doNgMin 'test'
@@ -280,7 +277,7 @@ gulp.task 'cssmin', ->
     .pipe $.cssmin()
     .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
-  merge [
+  $.mergeStream [
     doCssMin 'app'
     doCssMin 'admin'
     doCssMin 'test'
@@ -292,7 +289,7 @@ gulp.task 'uglify', ->
     .pipe $.uglify()
     .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
-  merge [
+  $.mergeStream [
     doUglify 'app'
     doUglify 'admin'
     doUglify 'test'
@@ -350,7 +347,7 @@ gulp.task 'watch', ->
   .on('change', $.livereload.changed)
 
 gulp.task 'dist', ->
-  runSequence(
+  $.runSequence(
     'build'
     'env:all'
     'env:prod'
@@ -358,7 +355,7 @@ gulp.task 'dist', ->
   )
 
 gulp.task 'build', ->
-  runSequence(
+  $.runSequence(
     'clean'
     'copy:index'
     'injector:less'
@@ -379,7 +376,7 @@ gulp.task 'build', ->
   )
 
 gulp.task 'dev', ->
-  runSequence(
+  $.runSequence(
     'clean:dev'
     'env:all'
     'copy:index'

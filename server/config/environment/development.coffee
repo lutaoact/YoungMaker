@@ -73,3 +73,5 @@ module.exports =
     auth:
       api_user: 'cloud3edu'
       api_key: 'gXI2WTs8w4D6BF09'
+
+  tokenExpireTime: 60*24*7 # in minute

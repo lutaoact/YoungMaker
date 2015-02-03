@@ -22,12 +22,13 @@
         </div>
         <div class="pull-right save-button">
           <a class="btn btn-link"
-             ng-show="$state.current.name=='articleEditor'"
-             ui-sref="user({userId:article.author._id})">返回</a>
+             ng-show="$state.includes('articleEditor') || $state.includes('articleNew')"
+             ui-sref="user({userId:me._id})">返回</a>
           <a class="btn btn-link"
              ng-show="$state.current.name=='groupArticleEditor'"
              ui-sref="group({groupId:article.group})">返回</a>
           <button type="button"
+                  ng-if="article._id"
                   class="btn btn-default"
                   ng-click="deleteArticle()">删除</button>
           <button type="submit"

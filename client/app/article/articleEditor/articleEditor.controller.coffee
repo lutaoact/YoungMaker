@@ -11,8 +11,7 @@ angular.module('mauiApp')
   console.log 'article editor...'
 
   angular.extend $scope,
-    $state: $state
-    article: {}
+    article: null
 
     saveArticle: (form) ->
       if !form.$valid then return
@@ -30,29 +29,41 @@ angular.module('mauiApp')
       $scope.article.image = firstImage
       $scope.article.isPublished = true
 
-      Restangular.one('articles', $state.params.articleId)
-      .patch $scope.article
-      .then (article) ->
-        angular.extend $scope.article, article
-        notify
-          message: '话题已保存'
-          classes: 'alert-success'
-      .catch (error) ->
-        console.log error
-        notify
-          message: '保存话题出错啦：' + error
-          classes: 'alert-danger'
+      if $scope.article._id
+        Restangular.one('articles', $scope.article._id)
+        .patch $scope.article
+        .then (article) ->
+          angular.extend $scope.article, article
+          notify
+            message: '话题已保存'
+            classes: 'alert-success'
+        .catch (error) ->
+          console.log error
+          notify
+            message: '保存话题出错啦：' + error
+            classes: 'alert-danger'
+      else
+        Restangular.all('articles')
+        .post($scope.article)
+        .then ->
+          notify
+            message: '话题已创建'
+            classes: 'alert-success'
+          $state.go 'user', userId:$scope.me._id
 
     deleteArticle: ->
       $scope.article.remove().then ->
         $state.go('user', userId:$scope.article.author._id)
 
-  Restangular.one('articles', $state.params.articleId).get()
-  .then (article) ->
-    console.log article
-    $scope.article = article
-    focus 'articleTitle'
-  .catch (error) ->
-    notify
-      message: '话题不存在或者已经删除：' + error
-      classes: 'alert-danger'
+  if $state.params.articleId
+    Restangular.one('articles', $state.params.articleId).get()
+    .then (article) ->
+      console.log article
+      $scope.article = article
+      focus 'articleTitle'
+    .catch (error) ->
+      notify
+        message: '话题不存在或者已经删除：' + error
+        classes: 'alert-danger'
+  else
+    $scope.article = {}

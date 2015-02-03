@@ -5,7 +5,8 @@ AdapterUtils = _u.getUtils 'adapter'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
 exports.index = (req, res, next) ->
-  conditions = {isPublished: true}
+  conditions = {}
+  conditions.author = req.query.author if req.query.author
   WrapRequest.wrapIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

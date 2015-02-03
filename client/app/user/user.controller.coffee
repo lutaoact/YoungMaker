@@ -18,11 +18,7 @@ angular.module('mauiApp')
     comments : []
 
     createArticle: ->
-      Restangular.all('articles').post
-        title: '新建话题'
-        content: ''
-      .then (article) ->
-        $state.go 'articleEditor', articleId: article._id
+      $state.go 'articleNew'
 
     createCourse: ->
       $state.go 'courseEditor'

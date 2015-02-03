@@ -57,10 +57,6 @@ class Article extends BaseModel
     deleteFlag:
       type: Boolean
       default: false
-    isPublished:
-      type: Boolean
-      default: false
-
 
 exports.Class = Article
 exports.Instance = new Article()

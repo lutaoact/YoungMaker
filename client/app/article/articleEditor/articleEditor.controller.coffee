@@ -28,6 +28,7 @@ angular.module('mauiApp')
       else
         firstImage = null
       $scope.article.image = firstImage
+      $scope.article.isPublished = true
 
       Restangular.one('articles', $state.params.articleId)
       .patch $scope.article

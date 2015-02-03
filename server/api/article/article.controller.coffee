@@ -4,6 +4,7 @@ Article = _u.getModel 'article'
 AdapterUtils = _u.getUtils 'adapter'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
+# TODO: only get published articles, add conditions!
 exports.index = WrapRequest.wrapIndex()
 
 exports.show = WrapRequest.wrapShow()

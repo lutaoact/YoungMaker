@@ -87,6 +87,6 @@ angular.module('mauiApp')
   groupAPI.get().then (group) ->
     $scope.group = group
 
-  Restangular.all('articles').getList({group: $state.params.groupId})
+  Restangular.all('articles').getList({group: $state.params.groupId, isPublished: true})
   .then (articles) ->
     $scope.groupArticles = articles

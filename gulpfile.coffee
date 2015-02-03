@@ -6,6 +6,10 @@ merge       = require 'merge-stream'
 $ = require('gulp-load-plugins')
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
 
+handleError = (err) ->
+  console.log err.toString()
+  @emit 'end'
+
 clientDistFolder = 'dist/public'
 serverDistFolder = 'dist/server'
 
@@ -31,14 +35,10 @@ gulp.task 'copy:dist', ->
   , base: 'client'
   .pipe gulp.dest(clientDistFolder)
 
-  gulp.src [
-      'server/**/*'
-    ]
+  gulp.src ['server/**/*']
   .pipe gulp.dest(serverDistFolder)
 
-  gulp.src [
-      'package.json'
-    ]
+  gulp.src ['package.json']
   .pipe gulp.dest('dist')
 
 gulp.task 'env:all', ->
@@ -61,7 +61,7 @@ gulp.task 'injector:less', ->
     sources = gulp.src([
         "client/{#{appPath},components}/**/*.less",
         "!client/#{appPath}/app.less"
-      ], {read: false}).pipe $.order()
+      ], read:false).pipe $.order()
 
     target
     .pipe($.inject sources,
@@ -88,7 +88,7 @@ gulp.task 'injector:scripts', ->
       "!{.tmp,client}/{#{appPath},components}/{app,components,mock}.js"
       "!{.tmp,client}/{#{appPath},components}/**/*.spec.js"
       ]
-    , {read: false}).pipe $.order()
+    , read:false).pipe $.order()
 
     target
     .pipe($.inject sources,
@@ -111,9 +111,9 @@ gulp.task 'injector:scripts', ->
 gulp.task 'bower', ->
   doInjectBower = (indexPath) ->
     bowerFiles = require('main-bower-files')
-    target = gulp.src 'client/' + indexPath + '/index.html'
-    jsSources = gulp.src bowerFiles(filter: /.js$/), {base: 'client/bower_components', read: false}
-    cssSources = gulp.src bowerFiles(filter: /.css$/), {base: 'client/bower_components', read: false}
+    target = gulp.src('client/' + indexPath + '/index.html')
+    jsSources = gulp.src(bowerFiles(filter:/.js$/), {base:'client/bower_components', read:false})
+    cssSources = gulp.src(bowerFiles(filter:/.css$/), {base:'client/bower_components', read:false})
 
     target
     .pipe($.inject jsSources,
@@ -140,9 +140,9 @@ gulp.task 'bower', ->
     doInjectBower 'test/'
   ]
 
-gulp.task 'compileJSAndCSS', ['coffee:client', 'coffee:server', 'less']
+gulp.task 'compile', ['coffee:client', 'coffee:server', 'less']
 
-gulp.task 'minImageAndSVG', ['imagemin', 'svgmin']
+gulp.task 'imagemin', ['imagemin', 'svgmin']
 
 gulp.task 'coffee:client', ->
   clientPaths = 'app,components,admin,test'
@@ -150,18 +150,19 @@ gulp.task 'coffee:client', ->
     "client/{#{clientPaths}}/**/*.coffee",
     "!client/{#{clientPaths}/**/*.spec.coffee"
   ]
-  .pipe($.coffee({bare: true}))
-  .pipe(gulp.dest('.tmp'))
+  .pipe $.coffee(bare: true).on('error', handleError)
+  .pipe gulp.dest('.tmp')
 
 gulp.task 'coffee:server', ->
   gulp.src ['server/{*,*/*,*/*/*}.{coffee,litcoffee,coffee.md}']
-  .pipe($.coffee({bare: true}))
-  .pipe(gulp.dest('server'))
+  .pipe $.coffee(bare:true).on('error', handleError)
+  .pipe gulp.dest('server')
 
 gulp.task 'less', ->
   doLess = (appPath) ->
+    paths = ['client/bower_components', "client/#{appPath}", 'client/components']
     gulp.src "client/#{appPath}/app.less"
-    .pipe $.less(paths:['client/bower_components', "client/#{appPath}", 'client/components'])
+    .pipe $.less(paths:paths).on('error', handleError)
     .pipe gulp.dest(".tmp/#{appPath}/")
 
   merge [
@@ -201,12 +202,12 @@ gulp.task 'autoprefixer', ->
   .pipe gulp.dest('.tmp/')
 
 gulp.task 'express:dev', ->
-  $.nodemon { script: './server/app.js',ext: 'js', watch: 'server', delay: 1.5}
-  .on 'restart', ()->
+  $.nodemon { script:'./server/app.js', ext:'js', watch:'server', delay:1.5}
+  .on 'restart', ->
     console.log 'restarted!'
   gulp.src "client/index.html"
   .pipe $.wait(1000)
-  .pipe $.open('', url: "http://localhost:#{process.env.PORT or 9001}")
+  .pipe $.open('', url:"http://localhost:#{process.env.PORT or 9001}")
 
 gulp.task 'express:prod', ->
   $.express.run
@@ -299,8 +300,8 @@ gulp.task 'uglify', ->
 
 gulp.task 'iconfont', ->
   gulp.src ['client/assets/images/vectors/*.svg']
-  .pipe($.iconfont({fontName: 'bud-font', appendCodepoints: true}))
-  .on('codepoints', (codepoints, options)->
+  .pipe $.iconfont({fontName: 'bud-font', appendCodepoints: true})
+  .on('codepoints', (codepoints, options) ->
     gulp.src('client/assets/fonts/font-template.less')
     .pipe($.consolidate('lodash',
         glyphs: codepoints,
@@ -361,8 +362,8 @@ gulp.task 'build', ->
     'clean'
     'copy:index'
     'injector:less'
-    'compileJSAndCSS'
-    'minImageAndSVG'
+    'compile'
+    'imagemin'
     'injector:scripts'
     'replace'
     'ngtemplates' # may cause error
@@ -383,7 +384,7 @@ gulp.task 'dev', ->
     'env:all'
     'copy:index'
     'injector:less'
-    'compileJSAndCSS'
+    'compile'
     'injector:scripts'
     'replace'
     'processhtml'
@@ -392,3 +393,4 @@ gulp.task 'dev', ->
     'express:dev'
     'watch'
   )
+

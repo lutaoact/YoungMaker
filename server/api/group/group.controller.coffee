@@ -5,7 +5,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Group)
 
 exports.index = (req, res, next) ->
   conditions = {}
-  WrapRequest.wrapIndex req, res, next, conditions
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
@@ -14,7 +14,7 @@ exports.show = (req, res, next) ->
 pickedKeys = ['title', 'description']
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
-  data.author = req.user._id
+  data.creator = req.user._id
   WrapRequest.wrapCreate req, res, next, data
 
 pickedUpdatedKeys = ['title', 'description', 'avatar']
@@ -63,9 +63,6 @@ exports.joinOrLeave = (req, res, next) ->
     do group.saveQ
   .then (result) ->
     group = result[0]
-#    group.populate 'creator', 'name avatar'
-#         .populateQ 'members', 'name avatar'
-#  .then (group) ->
     res.send group
   .catch next
   .done()

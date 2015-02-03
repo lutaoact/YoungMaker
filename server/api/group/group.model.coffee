@@ -7,6 +7,19 @@ ObjectId = Schema.Types.ObjectId
 BaseModel = require '../../common/BaseModel'
 
 class Group extends BaseModel
+  populates:
+    index: [
+      path: 'creator', select: 'name avatar'
+    ]
+    create: [
+      path: 'creator', select: 'name avatar'
+    ]
+    update: [
+      path: 'creator', select: 'name avatar'
+    ]
+    show: [
+      path: 'creator', select: 'name avatar'
+    ]
   schema: new Schema
     title:
       type: String

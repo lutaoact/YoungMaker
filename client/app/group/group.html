@@ -11,7 +11,7 @@
             ng-show="showEditingForm">
         <!--<div class="form-group">-->
           <!--<img align="left" valign="top"-->
-               <!--src-key="group.avatar">-->
+               <!--ng-src="{{group.avatar}}">-->
           <!--</img>-->
         <!--</div>-->
         <div class="form-group">
@@ -24,7 +24,7 @@
             style="height: 228px;"
             crop-ratio="1.5"
             max-width="600">
-            <div class="cover" ng-if="group.avatar" src-key="group.avatar" source-attr="background-image">
+            <div class="cover" ng-if="group.avatar" ng-src="{{group.avatar}}">
               <div class="mask">
                 <div class="btn btn-xs btn-danger">
                   <i class="fa fa-image"></i>
@@ -70,7 +70,7 @@
       <div ng-hide="showEditingForm">
         <div class="group-info">
           <img align="left" valign="top"
-               src-key="group.avatar"
+               ng-src="{{group.avatar}}"
                >
           </img>
           <h1>{{group.title}}</h1> &nbsp; &nbsp;

@@ -1,5 +1,5 @@
 <div class="article-tile">
-  <div ng-if="article.image" src-key="article.image" source-attr="background-image" class="article-image pull-right"></div>
+  <div ng-if="article.image" ng-src="{{article.image}}" class="article-image pull-right"></div>
   <h4 class="article-title">
     <a href=""
        ng-hide="article.group"
@@ -19,7 +19,7 @@
   <div class="article-info">
     <span>
       <a href="" ui-sref="user({userId: article.author._id})">
-        <!-- <div class="avatar-xs" src-key="article.author.avatar" source-attr="background-image">
+        <!-- <div class="avatar-xs" ng-src="{{article.author.avatar}}">
         </div> -->
         {{article.author.name}}
       </a>

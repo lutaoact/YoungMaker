@@ -52,10 +52,7 @@
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
              dropdown-toggle
-             src-key="getCurrentUser().avatar"
-             suffix="?imageView2/1/w/64/h/64"
-             source-attr="background-image"
-            >
+             ng-src="{{getCurrentUser().avatar}}">
           </a>
 
           <ul class="dropdown-menu profile-menu" role="menu">

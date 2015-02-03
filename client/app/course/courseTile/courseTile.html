@@ -1,5 +1,5 @@
 <div class="course-tile">
-  <div class="course-cover-image" src-key="course.image" source-attr="background-image">
+  <div class="course-cover-image" ng-src="{{course.image}}">
   </div>
   <h4 class="course-title">
     {{course.title}}
@@ -12,7 +12,7 @@
   <div class="ingredients" ng-if="course.ingredients.length">
     <div class="scroll">
       <div class="ingredient text-muted" ng-repeat="ingredient in course.ingredients">
-        <div class="ingredient-image" src-key="ingredient.image" source-attr="background-image"></div>
+        <div class="ingredient-image" ng-src="{{ingredient.image}}"></div>
         x
         {{ingredient.quantity}}
       </div>
@@ -32,7 +32,7 @@
   </div>
 
   <a class="pull-right" ui-sref="user({userId:course.author._id})" ng-click="stopPropagation($event)">
-    <div class="avatar-xs" src-key="course.author.avatar" source-attr="backgroud-image"></div>
+    <div class="avatar-xs" ng-src="{{course.author.avatar}}"></div>
     {{course.author.name}}
   </a>
 </div>

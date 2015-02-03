@@ -13,7 +13,7 @@ angular.module('maui.components')
 
 .factory 'imageZoomViewer', ($http, $compile, $rootScope, $timeout)->
   viewer = undefined
-  template: '<div class="image-zoom-viewer"><div class="viewer" src-key="rawSrc" source-attr="background-image"></div></div>'
+  template: '<div class="image-zoom-viewer"><div class="viewer" ng-src="{{rawSrc}}"></div></div>'
   open: (options)->
     if !viewer
       scope = $rootScope.$new()

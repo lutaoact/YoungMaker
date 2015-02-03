@@ -20,14 +20,12 @@
   </div>
   <hr>
   <div class="status text-muted">
-    <i class="fa fa-heart toggle" login-window login-success="me._id&&toggleVote()" ng-class="{'active':course.likeUsers.indexOf(me._id)>=0}" ng-click="stopPropagation($event)">
-    </i>
+    <i class="fa fa-heart toggle" login-window login-success="me._id&&toggleVote()" ng-class="{'active':course.likeUsers.indexOf(me._id)>=0}" ng-click="stopPropagation($event)"></i>
     {{course.likeUsers.length||0}}
   </div>
 
   <div class="status text-muted">
-    <i class="fa fa-star toggle" login-window login-success="me._id&&toggleCollect()" ng-class="{'active':course.likeUsers.indexOf(me._id)>=0}" ng-click="stopPropagation($event)">
-    </i>
+    <i class="fa fa-star toggle" login-window login-success="me._id&&toggleCollect()" ng-class="{'active':course.likeUsers.indexOf(me._id)>=0}" ng-click="stopPropagation($event)"></i>
     {{course.likeUsers.length||0}}
   </div>
 

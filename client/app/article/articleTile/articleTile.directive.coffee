@@ -27,7 +27,6 @@ angular.module('mauiApp').directive 'articleTile', ->
 
       removeArticle: (article) ->
         article.remove().then ->
-          console.log $scope.$parent.articles
           index = $scope.$parent.articles?.indexOf article
           $scope.$emit 'article.remove', article
           $scope.$parent.articles?.splice index, 1

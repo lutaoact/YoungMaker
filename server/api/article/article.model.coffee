@@ -10,15 +10,23 @@ class Article extends BaseModel
   populates:
     index: [
       path: 'author', select: 'name avatar info'
+    ,
+      path: 'group', select: 'title'
     ]
     show: [
       path: 'author', select: 'name avatar info'
+    ,
+      path: 'group', select: 'title'
     ]
     create: [
       path: 'author', select: 'name avatar info'
+    ,
+      path: 'group', select: 'title'
     ]
     update: [
       path: 'author', select: 'name avatar info'
+    ,
+      path: 'group', select: 'title'
     ]
   schema: new Schema
     title:

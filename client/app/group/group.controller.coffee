@@ -66,7 +66,7 @@ angular.module('mauiApp')
     getRole: ->
       if !$scope.me._id?
         return 'passerby'
-      if $scope.me._id == $scope.group?.creator._id
+      if $scope.me._id == $scope.group?.creator?._id
         return 'creator'
       else if ($scope.group?.members.indexOf $scope.me._id) >= 0
         return 'member'

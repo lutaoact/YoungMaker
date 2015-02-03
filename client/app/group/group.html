@@ -87,36 +87,12 @@
         <button
           ng-show="getRole()=='creator'"
           ng-click="editGroupInfo()">修改小组信息</button>
-
-        <div>
+        <div class="text-center">
             <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
         </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">小组话题</h3>
-          </div>
-          <div class="list-group">
-            <div class="list-group-item" ng-repeat="article in groupArticles">
-              <a ui-sref="groupArticleDetail({groupId: group._id, articleId: article._id})">{{article.title}}</a>
-
-              <small class="text-muted">
-                post by
-                <a class="text-info"
-                   ui-sref="user({userId: article.author._id})">{{article.author.name}}</a>
-                - {{article.created | moment: 'fromNow'}}
-              </small>
-            <span class="pull-right">
-              <small class="text-muted" ng-if="!me._id">
-                {{article.likeUsers.length}}个赞
-              </small>
-              <small class="text-muted" ng-if="me._id">
-                <a href login-window login-success="likeClick(article)">{{article.likeUsers.length}}个赞</a>
-              </small>
-            </span>
-            </div>
-          </div>
+        <div class="" ng-repeat="article in groupArticles">
+            <article-tile article="article" me="me"></article-tile>
         </div>
-
       </div>
     </div>
   </div>

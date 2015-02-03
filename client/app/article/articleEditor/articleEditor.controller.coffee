@@ -56,10 +56,7 @@ angular.module('mauiApp')
 
     deleteArticle: ->
       $scope.article.remove().then ->
-        if $state.params.groupId?
-          $state.go 'group', groupId: $state.params.groupId
-        else
-          $state.go('user', userId:$scope.article.author._id)
+        history.go(-2)
 
   if $state.params.articleId
     Restangular.one('articles', $state.params.articleId).get()

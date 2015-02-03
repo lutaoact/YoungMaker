@@ -64,7 +64,6 @@ angular.module('mauiApp')
   if $state.params.articleId
     Restangular.one('articles', $state.params.articleId).get()
     .then (article) ->
-      console.log article
       $scope.article = article
       focus 'articleTitle'
     .catch (error) ->

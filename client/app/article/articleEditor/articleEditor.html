@@ -21,12 +21,7 @@
           </div>
         </div>
         <div class="pull-right save-button">
-          <a class="btn btn-link"
-             ng-show="$state.includes('articleEditor') || $state.includes('articleNew')"
-             ui-sref="user({userId:me._id})">返回</a>
-          <a class="btn btn-link"
-             ng-show="$state.current.name=='groupArticleEditor'"
-             ui-sref="group({groupId:article.group._id})">返回</a>
+          <a href="javascript:history.back()">返回</a>
           <button type="button"
                   ng-if="article._id"
                   class="btn btn-default"

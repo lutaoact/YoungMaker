@@ -2,13 +2,7 @@
   <div ng-if="article.image" ng-src="{{article.image}}" class="article-image pull-right"></div>
   <h4 class="article-title">
     <a href=""
-       ng-hide="article.group"
        ui-sref="articleDetail({articleId: article._id})">
-      {{article.title}}
-    </a>
-    <a href=""
-       ng-show="article.group"
-       ui-sref="groupArticleDetail({groupId: article.group, articleId: article._id})">
       {{article.title}}
     </a>
   </h4>
@@ -24,7 +18,7 @@
     </span>
     <span class="text-muted" ng-if="article.group">发布于</span>
     <span ng-if="article.group">
-      {{article.group.title}}&#183;
+      <a ui-sref="group({groupId: article.group._id})">{{article.group.title}}&#183;</a>
     </span>
     <span ng-if="article.column">
       专栏－{{article.column.name}}&#183;
@@ -67,16 +61,10 @@
     </a>
     <ul class="dropdown-menu" role="menu">
       <li>
-        <a href=""
-           ng-hide="article.group"
-           ui-sref="articleEditor({articleId:article._id})">编辑</a>
-        <a href=""
-           ng-show="article.group"
-           ui-sref="groupArticleEditor({groupId: article.group, articleId: article._id})">编辑</a>
+        <a href="" ui-sref="articleEditor({articleId:article._id})">编辑</a>
       </li>
       <li>
-        <a href=""
-        ng-click="removeArticle(article)">删除</a>
+        <a href="" ng-click="removeArticle(article)">删除</a>
       </li>
     </ul>
   </div>

@@ -4,10 +4,12 @@ SocketUtils = _u.getUtils 'socket'
 
   
 class LikeUtils extends BaseUtils
+
+  #TODO: send only once for the same obj
   createLike: (Model, objectId, userId) ->
     # we only want to send notice for like action, not for dislike action
     likeAction = false
-    
+
     Model.findByIdQ objectId
     .then (object) ->
       if object.likeUsers.indexOf(userId) > -1

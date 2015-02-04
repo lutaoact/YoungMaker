@@ -17,21 +17,17 @@
               <i class="fa fa-plus-circle"></i>
               新建小组
             </button>
-          </span>
-          <ul>
-            <li ng-class="{'active': pageConf.sort==undefined || pageConf.sort=='postsCount'}">
-              <a href ng-click="pageConf.sort='postsCount';reload()">
+            <div class="btn-group" ng-click="reload()">
+              <label class="btn btn-success" ng-model="pageConf.sort" btn-radio="'postsCount'">
                 最热
                 <i class="fa fa-heart"></i>
-              </a>
-            </li>
-            <li ng-class="{'active':pageConf.sort=='created'}">
-              <a href ng-click="pageConf.sort='created';reload()">
+              </label>
+              <label class="btn btn-success" ng-model="pageConf.sort" btn-radio="'created'">
                 最新
                 <i class="fa fa-clock-o"></i>
-              </a>
-            </li>
-          </ul>
+              </label>
+            </div>
+          </span>
         </div>
       </div>
     </div>

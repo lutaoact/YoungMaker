@@ -1,15 +1,18 @@
-<div>
-  <div class="modal-header modal-header-black">
-    <h4 class="modal-title">
-      {{title}}
-      <a class="close" ng-click="cancel()">&times;</a>
-    </h4>
-  </div>
-  <h3 class="modal-body">
-    <small class="text-danger">{{message}}</small>
-  </h3>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="confirm()" focus-me="confirmButtonFocus" ng-init="confirmButtonFocus = true">确认</button>
-    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
-  </div>
+<div class="modal-header">
+  <h4 class="modal-title">
+    <i class="budon budon-warning"></i>
+    {{title}}
+  </h4>
+  <a class="close" ng-click="close('cancel')">&times;</a>
+</div>
+<h5 class="modal-body text-message">
+  {{message}}
+</h5>
+<div class="modal-footer">
+  <button type="button"
+          ng-repeat="btn in buttons"
+          class="btn btn-sm"
+          ng-class="btn.class"
+          ng-click="close(btn.code)"
+          focus-me>{{btn.label}}</button>
 </div>

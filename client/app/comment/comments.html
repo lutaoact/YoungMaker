@@ -1,15 +1,87 @@
-<div class="comments">
-  {{comments.length||0}}条评论
-  <form name="form" class="comments-header clearfix">
-    <span login-window>
-      <div pen ng-model="newComment.content" placeholder="请输入内容"></div>
-    </span>
-    <button class="btn btn-primary" login-window login-success="submitComment(form)">发表</button>
-  </form>
-  <div class="comment-list">
-    <div class="text-center" ng-if="!comments.length">暂无评论，赶快来抢沙发吧</div>
-    <div class="comment" ng-repeat="comment in comments|orderBy:'-created' " ng-if="comments.length">
-      <div ng-bind-html="comment.content"></div>
+<div class="comments clearfix">
+  <div class="new-comment clearfix">
+    <div class="new-comment-left">
+      <div class="media-object avatar-md"
+           source-attr="background-image"
+           src="http://placehold.it/32x32"
+           src-key="me.avatar"
+           suffix="?imageView2/1/w/64/h/64">
+      </div>
+    </div>
+    <div class="new-comment-right" id="new-comment" is-visible="viewState.newCommentVisible">
+      <div pen
+           placeholder="简单的介绍一下小组吧"
+           ng-model="newComment.content"
+           required></div>
+    </div>
+
+    <div>
+      <button
+        class="btn btn-danger btn-sm submit pull-right"
+        login-window
+        login-success="createComment()"
+        ng-disabled="!newComment.content">提交</button>
+    </div>
+    <div class="mask" ng-if="!me._id" login-window>
+      <h3>请登录发表评论</h3>
     </div>
   </div>
+  <div class="clearfix title-row actions-bar" style="margin-bottom: 20px;">
+    <div class="pull-left">
+      <div class="btn-group" dropdown is-open="status.isopen" ng-init="viewState.filterMethod='all'">
+        <a type="button" class="btn btn-sm dropdown-toggle" style="color: #000;">
+          {{viewState.filterMethod=='all'?'全部':'只看我的'}}&nbsp;<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href ng-click="viewState.filterMethod='all';status.isopen = false">全部</a></li>
+          <li><a href ng-click="viewState.filterMethod='createdByMe';status.isopen = false">只看我的</a></li>
+        </ul>
+      </div>
+    </div>
+    <span class="pull-left text-muted" style="line-height: 30px;">&nbsp;|&nbsp;</span>
+    <ul class="nav nav-group pull-left" ng-init="viewState.orderBy=['-likeUsers.length', '-created']">
+      <li ng-class="{'active':viewState.orderBy != '-created'}"><a href="" ng-click="viewState.orderBy = ['-likeUsers.length', '-created']">最热&nbsp;<i class="fa fa-heart"></i></a></li>
+      <li ng-class="{'active':viewState.orderBy=='-created'}"><a href="" ng-click="viewState.orderBy='-created'">最新&nbsp;<i class="fa fa-clock-o"></i></a></li>
+    </ul>
+  </div>
+  <ul class="list-group ">
+    <div ng-if="!comments.length" class="col-md-12">
+      <h4 class="text-muted">还没有人评论，赶快抢个沙发!</h4>
+    </div>
+    <li class="bud thumbnail media col-md-12 comment"
+        ng-repeat="comment in comments|orderBy: viewState.orderBy|filter: commentsFilter" id="{{comment._id}}" >
+      <a href ng-if="comment.postBy._id == me._id" class="close pull-right" ng-click="deleteComment(comment)">&times;</a>
+      <div class="pull-left">
+        <div class="media-object avatar-md"
+             source-attr="background-image"
+             src-key="comment.postBy.avatar"
+             suffix="?imageView2/1/w/64/h/64">
+        </div>
+      </div>
+      <div class="media-body">
+
+        <h5 class="base-color comment-author-name">{{comment.postBy.name}}
+          <small>|</small>
+          <small>{{comment.created| moment: 'fromNow'}}</small>
+          <small>|</small>
+          <small>
+            <i class="fa fa-heart vote"
+               ng-class="{'active':comment.likeUsers.indexOf(me._id)>=0}"
+               login-window login-success="toggleLike(comment)">
+            </i>
+            {{comment.likeUsers.length||0}}me
+          </small>
+        </h5>
+        <div class="comment-body blog" compile-html="comment.content" ></div>
+      </div>
+    </li>
+  </ul>
+
+  <a class="btn form-control btn-primary btn-md back-to-editor"
+     style="margin: 20px 0;border-radius: 3px;"
+     ng-class="{'hide': viewState.newCommentVisible}"
+     ng-click="scrollToEditor()">
+    发表回复
+  </a>
 </div>
+

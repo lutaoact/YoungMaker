@@ -1,41 +1,7 @@
 BaseUtils = require '../../common/BaseUtils'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
-Course = _u.getModel 'course'
 
-buildLikeCommentArgs = (comment) ->
-  
-  result = 
-    data :
-      commentId : comment._id
-  
-  Q(switch comment.type
-      when Const.CommentType.Topic
-        result.noticeType = Const.NoticeType.LikeTopicComment
-        result.data.topicId = comment.belongTo
-        Topic.findByIdQ result.data.topicId
-        .then (topic)->
-          result.data.forumId = topic.forumId
-
-      when Const.CommentType.Course
-        result.noticeType = Const.NoticeType.LikeCourseComment
-        result.data.courseId = comment.belongTo
-        result.data.classeId = comment.extra?.classeId
-
-      when Const.CommentType.Lecture
-        result.noticeType = Const.NoticeType.LikeLectureComment
-        result.data.lectureId = comment.belongTo
-        Course.getByLectureId result.data.lectureId
-        .then (course)->
-          result.data.courseId = course._id
-          result.data.classeId = comment.extra?.classeId
-
-      when Const.CommentType.Teacher
-        console.log 'like comment for teacher...'
-        #TODO: add like the comment for teacher
-  ).then ->
-    return result
-  
   
 class LikeUtils extends BaseUtils
   createLike: (Model, objectId, userId) ->
@@ -63,24 +29,27 @@ class LikeUtils extends BaseUtils
     data = {}
     targetUserId = null
     noticeType = null
-    
-    Q(switch targetName
-        when 'Topic'
-          data.topicId = doc._id
-          data.forumId = doc.forumId
-          targetUserId = doc.postBy
-          noticeType = Const.NoticeType.LikeTopic
 
-        when 'Comment'
-          targetUserId = doc.postBy
-          buildLikeCommentArgs doc
-          .then (commentArgs)->
-            {noticeType, data} = commentArgs
+    switch targetName
+      when 'Article', 'Course'
+        data.articleId = doc._id
+        targetUserId = doc.author
+        noticeType = Const.NoticeType["Like#{targetName}"]
+
+      when 'Comment'
+        targetUserId = doc.postBy
+        if comment.type == Const.CommentType.Article
+          noticeType = Const.NoticeType.LikeArticleComment
+          data.articleId = doc.belongTo
+        else if comment.type == Const.CommentType.Course
+          noticeType = Const.NoticeType.LikeCourseComment
+          data.courseId = doc.belongTo
         else
-          logger.error 'Unknown Like type'
-    )
-    .then ->
-      NoticeUtils.addNotice targetUserId, fromWhom, noticeType, data
+          logger.error 'Unknow comment type'
+      else
+        logger.error 'Unknown Like type'
+
+    NoticeUtils.addNotice targetUserId, fromWhom, noticeType, data
     .then (notice) ->
       console.log 'Notice to send: ', notice
       SocketUtils.sendNotices notice
@@ -88,4 +57,5 @@ class LikeUtils extends BaseUtils
       # TODO: for mobile app
       #DeviceUtils.pushToUser notice
 
-exports.LikeUtils = LikeUtils
+exports.Instance = new LikeUtils()
+exports.Class = LikeUtils

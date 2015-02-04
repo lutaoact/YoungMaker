@@ -1,10 +1,15 @@
 
 Const =
   NoticeType:
-    TopicVoteUp: 1
-    ReplyVoteUp: 2
-    Comment: 3
-    Lecture: 4
+  # Like related notices
+    LikeArticle: 1
+    LikeCourse: 2
+    LikeArticleComment: 3
+    LikeCourseComment: 4
+
+  # comment related notices
+    ArticleComment: 5
+    CourseComment: 6
 
   ArticleType:
     Article: 1

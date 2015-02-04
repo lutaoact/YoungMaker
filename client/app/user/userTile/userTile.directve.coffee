@@ -7,12 +7,14 @@ angular.module('mauiApp').directive 'userTile', ->
   scope:
     user: '='
     me: '='
-  link: (scope, element, attrs) ->
 
-  controller: ($scope, Restangular, Auth)->
+  controller: (
+    $scope
+    Restangular
+  )->
+
     angular.extend $scope,
-      stopPropagation: ($event)->
-        $event.stopPropagation()
-
+      nFollowers: 118
+      nFollowing: 252
 
 

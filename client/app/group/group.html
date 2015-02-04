@@ -82,7 +82,7 @@
             </div>
           </div>
         </div>
-        <p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
+        <p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user.home({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
         <div ng-bind-html="group.description"></div>
         <button
           ng-show="getRole()=='creator'"

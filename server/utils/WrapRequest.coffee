@@ -164,6 +164,16 @@ class WrapRequest
     .catch next
     .done()
 
+  addActivity: (userId, title, type, objectId) ->
+    data =
+      userId  : userId
+      title   : title
+      type    : type
+      objectId: objectId
+
+    Activity = _u.getModel 'activity'
+    Activity.createQ data
+
 
   wrapLike: (req, res, next) ->
     targetObjId = req.params.id

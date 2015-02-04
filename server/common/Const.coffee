@@ -6,6 +6,9 @@ Const =
     Comment: 3
     Lecture: 4
 
+  ArticleType:
+    Article: 1
+
   CommentType:
     Article: 1
     Course: 2

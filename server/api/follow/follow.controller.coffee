@@ -8,6 +8,13 @@ exports.index = (req, res, next) ->
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 
+exports.show = (req, res, next) ->
+  conditions =
+    from: req.user._id
+    to  : req.params.toUserId
+  WrapRequest.wrapShow req, res, next, conditions
+
+
 exports.follow = (req, res, next) ->
   data =
     from: req.user._id

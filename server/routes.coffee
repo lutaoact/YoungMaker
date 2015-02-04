@@ -25,6 +25,7 @@ module.exports = (app) ->
   app.use '/api/groups', require './api/group'
   app.use '/api/favorites', require './api/favorite'
   app.use '/api/assets', require './api/asset'
+  app.use '/api/follows', require './api/follow'
 #  app.use '/api/notices', require './api/notice'
   app.use '/auth', require './auth'
   app.use '/api/azure_encode_tasks', require './api/azure_encode_task'

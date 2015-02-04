@@ -12,10 +12,16 @@ class Follow extends BaseModel
       type: ObjectId
       ref: 'user'
       required: true
+      index: true
     to:
       type: ObjectId
       ref: 'user'
       required: true
+      index: true
+
+  constructor: ->
+    @schema.index {from: 1, to: 1}, {unique: true}
+    super
 
 exports.Class = Follow
 exports.Instance = new Follow()

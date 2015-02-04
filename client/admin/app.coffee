@@ -1,14 +1,6 @@
 'use strict'
 
-angular.module 'mauidmin', [
-  'maui.components'
-  'ngCookies'
-  'ngResource'
-  'ngSanitize'
-  'ui.router'
-  'restangular'
-  'cgNotify'
-]
+angular.module 'mauidmin', ['maui.components']
 
 .constant 'configs',
   baseUrl: ''

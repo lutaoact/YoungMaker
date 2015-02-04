@@ -1,9 +1,16 @@
 'use strict'
 
 angular.module 'maui.components', [
+  'cgNotify'
   'ngStorage'
-  'ui.bootstrap'
+  'ngCookies'
+  'ngResource'
+  'ngSanitize'
+  'restangular'
   'textAngular'
+  'ui.router'
+  'ui.bootstrap'
+  'angularFileUpload'
 ]
 
 .constant 'configs',

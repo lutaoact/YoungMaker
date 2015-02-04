@@ -1,20 +1,12 @@
 'use strict'
 
 angular.module 'mauiApp', [
-  'ngCookies'
-  'ngResource'
-  'ngSanitize'
-  'ngAnimate'
-  'ngStorage'
-  'ui.router'
-  'ui.select'
-  'cgNotify'
   'duScroll'
-  'restangular'
-  'angularFileUpload'
+  'ngAnimate'
+  'ui.select'
+  'maui.components'
   'monospaced.elastic'
   'angular-sortable-view'
-  'maui.components'
 ]
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->

@@ -1,12 +1,6 @@
 'use strict'
 
-angular.module 'mauiTestApp', [
-  'maui.components'
-  'ngCookies'
-  'ngResource'
-  'ngStorage'
-  'restangular'
-]
+angular.module 'mauiTestApp', ['maui.components']
 
 .config ($httpProvider) ->
   $httpProvider.interceptors.push 'authInterceptor'

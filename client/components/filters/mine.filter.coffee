@@ -1,10 +1,10 @@
 angular.module('maui.components')
 
 .filter 'mine', (Auth) ->
-  (item, isMine) ->
+  (item, isMine, mineText, otherText) ->
     label =
       if isMine
-        '我的'
+        mineText or '我的'
       else
-        'TA的'
+        otherText or 'TA的'
     item.replace('#mine#', label)

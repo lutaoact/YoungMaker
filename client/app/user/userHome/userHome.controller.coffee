@@ -10,9 +10,9 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    courses  : []
-    articles : []
-    comments : []
+    courses: []
+    articles: []
+    activities: []
 
     createArticle: ->
       $state.go 'articleNew'
@@ -21,16 +21,31 @@ angular.module('mauiApp')
       $state.go 'courseEditor'
 
   $q.all [
-    Restangular.all('articles').getList(author: $state.params.userId)
-    .then (articles) ->
-      $scope.articles = articles
+    Restangular
+      .all('activities')
+      .getList()
+      .then (activities) ->
+        $scope.activities = activities
   ,
-    Restangular.all('courses').getList(author: $state.params.userId)
-    .then (courses) ->
-      $scope.courses = courses
+    Restangular
+      .all('articles')
+      .getList(author: $state.params.userId)
+      .then (articles) ->
+        $scope.articles = articles
+  ,
+    Restangular
+      .all('courses')
+      .getList(author: $state.params.userId)
+      .then (courses) ->
+        $scope.courses = courses
   ]
   .then ->
-    if $scope.articles.length && !$scope.courses.length
+    if $scope.activities.length
+      $scope.activities.$active = true
+      return
+    if $scope.articles.length
       $scope.articles.$active = true
-    else
+      return
+    if $scope.courses.length
       $scope.courses.$active = true
+      return

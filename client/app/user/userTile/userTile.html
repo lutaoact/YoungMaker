@@ -1,7 +1,7 @@
 <div class="user-tile text-center">
   <div class="avatar-lg"></div>
   <h4>
-    <a href="" ui-sref="user({userId: user._id})" class="user-name">
+    <a href="" ui-sref="user.home({userId: user._id})" class="user-name">
       {{user.name}}
       <i class="fa fa-male" ng-if="user.gender"></i><i class="fa fa-female" ng-if="!user.gender"></i>
     </a><br>
@@ -20,19 +20,19 @@
     <div class="status">
       关注
       <div class="number">
-        {{user.followings.length||0}}
+        <a href ui-sref="user.following({userId:user._id})">{{nFollowing}}</a>
       </div>
     </div>
-    <div class="status">
-      我的趣课
-      <div class="number">
-        {{user.courses.length||0}}
-      </div>
-    </div>
+    <!--<div class="status">-->
+      <!--我的趣课-->
+      <!--<div class="number">-->
+        <!--{{user.courses.length||0}}-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="status">
       粉丝
       <div class="number">
-        {{user.followers.length||0}}
+        <a href ui-sref="user.followers({userId:user._id})">{{nFollowers}}</a>
       </div>
     </div>
   </div>

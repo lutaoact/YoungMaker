@@ -52,11 +52,11 @@
           <a style="margin-right:20px;"
              class="navbar-avatar dropdown-toggle"
              dropdown-toggle
-             ng-src="{{getCurrentUser().avatar}}">
+             ng-src="{{me.avatar}}">
           </a>
 
           <ul class="dropdown-menu profile-menu" role="menu">
-            <li><a ui-sref="user({userId:getCurrentUser()._id})">
+            <li><a ui-sref="user.home({userId:me._id})">
               我的主页</a></li>
             <li><a href="/settings">
               个人设置</a></li>

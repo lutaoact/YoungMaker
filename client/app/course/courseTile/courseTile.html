@@ -29,7 +29,7 @@
     {{course.likeUsers.length||0}}
   </div>
 
-  <a class="pull-right" ui-sref="user({userId:course.author._id})" ng-click="stopPropagation($event)">
+  <a class="pull-right" ui-sref="user.home({userId:course.author._id})" ng-click="stopPropagation($event)">
     <div class="avatar-xs" ng-src="{{course.author.avatar}}"></div>
     {{course.author.name}}
   </a>

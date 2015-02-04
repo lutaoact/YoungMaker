@@ -9,6 +9,7 @@ server/app.js.map
 client/index.html
 client/*.js
 client/**/*.js
+client/components/common/Const.coffee
 .idea
 /server/test.coffee
 /server/test.js

@@ -22,6 +22,10 @@ gulp.task 'copy:index', ->
   .pipe $.rename('index.html')
   .pipe gulp.dest('client/')
 
+gulp.task 'copy:constJs', ->
+  gulp.src 'server/common/Const.coffee'
+  .pipe gulp.dest('client/components/common/')
+
 gulp.task 'copy:dist', ->
   gulp.src [
       'client/*.{ico,png,txt}'
@@ -358,6 +362,7 @@ gulp.task 'build', ->
   $.runSequence(
     'clean'
     'copy:index'
+    'copy:constJs'
     'injector:less'
     'compile'
     'imagemin'
@@ -380,6 +385,7 @@ gulp.task 'dev', ->
     'clean:dev'
     'env:all'
     'copy:index'
+    'copy:constJs'
     'injector:less'
     'compile'
     'injector:scripts'

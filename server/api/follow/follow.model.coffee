@@ -19,9 +19,12 @@ class Follow extends BaseModel
       required: true
       index: true
 
-  constructor: ->
+  constructor: () ->
     @schema.index {from: 1, to: 1}, {unique: true}
     super
+
+  getAllFollowings: (userId) ->
+    return @findQ {from: userId}
 
 exports.Class = Follow
 exports.Instance = new Follow()

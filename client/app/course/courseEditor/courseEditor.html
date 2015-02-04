@@ -104,7 +104,7 @@
         <p ng-switch-when="wysiwyg" ng-bind-html="step.content"></p>
         <div ng-switch-when="embed" compile-html="step.content|embed"></div>
         <div ng-switch-when="md" ng-bind-html="step.content|showdown"></div>
-        <p ng-switch-default ng-bind-html="step.content"></p>
+        <p ng-switch-default ng-bind-html="step.content" ng-init="step.type='wysiwyg'"></p>
       </div>
       <hr ng-repeat-end>
     </div>

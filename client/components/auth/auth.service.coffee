@@ -1,6 +1,8 @@
 'use strict'
 
-angular.module('maui.components').factory 'Auth', (
+angular.module('maui.components')
+
+.factory 'Auth', (
   $q
   $http
   $rootScope
@@ -14,7 +16,7 @@ angular.module('maui.components').factory 'Auth', (
   ###
   Authenticate user and save token
 
-  @param  {Object}   user     - login info
+  @param  {Object}   user - login info
   @return {Promise}
   ###
   login: (user) ->
@@ -40,8 +42,6 @@ angular.module('maui.components').factory 'Auth', (
 
   ###
   Delete access token and user info
-
-  @param  {Function}
   ###
   logout: ->
     $cookieStore.remove 'token'
@@ -56,9 +56,9 @@ angular.module('maui.components').factory 'Auth', (
   ###
   getCurrentUser: ->
     currentUser
+
   ###
   Refresh info on authenticated user
-
   ###
   refreshCurrentUser: (callback) ->
     Restangular
@@ -80,5 +80,4 @@ angular.module('maui.components').factory 'Auth', (
   ###
   Get auth token
   ###
-  getToken: ->
-    $cookieStore.get 'token'
+  getToken: -> $cookieStore.get 'token'

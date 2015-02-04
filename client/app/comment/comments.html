@@ -10,7 +10,7 @@
     </div>
     <div class="new-comment-right" id="new-comment" is-visible="viewState.newCommentVisible">
       <div pen
-           placeholder="简单的介绍一下小组吧"
+           placeholder="请输入内容..."
            ng-model="newComment.content"
            required></div>
     </div>
@@ -69,7 +69,7 @@
                ng-class="{'active':comment.likeUsers.indexOf(me._id)>=0}"
                login-window login-success="toggleLike(comment)">
             </i>
-            {{comment.likeUsers.length||0}}me
+            {{comment.likeUsers.length||0}}
           </small>
         </h5>
         <div class="comment-body blog" compile-html="comment.content" ></div>

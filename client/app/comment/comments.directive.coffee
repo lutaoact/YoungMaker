@@ -11,7 +11,7 @@ angular.module('mauiApp')
     me: '='
     belongTo: '='
     extra: '='
-    activeComment: '='
+#    activeComment: '='
     type: '@'
 
 .controller 'CommentsCtrl', (
@@ -27,7 +27,6 @@ angular.module('mauiApp')
   if !$scope.type
     throw 'should define type of comments directive'
   angular.extend $scope,
-
     newComment: {}
     commenting: false
 

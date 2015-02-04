@@ -9,9 +9,9 @@
         <h5>{{me.name}}</h5>
       </div>
     </li>
-    <li>
-      <a ui-sref="user.home({userId:me._id})">个人主页</a>
-      <a ui-sref="settings.profile">基本信息</a>
+    <li ng-repeat="item in menu"
+        ng-class="{active: isActive(item.link)}">
+      <a ng-href="{{item.link}}">{{item.title}}</a>
     </li>
   </ul>
 

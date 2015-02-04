@@ -8,6 +8,17 @@ angular.module('mauiApp').controller 'SettingsCtrl', (
 
   angular.extend $scope,
 
+    menu: [
+      {
+        title: '基本信息'
+        link: 'settings/profile'
+      }
+      {
+        title: '我的消息'
+        link: 'settings/notice'
+      }
+    ]
+
     isActive: (route) ->
-      _.str.trim(route, '/') is _.str.trim($location.path(), '/')
+      route.split('/').pop() is $location.path().split('/').pop()
 

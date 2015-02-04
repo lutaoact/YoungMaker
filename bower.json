@@ -14,7 +14,6 @@
     "ng-file-upload-shim": "~2.2.2",
     "angular-notify": "~2.0.2",
     "moment": "~2.9.0",
-    "underscore.string": "https://github.com/epeli/underscore.string.git#master",
     "utf8": "~2.0.0",
     "sockjs": "~0.3",
     "angular-elastic": "~2.4.2",

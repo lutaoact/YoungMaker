@@ -23,3 +23,9 @@ angular.module('mauiApp')
     templateUrl: 'app/settings/profile/profile.html'
     controller: 'ProfileCtrl'
     authenticate: true
+
+  .state 'settings.notice',
+    url: '/notice?page'
+    templateUrl: 'app/settings/notice/notice.html'
+    controller: 'NoticeCtrl'
+    authenticate: true

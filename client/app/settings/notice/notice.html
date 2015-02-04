@@ -1,0 +1,53 @@
+<div class="notice-view">
+
+  <div class="text-muted text-center empty-notice" 
+       ng-if="!messages.length">
+    暂无消息
+  </div>
+
+  <ul class="media-list message-list"
+      ng-if="messages.length > 0">
+    <li ng-repeat="message in messages|orderBy:'raw.status'"
+        class="message media broadcast"
+        ng-class="{'unread':!message.raw.status}"
+        ng-click="markAsRead(message)"
+        ui-sref="{{message.link}}">
+      <a class="pull-left">
+        <div class="avatar-xs"
+             src-key="message.raw.fromWhom.avatar"
+             source-attr="background-image"></div>
+      </a>
+      <a class="pull-right btn fa" 
+         ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" 
+         ng-click="markAsRead(message, $event)" 
+         title="标记为{{message.raw.status?'未读':'已读'}}">
+      </a>
+      <div class="media-body">
+        <h6 class="media-heading">
+          {{message.raw.fromWhom.name}}
+          <small>|&nbsp;{{message.raw.created|moment: "fromNow"}}</small>
+        </h6>
+        <div class="text-muted">{{message.title}}</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="row pagination-row text-center"
+       ng-if="messages.$count"
+       ng-show="messages.$count > pageConf.itemsPerPage">
+    <pagination total-items="messages.$count"
+                ng-model="pageConf.currentPage"
+                ng-change="changePage()"
+                items-per-page="pageConf.itemsPerPage"
+                class="pagination-sm bud"
+                boundary-links="true"
+                rotate="false"
+                max-size="pageConf.maxSize"
+                previous-text="&lsaquo;"
+                next-text="&rsaquo;"
+                first-text="&laquo;"
+                last-text="&raquo;"
+                num-pages="numPages">
+    </pagination>
+  </div>
+</div>

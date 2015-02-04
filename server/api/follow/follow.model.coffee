@@ -7,6 +7,22 @@ ObjectId = Schema.Types.ObjectId
 BaseModel = (require '../../common/BaseModel')
 
 class Follow extends BaseModel
+  populates:
+    index: [
+      path: 'from', select: 'name avatar info'
+    ,
+      path: 'to', select: 'name avatar info'
+    ]
+    show: [
+      path: 'from', select: 'name avatar info'
+    ,
+      path: 'to', select: 'name avatar info'
+    ]
+    create: [
+      path: 'from', select: 'name avatar info'
+    ,
+      path: 'to', select: 'name avatar info'
+    ]
   schema: new Schema
     from:
       type: ObjectId

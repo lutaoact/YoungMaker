@@ -13,14 +13,19 @@
           login-success="toggleFollow()"
           ng-if="me._id != user._id"
           class="btn btn-sm btn-primary follow-btn">
-    <i class="fa fa-check-circle"></i>&nbsp;关注
+    <span ng-if="!follow">
+      <i class="fa fa-plus-circle"></i>&nbsp;关注
+    </span>
+    <span ng-if="follow">
+      <i class="fa fa-check-circle"></i>&nbsp;已关注
+    </span>
   </button>
   <hr>
   <div class="user-status clearfix">
     <div class="status">
       关注
       <div class="number">
-        <a href ui-sref="user.following({userId:user._id})">{{nFollowing}}</a>
+        <a href ui-sref="user.following({userId:user._id})">{{numFollowing}}</a>
       </div>
     </div>
     <!--<div class="status">-->
@@ -32,7 +37,7 @@
     <div class="status">
       粉丝
       <div class="number">
-        <a href ui-sref="user.followers({userId:user._id})">{{nFollowers}}</a>
+        <a href ui-sref="user.followers({userId:user._id})">{{numFollower}}</a>
       </div>
     </div>
   </div>

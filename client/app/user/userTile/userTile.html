@@ -6,10 +6,13 @@
       <i class="fa fa-male" ng-if="user.gender"></i><i class="fa fa-female" ng-if="!user.gender"></i>
     </a><br>
     <small>
-      {{user.signature||'个性签名开发中'}}
+      {{user.info}}
     </small>
   </h4>
-  <button login-window login-success="toggleFollow()" class="btn btn-sm btn-primary follow-btn">
+  <button login-window
+          login-success="toggleFollow()"
+          ng-if="me._id != user._id"
+          class="btn btn-sm btn-primary follow-btn">
     <i class="fa fa-check-circle"></i>&nbsp;关注
   </button>
   <hr>

@@ -6,6 +6,7 @@ angular.module('mauiApp').directive 'userTile', ->
   replace: true
   scope:
     user: '='
+    me: '='
   link: (scope, element, attrs) ->
 
   controller: ($scope, Restangular, Auth)->

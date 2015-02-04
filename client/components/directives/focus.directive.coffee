@@ -2,13 +2,19 @@ angular.module('maui.components')
 
 .directive 'focusMe', ($timeout) ->
   scope:
-    trigger: '=focusMe'
-  link: (scope, elem) ->
-    scope.$watch 'trigger', (val) -> $timeout ->
-      if !val then return
-      elem[0].focus()
+    focusMe: '='
+  link: pre: (scope, elem, attrs) ->
+    setFocus = -> $timeout ->
+      elem[0].focus?()
       elem[0].select?()
-      scope.trigger = false
+    , 100
+    if attrs.focusMe is ''
+      setFocus()
+    else
+      scope.$watch 'focusMe', (val) ->
+        if !val then return
+        setFocus()
+        scope.focusMe = false
 
 .directive 'focusOn', ($timeout) ->
   (scope, elem, attr) ->

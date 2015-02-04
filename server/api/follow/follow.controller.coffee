@@ -4,7 +4,9 @@ WrapRequest = new (require '../../utils/WrapRequest')(Follow)
 
 exports.index = (req, res, next) ->
   conditions = {}
-  conditions[req.query.key] = req.user._id
+  conditions.from = req.query.fromUserId if req.query.fromUserId
+  conditions.to   = req.query.toUserId if req.query.toUserId
+
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 
@@ -18,7 +20,7 @@ exports.show = (req, res, next) ->
 exports.follow = (req, res, next) ->
   data =
     from: req.user._id
-    to  : req.params.toUserId
+    to  : req.body.to
 
   WrapRequest.wrapCreate req, res, next, data
 

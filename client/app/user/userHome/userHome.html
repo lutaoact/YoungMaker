@@ -1,6 +1,18 @@
 <tabset type="pills"
-        justified="true"
-        class="col-md-9">
+        justified="true">
+  <tab heading="{{'#mine#' | mine:me._id==user._id:'我的关注':'TA的动态'}}" active="activities.$active">
+    <br/>
+    <div ng-if="!activities.length" class="text-center">
+      暂无新动态
+    </div>
+    <div class="col-md-12"
+         ng-repeat="activity in activities">
+      <a ui-sref="articleDetail({articleId: activity.objectId})">
+        {{activity.userId.name}} 发布了话题 {{activity.title}} -
+        <small class="text-muted">{{activity.created | moment: 'fromNow'}}</small>
+      </a>
+    </div>
+  </tab>
   <tab heading="{{'#mine#课程' | mine:me._id==user._id}}" active="courses.$active">
     <br/>
     <div ng-if="!courses.length" class="text-center">

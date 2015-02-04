@@ -12,8 +12,8 @@ exports.index = (req, res, next) ->
 
 exports.num = (req, res, next) ->
   Q.all [
-    Follow.countQ {from: req.user._id}
-    Follow.countQ {to: req.user._id}
+    Follow.countQ {from: req.query.userId}
+    Follow.countQ {to: req.query.userId}
   ]
   .spread (numFollowing, numFollower) ->
     res.send

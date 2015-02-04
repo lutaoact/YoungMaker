@@ -131,6 +131,8 @@ class WrapRequest
     @Model.createQ data
     .then (newDoc) =>
       tmpResult.newDoc = newDoc
+      @addActivity newDoc
+    .then () ->
       if updateModel
         updateModel.updateQ updateConds, update
     .then () =>

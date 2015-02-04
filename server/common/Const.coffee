@@ -11,7 +11,7 @@ Const =
     ArticleComment: 5
     CourseComment: 6
 
-  ArticleType:
+  ActivityType:
     Article: 1
 
   CommentType:

@@ -1,5 +1,6 @@
 require '../common/init'
 LikeUtils = _u.getUtils 'like'
+Activity = _u.getModel 'activity'
 
 class WrapRequest
   constructor: (@Model) ->
@@ -94,13 +95,30 @@ class WrapRequest
 
   wrapCreate: (req, res, next, data) ->
     logger.info 'create data:', data
+    tmpResult = {}
     @Model.createQ data
     .then (newDoc) =>
-      @populateDoc newDoc, @Model.populates?.create
+      tmpResult.newDoc = newDoc
+      @addActivity newDoc
+    .then () =>
+      @populateDoc tmpResult.newDoc, @Model.populates?.create
     .then (doc) ->
       res.send doc
     .catch next
     .done()
+
+
+  addActivity: (doc) ->
+    if @Model.constructor.name is 'Article'
+      data =
+        userId  : doc.author
+        title   : doc.title
+        type    : Const.ActivityType[@Model.constructor.name]
+        objectId: doc._id
+
+      Activity.createQ data
+    else
+      Q()
 
 
   wrapCreateAndUpdate: (req, res, next, data, updateModel, updateConds, update) ->
@@ -163,16 +181,6 @@ class WrapRequest
       res.send 204
     .catch next
     .done()
-
-  addActivity: (userId, title, type, objectId) ->
-    data =
-      userId  : userId
-      title   : title
-      type    : type
-      objectId: objectId
-
-    Activity = _u.getModel 'activity'
-    Activity.createQ data
 
 
   wrapLike: (req, res, next) ->

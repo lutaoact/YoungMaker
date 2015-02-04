@@ -5,9 +5,12 @@ controller = require("./follow.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 
-router.get  "/",            auth.isAuthenticated(), controller.index #?fromUserId=xxx[&toUserId=xxxx]
-router.get  "/:toUserId",   auth.isAuthenticated(), controller.show
+router.get    "/",          auth.isAuthenticated(), controller.index #?fromUserId=xxx[&toUserId=xxxx]
+router.get    "/num",       auth.isAuthenticated(), controller.num #?fromUserId=xxx[&toUserId=xxxx]
+
+router.get    "/:toUserId", auth.isAuthenticated(), controller.show
 router.post   "/",          auth.isAuthenticated(), controller.follow
 router.delete "/:toUserId", auth.isAuthenticated(), controller.unfollow
+
 
 module.exports = router

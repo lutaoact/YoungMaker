@@ -7,9 +7,17 @@ handleError =
   $.notify.onError
     title: "Gulp Error: <%= error.plugin %>"
     message: "<%= error.name %>: <%= error.toString() %>"
-
+version = (require './package.json').version
+randomstring = require 'randomstring'
 clientDistFolder = 'dist/public'
 serverDistFolder = 'dist/server'
+clientTmpFolder = '.tmp'
+config =
+  cdn: 'http://7u2tlu.com2.z0.glb.qiniucdn.com/',
+  qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
+  qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
+  qiniu_cdn_bucket: 'stemcdn',
+  randomCdnPath: version.split('.').join('_') + '/' #randomstring.generate(6)+'/'
 
 gulp.task 'clean', ->
   $.del ['.tmp', 'dist']
@@ -22,22 +30,28 @@ gulp.task 'copy:index', ->
   .pipe $.rename('index.html')
   .pipe gulp.dest('client/')
 
+gulp.task 'copy:constJs', ->
+  gulp.src 'server/common/Const.coffee'
+  .pipe gulp.dest('client/components/common/')
+
 gulp.task 'copy:dist', ->
-  gulp.src [
-      'client/*.{ico,png,txt}'
-      'client/.htaccess'
-      'client/bower_components/**/*'
-      'client/assets/images/**/*'
-      'client/assets/fonts/**/*'
-    ]
-  , base: 'client'
-  .pipe gulp.dest(clientDistFolder)
+  $.mergeStream [
+    gulp.src [
+        'client/*.{ico,png,txt}'
+        'client/.htaccess'
+        'client/bower_components/**/*'
+        'client/assets/images/**/*'
+        'client/assets/fonts/**/*'
+      ]
+    , base: 'client'
+    .pipe gulp.dest(clientDistFolder)
 
-  gulp.src ['server/**/*']
-  .pipe gulp.dest(serverDistFolder)
+    gulp.src ['server/**/*']
+    .pipe gulp.dest(serverDistFolder)
 
-  gulp.src ['package.json']
-  .pipe gulp.dest('dist')
+    gulp.src ['package.json']
+    .pipe gulp.dest('dist')
+  ]
 
 gulp.task 'env:all', ->
   $.env
@@ -346,6 +360,65 @@ gulp.task 'watch', ->
     ]
   .on('change', $.livereload.changed)
 
+gulp.task 'upload', () ->
+  $.mergeStream [
+    gulp.src [
+      clientDistFolder + '/**/*'
+      '!'+clientDistFolder+'/bower_components/**'
+    ]
+    .pipe $.qiniu(
+        accessKey: config.qiniu_ak,
+        secretKey: config.qiniu_sk,
+        bucket: config.qiniu_cdn_bucket,
+        private: false
+      ,
+        dir: 'stem/' + config.randomCdnPath
+      )
+    gulp.src [
+      clientDistFolder+'/bower_components/{font-awesome,bootstrap,pen}/**/*'
+    ]
+    .pipe $.qiniu(
+        accessKey: config.qiniu_ak,
+        secretKey: config.qiniu_sk,
+        bucket: config.qiniu_cdn_bucket,
+        private: false
+      ,
+        dir: 'stem/' + config.randomCdnPath + 'bower_components/'
+      )
+  ]
+
+gulp.task 'cdnify', ->
+  gulp.src [
+    clientDistFolder + '/**/*.html'
+    '!'+clientDistFolder+'/bower_components/**'
+  ]
+  .pipe $.cdnify(
+      base: config.cdn + 'stem/' + config.randomCdnPath
+    )
+  .pipe(gulp.dest(clientDistFolder))
+
+gulp.task 'cdnifyCss', ->
+  gulp.src [
+    clientDistFolder + '/**/*.css'
+    '!'+clientDistFolder+'/bower_components/**'
+  ]
+  .pipe $.cdnify(
+      # base: config.cdn + 'stem/' + config.randomCdnPath
+      rewriter: (url)->
+        if /^\//.test url
+          config.cdn + 'stem/' + config.randomCdnPath + url.substr(1)
+        else if /^..\/assets/.test url
+          config.cdn + 'stem/' + config.randomCdnPath + url.substr(3)
+        else if /^..\/..\/assets/.test url
+          config.cdn + 'stem/' + config.randomCdnPath + url.substr(6)
+        else if /^font\/fontello/.test url
+          config.cdn + 'stem/' + config.randomCdnPath + 'bower_components/pen/src/' + url
+        else
+          $.util.log url
+          url
+    )
+  .pipe(gulp.dest(clientDistFolder))
+
 gulp.task 'dist', ->
   $.runSequence(
     'build'
@@ -358,6 +431,7 @@ gulp.task 'build', ->
   $.runSequence(
     'clean'
     'copy:index'
+    'copy:constJs'
     'injector:less'
     'compile'
     'imagemin'
@@ -373,6 +447,9 @@ gulp.task 'build', ->
     'copy:dist'
     'cssmin' # may cause error
     'uglify'
+    'cdnify'
+    'cdnifyCss'
+    'upload' # should manually upload
   )
 
 gulp.task 'dev', ->
@@ -380,6 +457,7 @@ gulp.task 'dev', ->
     'clean:dev'
     'env:all'
     'copy:index'
+    'copy:constJs'
     'injector:less'
     'compile'
     'injector:scripts'

@@ -46,10 +46,16 @@
         "src/angular-sortable-view.min.js"
       ]
     },
+    "bootstrap":{
+      "ignore": true
+    },
     "Jcrop": {
       "main": [
         "js/jquery.Jcrop.min.js"
       ]
+    },
+    "font-awesome":{
+      "ignore": true
     },
     "moment": {
       "main": [

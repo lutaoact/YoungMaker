@@ -5,12 +5,15 @@ Follow = _u.getModel 'follow'
 WrapRequest = new (require '../../utils/WrapRequest')(Activity)
 
 exports.index = (req, res, next) ->
-  Follow.getAllFollowings req.user._id
-  .then (follows) ->
-    followingUserIds = _.pluck follows, 'to'
-    followingUserIds.push req.user._id
-
-    conditions = {userId: {$in: followingUserIds}}
+  userIds = []
+  Q(
+    if req.params.userId is req.user?.id
+      Follow.getAllFollowings req.user.id
+      .then (follows) ->
+        userIds = _.pluck follows, 'to'
+  ).then () ->
+    userIds.push req.params.userId
+    conditions = {userId: {$in: userIds}}
     WrapRequest.wrapPageIndex req, res, next, conditions
   .catch next
   .done()

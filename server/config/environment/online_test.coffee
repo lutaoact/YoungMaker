@@ -4,8 +4,10 @@
 # ==================================
 module.exports =
   # MongoDB connection options
+  nbUrl: 'http://localhost:4567'
+
   mongo:
-    uri: 'mongodb://localhost/maui'
+    uri: 'mongodb://localhost/maui-dev'
 
   logger:
     path: '/data/log/maui.log'
@@ -34,9 +36,9 @@ module.exports =
 
   azure:
     acsBaseAddress: "https://wamsprodglobal001acs.accesscontrol.chinacloudapi.cn/v2/OAuth2-13"
-#    bjbAPIServerAddress: 'https://wamsshaclus001rest-hs.chinacloudapp.cn/API/'
+#    shaAPIServerAddress: 'https://wamsshaclus001rest-hs.chinacloudapp.cn/API/'
 #    bjbAPIServerAddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
-    serveraddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
+    serverAddress: 'https://wamsbjbclus001rest-hs.chinacloudapp.cn/API/'
     signed_url_expires : 24 * 60 # in minutes
     defaultHeaders : (access_token)->
       Accept: 'application/json;odata=verbose'
@@ -65,3 +67,11 @@ module.exports =
       serviceName: 'azure'
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
+
+  host: "http://localhost:9001"
+  emailConfig:
+    auth:
+      api_user: 'cloud3edu'
+      api_key: 'gXI2WTs8w4D6BF09'
+
+  tokenExpireTime: 60*24*7 # in minute

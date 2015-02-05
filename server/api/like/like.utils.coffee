@@ -40,10 +40,10 @@ class LikeUtils extends BaseUtils
 
       when 'Comment'
         targetUserId = doc.postBy
-        if comment.type == Const.CommentType.Article
+        if doc.type == Const.CommentType.Article
           noticeType = Const.NoticeType.LikeArticleComment
           data.articleId = doc.belongTo
-        else if comment.type == Const.CommentType.Course
+        else if doc.type == Const.CommentType.Course
           noticeType = Const.NoticeType.LikeCourseComment
           data.courseId = doc.belongTo
         else

@@ -44,4 +44,3 @@ angular.module('mauiApp').controller 'NoticeCtrl',(
       $scope.messages.push Msg.genMessage(notice)
     $scope.messages.$count = notices.$count
 
-  console.log 'www'

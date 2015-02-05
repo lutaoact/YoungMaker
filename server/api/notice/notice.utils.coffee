@@ -18,9 +18,6 @@ class NoticeUtils extends BaseUtils
         noticeDoc = noticeDoc.populate option
       noticeDoc.populateQ()
 
-  addLectureNotices: (userIds, lectureId) ->
-    data = {lectureId : lectureId}
-    @addNotice(userId, null, Const.NoticeType.Lecture, data) for userId in userIds
 
 exports.Instance = new NoticeUtils()
 exports.Class = NoticeUtils

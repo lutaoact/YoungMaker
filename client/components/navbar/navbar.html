@@ -73,7 +73,11 @@
               </a>
             </li>
           </ul>
-
+            <span class="badge"
+                  style="position: absolute;top: 9px;left: 18px;"
+                  ng-show="getMsgCount()">
+              {{getMsgCount()||'0'}}
+            </span>
         </li>
       </ul>
 

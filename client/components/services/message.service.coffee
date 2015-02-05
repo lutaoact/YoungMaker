@@ -1,46 +1,43 @@
 angular.module 'maui.components'
 
-.factory 'Msg', (Restangular, $q)->
+.factory 'Msg', (Restangular)->
 
   genMessage = (raw)->
-    deferred = $q.defer()
+    msg =
+      raw: raw
+      type: 'message'
+
     switch raw.type
-      when Const.NoticeType.TopicVoteUp
-        deferred.resolve
-          title: '赞了你的帖子：' + raw.data.disTopic.title
-          raw: raw
-          link: "forum.topic({courseId:'#{raw.data.disTopic.courseId}',topicId:'#{raw.data.disTopic._id}'})"
-          type: 'message'
-      when Const.NoticeType.ReplyVoteUp
-        Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
-        .then (topic)->
-          raw.data.disTopic = topic
-          deferred.resolve
-            title: '赞了你的回复：' + raw.data.disReply.content
-            raw: raw
-            link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
-            type: 'message'
-      when Const.NoticeType.Comment
-        Restangular.one('dis_topics', raw.data.disReply.disTopicId).get()
-        .then (topic)->
-          raw.data.disTopic = topic
-          deferred.resolve
-            title: '回复了你的帖子：' + raw.data.disTopic.title
-            raw: raw
-            link: "forum.topic({courseId:'#{topic.courseId}',topicId:'#{raw.data.disReply.disTopicId}',replyId:'#{raw.data.disReply._id}'})"
-            type: 'message'
-      else deferred.reject()
-    deferred.promise
+      when Const.NoticeType.ArticleComment
+        msg.title = '回复了你的文章：' + raw.data.articleId.title
+        msg.link = "articleDetail({articleId:'#{raw.data.articleId._id}'})"
+      when Const.NoticeType.LikeArticleComment
+        msg.title = '赞了你的回复：' + raw.data.articleId.title
+        msg.link = "articleDetail({articleId:'#{raw.data.articleId._id}'})"
+      when Const.NoticeType.CourseComment
+        msg.title = '回复了你的课程：' + raw.data.courseId.title
+        msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+      when Const.NoticeType.LikeCourseComment
+        msg.title = '赞了你的课程：' + raw.data.courseId.title
+        msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+
+    return msg
 
   instance =
-    messages: []
+    unreadMsgCount: 0
     genMessage: genMessage
     init: ()->
-      Restangular.all('notices').getList()
-      .then (notices)->
-        notices.forEach (notice)->
-          genMessage(notice).then (msg)->
-            instance.messages.splice 0, 0, msg
+      Restangular.all('notices').customGET('unreadCount')
+      .then (data)->
+        instance.unreadMsgCount = data.unreadCount
+    addMsg: ->
+      instance.unreadMsgCount += 1
+    readMsg: ->
+      instance.unreadMsgCount -= 1 if instance.unreadMsgCount > 0
+    clearMsg: ->
+      instance.unreadMsgCount = 0
+    getMsgCount: ->
+      instance.unreadMsgCount
 
   return instance
 

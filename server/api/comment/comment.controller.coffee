@@ -28,13 +28,13 @@ exports.create = (req, res, next) ->
 
   WrapRequest.wrapCreate req, res, next, data
 
-#  Model = CommentUtils.getCommentRefByType body.type
-#  Q.all [
-#    Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
-#    CommentUtils.sendCommentNotices(data)
-#  ]
-#  .catch next #TODO: remove catch when release?
-#  .done()
+  Model = CommentUtils.getCommentRefByType body.type
+  Q.all [
+    Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
+    CommentUtils.sendCommentNotices(data)
+  ]
+  .catch next #TODO: remove catch when release?
+  .done()
 
 
 pickedUpdatedKeys = ['content', 'tags']

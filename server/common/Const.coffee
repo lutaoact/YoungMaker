@@ -22,6 +22,10 @@ Const =
     1: 'article'
     2: 'course'
 
+  CommentModelRef:
+    1: 'article'
+    2: 'course'
+
   MsgType:
     Login: 'login'
     Notice: 'notice'

@@ -14,6 +14,11 @@ angular.module('mauiApp')
     group: null
     groupArticles: []
 
+    pageConf:
+      maxSize      : 5
+      currentPage  : $state.params.page ? 1
+      itemsPerPage : 3
+
     onAvatarUploaded: (key) ->
       console.log key
       Restangular.one('groups', $scope.group._id)
@@ -23,6 +28,7 @@ angular.module('mauiApp')
         notify
           message: '头像修改成功'
           classes: 'alert-success'
+
     saveDesc: (form) ->
       if !form.$valid then return
       $scope.errors = null
@@ -81,10 +87,25 @@ angular.module('mauiApp')
       else
         return 'passerby'
 
+    reload: (resetPageIndex) ->
+      $scope.pageConf.currentPage = 1 if resetPageIndex
+      $state.go 'group',
+        page: $scope.pageConf.currentPage
+        keyword: $scope.viewState?.keyword
+
+    search: ()->
+      sortObj = {}
+      sortObj[$scope.pageConf.sort or 'postsCount'] = -1
+      sortObj.created = -1
+      Restangular.all('articles').getList
+        group      : $state.params.groupId
+        from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+        limit      : $scope.pageConf.itemsPerPage
+        keyword    : $scope.viewState?.keyword
+      .then (articles)->
+        $scope.groupArticles = articles
 
   groupAPI.get().then (group) ->
     $scope.group = group
 
-  Restangular.all('articles').getList({group: $state.params.groupId})
-  .then (articles) ->
-    $scope.groupArticles = articles
+  $scope.search()

@@ -1,19 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
-      placeholder
-    </div>
     <div class="col-md-9 col-sm-12" >
       <form class="form-horizontal"
             name="form"
             role="form"
             ng-submit="saveDesc(form)"
             ng-show="showEditingForm">
-        <!--<div class="form-group">-->
-          <!--<img align="left" valign="top"-->
-               <!--ng-src="{{group.avatar}}">-->
-          <!--</img>-->
-        <!--</div>-->
         <div class="form-group">
           <uploader
             class="cover-uploder"
@@ -45,7 +37,7 @@
         <div class="form-group">
           <label class="control-label">小组名称</label>
 
-            <input class="form-control"
+          <input class="form-control"
                    ng-model="group.title"
                    required/>
 
@@ -53,10 +45,10 @@
 
         <div class="form-group">
           <label class="control-label">小组简介</label>
-            <div pen
+          <div pen
                       placeholder="简单的介绍一下小组吧"
                       ng-model="group.description"
-                      required></div>
+          required></div>
         </div>
 
         <div class="form-group">
@@ -88,12 +80,30 @@
           ng-show="getRole()=='creator'"
           ng-click="editGroupInfo()">修改小组信息</button>
         <div class="text-center">
-            <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
+          <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
         </div>
+
         <div class="" ng-repeat="article in groupArticles">
-            <article-tile article="article" me="me"></article-tile>
+          <article-tile article="article" me="me"></article-tile>
         </div>
+        <div class="row pagination-row text-center"
+             ng-if="groupArticles.$count > pageConf.itemsPerPage">
+          <pagination
+            total-items="groupArticles.$count"
+            ng-model="pageConf.currentPage"
+            items-per-page="pageConf.itemsPerPage"
+            class="pagination-sm bud"
+            boundary-links="true"
+            rotate="false"
+            ng-change="reload()"
+            max-size="pageConf.maxSize">
+          </pagination>
+        </div>
+
       </div>
+    </div>
+    <div class="col-md-3">
+      小组信息
     </div>
   </div>
 </div>

@@ -39,5 +39,3 @@ angular.module('mauiApp')
         $scope.groups = groups
 
   $scope.search()
-  .then (groups)->
-    $scope.groupsTotalCount = groups.$count

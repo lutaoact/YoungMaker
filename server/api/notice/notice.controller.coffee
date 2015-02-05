@@ -11,11 +11,8 @@ exports.index = (req, res, next) ->
   conditions.userId = userId
   if !req.query.all
     conditions.status = 0
-  options =
-    limit: req.query.limit
-    from: req.query.from
-    sort: req.query.sort
-  WrapRequest.wrapPageIndex req, res, next, conditions, options
+
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.read = (req, res, next) ->
   ids = req.body.ids

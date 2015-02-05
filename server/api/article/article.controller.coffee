@@ -8,7 +8,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Article)
 indexConditionKeys = ['author', 'group']
 exports.index = (req, res, next) ->
   conditions = _.pick req.query, indexConditionKeys
-  WrapRequest.wrapIndex req, res, next, conditions
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}

@@ -35,21 +35,23 @@ gulp.task 'copy:constJs', ->
   .pipe gulp.dest('client/components/common/')
 
 gulp.task 'copy:dist', ->
-  gulp.src [
-      'client/*.{ico,png,txt}'
-      'client/.htaccess'
-      'client/bower_components/**/*'
-      'client/assets/images/**/*'
-      'client/assets/fonts/**/*'
-    ]
-  , base: 'client'
-  .pipe gulp.dest(clientDistFolder)
+  $.mergeStream [
+    gulp.src [
+        'client/*.{ico,png,txt}'
+        'client/.htaccess'
+        'client/bower_components/**/*'
+        'client/assets/images/**/*'
+        'client/assets/fonts/**/*'
+      ]
+    , base: 'client'
+    .pipe gulp.dest(clientDistFolder)
 
-  gulp.src ['server/**/*']
-  .pipe gulp.dest(serverDistFolder)
+    gulp.src ['server/**/*']
+    .pipe gulp.dest(serverDistFolder)
 
-  gulp.src ['package.json']
-  .pipe gulp.dest('dist')
+    gulp.src ['package.json']
+    .pipe gulp.dest('dist')
+  ]
 
 gulp.task 'env:all', ->
   $.env
@@ -359,31 +361,31 @@ gulp.task 'watch', ->
   .on('change', $.livereload.changed)
 
 gulp.task 'upload', () ->
-  gulp.src [
-    clientDistFolder + '/**'
-    '!'+clientDistFolder+'/bower_components/**'
+  $.mergeStream [
+    gulp.src [
+      clientDistFolder + '/**/*'
+      '!'+clientDistFolder+'/bower_components/**'
+    ]
+    .pipe $.qiniu(
+        accessKey: config.qiniu_ak,
+        secretKey: config.qiniu_sk,
+        bucket: config.qiniu_cdn_bucket,
+        private: false
+      ,
+        dir: 'stem/' + config.randomCdnPath
+      )
+    gulp.src [
+      clientDistFolder+'/bower_components/{font-awesome,bootstrap,pen}/**/*'
+    ]
+    .pipe $.qiniu(
+        accessKey: config.qiniu_ak,
+        secretKey: config.qiniu_sk,
+        bucket: config.qiniu_cdn_bucket,
+        private: false
+      ,
+        dir: 'stem/' + config.randomCdnPath + 'bower_components/'
+      )
   ]
-  .pipe $.qiniu(
-      accessKey: config.qiniu_ak,
-      secretKey: config.qiniu_sk,
-      bucket: config.qiniu_cdn_bucket,
-      private: false
-    ,
-      dir: 'stem/' + config.randomCdnPath
-    )
-
-gulp.task 'upload:bower', () ->
-  gulp.src [
-    clientDistFolder+'/bower_components/{font-awesome,bootstrap,pen}/**'
-  ]
-  .pipe $.qiniu(
-      accessKey: config.qiniu_ak,
-      secretKey: config.qiniu_sk,
-      bucket: config.qiniu_cdn_bucket,
-      private: false
-    ,
-      dir: 'stem/' + config.randomCdnPath + 'bower_components/'
-    )
 
 gulp.task 'cdnify', ->
   gulp.src [
@@ -448,7 +450,6 @@ gulp.task 'build', ->
     'cdnify'
     'cdnifyCss'
     'upload' # should manually upload
-    'upload:bower' # should manually upload
   )
 
 gulp.task 'dev', ->

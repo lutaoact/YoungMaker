@@ -18,7 +18,7 @@
     "emailjs": "^0.3.11",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
-    "express-jwt": "^0.1.4",
+    "express-jwt": "^1.0.0",
     "express-session": "~1.0.2",
     "fileutils": "^0.1.0",
     "gulp-cdnify": "^1.0.0",

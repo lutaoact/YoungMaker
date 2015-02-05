@@ -5,6 +5,6 @@ controller = require("./activity.controller")
 auth = require("../../auth/auth.service")
 router = express.Router()
 
-router.get "/:userId", auth.isAuthenticated(false), controller.index
+router.get "/", auth.isAuthenticated(false), controller.index
 
 module.exports = router

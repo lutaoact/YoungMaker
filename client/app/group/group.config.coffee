@@ -9,9 +9,9 @@ angular.module('mauiApp')
     templateUrl: 'app/group/groupNew/groupNew.html'
     controller: 'GroupNewCtrl'
 
-  .state 'group',
+  .state 'groupDetail',
     url: '/groups/:groupId?page&keyword'
-    templateUrl: 'app/group/group.html'
+    templateUrl: 'app/group/groupDetail/groupDetail.html'
     controller: 'GroupCtrl'
 
   .state 'groupArticleNew',

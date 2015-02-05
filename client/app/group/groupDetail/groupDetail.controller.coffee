@@ -17,7 +17,7 @@ angular.module('mauiApp')
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
-      itemsPerPage : 3
+      itemsPerPage : 10
 
     onAvatarUploaded: (key) ->
       console.log key
@@ -89,7 +89,7 @@ angular.module('mauiApp')
 
     reload: (resetPageIndex) ->
       $scope.pageConf.currentPage = 1 if resetPageIndex
-      $state.go 'group',
+      $state.go 'groupDetail',
         page: $scope.pageConf.currentPage
         keyword: $scope.viewState?.keyword
 

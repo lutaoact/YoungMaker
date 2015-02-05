@@ -1,10 +1,10 @@
-<div class="group-tile" ui-sref="group({groupId:group._id})">
+<div class="group-tile" ui-sref="groupDetail({groupId:group._id})">
 
   <div class="group-logo" ng-src="{{group.avatar}}">
   </div>
   <div class="group-body">
     <h5 class="group-title" >
-      <a class="none-decoration" href ui-sref="group({groupId:group._id})">{{group.title}}</a>
+      <a class="none-decoration" href ui-sref="groupDetail({groupId:group._id})">{{group.title}}</a>
     </h5>
     <h6 class="group-info text-muted text-overflow">
       {{group.description}}

@@ -1,6 +1,6 @@
 angular.module('mauiApp')
 
-.controller 'GroupCtrl', (
+.controller 'GroupDetailCtrl', (
   Auth
   $scope
   $state
@@ -12,12 +12,12 @@ angular.module('mauiApp')
   angular.extend $scope,
     showEditingForm: false
     group: null
-    groupArticles: []
+#    groupArticles: []
 
-    pageConf:
-      maxSize      : 5
-      currentPage  : $state.params.page ? 1
-      itemsPerPage : 10
+#    pageConf:
+#      maxSize      : 5
+#      currentPage  : $state.params.page ? 1
+#      itemsPerPage : 3
 
     onAvatarUploaded: (key) ->
       console.log key
@@ -87,25 +87,6 @@ angular.module('mauiApp')
       else
         return 'passerby'
 
-    reload: (resetPageIndex) ->
-      $scope.pageConf.currentPage = 1 if resetPageIndex
-      $state.go 'groupDetail',
-        page: $scope.pageConf.currentPage
-        keyword: $scope.viewState?.keyword
-
-    search: ()->
-      sortObj = {}
-      sortObj[$scope.pageConf.sort or 'postsCount'] = -1
-      sortObj.created = -1
-      Restangular.all('articles').getList
-        group      : $state.params.groupId
-        from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
-        limit      : $scope.pageConf.itemsPerPage
-        keyword    : $scope.viewState?.keyword
-      .then (articles)->
-        $scope.groupArticles = articles
-
   groupAPI.get().then (group) ->
     $scope.group = group
 
-  $scope.search()

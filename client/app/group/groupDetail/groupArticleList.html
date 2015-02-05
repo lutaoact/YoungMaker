@@ -1,0 +1,18 @@
+<div class="" ng-repeat="article in groupArticles">
+  <article-tile article="article" me="me"></article-tile>
+</div>
+<div class="row pagination-row text-center"
+     ng-if="groupArticles.$count > pageConf.itemsPerPage">
+  <pagination
+    total-items="groupArticles.$count"
+    ng-model="pageConf.currentPage"
+    items-per-page="pageConf.itemsPerPage"
+    class="pagination-sm bud"
+    boundary-links="true"
+    rotate="false"
+    ng-change="reload()"
+    max-size="pageConf.maxSize">
+  </pagination>
+</div>
+
+

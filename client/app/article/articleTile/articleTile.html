@@ -18,7 +18,7 @@
     </span>
     <span class="text-muted" ng-if="article.group">发布于</span>
     <span ng-if="article.group">
-      <a ui-sref="groupDetail({groupId: article.group._id})">{{article.group.title}}&#183;</a>
+      <a ui-sref="groupDetail.articleList({groupId: article.group._id})">{{article.group.title}}&#183;</a>
     </span>
     <span ng-if="article.column">
       专栏－{{article.column.name}}&#183;

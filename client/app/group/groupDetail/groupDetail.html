@@ -83,22 +83,7 @@
           <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
         </div>
 
-        <div class="" ng-repeat="article in groupArticles">
-          <article-tile article="article" me="me"></article-tile>
-        </div>
-        <div class="row pagination-row text-center"
-             ng-if="groupArticles.$count > pageConf.itemsPerPage">
-          <pagination
-            total-items="groupArticles.$count"
-            ng-model="pageConf.currentPage"
-            items-per-page="pageConf.itemsPerPage"
-            class="pagination-sm bud"
-            boundary-links="true"
-            rotate="false"
-            ng-change="reload()"
-            max-size="pageConf.maxSize">
-          </pagination>
-        </div>
+        <div ui-view class="fadeIn"></div>
 
       </div>
     </div>

@@ -50,7 +50,7 @@ angular.module('mauiApp')
             message: '话题已创建'
             classes: 'alert-success'
           if $state.params.groupId?
-            $state.go 'group', groupId: $state.params.groupId
+            $state.go 'groupDetail.articleList', groupId: $state.params.groupId
           else
             $state.go 'user.home', userId: $scope.me._id
 

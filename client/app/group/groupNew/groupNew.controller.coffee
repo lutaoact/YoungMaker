@@ -26,7 +26,7 @@ angular.module('mauiApp')
           message: '小组已创建'
           classes: 'alert-success'
       # TODO: state go to group page
-        $state.go 'group', {groupId: data._id}
+        $state.go 'groupDetail.articleList', {groupId: data._id}
       .catch (error) ->
         notify
           message: '创建小组出错啦：' + error

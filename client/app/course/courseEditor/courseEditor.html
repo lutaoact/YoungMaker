@@ -47,8 +47,6 @@
           <div class="col-md-10 col-md-offset-1 editor clearfix" ng-repeat="step in course.steps">
             <div ng-switch="step.type">
               <div ng-switch-when="wysiwyg">
-                <div class="assets">
-                </div>
                 <div class="form-group">
                   <input type="text" required title-placeholder="请输入标题" class="form-control" ng-model="step.title">
                 </div>
@@ -57,8 +55,6 @@
                 </div>
               </div>
               <div ng-switch-when="md">
-                <div class="assets">
-                </div>
                 <div class="form-group">
                   <input type="text" required title-placeholder="请输入标题" class="form-control" ng-model="step.title">
                 </div>
@@ -67,13 +63,19 @@
                 </div>
               </div>
               <div ng-switch-when="embed">
-                <div class="assets">
-                </div>
                 <div class="form-group">
                   <input type="text" required title-placeholder="请输入标题" class="form-control" ng-model="step.title">
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" title-placeholder="插入网页链接或者iframe代码" ng-model="step.content">
+                </div>
+              </div>
+              <div ng-switch-when="code">
+                <div class="form-group">
+                  <input type="text" required title-placeholder="请输入标题" class="form-control" ng-model="step.title">
+                </div>
+                <div class="form-group">
+                  <div ui-ace="aceOption" ng-model="step.content"></div>
                 </div>
               </div>
               <div ng-switch-default>
@@ -104,6 +106,9 @@
         <p ng-switch-when="wysiwyg" ng-bind-html="step.content"></p>
         <div ng-switch-when="embed" compile-html="step.content|embed"></div>
         <div ng-switch-when="md" ng-bind-html="step.content|showdown"></div>
+        <div ng-switch-when="code">
+          <div ui-ace="aceOption" readonly ng-model="step.content"></div>
+        </div>
         <p ng-switch-default ng-bind-html="step.content" ng-init="step.type='wysiwyg'"></p>
       </div>
       <hr ng-repeat-end>

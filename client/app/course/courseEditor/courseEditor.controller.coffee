@@ -26,6 +26,9 @@ angular.module('mauiApp')
       ,
         text: 'embed'
         type: 'embed'
+      ,
+        text: 'code'
+        type: 'code'
     ]
 
     course:
@@ -48,6 +51,8 @@ angular.module('mauiApp')
             $scope.course.content += $filter('embed')(step.content)
           when 'md'
             $scope.course.content += $filter('showdown')(step.content)
+          when 'code'
+            $scope.course.content += $filter('code')(step.content)
         $scope.course.content += """<hr/>"""
 
       # get the first image. todo: move to server side
@@ -70,18 +75,14 @@ angular.module('mauiApp')
 
     addStep: (plugin)->
       @viewState.lastPlugin = plugin
-      switch plugin.type
-        when 'wysiwyg'
-          $scope.course.steps.push {type:plugin.type}
-        when 'embed'
-          $scope.course.steps.push (type:plugin.type)
-        when 'md'
-          $scope.course.steps.push (type:plugin.type)
-        else
-          $scope.course.steps.push {type:'wysiwyg'}
+      $scope.course.steps.push {type:plugin.type}
       $location.hash('bottom')
       # call $anchorScroll()
       $anchorScroll()
+
+    aceOption:
+      useWrapMode : true
+      showGutter: true
 
   $scope.viewState.lastPlugin = $scope.plugins[0]
 
@@ -90,4 +91,4 @@ angular.module('mauiApp')
     .then (course)->
       $scope.course = course
   else
-    $scope.course.steps = [{type:plugin.type}]
+    $scope.course.steps = [{type:$scope.viewState.lastPlugin.type}]

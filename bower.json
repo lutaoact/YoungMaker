@@ -34,7 +34,8 @@
     "textAngular": "~1.3.4",
     "holderjs": "~2.5.0",
     "rangy": "~1.2.3",
-    "showdown": "~0.3.4"
+    "showdown": "~0.3.4",
+    "angular-ui-ace": "bower"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -46,7 +47,7 @@
         "src/angular-sortable-view.min.js"
       ]
     },
-    "bootstrap":{
+    "bootstrap": {
       "ignore": true
     },
     "Jcrop": {
@@ -54,7 +55,7 @@
         "js/jquery.Jcrop.min.js"
       ]
     },
-    "font-awesome":{
+    "font-awesome": {
       "ignore": true
     },
     "moment": {
@@ -63,7 +64,7 @@
         "locale/zh-cn.js"
       ]
     },
-    "bootstrap-css-only":{
+    "bootstrap-css-only": {
       "ignore": true
     },
     "pen": {
@@ -89,12 +90,17 @@
         "./dist/textAngular.min.js",
         "./dist/textAngular-sanitize.min.js"
       ],
-      "dependencies":{
+      "dependencies": {
         "angular": "^1.3.x",
         "bootstrap": "~3.3.2",
         "font-awesome": "^4.0.x",
         "rangy": "^1.2.0"
       }
+    },
+    "ace-builds":{
+      "main": [
+        "src-min-noconflict/ace.js"
+      ]
     }
   },
   "resolutions": {

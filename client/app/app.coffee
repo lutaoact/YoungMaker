@@ -7,6 +7,7 @@ angular.module 'mauiApp', [
   'maui.components'
   'monospaced.elastic'
   'angular-sortable-view'
+  'ui.ace'
 ]
 
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->

@@ -1,0 +1,23 @@
+<br/>
+<div ng-if="!courses.length" class="text-center">
+  暂无发布课程
+</div>
+<div class="col-lg-4 col-md-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
+  <course-tile course="course"></course-tile>
+</div>
+<div id="new-course" class="text-center">
+  <a href ng-if="user._id==me._id" ui-sref="courseEditor">创建新课程</a>
+</div>
+<div class="row pagination-row text-center"
+     ng-if="courses.$count"
+     ng-show="courses.$count > pageConf.itemsPerPage">
+  <pagination total-items="courses.$count"
+              ng-model="pageConf.currentPage"
+              items-per-page="pageConf.itemsPerPage"
+              class="pagination-sm bud"
+              ng-change="changePage()"
+              boundary-links="true"
+              rotate="false"
+              max-size="pageConf.maxSize">
+  </pagination>
+</div>

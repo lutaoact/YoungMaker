@@ -71,6 +71,36 @@ function setTokenCookie(req, res) {
   res.redirect('/');
 }
 
+function verifyTokenCookie() {
+  return compose()
+    .use(function(req, res, next) {
+      if (req.cookies.token) {
+        var token = req.cookies.token.replace(/"/g, '');
+        jwt.verify(token, config.secrets.session, null, function(err, user) {
+          if (err) return next(err);
+          if (user) req.user = user;
+
+          next();
+        });
+      } else {
+        next();
+      }
+    })
+    .use(function(req, res, next) {
+        if (req.user) {
+          User.findById(req.user._id, function (err, user) {
+            if (err) return next(err);
+            if (user) req.user = user;
+
+            next();
+          });
+        } else {
+          next();
+        }
+    });
+}
+exports.verifyTokenCookie = verifyTokenCookie;
+
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.signToken = signToken;

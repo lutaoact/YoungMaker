@@ -22,7 +22,7 @@ angular.module('mauiApp')
 
   $q.all [
     Restangular
-      .all('activities')
+      .one('activities', $state.params.userId)
       .getList()
       .then (activities) ->
         $scope.activities = activities

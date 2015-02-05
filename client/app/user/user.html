@@ -4,6 +4,24 @@
     <!-- user info -->
     <div class="col-md-3 text-center">
       <user-tile user="user" me="me"></user-tile>
+      <br/>
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" ui-sref-active="active">
+          <a ui-sref="user.home({userId:user._id})">
+            {{'#mine#' | mine:me._id==user._id:'最新动态':'TA的动态'}}
+          </a>
+        </li>
+        <li role="presentation" ui-sref-active="active">
+          <a ui-sref="user.courses({userId:user._id})">
+            {{'#mine#课程' | mine:me._id==user._id}}
+          </a>
+        </li>
+        <li role="presentation" ui-sref-active="active">
+          <a ui-sref="user.articles({userId:user._id})">
+            {{'#mine#话题' | mine:me._id==user._id}}
+          </a>
+        </li>
+      </ul>
     </div>
 
     <div ui-view class="col-md-9"></div>

@@ -1,21 +1,21 @@
 angular.module 'mauiApp'
 
-# 我正在关注的人
-.controller 'FollowingCtrl', (
+# 我的粉丝
+.controller 'UserFollowersCtrl', (
   $scope
   $state
   Restangular
 ) ->
 
   angular.extend $scope,
-    following: null
+    followers: null
 
   Restangular
     .all('follows')
     .getList(
       from: 0
       limit: 20
-      fromUserId: $state.params.userId
+      toUserId: $state.params.userId
     )
     .then (follows) ->
-      $scope.following = _.map follows, (f) -> f.to
+      $scope.followers = _.map follows, (f) -> f.from

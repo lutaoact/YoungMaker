@@ -15,16 +15,26 @@ angular.module('mauiApp')
     abstract: true
 
   .state 'user.home',
-    url: ''
-    templateUrl: 'app/user/userHome/userHome.html'
-    controller: 'UserHomeCtrl'
+    url: '?page'
+    templateUrl: 'app/user/userActivities/userActivities.html'
+    controller: 'UserActivitiesCtrl'
+
+  .state 'user.courses',
+    url: '/courses?page'
+    templateUrl: 'app/user/userCourses/userCourses.html'
+    controller: 'UserCoursesCtrl'
+
+  .state 'user.articles',
+    url: '/articles?page'
+    templateUrl: 'app/user/userArticles/userArticles.html'
+    controller: 'UserArticlesCtrl'
 
   .state 'user.following',
-    url: '/following'
-    templateUrl: 'app/user/following/following.html'
-    controller: 'FollowingCtrl'
+    url: '/following?page'
+    templateUrl: 'app/user/userFollowing/userFollowing.html'
+    controller: 'UserFollowingCtrl'
 
   .state 'user.followers',
-    url: '/followers'
-    templateUrl: 'app/user/followers/followers.html'
-    controller: 'FollowersCtrl'
+    url: '/followers?page'
+    templateUrl: 'app/user/userFollowers/userFollowers.html'
+    controller: 'UserFollowersCtrl'

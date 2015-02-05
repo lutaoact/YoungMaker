@@ -1,13 +1,25 @@
-<br/>
-<div ng-if="!articles.length" class="text-center">
+<div ng-if="articles.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="articles.$count == 0"
+     class="text-center">
   暂无发表话题
 </div>
-<div class="" ng-repeat="article in articles">
-  <article-tile article="article" me="me"></article-tile>
+
+<div ng-repeat="article in articles">
+  <article-tile article="article"
+                me="me"></article-tile>
 </div>
-<div id="new-article" class="text-center">
-  <a href ng-if="user._id==me._id" ui-sref="articleNew">创建新话题</a>
+
+<div id="new-article"
+     class="text-center">
+  <a href
+     ng-if="user._id==me._id"
+     ui-sref="articleNew">创建新话题</a>
 </div>
+
 <div class="row pagination-row text-center"
      ng-if="articles.$count"
      ng-show="articles.$count > pageConf.itemsPerPage">

@@ -1,13 +1,26 @@
-<br/>
-<div ng-if="!courses.length" class="text-center">
+<div ng-if="courses.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="courses.$count == 0"
+     class="text-center">
   暂无发布课程
 </div>
-<div class="col-lg-4 col-md-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
+
+<div class="col-lg-4 col-md-6"
+     ng-repeat="course in courses"
+     ui-sref="courseDetail({courseId:course._id})">
   <course-tile course="course"></course-tile>
 </div>
-<div id="new-course" class="text-center">
-  <a href ng-if="user._id==me._id" ui-sref="courseEditor">创建新课程</a>
+
+<div id="new-course"
+     class="text-center">
+  <a href
+     ng-if="user._id==me._id"
+     ui-sref="courseEditor">创建新课程</a>
 </div>
+
 <div class="row pagination-row text-center"
      ng-if="courses.$count"
      ng-show="courses.$count > pageConf.itemsPerPage">

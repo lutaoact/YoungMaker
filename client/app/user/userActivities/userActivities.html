@@ -1,7 +1,13 @@
-<br/>
-<div ng-if="!activities.length" class="text-center">
+<div ng-if="activities.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="activities.$count == 0"
+     class="text-center">
   暂无新动态
 </div>
+
 <div class="col-md-12"
      ng-repeat="activity in activities">
   <a ui-sref="articleDetail({articleId: activity.objectId})">
@@ -9,6 +15,7 @@
     <small class="text-muted">{{activity.created | moment: 'fromNow'}}</small>
   </a>
 </div>
+
 <div class="row pagination-row text-center"
      ng-if="activities.$count"
      ng-show="activities.$count > pageConf.itemsPerPage">

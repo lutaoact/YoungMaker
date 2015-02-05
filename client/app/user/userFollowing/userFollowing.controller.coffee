@@ -9,13 +9,21 @@ angular.module 'mauiApp'
 
   angular.extend $scope,
     following: null
+    pageConf:
+      maxSize: 5
+      currentPage: $state.params.page ? 1
+      itemsPerPage: 10
+
+    changePage: ->
+      $state.go $state.current,
+        page: $scope.pageConf.currentPage
 
   Restangular
     .all('follows')
     .getList(
-      from: 0
-      limit: 20
+      from: ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+      limit: $scope.pageConf.itemsPerPage
       fromUserId: $state.params.userId
     )
-    .then (follows) ->
-      $scope.following = _.map follows, (f) -> f.to
+    .then (following) ->
+      $scope.following = following

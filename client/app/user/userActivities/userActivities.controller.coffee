@@ -10,7 +10,7 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    activities: []
+    activities: null
     pageConf:
       maxSize: 5
       currentPage: $state.params.page ? 1

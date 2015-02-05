@@ -1,8 +1,32 @@
+<div ng-if="followers.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="followers.$count == 0"
+     class="text-center">
+  暂无粉丝
+</div>
+
 <div class="list-group">
   <a href="#"
      class="list-group-item"
-     ui-sref="user.home({userId: u._id})"
-     ng-repeat="u in followers">
-    {{u.name}}
+     ui-sref="user.home({userId: follow.from._id})"
+     ng-repeat="follow in followers">
+    {{follow.from.name}}
   </a>
+</div>
+
+<div class="row pagination-row text-center"
+     ng-if="followers.$count"
+     ng-show="followers.$count > pageConf.itemsPerPage">
+  <pagination total-items="followers.$count"
+              ng-model="pageConf.currentPage"
+              items-per-page="pageConf.itemsPerPage"
+              class="pagination-sm bud"
+              ng-change="changePage()"
+              boundary-links="true"
+              rotate="false"
+              max-size="pageConf.maxSize">
+  </pagination>
 </div>

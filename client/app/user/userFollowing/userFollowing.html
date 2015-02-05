@@ -1,8 +1,32 @@
+<div ng-if="following.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="following.$count == 0"
+     class="text-center">
+  暂无关注
+</div>
+
 <div class="list-group">
   <a href="#"
      class="list-group-item"
-     ui-sref="user.home({userId: u._id})"
-     ng-repeat="u in following">
-    {{u.name}}
+     ui-sref="user.home({userId: follow.to._id})"
+     ng-repeat="follow in following">
+    {{follow.to.name}}
   </a>
+</div>
+
+<div class="row pagination-row text-center"
+     ng-if="following.$count"
+     ng-show="following.$count > pageConf.itemsPerPage">
+  <pagination total-items="following.$count"
+              ng-model="pageConf.currentPage"
+              items-per-page="pageConf.itemsPerPage"
+              class="pagination-sm bud"
+              ng-change="changePage()"
+              boundary-links="true"
+              rotate="false"
+              max-size="pageConf.maxSize">
+  </pagination>
 </div>

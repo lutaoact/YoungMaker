@@ -15,7 +15,7 @@ angular.module 'maui.components'
 
         ngModelCtrl = ctrls[1]
         scope.selectPage = (page) ->
-          if (page > 0 && page <= scope.totalPages)
+          if page > 0 && page <= scope.totalPages
             ngModelCtrl.$setViewValue(page)
             ngModelCtrl.$render()
 

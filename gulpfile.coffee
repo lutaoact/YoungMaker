@@ -7,6 +7,7 @@ handleError =
   $.notify.onError
     title: "Gulp Error: <%= error.plugin %>"
     message: "<%= error.name %>: <%= error.toString() %>"
+version = (require './package.json').version
 randomstring = require 'randomstring'
 clientDistFolder = 'dist/public'
 serverDistFolder = 'dist/server'
@@ -16,7 +17,7 @@ config =
   qiniu_ak: '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_',
   qiniu_sk: 'qpIv4pTwAQzpZk6y5iAq14Png4fmpYAMsdevIzlv',
   qiniu_cdn_bucket: 'stemcdn',
-  randomCdnPath: 'abc/' #randomstring.generate(6)+'/'
+  randomCdnPath: version.split('.').join('_') + '/' #randomstring.generate(6)+'/'
 
 gulp.task 'clean', ->
   $.del ['.tmp', 'dist']
@@ -357,41 +358,62 @@ gulp.task 'watch', ->
     ]
   .on('change', $.livereload.changed)
 
-gulp.task 'upload', ->
-  $.mergeStream [
-    gulp.src [
-      clientDistFolder + '/**'
-      '!'+clientDistFolder+'/bower_components/**'
-    ]
-    .pipe $.qiniu(
-        accessKey: config.qiniu_ak,
-        secretKey: config.qiniu_sk,
-        bucket: config.qiniu_cdn_bucket,
-        private: false
-      ,
-        dir: 'stem/' + config.randomCdnPath
-      )
-
-    gulp.src [
-      clientDistFolder+'/bower_components/{font-awesome,bootstrap}/**'
-    ]
-    .pipe $.qiniu(
-        accessKey: config.qiniu_ak,
-        secretKey: config.qiniu_sk,
-        bucket: config.qiniu_cdn_bucket,
-        private: false
-      ,
-        dir: 'stem/' + config.randomCdnPath + 'bower_components/'
-      )
+gulp.task 'upload', () ->
+  gulp.src [
+    clientDistFolder + '/**'
+    '!'+clientDistFolder+'/bower_components/**'
   ]
+  .pipe $.qiniu(
+      accessKey: config.qiniu_ak,
+      secretKey: config.qiniu_sk,
+      bucket: config.qiniu_cdn_bucket,
+      private: false
+    ,
+      dir: 'stem/' + config.randomCdnPath
+    )
+
+gulp.task 'upload:bower', () ->
+  gulp.src [
+    clientDistFolder+'/bower_components/{font-awesome,bootstrap,pen}/**'
+  ]
+  .pipe $.qiniu(
+      accessKey: config.qiniu_ak,
+      secretKey: config.qiniu_sk,
+      bucket: config.qiniu_cdn_bucket,
+      private: false
+    ,
+      dir: 'stem/' + config.randomCdnPath + 'bower_components/'
+    )
 
 gulp.task 'cdnify', ->
   gulp.src [
-    clientDistFolder + '/**/*.{css,html}'
+    clientDistFolder + '/**/*.html'
     '!'+clientDistFolder+'/bower_components/**'
   ]
   .pipe $.cdnify(
       base: config.cdn + 'stem/' + config.randomCdnPath
+    )
+  .pipe(gulp.dest(clientDistFolder))
+
+gulp.task 'cdnifyCss', ->
+  gulp.src [
+    clientDistFolder + '/**/*.css'
+    '!'+clientDistFolder+'/bower_components/**'
+  ]
+  .pipe $.cdnify(
+      # base: config.cdn + 'stem/' + config.randomCdnPath
+      rewriter: (url)->
+        if /^\//.test url
+          config.cdn + 'stem/' + config.randomCdnPath + url.substr(1)
+        else if /^..\/assets/.test url
+          config.cdn + 'stem/' + config.randomCdnPath + url.substr(3)
+        else if /^..\/..\/assets/.test url
+          config.cdn + 'stem/' + config.randomCdnPath + url.substr(6)
+        else if /^font\/fontello/.test url
+          config.cdn + 'stem/' + config.randomCdnPath + 'bower_components/pen/src/' + url
+        else
+          $.util.log url
+          url
     )
   .pipe(gulp.dest(clientDistFolder))
 
@@ -423,7 +445,10 @@ gulp.task 'build', ->
     'copy:dist'
     'cssmin' # may cause error
     'uglify'
-    'upload'
+    'cdnify'
+    'cdnifyCss'
+    'upload' # should manually upload
+    'upload:bower' # should manually upload
   )
 
 gulp.task 'dev', ->

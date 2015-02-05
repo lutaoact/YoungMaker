@@ -1,6 +1,6 @@
 {
   "name": "maui",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "main": "server/app.js",
   "dependencies": {
     "async": "^0.9.0",
@@ -22,7 +22,8 @@
     "express-session": "~1.0.2",
     "fileutils": "^0.1.0",
     "gulp-cdnify": "^1.0.0",
-    "gulp-qiniu": "0.0.7",
+    "gulp-qiniu": "git://github.com/cloud3edu/gulp-qiniu.git",
+    "gulp-util": "^3.0.3",
     "jade": "^1.6.0",
     "jsonwebtoken": "^0.3.0",
     "lodash": "~2.4.1",
@@ -60,7 +61,6 @@
     "gulp-iconfont": "^0.2.1",
     "gulp-imagemin": "^1.2.1",
     "gulp-inject": "^1.0.2",
-    "gulp-cdnify": "git://github.com/kaiqigong/gulp-cdnify",
     "gulp-livereload": "^2.1.1",
     "gulp-ng-annotate": "^0.3.3",
     "gulp-replace": "^0.4.0",

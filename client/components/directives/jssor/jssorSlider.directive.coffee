@@ -42,7 +42,11 @@ angular.module('maui.components')
         $ChanceToShow: 1,                               # [Required] 0 Never, 1 Mouse Over, 2 Always
         $AutoCenter: 2,                                 # [Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
         $Steps: 1                                       # [Optional] Steps to go for each navigation request, default value is 1
-
+      $SlideshowOptions:
+        $Class: $JssorSlideshowRunner$,                # [Required] Class to create instance of slideshow
+        $TransitionsOrder: 1,                          # [Optional] The way to choose transition to play slide, 1 Sequence, 0 Random
+        $ShowLink: true                                # [Optional] Whether to bring slide link on top of the slider when slideshow is running, default value is false
+        $Transitions: [{$Duration:1000,x:0.2,$Delay:40,$Cols:12,$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$JssorEasing$.$EaseInOutExpo,$Opacity:$JssorEasing$.$EaseInOutQuad},$Opacity:2,$Outside:true,$Round:{$Top:0.5}}]   # [Required] An array of slideshow transitions to play slideshow
 
     scope.$watch 'jSlider', (value)->
       slider = new $JssorSlider$(element.attr('id'), angular.extend(defaultOpts, scope.jSlider))

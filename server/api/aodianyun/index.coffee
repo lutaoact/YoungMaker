@@ -9,12 +9,7 @@ AodianyunUtils = _u.getUtils 'aodianyun'
 
 router.post "/openThenStart", auth.isAuthenticated(), (req, res, next) ->
   classeId = req.body.classeId
-  AodianyunUtils.getAppQ()
-  .then (appids) ->
-    if _u.contains appids, classeId
-      AodianyunUtils.restartAppQ classeId
-    else
-      AodianyunUtils.openAppQ classeId
+  AodianyunUtils.openThenStart classeId
   .then () ->
     res.send result: 'ok'
   .catch next

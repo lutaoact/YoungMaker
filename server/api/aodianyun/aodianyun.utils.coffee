@@ -10,6 +10,14 @@ openAppUrl    = 'http://openapi.aodianyun.com/v2/LSS.OpenApp'
 restartAppUrl = 'http://openapi.aodianyun.com/v2/LSS.RestartApp'
 
 class AodianyunUtils extends BaseUtils
+  openThenStart: (classeId) ->
+    @getAppQ()
+    .then (appids) =>
+      if _u.contains appids, classeId
+        @restartAppQ classeId
+      else
+        @openAppQ classeId
+
   getApp: (cb) ->
     parameter = JSON.stringify({access_id: APPID, access_key: APPSECRET})
     #json: true这个参数会将相应的body自动解析

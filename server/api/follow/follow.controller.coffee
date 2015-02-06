@@ -1,5 +1,6 @@
 
 Follow = _u.getModel 'follow'
+NoticeUtils = _u.getUtils 'notice'
 WrapRequest = new (require '../../utils/WrapRequest')(Follow)
 
 exports.index = (req, res, next) ->
@@ -37,6 +38,7 @@ exports.follow = (req, res, next) ->
     to  : req.body.to
 
   WrapRequest.wrapCreate req, res, next, data
+  NoticeUtils.addNotice data.to, data.from, Const.NoticeType.FollowUser
 
 
 exports.unfollow = (req, res, next) ->

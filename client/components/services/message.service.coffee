@@ -20,6 +20,9 @@ angular.module 'maui.components'
       when Const.NoticeType.LikeCourseComment
         msg.title = '赞了你的课程：' + raw.data.courseId.title
         msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+      when Const.NoticeType.FollowUser
+        msg.title = '关注了你'
+        msg.link = "user.home({userId:'#{raw.fromWhom._id}'})"
 
     return msg
 

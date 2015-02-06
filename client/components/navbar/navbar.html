@@ -1,62 +1,46 @@
-<div class="container nav-hat">
-  <img src="/assets/images/nav-hat@1x.png" retina-key="/assets/images/nav-hat@2x.png" alt="">
-</div>
 <div class="navbar navbar-main"
      ng-controller="NavbarCtrl">
 
   <div class="container"
        click-outside="switchMenu(true)"
        is-active="!viewState.isCollapsed">
+
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button class="navbar-toggle collapsed"
               ng-click="switchMenu(!viewState.isCollapsed)"
               type="button">
+        <span class="sr-only">戳我</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <a class="navbar-brand" href="/">STEAM</a>
     </div>
 
     <div class="navbar-collapse collapse"
-         collapse="viewState.isCollapsed"
-      >
+         collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-left">
-        <li>
-          <a href="" class="fa fa-square"></a>
-        </li>
-        <li ng-class="{active:isActive('main')}">
-          <a href="/" class="sprite-nav-find"></a>
-        </li>
         <li ng-class="{active:isActive('courseList')}">
-          <a ui-sref="courseList" class="sprite-nav-course"></a>
+          <a ui-sref="courseList">趣课</a>
+        </li>
+        <li ng-class="{active:isActive('groupList')}">
+          <a ui-sref="groupList" >小组</a>
         </li>
       </ul>
 
-      <a class="navbar-logo">
-        <div class="sprite-logo-big"></div>
-      </a>
-
       <ul class="nav navbar-nav navbar-right">
-        <li ng-class="{active:isActive('groupList')}">
-          <a ui-sref="groupList" href="" class="sprite-nav-topic"></a>
-        </li>
-        <li>
-          <a ui-sref="groupList" href="" class="sprite-nav-market"></a>
-        </li>
-        <li ng-if="!isLoggedIn()">
-          <span>
-            <a href="" class="btn btn-xs btn-danger btn-rounded btn-outline" login-window>登录</a>
-          </span>
+        <li  ng-if="!isLoggedIn()">
+          <button type="button" class="login-btn btn btn-xs btn-danger btn-rounded btn-outline navbar-btn" login-window>登录</button>
         </li>
         <li ng-if="isLoggedIn()"
-            dropdown>
-          <a style="margin-right:20px;"
-             class="navbar-avatar dropdown-toggle"
-             dropdown-toggle
-             ng-src="{{me.avatar}}">
-          </a>
-
+            dropdown
+            class="profile-dropdown">
+          <span dropdown-toggle>
+             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar}}">
+             </span>
+             <span>{{me.name}}</span>
+          </span>
           <ul class="dropdown-menu profile-menu" role="menu">
             <li><a ui-sref="user.home({userId:me._id})">
               我的主页</a></li>

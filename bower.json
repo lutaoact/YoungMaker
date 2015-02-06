@@ -35,7 +35,8 @@
     "holderjs": "~2.5.0",
     "rangy": "~1.2.3",
     "showdown": "~0.3.4",
-    "angular-ui-ace": "bower"
+    "angular-ui-ace": "bower",
+    "jssor-slider": "*"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -97,7 +98,7 @@
         "rangy": "^1.2.0"
       }
     },
-    "ace-builds":{
+    "ace-builds": {
       "main": [
         "src-min-noconflict/ace.js"
       ]

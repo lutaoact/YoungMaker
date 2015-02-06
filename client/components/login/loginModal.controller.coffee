@@ -1,84 +1,80 @@
 'use scrict'
 
-angular.module('maui.components').controller 'loginModalCtrl', (
-  $scope,
-  $modal,
-  Auth,
-  notify,
-  $modalInstance,
-  Restangular,
-  $timeout,
-  $interval
+angular.module('maui.components')
+
+.controller 'loginModalCtrl', (
+  Auth
+  $state
+  $scope
+  notify
+  $modal
+  $timeout
+  Restangular
+  $modalInstance
 ) ->
-  maxTimeout = 15
+
+  checkEmailPromise = null
+
   angular.extend $scope,
+    user: {}
     currentPage: "login"
-    checkEmailPromise: null
     viewState:
-      init: true
-      sending: false
-      sent: false
+      posting: false
       errors: null
 
-    changePage: (pageName)->
+    cancel: ->
+      $modalInstance.dismiss('cancel')
+
+    changePage: (pageName) ->
+      if pageName == 'forget'
+        $modalInstance.dismiss('cancel')
+        $state.go('forgot')
+        return
       $scope.currentPage = pageName
-    user: {}
-    errors: {}
+
     login: (form) ->
       if !form.$valid then return
-      $scope.loggingIn = true
-      # Logged in, redirect to home
+      $scope.viewState.posting = true
+      $scope.viewState.errors = null
       Auth.login(
         email: $scope.user.email
         password: $scope.user.password
-      ).then ->
-        $scope.loggingIn = false
+      ).then (me) ->
         $modalInstance.close()
-      , (error)->
-        console.log error
-        $scope.loggingIn = false
-        $scope.viewState.errors =
-          data: "用户名或密码错误"
+        $scope.viewState.posting = false
+      .catch (error) ->
+        $scope.viewState.errors = error
+        $scope.viewState.posting = false
 
     signup: (form) ->
       if !form.$valid then return
+      $scope.viewState.posting = true
+      $scope.viewState.errors = null
       Restangular.all('users').post
         name: $scope.user.name
         email: $scope.user.email
         password: $scope.user.password
       .then (res)->
         Auth.setToken res.token
+        $scope.viewState.posting = false
+        notify
+          message: "注册成功"
+          classes: 'alert-success'
         $modalInstance.close()
       .catch (err) ->
-        console.log err
-        err = err.data
-        $scope.errors = {}
-
+        $scope.viewState.posting = false
+        $scope.viewState.errors = err?.data?.errors
         # Update validity of form fields that match the mongoose errors
         angular.forEach err.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
 
-    sendVerifyEmail: (form) ->
-      if !form.$valid then return
-      $scope.viewState.init = false
-      $scope.viewState.sending = true
-      $scope.viewState.errors = null
-      Restangular.all('users').customPOST(email:$scope.user.email, 'forgotPassword')
-      .then ->
-        $scope.viewState.sent = true
-        $scope.viewState.sending = false
-        countTimeout()
-      .catch (errors) ->
-        $scope.viewState.sending = false
-        $scope.viewState.errors = errors
-
     checkEmail: (email)->
-      $timeout.cancel($scope.checkEmailPromise)
+      $timeout.cancel(checkEmailPromise)
       if email.$modelValue
         email.$remoteChecked = 'pending'
         email.$setValidity 'remote', true
-        $scope.checkEmailPromise = $timeout ->
+        checkEmailPromise = $timeout ->
           Restangular.one('users','check').get(email: email.$modelValue)
           .then (data)->
             email.$setValidity 'remote', true
@@ -87,10 +83,3 @@ angular.module('maui.components').controller 'loginModalCtrl', (
             email.$setValidity 'remote', false
             email.$remoteChecked = false
         , 800
-
-    timeout: 0
-    countTimeout = ->
-      $scope.timeout = maxTimeout
-      $interval ->
-        $scope.timeout -= 1
-      , 1000, maxTimeout

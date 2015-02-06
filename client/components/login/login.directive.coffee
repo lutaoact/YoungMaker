@@ -16,7 +16,7 @@ angular.module('maui.components')
         $modal.open
           templateUrl: 'components/login/loginModal.html'
           controller: 'loginModalCtrl'
-          windowClass: 'center-modal'
+          windowClass: 'login-window-modal'
         .result.then ->
           scope.loginSuccess?()
       else

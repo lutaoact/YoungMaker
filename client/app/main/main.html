@@ -1,21 +1,55 @@
 <div class="discover">
-  <div class="container discover-search">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="sprite-search-bar-hat"></div>
+
+  <div j-slider class="j-carousels">
+    <div u="loading" class="carousels-loading" style="">
+      <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
+      top: 0px; left: 0px; width: 100%; height: 100%;">
+      </div>
+      <div style="position: absolute; display: block; background: url(/assets/images/loading.gif) no-repeat center center;
+      top: 0px; left: 0px; width: 100%; height: 100%;">
+      </div>
     </div>
-    <div class="col-md-8 col-md-offset-2">
-      <form>
-        <div class="input-group input-group-lg">
-          <input type="text" class="form-control">
-          <!-- hack to let the input keep rounded :( -->
-          <div class="sprite-search-bar-addon"></div>
-          <span class="input-group-btn">
-            <button class="btn btn-primary" type="button">搜索</button>
-          </span>
-        </div>
-      </form>
+    <!-- Slides Container -->
+    <div u="slides" class="slides">
+      <div>
+        <img u="image" src="http://lorempixel.com/1400/600/?r=1">
+      </div>
+      <div>
+        <img u="image" src="http://lorempixel.com/1400/600/?r=2">
+      </div>
+      <div>
+        <img u="image" src="http://lorempixel.com/1400/600/?r=3">
+      </div>
+      <div>
+        <img u="image" src="http://lorempixel.com/1400/600/?r=4">
+      </div>
+      <div>
+        <img u="image" src="http://lorempixel.com/1400/600/?r=5">
+      </div>
+      <div>
+        <img u="image" src="http://lorempixel.com/1400/600/?r=6">
+      </div>
+
+      <!-- static content -->
+      <div u="any" class="search-form">
+        <input type="text" placeholder="Search..." class="form-control">
+      </div>
     </div>
+
+    <!-- bullet navigator container -->
+    <div u="navigator" class="bullet-square" style="position: absolute; bottom: 26px; left: 6px;">
+      <!-- bullet navigator item prototype -->
+      <div u="prototype" style="POSITION: absolute; WIDTH: 19px; text-align:center; line-height:19px; color:White; font-size:12px;"></div>
+    </div>
+
+    <!-- Arrow Left -->
+    <span u="arrowleft" class="arrow-left fa fa-chevron-left">
+    </span>
+    <!-- Arrow Right -->
+    <span u="arrowright" class="arrow-right fa fa-chevron-right">
+    </span>
   </div>
+
   <div class="discover-body">
     <div class="container">
       <!-- recommended articles -->

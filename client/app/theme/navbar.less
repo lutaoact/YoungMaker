@@ -1,55 +1,34 @@
-.nav-hat{
-  img{
-    width: 100%;
-  }
-}
 .navbar-main{
-  @navbar-height: 46px;
-  &.navbar{
-    background-color: #47d5bb;
-    height: @navbar-height;
-    min-height: 46px;
-    margin-bottom: 40px;
+  color: #FFF;
+  background: @base-color;
+  border-radius: 0;
+  border: none;
+  .box-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+  .login-btn{
+    margin-left: 15px;
   }
-  .navbar-nav {
-    > li > a {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      &[class^="sprite-"]{
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-left: 40px;
-        margin-right: 40px;
-      }
-      &:focus{
-        background-color: transparent;
-      }
-    }
-    > li.active{
-      background-color: rgba(255, 255, 255, 0.5);
-    }
-    .navbar-avatar {
-      cursor: pointer;
-      .avatar(36px);
-      margin-top: ((@navbar-height - 36px) / 2) !important;
-      margin-bottom: ((@navbar-height - 36px) / 2) !important;
-      &:hover{
-        border:none;
-      }
+  a, li > a {
+    color: #FFF;
+    &:hover, &:focus{
+      color: #FFF;
+      background-color: transparent;
     }
   }
-  .navbar-logo{
-    margin: -45px 0 0 -75px;
-    display: block;
-    position: absolute;
-    width: 150px;
-    height: 130px;
-    padding: 10px;
-    left: 50%;
-    text-align: center;
-    background: #fff;
-    border-radius: 100px;
-    .sprite-logo-big{
+  .navbar-toggle{
+    .icon-bar{
+      background: #FFF;
     }
+  }
+  .profile-dropdown{
+    padding-left: 15px;
+    padding-top: 10px;
+    span{
+      vertical-align: top;
+      line-height: 30px;
+    }
+  }
+  .navbar-avatar{
+    margin-right: 10px;
+    display: inline-block;
   }
 }

@@ -1,5 +1,5 @@
 <div class="article-tile">
-  <div ng-if="article.image" ng-src="{{article.image}}" class="article-image pull-right"></div>
+  <div ng-if="article.image" ng-src="{{article.image | trusted:'url'}}" class="article-image pull-right"></div>
   <h4 class="article-title">
     <a href=""
        ui-sref="articleDetail({articleId: article._id})">

@@ -30,6 +30,7 @@ module.exports = (app) ->
   app.use '/api/activities', require './api/activity'
   app.use '/auth', require './auth'
   app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
+  app.use '/api/aodianyuns', require './api/aodianyun'
   app.use errorHandler
 
   # All undefined asset or api routes should return a 404

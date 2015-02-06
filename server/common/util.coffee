@@ -84,3 +84,12 @@ render = (path, locals) ->
   return ejs.render fileString, locals
 
 exports.render = render
+
+contains = (ids, target) ->
+  targetStr = target.toString()
+  for i in [0...ids.length]
+    if ids[i].toString() is targetStr then return true
+
+  return false
+
+exports.contains = contains

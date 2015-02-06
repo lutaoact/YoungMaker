@@ -5,10 +5,9 @@ angular.module('mauiApp')
   $scope
   $state
   notify
+  $filter
   Restangular
 ) ->
-
-  console.log 'article editor...'
 
   angular.extend $scope,
     article: null
@@ -19,14 +18,9 @@ angular.module('mauiApp')
         focus 'articleContent'
         return
 
-      # TODO refactor -> html1stImage.filter.coffee
-      FIRST_IMG_R = /.*<img src="([^"]*)"[^>]*>.*/g
-      imageResult = (FIRST_IMG_R.exec $scope.article.content)
-      if imageResult?.length > 0
-        firstImage = imageResult[1]
-      else
-        firstImage = null
-      $scope.article.image = firstImage
+      # Get First Image
+      images = $filter('images')($scope.article.content)
+      $scope.article.image = images[0]?.src
 
       if $scope.article._id
         Restangular.one('articles', $scope.article._id)
@@ -42,7 +36,6 @@ angular.module('mauiApp')
             message: '保存话题出错啦：' + error
             classes: 'alert-danger'
       else
-        $scope.article.group = $state.params.groupId
         Restangular.all('articles')
         .post($scope.article)
         .then ->
@@ -68,4 +61,5 @@ angular.module('mauiApp')
         message: '话题不存在或者已经删除：' + error
         classes: 'alert-danger'
   else
-    $scope.article = {}
+    $scope.article =
+      group: $state.params.groupId

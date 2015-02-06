@@ -1,0 +1,71 @@
+<div class="reset">
+  <div class="container">
+    <div class="row">
+      <div class="header text-center">
+        <h3>登录密码重置</h3>
+      </div>
+      <div class="content col-md-8 col-md-offset-2"
+           ng-if="viewState.reseted">
+        <label>密码重置成功，请重新登录</label>
+        <p class="text-muted">
+          马上登录，刻不容缓，学霸养成需要勤学苦练，现在就开始学习吧。
+        </p>
+        <div class="btn-group">
+          <a class="btn btn-danger" ui-sref="main">马上登录</a>
+        </div>
+      </div>
+      <form class="form content col-md-8 col-md-offset-2"
+            ng-show="!viewState.reseted"
+            ng-submit="resetPassword(form)"
+            name="form">
+        <div class="form-group">
+          <label for="pwd-input" class="control-label">设置密码：</label>
+          <input type="password"
+                 id="pwd-input"
+                 name="password"
+                 class="form-control"
+                 min-length="6"
+                 ng-change="checkPasswordAgain(form.password, form.passwordAgain)"
+                 placeholder="请输入您的新登录密码"
+                 ng-model="password"
+                 required/>
+        </div>
+        <div class="form-group">
+          <label for="confirm-input" class="control-label">
+            确认密码：
+            <span class="text-danger"
+               ng-show="form.passwordAgain.$error.sameWith">
+              (两次输入密码不一致)
+            </span>
+            <span class="text-danger"
+               ng-show="viewState.errors">
+              ({{viewState.errors.data}})
+            </span>
+          </label>
+          <input type="password"
+                 name="passwordAgain"
+                 id="confirm-input"
+                 class="form-control"
+                 min-length="6"
+                 ng-blur="checkPasswordAgain(form.password, form.passwordAgain)"
+                 placeholder="请再次输入您的新登录密码"
+                 ng-model="passwordConfirm"
+                 required/>
+        </div>
+        <div class="form-group content-footer">
+          <a ui-sref="main">返回</a>
+          <button type="submit" class="btn btn-danger pull-right">
+            <span ng-if="viewState.resetting">
+              <i class="fa fa-spin fa-spinner"></i>
+              重设中
+            </span>
+            <span ng-show="!viewState.resetting">
+              确认
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

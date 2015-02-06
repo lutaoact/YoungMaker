@@ -1,0 +1,31 @@
+
+.btn-outline{
+  background: transparent;
+  color: inherit;
+  transition: all .5s;
+  &:hover, &:focus{
+    color: #FFF;
+  }
+  .outlined(@type){
+    &.btn-@{type}{
+      @brand-type: `"brand-" + "@{type}"`;
+      color: @@brand-type;
+      border-color: @@brand-type;
+      &:hover, &:focus{
+        color: #FFF;
+        background-color: @@brand-type;
+      }
+    }
+  }
+  @types: primary, warning, info, success, danger;
+  .-(@i: length(@types)) when (@i > 0) {
+        @type: e(extract(@types, @i));
+        .outlined(@type);
+        .-((@i - 1));
+    } .-;
+
+}
+
+.btn-rounded {
+  border-radius: 50px;
+}

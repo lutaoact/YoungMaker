@@ -45,7 +45,9 @@
           <a ui-sref="groupList" href="" class="sprite-nav-market"></a>
         </li>
         <li ng-if="!isLoggedIn()">
-          <a href="" class="login" login-window>登录</a>
+          <span>
+            <a href="" class="btn btn-xs btn-danger btn-rounded btn-outline" login-window>登录</a>
+          </span>
         </li>
         <li ng-if="isLoggedIn()"
             dropdown>

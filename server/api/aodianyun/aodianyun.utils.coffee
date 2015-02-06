@@ -7,6 +7,7 @@ request = require 'request'
 
 getAppUrl     = 'http://openapi.aodianyun.com/v2/LSS.GetApp'
 openAppUrl    = 'http://openapi.aodianyun.com/v2/LSS.OpenApp'
+closeAppUrl   = 'http://openapi.aodianyun.com/v2/LSS.CloseApp'
 restartAppUrl = 'http://openapi.aodianyun.com/v2/LSS.RestartApp'
 
 class AodianyunUtils extends BaseUtils
@@ -46,6 +47,22 @@ class AodianyunUtils extends BaseUtils
 
   openAppQ: () ->
     return Q.nfapply (Q.nbind @openApp, @), arguments
+
+  closeApp: (classeId, cb) ->
+    parameter = JSON.stringify(
+      access_id: APPID
+      access_key: APPSECRET
+      appid: classeId
+    )
+    #json: true这个参数会将相应的body自动解析
+    request.post closeAppUrl, {form: {parameter: parameter}, json: true}, (err, res, body) ->
+      if err then return cb err
+      unless body.Flag is 100 then return cb body.FlagString #body.Flag不为100，则表示出错
+
+      cb()
+
+  closeAppQ: () ->
+    return Q.nfapply (Q.nbind @closeApp, @), arguments
 
   restartApp: (classeId, cb) ->
     parameter = JSON.stringify(

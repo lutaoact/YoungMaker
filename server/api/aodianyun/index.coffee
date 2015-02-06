@@ -15,4 +15,12 @@ router.post "/openThenStart", auth.isAuthenticated(), (req, res, next) ->
   .catch next
   .done()
 
+router.post "/close", auth.isAuthenticated(), (req, res, next) ->
+  classeId = req.body.classeId
+  AodianyunUtils.closeAppQ classeId
+  .then () ->
+    res.send result: 'ok'
+  .catch next
+  .done()
+
 module.exports = router

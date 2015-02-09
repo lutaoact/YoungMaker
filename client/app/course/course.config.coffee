@@ -10,7 +10,7 @@ angular.module('mauiApp')
     controller: 'CourseDetailCtrl'
 
   .state 'courseList',
-    url: '/courses'
+    url: '/courses?page&keyword&category&sort&tags&createdBy'
     templateUrl: 'app/course/courseList/courseList.html'
     controller: 'CourseListCtrl'
 

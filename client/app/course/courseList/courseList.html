@@ -1,13 +1,32 @@
 <div class="course-list">
   <div class="container">
+    <div class="row">
+      <div class="col-md-9 clearfix">
+        <div class="pull-left dropdown category-dropdown" style="position:relative;">
+          <a class="btn dropdown-toggle panel panel-card">
+            {{getCategoryName(pageConf.category)||'全部'}}
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="category in categories">
+              <a href="" ng-click="pageConf.category=category._id;reload(true)">
+                {{category.name}}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="pull-right">
+        </div>
+      </div>
+    </div>
     <div class="panel panel-card clearfix col-md-9">
-      <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
+      <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
         <course-tile course="course" me="me"></course-tile>
       </div>
     </div>
 
-    <div class="row pagination-row text-center"
-         ng-if="courses.$count > pageConf.itemsPerPage">
+    <div class="panel panel-card clearfix  text-center col-md-9"
+      ng-if="courses.$count > pageConf.itemsPerPage">
       <pagination
         total-items="courses.$count"
         ng-model="pageConf.currentPage"
@@ -19,6 +38,7 @@
         max-size="pageConf.maxSize">
       </pagination>
     </div>
+
   </div>
 
   <div class="container">

@@ -23,6 +23,7 @@ module.exports = (app) ->
   app.use '/api/comments', require './api/comment'
   app.use '/api/courses', require './api/course'
   app.use '/api/groups', require './api/group'
+  # app.use '/api/categories', require './api/category'
   app.use '/api/favorites', require './api/favorite'
   app.use '/api/assets', require './api/asset'
   app.use '/api/follows', require './api/follow'

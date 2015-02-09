@@ -1,5 +1,8 @@
 <div class="article-tile">
-  <div ng-if="article.image" ng-src="{{article.image | trusted:'url'}}" class="article-image pull-right"></div>
+  <div ng-if="article.image"
+       ng-src="{{article.image | trusted:'url'}}"
+       class="article-image pull-right">
+  </div>
   <h4 class="article-title">
     <a href=""
        ui-sref="articleDetail({articleId: article._id})">
@@ -9,41 +12,37 @@
   <p class="article-summary text-muted">
     {{article.content|htmlToPlaintext}}
   </p>
-  <hr>
-  <div class="article-info">
-    <span>
+  <ul class="ul-inline">
+    <li class="user-info">
+      <div class="avatar-xs"
+           ng-src="{{article.author.avatar}}">
+      </div>
       <a href="" ui-sref="user.home({userId: article.author._id})">
         {{article.author.name}}
       </a>
-    </span>
-    <span class="text-muted" ng-if="article.group">发布于</span>
-    <span ng-if="article.group">
-      <a ui-sref="groupDetail.articleList({groupId: article.group._id})">{{article.group.title}}&#183;</a>
-    </span>
-    <span ng-if="article.column">
-      专栏－{{article.column.name}}&#183;
-    </span>
-    <span class="text-muted">
-     {{article.created | moment: 'fromNow'}}
-    </span>
-    <span class="text-muted">|</span>
-    <span class="text-muted">
-      <i class="fa fa-star"></i>
-      {{article.likeUsers.length||0}}
-    </span>
-    <span class="text-muted">|</span>
-    <span class="text-muted">
+    </li>
+    <li ng-if="article.column">
+      专栏－{{article.column.name}}
+    </li>
+    <li ng-if="article.group">
+      发布于<a ui-sref="groupDetail.articleList({groupId: article.group._id})">{{article.group.title}}</a>
+    </li>
+    <li>
+      {{article.created | moment: 'fromNow'}}
+    </li>
+    <li>
       <i class="fa fa-comment"></i>
       {{article.commentsNum||0}}
-    </span>
-  </div>
+    </li>
+    <li>
+      <i class="fa fa-star"></i>
+      {{article.likeUsers.length||0}}
+    </li>
+  </ul>
+
   <vote-box entity="article" me="me">
   </vote-box>
 
-  <a class="share-btn btn btn-primary btn-sm">
-    <i class="budon budon-send"></i>
-    {{article.shareNum||0}}
-  </a>
   <div dropdown
        class="actions-dropdown"
        ng-if="me._id==article.author._id">

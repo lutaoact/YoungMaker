@@ -86,6 +86,26 @@ exports.check = (req, res, next) ->
   .done()
 
 
+exports.num = (req, res, next) ->
+  Follow = _u.getModel 'follow'
+  Course = _u.getModel 'course'
+  Article = _u.getModel 'article'
+  Q.all [
+    Follow.countQ {from: req.query.userId}
+    Follow.countQ {to: req.query.userId}
+    Article.countQ {author: req.query.userId, deleteFlag: {$ne: true}}
+    Course.countQ {author: req.query.userId, deleteFlag: {$ne: true}}
+  ]
+  .spread (numFollowings, numFollowers, numArticles, numCourses) ->
+    res.send
+      numFollowings: numFollowings
+      numFollowers : numFollowers
+      numArticles  : numArticles
+      numCourses   : numCourses
+  .catch next
+  .done()
+
+
 ###
   Get a single user by email
 ###

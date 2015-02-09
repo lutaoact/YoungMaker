@@ -1,15 +1,15 @@
 <div class="course-tile clearfix">
-  <div class="course-cover-image" ng-src="{{course.image}}">
+  <div class="course-cover-image" ng-src="{{course.image}}" ui-sref="courseDetail({courseId:course._id})">
   </div>
   <vote-box class="pull-left" entity="course" me="me"></vote-box>
   <div>
-    <h4 class="course-title">
+    <h4 class="course-title" ui-sref="courseDetail({courseId:course._id})" title="{{course.title}}">
       <small class="pull-right comments-count text-muted" style="font-size: 14px;">
         <i class="fa fa-comment"></i>&nbsp;{{course.commentsNum||0}}
       </small>
       {{course.title}}
     </h4>
-    <p class="course-summary text-muted">
+    <p class="course-summary text-muted" ui-sref="courseDetail({courseId:course._id})" title="该课程有{{course.steps.length}}个步骤">
       {{course.content|htmlToPlaintext}}
     </p>
   </div>

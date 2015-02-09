@@ -8,7 +8,12 @@
   max-width: 290px;
   .course-title{
     .text-overflow();
+    cursor: pointer;
     padding-right: 50px;
+    .transition();
+    &:hover{
+      opacity: 0.7;
+    }
     .comments-count{
       font-size: 14px;
       margin-right: -50px;
@@ -19,6 +24,7 @@
   }
   .course-summary{
     .text-overflow();
+    cursor: pointer;
   }
   .course-cover-image{
     height: 210px;
@@ -28,5 +34,10 @@
     background-position: center;
     margin-bottom: 5px;
     display: inline-block;
+    cursor: pointer;
+    .transition();
+    &:hover{
+      opacity: 0.7;
+    }
   }
 }

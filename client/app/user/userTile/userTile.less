@@ -1,35 +1,39 @@
-.user-tile{
-  .box-shadow(@tile-shadow);
-  padding: 16px;
-  .avatar-lg{
+.user-tile {
+  .avatar-lg {
     margin-top: 10px;
   }
-  .user-name{
-    text-transform: uppercase;
-    text-decoration: none;
-    color:#333;
-    .transition(all .13s linear);
-    &:hover{
-      color: @base-color;
+  .user-name {
+    .text-overflow();
+    a {
+      .text-overflow();
+      text-decoration: none;
+      color: #333;
+      display: block;
+      padding-top: 15px;
+      padding-bottom: 5px;
+      .transition(all .13s linear);
+      &:hover {
+        color: @base-color;
+      }
     }
   }
-  .follow-btn{
+  .follow-btn {
     height: 26px;
     margin-top: 8px;
     margin-bottom: 14px;
     padding: 3px 10px;
   }
-  hr{
-    margin-bottom: 6px;
-    margin-top: 6px;
+  hr {
+    margin-bottom: 15px;
+    margin-top: 20px;
   }
-  .user-status{
+  .user-status {
     font-size: 0;
-    .status{
+    .status {
       font-size: 14px;
-      width: 33%;
+      width: 25%;
       display: inline-block;
-      .number{
+      .number {
         color: @base-color;
         font-size: 20px;
       }

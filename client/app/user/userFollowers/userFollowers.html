@@ -13,6 +13,9 @@
      class="list-group-item"
      ui-sref="user.home({userId: follow.from._id})"
      ng-repeat="follow in followers">
+    <div class="avatar-xs inline-block-middle"
+         ng-src="{{follow.from.avatar}}">
+    </div>
     {{follow.from.name}}
   </a>
 </div>

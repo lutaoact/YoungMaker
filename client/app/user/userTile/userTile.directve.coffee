@@ -16,8 +16,7 @@ angular.module('mauiApp').directive 'userTile', ->
   ) ->
 
     angular.extend $scope,
-      numFollower: null
-      numFollowing: null
+      userData: null
       follow: null
 
       toggleFollow: ->
@@ -44,11 +43,10 @@ angular.module('mauiApp').directive 'userTile', ->
 
       # 检查该用户的粉丝数，关注数
       Restangular
-        .one('follows', 'num')
+        .one('users', 'num')
         .get(userId: $state.params.userId)
         .then (data) ->
-          $scope.numFollower = data.numFollower
-          $scope.numFollowing = data.numFollowing
+          $scope.userData = data
 
     $scope.$watch 'me', refresh
 

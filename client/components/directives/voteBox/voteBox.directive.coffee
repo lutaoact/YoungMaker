@@ -5,10 +5,12 @@ angular.module('maui.components').directive 'voteBox', ->
   restrict: 'E'
   replace: true
   scope:
+    me: '='
     entity: '='
 
   controller: ($scope, notify)->
     angular.extend $scope,
+
       stopPropagation: ($event)->
         $event.stopPropagation()
 

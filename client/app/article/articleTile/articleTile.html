@@ -37,17 +37,8 @@
       {{article.commentsNum||0}}
     </span>
   </div>
-
-  <div class="vote-area">
-    <i class="fa fa-heart toggle"
-       login-window
-       login-success="toggleVote()"
-       ng-class="{'active':article.likeUsers.indexOf(me._id)>=0}"
-       ng-click="stopPropagation($event)"></i>
-    <div>
-      {{article.likeUsers.length||0}}
-    </div>
-  </div>
+  <vote-box entity="article">
+  </vote-box>
 
   <a class="share-btn btn btn-primary btn-sm">
     <i class="budon budon-send"></i>

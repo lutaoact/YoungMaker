@@ -15,11 +15,6 @@ angular.module('mauiApp').directive 'articleTile', ->
       stopPropagation: ($event)->
         $event.stopPropagation()
 
-      toggleVote: ()->
-        $scope.article.one('like').post()
-        .then (res)->
-          $scope.article.likeUsers = res.likeUsers
-
       toggleCollect: ()->
         $scope.article.one('like').post()
         .then (res)->

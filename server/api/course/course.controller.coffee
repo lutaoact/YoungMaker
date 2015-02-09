@@ -27,4 +27,4 @@ exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapDestroy req, res, next, conditions
 
-exports.like = WrapRequest.wrapLike
+exports.like = WrapRequest.wrapLike.bind WrapRequest

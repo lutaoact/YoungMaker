@@ -1,12 +1,29 @@
-<div class="container">
-  <div class="col-lg-12">
-  <!-- todo: change course url -->
-    <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
-      <course-tile course="course" me="me"></course-tile>
+<div class="course-list">
+  <div class="container">
+    <div class="panel panel-card clearfix col-md-9">
+      <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses" ui-sref="courseDetail({courseId:course._id})">
+        <course-tile course="course" me="me"></course-tile>
+      </div>
+    </div>
+
+    <div class="row pagination-row text-center"
+         ng-if="courses.$count > pageConf.itemsPerPage">
+      <pagination
+        total-items="courses.$count"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        ng-change="reload()"
+        max-size="pageConf.maxSize">
+      </pagination>
     </div>
   </div>
+
+  <div class="container">
+    <a ui-sref="courseEditor" login-window class="btn btn-default">创建课程</a>
+  </div>
+
 </div>
 
-<div class="container">
-  <a ui-sref="courseEditor" login-window class="btn btn-default">创建课程</a>
-</div>

@@ -29,8 +29,8 @@ angular.module('maui.components')
         penEl.html(ngModel.$viewValue)
       else
         penEl.html('')
-      penEl.off 'keydown', extractContent
-      penEl.on 'keydown', extractContent
+      penEl.off 'keyup', extractContent
+      penEl.on 'keyup', extractContent
       element.find("img").off 'click', imgHandle
       element.find("img").on 'click', imgHandle
     extractContent = ()->

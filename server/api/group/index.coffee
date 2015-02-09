@@ -13,7 +13,8 @@ router.patch "/:id",  auth.isAuthenticated(), controller.update
 router.delete "/:id", auth.isAuthenticated(), controller.destroy
 
 #扩展
-router.post "/:id/join",  auth.isAuthenticated(), controller.joinOrLeave
-router.post "/:id/leave", auth.isAuthenticated(), controller.joinOrLeave
+router.post "/:id/join",   auth.isAuthenticated(), controller.joinOrLeave
+router.post "/:id/leave",  auth.isAuthenticated(), controller.joinOrLeave
+router.get "/:id/members", controller.showMembers
 
 module.exports = router

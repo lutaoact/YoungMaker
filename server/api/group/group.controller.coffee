@@ -67,3 +67,15 @@ exports.joinOrLeave = (req, res, next) ->
     res.send group
   .catch next
   .done()
+
+
+# TODO: paginate this!
+exports.showMembers = (req, res, next) ->
+  conditions = {_id: req.params.id}
+  Group.findOne conditions
+  .populate 'members', 'name avatar'
+  .execQ()
+  .then (doc) ->
+    res.send doc.members
+  .catch next
+  .done()

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container group-detail">
   <div class="row">
     <div class="col-md-9 col-sm-12" >
       <form class="form-horizontal"
@@ -88,7 +88,39 @@
       </div>
     </div>
     <div class="col-md-3">
-      小组信息
+      <div class="group-info">
+        <div class="group-logo" ng-src="{{group.avatar}}">  </div>
+        <div class="group-body">
+          <h4 class="group-title">
+            {{group.title}}
+          </h4>
+          <p class="group-disc text-muted">
+            {{group.description}}
+          </p>
+          <div ng-switch="getRole()">
+            <div ng-switch-when='creator'>我是小组组长</div>
+            <div ng-switch-when='member'>我是小组成员&nbsp;> <a href="" ng-click="leaveGroup()">退出</a></div>
+            <div ng-switch-default><button class="btn btn-sm btn-outline btn-success" login-window login-success="joinGroup()">加入</button></div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="group-members">
+          <h5 class="group-stat text-overflow">
+            {{group.members.length}}个成员
+          </h5>
+          <div class="member" ng-repeat="member in groupMembers">
+            <div class="avatar-md"
+                 title="{{member.name}}"
+                 source-attr="background-image"
+                 src-key="member.avatar"
+                 suffix="?imageView2/1/w/64/h/64"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

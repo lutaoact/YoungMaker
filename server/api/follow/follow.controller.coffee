@@ -11,20 +11,6 @@ exports.index = (req, res, next) ->
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 
-#exports.num = (req, res, next) ->
-#  Q.all [
-#    Follow.countQ {from: req.query.userId}
-#    Follow.countQ {to: req.query.userId}
-#  ]
-#  .spread (numFollowing, numFollower) ->
-#    res.send
-#      numFollowing: numFollowing
-#      numFollower : numFollower
-#  .catch next
-#  .done()
-#
-
-
 exports.show = (req, res, next) ->
   conditions =
     from: req.user._id

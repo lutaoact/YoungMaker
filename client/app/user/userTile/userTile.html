@@ -1,12 +1,14 @@
-<div class="user-tile text-center">
-  <div class="avatar-lg"></div>
-  <h4>
-    <a href="" ui-sref="user.home({userId: user._id})" class="user-name">
+<div class="panel panel-card user-tile">
+  <div class="avatar-lg"
+       ng-src="{{user.avatar}}"
+       style="cursor: pointer"
+       ui-sref="user.home({userId:user._id})"></div>
+  <h4 class="user-name">
+    <a href=""
+       ui-sref="user.home({userId: user._id})">
       {{user.name}}
-    </a><br>
-    <small>
-      {{user.info}}
-    </small>
+    </a>
+    <small>{{user.info}}</small>
   </h4>
   <button login-window
           login-success="toggleFollow()"
@@ -24,13 +26,25 @@
     <div class="status">
       关注
       <div class="number">
-        <a href ui-sref="user.following({userId:user._id})">{{numFollowing}}</a>
+        <a href ui-sref="user.following({userId:user._id})">{{userData.numFollowings}}</a>
       </div>
     </div>
     <div class="status">
       粉丝
       <div class="number">
-        <a href ui-sref="user.followers({userId:user._id})">{{numFollower}}</a>
+        <a href ui-sref="user.followers({userId:user._id})">{{userData.numFollowers}}</a>
+      </div>
+    </div>
+    <div class="status">
+      课程
+      <div class="number">
+        <a href ui-sref="user.courses({userId:user._id})">{{userData.numCourses}}</a>
+      </div>
+    </div>
+    <div class="status">
+      文章
+      <div class="number">
+        <a href ui-sref="user.articles({userId:user._id})">{{userData.numArticles}}</a>
       </div>
     </div>
   </div>

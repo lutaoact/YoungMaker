@@ -1,75 +1,80 @@
 /**  discover article tile. todo: responsive */
-.article-tile{
+.article-tile {
   position: relative;
   background: #FFF;
-  padding: 20px 66px;
-  .box-shadow(@tile-shadow);
+  padding: 20px 20px 20px 30px;
   width: 100%;
-  margin: 0 0 16px;
+  border: 1px solid #d8d8d8;
+  +.article-tile {
+    border-top: none;
+  }
 
-  .article-image{
-    height: 94px;
+  .article-image {
+    height: 60px;
     width: 94px;
-    margin-right: 40px;
+    margin-top: 10px;
+    margin-right: 10px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
-  .article-title{
+  .article-title {
     margin-top: 5px;
     margin-bottom: 14px;
-    a{
+    a {
       color: #333;
-      &:hover{
+      &:hover {
         color: @base-color;
       }
     }
     .text-overflow();
   }
-  .article-summary{
-    /** height: 40px; */
+  .article-summary {
     max-height: 40px;
-    overflow: hidden;
+    .text-overflow();
   }
-  hr{
+  hr {
     margin-top: 23px;
   }
-  .article-info{
-    span{
-      font-size: 12px;
-      .fa{
-
+  .article-info {
+    padding: 0;
+    display: inline;
+    li {
+      a {
+        color: #333;
+        &:hover {
+          color: @base-color;
+        }
       }
-      margin: 0 8px;
+      font-size: 12px;
+      display: inline;
+      + li {
+        .text-muted;
+        &:before {
+          margin-right: 3px;
+          content: '•';
+          padding: 0 3px;
+          color: #BBB;
+          display: inline-block;
+          font-family: Arial;
+        }
+      }
     }
-    .avatar-xs{
+    .avatar-xs {
       display: inline-block;
       vertical-align: middle;
     }
   }
-  .vote-box{
+  .vote-box {
     position: absolute;
     top: 24px;
     left: 16px;
   }
-  .share-btn{
-    text-align: left;
-    position: absolute;
-    right: -1px;
-    bottom: 14px;
-    width:63px;
-    border-radius: 0;
-    .budon-send{
-      font-size: 18px;
-      margin-top: -4px;
-      margin-right: 5px;
-    }
-  }
-  .actions-dropdown{
+  .actions-dropdown {
     position: absolute;
     top: 0;
     right: 0;
-    .dropdown-menu{
+    .dropdown-menu {
       min-width: 100px;
       left: auto;
       right: 0px;

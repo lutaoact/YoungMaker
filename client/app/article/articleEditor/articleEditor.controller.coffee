@@ -45,7 +45,7 @@ angular.module('mauiApp')
           if $state.params.groupId?
             $state.go 'groupDetail.articleList', groupId: $state.params.groupId
           else
-            $state.go 'user.home', userId: $scope.me._id
+            $state.go 'user.articles', userId: $scope.me._id
 
     deleteArticle: ->
       $scope.article.remove().then ->

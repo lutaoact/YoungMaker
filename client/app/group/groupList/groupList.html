@@ -13,7 +13,7 @@
           </search-input>
           <span ng-if="me">
             <button class="btn btn-sm btn-danger pull-right"
-                    ui-sref="groupNew">
+                    ng-click="createGroup()">
               <i class="fa fa-plus-circle"></i>
               新建小组
             </button>
@@ -34,7 +34,7 @@
   </div>
   <div class="container">
     <div class="all-groups clearfix col-md-12">
-      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="group in groups">
+      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" ng-repeat="group in groups">
         <group-tile group="group"></group-tile>
       </div>
     </div>

@@ -5,7 +5,7 @@ angular.module('mauiApp')
   $scope
   $state
   Restangular
-  notify
+  $modal
 ) ->
 
   angular.extend $scope,
@@ -18,6 +18,18 @@ angular.module('mauiApp')
 
     viewState:
       keyword: $state.params.keyword ? ''
+
+    createGroup: ()->
+      $modal.open
+        templateUrl: 'app/group/editGroup/editGroupModal.html'
+        controller: 'EditGroupModalCtrl'
+        windowClass: 'bud-modal'
+        size: 'sm'
+        resolve:
+          group: ->
+            name: ''
+      .result.then (newGroup) ->
+        $state.go 'groupDetail.articleList', {groupId: newGroup._id}
 
     reload: (resetPageIndex) ->
       $scope.pageConf.currentPage = 1 if resetPageIndex

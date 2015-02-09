@@ -9,25 +9,25 @@ BaseModel = require '../../common/BaseModel'
 class Group extends BaseModel
   populates:
     index: [
-      path: 'creator', select: 'name avatar info'
+      path: 'creator', select: 'name logo info'
     ]
     show: [
-      path: 'creator', select: 'name avatar info'
+      path: 'creator', select: 'name logo info'
     ]
     create: [
-      path: 'creator', select: 'name avatar info'
+      path: 'creator', select: 'name logo info'
     ]
     update: [
-      path: 'creator', select: 'name avatar info'
+      path: 'creator', select: 'name logo info'
     ]
   schema: new Schema
-    title:
+    name:
       type: String
       required: true
       unique : true
-    description:
+    info:
       type: String
-    avatar:
+    logo:
       type: String
     creator:
       type: ObjectId

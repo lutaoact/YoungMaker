@@ -1,104 +1,27 @@
 <div class="container group-detail">
   <div class="row">
     <div class="col-md-9 col-sm-12" >
-      <form class="form-horizontal"
-            name="form"
-            role="form"
-            ng-submit="saveDesc(form)"
-            ng-show="showEditingForm">
-        <div class="form-group">
-          <uploader
-            class="cover-uploder"
-            limit="{{imageSizeLimitation}}"
-            on-complete="onAvatarUploaded($data)"
-            accept-type="image"
-            crop="true"
-            style="height: 228px;"
-            crop-ratio="1"
-            max-width="600">
-            <div class="cover" ng-if="group.avatar" ng-src="{{group.avatar}}">
-              <div class="mask">
-                <div class="btn btn-xs btn-danger">
-                  <i class="fa fa-image"></i>
-                  修改图片
-                </div>
-              </div>
-            </div>
-            <div class="drag-uploder" ng-if="!group.avatar">
-              <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
-              <div class="btn btn-xs btn-danger">
-                <i class="fa fa-image"></i>
-                上传图片
-              </div>
-            </div>
-          </uploader>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label">小组名称</label>
-
-          <input class="form-control"
-                   ng-model="group.title"
-                   required/>
-
-        </div>
-
-        <div class="form-group">
-          <label class="control-label">小组简介</label>
-          <div pen
-                      placeholder="简单的介绍一下小组吧"
-                      ng-model="group.description"
-          required></div>
-        </div>
-
-        <div class="form-group">
-          <button type="submit"
-                  class="btn btn-danger btn-sm rounded" >
-                <span>保存</span>
-          </button>
-        </div>
-      </form>
-
-      <div ng-hide="showEditingForm">
-        <div class="group-info">
-          <img align="left" valign="top"
-               ng-src="{{group.avatar}}"
-               >
-          </img>
-          <h1>{{group.title}}</h1> &nbsp; &nbsp;
-          <div class="group-misc">
-            <div ng-switch="getRole()">
-              <div ng-switch-when='creator'>我是小组组长</div>
-              <div ng-switch-when='member'>我是小组成员&nbsp;> <a href="" ng-click="leaveGroup()">退出小组</a></div>
-              <div ng-switch-default><button class="btn btn-success" login-window login-success="joinGroup()">申请加入小组</button></div>
-            </div>
-          </div>
-        </div>
-        <p>创建于{{group.created | moment: 'calendar'}} &nbsp;&nbsp;组长：<a ui-sref="user.home({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
-        <div ng-bind-html="group.description"></div>
-        <button
-          ng-show="getRole()=='creator'"
-          ng-click="editGroupInfo()">修改小组信息</button>
-        <div class="text-center">
-          <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
-        </div>
-
-        <div ui-view class="fadeIn"></div>
-
+      <div class="text-center">
+        <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
       </div>
+      <div ui-view class="fadeIn"></div>
     </div>
     <div class="col-md-3">
       <div class="group-info">
-        <div class="group-logo" ng-src="{{group.avatar}}">  </div>
+        <div class="group-logo" ng-src="{{group.logo}}">  </div>
         <div class="group-body">
-          <h4 class="group-title">
-            {{group.title}}
+          <h4 class="group-name">
+            {{group.name}}
           </h4>
           <p class="group-disc text-muted">
-            {{group.description}}
+            {{group.info}}
           </p>
+          <p>创建于{{group.created | moment: 'calendar'}}</p>
+          <p>组长：<a ui-sref="user.home({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
           <div ng-switch="getRole()">
-            <div ng-switch-when='creator'>我是小组组长</div>
+            <div ng-switch-when='creator'>我是小组组长
+              <button ng-click="editGroupInfo()">修改小组信息</button>
+            </div>
             <div ng-switch-when='member'>我是小组成员&nbsp;> <a href="" ng-click="leaveGroup()">退出</a></div>
             <div ng-switch-default><button class="btn btn-sm btn-outline btn-success" login-window login-success="joinGroup()">加入</button></div>
           </div>

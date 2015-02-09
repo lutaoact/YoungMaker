@@ -1,9 +1,9 @@
 <div class="group-tile" ui-sref="groupDetail.articleList({groupId:group._id})">
 
-  <div class="group-logo pull-left" ng-src="{{group.avatar}}">  </div>
-  <div class="group-body pull-left">
-    <h4 class="group-title" >
-      <a class="none-decoration" href ui-sref="groupDetail.articleList({groupId:group._id})">{{group.title}}</a>
+  <div class="group-logo" ng-src="{{group.logo}}">  </div>
+  <div class="group-body">
+    <h4 class="group-name" >
+      <a class="none-decoration" href ui-sref="groupDetail.articleList({groupId:group._id})">{{group.name}}</a>
     </h4>
     <h5 class="group-stat text-overflow">
       {{group.members.length}}个成员 {{group.postsCount||0}}个帖子
@@ -11,8 +11,8 @@
 
     <hr>
 
-    <p class="group-disc text-muted">
-      {{group.description}}
+    <p class="group-info text-muted">
+      {{group.info}}
     </p>
   </div>
 

@@ -1,0 +1,92 @@
+
+<div class="modal-header">
+  <h4 class="modal-title text-center">
+    <span ng-if="!group._id">添加小组</span>
+    <span ng-if="group._id">编辑小组</span>
+    <a class="close" ng-click="cancel()">&times;</a>
+  </h4>
+</div>
+
+<form class="form form-horizontal edit-group-form modal-body" novalidate
+      name="form">
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-3">小组头像</label>
+    <div class="col-sm-9">
+      <uploader
+        class="group-logo cover-uploder"
+        limit="{{imageSizeLimitation}}"
+        on-complete="onLogoUpload($data)"
+        accept-type="image"
+        crop="true"
+        crop-ratio="1"
+        max-width="600">
+        <div class="cover" ng-if="group.logo" ng-src="{{group.logo}}" source-attr="background-image">
+          <div class="mask">
+            <div class="btn btn-xs btn-danger">
+              <i class="fa fa-image"></i>
+              修改图片
+            </div>
+          </div>
+        </div>
+        <div class="drag-uploder" ng-if="!group.logo">
+          <div>拖拽<span class="text-muted">或</span>点击按钮<span class="text-muted">上传</span></div>
+          <div class="btn btn-xs btn-danger">
+            <i class="fa fa-image"></i>
+            上传图片
+          </div>
+        </div>
+      </uploader>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-3">小组名称</label>
+    <div class="col-sm-9">
+      <input class="form-control"
+             id="group-name"
+             name="name"
+             focus-me
+             placeholder="请输入小组名称"
+             ng-model="group.name"
+             required
+             mongoose-error>
+      <small class="text-danger" ng-if="form.name.$error.mongoose">{{ errors.name }}</small>
+      <small class="text-danger" ng-if="form.name.$error.required && submitted">必填项</small>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm">
+    <label class="control-label col-sm-3">小组简介</label>
+    <div class="col-sm-9">
+      <textarea class="form-control"
+             id="group-info"
+             placeholder="请输入描述..."
+             msd-elastic
+             name="info"
+             ng-maxlength="200"
+             row="5"
+             required
+             ng-model="group.info"
+             mongoose-error>
+      </textarea>
+      <small class="text-danger" ng-if="form.info.$error.mongoose">{{ errors.info }}</small>
+      <small class="text-danger" ng-if="form.info.$error.maxlength">字数超过限制</small>
+      <small class="text-danger" ng-if="form.info.$error.required && submitted">必填项</small>
+      <small class="pull-right text-muted" ng-if="form.info.$valid">
+        字数：{{group.info.length||0}}/200
+      </small>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div class="pull-right">
+      <button type="button"
+              class="btn btn-sm btn-default"
+              ng-click="cancel()">取消</button>
+      <button type="submit"
+              class="btn btn-sm btn-danger"
+              ng-click="confirm(form)">确认</button>
+    </div>
+  </div>
+
+</form>

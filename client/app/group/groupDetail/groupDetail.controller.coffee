@@ -6,11 +6,12 @@ angular.module('mauiApp')
   $state
   Restangular
   notify
+  $modal
 ) ->
   groupAPI = Restangular.one('groups', $state.params.groupId)
 
   angular.extend $scope,
-    showEditingForm: false
+#    showEditingForm: false
     group: null
 #    groupArticles: []
 
@@ -19,33 +20,41 @@ angular.module('mauiApp')
 #      currentPage  : $state.params.page ? 1
 #      itemsPerPage : 3
 
-    onAvatarUploaded: (key) ->
-      console.log key
-      Restangular.one('groups', $scope.group._id)
-      .patch avatar: key
-      .then ->
-        $scope.group.avatar = key
-        notify
-          message: '头像修改成功'
-          classes: 'alert-success'
+#    onAvatarUploaded: (key) ->
+#      console.log key
+#      Restangular.one('groups', $scope.group._id)
+#      .patch logo: key
+#      .then ->
+#        $scope.group.logo = key
+#        notify
+#          message: '头像修改成功'
+#          classes: 'alert-success'
 
-    saveDesc: (form) ->
-      if !form.$valid then return
-      $scope.errors = null
-      Restangular.one('groups', $scope.group._id)
-      .patch
-          description:
-            $scope.group.description
-      .then ->
-        notify
-          message: '基本信息已保存'
-          classes: 'alert-success'
-        $scope.showEditingForm = false
-      .catch (error) ->
-        $scope.errors = error?.data?.errors
-
+#    saveDesc: (form) ->
+#      if !form.$valid then return
+#      $scope.errors = null
+#      Restangular.one('groups', $scope.group._id)
+#      .patch
+#          info:
+#            $scope.group.info
+#      .then ->
+#        notify
+#          message: '基本信息已保存'
+#          classes: 'alert-success'
+#        $scope.showEditingForm = false
+#      .catch (error) ->
+#        $scope.errors = error?.data?.errors
+#
     editGroupInfo: ->
-      $scope.showEditingForm = true
+      $modal.open
+        templateUrl: 'app/group/editGroup/editGroupModal.html'
+        controller: 'EditGroupModalCtrl'
+        windowClass: 'bud-modal'
+        size: 'sm'
+        resolve:
+          group: -> angular.copy($scope.group)
+      .result.then (newGroup) ->
+        angular.extend $scope.group, newGroup
 
     joinGroup: ->
       Restangular.one('groups', $scope.group._id).one('join')

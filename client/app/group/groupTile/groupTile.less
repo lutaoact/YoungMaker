@@ -1,32 +1,33 @@
 .group-tile{
+  font-size: 0; //Remove Whitespace Between Inline-Block Elements
   background: #FFF;
   cursor: pointer;
   border: 1px solid #eee;
   position: relative;
-  max-width: 400px;
-  height: 185px;
+  width: 400px;
   margin: 10px auto;
   border-radius: 4px;
   .box-shadow(none);
   .transition(all .13s linear);
   .group-logo{
-    margin-left: -1px;
-    margin-top: -1px;
-    height: 185px;
-    width: 180px;
+    height: 183px;
+    width:45%;
     background-color: @gray-lighter;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 4px 0 0 4px;
+    display: inline-block;
   }
   .group-body{
-    width: 219px;
-    padding: 0 20px;
+    vertical-align: top;
+    width: 55%;
+    padding: 0 5%;
+    display: inline-block;
     .group-stat{
       margin-top: 15px;
     }
-    .group-disc{
+    .group-info{
       font-size: 12px;
       height: 40px;
       .text-overflow();

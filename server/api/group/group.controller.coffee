@@ -12,13 +12,13 @@ exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions
 
-pickedKeys = ['title', 'description','avatar']
+pickedKeys = ['name', 'info','logo']
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.creator = req.user._id
   WrapRequest.wrapCreate req, res, next, data
 
-pickedUpdatedKeys = ['title', 'description', 'avatar']
+pickedUpdatedKeys = ['name', 'info', 'logo']
 exports.update = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys

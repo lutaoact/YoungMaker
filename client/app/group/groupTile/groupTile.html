@@ -1,21 +1,21 @@
 <div class="group-tile" ui-sref="groupDetail.articleList({groupId:group._id})">
 
-  <div class="group-logo" ng-src="{{group.avatar}}">  </div>
-  <div></div>
-  <!--<div class="group-body">-->
-    <!--<h5 class="group-title" >-->
-      <!--<a class="none-decoration" href ui-sref="groupDetail.articleList({groupId:group._id})">{{group.title}}</a>-->
-    <!--</h5>-->
-    <!--<h6 class="group-info text-muted text-overflow">-->
-      <!--{{group.description}}-->
-    <!--</h6>-->
-  <!--</div>-->
-  <!--<div class="group-tool-bar clearfix">-->
-    <!--<span class="text-primary">-->
-      <!--{{group.postsCount||0}}-->
-    <!--</span>-->
-    <!--<span>-->
-      <!--帖子-->
-    <!--</span>-->
-  <!--</div>-->
+  <div class="group-logo pull-left" ng-src="{{group.avatar}}">  </div>
+  <div class="group-body pull-left">
+    <h4 class="group-title" >
+      <a class="none-decoration" href ui-sref="groupDetail.articleList({groupId:group._id})">{{group.title}}</a>
+    </h4>
+    <h5 class="group-stat text-overflow">
+      {{group.members.length+1}}个成员 {{group.postsCount||0}}个帖子
+    </h5>
+
+    <hr>
+
+    <p class="group-disc text-muted">
+      {{group.description}}
+    </p>
+  </div>
+
+  <button class="btn btn-sm btn-rounded btn-outline btn-join pull-right">加入</button>
+
 </div>

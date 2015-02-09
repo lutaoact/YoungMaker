@@ -4,13 +4,13 @@
   border: 1px solid #eee;
   position: relative;
   max-width: 400px;
-//  height: 185px;
+  height: 185px;
   margin: 10px auto;
+  border-radius: 4px;
   .box-shadow(none);
   .transition(all .13s linear);
   .group-logo{
     margin-left: -1px;
-    margin-right: -1px;
     margin-top: -1px;
     height: 185px;
     width: 180px;
@@ -18,25 +18,39 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 4px 4px 0 0;
+    border-radius: 4px 0 0 4px;
   }
   .group-body{
-    margin: 0 18px 18px 18px;
-    h5, h6{
-      .text-overflow();
-      width: 100%;
-    }
-    h5{
-      height: 15px;
-    }
-    h6{
-      height: 13px;
-    }
-    .group-info{
+    width: 219px;
+    padding: 0 20px;
+    .group-stat{
       margin-top: 15px;
     }
+    .group-disc{
+      font-size: 12px;
+      height: 40px;
+      .text-overflow();
+    }
+    h4{
+      margin: 15px 0;
+    }
+    hr{
+      margin: 15px 0;
+    }
   }
-
+  .btn-join{
+    color: @base-color;
+    border-color: @base-color;
+    width: 74px;
+    line-height: 13px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    &:hover, :focus{
+      color: white;
+      background-color: @base-color;
+    }
+  }
   &:hover{
     .box-shadow(0 0 4px 2px rgba(red(@base-color),green(@base-color),blue(@base-color),0.5));
   }

@@ -48,5 +48,4 @@ exports.destroy = (req, res, next) ->
   WrapRequest.wrapDestroy req, res, next, conditions
 
 
-exports.like = (req, res, next) ->
-  WrapRequest.wrapLike req, res, next
+exports.like = WrapRequest.wrapLike.bind WrapRequest

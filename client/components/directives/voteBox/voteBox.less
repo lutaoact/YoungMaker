@@ -1,0 +1,22 @@
+.vote-box{
+  color: @gray-light;
+  height: 44px;
+  width: 32px;
+  font-size: 14px;
+  padding: 2px 0;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  text-align: center;
+  .toggle{
+    cursor: pointer;
+    font-size: 14px;
+    .transition(all 0.13s linear);
+    &:hover{
+      .scale(1.2,1.2);
+    }
+    &.active{
+      color: @brand-danger;
+    }
+  }
+
+}

@@ -1,16 +1,15 @@
 .navbar-main{
-  color: #FFF;
-  background: @base-color;
+  background: #FFF;
   border-radius: 0;
   border: none;
-  .box-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+  .box-shadow(inset 0px 0px 1px rgba(0, 0, 0, 0.5));
   .login-btn{
     margin-left: 15px;
   }
   a, li > a {
-    color: #FFF;
+    color: #323232;
     &:hover, &:focus{
-      color: #FFF;
+      color: #323232;
       background-color: transparent;
     }
   }
@@ -30,5 +29,10 @@
   .navbar-avatar{
     margin-right: 10px;
     display: inline-block;
+  }
+  &.fixed{
+    position: fixed;
+    top: 0;
+    .box-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
   }
 }

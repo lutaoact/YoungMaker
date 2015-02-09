@@ -1,36 +1,16 @@
-<div class="course-tile">
+<div class="course-tile clearfix">
   <div class="course-cover-image" ng-src="{{course.image}}">
   </div>
-  <h4 class="course-title">
-    {{course.title}}
-  </h4>
-  <hr ng-if="course.ingredients.length">
-  <div class="tool" ng-if="course.ingredients.length">
-    <i class="budon budon-tool"></i>
-    <div class="badge">{{course.ingredients.length||0}}</div>
+  <vote-box class="pull-left" entity="course" me="me"></vote-box>
+  <div>
+    <h4 class="course-title">
+      <small class="pull-right comments-count text-muted" style="font-size: 14px;">
+        <i class="fa fa-comment"></i>&nbsp;{{course.commentsNum||0}}
+      </small>
+      {{course.title}}
+    </h4>
+    <p class="course-summary text-muted">
+      {{course.content|htmlToPlaintext}}
+    </p>
   </div>
-  <div class="ingredients" ng-if="course.ingredients.length">
-    <div class="scroll">
-      <div class="ingredient text-muted" ng-repeat="ingredient in course.ingredients">
-        <div class="ingredient-image" ng-src="{{ingredient.image}}"></div>
-        x
-        {{ingredient.quantity}}
-      </div>
-    </div>
-  </div>
-  <hr>
-  <div class="status text-muted">
-    <i class="fa fa-heart toggle" login-window login-success="me._id&&toggleVote()" ng-class="{'active':course.likeUsers.indexOf(me._id)>=0}" ng-click="stopPropagation($event)"></i>
-    {{course.likeUsers.length||0}}
-  </div>
-
-  <div class="status text-muted">
-    <i class="fa fa-star toggle" login-window login-success="me._id&&toggleCollect()" ng-class="{'active':course.likeUsers.indexOf(me._id)>=0}" ng-click="stopPropagation($event)"></i>
-    {{course.likeUsers.length||0}}
-  </div>
-
-  <a class="pull-right" ui-sref="user.home({userId:course.author._id})" ng-click="stopPropagation($event)">
-    <div class="avatar-xs" ng-src="{{course.author.avatar}}"></div>
-    {{course.author.name}}
-  </a>
 </div>

@@ -14,13 +14,12 @@ Course = _u.getModel 'course'
 WrapRequest = new (require '../../utils/WrapRequest')(Category)
 
 exports.index = (req, res, next) ->
-  conditions = orgId : req.org?._id
+  conditions = {}
   WrapRequest.wrapIndex req, res, next, conditions
 
+pickedKeys = ['name', 'logo']
 exports.create = (req, res, next) ->
-  data = req.body
-  delete data._id
-  data.orgId   = req.user.orgId
+  data = _.pick req.body, pickedKeys
   WrapRequest.wrapCreate req, res, next, data
 
 exports.courses = (req, res, next) ->
@@ -31,10 +30,11 @@ exports.courses = (req, res, next) ->
     res.send courses
   , next
 
-pickedUpdatedKeys = omit: ['_id', 'orgId', 'deleteFlag']
+pickedUpdatedKeys = ['name', 'logo']
 exports.update = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
+
 
 exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}
@@ -42,13 +42,5 @@ exports.destroy = (req, res, next) ->
 
 exports.multiDelete = (req, res, next) ->
   ids = req.body.ids
-  Category.updateQ
-    orgId: req.user.orgId
-    _id: $in: ids
-  ,
-    deleteFlag: true
-  ,
-    multi: true
-  .then () ->
-    res.send 204
-  , next
+  conditions = {_id: $in: ids}
+  WrapRequest.wrapDestroy req, res, next, conditions

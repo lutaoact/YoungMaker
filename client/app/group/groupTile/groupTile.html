@@ -1,5 +1,4 @@
-<div class="group-tile" ui-sref="groupDetail.articleList({groupId:group._id})">
-
+<div class="group-tile" ng-click="gotoGroupDetail()">
   <div class="group-logo" ng-src="{{group.logo}}">  </div>
   <div class="group-body">
     <h4 class="group-name" >
@@ -15,7 +14,20 @@
       {{group.info}}
     </p>
   </div>
-
-  <button class="btn btn-sm btn-rounded btn-outline btn-join pull-right">加入</button>
-
+  <div ng-switch="getRole()" class="group-join">
+    <div ng-switch-when='creator'>
+      <button class="btn btn-sm btn-outline btn-primary" ng-click="editGroupInfo($event)">
+        修改小组信息</button>
+    </div>
+    <div ng-switch-when='member'>
+      <button class="btn btn-sm btn-outline btn-joined"
+              ng-click="leaveGroup($event)"
+              ng-init="text='已加入'" ng-mouseenter="text='退出小组'" ng-mouseleave="text='已加入'">
+        {{text}}</button>
+    </div>
+    <div ng-switch-default>
+      <button class="btn btn-sm btn-outline btn-join" login-window login-success="joinGroup()" ng-click="$event.stopPropagation()">
+        加入</button>
+    </div>
+  </div>
 </div>

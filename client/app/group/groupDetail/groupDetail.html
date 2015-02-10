@@ -20,7 +20,7 @@
           <p>组长：<a ui-sref="user.home({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
           <div ng-switch="getRole()" class="text-center">
             <div ng-switch-when='creator'>
-              <button ng-click="editGroupInfo()">
+              <button class="btn btn-sm btn-outline btn-primary" ng-click="editGroupInfo()">
                 修改小组信息</button>
             </div>
             <div ng-switch-when='member'>

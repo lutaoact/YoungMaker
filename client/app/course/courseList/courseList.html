@@ -42,18 +42,21 @@
 
     <div class="col-md-3 right-side">
       <div class="panel panel-card">
-        <h3>
+        <h4>
           你可能会喜欢
-          <a href="" class="pull-right">换一批</a>
-        </h3>
+          <a href="" class="pull-right" ng-click="RecommendCourses.change()">换一批</a>
+        </h4>
+        <div ng-repeat="course in RecommendCourses.suggests">
+          {{course.name}}
+        </div>
 
       </div>
 
       <div class="panel panel-card">
-        <h3>
+        <h4>
           值得关注的达人
           <a href="" class="pull-right">换一批</a>
-        </h3>
+        </h4>
       </div>
     </div>
 

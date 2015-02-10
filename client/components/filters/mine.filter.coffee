@@ -6,5 +6,5 @@ angular.module('maui.components')
       if isMine
         mineText or '我的'
       else
-        otherText or 'TA的'
+        otherText or 'Ta的'
     item.replace('#mine#', label)

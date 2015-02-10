@@ -4,8 +4,7 @@
        class="article-image pull-right">
   </div>
   <h4 class="article-title">
-    <a href=""
-       ui-sref="articleDetail({articleId: article._id})">
+    <a ui-sref="articleDetail({articleId: article._id})">
       {{article.title}}
     </a>
   </h4>
@@ -17,7 +16,7 @@
       <div class="avatar-xs"
            ng-src="{{article.author.avatar}}">
       </div>
-      <a href="" ui-sref="user.home({userId: article.author._id})">
+      <a ui-sref="user.home({userId: article.author._id})">
         {{article.author.name}}
       </a>
     </li>

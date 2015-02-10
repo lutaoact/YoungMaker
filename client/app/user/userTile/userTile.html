@@ -24,28 +24,36 @@
   <hr>
   <div class="user-status clearfix">
     <div class="status">
-      关注
-      <div class="number">
-        <a href ui-sref="user.following({userId:user._id})">{{userData.numFollowings}}</a>
-      </div>
+      <a href
+         ui-sref-active="active"
+         ui-sref="user.following({userId:user._id})">
+        {{userData.numFollowings}}
+        <div class="text-muted">关注</div>
+      </a>
     </div>
     <div class="status">
-      粉丝
-      <div class="number">
-        <a href ui-sref="user.followers({userId:user._id})">{{userData.numFollowers}}</a>
-      </div>
+      <a href
+         ui-sref-active="active"
+         ui-sref="user.followers({userId:user._id})">
+        {{userData.numFollowers}}
+        <div class="text-muted">粉丝</div>
+      </a>
     </div>
     <div class="status">
-      课程
-      <div class="number">
-        <a href ui-sref="user.courses({userId:user._id})">{{userData.numCourses}}</a>
-      </div>
+      <a href
+         ui-sref-active="active"
+         ui-sref="user.courses({userId:user._id})">
+        {{userData.numCourses}}
+        <div class="text-muted">趣课</div>
+      </a>
     </div>
     <div class="status">
-      文章
-      <div class="number">
-        <a href ui-sref="user.articles({userId:user._id})">{{userData.numArticles}}</a>
-      </div>
+      <a href
+         ui-sref-active="active"
+         ui-sref="user.articles({userId:user._id})">
+        {{userData.numArticles}}
+        <div class="text-muted">文章</div>
+      </a>
     </div>
   </div>
 </div>

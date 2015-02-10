@@ -8,18 +8,17 @@
   暂无发表话题
 </div>
 
-<div class="list-article-group">
-  <article-tile article="article"
-                ng-repeat="article in articles"
-                me="me"></article-tile>
+<div class="user-view-header">
+  {{articles.$count}} 篇文章
+  <a href
+     class="btn btn-sm btn-primary pull-right"
+     ng-if="user._id==me._id"
+     ui-sref="articleNew">创建文章</a>
 </div>
 
-<div id="new-article"
-     class="text-center">
-  <a href
-     ng-if="user._id==me._id"
-     ui-sref="articleNew">创建新话题</a>
-</div>
+<article-tile article="article"
+              ng-repeat="article in articles"
+              me="me"></article-tile>
 
 <div class="row pagination-row text-center"
      ng-if="articles.$count"

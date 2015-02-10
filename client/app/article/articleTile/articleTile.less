@@ -4,9 +4,8 @@
   background: #FFF;
   padding: 20px 10px 20px 65px;
   width: 100%;
-  border: 1px solid @tile-border;
   +.article-tile {
-    border-top: none;
+    border-top: 1px solid @tile-border;
   }
 
   .article-image {
@@ -21,12 +20,6 @@
   .article-title {
     margin-top: 5px;
     margin-bottom: 14px;
-    a {
-      color: #333;
-      &:hover {
-        color: @base-color;
-      }
-    }
     .text-overflow();
   }
   .article-summary {

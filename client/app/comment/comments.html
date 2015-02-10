@@ -2,10 +2,7 @@
   <div class="new-comment clearfix">
     <div class="new-comment-left">
       <div class="media-object avatar-md"
-           source-attr="background-image"
-           src="http://placehold.it/32x32"
-           src-key="me.avatar"
-           suffix="?imageView2/1/w/64/h/64">
+           ng-src="{{me.avatar|trusted:'url'}}">
       </div>
     </div>
     <div class="new-comment-right" id="new-comment" is-visible="viewState.newCommentVisible">

@@ -14,7 +14,7 @@ angular.module('maui.components')
       offset = right + 1
     parts
 
-  $provide.decorator "ngSrcDirective", ($delegate, $parse, $timeout) ->
+  $provide.decorator "ngSrcDirective", ($delegate, $parse, $timeout, $sce) ->
 
     # `$delegate` is an array of directives registered as `ngSrc`
     # btw, did you know you can register multiple directives to the same name?

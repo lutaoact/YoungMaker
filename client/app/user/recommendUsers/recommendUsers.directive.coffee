@@ -9,7 +9,7 @@ angular.module('mauiApp')
   sortObj.commentsNum = -1
   sortObj.created = -1
   reload = () ->
-    Restangular.all('courses').getList
+    Restangular.all('users/recommends').getList
       from       : (currentPage - 1) * itemsPerPage
       limit      : itemsPerPage
       sort       : JSON.stringify sortObj
@@ -34,7 +34,7 @@ angular.module('mauiApp')
   recommendUsers
 
 .directive 'recommendUsers', (RecommendsU)->
-  templateUrl: 'app/course/recommendCourses/recommendCourses.html'
+  templateUrl: 'app/user/recommendUsers/recommendUsers.html'
   restrict: 'EA'
   replace: true
   link: (scope, element, attrs) ->

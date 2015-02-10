@@ -36,6 +36,19 @@ exports.index = (req, res, next) ->
   .done()
 
 ###
+  Get list of recommended users
+###
+exports.recommends = (req, res, next) ->
+  condition = {}
+  condition.role = req.query.role if req.query.role?
+
+  User.findQ condition, '-salt -hashedPassword'
+  .then (users) ->
+    res.send users
+  .catch next
+  .done()
+
+###
   Creates a new user
 ###
 exports.create = (req, res, next) ->

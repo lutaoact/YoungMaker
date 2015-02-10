@@ -7,7 +7,7 @@ auth = require '../../auth/auth.service'
 router = express.Router()
 
 router.get '/', auth.hasRole('admin'), controller.index
-router.get '/recommends/', controller.index
+router.get '/recommends', controller.recommends
 router.get '/me', auth.isAuthenticated(), controller.me
 router.get '/check', controller.check #?email=xxxxx
 router.get '/num', controller.num #?userId=xxx

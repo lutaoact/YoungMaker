@@ -21,7 +21,6 @@ angular.module('mauiApp')
       self.loading = true
       reload()
       .then (courses)->
-        console.log courses
         self.suggests = courses
         if currentPage is Math.ceil(courses.$count / itemsPerPage)
           currentPage = 1

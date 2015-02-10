@@ -1,6 +1,6 @@
 <div class="panel panel-card user-tile">
   <div class="avatar-lg"
-       ng-src="{{user.avatar}}"
+       ng-src="{{user.avatar|trusted:'url'}}"
        style="cursor: pointer"
        ui-sref="user.home({userId:user._id})"></div>
   <h4 class="user-name">

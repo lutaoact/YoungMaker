@@ -3,7 +3,7 @@
     <div class="form-horizontal col-sm-8 col-sm-offset-2" role="form">
       <div class="form-group">
         <div class="avatar-lg"
-             ng-src="{{editingInfo.avatar}}">
+             ng-src="{{editingInfo.avatar|trusted:'url'}}">
         </div>
       </div>
       <div class="form-group">

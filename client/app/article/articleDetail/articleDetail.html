@@ -18,7 +18,7 @@
           <div class="article-content" ng-bind-html="article.content"></div>
         </article>
 
-        <div class="article-like">
+        <div class="article-like" ng-if="article">
           <vote-box entity="article" me="me">
           </vote-box>
         </div>
@@ -51,7 +51,8 @@
 
       <!-- article comments -->
       <comments belong-to="article._id"
-                class="panel panel-card"
+                ng-if="article"
+                class="panel panel-card comments"
                 type="{{const.CommentType.Article}}"
                 me="me">
       </comments>

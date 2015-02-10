@@ -8,12 +8,26 @@
   暂无新动态
 </div>
 
-<div class="col-md-12"
+<div class="col-md-12 activity-tile"
      ng-repeat="activity in activities">
-  <a ui-sref="articleDetail({articleId: activity.objectId})">
-    {{activity.userId.name}} 发布了话题 {{activity.title}} -
-    <small class="text-muted">{{activity.created | moment: 'fromNow'}}</small>
-  </a>
+  <ul>
+    <li>
+      <a class="user-info" ui-sref="user.home({userId: activity.userId._id})">
+        <div class="avatar-xs inline-block-middle"
+              ng-src="{{activity.userId.avatar}}">
+        </div>
+        <span class="user-name">{{activity.userId.name}}</span>
+      </a>
+    </li>
+    <li>
+      <a ui-sref="articleDetail({articleId: activity.objectId})">
+        发布了话题 {{activity.title}}
+      </a>
+    </li>
+    <li>
+      <small class="text-muted">{{activity.created | moment: 'fromNow'}}</small>
+    </li>
+  </ul>
 </div>
 
 <div class="row pagination-row text-center"

@@ -5,9 +5,10 @@
          style="cursor: pointer"
          ui-sref="user.home({userId:user._id})"></div>
     {{user.name}}
+  </a>
+  <span ng-if="me._id != user._id">
     <button login-window
             login-success="toggleFollow()"
-            ng-if="me._id != user._id"
             class="btn btn-sm btn-primary follow-btn pull-right">
       <span ng-if="!follow">
         <i class="fa fa-plus-circle"></i>&nbsp;关注
@@ -16,7 +17,7 @@
         <i class="fa fa-check-circle"></i>&nbsp;已关注
       </span>
     </button>
-  </a>
+  </span>
   <div class="user-info clearfix">
     <div class="text-muted">{{user.info}}</div>
     <div class="status">

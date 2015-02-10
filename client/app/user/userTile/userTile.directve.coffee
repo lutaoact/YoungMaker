@@ -43,8 +43,8 @@ angular.module('mauiApp')
           .post(to: $scope.user._id)
           .then refresh
 
-  refresh = (newVals) ->
-    if !_.every(newVals) then return
+  refresh = ->
+    if !$scope.me or !$scope.user then return
 
     # 检查我是否关注了该用户
     $q (resolve) ->

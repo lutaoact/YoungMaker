@@ -1,23 +1,13 @@
-<div ng-if="following.$count == null"
-     class="text-center">
-  加载中...
+<div class="user-view-header">
+  <h4>{{'#mine#关注' | mine: me._id==user._id}}&nbsp;&nbsp;{{following.$count}}</h4>
+  <hr>
 </div>
 
-<div ng-if="following.$count == 0"
-     class="text-center">
-  暂无关注
-</div>
-
-<div class="list-group">
-  <a href="#"
-     class="list-group-item"
-     ui-sref="user.home({userId: follow.to._id})"
-     ng-repeat="follow in following">
-    <div class="avatar-xs inline-block-middle"
-         ng-src="{{follow.to.avatar}}">
-    </div>
-    {{follow.to.name}}
-  </a>
+<div class="user-info-list">
+  <user-tile-inline class="col-lg-6 col-md-6 col-sm-6 user-info"
+                    ng-repeat="follow in following"
+                    user="follow.to" me="me">
+  </user-tile-inline>
 </div>
 
 <div class="row pagination-row text-center"
@@ -32,4 +22,14 @@
               rotate="false"
               max-size="pageConf.maxSize">
   </pagination>
+</div>
+
+<div ng-if="following.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="following.$count == 0"
+     class="text-center">
+  暂无关注
 </div>

@@ -1,20 +1,14 @@
-<div class="panel panel-card user-tile">
-  <div class="avatar-lg"
-       ng-src="{{user.avatar|trusted:'url'}}"
-       style="cursor: pointer"
-       ui-sref="user.home({userId:user._id})"></div>
-  <h4 class="user-name">
-    <a href=""
-       ui-sref="user.home({userId: user._id})">
-      {{user.name}}
-    </a>
-    <small>{{user.info}}</small>
-  </h4>
-  <div class="follow-btn-group">
+<div class="user-tile-inline">
+  <a class="user-name" ui-sref="user.home({userId: user._id})">
+    <div class="avatar-sm inline-block-middle"
+         ng-src="{{user.avatar}}"
+         style="cursor: pointer"
+         ui-sref="user.home({userId:user._id})"></div>
+    {{user.name}}
     <button login-window
             login-success="toggleFollow()"
             ng-if="me._id != user._id"
-            class="btn btn-sm btn-primary follow-btn">
+            class="btn btn-sm btn-primary follow-btn pull-right">
       <span ng-if="!follow">
         <i class="fa fa-plus-circle"></i>&nbsp;关注
       </span>
@@ -22,39 +16,39 @@
         <i class="fa fa-check-circle"></i>&nbsp;已关注
       </span>
     </button>
-  </div>
-  <hr>
-  <div class="user-status clearfix">
+  </a>
+  <div class="user-info clearfix">
+    <div class="text-muted">{{user.info}}</div>
     <div class="status">
+      关注&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.following({userId:user._id})">
         {{userData.numFollowings}}
-        <div class="text-muted">关注</div>
       </a>
     </div>
     <div class="status">
+      粉丝&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.followers({userId:user._id})">
         {{userData.numFollowers}}
-        <div class="text-muted">粉丝</div>
       </a>
     </div>
     <div class="status">
+      趣课&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.courses({userId:user._id})">
         {{userData.numCourses}}
-        <div class="text-muted">趣课</div>
       </a>
     </div>
     <div class="status">
+      文章&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.articles({userId:user._id})">
         {{userData.numArticles}}
-        <div class="text-muted">文章</div>
       </a>
     </div>
   </div>

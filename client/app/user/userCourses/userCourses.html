@@ -1,15 +1,5 @@
-<div ng-if="courses.$count == null"
-     class="text-center">
-  加载中...
-</div>
-
-<div ng-if="courses.$count == 0"
-     class="text-center">
-  暂无发布趣课
-</div>
-
 <div class="user-view-header">
-  {{courses.$count}} 篇趣课
+  <i class="fa fa-wrench text-muted bigger"></i>&nbsp;&nbsp;{{courses.$count}} 篇趣课
   <a href
      class="btn btn-sm btn-primary pull-right"
      ng-if="user._id==me._id"
@@ -33,4 +23,14 @@
               rotate="false"
               max-size="pageConf.maxSize">
   </pagination>
+</div>
+
+<div ng-if="courses.$count == null"
+     class="text-center">
+  加载中...
+</div>
+
+<div ng-if="courses.$count == 0"
+     class="text-center">
+  暂无发布趣课
 </div>

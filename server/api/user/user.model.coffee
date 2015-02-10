@@ -24,6 +24,9 @@ class User extends BaseModel
       type: String
     name:#真实姓名
       type: String
+    role:
+      type:String
+      default: 'user'
     weibo:
       id: String
       name: String

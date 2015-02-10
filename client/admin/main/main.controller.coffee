@@ -15,9 +15,9 @@ angular.module 'mauidmin'
   .then (courses)->
     $scope.courses = courses
 
-  Restangular.all('grade_subjects').getList()
-  .then (gradeSubjects)->
-    $scope.gradeSubjects = gradeSubjects
+  Restangular.all('categories').getList()
+  .then (categories)->
+    $scope.categories = categories
 
   angular.extend $scope,
     courses: undefined
@@ -45,6 +45,18 @@ angular.module 'mauidmin'
         angular.extend gradeSubject, data
         notify
           message: data
+
+    onImageUploaded: ($data, entity, field)->
+      entity[field] = $data
+
+    newCategory: {}
+
+    createCategory: ()->
+      Restangular.all('categories').post $scope.newCategory
+      .then (data)->
+        $scope.categories?.push data
+        $scope.newCategory = {}
+
 
 
 

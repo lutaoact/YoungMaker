@@ -37,7 +37,7 @@
             dropdown
             class="profile-dropdown">
           <span dropdown-toggle>
-             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar}}">
+             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar|trusted:'url'}}">
              </span>
              <span>{{me.name}}</span>
           </span>
@@ -60,7 +60,6 @@
             </li>
           </ul>
             <span class="badge"
-                  style="position: absolute;top: 9px;left: 18px;"
                   ng-show="getMsgCount()">
               {{getMsgCount()||'0'}}
             </span>

@@ -1,7 +1,7 @@
 <div class="course-list">
   <div class="container">
-    <div class="row">
-      <div class="col-md-9 clearfix">
+    <div class="col-md-9 left-side">
+      <div class="row clearfix">
         <div class="pull-left dropdown category-dropdown" style="position:relative;">
           <a class="btn dropdown-toggle panel panel-card">
             {{getCategoryName(pageConf.category)||'全部'}}
@@ -18,25 +18,46 @@
         <div class="pull-right">
         </div>
       </div>
-    </div>
-    <div class="panel panel-card clearfix col-md-9">
-      <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
-        <course-tile course="course" me="me"></course-tile>
+      <div class="panel panel-card clearfix row">
+        <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
+          <course-tile course="course" me="me"></course-tile>
+        </div>
       </div>
+
+      <div class="panel panel-card clearfix text-center row"
+        ng-if="courses.$count > pageConf.itemsPerPage">
+        <pagination
+          total-items="courses.$count"
+          ng-model="pageConf.currentPage"
+          items-per-page="pageConf.itemsPerPage"
+          class="pagination-sm bud"
+          boundary-links="true"
+          rotate="false"
+          ng-change="reload()"
+          max-size="pageConf.maxSize">
+        </pagination>
+      </div>
+
     </div>
 
-    <div class="panel panel-card clearfix  text-center col-md-9"
-      ng-if="courses.$count > pageConf.itemsPerPage">
-      <pagination
-        total-items="courses.$count"
-        ng-model="pageConf.currentPage"
-        items-per-page="pageConf.itemsPerPage"
-        class="pagination-sm bud"
-        boundary-links="true"
-        rotate="false"
-        ng-change="reload()"
-        max-size="pageConf.maxSize">
-      </pagination>
+    <div class="col-md-3 right-side">
+      <div class="panel panel-card">
+        <h4>
+          你可能会喜欢
+          <a href="" class="pull-right" ng-click="RecommendCourses.change()">换一批</a>
+        </h4>
+        <div ng-repeat="course in RecommendCourses.suggests">
+          {{course.name}}
+        </div>
+
+      </div>
+
+      <div class="panel panel-card">
+        <h4>
+          值得关注的达人
+          <a href="" class="pull-right">换一批</a>
+        </h4>
+      </div>
     </div>
 
   </div>

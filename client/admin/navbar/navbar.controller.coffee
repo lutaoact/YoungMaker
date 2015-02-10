@@ -22,8 +22,8 @@ angular.module 'mauidmin'
 
   $scope.$on 'network.error', (event, data)->
     console.log data
-    $scope.errors.push data
+    $scope.errors.push data.data
     notify
-      message: data
+      message: data.data
       classes:'alert-danger'
 

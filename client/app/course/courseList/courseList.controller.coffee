@@ -1,11 +1,41 @@
 angular.module('mauiApp')
 
+.factory 'RecommendCourses', (Restangular)->
+  currentPage = 1
+  itemsPerPage = 3
+  sortObj = {}
+  sortObj.heat = -1
+  sortObj.viewersNum = -1
+  sortObj.commentsNum = -1
+  sortObj.created = -1
+  reload = () ->
+    Restangular.all('courses').getList
+      from       : (currentPage - 1) * itemsPerPage
+      limit      : itemsPerPage
+      sort       : JSON.stringify sortObj
+
+  recommendCourses =
+    suggests: []
+    change: ()->
+      self = this
+      reload()
+      .then (courses)->
+        console.log courses
+        self.suggests = courses
+      currentPage++
+
+  recommendCourses.change()
+
+  recommendCourses
+
+
 .controller 'CourseListCtrl', (
   Auth
   $scope
   $state
   Restangular
   notify
+  RecommendCourses
 ) ->
 
   angular.extend $scope,
@@ -57,6 +87,8 @@ angular.module('mauiApp')
         ($scope.categories.filter (x) -> x._id is category)?.name
       else
         ''
+
+    RecommendCourses: RecommendCourses
 
   $scope.search()
 

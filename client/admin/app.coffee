@@ -136,7 +136,7 @@ angular.module 'mauidmin', ['maui.components']
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
     loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !initUser?
     $modal.open
-      templateUrl: 'app/login/loginModal.html'
+      templateUrl: 'components/login/loginModal.html'
       controller: 'loginModalCtrl'
       windowClass: 'login-window-modal'
       size: 'md'

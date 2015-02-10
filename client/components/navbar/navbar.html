@@ -37,7 +37,7 @@
             dropdown
             class="profile-dropdown">
           <span dropdown-toggle>
-             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar}}">
+             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar|trusted:'url'}}">
              </span>
              <span>{{me.name}}</span>
           </span>

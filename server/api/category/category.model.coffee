@@ -4,7 +4,7 @@ mongoose = require "mongoose"
 Schema = mongoose.Schema
 ObjectId = Schema.ObjectId
 
-BaseModel = (require '../../common/BaseModel').BaseModel
+BaseModel = (require '../../common/BaseModel')
 
 class Category extends BaseModel
   schema: new Schema

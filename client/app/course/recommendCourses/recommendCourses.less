@@ -1,0 +1,36 @@
+.recommend-courses{
+  .swap{
+    font-size: 75%;
+    color: @base-color;
+  }
+  .recommend-course{
+    margin: 25px auto;
+    max-width: 290px;
+  }
+  .stats{
+    span{
+      margin: 0 10px 0 0px;
+    }
+  }
+  .course-cover-image{
+    height: 170px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    cursor: pointer;
+    .transition();
+    &:hover{
+      opacity: 0.7;
+    }
+  }
+  .course-title{
+    color: #333;
+    text-decoration: none;
+    .transition();
+    &:hover{
+      opacity: 0.7;
+    }
+  }
+}

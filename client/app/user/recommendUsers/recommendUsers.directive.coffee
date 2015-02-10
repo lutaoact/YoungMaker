@@ -1,6 +1,6 @@
 angular.module('mauiApp')
 
-.factory 'RecommendsC', (Restangular)->
+.factory 'RecommendsU', (Restangular)->
   currentPage = 1
   itemsPerPage = 3
   sortObj = {}
@@ -14,7 +14,7 @@ angular.module('mauiApp')
       limit      : itemsPerPage
       sort       : JSON.stringify sortObj
 
-  recommendCourses =
+  recommendUsers =
     suggests: []
     change: ()->
       self = this
@@ -29,16 +29,16 @@ angular.module('mauiApp')
           currentPage++
         self.loading = false
 
-  recommendCourses.change()
+  recommendUsers.change()
 
-  recommendCourses
+  recommendUsers
 
-.directive 'recommendCourses', (RecommendsC)->
-  templateUrl: 'app/course/recommandCourses/recommandCourses.html'
+.directive 'recommendUsers', (RecommendsU)->
+  templateUrl: 'app/course/recommendCourses/recommendCourses.html'
   restrict: 'EA'
   replace: true
   link: (scope, element, attrs) ->
 
   controller: ($scope, Restangular, Auth)->
     angular.extend $scope,
-      RecommendCourses: RecommendsC
+      RecommendUsers: RecommendsU

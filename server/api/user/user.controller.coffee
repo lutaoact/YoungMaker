@@ -6,7 +6,6 @@ AssetUtils = _u.getUtils 'asset'
 passport = require 'passport'
 config = require '../../config/environment'
 jwt = require 'jsonwebtoken'
-qiniu = require 'qiniu'
 path = require 'path'
 _ = require 'lodash'
 fs = require 'fs'
@@ -22,11 +21,6 @@ sendActivationMail = require('../../common/mail').sendActivationMail
 sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 setTokenCookie = require('../../auth/auth.service').setTokenCookie
 
-
-qiniu.conf.ACCESS_KEY = config.qiniu.access_key
-qiniu.conf.SECRET_KEY = config.qiniu.secret_key
-qiniuDomain           = config.assetsConfig[config.assetHost.uploadFileType].domain
-uploadImageType       = config.assetHost.uploadImageType
 ###
   Get list of users
   restriction: 'admin'
@@ -238,9 +232,9 @@ exports.bulkImport = (req, res, next) ->
 #    failure : []
 #
 #  importedUsers = []
-#  
+#
 #  orgUniqueName = ''
-#  
+#
 #  Organization.findByIdQ orgId
 #  .then (org) ->
 #    orgUniqueName = org.uniqueName
@@ -286,9 +280,9 @@ exports.bulkImport = (req, res, next) ->
 #
 #    if type is 'student'
 #      updateClasseStudents classeId, importedUsers
-#  .then ->    
+#  .then ->
 #    res.send importReport
-#      
+#
 #  .catch (err) ->
 #    logger.error 'import users error: ' + err
 #    fs.unlink destFile

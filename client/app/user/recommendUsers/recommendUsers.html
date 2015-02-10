@@ -1,0 +1,21 @@
+<div class="panel panel-card recommend-users clearfix">
+  <div class="col-md-12 clearfix">
+    <h4>
+      你可能会喜欢
+      <a href="" ng-disable="RecommendCourses.loading" class="pull-right swap" ng-click="RecommendCourses.change()">换一批</a>
+    </h4>
+    <div ng-repeat="user in RecommendCourses.suggests" class="recommend-user">
+      <div class="user-cover-image" ng-src="{{user.image}}" ui-sref="userDetail({userId:user._id})">
+      </div>
+      <h5>
+        <a href="" ui-sref="userDetail({userId:user._id})" class="user-title">{{user.title}}</a>
+        <small class="pull-right text-muted stats">
+          <i class="fa fa-heart"></i>
+          <span>{{user.likeUsers.length}}</span>
+          <i class="fa fa-comment"></i>
+          <span>{{user.commentsNum}}</span>
+        </small>
+      </h5>
+    </div>
+  </div>
+</div>

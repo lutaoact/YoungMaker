@@ -1,10 +1,10 @@
-<div class="panel panel-card recommand-courses clearfix">
+<div class="panel panel-card recommend-courses clearfix">
   <div class="col-md-12 clearfix">
     <h4>
       你可能会喜欢
-      <a href="" ng-disable="RecommendCourses.loading" class="pull-right" ng-click="RecommendCourses.change()">换一批</a>
+      <a href="" ng-disable="RecommendCourses.loading" class="pull-right swap" ng-click="RecommendCourses.change()">换一批</a>
     </h4>
-    <div ng-repeat="course in RecommendCourses.suggests" class="recommand-course">
+    <div ng-repeat="course in RecommendCourses.suggests" class="recommend-course">
       <div class="course-cover-image" ng-src="{{course.image}}" ui-sref="courseDetail({courseId:course._id})">
       </div>
       <h5>

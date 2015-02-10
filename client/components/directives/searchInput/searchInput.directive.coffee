@@ -1,6 +1,6 @@
 angular.module('maui.components')
 
-.directive 'searchInput', ->
+.directive 'searchInput', ()->
   restrict: 'E'
   replace: true
   templateUrl: 'components/directives/searchInput/searchInput.html'
@@ -8,6 +8,7 @@ angular.module('maui.components')
     keyword: '='
     onSubmit: '&'
     placeholder: '@'
+
   controller: ($scope) ->
 
     angular.extend $scope,
@@ -17,3 +18,8 @@ angular.module('maui.components')
 
       onKeyup: ($event) ->
         $scope.onSearch() if $event.keyCode is 13
+
+      clear: ()->
+        $scope.keyword = ''
+        $scope.onSearch()
+

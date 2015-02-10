@@ -2,7 +2,13 @@
 
 angular.module 'mauidmin'
 
-.controller 'NavbarCtrl', ($scope, $location, notify) ->
+.controller 'NavbarCtrl',
+(
+  $scope
+  $location
+  notify
+  Auth
+) ->
   $scope.menu = [
       title: 'Home'
       link: 'main'
@@ -19,6 +25,8 @@ angular.module 'mauidmin'
 
   $scope.isActive = (route) ->
     route is $location.path()
+
+  $scope.isLoggedIn = Auth.isLoggedIn
 
   $scope.$on 'network.error', (event, data)->
     console.log data

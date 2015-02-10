@@ -1,8 +1,11 @@
-<span class="search-input-group">
+<label class="search-input-group" for="search-input">
   <input type="text"
+         id="search-input"
          class="form-control"
          placeholder="{{placeholder}}"
          ng-model="keyword"
          ng-keyup="onKeyup($event)">
-  <a href ng-click="onSearch()"><i class="budon budon-search"></i></a>
-</span>
+  <i class="fa fa-search search-hint"></i>
+  <a href=""><i class="fa fa-times clear" ng-show="keyword" ng-click="clear()"></i></a>
+</label>
+

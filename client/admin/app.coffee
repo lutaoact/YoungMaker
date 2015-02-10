@@ -110,14 +110,15 @@ angular.module 'mauidmin', ['maui.components']
     true
 
 .run (
+  Auth
   $modal
   notify
   $state
+  configs
   initUser
-  $location
+  $timeout
   $rootScope
   loginRedirector
-  Auth
 ) ->
 
   #set the default configuration options for angular-notify
@@ -125,35 +126,33 @@ angular.module 'mauidmin', ['maui.components']
     startTop: 30
     duration: 4000
 
-  checkInitState = (toState) ->
-    checkInitState = null
-    if !toState.authenticate
-      Auth.getCurrentUser().$promise?.then (me) ->
-        event.preventDefault()
-        $state.go('main')
-
   # Redirect to login if route requires auth and you're not logged in
   $rootScope.$on '$stateChangeStart', (event, toState, toParams) ->
-    loginRedirector.set($state.href(toState, toParams)) if toState.authenticate and !Auth.isLoggedIn() and !initUser?
-    $modal.open
-      templateUrl: 'components/login/loginModal.html'
-      controller: 'loginModalCtrl'
-      windowClass: 'login-window-modal'
-      size: 'md'
+    if toState.authenticate and !Auth.isLoggedIn() and !initUser?
+      loginRedirector.set($state.href(toState, toParams))
+      $modal.open
+        templateUrl: 'app/login/loginModal.html'
+        controller: 'loginModalCtrl'
+        windowClass: 'login-window-modal'
+        size: 'md'
 
   # fix bug, the view does not scroll to top when changing view.
   $rootScope.$on '$stateChangeSuccess', ->
     $("html, body").animate({ scrollTop: 0 }, 100)
 
-  setupUser = (user, goHome = false) ->
-    $state.go('main') if goHome
+  checkState = (state, params) ->
+    if state.authenticate
+      loginRedirector.set $state.href(state, params)
 
-  # setup data & config for logged user
-  $rootScope.$on 'loginSuccess', (event, user) ->
-    setupUser(user, true)
-
-  # Reload Auth
-  Auth.refreshCurrentUser()
+  # Setup data & config for logged user
+  $rootScope.const = Const
+  $rootScope.$state = $state
+  $rootScope.configs = configs
   $rootScope.$watch Auth.getCurrentUser, (newUser) ->
     $rootScope.me = newUser
+    if Auth.isLoggedIn()
+      loginRedirector.apply()
+    else
+      checkState($state.current, $state.params)
+  Auth.refreshCurrentUser() if initUser?
 

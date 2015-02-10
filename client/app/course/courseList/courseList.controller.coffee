@@ -57,6 +57,11 @@ angular.module('mauiApp')
         ($scope.categories.filter (x) -> x._id is category)?.name
       else
         ''
+    getCategoryById: (categoryId)->
+      if $scope.categories
+        $scope.categories.filter (x) -> x._id is category
+      else
+        undefined
 
   $scope.search()
 

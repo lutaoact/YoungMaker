@@ -3,8 +3,13 @@
     <div class="row">
       <div class="col-md-9 left-side">
         <div class="clearfix">
-          <div class="pull-left dropdown category-dropdown" style="position:relative;">
-            <a class="btn dropdown-toggle panel panel-card">
+          <div class="pull-left category-dropdown" dropdown style="position:relative;">
+            <a class="btn dropdown-toggle panel panel-card" dropdown-toggle>
+              <div class="category-logo" ng-if="!pageConf.category">
+                <i class="budon budon-course"></i>
+              </div>
+              <div class="category-logo" ng-if="pageConf.category" ng-src="{{getCategoryById(pageConf.category).logo}}">
+              </div>
               {{getCategoryName(pageConf.category)||'全部'}}
               <span class="caret"></span>
             </a>
@@ -17,7 +22,7 @@
             </ul>
           </div>
           <div class="pull-right">
-            <search-input placeholder="搜索课程。。。" keyword="pageConf.keyword" on-submit="reload(true)"></search-input>
+            <search-input placeholder="搜索课程。。。" keyword="pageConf.keyword" on-submit="pageConf.keyword=$keyword;reload(true)"></search-input>
           </div>
         </div>
         <div class="panel panel-card clearfix">

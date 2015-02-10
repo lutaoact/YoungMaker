@@ -2,14 +2,19 @@
   <div class="row">
 
     <!-- user info -->
-    <div class="col-md-3 text-center">
+    <div class="col-md-3">
       <user-tile user="user" me="me"></user-tile>
     </div>
 
     <!--user activities, courses, articles-->
     <div class="col-md-9">
       <!--user nav menu-->
-      <ul class="nav-tab">
+      <ul class="nav-tab"
+          ng-show="
+            $state.includes('user.articles') ||
+            $state.includes('user.courses') ||
+            $state.includes('user.home')
+          ">
         <li ui-sref-active="active">
           <a ui-sref="user.home({userId:user._id})">
             {{'#mine#' | mine:me._id==user._id:'最新动态':'Ta的动态'}}

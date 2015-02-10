@@ -1,0 +1,44 @@
+.user-tile-inline {
+  padding: 25px;
+  border: 1px solid @tile-border;
+  .user-name {
+    .text-overflow();
+    font-size: 14px;
+    .avatar-sm {
+      margin-right: 6px;
+    }
+  }
+  .follow-btn {
+    .btn {
+      height: 26px;
+      margin-top: 8px;
+      margin-bottom: 14px;
+      padding: 3px 10px;
+    }
+  }
+  .user-info {
+    padding-left: 40px;
+    .text-muted {
+      .text-overflow();
+      padding-top: 8px;
+      height: 34px;
+    }
+    .status {
+      font-size: 14px;
+      color: #414141;
+      width: 23.5%;
+      display: inline-block;
+      a {
+        width: 50%;
+        text-align: center;
+        color: @base-color;
+        display: inline-block;
+        vertical-align: bottom;
+      }
+      + .status {
+        padding-left: 15px;
+        border-left: 1px solid #eee;
+      }
+    }
+  }
+}

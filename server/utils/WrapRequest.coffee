@@ -18,7 +18,7 @@ class WrapRequest
     mongoDoc.populateQ()
 
 
-  wrapPageIndex: (req, res, next, conditions) ->
+  wrapPageIndex: (req, res, next, conditions, selects) ->
     conditions.deleteFlag = {$ne: true}
     logger.info 'page index conditions:', conditions
 
@@ -39,11 +39,13 @@ class WrapRequest
         logger.error err
         options.sort = null
 
+    unless selects then selects = null
+
     #从limit中取值，若未定义，则去PageSize中制定model的值，否则，取Default的值
     pageSize = options.limit ?
                Const.PageSize[@constructor.name] ?
                Const.PageSize.Default
-    mongoQuery = @Model.find conditions
+    mongoQuery = @Model.find conditions, selects
       .sort options.sort ? {created: -1}
       .limit _.min [~~pageSize, Const.MaxPageSize]
       .skip _.max [~~options.from, Const.MinSkipNum]

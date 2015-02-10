@@ -1,16 +1,28 @@
 .group-list{
   padding-top: 0;
-  background: @gray-lighter;
+  .header-row{
+    margin-bottom: 5px;
+  }
+  .category-logo{
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+    background-color: #323232;
+    height: 34px;
+    width: 34px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 34px;
+    padding: 5px;
+    color: #FFF;
+  }
+  .group-search{
+    margin-top: -2px;
+  }
+  .group-create{
+    margin-right: 29px;
 
-  .all-groups{
-    background: #FFF;
-    .box-shadow(0 0 2px @gray-light);
-    margin-bottom: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    .col-lg-4{
-      padding: 0 1px;
-    }
   }
   .pagination-row{
     .box-shadow(0 0 2px @gray-light);
@@ -20,11 +32,6 @@
     margin-bottom: 30px;
     .pagination{
       margin: 2px 0;
-    }
-  }
-  .header-row{
-    li.active{
-      background: red;
     }
   }
 }

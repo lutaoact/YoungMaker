@@ -69,5 +69,4 @@ angular.module('mauiApp')
   Restangular.one('groups', $state.params.groupId).one('members')
   .get()
   .then (members)->
-    console.log members
     $scope.groupMembers = members

@@ -1,56 +1,43 @@
 <section class="group-list">
-  <div class="header-row">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <a class="title" href ui-sref="{page:'', keyword:''}">所有小组</a>
-          <span class="border-left">
-            共 <span class="text-primary" style="font-size: 1.2em">{{groups.$count}}</span> 个
-          </span>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="clearfix header-row">
+          <div class="category-logo">
+            <i class="budon budon-course"></i>
+          </div>
+          <span>全部小组</span>
           <search-input keyword="viewState.keyword"
                         on-submit="reload(true)"
-                        placeholder="讨论组关键字搜索">
+                        placeholder="讨论组关键字搜索"
+                        class="group-search pull-right">
           </search-input>
-          <span ng-if="me">
-            <button class="btn btn-sm btn-danger pull-right"
-                    ng-click="createGroup()">
-              <i class="fa fa-plus-circle"></i>
-              新建小组
-            </button>
-            <div class="btn-group" ng-click="reload()">
-              <label class="btn btn-success" ng-model="pageConf.sort" btn-radio="'postsCount'">
-                最热
-                <i class="fa fa-heart"></i>
-              </label>
-              <label class="btn btn-success" ng-model="pageConf.sort" btn-radio="'created'">
-                最新
-                <i class="fa fa-clock-o"></i>
-              </label>
-            </div>
-          </span>
+          <button class="group-create btn btn-sm btn-success pull-right"
+                  ng-click="createGroup()">
+            新建小组
+          </button>
+        </div>
+
+        <div class="panel panel-card clearfix">
+          <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" ng-repeat="group in groups">
+            <group-tile group="group" me="me"></group-tile>
+          </div>
+        </div>
+
+        <div class="row pagination-row text-center"
+             ng-if="groups.$count > pageConf.itemsPerPage">
+          <pagination
+            total-items="groups.$count"
+            ng-model="pageConf.currentPage"
+            items-per-page="pageConf.itemsPerPage"
+            class="pagination-sm bud"
+            boundary-links="true"
+            rotate="false"
+            ng-change="reload()"
+            max-size="pageConf.maxSize">
+          </pagination>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="all-groups clearfix col-md-12">
-      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" ng-repeat="group in groups">
-        <group-tile group="group" me="me"></group-tile>
-      </div>
-    </div>
-
-    <div class="row pagination-row text-center"
-         ng-if="groups.$count > pageConf.itemsPerPage">
-      <pagination
-        total-items="groups.$count"
-        ng-model="pageConf.currentPage"
-        items-per-page="pageConf.itemsPerPage"
-        class="pagination-sm bud"
-        boundary-links="true"
-        rotate="false"
-        ng-change="reload()"
-        max-size="pageConf.maxSize">
-      </pagination>
     </div>
   </div>
 </section>

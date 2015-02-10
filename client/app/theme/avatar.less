@@ -1,4 +1,4 @@
-.avatar(@size: 64px) {
+.avatar(@size: 80px) {
   position: relative;
   background-color: @gray-lighter;
   width: @size;
@@ -9,22 +9,7 @@
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: cover;
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.7);
   background-image: url(/assets/images/empty_avatar.png);
-  &:before{
-    -moz-transform: rotate(45deg); /* FF3.5+ */
-    -o-transform: rotate(45deg); /* Opera 10.5 */
-    -webkit-transform: rotate(45deg); /* Saf3.1+, Chrome */
-    webkit-transform: rotate(45deg);
-    content: '';
-    position: absolute;
-    left: 9%;
-    top: -18%;
-    width: 50%;
-    height: 100%;
-    #gradient .vertical(@start-color:rgba(255,255,255,0.7); @start-percent:0%; @end-color:rgba(255,255,255,0.0); @end-percent:60%);
-    border-radius: @size/2 0% 0% 0%;
-  }
 }
 
 
@@ -33,17 +18,17 @@
   .avatar(36px);
 }
 
-// topic detail
+// topic, detail, navbar
 .avatar-sm{
   .avatar(30px);
 }
 
 // profile, stats
 .avatar-lg{
-  .avatar(60px);
+  .avatar(80px);
 }
 
-// reply, stats, navbar
+// reply, stats
 .avatar-xs{
   .avatar(24px);
 }

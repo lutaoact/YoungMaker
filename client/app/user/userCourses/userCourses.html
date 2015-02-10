@@ -5,20 +5,19 @@
 
 <div ng-if="courses.$count == 0"
      class="text-center">
-  暂无发布课程
+  暂无发布趣课
 </div>
 
-<div class="col-lg-4 col-md-6"
-     ng-repeat="course in courses"
-     ui-sref="courseDetail({courseId:course._id})">
-  <course-tile course="course"></course-tile>
-</div>
-
-<div id="new-course"
-     class="text-center">
+<div class="user-view-header">
+  {{courses.$count}} 篇趣课
   <a href
+     class="btn btn-sm btn-primary pull-right"
      ng-if="user._id==me._id"
-     ui-sref="courseEditor">创建新课程</a>
+     ui-sref="courseEditor">创建趣课</a>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
+  <course-tile course="course" me="me"></course-tile>
 </div>
 
 <div class="row pagination-row text-center"

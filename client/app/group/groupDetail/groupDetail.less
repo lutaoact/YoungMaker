@@ -1,19 +1,52 @@
 .group-detail {
-  .group-info {
+  .group-detail-tile {
+    width: 290px;
     background: #FFF;
-    cursor: pointer;
     border: 1px solid #eee;
     position: relative;
-    padding: 20px;
+    padding: 25px 25px 20px 25px;
     border-radius: 4px;
+    margin-bottom: 25px;
+    hr{
+      margin: 15px 0;
+    }
     .group-logo {
-      height: 185px;
-      width: 100%;
+      height: 230px;
+      width: 100% ;
       background-color: @gray-lighter;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
       border-radius: 2px;
+    }
+    .group-body {
+      .btn-join{
+        color: @base-color;
+        border-color: @base-color;
+        width: 74px;
+        line-height: 13px;
+        &:hover, :focus{
+          color: white;
+          background-color: @base-color;
+        }
+      }
+      .btn-joined{
+        border-color: @base-color;
+        width: 74px;
+        line-height: 13px;
+        color: white;
+        background-color: @base-color;
+        &:hover, :focus{
+          color: @base-color;
+          background-color: white;
+        }
+      }
+    }
+    .group-members {
+      .avatar-md{
+        margin: 4px;
+        display: inline-block;
+      }
     }
   }
 }

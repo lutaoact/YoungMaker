@@ -60,7 +60,7 @@ angular.module('mauiApp')
       Restangular.one('groups', $scope.group._id).one('join')
       .post()
       .then (data)->
-        $scope.group = data
+        $scope.group.members = data.members
         notify
           message: '已加入小组'
           classes: 'alert-success'
@@ -71,7 +71,7 @@ angular.module('mauiApp')
       Restangular.one('groups', $scope.group._id).one('leave')
       .post()
       .then (data)->
-        $scope.group = data
+        $scope.group.members = data.members
         notify
           message: '已退出小组'
           classes: 'alert-success'

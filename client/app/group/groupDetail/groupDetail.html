@@ -7,23 +7,32 @@
       <div ui-view class="fadeIn"></div>
     </div>
     <div class="col-md-3">
-      <div class="group-info">
+      <div class="group-detail-tile">
         <div class="group-logo" ng-src="{{group.logo}}">  </div>
         <div class="group-body">
           <h4 class="group-name">
             {{group.name}}
           </h4>
-          <p class="group-disc text-muted">
+          <p class="group-info text-muted">
             {{group.info}}
           </p>
           <p>创建于{{group.created | moment: 'calendar'}}</p>
           <p>组长：<a ui-sref="user.home({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a></p>
-          <div ng-switch="getRole()">
-            <div ng-switch-when='creator'>我是小组组长
-              <button ng-click="editGroupInfo()">修改小组信息</button>
+          <div ng-switch="getRole()" class="text-center">
+            <div ng-switch-when='creator'>
+              <button ng-click="editGroupInfo()">
+                修改小组信息</button>
             </div>
-            <div ng-switch-when='member'>我是小组成员&nbsp;> <a href="" ng-click="leaveGroup()">退出</a></div>
-            <div ng-switch-default><button class="btn btn-sm btn-outline btn-success" login-window login-success="joinGroup()">加入</button></div>
+            <div ng-switch-when='member'>
+              <button class="btn btn-sm btn-outline btn-joined"
+                      ng-click="leaveGroup()"
+                      ng-init="text='已加入'" ng-mouseenter="text='退出小组'" ng-mouseleave="text='已加入'">
+                {{text}}</button>
+            </div>
+            <div ng-switch-default>
+              <button class="btn btn-sm btn-outline btn-join" login-window login-success="joinGroup()">
+                加入</button>
+            </div>
           </div>
         </div>
 
@@ -32,15 +41,10 @@
         <div class="group-members">
           <h5 class="group-stat text-overflow">
             {{group.members.length}}个成员
+            <a class="pull-right">全部成员</a>
           </h5>
-          <div class="member" ng-repeat="member in groupMembers">
-            <div class="avatar-md"
-                 title="{{member.name}}"
-                 source-attr="background-image"
-                 src-key="member.avatar"
-                 suffix="?imageView2/1/w/64/h/64"
-              >
-            </div>
+          <div ng-repeat="member in groupMembers">
+            <div class="avatar-md" title="{{member.name}}" ng-src="{{member.avatar}}"> </div>
           </div>
         </div>
       </div>

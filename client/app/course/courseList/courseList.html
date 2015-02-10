@@ -1,63 +1,58 @@
 <div class="course-list">
   <div class="container">
-    <div class="col-md-9 left-side">
-      <div class="row clearfix">
-        <div class="pull-left dropdown category-dropdown" style="position:relative;">
-          <a class="btn dropdown-toggle panel panel-card">
-            {{getCategoryName(pageConf.category)||'全部'}}
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="category in categories">
-              <a href="" ng-click="pageConf.category=category._id;reload(true)">
-                {{category.name}}
-              </a>
-            </li>
-          </ul>
+    <div class="row">
+      <div class="col-md-9 left-side">
+        <div class="clearfix">
+          <div class="pull-left dropdown category-dropdown" style="position:relative;">
+            <a class="btn dropdown-toggle panel panel-card">
+              {{getCategoryName(pageConf.category)||'全部'}}
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="category in categories">
+                <a href="" ng-click="pageConf.category=category._id;reload(true)">
+                  {{category.name}}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="pull-right">
+            <search-input placeholder="搜索课程。。。" keyword="pageConf.keyword" on-submit="reload(true)"></search-input>
+          </div>
         </div>
-        <div class="pull-right">
-        </div>
-      </div>
-      <div class="panel panel-card clearfix row">
-        <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
-          <course-tile course="course" me="me"></course-tile>
-        </div>
-      </div>
-
-      <div class="panel panel-card clearfix text-center row"
-        ng-if="courses.$count > pageConf.itemsPerPage">
-        <pagination
-          total-items="courses.$count"
-          ng-model="pageConf.currentPage"
-          items-per-page="pageConf.itemsPerPage"
-          class="pagination-sm bud"
-          boundary-links="true"
-          rotate="false"
-          ng-change="reload()"
-          max-size="pageConf.maxSize">
-        </pagination>
-      </div>
-
-    </div>
-
-    <div class="col-md-3 right-side">
-      <div class="panel panel-card">
-        <h4>
-          你可能会喜欢
-          <a href="" class="pull-right" ng-click="RecommendCourses.change()">换一批</a>
-        </h4>
-        <div ng-repeat="course in RecommendCourses.suggests">
-          {{course.name}}
+        <div class="panel panel-card clearfix">
+          <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
+            <course-tile course="course" me="me"></course-tile>
+          </div>
+          <div class="clearfix pagination-row col-md-12 text-center" ng-if="courses.$count > pageConf.itemsPerPage">
+            <hr>
+            <pagination
+              total-items="courses.$count"
+              ng-model="pageConf.currentPage"
+              items-per-page="pageConf.itemsPerPage"
+              class="pagination-sm bud"
+              boundary-links="true"
+              rotate="false"
+              ng-change="reload()"
+              max-size="pageConf.maxSize">
+            </pagination>
+          </div>
         </div>
 
       </div>
 
-      <div class="panel panel-card">
-        <h4>
-          值得关注的达人
-          <a href="" class="pull-right">换一批</a>
-        </h4>
+      <div class="col-md-3 right-side">
+        <recommend-courses>
+        </recommend-courses>
+
+        <div class="panel panel-card">
+          <h4>
+            值得关注的达人
+            <a href="" class="pull-right">换一批</a>
+          </h4>
+        </div>
       </div>
+
     </div>
 
   </div>

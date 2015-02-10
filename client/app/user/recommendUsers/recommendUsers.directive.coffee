@@ -5,8 +5,6 @@ angular.module('mauiApp')
   itemsPerPage = 3
   sortObj = {}
   sortObj.heat = -1
-  sortObj.viewersNum = -1
-  sortObj.commentsNum = -1
   sortObj.created = -1
   reload = () ->
     Restangular.all('users/recommends').getList
@@ -21,7 +19,6 @@ angular.module('mauiApp')
       self.loading = true
       reload()
       .then (courses)->
-        console.log courses
         self.suggests = courses
         if currentPage is Math.ceil(courses.$count / itemsPerPage)
           currentPage = 1

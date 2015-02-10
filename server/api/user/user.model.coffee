@@ -8,6 +8,11 @@ authTypes = ['google']
 BaseModel = require '../../common/BaseModel'
 
 class User extends BaseModel
+  populates:
+    recommends: [
+      path: '', select: 'name avatar info'
+    ]
+
   schema: new Schema
     email:#用于登录
       type: String

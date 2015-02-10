@@ -6,6 +6,27 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 exports.index = (req, res, next) ->
   conditions = {}
   conditions.author   = req.query.author if req.query.author
+  conditions.categoryId = req.query.category
+
+  # filter by tags
+  queryTags = null
+  try
+    queryTags = JSON.parse(req.query.tags) if req.query.tags
+  catch e
+    queryTags = null
+
+  if queryTags?.length
+    conditions.tags = $in: queryTags
+
+  # filter by keyword
+  if req.query.keyword
+    regex = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$or = [
+        'title': regex
+      ,
+        'content': regex
+    ]
+
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

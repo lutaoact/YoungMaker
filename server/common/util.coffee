@@ -4,7 +4,7 @@ require "./init"
 # * @param  [Array] array   一个包含对象的数组
 # * @param  [Array] columns 需要从对象中拣选出的属性名
 # * @return [Array] 数组array的拷贝，其中的对象只包含columns中指定的那些列
-# 
+#
 arrayPick = (array, columns) ->
   _.map array, (element) ->
     _.pick.apply _, [element].concat(columns)
@@ -14,7 +14,7 @@ arrayPick = (array, columns) ->
 # * @param  [Array] array   一个包含对象的数组
 # * @param  [Array] columns 需要从对象中忽略的属性名
 # * @return [Array] 数组array的拷贝，其中的对象不包含columns中指定的那些列
-# 
+#
 arrayOmit = (array, columns) ->
   _.map array, (element) ->
     _.omit.apply _, [element].concat(columns)
@@ -22,7 +22,7 @@ arrayOmit = (array, columns) ->
 
 #
 # * @return [Integer] 当前的unix timestamp
-# 
+#
 time = (date) ->
   if date
     new Date(date).getTime() / 1000 | 0
@@ -31,7 +31,7 @@ time = (date) ->
 
 #
 # * @return [Integer] 当前的以毫秒为单位的时间戳
-# 
+#
 milliseconds = ->
   new Date().getTime()
 
@@ -39,7 +39,7 @@ milliseconds = ->
 # * @param  [String] key 下划线分隔的字符串
 # * @return [String] 每个单词首字母大写
 # * @example user_card -> UserCard
-# 
+#
 convertToCamelCase = (key) ->
   _.map(key.split("_"), (s) ->
     s.charAt(0).toUpperCase() + s.substr(1)
@@ -49,7 +49,7 @@ convertToCamelCase = (key) ->
 # * @param  [String] key 每个单词首字母大写
 # * @return [String] 下划线分隔
 # * @example UserCard -> user_card
-# 
+#
 convertToSnakeCase = (key) ->
   _.map(key.match(/[A-Z][a-z0-9]*/g), (s) ->
     s.charAt(0).toLowerCase() + s.substr(1)
@@ -66,6 +66,10 @@ union = ->
   _.uniq _.union.apply(_, arguments_), (value) ->
     value.toString()
 
+escapeRegex = (string)->
+  string.replace(/[{}()^$|.\[\]*?+]/g, '\\$&')
+
+exports.escapeRegex = escapeRegex;
 exports.arrayPick = arrayPick
 exports.arrayOmit = arrayOmit
 exports.time = time

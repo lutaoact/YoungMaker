@@ -6,10 +6,13 @@ angular.module('mauiApp')
   $state
   Restangular
   notify
+  $timeout
 ) ->
 
   angular.extend $scope,
-    courses: []
+    courses: null
+
+    loading: true
 
     pageConf:
       maxSize      : 5
@@ -47,19 +50,23 @@ angular.module('mauiApp')
         keyword    : $scope.pageConf.keyword
         sort       : JSON.stringify sortObj
         tags       : JSON.stringify $scope.pageConf.tags if $scope.pageConf.tags?.length
+        category   : $scope.pageConf.category
         createdBy  : $scope.pageConf.createdBy
       .then (courses)->
         $scope.courses = courses
         $scope.courseTotalCount = courses.$count
+        $scope.loading = false
+      , ->
+        $scope.loading = false
 
     getCategoryName: (category)->
       if $scope.categories
-        ($scope.categories.filter (x) -> x._id is category)?.name
+        ($scope.categories.filter (x) -> x._id is category)?[0]?.name
       else
         ''
     getCategoryById: (categoryId)->
       if $scope.categories
-        $scope.categories.filter (x) -> x._id is category
+        ($scope.categories.filter (x) -> x._id is categoryId)[0]
       else
         undefined
 

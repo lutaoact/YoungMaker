@@ -1,21 +1,39 @@
-<div class="text-center">
-  <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
-</div>
-<div class="" ng-repeat="article in groupArticles">
-  <article-tile article="article" me="me"></article-tile>
-</div>
-<div class="row pagination-row text-center"
-     ng-if="groupArticles.$count > pageConf.itemsPerPage">
-  <pagination
-    total-items="groupArticles.$count"
-    ng-model="pageConf.currentPage"
-    items-per-page="pageConf.itemsPerPage"
-    class="pagination-sm bud"
-    boundary-links="true"
-    rotate="false"
-    ng-change="reload()"
-    max-size="pageConf.maxSize">
-  </pagination>
-</div>
+<div class="group-article-list">
+  <search-input keyword="viewState.keyword"
+                on-submit="reload(true)"
+                placeholder="讨论组关键字搜索"
+                class="article-search pull-right">
+  </search-input>
+  <button class="article-create btn btn-sm btn-success pull-right"
+          login-window login-success="createGroupArticle()">
+    发表新帖
+  </button>
 
+  <ul class="nav-tab" ng-click="reload()">
+    <li ng-click="pageConf.sort='created'" ng-class="{'active':pageConf.sort!='heat'}">
+      <a>最新贴</a>
+    </li>
+    <li ng-click="pageConf.sort='heat'" ng-class="{'active':pageConf.sort=='heat'}">
+      <a>最热帖</a>
+    </li>
+  </ul>
 
+  <div class="panel panel-card">
+    <div class="" ng-repeat="article in groupArticles">
+      <article-tile article="article" me="me"></article-tile>
+    </div>
+    <div class="row pagination-row text-center"
+         ng-if="groupArticles.$count > pageConf.itemsPerPage">
+      <pagination
+        total-items="groupArticles.$count"
+        ng-model="pageConf.currentPage"
+        items-per-page="pageConf.itemsPerPage"
+        class="pagination-sm bud"
+        boundary-links="true"
+        rotate="false"
+        ng-change="reload()"
+        max-size="pageConf.maxSize">
+      </pagination>
+    </div>
+  </div>
+</div>

@@ -16,7 +16,7 @@ angular.module('mauiApp')
     abstract: true
 
   .state 'groupDetail.articleList',
-    url: '?page&keyword'
+    url: '?page&keyword&sort'
     templateUrl: 'app/group/groupDetail/groupArticleList.html'
     controller: 'GroupArticleListCtrl'
 

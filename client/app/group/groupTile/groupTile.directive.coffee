@@ -18,7 +18,6 @@ angular.module('mauiApp').directive 'groupTile', ()->
         $modal.open
           templateUrl: 'app/group/editGroup/editGroupModal.html'
           controller: 'EditGroupModalCtrl'
-          windowClass: 'bud-modal'
           size: 'sm'
           resolve:
             group: -> angular.copy($scope.group)

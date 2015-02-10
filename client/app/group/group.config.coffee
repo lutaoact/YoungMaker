@@ -20,6 +20,11 @@ angular.module('mauiApp')
     templateUrl: 'app/group/groupDetail/groupArticleList.html'
     controller: 'GroupArticleListCtrl'
 
+  .state 'groupDetail.memberList',
+    url: '/members'
+    templateUrl: 'app/group/groupMemberList/groupMemberList.html'
+    controller: 'GroupMemberListCtrl'
+
   .state 'groupArticleNew',
     url: '/groups/:groupId/articles/new'
     templateUrl: 'app/article/articleEditor/articleEditor.html'

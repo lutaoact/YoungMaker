@@ -1,9 +1,6 @@
 <div class="container group-detail">
   <div class="row">
     <div class="col-md-9 col-sm-12" >
-      <div class="text-center">
-        <a href="" login-window login-success="createGroupArticle()"><i>+</i>发言</a>
-      </div>
       <div ui-view class="fadeIn"></div>
     </div>
     <div class="col-md-3">
@@ -41,10 +38,13 @@
         <div class="group-members">
           <h5 class="group-stat text-overflow">
             {{group.members.length}}个成员
-            <a class="pull-right">全部成员</a>
+            <a href ui-sref="groupDetail.memberList" class="pull-right">全部成员</a>
           </h5>
-          <div ng-repeat="member in groupMembers">
-            <div class="avatar-md" title="{{member.name}}" ng-src="{{member.avatar}}"> </div>
+          <div ng-repeat="member in groupMembers | limitTo:15" class="group-member-list">
+            <div class="avatar-md"
+                 tooltip="{{member.name}}"
+                 ng-src="{{member.avatar}}"
+                 ui-sref="user.home({userId: member._id})"> </div>
           </div>
         </div>
       </div>

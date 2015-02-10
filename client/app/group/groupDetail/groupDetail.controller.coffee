@@ -17,7 +17,6 @@ angular.module('mauiApp')
       $modal.open
         templateUrl: 'app/group/editGroup/editGroupModal.html'
         controller: 'EditGroupModalCtrl'
-        windowClass: 'bud-modal'
         size: 'sm'
         resolve:
           group: -> angular.copy($scope.group)
@@ -70,6 +69,5 @@ angular.module('mauiApp')
   Restangular.one('groups', $state.params.groupId).one('members')
   .get()
   .then (members)->
-    console.log 'members'
     console.log members
     $scope.groupMembers = members

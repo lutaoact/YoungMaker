@@ -1,0 +1,10 @@
+<div class="group-member-list">
+  <ul>
+    <li ng-repeat="member in groupMembers"
+        ui-sref="user.home({userId: member._id})"
+        class="member">
+      <div class="avatar-md" title="{{member.name}}" ng-src="{{member.avatar}}"> </div>
+      <a href ui-sref="user.home({userId: member._id})">{{member.name}}</a>
+    </li>
+  </ul>
+</div>

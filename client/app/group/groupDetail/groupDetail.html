@@ -5,22 +5,24 @@
     </div>
     <div class="col-md-3">
       <div class="panel panel-card group-detail-tile clearfix">
-        <div class="col-md-12 clearfix text-center">
+        <div class="col-md-12 clearfix">
           <div class="group-logo" ng-src="{{group.logo}}"></div>
-          <div class="group-body">
-            <h4 class="group-name">
-              {{group.name}}
-            </h4>
+          <p class="group-name">
+            {{group.name}}
+          </p>
 
-            <p class="group-info text-muted">
-              {{group.info}}
-            </p>
+          <p class="group-info text-muted">
+            {{group.info}}
+          </p>
 
-            <p>创建于{{group.created | moment: 'calendar'}}</p>
-
-            <p>组长：<a ui-sref="user.home({userId:group.creator._id})" target="{{group.creator._id}}">{{group.creator.name}}</a>
-            </p>
-
+          <p class="group-owner text-muted">
+            <a ui-sref="user.home({userId:group.creator._id})"
+               target="{{group.creator._id}}">
+              {{group.creator.name}}
+            </a>
+            创建于{{group.created | moment: 'calendar'}}
+          </p>
+          <div class="group-btn-block">
             <div ng-switch="getRole()" class="text-center">
               <div ng-switch-when='creator'>
                 <button class="btn btn-sm btn-outline btn-primary" ng-click="editGroupInfo()">
@@ -43,14 +45,14 @@
           </div>
           <hr>
           <div class="clearfix">
-            <span class="group-stat text-overflow pull-left">
+            <span class="text-muted text-overflow pull-left">
               {{group.members.length}}个成员
             </span>
-            <span class="pull-right"><a href ui-sref="groupDetail.memberList">
+            <span class="pull-right"><a style="color: #31d6c5" href ui-sref="groupDetail.memberList">
               全部成员</a>
             </span>
           </div>
-          <div class="group-members">
+          <div class="group-members text-center">
             <div ng-repeat="member in groupMembers | limitTo:15" class="group-member-list">
               <div class="avatar-md"
                    tooltip="{{member.name}}"

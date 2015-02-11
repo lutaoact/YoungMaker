@@ -1,7 +1,7 @@
 <div class="group-article-list">
   <search-input keyword="viewState.keyword"
                 on-submit="reload(true)"
-                placeholder="讨论组关键字搜索"
+                placeholder="帖子关键字搜索"
                 class="article-search pull-right">
   </search-input>
   <button class="article-create btn btn-sm btn-success pull-right"
@@ -19,9 +19,7 @@
   </ul>
 
   <div class="panel panel-card">
-    <div class="" ng-repeat="article in groupArticles">
-      <article-tile article="article" me="me"></article-tile>
-    </div>
+    <article-tile article="article" me="me" ng-repeat="article in groupArticles"></article-tile>
     <div class="row pagination-row text-center"
          ng-if="groupArticles.$count > pageConf.itemsPerPage">
       <pagination

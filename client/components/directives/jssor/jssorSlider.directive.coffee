@@ -59,9 +59,10 @@ angular.module('maui.components')
         if scope.jSlider.name
           console.log("SliderChanged:", scope.jSlider.name, angular.toJson(status))
       scaleSlider = ->
-        bodyWidth = document.body.clientWidth
-        if bodyWidth
-          slider.$ScaleWidth(Math.min(bodyWidth, 1920))
+        parentWidth = slider.$Elmt.parentNode.clientWidth
+        # bodyWidth = document.body.clientWidth
+        if parentWidth
+          slider.$ScaleWidth(Math.min(parentWidth, 1920))
         else
           $timeout scaleSlider, 30
       scaleSlider()

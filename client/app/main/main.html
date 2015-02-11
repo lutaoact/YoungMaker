@@ -32,7 +32,8 @@
 
       <!-- static content -->
       <div u="any" class="search-form">
-        <input type="text" placeholder="Search..." class="form-control">
+        <search-input placeholder="快来找您感兴趣的趣课…" keyword="viewState.keyword" on-submit="viewState.keyword=$keyword;search()"></search-input>
+        <button class="btn btn-warning btn-search" ng-click="search()">搜索</button>
       </div>
     </div>
 
@@ -48,21 +49,123 @@
     <!-- Arrow Right -->
     <span u="arrowright" class="arrow-right fa fa-chevron-right">
     </span>
+
   </div>
 
-  <div class="discover-body">
+  <div class="discover-news">
     <div class="container">
+      <h3 class="discover-news-title text-primary">
+        我们推荐的咨询
+        <br>
+      </h3>
+      <p class="text-muted">
+        在这里我们为您网罗最新、最热的行业动态及资讯内容。
+      </p>
+      <div class="row">
+        <div class="col-md-7 clearfix">
+          <div>
+            <div j-slider="slideOpts" class="j-slides">
+              <div u="loading" class="carousels-loading" style="">
+                <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
+                top: 0px; left: 0px; width: 100%; height: 100%;">
+                </div>
+                <div style="position: absolute; display: block; background: url(/assets/images/loading.gif) no-repeat center center;
+                top: 0px; left: 0px; width: 100%; height: 100%;">
+                </div>
+              </div>
+              <!-- Slides Container -->
+              <div u="slides" class="slides">
+                <div>
+                  <img u="image" src="http://lorempixel.com/1400/600/?r=1">
+                  <div u="thumb">
+                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
+                  </div>
+                </div>
+                <div>
+                  <img u="image" src="http://lorempixel.com/1400/600/?r=2">
+                  <div u="thumb">
+                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
+                  </div>
+                </div>
+                <div>
+                  <img u="image" src="http://lorempixel.com/1400/600/?r=3">
+                  <div u="thumb">
+                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
+                  </div>
+                </div>
+                <div>
+                  <img u="image" src="http://lorempixel.com/1400/600/?r=4">
+                  <div u="thumb">
+                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
+                  </div>
+                </div>
+                <div>
+                  <img u="image" src="http://lorempixel.com/1400/600/?r=5">
+                  <div u="thumb">
+                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
+                  </div>
+                </div>
+                <div>
+                  <img u="image" src="http://lorempixel.com/1400/600/?r=6">
+                  <div u="thumb">
+                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- ThumbnailNavigator Skin Begin -->
+              <div u="thumbnavigator" class="sliderb-T" style="position: absolute; bottom: 0px; left: 0px; height:83px; width:750px;">
+                <div style="filter: alpha(opacity=40); opacity:0.4; position: absolute; display: block;
+                    background-color: #000000; top: 0px; left: 0px; width: 100%; height: 100%;">
+                </div>
+                <!-- Thumbnail Item Skin Begin -->
+                <div u="slides">
+                  <div u="prototype" style="POSITION: absolute; WIDTH: 750px; HEIGHT: 83px; TOP: 0; LEFT: 0;">
+                      <div u="thumbnailtemplate" style="font-family: verdana; font-weight: normal; POSITION: absolute; WIDTH: 100%; HEIGHT: 100%; TOP: 0; LEFT: 0; color:#fff; font-size:16px; padding-left:10px;"></div>
+                  </div>
+                </div>
+                <!-- Thumbnail Item Skin End -->
+              </div>
+              <!-- ThumbnailNavigator Skin End -->
+
+              <!-- bullet navigator container -->
+              <div u="navigator" class="bullet-square" style="position: absolute; bottom: 16px; right: 10px;">
+                <!-- bullet navigator item prototype -->
+                <div u="prototype" style="POSITION: absolute; WIDTH: 12px; text-align:center; line-height:12px; color:White; font-size:12px;"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <h4 class="text-primary">
+            行业动态
+            <span class="pull-right">
+              <a href=""><i class="fa fa-long-arrow-left"></i></a>
+              <a href=""><i class="fa fa-long-arrow-right"></i></a>
+            </span>
+          </h4>
+          <div class="panel panel-card">
+            <article-tile ng-repeat="article in articles"
+                          article="article">
+            </article-tile>
+          </div>
+        </div>
+      </div>
       <!-- recommended articles -->
       <div class="col-lg-6 block">
         <h4 class="block-title">
           <i class="title-icon budon budon-news"></i>
           STEM 最新资讯
         </h4>
-        <div class="panel panel-card">
-          <article-tile ng-repeat="article in articles"
-                        article="article">
-          </article-tile>
-        </div>
+
 
         <div class="block-pager">
 

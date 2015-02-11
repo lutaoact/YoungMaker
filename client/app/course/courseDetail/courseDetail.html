@@ -9,7 +9,7 @@
               <a class="text-primary"
                  ui-sref="user.home({userId: course.author._id})">{{course.author.name}}</a>
               &nbsp;在{{course.created | moment: 'fromNow'}}&nbsp;
-              发表于&nbsp;<a href="">{{course.category||'其他'}}</a>
+              发表于&nbsp;<a ui-sref="courseList({category:course.categoryId._id||null})">{{course.categoryId.name||'其他'}}</a>
             </small>
             <small class="text-muted stats">
               <span><i class="fa fa-comment"></i>{{course.commentsNum||0}}</span><span>
@@ -29,7 +29,7 @@
             <hr>
             <ul class="ul-block">
               <li class="user-info">
-                <div class="avatar-xs"
+                <div class="avatar-sm"
                      ng-src="{{course.author.avatar|trusted:'url'}}">
                 </div>
                 <a href="" ui-sref="user.home({userId: course.author._id})">
@@ -38,12 +38,12 @@
               </li>
               <li>
                 {{course.created | moment:'calendar'}} <br>
-                发表于 <a href="">{{course.category.name||'其他'}}</a>
+                发表于 <a ui-sref="courseList({category:course.categoryId._id||null})">{{course.category.name||'其他'}}</a>
               </li>
-              <li ng-if="course.tags" class="tags">
+              <li ng-if="course.tags.length" class="tags">
                 标签：
                 <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index<5">
-                  {{tag}}
+                  #{{tag}}
                 </a>
                 <div class="dropdown pull-right more-tags-dropdown" dropdown>
                   <a title="点击显示全部" dropdown-toggle class="more" ng-if="course.tags.length>=5">
@@ -52,7 +52,7 @@
                   <ul class="dropdown-menu" role="menu">
                     <li>
                       <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index>4">
-                        {{tag}}
+                        #{{tag}}
                       </a>
                     </li>
                   </ul>
@@ -61,11 +61,12 @@
             </ul>
           </div>
         </article>
-        <div class="panel panel-card">
+        <div class="panel panel-card comments-panel">
           <comments belong-to="course._id" type="{{const.CommentType.Course}}" me="me"></comments>
         </div>
       </div>
       <div class="col-lg-3 col-md-4">
+        <user-tile user="course.author" me="me"></user-tile>
         <recommend-courses>
         </recommend-courses>
       </div>

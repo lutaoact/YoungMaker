@@ -1,6 +1,9 @@
 .course-detail{
   .course{
     padding: 15px 60px;
+    @media screen and (max-width: @screen-lg-min) {
+      padding: 20px 30px;
+    }
     .course-header{
       .stats{
         margin-left: 40px;
@@ -15,6 +18,11 @@
     }
     .course-footer{
       .user-info{
+        .avatar-sm{
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 10px;
+        }
         a{
           display: inline-block;
         }
@@ -49,6 +57,12 @@
         margin-left: -60px;
         margin-right: -60px;
       }
+    }
+  }
+  .comments-panel{
+    padding: 20px 55px;
+    @media screen and (max-width: @screen-lg-min) {
+      padding: 20px 35px;
     }
   }
 }

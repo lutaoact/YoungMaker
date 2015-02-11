@@ -87,12 +87,9 @@ WeixinStrategy = require('passport-weixin-plus').Strategy
 #))
 
 passport.use(new WeixinStrategy({
-  clientID    : (req) ->
-    return global.weixinAuth[req.headers.host].appid
-  clientSecret: (req) ->
-    return global.weixinAuth[req.headers.host].secret
-  callbackURL : (req) ->
-    return "http://#{req.headers.host}#{config.weixinAuthCallbackURL}"
+  clientID    : config.weixinAuth.appkey
+  clientSecret: config.weixinAuth.secret
+  callbackURL : config.weixinAuth.oauth_callback_url
   requireState: false
   scope       : 'snsapi_login'
   passReqToCallback: true
@@ -103,7 +100,7 @@ passport.use(new WeixinStrategy({
     name : profile.displayName
     other: profile
 
-  User.findOne {'weixin.id': profile.id, orgId: req.org?._id}, (err, dbUser) ->
+  User.findOne {'weixin.id': profile.id}, (err, dbUser) ->
     if err then return done err
 
     if dbUser
@@ -121,7 +118,6 @@ passport.use(new WeixinStrategy({
           name: weixin.name
           avatar: profile.profileUrl
           weixin: weixin
-          orgId: req.org?._id
         User.create data, (err, user) ->
           return done err, user
 ))

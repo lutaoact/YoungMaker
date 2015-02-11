@@ -51,7 +51,7 @@ router.get('/weixin/callback', auth.verifyTokenCookie(), function(req, res, next
   passport.authenticate('weixin', function(err, user, info) {
     if (err) return next(err)
 
-    req.user = user
+    req.user = user;
     console.log('weixin/callback ' + req.query.redirect);
     auth.setTokenCookie(req, res, req.query.redirect);
   })(req, res, next);

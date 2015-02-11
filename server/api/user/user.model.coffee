@@ -13,7 +13,7 @@ class User extends BaseModel
       type: String
       lowercase: true
       unique: true
-      required: true
+      sparse: true
     hashedPassword:
       type: String
     salt:
@@ -35,6 +35,11 @@ class User extends BaseModel
       id: String
       name: String
       token: String
+    weixin:
+      id: String
+      name: String
+      token: String
+      other: {}
     canManage:
       type: Boolean
       default: false
@@ -92,14 +97,14 @@ class User extends BaseModel
     UserSchema
     .path 'email'
     .validate (email) ->
-      email.length
+      return @weixin.id or email.length
     , '邮箱地址不能为空'
 
     # Validate empty password
     UserSchema
     .path 'hashedPassword'
     .validate (hashedPassword) ->
-      hashedPassword.length
+      return @weixin.id or hashedPassword.length
     , '登录密码不能为空'
 
     # Validate email is not taken
@@ -118,14 +123,10 @@ class User extends BaseModel
     validatePresenceOf = (value) ->
       value && value.length
 
-    UserSchema
-    .pre 'save', (next) ->
-      if not this.isNew
-        next()
-      if not validatePresenceOf(this.hashedPassword)
-        next new Error 'Invalid password'
-      else
-        next()
+# 保存前会执行的中间件，留待后用
+#    UserSchema
+#    .pre 'save', (next) ->
+#      next()
 
     UserSchema.methods =
       ###

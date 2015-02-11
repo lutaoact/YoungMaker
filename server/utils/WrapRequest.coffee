@@ -123,7 +123,7 @@ class WrapRequest
       userId: userId
       action: action + "_" + @Model.constructor.name.toLowerCase()
 
-    console.log 'addActivity ==============', activity
+    # TODO refactor to schema.methods
     switch activity.action
       when 'create_article', 'like_article'
         activity.article = makeData(doc.title, doc.content, doc.image, doc._id)

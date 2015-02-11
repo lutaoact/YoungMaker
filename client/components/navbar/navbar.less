@@ -1,0 +1,130 @@
+.navbar-main {
+  background: #FFF;
+  border-radius: 0;
+  border: none;
+  .box-shadow(inset 0px 0px 1px rgba(0, 0, 0, 0.5));
+  .login-btn {
+    margin-left: 15px;
+  }
+  a, li > a {
+    color: #323232;
+    &:hover, &:focus {
+      color: #323232;
+      background-color: transparent;
+    }
+  }
+  .show-triangle() {
+    position: relative;
+    &:before {
+      position: absolute;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: FontAwesome;
+      content: '\f0d8';
+      color: @brand-warning;
+      top: 60%;
+      left: 50%;
+      margin-left: -4px;
+    }
+  }
+  .navbar-nav {
+    > li > a {
+      &:hover {
+        .show-triangle();
+      }
+    }
+    > li.active {
+      a {
+        .show-triangle();
+      }
+    }
+  }
+  .navbar-brand {
+    background: @base-color;
+    color: #FFF;
+    position: relative;
+    overflow: visible;
+    &:hover, &:focus {
+      color: #FFF;
+      background: @base-color;
+    }
+    &:before {
+      width: 1000px;
+      height: 100%;
+      content: ' ';
+      background: @base-color;
+      position: absolute;
+      right: 100%;
+      top: 0;
+    }
+  }
+  .navbar-toggle {
+    .icon-bar {
+      background: #ddd;
+    }
+  }
+}
+.profile-dropdown {
+  .badge {
+    position: absolute;
+    top: 9px;
+    left: 20px;
+    background-color: #F96545;
+  }
+  .navbar-avatar-name {
+    font-size: 0;
+    .navbar-avatar {
+      margin-right: 10px;
+      display: inline-block;
+      cursor: pointer;
+      margin-top: ((@navbar-height - 30px) / 2) !important;
+      margin-bottom: ((@navbar-height - 30px) / 2) !important;
+    }
+  }
+  .user-name {
+    vertical-align: text-bottom;
+    font-size: 14px;
+    line-height: @navbar-height;
+  }
+  .dropdown-menu.profile-menu{
+    left: -8px;
+    min-width: 100px;
+    &:before{
+      content: '';
+      height: 0;
+      width: 0;
+      left: 16px;
+      top: -10px;
+      position: absolute;
+      border-bottom: 10px solid #000000;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
+    &:after{
+      content: '';
+      height: 0;
+      width: 0;
+      left: 16px;
+      top: -10px;
+      position: absolute;
+      border-bottom: 10px solid #FFFFFF;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      z-index: 100;
+    }
+    li{
+      padding: 1px;
+      a{
+        color: #5F7083;
+        font-weight: bold;
+        &:hover{
+          background: none;
+          color: @base-color;
+        }
+      }
+    }
+    padding: 6px 0;
+    border-radius: 4px !important;
+  }
+}

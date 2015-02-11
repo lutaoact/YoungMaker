@@ -1,19 +1,45 @@
-.bud.pagination{
-  .page-input{
+.pagination{
+  width: 100%;
+  text-align: center;
+  .page-input {
     text-align: center;
     display: inline;
-    width: 20px;
-    min-width: 20px;
+    width: 25px;
+    height: 21px;
     font-size: 14px;
     padding: 0;
-    height: 20px;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
-  > li > a, > li > span{
-    border: none;
+  li > a, > li > span {
     border-radius: 2px;
     font-size: 14px;
     padding: 3px 9px;
-    &.text-muted{
+    border-color: white;
+    color: #9d9c99;
+    &.active {
+      border-color: #9d9c99;
+      color: white;
+    }
+  }
+  li {
+    &:not(.page-direction) {
+      display: inline-block;
+      margin: 2px;
+    }
+    &:last-child {
+      float: right;
+    }
+    &.page-direction > a {
+      border: 1px solid @base-color;
+      border-radius: 16px;
+      color: @base-color;
+    }
+    &.disabled > a {
+      border-color: #ddd;
       color: #9d9c99;
     }
   }

@@ -1,8 +1,9 @@
 <ul class="pagination">
   <li ng-if="directionLinks"
+      class="page-direction"
       ng-class="{disabled: noPrevious()}">
     <a href ng-click="selectPage(page - 1)">
-      <i class="fa fa-chevron-left"></i>
+      <i class="fa fa-chevron-left"></i>&nbsp;上一页
     </a>
   </li>
   <li ng-if="pages[0].text!=1">
@@ -24,7 +25,7 @@
   <li>
     <span class="text-muted">
       转到
-      <input type="text"
+      <input type="number"
              class="form-control page-input"
              ng-model="page"
              ng-keydown="$event.keyCode==13 && selectPage(page)">
@@ -32,9 +33,10 @@
     </span>
   </li>
   <li ng-if="directionLinks"
+      class="page-direction"
       ng-class="{disabled: noNext()}">
     <a href ng-click="selectPage(page + 1)">
-      <i class="fa fa-chevron-right"></i>
+      下一页&nbsp;<i class="fa fa-chevron-right"></i>
     </a>
   </li>
 </ul>

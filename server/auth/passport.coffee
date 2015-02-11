@@ -121,33 +121,3 @@ passport.use(new WeixinStrategy({
         User.create data, (err, user) ->
           return done err, user
 ))
-
-passport.use('weixin_userinfo', new WeixinStrategy({
-  authorizationURL: 'https://open.weixin.qq.com/connect/oauth2/authorize'
-  clientID    : (req) ->
-    return global.weixinAuth[req.headers.host].gongappid
-  clientSecret: (req) ->
-    return global.weixinAuth[req.headers.host].gongsecret
-  callbackURL : (req) ->
-    return "http://#{req.headers.host}/auth/weixin_userinfo/callback"
-  requireState: false
-  scope       : 'snsapi_userinfo'
-  passReqToCallback: true
-}, (req, token, refreshToken, profile, done) ->
-  logger.info profile
-  weixin =
-    id   : profile.id
-    token: token
-    name : profile.displayName
-    other: profile
-
-  User.findOne {'weixin.id': profile.id, orgId: req.org?._id}, (err, dbUser) ->
-    if err then return done err
-    if dbUser
-      dbUser.weixin = weixin
-
-      dbUser.save (err) ->
-        return done err, dbUser
-    else
-      done()
-))

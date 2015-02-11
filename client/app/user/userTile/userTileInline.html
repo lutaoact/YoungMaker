@@ -1,7 +1,7 @@
 <div class="user-tile-inline">
   <a class="user-name" ui-sref="user.home({userId: user._id})">
     <div class="avatar-sm inline-block-middle"
-         ng-src="{{user.avatar}}"
+         ng-src="{{user.avatar|trusted:'url'}}"
          style="cursor: pointer"
          ui-sref="user.home({userId:user._id})"></div>
     {{user.name}}

@@ -60,9 +60,28 @@ angular.module('mauiApp').controller 'MainCtrl', (
       $state.go 'courseList',
         keyword: $scope.viewState.keyword
 
-  Restangular.all('articles').getList()
-  .then (data)->
-    $scope.articles = data
+    currentTrendPage: 1
+    trendsPages: 1
+    trendPageSize: 3
+
+    prevTrends: ->
+      $scope.currentTrendPage--
+      searchArticles()
+
+    nextTrends: ->
+      $scope.currentTrendPage++
+      searchArticles()
+
+
+  searchArticles = ->
+    Restangular.all('articles').getList
+      from       : ($scope.currentTrendPage - 1) * $scope.trendPageSize
+      limit      : $scope.trendPageSize
+    .then (articles)->
+      $scope.trendsPages = Math.ceil(articles.$count / $scope.trendPageSize)
+      $scope.articles = articles
+
+  searchArticles()
 
   Restangular.all('courses').getList
     from: 0

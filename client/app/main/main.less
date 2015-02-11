@@ -1,48 +1,10 @@
 .discover{
   margin-top: -20px;
   /**  search bar. todo: responsive */
-  .discover-search{
-    .sprite-search-bar-hat{
+  h3{
+    font-size: 18px;
+  }
 
-    }
-    .sprite-search-bar-addon{
-      position: absolute;
-      z-index: 4;
-      top: 6px;
-      left: 10px;
-    }
-    .input-group{
-      input.form-control{
-        padding-left: 40px;
-      }
-    }
-  }
-  .discover-news{
-    background: #FFF;
-    .discover-news-title{
-      font-size: 18px;
-    }
-  }
-  /**  discover-body. */
-  .discover-body{
-    margin-top: 28px;
-    padding-top: 20px;
-    min-height: 576px;
-
-    .block{
-      .block-title{
-        .title-icon{
-          color: #f1f1f1;
-          background: #000;
-          width: 32px;
-          height: 32px;
-          border-radius: 16px;
-          font-size: 16px;
-          padding: 8px 9px;
-        }
-      }
-    }
-  }
   .search-form{
     @searh-form-width: 700px;
     position: absolute;
@@ -79,6 +41,57 @@
       width: 86px;
     }
   }
+
+  .discover-news{
+    background: #FFF;
+    .discover-news-title{
+      font-size: 18px;
+    }
+    margin-bottom: 20px;
+    &:after {
+      content: " ";
+      display:block;
+      position: relative;
+      top: 25px;
+      left:0px;
+      width:100%;
+      height:30px;
+      background-image: url('/assets/images/jagged-line.png');
+      background-repeat: repeat-x;
+    }
+  }
+
+  .discover-courses{
+
+  }
+
+  .discover-join-us{
+    position: relative;
+
+    background-color: @base-color;
+    .col-md-4{
+      height: 190px;
+    }
+    img.join-us-left, img.join-us-right{
+      position: absolute;
+      bottom: 0;
+      margin-left: 20%;
+    }
+    img.join-us-center{
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+    .join-us-btn{
+      margin-top: 15px;
+      width: 86px;
+    }
+  }
+
+  .discover-groups{
+    padding: 20px 0 40px 0;
+    background-color: #FFF;
+  }
+
 }
 
 

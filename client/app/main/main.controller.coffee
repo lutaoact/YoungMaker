@@ -14,92 +14,7 @@ angular.module('mauiApp').controller 'MainCtrl', (
   angular.extend $scope,
     viewState: {}
 
-    courses: [
-      {
-        title: 'EV3智能机器人RSTORM'
-        image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-        ingredients: [
-          {
-            name: '路由器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '照相机'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '网线'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 2
-          }
-          {
-            name: '遥控器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '遥控器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '遥控器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-        ]
-        postBy:
-          name: 'STEM联盟'
-          avatar: ''
-        likes: 10
-        views: 100
-        mades: 4
-      }
-      {
-        title: '香蕉触摸板'
-        image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-        ingredients: [
-          {
-            name: '路由器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '照相机'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '网线'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 2
-          }
-          {
-            name: '遥控器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '遥控器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-          {
-            name: '遥控器'
-            image: '/api/assets/images/0/Cr7cgZp88w/20140324094718680.jpg'
-            quantity: 1
-          }
-        ]
-        postBy:
-          name: 'STEM联盟'
-          avatar: ''
-        likes: 10
-        views: 100
-        mades: 4
-      }
-    ]
+    courses: null
 
     slideOpts:
       $AutoPlay: true,                                    # [Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
@@ -148,5 +63,17 @@ angular.module('mauiApp').controller 'MainCtrl', (
   Restangular.all('articles').getList()
   .then (data)->
     $scope.articles = data
+
+  Restangular.all('courses').getList
+    from: 0
+    limit: 12
+  .then (courses)->
+    $scope.courses = courses
+
+  Restangular.all('groups').getList
+    from       : 0
+    limit      : 6
+  .then (groups)->
+    $scope.groups = groups
 
 

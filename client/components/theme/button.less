@@ -6,14 +6,23 @@
   &:hover, &:focus{
     color: #FFF;
   }
+
   .outlined(@type){
+    @brand-type: `"brand-" + "@{type}"`;
     &.btn-@{type}{
-      @brand-type: `"brand-" + "@{type}"`;
       color: @@brand-type;
       border-color: @@brand-type;
       &:hover, &:focus{
         color: #FFF;
         background-color: @@brand-type;
+      }
+      &.btn-reverse{
+        color: #FFF;
+        border-color: #FFF;
+        &:hover, &:focus{
+          color: @@brand-type;
+          background-color: #FFF;
+        }
       }
     }
   }
@@ -23,7 +32,6 @@
         .outlined(@type);
         .-((@i - 1));
     } .-;
-
 }
 
 .btn-rounded {

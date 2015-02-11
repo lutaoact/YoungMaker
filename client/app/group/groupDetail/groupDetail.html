@@ -56,7 +56,7 @@
             <div ng-repeat="member in groupMembers | limitTo:15" class="group-member-list-small">
               <div class="avatar-md"
                    tooltip="{{member.name}}"
-                   ng-src="{{member.avatar}}"
+                   ng-src="{{member.avatar|trusted:'url'}}"
                    ui-sref="user.home({userId: member._id})"></div>
             </div>
           </div>

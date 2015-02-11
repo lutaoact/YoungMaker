@@ -76,7 +76,7 @@
               <!-- Slides Container -->
               <div u="slides" class="slides">
                 <div>
-                  <img u="image" src="http://lorempixel.com/1400/600/?r=1">
+                  <img u="image" src="http://lorempixel.com/700/400/?r=7">
                   <div u="thumb">
                     <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
                     <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
@@ -109,43 +109,74 @@
           </div>
         </div>
         <div class="col-md-5">
+
           <h4 class="text-primary">
             行业动态
             <span class="pull-right">
-              <a href=""><i class="fa fa-long-arrow-left"></i></a>
-              <a href=""><i class="fa fa-long-arrow-right"></i></a>
+              <a href="" ng-click="prevTrends()" ng-disable="currentTrendPage==1"><i class="fa fa-long-arrow-left"></i></a>
+              <a href="" ng-click="nextTrends()" ng-disable="currentTrendPage==trendsPages"><i class="fa fa-long-arrow-right"></i></a>
             </span>
           </h4>
           <div class="panel panel-card">
             <article-tile ng-repeat="article in articles"
-                          article="article">
+                          article="article" me="me">
             </article-tile>
           </div>
-        </div>
-      </div>
-      <!-- recommended articles -->
-      <div class="col-lg-6 block">
-        <h4 class="block-title">
-          <i class="title-icon budon budon-news"></i>
-          STEM 最新资讯
-        </h4>
-
-
-        <div class="block-pager">
 
         </div>
       </div>
 
-      <!-- newest courses -->
-      <div class="col-lg-6 block">
-        <div class="col-sm-12">
-          <h4 class="block-title">
-            <i class="title-icon budon budon-course"></i>
-            最新趣课
-          </h4>
+    </div>
+  </div>
+
+  <div class="discover-courses">
+    <div class="container">
+      <h3 class="discover-courses-title">
+        <span><i class="title-icon budon budon-course text-primary"></i></span> 您可能感兴趣的趣课
+        <small><a ui-sref="courseList" class="text-primary pull-right">浏览更多趣课&nbsp;<i class="fa fa-long-arrow-right"></i></a></small>
+      </h3>
+      <p class="text-muted">
+        这里有新奇到超乎您的想像的趣课，集合全球最新创意、艺术、手工的展台，真正的手脑结合。
+      </p>
+      <div class="row">
+         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="course in courses">
+          <course-tile course="course" me="me"></course-tile>
         </div>
-        <div class="col-sm-6" ng-repeat="course in courses">
-          <course-tile course="course"></course-tile>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="discover-join-us clearfix">
+    <div class="col-lg-10 col-md-12 col-lg-offset-1">
+      <div class="col-md-4 join-block hidden-xs hidden-sm">
+        <img class="join-us-left" src="/assets/images/join-us-left.png" alt="your idea">
+      </div>
+      <div class="col-md-4 join-block text-center ">
+        <img  class="join-us-center" src="/assets/images/join-us-center.png" alt="join us">
+        <p>
+          玩出自己的精彩，STEAM邀请您一起发现更多好玩有趣的！
+        </p>
+        <a href="" class="join-us-btn btn btn-primary btn-reverse btn-rounded btn-outline">注册</a>
+      </div>
+      <div class="col-md-4 join-block hidden-xs hidden-sm">
+        <img class="join-us-right" src="/assets/images/join-us-right.png" alt="you are here">
+      </div>
+    </div>
+  </div>
+
+  <div class="discover-groups">
+    <div class="container">
+      <h3 class="discover-groups-title">
+        <span><i class="title-icon budon budon-course text-primary"></i></span> 您可能感兴趣的小组
+        <small><a ui-sref="groupList" class="text-primary pull-right">浏览更多小组&nbsp;<i class="fa fa-long-arrow-right"></i></a></small>
+      </h3>
+      <p class="text-muted">
+        这里能让你找到志同道合的伙伴，认识更多奇妙的人，汲取更广泛的只是。
+      </p>
+      <div class="row">
+         <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="group in groups">
+          <group-tile group="group" me="me"></group-tile>
         </div>
       </div>
     </div>

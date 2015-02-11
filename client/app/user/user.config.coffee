@@ -20,12 +20,12 @@ angular.module('mauiApp')
     controller: 'UserActivitiesCtrl'
 
   .state 'user.courses',
-    url: '/courses?page'
+    url: '/courses?page&keyword'
     templateUrl: 'app/user/userCourses/userCourses.html'
     controller: 'UserCoursesCtrl'
 
   .state 'user.articles',
-    url: '/articles?page'
+    url: '/articles?page&keyword'
     templateUrl: 'app/user/userArticles/userArticles.html'
     controller: 'UserArticlesCtrl'
 

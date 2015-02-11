@@ -1,7 +1,7 @@
 <div class="course-list">
   <div class="container">
     <div class="row">
-      <div class="col-md-9 left-side">
+      <div class="col-lg-9 col-md-8 left-side">
         <div class="clearfix">
           <div class="pull-left category-dropdown" dropdown style="position:relative;">
             <a class="btn dropdown-toggle panel panel-card" dropdown-toggle>
@@ -44,7 +44,7 @@
             <!-- 数据还在加载 -->
             <i class="fa fa-spin fa-spinner"></i>加载中...
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="course in courses">
+          <div class="col-lg-4 col-md-6 col-sm-6" ng-repeat="course in courses">
             <course-tile course="course" me="me"></course-tile>
           </div>
           <div class="clearfix pagination-row col-md-12 text-center" ng-if="courses.$count > pageConf.itemsPerPage">
@@ -64,7 +64,7 @@
 
       </div>
 
-      <div class="col-md-3 right-side">
+      <div class="col-lg-3 col-md-4 right-side">
         <recommend-courses>
         </recommend-courses>
 

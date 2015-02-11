@@ -14,16 +14,16 @@ angular.module 'mauiApp'
       currentPage: $state.params.page ? 1
       itemsPerPage: 10
 
-    changePage: ->
+    reload: ->
       $state.go $state.current,
-        page: $scope.pageConf.currentPage
+        keyword: $scope.pageConf.keyword
 
   Restangular
     .all('follows')
     .getList(
+      fromUserId: $state.params.userId
       from: ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
       limit: $scope.pageConf.itemsPerPage
-      fromUserId: $state.params.userId
     )
     .then (following) ->
       $scope.following = following

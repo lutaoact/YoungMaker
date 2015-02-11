@@ -14,7 +14,7 @@ angular.module 'mauiApp'
       currentPage: $state.params.page ? 1
       itemsPerPage: 10
 
-    changePage: ->
+    reload: ->
       $state.go $state.current,
         page: $scope.pageConf.currentPage
 

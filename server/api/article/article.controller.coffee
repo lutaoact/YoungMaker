@@ -5,9 +5,18 @@ AdapterUtils = _u.getUtils 'adapter'
 Group = _u.getModel 'group'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 
-indexConditionKeys = ['author', 'group']
 exports.index = (req, res, next) ->
-  conditions = _.pick req.query, indexConditionKeys
+  conditions = {}
+  conditions.author = req.query.author if req.query.author
+  conditions.group = req.query.group if req.query.group
+  # filter by keyword
+  if req.query.keyword
+    regex = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$or = [
+      'title': regex
+    ,
+      'content': regex
+    ]
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

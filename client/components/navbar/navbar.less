@@ -30,6 +30,8 @@
   }
   .navbar-nav {
     > li > a {
+      min-width: 100px;
+      text-align: center;
       &:hover {
         .show-triangle();
       }
@@ -45,18 +47,11 @@
     color: #FFF;
     position: relative;
     overflow: visible;
+    width: 150px;
+    text-align: center;
     &:hover, &:focus {
       color: #FFF;
       background: @base-color;
-    }
-    &:before {
-      width: 1000px;
-      height: 100%;
-      content: ' ';
-      background: @base-color;
-      position: absolute;
-      right: 100%;
-      top: 0;
     }
   }
   .navbar-toggle {

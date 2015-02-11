@@ -5,7 +5,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 
 exports.index = (req, res, next) ->
   conditions = {}
-  conditions.author   = req.query.author if req.query.author
+  conditions.author = req.query.author if req.query.author
   conditions.categoryId = req.query.category
 
   # filter by tags

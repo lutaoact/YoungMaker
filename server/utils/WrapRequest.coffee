@@ -113,31 +113,20 @@ class WrapRequest
 
 
   addActivity: (userId, doc, action) ->
-    makeData = (name, desc, image, objectId) ->
-      name: name
-      desc: desc
-      image: image
-      objectId: objectId
-
     activity =
       userId: userId
       action: action + "_" + @Model.constructor.name.toLowerCase()
 
-    # TODO refactor to schema.methods
     switch activity.action
       when 'create_article', 'like_article'
-        activity.article = makeData(doc.title, doc.content, doc.image, doc._id)
-        if doc.group
-          group = doc.group
-          activity.group = makeData(group.name, group.info, group.logo, group._id)
+        activity.article = doc._id
+        activity.group = doc.group._id if doc.group
       when 'create_course', 'like_course'
-        activity.course = makeData(doc.title, doc.content, doc.image, doc._id)
-      when 'join_group'
-        activity.group = makeData(doc.name, doc.info, doc.logo, doc._id)
-      when 'create_group'
-        activity.group = makeData(doc.name, doc.info, doc.logo, doc._id)
+        activity.course = doc._id
+      when 'join_group', 'create_group'
+        activity.group = doc._id
       when 'create_follow'
-        activity.toUser = makeData(doc.to.name, doc.to.info, doc.to.avatar, doc.to._id)
+        activity.toUser = doc.to._id
       else
         return Q()
     Activity.createQ activity

@@ -6,27 +6,28 @@ ObjectId = Schema.Types.ObjectId
 
 BaseModel = (require '../../common/BaseModel')
 
-activityData = ->
-  name:
-    type: String
-  desc:
-    type: String
-  image:
-    type: String
-  objectId:
-    type: ObjectId
-
 class Activity extends BaseModel
   populates:
     index: [
       path: 'userId', select: 'name avatar'
+    ,
+      path: 'article', select: 'title image'
+    ,
+      path: 'course', select: 'title image'
+    ,
+      path: 'group', select: 'name logo'
+    ,
+      path: 'toUser', select: 'name avatar'
     ]
   schema: new Schema
     userId:
       type: ObjectId
       ref: 'user'
       required: true
+
+    #
     # action:
+    #
     # like_article
     # like_course
     # create_article
@@ -34,14 +35,23 @@ class Activity extends BaseModel
     # create_group
     # create_follow
     # join_group
+    #
     action:
       type: String
+
     # activity data:
-    course: activityData()
-    article: activityData()
-    group: activityData()
-    comment: activityData()
-    toUser: activityData()
+    course:
+      type: ObjectId
+      ref: 'course'
+    article:
+      type: ObjectId
+      ref: 'article'
+    group:
+      type: ObjectId
+      ref: 'group'
+    toUser:
+      type: ObjectId
+      ref: 'user'
 
 exports.Class = Activity
 exports.Instance = new Activity()

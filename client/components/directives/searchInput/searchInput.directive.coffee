@@ -9,17 +9,14 @@ angular.module('maui.components')
     onSubmit: '&'
     placeholder: '@'
 
-  controller: ($scope) ->
+  controller: ($scope, $timeout) ->
 
     angular.extend $scope,
 
-      onSearch: ->
+      submit: ->
         $scope.onSubmit?($keyword:$scope.keyword)
 
-      onKeyup: ($event) ->
-        $scope.onSearch() if $event.keyCode is 13
-
-      clear: ()->
+      clear: ->
         $scope.keyword = ''
-        $scope.onSearch()
+        $timeout $scope.submit
 

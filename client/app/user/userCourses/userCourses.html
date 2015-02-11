@@ -1,3 +1,9 @@
+<search-input placeholder="关键字搜索"
+              class="search-input"
+              keyword="pageConf.keyword"
+              on-submit="reload()">
+</search-input>
+
 <div class="user-view-header">
   <span ng-if="courses.$count">
     <i class="fa fa-wrench text-muted bigger"></i>&nbsp;&nbsp;{{courses.$count}} 节趣课
@@ -21,7 +27,7 @@
               ng-model="pageConf.currentPage"
               items-per-page="pageConf.itemsPerPage"
               class="pagination-sm bud"
-              ng-change="changePage()"
+              ng-change="reload()"
               boundary-links="true"
               rotate="false"
               max-size="pageConf.maxSize">

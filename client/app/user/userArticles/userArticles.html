@@ -1,3 +1,8 @@
+<search-input placeholder="关键字搜索"
+              class="search-input"
+              keyword="pageConf.keyword"
+              on-submit="reload()">
+</search-input>
 
 <div class="user-view-header">
   <span ng-if="articles.$count">
@@ -22,7 +27,7 @@
               ng-model="pageConf.currentPage"
               items-per-page="pageConf.itemsPerPage"
               class="pagination-sm bud"
-              ng-change="changePage()"
+              ng-change="reload()"
               boundary-links="true"
               rotate="false"
               max-size="pageConf.maxSize">

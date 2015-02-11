@@ -1,10 +1,16 @@
-<div class="group-member-list">
-  <ul>
-    <li ng-repeat="member in groupMembers"
-        ui-sref="user.home({userId: member._id})"
-        class="member">
-      <div class="avatar-md" title="{{member.name}}" ng-src="{{member.avatar}}"> </div>
-      <a href ui-sref="user.home({userId: member._id})">{{member.name}}</a>
-    </li>
-  </ul>
+<div class="group-member-list clearfix">
+  <div class="user-view-header">
+    <h4>
+      <a href ui-sref="groupDetail.articleList({groupId:groupId})">{{group.name}}</a>
+      全部成员
+      <!--{{groupMembers.length}}-->
+    </h4>
+    <hr>
+  </div>
+  <div class="user-info-list">
+    <user-tile-inline class="col-lg-6 col-md-6 col-sm-6 user-info"
+                      ng-repeat="member in groupMembers"
+                      user="member" me="me">
+    </user-tile-inline>
+  </div>
 </div>

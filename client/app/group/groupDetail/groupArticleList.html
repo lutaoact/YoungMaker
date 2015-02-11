@@ -4,7 +4,7 @@
                 placeholder="帖子关键字搜索"
                 class="article-search pull-right">
   </search-input>
-  <button class="article-create btn btn-sm btn-success pull-right"
+  <button class="article-create btn btn-sm btn-primary pull-right"
           login-window login-success="createGroupArticle()">
     发表新帖
   </button>
@@ -20,7 +20,7 @@
 
   <div class="panel panel-card">
     <article-tile article="article" me="me" ng-repeat="article in groupArticles"></article-tile>
-    <div class="row pagination-row text-center"
+    <div class="pagination-row text-center"
          ng-if="groupArticles.$count > pageConf.itemsPerPage">
       <pagination
         total-items="groupArticles.$count"

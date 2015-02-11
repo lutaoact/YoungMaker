@@ -137,27 +137,27 @@
         这里有新奇到超乎您的想像的趣课，集合全球最新创意、艺术、手工的展台，真正的手脑结合。
       </p>
       <div class="row">
-         <div class="col-md-3 col-sm-4" ng-repeat="course in courses">
-          <course-tile course="course"></course-tile>
+         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="course in courses">
+          <course-tile course="course" me="me"></course-tile>
         </div>
       </div>
     </div>
 
   </div>
 
-  <div class="discover-join-us">
-    <div class="container">
-      <div class="col-md-4 hidden-xs hidden-sm">
+  <div class="discover-join-us clearfix">
+    <div class="col-lg-10 col-md-12 col-lg-offset-1">
+      <div class="col-md-4 join-block hidden-xs hidden-sm">
         <img class="join-us-left" src="/assets/images/join-us-left.png" alt="your idea">
       </div>
-      <div class="col-md-4 text-center ">
+      <div class="col-md-4 join-block text-center ">
         <img  class="join-us-center" src="/assets/images/join-us-center.png" alt="join us">
         <p>
           玩出自己的精彩，STEAM邀请您一起发现更多好玩有趣的！
         </p>
         <a href="" class="join-us-btn btn btn-primary btn-reverse btn-rounded btn-outline">注册</a>
       </div>
-      <div class="col-md-4 hidden-xs hidden-sm">
+      <div class="col-md-4 join-block hidden-xs hidden-sm">
         <img class="join-us-right" src="/assets/images/join-us-right.png" alt="you are here">
       </div>
     </div>
@@ -173,8 +173,8 @@
         这里能让你找到志同道合的伙伴，认识更多奇妙的人，汲取更广泛的只是。
       </p>
       <div class="row">
-         <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="group in groups">
-          <group-tile course="course" me="me"></group-tile>
+         <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="group in groups">
+          <group-tile group="group" me="me"></group-tile>
         </div>
       </div>
     </div>

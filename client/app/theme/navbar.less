@@ -13,9 +13,55 @@
       background-color: transparent;
     }
   }
+  .show-triangle(){
+    position: relative;
+    &:before{
+      position: absolute;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: FontAwesome;
+      content: '\f0d8';
+      color: @brand-warning;
+      top: 60%;
+      left: 50%;
+      margin-left: -4px;
+    }
+  }
+  .navbar-nav{
+    > li > a {
+      &:hover {
+        .show-triangle();
+      }
+    }
+    > li.active{
+      a {
+        .show-triangle();
+      }
+    }
+  }
+  .navbar-brand{
+    background: @base-color;
+    color: #FFF;
+    position: relative;
+    overflow: visible;
+    &:hover, &:focus{
+      color: #FFF;
+      background: @base-color;
+    }
+    &:before{
+      width: 1000px;
+      height: 100%;
+      content: ' ';
+      background: @base-color;
+      position: absolute;
+      right: 100%;
+      top: 0;
+    }
+  }
   .navbar-toggle{
     .icon-bar{
-      background: #FFF;
+      background: #ddd;
     }
   }
   .profile-dropdown{

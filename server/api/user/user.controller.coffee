@@ -21,15 +21,16 @@ sendActivationMail = require('../../common/mail').sendActivationMail
 sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 setTokenCookie = require('../../auth/auth.service').setTokenCookie
 
+WrapRequest = new (require '../../utils/WrapRequest')(User)
 ###
   Get list of users
   restriction: 'admin'
 ###
 exports.index = (req, res, next) ->
-  condition = {}
-  condition.role = req.query.role if req.query.role?
+  conditions = {}
+  conditions.role = req.query.role if req.query.role?
 
-  User.findQ condition, '-salt -hashedPassword'
+  User.findQ conditions, '-salt -hashedPassword'
   .then (users) ->
     res.send users
   .catch next
@@ -39,14 +40,10 @@ exports.index = (req, res, next) ->
   Get list of recommended users
 ###
 exports.recommends = (req, res, next) ->
-  condition = {}
-  condition.role = req.query.role if req.query.role?
-
-  User.findQ condition, '-salt -hashedPassword'
-  .then (users) ->
-    res.send users
-  .catch next
-  .done()
+  conditions = {}
+  conditions.role = req.query.role if req.query.role?
+  selects = "name info avatar"
+  WrapRequest.wrapPageIndex req, res, next, conditions, selects
 
 ###
   Creates a new user

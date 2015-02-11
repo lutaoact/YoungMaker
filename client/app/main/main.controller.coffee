@@ -72,7 +72,6 @@ angular.module('mauiApp').controller 'MainCtrl', (
       $scope.currentTrendPage++
       searchArticles()
 
-
   searchArticles = ->
     Restangular.all('articles').getList
       from       : ($scope.currentTrendPage - 1) * $scope.trendPageSize
@@ -80,6 +79,7 @@ angular.module('mauiApp').controller 'MainCtrl', (
     .then (articles)->
       $scope.trendsPages = Math.ceil(articles.$count / $scope.trendPageSize)
       $scope.articles = articles
+      console.log $scope.trendsPages
 
   searchArticles()
 

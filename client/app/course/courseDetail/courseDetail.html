@@ -1,19 +1,75 @@
 <div class="course-detail">
   <div class="container">
-    <article>
-      <h3>{{course.title}}</h3>
-      <small class="text-muted">
-        <a class="text-info"
-           ui-sref="user.home({userId: course.author._id})">{{course.author.name}}</a>
-        - {{course.created | moment: 'fromNow'}}
-      </small>
-      <small class="pull-right text-muted">
-        {{course.viewersNum}}次查看
-      </small>
-      <hr/>
-      <p><div compile-html="course.content|trusted"></div></p>
-    </article>
-    <comments belong-to="course._id" type="{{const.CommentType.Course}}" me="me"></comments>
+    <div class="row">
+      <div class="col-lg-9 col-md-8">
+        <article class="panel panel-card course">
+          <div class="course-header">
+            <h1>{{course.title}}</h1>
+            <small class="text-muted">
+              <a class="text-primary"
+                 ui-sref="user.home({userId: course.author._id})">{{course.author.name}}</a>
+              &nbsp;在{{course.created | moment: 'fromNow'}}&nbsp;
+              发表于&nbsp;<a href="">{{course.category||'其他'}}</a>
+            </small>
+            <small class="text-muted stats">
+              <span><i class="fa fa-comment"></i>{{course.commentsNum||0}}</span><span>
+              <i class="fa fa-heart"></i>{{course.likeUsers.length||0}}</span><span>
+              <i class="fa fa-eye"></i>{{course.viewersNum||0}}</span>
+            </small>
+          </div>
+
+          <div class="course-body" compile-html="course.content|trusted"></div>
+
+          <div class="course-like text-center" ng-if="course">
+            <vote-box entity="course" me="me">
+            </vote-box>
+          </div>
+
+          <div class="course-footer">
+            <hr>
+            <ul class="ul-block">
+              <li class="user-info">
+                <div class="avatar-xs"
+                     ng-src="{{course.author.avatar|trusted:'url'}}">
+                </div>
+                <a href="" ui-sref="user.home({userId: course.author._id})">
+                  {{course.author.name}}
+                </a>
+              </li>
+              <li>
+                {{course.created | moment:'calendar'}} <br>
+                发表于 <a href="">{{course.category.name||'其他'}}</a>
+              </li>
+              <li ng-if="course.tags" class="tags">
+                标签：
+                <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index<5">
+                  {{tag}}
+                </a>
+                <div class="dropdown pull-right more-tags-dropdown" dropdown>
+                  <a title="点击显示全部" dropdown-toggle class="more" ng-if="course.tags.length>=5">
+                    <i class="fa fa-ellipsis-h"></i>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index>4">
+                        {{tag}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </article>
+        <div class="panel panel-card">
+          <comments belong-to="course._id" type="{{const.CommentType.Course}}" me="me"></comments>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <recommend-courses>
+        </recommend-courses>
+      </div>
+    </div>
   </div>
 </div>
 <a ui-sref="courseEditor({courseId:course._id})" ng-if="course.author._id==me._id">修改</a>

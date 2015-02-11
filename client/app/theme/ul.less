@@ -27,3 +27,28 @@
     vertical-align: middle;
   }
 }
+.ul-block{
+  padding: 0;
+  display: block;
+  height: 36px;
+  clear: both;
+  li {
+    font-size: 12px;
+    float: left;
+    height: 100%;
+    padding: 0 30px;
+    a {
+      &:hover {
+        color: @base-color;
+      }
+    }
+    display: inline-block;
+    + li {
+      border-left: 1px solid @gray-lighter;
+    }
+  }
+  .avatar-xs {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

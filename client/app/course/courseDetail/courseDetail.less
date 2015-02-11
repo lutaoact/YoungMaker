@@ -1,2 +1,54 @@
 .course-detail{
+  .course{
+    padding: 15px 60px;
+    .course-header{
+      .stats{
+        margin-left: 40px;
+        span{
+          margin: 0 10px;
+          font-size: 13px;
+          i{
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .course-footer{
+      .user-info{
+        a{
+          display: inline-block;
+        }
+      }
+      .tags{
+        max-width: 50%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        .tag{
+          vertical-align: middle;
+          margin-top: 0;
+        }
+        .more-tags-dropdown{
+
+          .more{
+            display: inline-block;
+            color: @gray-light;
+            margin-left: 10px;
+          }
+          .dropdown-menu{
+            li{
+              padding: 0 10px;
+            }
+            a.tag{
+              display: inline-block;
+            }
+          }
+        }
+      }
+      hr{
+        margin-left: -60px;
+        margin-right: -60px;
+      }
+    }
+  }
 }

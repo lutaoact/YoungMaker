@@ -7,10 +7,18 @@
      class="text-center">
   暂无新动态
 </div>
-
 <div class="col-md-12 activity-tile"
      ng-repeat="activity in activities">
   <ul>
+    <li ng-switch="activity.action">
+      <i ng-switch-when="create_article" class="fa fa-file-text-o text-muted bigger"></i>
+      <i ng-switch-when="create_course" class="fa fa-wrench text-muted bigger"></i>
+      <i ng-switch-when="create_follow" class="fa fa-user-plus text-muted bigger"></i>
+      <i ng-switch-when="like_course" class="fa fa-heart text-muted bigger"></i>
+      <i ng-switch-when="like_article" class="fa fa-heart text-muted bigger"></i>
+      <i ng-switch-when="create_group" class="fa fa-group text-muted bigger"></i>
+      <i ng-switch-when="join_group" class="fa fa-group text-muted bigger"></i>
+    </li>
     <li>
       <a class="user-info" ui-sref="user.home({userId: activity.userId._id})">
         <div class="avatar-xs inline-block-middle"
@@ -19,15 +27,61 @@
         <span class="user-name">{{activity.userId.name}}</span>
       </a>
     </li>
-    <li>
-      <a ui-sref="articleDetail({articleId: activity.objectId})">
-        发布了话题 {{activity.title}}
-      </a>
+    <li ng-switch="activity.action" class="text-muted title">
+      <span ng-switch-when="create_group">
+        创建了小组
+        <a ui-sref="groupDetail.articleList({groupId: activity.group.objectId})">
+          {{activity.group.name}}
+        </a>
+      </span>
+      <span ng-switch-when="join_group">
+        加入了小组
+        <a ui-sref="groupDetail.articleList({groupId: activity.group.objectId})">
+          {{activity.group.name}}
+        </a>
+      </span>
+      <span ng-switch-when="create_article">
+        <span ng-if="activity.group">
+          在小组
+          <a ui-sref="groupDetail.articleList({groupId: activity.group.objectId})">
+            {{activity.group.name}}
+          </a>
+        </span>
+        发布了文章
+        <a ui-sref="articleDetail({articleId: activity.article.objectId})">
+          {{activity.article.name}}
+        </a>
+      </span>
+      <span ng-switch-when="create_course">
+        制作了趣课
+        <a ui-sref="courseDetail({courseId: activity.course.objectId})">
+          {{activity.course.name}}
+        </a>
+      </span>
+      <span ng-switch-when="create_follow">
+        关注了
+        <a ui-sref="user.home({userId: activity.toUser.objectId})">
+          {{activity.toUser.name}}
+        </a>
+      </span>
+      <span ng-switch-when="like_course">
+        赞了趣课
+        <a ui-sref="courseDetail({courseId: activity.course.objectId})">
+          {{activity.course.name}}
+        </a>
+      </span>
+      <span ng-switch-when="like_article">
+        攒了文章
+        <a ui-sref="articleDetail({articleId: activity.article.objectId})">
+          {{activity.article.name}}
+        </a>
+      </span>
     </li>
     <li>
-      <small class="text-muted">{{activity.created | moment: 'fromNow'}}</small>
+      <small class="text-muted time">{{activity.created | moment: 'fromNow'}}</small>
     </li>
   </ul>
+  <hr ng-class="{'last':$last}">
 </div>
 
 <div class="pagination-row"

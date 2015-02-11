@@ -102,27 +102,45 @@ class WrapRequest
     tmpResult = {}
     @Model.createQ data
     .then (newDoc) =>
+      @populateDoc newDoc, @Model.populates?.create
+    .then (newDoc) =>
       tmpResult.newDoc = newDoc
-      @addActivity newDoc
-    .then () =>
-      @populateDoc tmpResult.newDoc, @Model.populates?.create
-    .then (doc) ->
-      res.send doc
+      @addActivity req.user.id, newDoc, 'create'
+    .then () ->
+      res.send tmpResult.newDoc
     .catch next
     .done()
 
 
-  addActivity: (doc) ->
-    if @Model.constructor.name is 'Article'
-      data =
-        userId  : doc.author
-        title   : doc.title
-        type    : Const.ActivityType[@Model.constructor.name]
-        objectId: doc._id
+  addActivity: (userId, doc, action) ->
+    makeData = (name, desc, image, objectId) ->
+      name: name
+      desc: desc
+      image: image
+      objectId: objectId
 
-      Activity.createQ data
-    else
-      Q()
+    activity =
+      userId: userId
+      action: action + "_" + @Model.constructor.name.toLowerCase()
+
+    console.log 'addActivity ==============', activity
+    switch activity.action
+      when 'create_article', 'like_article'
+        activity.article = makeData(doc.title, doc.content, doc.image, doc._id)
+        if doc.group
+          group = doc.group
+          activity.group = makeData(group.name, group.info, group.logo, group._id)
+      when 'create_course', 'like_course'
+        activity.course = makeData(doc.title, doc.content, doc.image, doc._id)
+      when 'join_group'
+        activity.group = makeData(doc.name, doc.info, doc.logo, doc._id)
+      when 'create_group'
+        activity.group = makeData(doc.name, doc.info, doc.logo, doc._id)
+      when 'create_follow'
+        activity.toUser = makeData(doc.to.name, doc.to.info, doc.to.avatar, doc.to._id)
+      else
+        return Q()
+    Activity.createQ activity
 
 
   wrapCreateAndUpdate: (req, res, next, data, updateModel, updateConds, update) ->
@@ -133,16 +151,17 @@ class WrapRequest
                 "||| update:", update
     tmpResult = {}
     @Model.createQ data
-    .then (newDoc) =>
+    .then (newDoc) ->
       tmpResult.newDoc = newDoc
-      @addActivity newDoc
-    .then () ->
       if updateModel
         updateModel.updateQ updateConds, update
     .then () =>
       @populateDoc tmpResult.newDoc, @Model.populates?.create
-    .then (doc) ->
-      res.send doc
+    .then (newDoc) =>
+      tmpResult.newDoc = newDoc
+      @addActivity req.user.id, newDoc, 'create'
+    .then () ->
+      res.send tmpResult.newDoc
     .catch next
     .done()
 
@@ -193,8 +212,13 @@ class WrapRequest
     targetObjId = req.params.id
     fromWhom = req.user.id
     model = @Model
+    tmpResult = {}
     LikeUtils.createLike model, targetObjId, fromWhom
-    .then (doc) ->
+    .then (doc) =>
+      tmpResult.doc = doc
+      @addActivity(req.user.id, doc, 'like')
+    .then () ->
+      doc = tmpResult.doc
       console.log 'like result:', doc
       res.send doc
       if doc.likeAction

@@ -1,14 +1,31 @@
 .activity-tile {
+  .fa {
+    margin-right: 15px;
+  }
+  hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    &.last {
+      border: none;
+      margin-bottom: 10px;
+    }
+  }
   ul {
     padding-top: 15px;
     padding-left: 0px;
   }
   ul, li {
     display: inline-block;
+    .title {
+      display: inline;
+      a {
+        color: @base-color;
+      }
+    }
     .user-name {
       color: @base-color;
     }
-    .text-muted {
+    .time {
       margin-left: 10px;
     }
   }

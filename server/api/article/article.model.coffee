@@ -11,22 +11,22 @@ class Article extends BaseModel
     index: [
       path: 'author', select: 'name avatar info'
     ,
-      path: 'group', select: 'title'
+      path: 'group', select: 'name'
     ]
     show: [
       path: 'author', select: 'name avatar info'
     ,
-      path: 'group', select: 'title'
+      path: 'group', select: 'name'
     ]
     create: [
       path: 'author', select: 'name avatar info'
     ,
-      path: 'group', select: 'title'
+      path: 'group', select: 'name'
     ]
     update: [
       path: 'author', select: 'name avatar info'
     ,
-      path: 'group', select: 'title'
+      path: 'group', select: 'name'
     ]
   schema: new Schema
     title:

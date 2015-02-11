@@ -47,6 +47,7 @@ exports.joinOrLeave = (req, res, next) ->
             errMsg: '你已经在这个组了'
         else
           group.members.addToSet user._id
+          WrapRequest.addActivity(req.user.id, group, 'join')
       when 'leave'
         if group.members.indexOf(user._id) is -1
           return Q.reject

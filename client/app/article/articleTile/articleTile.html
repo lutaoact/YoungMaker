@@ -24,7 +24,7 @@
       专栏－{{article.column.name}}
     </li>
     <li ng-if="article.group">
-      发布于<a ui-sref="groupDetail.articleList({groupId: article.group._id})">{{article.group.title}}</a>
+      发布于<a ui-sref="groupDetail.articleList({groupId: article.group._id})">{{article.group.name}}</a>
     </li>
     <li>
       {{article.created | moment: 'fromNow'}}

@@ -8,7 +8,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Article)
 exports.index = (req, res, next) ->
   conditions = {}
   conditions.author = req.query.author if req.query.author
-  conditions.author = req.query.group if req.query.group
+  conditions.group = req.query.group if req.query.group
   # filter by keyword
   if req.query.keyword
     regex = new RegExp(_u.escapeRegex(req.query.keyword), 'i')

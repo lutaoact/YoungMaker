@@ -55,11 +55,12 @@ angular.module('mauiApp')
       $scope.follow = follow
 
     # 检查该用户的粉丝数，关注数
-    Restangular
-      .one('users', 'num')
-      .get(userId: $scope.user._id)
-      .then (data) ->
-        $scope.userData = data
+    if $scope.size isnt 'sm'
+      Restangular
+        .one('users', 'num')
+        .get(userId: $scope.user._id)
+        .then (data) ->
+          $scope.userData = data
 
   $scope.$watchGroup ['me', 'user'], refresh
 

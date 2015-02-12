@@ -12,13 +12,14 @@
   </h4>
   <div class="follow-btn-group">
     <button login-window
-            login-success="toggleFollow()"
             ng-if="me._id != user._id"
-            class="btn btn-sm btn-primary follow-btn">
-      <span ng-if="!follow">
-        <i class="fa fa-plus-circle"></i>&nbsp;关注
+            login-success="toggleFollow()"
+            ng-class="{'btn-primary':follow}"
+            class="btn btn-sm btn-default">
+      <span ng-if="!follow" tooltip="点击关注该用户">
+        <i class="fa fa-plus"></i>&nbsp;关注
       </span>
-      <span ng-if="follow">
+      <span ng-if="follow" tooltip="点击取消关注">
         <i class="fa fa-check-circle"></i>&nbsp;已关注
       </span>
     </button>

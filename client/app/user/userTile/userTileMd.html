@@ -6,19 +6,18 @@
          ui-sref="user.home({userId:user._id})"></div>
     {{user.name}}
   </a>
-  <span ng-if="me._id != user._id">
-    <button login-window
-            login-success="toggleFollow()"
-            ng-class="{'btn-primary':follow}"
-            class="btn btn-sm btn-default follow-btn pull-right">
-      <span ng-if="!follow">
-        <i class="fa fa-plus"></i>&nbsp;关注
-      </span>
-      <span ng-if="follow">
-        <i class="fa fa-check-circle"></i>&nbsp;已关注
-      </span>
-    </button>
-  </span>
+  <button login-window
+          ng-if="me._id != user._id"
+          login-success="toggleFollow()"
+          ng-class="{'btn-primary':follow}"
+          class="btn btn-sm btn-default follow-btn pull-right">
+    <span ng-if="!follow" tooltip="点击关注该用户">
+      <i class="fa fa-plus"></i>&nbsp;关注
+    </span>
+    <span ng-if="follow" tooltip="点击取消关注">
+      <i class="fa fa-check-circle"></i>&nbsp;已关注
+    </span>
+  </button>
   <div class="user-info clearfix">
     <div class="text-muted">{{user.info}}</div>
     <div class="status">

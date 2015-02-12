@@ -9,17 +9,16 @@
       <p class="text-muted"><small>{{user.info}}</small></p>
     </span>
   </a>
-  <span ng-if="me._id != user._id">
-    <button login-window
-            login-success="toggleFollow()"
-            ng-class="{'btn-primary':follow}"
-            class="btn btn-sm btn-default follow-btn pull-right">
-      <span ng-if="!follow" tooltip="关注">
-        <i class="fa fa-plus"></i>
-      </span>
-      <span ng-if="follow" tooltip="已关注">
-        <i class="fa fa-check-circle"></i>
-      </span>
-    </button>
-  </span>
+  <button login-window
+          ng-if="me._id != user._id"
+          login-success="toggleFollow()"
+          ng-class="{'btn-primary':follow}"
+          class="btn btn-sm btn-default follow-btn pull-right">
+    <span ng-if="!follow" tooltip="点击关注该用户">
+      <i class="fa fa-plus"></i>
+    </span>
+    <span ng-if="follow" tooltip="点击取消关注">
+      <i class="fa fa-check-circle"></i>
+    </span>
+  </button>
 </div>

@@ -1,0 +1,67 @@
+.group-tile-lg {
+  hr {
+    margin: 15px 0;
+  }
+  .group-logo {
+    height: 250px;
+    width: 250px;
+    margin: 12px auto;
+    background-color: @gray-lighter;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 2px;
+    @media (min-width: @screen-md) {
+      height: 165px;
+      width: 165px ;
+    }
+    @media (min-width: @screen-lg) {
+      height: 250px;
+      width: 250px ;
+    }
+  }
+  .group-name {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+  .group-info {
+    font-size: 14px;
+  }
+  .group-owner {
+    font-size: 12px;
+  }
+  .group-btn-block{
+    margin: 40px 0;
+  }
+  .btn-join {
+    color: @base-color;
+    border-color: @base-color;
+    width: 74px;
+    line-height: 13px;
+    &:hover, :focus {
+      color: white;
+      background-color: @base-color;
+    }
+  }
+  .btn-joined {
+    border-color: @base-color;
+    width: 74px;
+    line-height: 13px;
+    color: white;
+    background-color: @base-color;
+    &:hover, :focus {
+      color: @base-color;
+      background-color: white;
+    }
+  }
+  .group-members {
+    margin-top: 10px;
+    .group-member-list-small {
+      display: inline-block;
+      cursor: pointer;
+      width: 20%;
+      max-width: 60px;
+      min-width: 41px;
+    }
+  }
+}

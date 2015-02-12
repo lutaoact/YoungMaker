@@ -1,0 +1,58 @@
+<div class="panel panel-card group-tile-lg clearfix">
+  <div class="col-md-12 clearfix">
+    <div class="group-logo" ng-src="{{group.logo}}"></div>
+    <p class="group-name">
+      {{group.name}}
+    </p>
+
+    <p class="group-info text-muted">
+      {{group.info}}
+    </p>
+
+    <p class="group-owner text-muted">
+      <a ui-sref="user.home({userId:group.creator._id})"
+         target="{{group.creator._id}}">
+        {{group.creator.name}}
+      </a>
+      创建于{{group.created | moment: 'calendar'}}
+    </p>
+    <div class="group-btn-block">
+      <div ng-switch="getRole()" class="text-center">
+        <div ng-switch-when='creator'>
+          <button class="btn btn-sm btn-outline btn-primary" ng-click="editGroupInfo()">
+            修改小组信息
+          </button>
+        </div>
+        <div ng-switch-when='member'>
+          <button class="btn btn-sm btn-outline btn-joined"
+                  ng-click="leaveGroup()"
+                  ng-init="text='已加入'" ng-mouseenter="text='退出小组'" ng-mouseleave="text='已加入'">
+            {{text}}
+          </button>
+        </div>
+        <div ng-switch-default>
+          <button class="btn btn-sm btn-outline btn-join" login-window login-success="joinGroup()">
+            加入
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="clearfix">
+            <span class="text-muted text-overflow pull-left">
+              {{group.members.length}}个成员
+            </span>
+            <span class="pull-right"><a style="color: #31d6c5" href ui-sref="groupDetail.memberList">
+              全部成员</a>
+            </span>
+    </div>
+    <div class="group-members text-center">
+      <div ng-repeat="member in groupMembers | limitTo:15" class="group-member-list-small">
+        <div class="avatar-md"
+             tooltip="{{member.name}}"
+             ng-src="{{member.avatar|trusted:'url'}}"
+             ui-sref="user.home({userId: member._id})"></div>
+      </div>
+    </div>
+  </div>
+</div>

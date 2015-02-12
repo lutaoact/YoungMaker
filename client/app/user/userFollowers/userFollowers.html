@@ -4,10 +4,12 @@
 </div>
 
 <div class="user-info-list">
-  <user-tile-inline class="col-lg-6 col-md-6 col-sm-6 user-info"
-                    ng-repeat="follow in followers"
-                    user="follow.from" me="me">
-  </user-tile-inline>
+  <user-tile class="col-lg-6 col-md-6 col-sm-6 user-info"
+             ng-repeat="follow in followers"
+             user="follow.from"
+             size="md"
+             me="me">
+  </user-tile>
 </div>
 
 <div class="pagination-row"

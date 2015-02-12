@@ -27,8 +27,12 @@ angular.module 'maui.components'
       Auth.logout()
       socket.close()
 
-    isActive: (route) ->
-      route?.replace(/\(.*?\)/g, '') is $state.current.name
+    isActive: (state) ->
+      if state
+        regex = new RegExp(state)
+        regex.test $state.current.name
+      else
+        false
 
   $scope.$watch 'me', (me)->
     if me._id?

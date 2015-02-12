@@ -42,8 +42,9 @@ angular.module('mauiApp')
     saveCourse: () ->
       # compile content todo: may not need this. Client can decide how to display according to steps
       $scope.course.content = ''
-      $scope.course.steps.forEach (step)->
-        $scope.course.content += """<h2>#{step.title}</h2>"""
+      $scope.course.steps.forEach (step, index)->
+        stepId = 'step' + (index + 1).toString()
+        $scope.course.content += """<h2 class="step-title" id="#{stepId}">#{step.title}</h2>"""
         switch step.type
           when 'wysiwyg'
             $scope.course.content += $sanitize(step.content).replace /(ng-binding|ng-scope)/g, ''

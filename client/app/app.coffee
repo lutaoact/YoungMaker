@@ -10,6 +10,8 @@ angular.module 'mauiApp', [
   'ui.ace'
 ]
 
+.value('duScrollGreedy', true)
+
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode true
@@ -145,6 +147,8 @@ angular.module 'mauiApp', [
   $rootScope.const = Const
   $rootScope.$state = $state
   $rootScope.configs = configs
+  $rootScope.root = {}
+  $rootScope.root.navbarVisible = true
   $rootScope.$watch Auth.getCurrentUser, (newUser) ->
     $rootScope.me = newUser
     if Auth.isLoggedIn()

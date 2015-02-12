@@ -1,4 +1,4 @@
-<div class="user-tile-inline">
+<div class="user-tile-md">
   <a class="user-name" ui-sref="user.home({userId: user._id})">
     <div class="avatar-sm inline-block-middle"
          ng-src="{{user.avatar|trusted:'url'}}"
@@ -9,9 +9,10 @@
   <span ng-if="me._id != user._id">
     <button login-window
             login-success="toggleFollow()"
-            class="btn btn-sm btn-primary follow-btn pull-right">
+            ng-class="{'btn-primary':follow}"
+            class="btn btn-sm btn-default follow-btn pull-right">
       <span ng-if="!follow">
-        <i class="fa fa-plus-circle"></i>&nbsp;关注
+        <i class="fa fa-plus"></i>&nbsp;关注
       </span>
       <span ng-if="follow">
         <i class="fa fa-check-circle"></i>&nbsp;已关注

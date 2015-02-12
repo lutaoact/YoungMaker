@@ -26,10 +26,17 @@ angular.module('mauiApp')
         Restangular.all('comments').post $scope.newComment
         .then (data)->
           $scope.newComment.content = ''
-          console.log data
           $scope.comments.push data
       else
         alert('请输入内容')
+
+    removeCourse: (course)->
+      course.remove()
+      .then ->
+        notify
+          message:'删除成功!'
+          classes: 'alert-success'
+        $state.go 'courseList'
 
   if $state.params.courseId
       Restangular.one('courses', $state.params.courseId).get()

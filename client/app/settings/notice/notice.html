@@ -1,6 +1,6 @@
 <div class="notice-view">
 
-  <div class="text-muted text-center empty-notice" 
+  <div class="text-muted text-center empty-notice"
        ng-if="!messages.length">
     暂无消息
   </div>
@@ -14,12 +14,11 @@
         ui-sref="{{message.link}}">
       <a class="pull-left">
         <div class="avatar-xs"
-             src-key="message.raw.fromWhom.avatar"
-             source-attr="background-image"></div>
+             ng-src="{{message.raw.fromWhom.avatar}}"></div>
       </a>
-      <a class="pull-right btn fa" 
-         ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}" 
-         ng-click="markAsRead(message, $event)" 
+      <a class="pull-right btn fa"
+         ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}"
+         ng-click="markAsRead(message, $event)"
          title="标记为{{message.raw.status?'未读':'已读'}}">
       </a>
       <div class="media-body">

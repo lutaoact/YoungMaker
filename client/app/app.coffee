@@ -1,5 +1,33 @@
 'use strict'
 
+((console)->
+  if /localhost/.test window.location.hostname
+    console.remote = console.log
+    return
+  methods = ['log', 'error', 'remote']
+  methods.map (method) ->
+    oldFn = console[method]
+    console[method] = (message)->
+      if window.XMLHttpRequest
+        xmlhttp = new XMLHttpRequest()
+      else
+        xmlhttp= new ActiveXObject("Microsoft.XMLHTTP")
+      xmlhttp.open('POST',"/api/loggers",true)
+      xmlhttp.setRequestHeader('Accept', '*')
+      xmlhttp.setRequestHeader('Content-Type', 'application/json')
+      try
+        xmlhttp.send(JSON.stringify(_.values(arguments)))
+      catch e
+        xmlhttp.send(JSON.stringify(["error","JSON_convert",e?.toString()]))
+      oldFn?.apply(console, arguments)
+)(console)
+
+((window)->
+  preErrorHander = window.onerror
+  window.onerror = (m, u, l)->
+    preErrorHander?(m,u,l)
+    console.remote 'error', 'onJSError', m, u, l
+)(window)
 angular.module 'mauiApp', [
   'duScroll'
   'ngAnimate'
@@ -12,13 +40,22 @@ angular.module 'mauiApp', [
 
 .value('duScrollGreedy', true)
 
+.config ($provide) ->
+  $provide.decorator "$exceptionHandler", ($delegate) ->
+    (exception, cause)->
+      $delegate(exception, cause)
+      exception.cause = cause
+      console.remote 'error','onAngularError', exception
+
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
   $httpProvider.interceptors.push 'urlInterceptor'
   $httpProvider.interceptors.push 'patchInterceptor'
+  $httpProvider.interceptors.push 'objectIdInterceptor'
   $httpProvider.interceptors.push 'loadingInterceptor'
+  $httpProvider.interceptors.push 'errorHttpInterceptor'
 
 .config ($compileProvider) ->
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//)
@@ -67,6 +104,22 @@ angular.module 'mauiApp', [
     $location.url getRedirectUrl()
     $location.replace()
     true
+
+# Extract id when puting or posting object
+.factory 'objectIdInterceptor', ($location) ->
+  request: (config) ->
+    if config.data
+      for own key, value of config.data
+        if key.endsWith('Id') and value instanceof Object
+          config.data[key] = value._id
+    config
+
+.factory 'errorHttpInterceptor', ($q) ->
+  responseError: (response) ->
+    if response.status isnt 401 # for privacy
+      console.remote 'error', 'onHttpError', response
+    $q.reject response
+
 
 .factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
   # Add authorization token to headers

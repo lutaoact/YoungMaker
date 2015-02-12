@@ -10,6 +10,7 @@ angular.module('mauiApp')
   $location
   $anchorScroll
   $filter
+  $q
 ) ->
 
   angular.extend $scope,
@@ -71,6 +72,9 @@ angular.module('mauiApp')
         $scope.course.put()
         .then (course)->
           angular.extend $scope.course, course
+          notify
+            message: '已保存'
+            classes: 'alert-success'
         .catch (error) ->
           console.log 'error', error
 
@@ -85,11 +89,35 @@ angular.module('mauiApp')
       useWrapMode : true
       showGutter: true
 
+    onCoverUploaded: ($data)->
+      $scope.course.image = $data
+
+    cancelSave: ()->
+      messageModal.open
+        title: -> '取消保存'
+        message: -> '您的改动会被清除，是否取消保存？'
+      .result.then ->
+        # todo should go back
+        $state.go 'courseList'
+
   $scope.viewState.lastPlugin = $scope.plugins[0]
 
-  if $state.params.courseId
-    Restangular.one('courses', $state.params.courseId).get()
-    .then (course)->
-      $scope.course = course
-  else
-    $scope.course.steps = [{type:$scope.viewState.lastPlugin.type}]
+  $q (resolve, reject)->
+    if $state.params.courseId
+      Restangular.one('courses', $state.params.courseId).get()
+      .then (course)->
+        $scope.course = course
+        resolve $scope.course
+    else
+      $scope.course.steps = [{type:$scope.viewState.lastPlugin.type}]
+      resolve $scope.course
+  .then (course)->
+    Restangular.all('categories').getList()
+  .then (categories) ->
+    $scope.categories = categories
+    if $scope.course.categoryId
+      $scope.course.$category = _.find $scope.categories, (category)->
+        category._id is $scope.course.categoryId._id
+    else
+      $scope.course.categoryId = $scope.categories[0]
+

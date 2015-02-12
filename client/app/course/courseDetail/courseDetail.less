@@ -57,6 +57,7 @@
   }
   .course{
     padding: 15px 60px;
+    position: relative;
     @media screen and (max-width: @screen-lg-min) {
       padding: 20px 30px;
     }
@@ -74,14 +75,7 @@
     }
     .course-footer{
       .user-info{
-        .avatar-sm{
-          display: inline-block;
-          vertical-align: middle;
-          margin-right: 10px;
-        }
-        a{
-          display: inline-block;
-        }
+        padding-left: 0;
       }
       .tags{
         max-width: 50%;
@@ -112,6 +106,16 @@
       hr{
         margin-left: -60px;
         margin-right: -60px;
+      }
+    }
+    .actions-dropdown {
+      position: absolute;
+      top: 0;
+      right: 0;
+      .dropdown-menu {
+        min-width: 100px;
+        left: auto;
+        right: 0px;
       }
     }
   }

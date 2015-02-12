@@ -79,7 +79,6 @@ angular.module('mauiApp').controller 'MainCtrl', (
     .then (articles)->
       $scope.trendsPages = Math.ceil(articles.$count / $scope.trendPageSize)
       $scope.articles = articles
-      console.log $scope.trendsPages
 
   searchArticles()
 

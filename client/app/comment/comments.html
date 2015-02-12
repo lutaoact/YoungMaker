@@ -50,9 +50,7 @@
       <a href ng-if="comment.postBy._id == me._id" class="close pull-right" ng-click="deleteComment(comment)">&times;</a>
       <div class="pull-left">
         <div class="media-object avatar-md"
-             source-attr="background-image"
-             src-key="comment.postBy.avatar"
-             suffix="?imageView2/1/w/64/h/64">
+             ng-src="{{comment.postBy.avatar}}">
         </div>
       </div>
       <div class="media-body">

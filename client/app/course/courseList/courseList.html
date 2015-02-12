@@ -32,6 +32,7 @@
             </ul>
           </div>
           <div class="pull-right">
+            <a ui-sref="courseEditor" login-window class="btn btn-primary btn-sm new-course-btn">创建课程</a>
             <search-input placeholder="搜索课程。。。" keyword="pageConf.keyword" on-submit="pageConf.keyword=$keyword;reload(true)"></search-input>
           </div>
         </div>
@@ -74,10 +75,6 @@
 
     </div>
 
-  </div>
-
-  <div class="container">
-    <a ui-sref="courseEditor" login-window class="btn btn-default">创建课程</a>
   </div>
 
 </div>

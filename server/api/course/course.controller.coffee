@@ -6,7 +6,7 @@ WrapRequest = new (require '../../utils/WrapRequest')(Course)
 exports.index = (req, res, next) ->
   conditions = {}
   conditions.author = req.query.author if req.query.author
-  conditions.categoryId = req.query.category
+  conditions.categoryId = req.query.category if req.query.category
 
   # filter by tags
   queryTags = null
@@ -33,13 +33,13 @@ exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions
 
-pickedKeys = ['title', 'cover', 'image', 'videos', 'content', 'tags', 'steps']
+pickedKeys = ['title', 'cover', 'info', 'categoryId', 'image', 'videos', 'content', 'tags', 'steps']
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.author = req.user._id
   WrapRequest.wrapCreate req, res, next, data
 
-pickedUpdatedKeys = ['title', 'cover', 'image', 'videos', 'content', 'tags', 'steps']
+pickedUpdatedKeys = ['title', 'cover', 'info', 'categoryId', 'image', 'videos', 'content', 'tags', 'steps']
 exports.update = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys

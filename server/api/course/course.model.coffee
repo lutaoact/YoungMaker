@@ -6,16 +6,32 @@ ObjectId = Schema.Types.ObjectId
 class Course extends BaseModel
   populates:
     index: [
-      path: 'author', select: 'name avatar info'
+        path: 'author'
+        select: 'name avatar info'
+      ,
+        path: 'categoryId'
+        select: 'name logo'
     ]
     show: [
-      path: 'author', select: 'name avatar info'
+        path: 'author'
+        select: 'name avatar info'
+      ,
+        path: 'categoryId'
+        select: 'name logo'
     ]
     create: [
-      path: 'author', select: 'name avatar info'
+        path: 'author'
+        select: 'name avatar info'
+      ,
+        path: 'categoryId'
+        select: 'name logo'
     ]
     update: [
-      path: 'author', select: 'name avatar info'
+        path: 'author'
+        select: 'name avatar info'
+      ,
+        path: 'categoryId'
+        select: 'name logo'
     ]
 
   schema: new Schema
@@ -24,6 +40,7 @@ class Course extends BaseModel
       required: true
     cover: [ Number ]#表示年龄段的区间吧，其实我也不清楚
     image: String
+    info: String
     videos: [
       type: String
     ]
@@ -40,6 +57,9 @@ class Course extends BaseModel
       type: Number
       required: true
       default: 0
+    categoryId:
+      type: ObjectId
+      ref: 'category'
     likeUsers: [
       type: ObjectId
       ref: 'user'

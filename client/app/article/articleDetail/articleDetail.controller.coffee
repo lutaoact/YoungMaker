@@ -9,8 +9,8 @@ angular.module('mauiApp')
   angular.extend $scope,
     article: null
 
-  Restangular
-    .one('articles', $state.params.articleId)
-    .get()
-    .then (article) ->
-      $scope.article = article
+  Restangular.one('articles', $state.params.articleId)
+  .get()
+  .then (article) ->
+    $scope.article = article
+

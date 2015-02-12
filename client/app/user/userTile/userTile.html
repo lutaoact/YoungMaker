@@ -1,15 +1,16 @@
 <div class="panel panel-card user-tile">
+
+  <!--用户基本信息-->
   <div class="avatar-lg"
        ng-src="{{user.avatar|trusted:'url'}}"
        style="cursor: pointer"
        ui-sref="user.home({userId:user._id})"></div>
   <h4 class="user-name">
-    <a href=""
-       ui-sref="user.home({userId: user._id})">
-      {{user.name}}
-    </a>
+    <a ui-sref="user.home({userId: user._id})">{{user.name}}</a>
     <small>{{user.info}}</small>
   </h4>
+
+  <!--关注、编辑个人信息按钮-->
   <div class="follow-btn-group">
     <a ng-if="me._id == user._id"
        ui-sref="settings.profile"
@@ -30,6 +31,41 @@
     </button>
   </div>
   <hr>
+
+  <!--用户关注数、粉丝，文章、趣课数-->
+  <div class="user-states clearfix"
+       ng-if="userStates">
+    <div class="state">
+      <a ui-sref-active="active"
+         ui-sref="user.following({userId:user._id})">
+        {{userStates.numFollowings}}
+        <div class="text-muted">关注</div>
+      </a>
+    </div>
+    <div class="state">
+      <a ui-sref-active="active"
+         ui-sref="user.followers({userId:user._id})">
+        {{userStates.numFollowers}}
+        <div class="text-muted">粉丝</div>
+      </a>
+    </div>
+    <div class="state">
+      <a ui-sref-active="active"
+         ui-sref="user.courses({userId:user._id})">
+        {{userStates.numCourses}}
+        <div class="text-muted">趣课</div>
+      </a>
+    </div>
+    <div class="state">
+      <a ui-sref-active="active"
+         ui-sref="user.articles({userId:user._id})">
+        {{userStates.numArticles}}
+        <div class="text-muted">文章</div>
+      </a>
+    </div>
+  </div>
+
+  <!--用户最新文章-->
   <div ng-if="articles" class="user-articles">
     <p class="list-title text-muted">
       {{'#mine#' | mine:user.id==me.id:'我最新的文章':'作者最新的文章'}}
@@ -41,6 +77,8 @@
       </span>
     </p>
   </div>
+
+  <!--用户最新趣课-->
   <div ng-if="courses" class="user-courses">
     <p class="list-title text-muted">
       {{'#mine#' | mine:user.id==me.id:'我最新的趣课':'作者最新的趣课'}}
@@ -51,40 +89,5 @@
         <i class="fa fa-heart"></i>&nbsp;<span class="text-muted">{{course.likeUsers.length || 0}}</span>
       </span>
     </p>
-  </div>
-  <div class="user-status clearfix"
-       ng-if="userStatus">
-    <div class="status">
-      <a href
-         ui-sref-active="active"
-         ui-sref="user.following({userId:user._id})">
-        {{userStatus.numFollowings}}
-        <div class="text-muted">关注</div>
-      </a>
-    </div>
-    <div class="status">
-      <a href
-         ui-sref-active="active"
-         ui-sref="user.followers({userId:user._id})">
-        {{userStatus.numFollowers}}
-        <div class="text-muted">粉丝</div>
-      </a>
-    </div>
-    <div class="status">
-      <a href
-         ui-sref-active="active"
-         ui-sref="user.courses({userId:user._id})">
-        {{userStatus.numCourses}}
-        <div class="text-muted">趣课</div>
-      </a>
-    </div>
-    <div class="status">
-      <a href
-         ui-sref-active="active"
-         ui-sref="user.articles({userId:user._id})">
-        {{userStatus.numArticles}}
-        <div class="text-muted">文章</div>
-      </a>
-    </div>
   </div>
 </div>

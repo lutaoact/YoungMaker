@@ -10,7 +10,7 @@ router.get '/', auth.hasRole('admin'), controller.index
 router.get '/recommends', controller.recommends
 router.get '/me', auth.isAuthenticated(), controller.me
 router.get '/check', controller.check #?email=xxxxx
-router.get '/num', controller.num #?userId=xxx
+router.get '/states', controller.states #?userId=xxx
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete
 router.post '/forgotPassword', controller.forgotPassword

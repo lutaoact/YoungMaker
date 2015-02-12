@@ -1,4 +1,6 @@
 <div class="user-tile-md">
+
+  <!--用户基本信息-->
   <a class="user-name" ui-sref="user.home({userId: user._id})">
     <div class="avatar-sm inline-block-middle"
          ng-src="{{user.avatar|trusted:'url'}}"
@@ -6,6 +8,8 @@
          ui-sref="user.home({userId:user._id})"></div>
     {{user.name}}
   </a>
+
+  <!--关注、编辑个人信息按钮-->
   <a ng-if="me._id == user._id"
      ui-sref="settings.profile"
      class="btn btn-sm btn-primary pull-right">
@@ -23,38 +27,40 @@
       <i class="fa fa-check-circle"></i>&nbsp;已关注
     </span>
   </button>
-  <div class="user-info clearfix">
+
+  <!--用户关注数、粉丝，文章、趣课数-->
+  <div class="user-states clearfix">
     <div class="text-muted">{{user.info}}</div>
-    <div class="status">
+    <div class="state">
       关注&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.following({userId:user._id})">
-        {{userStatus.numFollowings}}
+        {{userStates.numFollowings}}
       </a>
     </div>
-    <div class="status">
+    <div class="state">
       粉丝&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.followers({userId:user._id})">
-        {{userStatus.numFollowers}}
+        {{userStates.numFollowers}}
       </a>
     </div>
-    <div class="status">
+    <div class="state">
       趣课&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.courses({userId:user._id})">
-        {{userStatus.numCourses}}
+        {{userStates.numCourses}}
       </a>
     </div>
-    <div class="status">
+    <div class="state">
       文章&nbsp;
       <a href
          ui-sref-active="active"
          ui-sref="user.articles({userId:user._id})">
-        {{userStatus.numArticles}}
+        {{userStates.numArticles}}
       </a>
     </div>
   </div>

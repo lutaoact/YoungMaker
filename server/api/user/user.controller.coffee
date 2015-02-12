@@ -90,7 +90,7 @@ exports.check = (req, res, next) ->
   .done()
 
 
-exports.num = (req, res, next) ->
+exports.states = (req, res, next) ->
   Follow = _u.getModel 'follow'
   Course = _u.getModel 'course'
   Article = _u.getModel 'article'

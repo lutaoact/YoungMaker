@@ -1,4 +1,6 @@
 <div class="user-tile-sm">
+
+  <!--用户基本信息-->
   <a class="user-info" ui-sref="user.home({userId: user._id})">
     <div class="avatar-sm inline-block-middle"
          ng-src="{{user.avatar|trusted:'url'}}"
@@ -9,6 +11,8 @@
       <p class="text-muted"><small>{{user.info}}</small></p>
     </span>
   </a>
+
+  <!--关注、编辑个人信息按钮-->
   <a ng-if="me._id == user._id"
      ui-sref="settings.profile"
      class="btn btn-sm btn-primary pull-right">

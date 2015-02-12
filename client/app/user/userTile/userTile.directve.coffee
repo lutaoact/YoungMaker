@@ -6,11 +6,11 @@ angular.module('mauiApp')
   restrict: 'EA'
   replace: true
   scope:
-    # type 默认为 normal : 用户个人主页下的 user-tile
-    # small              : 推荐的用户下的 user-tile
-    # middle             : 用户关注、粉丝下的 user-tile
-    # normal-articles    : 文章详情下的 user-tile
-    # normal-courses     : 趣课详情下的 user-tile
+    # normal (默认值)    : 用户主页下的 user-tile
+    # normal-articles    : 文章详情页下的 user-tile
+    # normal-courses     : 趣课详情页下的 user-tile
+    # small              : 推荐用户卡片下的 user-tile
+    # middle             : 用户关注、粉丝卡片下的 user-tile
     type: '@'
     user: '='
     me: '='
@@ -32,9 +32,9 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    userStatus: null
-    courses: null
+    userStates: null
     articles: null
+    courses: null
     follow: null
 
     toggleFollow: ->
@@ -61,15 +61,15 @@ angular.module('mauiApp')
     .then (follow) ->
       $scope.follow = follow
 
-    $scope.type ?= 'normal'
+    $scope.type or= 'normal' # type 默认值为 normal
     switch $scope.type
       when 'middle', 'normal'
         # 获取该用户的粉丝数，关注数
         Restangular
-          .one('users', 'num')
+          .one('users', 'states')
           .get(userId: $scope.user._id)
-          .then (status) ->
-            $scope.userStatus = status
+          .then (states) ->
+            $scope.userStates = states
       when 'normal-articles'
         # 获取该用户创建的最新文章
         Restangular
@@ -91,5 +91,6 @@ angular.module('mauiApp')
         .then (courses) ->
           $scope.courses = courses
 
+  # 如果登录用户 或 当前传人的user用户 发生改变，刷新一下数据
   $scope.$watchGroup ['me', 'user'], refresh
 

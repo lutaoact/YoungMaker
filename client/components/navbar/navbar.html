@@ -3,7 +3,9 @@
 
   <div class="container"
        click-outside="switchMenu(true)"
-       is-active="!viewState.isCollapsed">
+       is-active="!viewState.isCollapsed"
+       is-visible="root.navbarVisible"
+       adjust-offset-bottom="-50">
 
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -21,10 +23,10 @@
     <div class="navbar-collapse collapse"
          collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-left">
-        <li ng-class="{active:isActive('courseList')}">
+        <li ng-class="{active:isActive('course')}">
           <a ui-sref="courseList">趣课</a>
         </li>
-        <li ng-class="{active:isActive('groupList')}">
+        <li ng-class="{active:isActive('group')}">
           <a ui-sref="groupList">小组</a>
         </li>
       </ul>

@@ -16,6 +16,11 @@ angular.module('mauiApp')
     }
     comments: null
 
+    viewState:
+      stepIndex: 0
+      stepThumbs: 3
+      stepDots: 3
+
     submitComment: ()->
       if $scope.newComment?.content and $filter('htmlToPlaintext')($scope.newComment?.content).trim()
         Restangular.all('comments').post $scope.newComment
@@ -34,6 +39,11 @@ angular.module('mauiApp')
       Restangular.all('comments').getList({type:Const.CommentType.Course,belongTo:$state.params.courseId})
       .then (comments)->
         $scope.comments = comments
+
+  $scope.$on 'duScrollspy:becameActive', ($event, $element)->
+    $scope.viewState.selectedStep = $element.scope().step
+    $scope.viewState.stepIndex = $scope.course.steps.indexOf($scope.viewState.selectedStep) + 1
+
 
 
 

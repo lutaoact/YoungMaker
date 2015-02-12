@@ -1,4 +1,60 @@
 .course-detail{
+  .course-steps-nav{
+    position: fixed;
+    height: 55px;
+    background-color: #FFF;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: -60px;
+    z-index: 10;
+    .box-shadow(1px 1px 3px rgba(0,0,0,.2));
+    .step-title{
+      .text-overflow();
+      margin-right: -15px;
+      font-size: 20px;
+      margin-top: 15px;
+      small{
+        margin-right: 10px;
+      }
+    }
+    .transition();
+    &.active{
+      top: 0;
+    }
+    .ul-steps{
+      margin-top: 18px;
+      padding-left: 0;
+      margin-left: -15px;
+      display: inline-block;
+      li.small{
+        a{
+          padding: 0;
+        }
+        a + .tooltip{
+          display: none !important;
+        }
+        .scale(0.5);
+      }
+      li {
+        font-size: 12px;
+        a {
+          padding: 0 10px;
+          color: @gray-light;
+          &:hover{
+            color: @gray;
+          }
+          &.active {
+            color: @base-color;
+          }
+        }
+        display: inline-block;
+      }
+    }
+    .next-step-btn{
+      margin-top: 15px;
+    }
+  }
   .course{
     padding: 15px 60px;
     @media screen and (max-width: @screen-lg-min) {

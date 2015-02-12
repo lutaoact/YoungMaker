@@ -75,7 +75,7 @@ angular.module('mauiApp')
         Restangular
           .all('articles')
           .getList(
-            author: $scope.user.id
+            author: $scope.user._id
             limit: 5
           )
         .then (articles) ->
@@ -85,7 +85,7 @@ angular.module('mauiApp')
         Restangular
           .all('courses')
           .getList(
-            author: $scope.user.id
+            author: $scope.user._id
             limit: 5
           )
         .then (courses) ->

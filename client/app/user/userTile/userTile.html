@@ -30,11 +30,24 @@
     </button>
   </div>
   <hr>
+  <div ng-if="articles" class="user-articles">
+    <p class="list-title text-muted">
+      {{'#mine#' | mine:user.id==me.id:'我最新的文章':'作者最新的文章'}}
+    </p>
+    <p ng-repeat="article in articles" class="list-item">
+      <a ui-sref="articleDetail({articleId: article._id})">{{article.title}}</a>
+      <span class="item-like">
+        <i class="fa fa-heart"></i>&nbsp;<span class="text-muted">{{article.likeUsers.length || 0}}</span>
+      </span>
+    </p>
+  </div>
   <div ng-if="courses" class="user-courses">
-    <p class="list-title text-muted">作者最新的趣课</p>
+    <p class="list-title text-muted">
+      {{'#mine#' | mine:user.id==me.id:'我最新的趣课':'作者最新的趣课'}}
+    </p>
     <p ng-repeat="course in courses" class="list-item">
       <a ui-sref="courseDetail({courseId: course._id})">{{course.title}}</a>
-      <span class="pull-right item-like">
+      <span class="item-like">
         <i class="fa fa-heart"></i>&nbsp;<span class="text-muted">{{course.likeUsers.length || 0}}</span>
       </span>
     </p>

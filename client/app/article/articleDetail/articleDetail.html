@@ -2,7 +2,7 @@
 
   <!-- article content -->
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8 col-lg-9">
       <div class="panel panel-card">
         <article>
           <h3>
@@ -60,8 +60,16 @@
       </comments>
     </div>
 
-    <div class="col-md-3">
-      <group-tile-lg ng-if="article.group!=undefined" group="article.group" me="me"></group-tile-lg>
+    <div class="col-md-4 col-lg-3">
+      <group-tile-lg ng-if="article.group"
+                     group="article.group"
+                     me="me">
+      </group-tile-lg>
+      <user-tile ng-if="!article.group"
+                 type="normal-articles"
+                 user="article.author"
+                 me="me">
+      </user-tile>
     </div>
 
   </div>

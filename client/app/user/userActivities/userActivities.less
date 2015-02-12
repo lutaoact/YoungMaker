@@ -1,4 +1,8 @@
 .activity-tile {
+  margin-top: 10px;
+  + .activity-tile {
+    margin-top: 0;
+  }
   .fa {
     margin-right: 17px;
     &:after {
@@ -6,7 +10,7 @@
       position: absolute;
       border-left: 1px solid #D8D8D8;
       width: 1px;
-      height: 25px;
+      height: 40px;
       left: 8px;
       top: 25px;
     }
@@ -17,12 +21,12 @@
     }
   }
   hr {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: 40px;
     &.last {
       border: none;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
   }
   ul {

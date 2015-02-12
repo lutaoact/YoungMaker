@@ -1,17 +1,29 @@
 .user-tile-sm {
   height: 40px;
   .user-info {
-    .text-overflow();
+    display: inline-block;
     font-size: 14px;
+    width: 100%;
+    padding-right: 40px;
     .avatar-sm {
+      margin-top: 0;
       margin-right: 6px;
     }
     .user-name {
+      .text-overflow();
       display: inline-block;
       vertical-align: middle;
-      margin-bottom: -5px;
+      line-height: 16px;
+      width: 100%;
+      padding-left: 40px;
+      margin-left: -40px;
+      margin-bottom: -10px;
+      p {
+        .text-overflow();
+      }
     }
   }
   .follow-btn {
+    margin-top: -32px;
   }
 }

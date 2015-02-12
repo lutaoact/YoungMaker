@@ -41,7 +41,7 @@
         <span class="user-name">{{activity.userId.name}}</span>
       </a>
     </li>
-    <li ng-switch="activity.action" class="text-muted display-inline">
+    <li ng-switch="activity.action" class="text-muted">
       <span ng-switch-when="create_group">
         创建了小组
         <a class="link-dark-color" ui-sref="groupDetail.articleList({groupId: activity.group._id})">

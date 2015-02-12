@@ -11,7 +11,7 @@
               <a href="#step{{$index+1}}" tooltip="{{step.title}}" tooltip-placement="bottom" class="step-dot" du-smooth-scroll du-scrollspy offset="10"><i class="fa fa-circle"></i></a>
             </li>
           </ul>
-          <a href="#step{{viewState.stepIndex==course.steps.length?1:viewState.stepIndex+1}}" class="pull-right btn btn-rounded btn-primary btn-outline btn-sm next-step-btn" du-smooth-scroll>{{viewState.stepIndex==course.steps.length-1?'第一步':'下一步'}}&nbsp;<i class="fa" ng-class="{'fa-long-arrow-up':viewState.stepIndex==course.steps.length,'fa-long-arrow-right':viewState.stepIndex!=course.steps.length}"></i></a>
+          <a href="#step{{viewState.stepIndex==course.steps.length?1:viewState.stepIndex+1}}" offset="10" class="pull-right btn btn-rounded btn-primary btn-outline btn-sm next-step-btn" du-smooth-scroll>{{viewState.stepIndex==course.steps.length?'第一步':'下一步'}}&nbsp;<i class="fa" ng-class="{'fa-long-arrow-up':viewState.stepIndex==course.steps.length,'fa-long-arrow-right':viewState.stepIndex!=course.steps.length}"></i></a>
         </div>
       </div>
     </div>
@@ -46,12 +46,7 @@
             <hr>
             <ul class="ul-block">
               <li class="user-info">
-                <div class="avatar-sm"
-                     ng-src="{{course.author.avatar|trusted:'url'}}">
-                </div>
-                <a href="" ui-sref="user.home({userId: course.author._id})">
-                  {{course.author.name}}
-                </a>
+                <user-tile me="me" user="course.author" size="sm"></user-tile>
               </li>
               <li>
                 {{course.created | moment:'calendar'}} <br>

@@ -16,27 +16,7 @@
       </a>
       创建于{{group.created | moment: 'calendar'}}
     </p>
-    <div class="group-btn-block">
-      <div ng-switch="getRole()" class="text-center">
-        <div ng-switch-when='creator'>
-          <button class="btn btn-sm btn-outline btn-primary" ng-click="editGroupInfo()">
-            修改小组信息
-          </button>
-        </div>
-        <div ng-switch-when='member'>
-          <button class="btn btn-sm btn-outline btn-joined"
-                  ng-click="leaveGroup()"
-                  ng-init="text='已加入'" ng-mouseenter="text='退出小组'" ng-mouseleave="text='已加入'">
-            {{text}}
-          </button>
-        </div>
-        <div ng-switch-default>
-          <button class="btn btn-sm btn-outline btn-join" login-window login-success="joinGroup()">
-            加入
-          </button>
-        </div>
-      </div>
-    </div>
+    <group-join-btn group="group" me="me" class="group-btn-block text-center"></group-join-btn>
     <hr>
     <div class="clearfix">
             <span class="text-muted text-overflow pull-left">

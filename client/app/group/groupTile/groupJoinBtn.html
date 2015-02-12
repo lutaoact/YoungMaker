@@ -1,0 +1,16 @@
+<div ng-switch="getRole()" class="group-join-btn">
+  <div ng-switch-when='creator'>
+    <button class="btn btn-sm btn-outline btn-primary" ng-click="editGroupInfo($event)">
+      修改小组信息</button>
+  </div>
+  <div ng-switch-when='member'>
+    <button class="btn btn-sm btn-outline btn-joined"
+            ng-click="leaveGroup($event)"
+            ng-init="text='已加入'" ng-mouseenter="text='退出小组'" ng-mouseleave="text='已加入'">
+      {{text}}</button>
+  </div>
+  <div ng-switch-default>
+    <button class="btn btn-sm btn-outline btn-join" login-window login-success="joinGroup()" ng-click="$event.stopPropagation()">
+      加入</button>
+  </div>
+</div>

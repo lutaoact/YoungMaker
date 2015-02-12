@@ -11,6 +11,11 @@
     <small>{{user.info}}</small>
   </h4>
   <div class="follow-btn-group">
+    <a ng-if="me._id == user._id"
+       ui-sref="settings.profile"
+       class="btn btn-sm btn-primary">
+      <i class="fa fa-pencil"></i>&nbsp;编辑个人信息
+    </a>
     <button login-window
             ng-if="me._id != user._id"
             login-success="toggleFollow()"
@@ -25,12 +30,22 @@
     </button>
   </div>
   <hr>
-  <div class="user-status clearfix">
+  <div ng-if="courses" class="user-courses">
+    <p class="list-title text-muted">作者最新的趣课</p>
+    <p ng-repeat="course in courses" class="list-item">
+      <a ui-sref="courseDetail({courseId: course._id})">{{course.title}}</a>
+      <span class="pull-right item-like">
+        <i class="fa fa-heart"></i>&nbsp;<span class="text-muted">{{course.likeUsers.length || 0}}</span>
+      </span>
+    </p>
+  </div>
+  <div class="user-status clearfix"
+       ng-if="userStatus">
     <div class="status">
       <a href
          ui-sref-active="active"
          ui-sref="user.following({userId:user._id})">
-        {{userData.numFollowings}}
+        {{userStatus.numFollowings}}
         <div class="text-muted">关注</div>
       </a>
     </div>
@@ -38,7 +53,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.followers({userId:user._id})">
-        {{userData.numFollowers}}
+        {{userStatus.numFollowers}}
         <div class="text-muted">粉丝</div>
       </a>
     </div>
@@ -46,7 +61,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.courses({userId:user._id})">
-        {{userData.numCourses}}
+        {{userStatus.numCourses}}
         <div class="text-muted">趣课</div>
       </a>
     </div>
@@ -54,7 +69,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.articles({userId:user._id})">
-        {{userData.numArticles}}
+        {{userStatus.numArticles}}
         <div class="text-muted">文章</div>
       </a>
     </div>

@@ -9,11 +9,16 @@
       <p class="text-muted"><small>{{user.info}}</small></p>
     </span>
   </a>
+  <a ng-if="me._id == user._id"
+     ui-sref="settings.profile"
+     class="btn btn-sm btn-primary pull-right">
+    <i tooltip="点击编辑个人信息" class="fa fa-pencil"></i>
+  </a>
   <button login-window
           ng-if="me._id != user._id"
           login-success="toggleFollow()"
           ng-class="{'btn-primary':follow}"
-          class="btn btn-sm btn-default follow-btn pull-right">
+          class="btn btn-sm btn-default pull-right">
     <span ng-if="!follow" tooltip="点击关注该用户">
       <i class="fa fa-plus"></i>
     </span>

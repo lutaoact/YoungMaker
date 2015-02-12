@@ -37,7 +37,9 @@
               专栏－{{article.column.name}}
             </li>
             <li ng-if="article.group">
-              发布于<a ui-sref="groupDetail.articleList({groupId: article.group._id})">{{article.group.title}}</a>
+              发布于<a ui-sref="groupDetail.articleList({groupId: article.group._id})">
+                {{article.group.name}}
+              </a>
             </li>
             <li>
               {{article.created | moment: 'fromNow'}}
@@ -59,7 +61,7 @@
     </div>
 
     <div class="col-md-3">
-      <group-tile-lg ng-if="article.group!=undefined" group="group" me="me"></group-tile-lg>
+      <group-tile-lg ng-if="article.group!=undefined" group="article.group" me="me"></group-tile-lg>
     </div>
 
   </div>

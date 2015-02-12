@@ -6,6 +6,11 @@
          ui-sref="user.home({userId:user._id})"></div>
     {{user.name}}
   </a>
+  <a ng-if="me._id == user._id"
+     ui-sref="settings.profile"
+     class="btn btn-sm btn-primary pull-right">
+    <i class="fa fa-pencil"></i>&nbsp;编辑
+  </a>
   <button login-window
           ng-if="me._id != user._id"
           login-success="toggleFollow()"
@@ -25,7 +30,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.following({userId:user._id})">
-        {{userData.numFollowings}}
+        {{userStatus.numFollowings}}
       </a>
     </div>
     <div class="status">
@@ -33,7 +38,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.followers({userId:user._id})">
-        {{userData.numFollowers}}
+        {{userStatus.numFollowers}}
       </a>
     </div>
     <div class="status">
@@ -41,7 +46,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.courses({userId:user._id})">
-        {{userData.numCourses}}
+        {{userStatus.numCourses}}
       </a>
     </div>
     <div class="status">
@@ -49,7 +54,7 @@
       <a href
          ui-sref-active="active"
          ui-sref="user.articles({userId:user._id})">
-        {{userData.numArticles}}
+        {{userStatus.numArticles}}
       </a>
     </div>
   </div>

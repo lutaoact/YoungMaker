@@ -6,15 +6,20 @@ angular.module('mauiApp')
   restrict: 'EA'
   replace: true
   scope:
-    size: '@'
+    # type 默认为 normal : 用户个人主页下的 user-tile
+    # small              : 推荐的用户下的 user-tile
+    # middle             : 用户关注、粉丝下的 user-tile
+    # normal-articles    : 文章详情下的 user-tile
+    # normal-courses     : 趣课详情下的 user-tile
+    type: '@'
     user: '='
     me: '='
   templateUrl: (element, attrs) ->
-    switch attrs.size
-      when 'sm'
-        'app/user/userTile/userTileSm.html'
-      when 'md'
-        'app/user/userTile/userTileMd.html'
+    switch attrs.type
+      when 'small'
+        'app/user/userTile/userTileSmall.html'
+      when 'middle'
+        'app/user/userTile/userTileMiddle.html'
       else
         'app/user/userTile/userTile.html'
   controller: 'UserTileCtrl'
@@ -27,7 +32,9 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    userData: null
+    userStatus: null
+    courses: null
+    articles: null
     follow: null
 
     toggleFollow: ->
@@ -54,13 +61,35 @@ angular.module('mauiApp')
     .then (follow) ->
       $scope.follow = follow
 
-    # 检查该用户的粉丝数，关注数
-    if $scope.size isnt 'sm'
-      Restangular
-        .one('users', 'num')
-        .get(userId: $scope.user._id)
-        .then (data) ->
-          $scope.userData = data
+    $scope.type ?= 'normal'
+    switch $scope.type
+      when 'middle', 'normal'
+        # 获取该用户的粉丝数，关注数
+        Restangular
+          .one('users', 'num')
+          .get(userId: $scope.user._id)
+          .then (status) ->
+            $scope.userStatus = status
+      when 'normal-articles'
+        # 获取该用户创建的最新文章
+        Restangular
+          .all('articles')
+          .getList(
+            author: $scope.user.id
+            limit: 5
+          )
+        .then (articles) ->
+          $scope.articles = articles
+      when 'normal-courses'
+        # 获取该用户创建的最新趣课
+        Restangular
+          .all('courses')
+          .getList(
+            author: $scope.user.id
+            limit: 5
+          )
+        .then (courses) ->
+          $scope.courses = courses
 
   $scope.$watchGroup ['me', 'user'], refresh
 

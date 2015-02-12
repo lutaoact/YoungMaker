@@ -1,13 +1,32 @@
 .activity-tile {
+  margin-top: 10px;
+  + .activity-tile {
+    margin-top: 0;
+  }
   .fa {
-    margin-right: 15px;
+    margin-right: 17px;
+    &:after {
+      content: '';
+      position: absolute;
+      border-left: 1px solid #D8D8D8;
+      width: 1px;
+      height: 30px;
+      left: 8px;
+      top: 30px;
+    }
+    &.last {
+      &:after {
+        display: none;
+      }
+    }
   }
   hr {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 40px;
     &.last {
       border: none;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
   }
   ul {
@@ -16,11 +35,8 @@
   }
   ul, li {
     display: inline-block;
-    .title {
+    .display-inline {
       display: inline;
-      a {
-        color: @base-color;
-      }
     }
     .user-name {
       color: @base-color;

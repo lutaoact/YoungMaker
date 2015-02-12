@@ -1,6 +1,6 @@
 .link {
   cursor: pointer;
-  color: #414141;
+  color: #464545;
   text-decoration: none;
   &:hover,
   &.active,
@@ -10,6 +10,22 @@
   }
   .transition();
 }
+
+.link-dark-color {
+  .link;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.link-base-color {
+  .link;
+  color: @base-color;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 a {
   .link;
   .text-overflow();

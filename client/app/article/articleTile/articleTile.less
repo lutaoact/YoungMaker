@@ -7,7 +7,15 @@
   +.article-tile {
     border-top: 1px solid @tile-border;
   }
-
+  .article-btn-group {
+    opacity: 0;
+  }
+  &:hover {
+    .article-btn-group {
+      .transition();
+      opacity: 1;
+    }
+  }
   .article-image {
     height: 60px;
     width: 94px;
@@ -26,23 +34,10 @@
     max-height: 40px;
     .text-overflow();
   }
-  hr {
-    margin-top: 23px;
-  }
   .vote-box {
     position: absolute;
     top: 24px;
     left: 16px;
-  }
-  .actions-dropdown {
-    position: absolute;
-    top: 0;
-    right: 0;
-    .dropdown-menu {
-      min-width: 100px;
-      left: auto;
-      right: 0px;
-    }
   }
 }
 

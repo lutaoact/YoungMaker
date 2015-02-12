@@ -1,0 +1,16 @@
+<div class="article-tile-simple">
+
+  <div ng-if="article.image"
+       ng-src="{{article.image | trusted:'url'}}"
+       class="article-image pull-right">
+  </div>
+  <h4 class="article-title">
+    <a ui-sref="articleDetail({articleId: article._id})">
+      {{article.title}}
+    </a>
+  </h4>
+  <p class="article-summary text-muted">
+    {{article.content|htmlToPlaintext}}
+  </p>
+
+</div>

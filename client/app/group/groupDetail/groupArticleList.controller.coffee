@@ -12,8 +12,11 @@ angular.module('mauiApp')
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
-      itemsPerPage : 3
+      itemsPerPage : 10
       sort         : $state.params.sort
+
+    viewState:
+      keyword: $state.params.keyword ? ''
 
     reload: (resetPageIndex) ->
       $scope.pageConf.currentPage = 1 if resetPageIndex

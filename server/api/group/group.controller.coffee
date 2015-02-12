@@ -6,6 +6,13 @@ WrapRequest = new (require '../../utils/WrapRequest')(Group)
 exports.index = (req, res, next) ->
   conditions = {}
   conditions.creator = req.query.creator if req.query.creator
+  if req.query.keyword
+    keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
+    conditions.$or = [
+      name: keyword
+    ,
+      info: keyword
+    ]
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.show = (req, res, next) ->

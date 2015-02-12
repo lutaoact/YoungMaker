@@ -1,10 +1,25 @@
 .activity-tile {
   .fa {
-    margin-right: 15px;
+    margin-right: 17px;
+    &:after {
+      content: '';
+      position: absolute;
+      border-left: 1px solid #D8D8D8;
+      width: 1px;
+      height: 25px;
+      left: 8px;
+      top: 25px;
+    }
+    &.last {
+      &:after {
+        display: none;
+      }
+    }
   }
   hr {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 40px;
     &.last {
       border: none;
       margin-bottom: 10px;

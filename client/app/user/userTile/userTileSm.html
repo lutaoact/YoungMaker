@@ -1,0 +1,25 @@
+<div class="user-tile-sm">
+  <a class="user-info" ui-sref="user.home({userId: user._id})">
+    <div class="avatar-sm inline-block-middle"
+         ng-src="{{user.avatar|trusted:'url'}}"
+         style="cursor: pointer"
+         ui-sref="user.home({userId:user._id})"></div>
+    <span class="user-name">
+      {{user.name}}
+      <p class="text-muted"><small>{{user.info}}</small></p>
+    </span>
+  </a>
+  <span ng-if="me._id != user._id">
+    <button login-window
+            login-success="toggleFollow()"
+            ng-class="{'btn-primary':follow}"
+            class="btn btn-sm btn-default follow-btn pull-right">
+      <span ng-if="!follow" tooltip="关注">
+        <i class="fa fa-plus"></i>
+      </span>
+      <span ng-if="follow" tooltip="已关注">
+        <i class="fa fa-check-circle"></i>
+      </span>
+    </button>
+  </span>
+</div>

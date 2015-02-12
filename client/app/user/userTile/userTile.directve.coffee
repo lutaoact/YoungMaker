@@ -3,21 +3,20 @@
 angular.module('mauiApp')
 
 .directive 'userTile', ->
-  templateUrl: 'app/user/userTile/userTile.html'
   restrict: 'EA'
   replace: true
   scope:
+    size: '@'
     user: '='
     me: '='
-  controller: 'UserTileCtrl'
-
-.directive 'userTileInline', ->
-  templateUrl: 'app/user/userTile/userTileInline.html'
-  restrict: 'EA'
-  replace: true
-  scope:
-    user: '='
-    me: '='
+  templateUrl: (element, attrs) ->
+    switch attrs.size
+      when 'sm'
+        'app/user/userTile/userTileSm.html'
+      when 'md'
+        'app/user/userTile/userTileMd.html'
+      else
+        'app/user/userTile/userTile.html'
   controller: 'UserTileCtrl'
 
 .controller 'UserTileCtrl', (

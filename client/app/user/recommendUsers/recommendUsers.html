@@ -2,18 +2,14 @@
   <div class="col-md-12 clearfix">
     <h4>
       达人榜
-      <a href="" ng-disable="RecommendUsers.loading" class="pull-right swap" ng-click="RecommendUsers.change()">换一批</a>
+      <a href=""
+         ng-disable="RecommendUsers.loading"
+         class="pull-right swap"
+         ng-click="RecommendUsers.change()">换一批</a>
     </h4>
-    <div ng-repeat="user in RecommendUsers.suggests" class="recommend-user">
-      <div class="avatar-sm pull-left" ng-src="{{user.avatar|trusted:'url'}}"></div>
-      <h5>
-        <a href="" ui-sref="userDetail({userId:user._id})" class="user-title">
-          {{user.name}}
-          <br>
-          <span>{{user.info}}</span>
-        </a>
-      </h5>
-      <a href="" class="btn btn-default btn-xs pull-right"><i class="fa fa-plus"></i></a>
+    <div ng-repeat="user in RecommendUsers.suggests"
+         class="recommend-user">
+      <user-tile size="sm" me="me" user="user"></user-tile>
     </div>
   </div>
 </div>

@@ -6,11 +6,6 @@ module.exports =
   # MongoDB connection options
   nbUrl: 'http://localhost:4567'
 
-  weixinAuth:
-    appkey: 'wx0b867034fb0d7f4e'
-    secret: '7b88d10a6a284fc9dc3881e5d32396ed'
-    oauth_callback_url: 'http://cloud3edu.cloud3edu.cn/auth/weixin/callback'
-
   mongo:
     uri: 'mongodb://localhost/maui-dev'
 

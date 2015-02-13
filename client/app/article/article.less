@@ -11,18 +11,78 @@ article {
 }
 
 .article-form {
-  .article-title {
-    padding: 0;
-    margin: 0 5px;
-    border: none;
-    box-shadow: none;
-    font-size: 1.14em;
+  max-width: 978px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  text-align: left;
+  overflow: hidden;
+  padding: 0 !important;
+  h4 {
+    font-size: 20px;
+    padding: 15px;
   }
-  .article-content .pen {
-    margin: 10px 5px;
-    min-height: 250px;
+  .title-group {
+    background: rgba(142, 173, 170, 0.05);
+    display: inline-block;
+    width: 100%;
+    padding: 25px 0;
+    margin-bottom: -5px;
+    border-top: 1px solid @tile-border;
+    .title {
+      padding-left: 30px;
+      padding-right: 120px;
+      .form-control {
+        font-size: 1.14em;
+        display: inline-block;
+        width: 100%;
+        margin-left: 15px;
+        margin-right: -75px;
+      }
+    }
+  }
+  .editor-group {
+    width: 100%;
+  }
+  .article-content {
+    min-height: 350px;
+    margin-left: auto;
+    .ta-editor,
+    textarea {
+      border: none;
+      box-shadow: none;
+      margin: 10px -10px;
+    }
+    *:focus {
+      outline: 0;
+    }
+    .ta-toolbar {
+      .btn {
+        background: #F6F6F6 !important;
+        border-radius: 0;
+        height: 40px;
+        width: 40px;
+        color: #777776;
+      }
+      .box-shadow(@tile-shadow);
+      border-top: 1px solid @tile-border;
+      border-bottom: 1px solid @tile-border;
+      background: #F6F6F6 !important;
+      // let background 100% width
+      margin-left: -111px;
+      padding-left: 100px;
+      margin-right: -107px;
+      padding-right: 100px;
+    }
   }
   .save-button {
-    margin: 10px 10px 30px 10px;
+    padding: 20px 0;
+    display: inline-block;
+    width: 100%;
+    background: rgba(142, 173, 170, 0.05);
+    border-top: 1px solid @tile-border;
+    .btn + .btn {
+      margin-left: 20px;
+    }
   }
 }

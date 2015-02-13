@@ -1,0 +1,79 @@
+<div class="container settings padding-top-20 margin-top">
+
+  <ul class="col-md-3 nav nav-pills nav-stacked panel panel-card">
+    <li>
+      <div class="personal-info clearfix">
+        <div class="avatar-md pull-left"
+          ng-src="{{me.avatar|trusted:'url'}}">
+        </div>
+        <h5>{{me.name}}</h5>
+      </div>
+    </li>
+    <li ui-sref="notices.unread" ui-sref-active="active">
+      <a>未读消息</a>
+    </li>
+    <li ui-sref="notices.read" ui-sref-active="active">
+      <a>已读消息</a>
+    </li>
+  </ul>
+
+  <div class="col-md-9 col-sm-12" >
+    <div class="panel panel-card setting-panel">
+      <div class="panel-body" style="position: relative;">
+        <div ui-view class="fadeIn notice-view">
+
+          <div class="text-muted text-center empty-notice"
+               ng-if="!messages.length">
+            暂无消息
+          </div>
+
+          <ul class="media-list message-list"
+              ng-if="messages.length > 0">
+            <li ng-repeat="message in messages|orderBy:'raw.status'"
+                class="message media broadcast"
+                ng-class="{'unread':!message.raw.status}"
+                ng-click="markAsRead(message)">
+              <a class="pull-left">
+                <div class="avatar-xs"
+                     ng-src="{{message.raw.fromWhom.avatar}}"></div>
+              </a>
+              <a class="pull-right btn fa"
+                 ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}"
+                 ng-click="markAsRead(message, $event)"
+                 title="标记为{{message.raw.status?'未读':'已读'}}">
+              </a>
+              <div class="media-body">
+                <h6 class="media-heading">
+                  {{message.raw.fromWhom.name}}
+                  <small>|&nbsp;{{message.raw.created|moment: "fromNow"}}</small>
+                </h6>
+                <div class="text-muted">{{message.title}}</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="row pagination-row text-center"
+               ng-if="messages.$count"
+               ng-show="messages.$count > pageConf.itemsPerPage">
+            <pagination total-items="messages.$count"
+                        ng-model="pageConf.currentPage"
+                        ng-change="changePage()"
+                        items-per-page="pageConf.itemsPerPage"
+                        class="pagination-sm bud"
+                        boundary-links="true"
+                        rotate="false"
+                        max-size="pageConf.maxSize"
+                        previous-text="&lsaquo;"
+                        next-text="&rsaquo;"
+                        first-text="&laquo;"
+                        last-text="&raquo;"
+                        num-pages="numPages">
+            </pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

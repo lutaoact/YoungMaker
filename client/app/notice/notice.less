@@ -1,0 +1,34 @@
+.settings{
+  .setting-panel{
+    min-height: 300px;
+    .btn-sm{
+      min-width: 110px;
+    }
+  }
+  .personal-info{
+    padding: 10px 15px;
+    .avatar-md{
+      margin-right: 10px;
+    }
+    h6 {
+      .text-overflow();
+    }
+  }
+  .notice-view{
+    .message{
+      padding: 12px 12px;
+      margin-top: 0px;
+      &.unread{
+        background: @gray-lighter;
+      }
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .empty-notice {
+      padding-top: 60px;
+      font-size: 20px;
+    }
+  }
+}
+

@@ -1,12 +1,11 @@
 'use strict'
 
-angular.module('mauiApp').controller 'NoticeCtrl',(
-  Auth
+angular.module('mauiApp')
+
+.controller 'NoticeCtrl', (
   $scope
   $state
-  notify
   Restangular
-  $rootScope
   Msg
 ) ->
 
@@ -14,6 +13,7 @@ angular.module('mauiApp').controller 'NoticeCtrl',(
     pageConf:
       itemsPerPage: 5
       currentPage : $state.params.page ? 1
+      read: $state.params.read
       maxSize: 5
 
     messages: []
@@ -29,10 +29,11 @@ angular.module('mauiApp').controller 'NoticeCtrl',(
         Msg.readMsg()
 
     changePage: ()->
-      $state.go('settings.notice',
-        page     :$scope.pageConf.currentPage
-      )
+      $state.go $state.current,
+        page: $scope.pageConf.currentPage
+        read: if $state.params.read then true else false
 
+  # TODO get unread notices
   Restangular.all('notices').getList(
     all: true
     from   : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
@@ -43,4 +44,5 @@ angular.module('mauiApp').controller 'NoticeCtrl',(
     notices.forEach (notice)->
       $scope.messages.push Msg.genMessage(notice)
     $scope.messages.$count = notices.$count
+
 

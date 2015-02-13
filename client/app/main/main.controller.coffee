@@ -16,6 +16,8 @@ angular.module('mauiApp').controller 'MainCtrl', (
 
     courses: null
 
+    carouselOpts:{}
+
     slideOpts:
       $AutoPlay: true,                                    # [Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
       $AutoPlaySteps: 1,                                  # [Optional] Steps to go for each navigation request (this options applys only when slideshow disabled), the default value is 1

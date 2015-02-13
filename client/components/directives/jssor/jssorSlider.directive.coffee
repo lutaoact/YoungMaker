@@ -48,26 +48,26 @@ angular.module('maui.components')
         $ShowLink: true                                # [Optional] Whether to bring slide link on top of the slider when slideshow is running, default value is false
         $Transitions: [{$Duration:1000,x:0.2,$Delay:40,$Cols:12,$Formation:$JssorSlideshowFormations$.$FormationStraightStairs,$Assembly:260,$Easing:{$Left:$JssorEasing$.$EaseInOutExpo,$Opacity:$JssorEasing$.$EaseInOutQuad},$Opacity:2,$Outside:true,$Round:{$Top:0.5}}]   # [Required] An array of slideshow transitions to play slideshow
 
+    slider = null
     scope.$watch 'jSlider', (value)->
-      slider = new $JssorSlider$(element.attr('id'), angular.extend(defaultOpts, scope.jSlider))
-      slider.$On $JssorSlider$.$EVT_PARK, (slideIndex, fromIndex) ->
-        status = null
-        scope.$emit "JssorSliderChanged", status =
-          name: scope.jSlider.name,
-          slideIndex: slideIndex,
-          fromIndex: fromIndex
-        if scope.jSlider.name
-          console.log("SliderChanged:", scope.jSlider.name, angular.toJson(status))
-      scaleSlider = ->
-        parentWidth = slider.$Elmt.parentNode.clientWidth
-        # bodyWidth = document.body.clientWidth
-        if parentWidth
-          slider.$ScaleWidth(Math.min(parentWidth, 1920))
-        else
-          $timeout scaleSlider, 30
-      scaleSlider()
-      $(window).bind("load", scaleSlider);
-      $(window).bind("resize", scaleSlider);
-      $(window).bind("orientationchange", scaleSlider)
+      if value
+        slider = new $JssorSlider$(element.attr('id'), angular.extend(defaultOpts, scope.jSlider))
+        scaleSlider = ->
+          parentWidth = slider.$Elmt.parentNode.clientWidth
+          # bodyWidth = document.body.clientWidth
+          if parentWidth
+            slider.$ScaleWidth(Math.min(parentWidth, 1920))
+          else
+            $timeout scaleSlider, 30
+        scaleSlider()
+        $(window).bind("load", scaleSlider);
+        $(window).bind("resize", scaleSlider);
+        $(window).bind("orientationchange", scaleSlider)
+        # destroy
+        scope.$on '$destroy', ->
+          slider = null
+          $(window).unbind("load", scaleSlider);
+          $(window).unbind("resize", scaleSlider);
+          $(window).unbind("orientationchange", scaleSlider)
 
 

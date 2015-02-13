@@ -4,6 +4,8 @@ angular.module('maui.components')
 
 .filter 'trusted', ($sce)->
   (input, type = 'html') ->
+    if !input
+      return
     input = String(input)
     switch type
       when 'html'

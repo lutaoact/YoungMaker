@@ -1,6 +1,7 @@
 angular.module('mauiApp')
 
 .controller 'ArticleEditorCtrl', (
+  $q
   focus
   $scope
   $state
@@ -10,6 +11,7 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
+    title: null
     article: null
 
     saveArticle: (form) ->
@@ -28,38 +30,38 @@ angular.module('mauiApp')
         .then (article) ->
           angular.extend $scope.article, article
           notify
-            message: '话题已保存'
+            message: $scope.articleType + '已保存'
             classes: 'alert-success'
         .catch (error) ->
           console.log error
           notify
-            message: '保存话题出错啦：' + error
+            message: '出错啦：' + error
             classes: 'alert-danger'
       else
         Restangular.all('articles')
         .post($scope.article)
         .then ->
           notify
-            message: '话题已创建'
+            message: $scope.articleType + '发表成功'
             classes: 'alert-success'
           if $state.params.groupId?
             $state.go 'groupDetail.articleList', groupId: $state.params.groupId
           else
             $state.go 'user.articles', userId: $scope.me._id
 
-    deleteArticle: ->
-      $scope.article.remove().then ->
-        history.go(-2)
-
-  if $state.params.articleId
-    Restangular.one('articles', $state.params.articleId).get()
-    .then (article) ->
-      $scope.article = article
-      focus 'articleTitle'
-    .catch (error) ->
-      notify
-        message: '话题不存在或者已经删除：' + error
-        classes: 'alert-danger'
-  else
-    $scope.article =
-      group: $state.params.groupId
+  $q (resolve, reject) ->
+    if $state.params.articleId
+      Restangular.one('articles', $state.params.articleId).get()
+      .then resolve
+      .catch reject
+    else
+      resolve group:$state.params.groupId
+  .then (article) ->
+    $scope.articleType = if article.group then '帖子' else '文章'
+    $scope.articleAction = if article._id then '编辑' else '发表'
+    $scope.article = article
+    focus 'articleTitle'
+  .catch (error) ->
+    notify
+      message: '该内容不存在或者已经删除：' + error
+      classes: 'alert-danger'

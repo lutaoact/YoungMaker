@@ -5,15 +5,15 @@
             name="articleForm"
             class="article-form panel panel-card"
             ng-submit="">
-        <h4 class="text-center">发布新文章</h4>
+        <h4 class="text-center">{{articleAction + articleType}}</h4>
         <div class="title-group">
           <div class="title col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-            <span class="control-label">标题名称</span>
+            <span class="control-label">{{articleType}}标题</span>
             <input type="text"
                    class="form-control"
                    ng-model="article.title"
                    focus-on="articleTitle"
-                   placeholder="请输入文章标题"
+                   placeholder="请输入{{articleType}}标题"
                    required>
           </div>
         </div>
@@ -23,18 +23,16 @@
                class="article-content col-md-10 col-md-offset-1"
                focus-on="articleContent"
                ng-model="article.content"
-               placeholder="请输入文章内容">
+               placeholder="请输入内容">
           </div>
         </div>
         <div class="save-button text-center">
           <a class="btn btn-default" href="javascript:history.back()">取消</a>
-          <button type="button"
-                  ng-if="article._id"
-                  class="btn btn-default"
-                  ng-click="deleteArticle()">删除</button>
           <button type="submit"
                   ng-click="saveArticle(articleForm)"
-                  class="btn btn-primary">发布文章</button>
+                  class="btn btn-primary">
+            {{articleAction=='编辑'?'保存':articleAction}}{{articleType}}
+          </button>
         </div>
       </form>
     </div>

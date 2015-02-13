@@ -36,7 +36,7 @@
     <li>
       <a class="user-info" ui-sref="user.home({userId: activity.userId._id})">
         <div class="avatar-sm inline-block-middle"
-              ng-src="{{activity.userId.avatar}}">
+              ng-src="{{activity.userId.avatar|trusted:'url'}}">
         </div>
         <span class="user-name">{{activity.userId.name}}</span>
       </a>

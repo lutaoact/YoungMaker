@@ -35,7 +35,7 @@
                 ng-click="markAsRead(message)">
               <a class="pull-left">
                 <div class="avatar-xs"
-                     ng-src="{{message.raw.fromWhom.avatar}}"></div>
+                     ng-src="{{message.raw.fromWhom.avatar|trusted:'url'}}"></div>
               </a>
               <a class="pull-right btn fa"
                  ng-class="{'fa-check text-muted':message.raw.status,'fa-square-o':!message.raw.status}"

@@ -50,7 +50,7 @@
       <a href ng-if="comment.postBy._id == me._id" class="close pull-right" ng-click="deleteComment(comment)">&times;</a>
       <div class="pull-left">
         <div class="media-object avatar-md"
-             ng-src="{{comment.postBy.avatar}}">
+             ng-src="{{comment.postBy.avatar|trusted:'url'}}">
         </div>
       </div>
       <div class="media-body">

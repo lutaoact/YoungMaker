@@ -61,7 +61,6 @@ angular.module('maui.components')
     $scope.configs = configs
 
     $scope.insertEmoji = (emoji)->
-      console.log emoji
       $scope.$broadcast 'pen.emoji.inserted', emoji
 
     $scope.onImageUploaded = (key)->

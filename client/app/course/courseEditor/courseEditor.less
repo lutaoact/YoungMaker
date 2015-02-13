@@ -43,12 +43,73 @@
   }
   .course-body{
     padding-top: 10px;
+    .editor{
+      position: relative;
+      hr{
+        border-top: 1px solid #ccc;
+        margin-left: -40px;
+        margin-right: -40px;
+        @media screen and (max-width: @screen-md-min) {
+          margin-left: -10px;
+          margin-right: -10px;
+        }
+      }
+      .actions{
+        position: absolute;
+        right: -45px;
+        top: 27px;
+        .remove-step-btn{
+          display: block;
+          color: @gray-light;
+          margin-bottom: 20px;
+          &:hover{
+            color: @brand-danger;
+          }
+        }
+        .move-step-btn{
+          display: block;
+          color: @gray-light;
+          &:hover{
+            color: @base-color;
+          }
+        }
+      }
+    }
   }
   .tool-bar {
-    height: 45px;
-    .panel-card{
-      background-color: #F6F6F6;
-      .transition();
+    height: 0;
+    .steps-nav{
+      position: absolute;
+      left: -114px;
+      width: 130px;
+      border: 1px solid #dddddd;
+      .steps-nav-title{
+        .box-shadow(inset 0px -2px #dddddd);
+        font-size: 20px;
+      }
+      .list-group-item{
+        border: none;
+        > a{
+          .text-overflow();
+          display: block;
+          color: @gray-light;
+          &:hover{
+            color: @gray;
+          }
+          &.active{
+            color: #000;
+          }
+        }
+      }
+
+      .list-group-item:first-child {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+      }
+      .list-group-item:last-child {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
     }
     &.fixed {
       position: fixed;
@@ -56,10 +117,6 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-      .panel-card{
-        margin-left: -5px;
-        margin-right: -5px;
-      }
     }
   }
   .place{
@@ -68,6 +125,7 @@
       height: 38px;
     }
   }
+
   .editor-bottom{
     .btn{
       width: 90px;

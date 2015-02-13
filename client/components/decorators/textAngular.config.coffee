@@ -137,7 +137,7 @@ angular.module 'maui.components'
         ['bold', 'italics', 'clear'],
         ['justifyLeft','justifyCenter','justifyRight'],
         ['ul', 'ol','code', 'quote']
-        ['insertLink', 'upload', 'html']
+        ['insertLink', 'upload']
       ]
 
       taOptions.defaultFileDropHandler = (file, insertAction)->

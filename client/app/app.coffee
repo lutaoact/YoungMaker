@@ -200,6 +200,7 @@ angular.module 'mauiApp', [
   $rootScope.const = Const
   $rootScope.$state = $state
   $rootScope.configs = configs
+  $rootScope.Auth = Auth
   $rootScope.root = {}
   $rootScope.root.navbarVisible = true
   $rootScope.$watch Auth.getCurrentUser, (newUser) ->

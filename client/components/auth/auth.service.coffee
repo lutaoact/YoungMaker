@@ -71,6 +71,23 @@ angular.module('maui.components')
       callback?(currentUser)
 
   ###
+  Checks if the user role meets the minimum requirements of the route
+
+  @return {Boolean}
+  ###
+  hasRole: (roleRequired, role) ->
+    userRoles = [
+      'user'      # 允许登录后的用户 abstract
+      'editor'    # 允许编辑别人的文章
+      'admin'     # 允许管理员或以上
+      'superuser' # 允许超级用户
+    ]
+    userRoles.indexOf(currentUser.role ? role) >= userRoles.indexOf(roleRequired)
+
+  userRole : ->
+    currentUser.role
+
+  ###
   Check if a user is logged in
 
   @return {Boolean}

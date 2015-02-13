@@ -30,3 +30,5 @@ angular.module('maui.components')
       else
         phEl.removeClass 'title'
 
+    attr.$observe 'titlePlaceholder', (value)->
+      phEl.html(value)

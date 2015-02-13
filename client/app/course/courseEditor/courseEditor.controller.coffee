@@ -11,6 +11,8 @@ angular.module('mauiApp')
   $anchorScroll
   $filter
   $q
+  $timeout
+  messageModal
 ) ->
 
   angular.extend $scope,
@@ -59,9 +61,8 @@ angular.module('mauiApp')
 
       # get the first image. todo: move to server side
       if !$scope.course.image
-        firstImage = $('.preview img:not(.emoji)')
-        if firstImage?.length
-          $scope.course.image = firstImage.attr('src')
+        images = $filter('images')($scope.course.content)
+        $scope.course.image = images[0]?.src
       if !$scope.course._id
         Restangular.all('courses').post($scope.course)
         .then (course)->
@@ -78,12 +79,10 @@ angular.module('mauiApp')
         .catch (error) ->
           console.log 'error', error
 
-    addStep: (plugin)->
+    addStep: (plugin, index)->
       @viewState.lastPlugin = plugin
-      $scope.course.steps.push {type:plugin.type}
-      $location.hash('bottom')
-      # call $anchorScroll()
-      $anchorScroll()
+      index = $scope.course.steps.length - 1 if index is undefined
+      $scope.course.steps.splice index+1, 0, {title:'请输入标题', type:plugin.type}
 
     aceOption:
       useWrapMode : true
@@ -100,6 +99,24 @@ angular.module('mauiApp')
         # todo should go back
         $state.go 'courseList'
 
+    removeStep: (step)->
+      messageModal.open
+        title: -> '删除步骤'
+        message: -> "您是否要删除该步骤“#{step.title}”"
+      .result.then ->
+        # todo should go back
+        $scope.course.steps.splice ($scope.course.steps.indexOf step), 1
+
+    moveUpStep: (step)->
+      index = $scope.course.steps.indexOf step
+      $scope.course.steps.splice index, 1
+      $scope.course.steps.splice index-1, 0, step
+
+    moveDownStep: (step)->
+      index = $scope.course.steps.indexOf step
+      $scope.course.steps.splice index, 1
+      $scope.course.steps.splice index+1, 0, step
+
   $scope.viewState.lastPlugin = $scope.plugins[0]
 
   $q (resolve, reject)->
@@ -109,7 +126,7 @@ angular.module('mauiApp')
         $scope.course = course
         resolve $scope.course
     else
-      $scope.course.steps = [{type:$scope.viewState.lastPlugin.type}]
+      $scope.course.steps = [{title:'第一步',type:$scope.viewState.lastPlugin.type}]
       resolve $scope.course
   .then (course)->
     Restangular.all('categories').getList()

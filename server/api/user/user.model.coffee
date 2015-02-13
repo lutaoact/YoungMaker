@@ -83,6 +83,7 @@ class User extends BaseModel
     .get () ->
       '_id': this._id
       'name': this.name
+      'role': this.role
       'info': this.info
       'email': this.email
       'avatar': this.avatar

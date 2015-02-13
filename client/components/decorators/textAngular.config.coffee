@@ -115,7 +115,7 @@ angular.module 'maui.components'
           selection = rangy.saveSelection(window)
           self = this
           $modal.open
-            templateUrl: '/components/modals/imageCrop/imageCropPopup.html'
+            templateUrl: 'components/modals/imageCrop/imageCropPopup.html'
             controller: 'ImageCropPopupCtrl'
             resolve:
               files: -> null

@@ -2,10 +2,10 @@
   <div class="course-steps-nav" ng-class="{'active':root.navbarVisible==false}">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3 col-sm-5 col-xs-5">
           <h3 title="{{viewState.selectedStep.title}}" class="step-title"><small>{{course.steps.length}}步骤</small>&nbsp;{{viewState.selectedStep.title}}</h3>
         </div>
-        <div class="col-lg-6 col-md-5">
+        <div class="col-lg-6 col-md-5 col-sm-7 col-xs-7">
           <ul class="ul-steps">
             <li ng-repeat="step in course.steps" ng-class="{'small':$index > viewState.stepIndex+viewState.stepThumbs ||$index < viewState.stepIndex-viewState.stepThumbs }" ng-hide="$index > viewState.stepIndex+viewState.stepThumbs+viewState.stepDots ||$index < viewState.stepIndex-viewState.stepThumbs-viewState.stepDots">
               <a href="#step{{$index+1}}" tooltip="{{step.title}}" tooltip-placement="bottom" class="step-dot" du-smooth-scroll du-scrollspy offset="10"><i class="fa fa-circle"></i></a>
@@ -35,7 +35,7 @@
             </small>
           </div>
 
-          <div class="course-body" compile-html="course.content|trusted"></div>
+          <div class="course-body blog" compile-html="course.content|trusted"></div>
 
           <div class="course-like text-center" ng-if="course">
             <vote-box entity="course" me="me">
@@ -50,7 +50,7 @@
               </li>
               <li>
                 {{course.created | moment:'calendar'}} <br>
-                发表于 <a ui-sref="courseList({category:course.categoryId._id||null})">{{course.category.name||'其他'}}</a>
+                发表于 <a ui-sref="courseList({category:course.categoryId._id||null})">{{course.categoryId.name||'其他'}}</a>
               </li>
               <li ng-if="course.tags.length" class="tags">
                 标签：

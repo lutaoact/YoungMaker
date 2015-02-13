@@ -1,12 +1,28 @@
 .blog{
+  word-break: break-word;
   img{
+    display: block;
     max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding: 0.6em 0;
+  }
+  .emoji{
+    display: inline;
   }
   img.sm{
     max-width: 300px;
+    height: auto;
     display: block;
-    margin:10px 20px;
+    margin: 0 auto;
+    padding: 0.6em 0;
     .box-shadow(0 0 10px rgba(0,0,0,0.3));
+  }
+  a{
+    color: @brand-warning;
+    &:hover{
+      color: darken(@brand-warning,13.5%);
+    }
   }
   .tag{
     float: left;

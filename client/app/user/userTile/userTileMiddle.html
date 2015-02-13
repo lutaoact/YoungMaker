@@ -3,15 +3,15 @@
   <!--用户基本信息-->
   <a class="user-name" ui-sref="user.home({userId: user._id})">
     <div class="avatar-sm inline-block-middle"
-         ng-src="{{user.avatar|trusted:'url'}}"
+         ng-src="{{displayUser.avatar|trusted:'url'}}"
          style="cursor: pointer"
          ui-sref="user.home({userId:user._id})"></div>
-    {{user.name}}
+    {{displayUser.name}}
   </a>
 
   <!--关注、编辑个人信息按钮-->
   <a ng-if="me._id == user._id"
-     ui-sref="settings.profile"
+     ui-sref="user.settings"
      class="btn btn-sm btn-primary pull-right">
     <i class="fa fa-pencil"></i>&nbsp;编辑
   </a>
@@ -30,7 +30,7 @@
 
   <!--用户关注数、粉丝，文章、趣课数-->
   <div class="user-states clearfix">
-    <div class="text-muted">{{user.info}}</div>
+    <div class="text-muted">{{displayUser.info}}</div>
     <div class="state">
       关注&nbsp;
       <a href

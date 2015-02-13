@@ -2,18 +2,18 @@
 
   <!--用户基本信息-->
   <div class="avatar-lg"
-       ng-src="{{user.avatar|trusted:'url'}}"
+       ng-src="{{displayUser.avatar|trusted:'url'}}"
        style="cursor: pointer"
        ui-sref="user.home({userId:user._id})"></div>
   <h4 class="user-name">
-    <a ui-sref="user.home({userId: user._id})">{{user.name}}</a>
-    <small>{{user.info}}</small>
+    <a ui-sref="user.home({userId: user._id})">{{displayUser.name}}</a>
+    <small>{{displayUser.info}}</small>
   </h4>
 
   <!--关注、编辑个人信息按钮-->
   <div class="follow-btn-group">
     <a ng-if="me._id == user._id"
-       ui-sref="settings.profile"
+       ui-sref="user.settings"
        class="btn btn-sm btn-primary">
       <i class="fa fa-pencil"></i>&nbsp;编辑个人信息
     </a>

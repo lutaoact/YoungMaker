@@ -1,6 +1,8 @@
 'use strict'
 
-angular.module('mauiApp').controller 'ProfileCtrl',(
+angular.module('mauiApp')
+
+.controller 'UserSettingsCtrl',(
   Auth
   $scope
   notify

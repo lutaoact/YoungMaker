@@ -32,6 +32,7 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
+    displayUser: null
     userStates: null
     articles: null
     courses: null
@@ -51,6 +52,13 @@ angular.module('mauiApp')
 
   refresh = ->
     if !$scope.me or !$scope.user then return
+
+    # 要显示的用户信息
+    $scope.displayUser =
+      if $scope.me._id is $scope.user._id
+        $scope.me
+      else
+        $scope.user
 
     # 检查我是否关注了该用户
     $q (resolve) ->

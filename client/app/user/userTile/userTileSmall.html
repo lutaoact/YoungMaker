@@ -3,18 +3,18 @@
   <!--用户基本信息-->
   <a class="user-info" ui-sref="user.home({userId: user._id})">
     <div class="avatar-sm inline-block-middle"
-         ng-src="{{user.avatar|trusted:'url'}}"
+         ng-src="{{displayUser.avatar|trusted:'url'}}"
          style="cursor: pointer"
          ui-sref="user.home({userId:user._id})"></div>
     <span class="user-name">
-      {{user.name}}
-      <p class="text-muted"><small>{{user.info}}</small></p>
+      {{displayUser.name}}
+      <p class="text-muted"><small>{{displayUser.info}}</small></p>
     </span>
   </a>
 
   <!--关注、编辑个人信息按钮-->
   <a ng-if="me._id == user._id"
-     ui-sref="settings.profile"
+     ui-sref="user.settings"
      class="btn btn-sm btn-primary pull-right">
     <i tooltip="点击编辑个人信息" class="fa fa-pencil"></i>
   </a>

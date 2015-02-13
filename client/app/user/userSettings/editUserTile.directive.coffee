@@ -6,7 +6,7 @@ angular.module('mauiApp')
   restrict: 'EA'
   replace: true
   controller: 'EditUserTileCtrl'
-  templateUrl: 'app/settings/profile/editUserTile.html'
+  templateUrl: 'app/user/userSettings/editUserTile.html'
   scope:
     user: '='
     onUpdateUser: '&'

@@ -11,6 +11,11 @@ angular.module('mauiApp')
   angular.extend $scope,
     user: null
 
-  Restangular.one('users', $state.params.userId).get()
-  .then (user) ->
-    $scope.user = user
+  if $state.params.userId
+    Restangular
+      .one('users', $state.params.userId)
+      .get()
+      .then (user) ->
+        $scope.user = user
+  else
+    $scope.user = angular.copy($scope.me)

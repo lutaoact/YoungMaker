@@ -19,6 +19,12 @@ angular.module('mauiApp')
     templateUrl: 'app/user/userActivities/userActivities.html'
     controller: 'UserActivitiesCtrl'
 
+  .state 'user.settings',
+    url: '^/settings/profile'
+    templateUrl: 'app/user/userSettings/userSettings.html'
+    controller: 'UserSettingsCtrl'
+    authenticate: true
+
   .state 'user.courses',
     url: '/courses?page&keyword'
     templateUrl: 'app/user/userCourses/userCourses.html'

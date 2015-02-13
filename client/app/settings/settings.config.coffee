@@ -7,8 +7,6 @@ angular.module('mauiApp')
   $urlRouterProvider
 ) ->
 
-  $urlRouterProvider.when('/settings','/settings/profile')
-
   $stateProvider
 
   .state 'settings',
@@ -16,12 +14,6 @@ angular.module('mauiApp')
     url: '/settings'
     templateUrl: 'app/settings/settings.html'
     controller: 'SettingsCtrl'
-    authenticate: true
-
-  .state 'settings.profile',
-    url: '/profile'
-    templateUrl: 'app/settings/profile/profile.html'
-    controller: 'ProfileCtrl'
     authenticate: true
 
   .state 'settings.notice',

@@ -68,7 +68,7 @@
   <!--用户最新文章-->
   <div ng-if="articles" class="user-articles">
     <p class="list-title text-muted">
-      {{'#mine#' | mine:user.id==me.id:'我最新的文章':'作者最新的文章'}}
+      {{'#mine#' | mine:user._id==me._id:'我最新的文章':'作者最新的文章'}}
     </p>
     <p ng-repeat="article in articles" class="list-item">
       <a ui-sref="articleDetail({articleId: article._id})">{{article.title}}</a>
@@ -81,7 +81,7 @@
   <!--用户最新趣课-->
   <div ng-if="courses" class="user-courses">
     <p class="list-title text-muted">
-      {{'#mine#' | mine:user.id==me.id:'我最新的趣课':'作者最新的趣课'}}
+      {{'#mine#' | mine:user._id==me._id:'我最新的趣课':'作者最新的趣课'}}
     </p>
     <p ng-repeat="course in courses" class="list-item">
       <a ui-sref="courseDetail({courseId: course._id})">{{course.title}}</a>

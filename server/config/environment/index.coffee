@@ -11,6 +11,8 @@ requiredProcessEnv = (name) ->
 # All configurations will extend these options
 # ============================================
 all =
+  appName: 'maui'
+
   env: process.env.NODE_ENV
 
   weixinAuth:

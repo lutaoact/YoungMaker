@@ -9,6 +9,7 @@ angular.module('mauiApp').directive 'groupJoinBtn', ()->
     me: '='
 
   controller: ($scope, Restangular, notify, $state, $modal)->
+
     angular.extend $scope,
       editGroupInfo: ($event)->
         $event?.stopPropagation()

@@ -52,17 +52,19 @@
       </div>
 
       <!-- article comments -->
-      <comments belong-to="article._id"
-                ng-if="article"
-                class="panel panel-card comments"
-                type="{{const.CommentType.Article}}"
-                me="me">
-      </comments>
+      <div class="panel panel-card comments-panel">
+        <comments belong-to="article._id"
+                  ng-if="article"
+                  class="comments"
+                  type="{{const.CommentType.Article}}"
+                  me="me">
+        </comments>
+      </div>
     </div>
 
     <div class="col-md-4 col-lg-3">
-      <group-tile-lg ng-if="article.group"
-                     group="article.group"
+      <group-tile-lg ng-if="group"
+                     group="group"
                      me="me">
       </group-tile-lg>
       <user-tile ng-if="!article.group"

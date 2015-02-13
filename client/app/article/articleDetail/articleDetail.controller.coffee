@@ -13,4 +13,8 @@ angular.module('mauiApp')
   .get()
   .then (article) ->
     $scope.article = article
+    if article.group
+      Restangular.one('groups',article.group._id).get()
+      .then (group)->
+        $scope.group = group
 

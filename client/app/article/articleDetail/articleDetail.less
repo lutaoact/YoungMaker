@@ -1,16 +1,24 @@
 .article-detail {
   margin-top: 40px !important;
   margin-bottom: 40px !important;
-  .comments {
+  .comments-panel{
     margin-top: 40px;
-    margin-bottom: 0px;
+    padding: 20px 55px;
+    @media screen and (max-width: @screen-lg-min) {
+      padding: 20px 35px;
+    }
   }
+
   article {
     padding-left: 15px;
     padding-right: 15px;
     .article-content {
       padding-left: 45px;
       padding-right: 45px;
+      @media screen and (max-width: @screen-lg-min) {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
     }
   }
   .article-like {

@@ -66,16 +66,39 @@ angular.module('mauiApp')
       if !$scope.course._id
         Restangular.all('courses').post($scope.course)
         .then (course)->
-          $state.go 'courseEditor', {courseId: course._id}
+          messageModal.open
+            title: -> '保存成功'
+            message: -> '您可以继续编辑或者查看该文章'
+            buttons: ->[
+                label: '查看' , code: 'cancel' , class: 'btn-default'
+              ,
+                label: '继续编辑' , code: 'ok'     , class: 'btn-danger'
+              ]
+          .result.then ->
+            $state.go 'courseEditor', {courseId: course._id}
+          , ->
+            $state.go 'courseDetail', {courseId: course._id}
         .catch (error) ->
           console.log 'error', error
       else
         $scope.course.put()
         .then (course)->
           angular.extend $scope.course, course
-          notify
-            message: '已保存'
-            classes: 'alert-success'
+          messageModal.open
+            title: ->
+              text: '保存成功'
+              class: 'fa fa-check success'
+            message: -> '您可以继续编辑或者查看该文章'
+            buttons: ->[
+                label: '继续编辑' , code: 'ok'     , class: 'btn-default'
+              ,
+                label: '查看' , code: 'view' , class: 'btn-primary'
+              ]
+          .result.then (code)->
+            if code is 'view'
+              $state.go 'courseDetail', {courseId: course._id}
+            else
+              $state.go 'courseEditor', {courseId: course._id}
         .catch (error) ->
           console.log 'error', error
 

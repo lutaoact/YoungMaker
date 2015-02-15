@@ -23,6 +23,7 @@ pickedKeys = ['name', 'info','logo']
 exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.creator = req.user._id
+  data.members = [req.user._id]
   WrapRequest.wrapCreate req, res, next, data
 
 pickedUpdatedKeys = ['name', 'info', 'logo']

@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    <i class="fa fa-exclamation-triangle warning"></i>
-    {{title}}
+    <i class="{{title.class||'fa fa-exclamation-triangle warning'}}"></i>
+    {{title.text||title}}
   </h4>
   <a class="close" ng-click="close('cancel')">&times;</a>
 </div>

@@ -10,7 +10,7 @@ angular.module('mauiApp')
 ) ->
 
   angular.extend $scope,
-    articles: null
+    articles: {}
     pageConf:
       keyword: $state.params.keyword ? undefined
       maxSize: 5

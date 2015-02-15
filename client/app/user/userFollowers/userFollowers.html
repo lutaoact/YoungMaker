@@ -26,12 +26,8 @@
   </pagination>
 </div>
 
-<div ng-if="followers.$count == null"
-     class="text-center">
-  加载中...
-</div>
-
-<div ng-if="followers.$count == 0"
-     class="text-center">
-  暂无粉丝
-</div>
+<loading-tile data="followers"
+              loading-text="加载中..."
+              not-found-text="暂无粉丝"
+              not-found-icon="fa fa-meh-o">
+</loading-tile>

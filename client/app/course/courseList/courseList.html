@@ -1,81 +1,75 @@
 <div class="course-list">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-9 col-md-8 left-side">
-        <div class="clearfix">
-          <div class="pull-left category-dropdown" dropdown style="position:relative;">
-            <a class="btn dropdown-toggle panel panel-card" dropdown-toggle>
-              <div class="category-logo" ng-if="!pageConf.category">
+    <div class="clearfix">
+      <div class="pull-left category-dropdown" dropdown style="position:relative;">
+        <a class="btn dropdown-toggle panel panel-card" dropdown-toggle>
+          <div class="category-logo" ng-if="!pageConf.category">
+            <i class="budon budon-course"></i>
+          </div>
+          <div class="category-logo" ng-if="pageConf.category" ng-src="{{getCategoryById(pageConf.category).logo}}">
+          </div>
+          {{getCategoryName(pageConf.category)||'全部'}}
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-if="pageConf.category" >
+            <a href="" ng-click="pageConf.category='';reload(true)">
+              <div class="category-logo">
                 <i class="budon budon-course"></i>
               </div>
-              <div class="category-logo" ng-if="pageConf.category" ng-src="{{getCategoryById(pageConf.category).logo}}">
-              </div>
-              {{getCategoryName(pageConf.category)||'全部'}}
-              <span class="caret"></span>
+              全部
             </a>
-            <ul class="dropdown-menu" role="menu">
-              <li ng-if="pageConf.category" >
-                <a href="" ng-click="pageConf.category='';reload(true)">
-                  <div class="category-logo">
-                    <i class="budon budon-course"></i>
-                  </div>
-                  全部
-                </a>
-              </li>
-              <li ng-repeat="category in categories">
-                <a href="" ng-click="pageConf.category=category._id;reload(true)">
-                  <div class="category-logo" ng-src="{{category.logo}}">
-                  </div>
-                  {{category.name}}
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="pull-right">
-            <a ui-sref="courseEditor" login-window class="btn btn-primary btn-sm new-course-btn">创建课程</a>
-            <search-input placeholder="搜索课程。。。" keyword="pageConf.keyword" on-submit="pageConf.keyword=$keyword;reload(true)"></search-input>
-          </div>
-        </div>
-        <div class="panel panel-card clearfix">
-          <div class="col-md-12 text-center text-muted" ng-if="courses&&!courses.length">
-            <!-- 已经搜索完成，但是结构为空 -->
-            没有符合条件的课程
-          </div>
-          <div class="col-md-12 text-center text-muted" ng-if="loading">
-            <!-- 数据还在加载 -->
-            <i class="fa fa-spin fa-spinner"></i>加载中...
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-6" ng-repeat="course in courses">
-            <course-tile course="course" me="me"></course-tile>
-          </div>
-          <div class="clearfix pagination-row col-md-12 text-center" ng-if="courses.$count > pageConf.itemsPerPage">
-            <hr>
-            <pagination
-              total-items="courses.$count"
-              ng-model="pageConf.currentPage"
-              items-per-page="pageConf.itemsPerPage"
-              class="pagination-sm bud"
-              boundary-links="true"
-              rotate="false"
-              ng-change="reload()"
-              max-size="pageConf.maxSize">
-            </pagination>
-          </div>
-        </div>
-
+          </li>
+          <li ng-repeat="category in categories">
+            <a href="" ng-click="pageConf.category=category._id;reload(true)">
+              <div class="category-logo" ng-src="{{category.logo}}">
+              </div>
+              {{category.name}}
+            </a>
+          </li>
+        </ul>
       </div>
-
-      <div class="col-lg-3 col-md-4 right-side">
+      <div class="pull-right">
+        <a ui-sref="courseEditor" login-window class="btn btn-primary btn-sm new-course-btn">创建课程</a>
+        <search-input placeholder="搜索课程。。。" keyword="pageConf.keyword" on-submit="pageConf.keyword=$keyword;reload(true)"></search-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center text-muted" ng-if="courses&&!courses.length">
+        <!-- 已经搜索完成，但是结构为空 -->
+        没有符合条件的课程
+      </div>
+      <div class="col-md-12 text-center text-muted" ng-if="loading">
+        <!-- 数据还在加载 -->
+        <i class="fa fa-spin fa-spinner"></i>加载中...
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="course in courses">
+        <course-tile course="course" me="me"></course-tile>
+      </div>
+      <div class="clearfix pagination-row col-md-12 text-center" ng-if="courses.$count > pageConf.itemsPerPage">
+        <hr>
+        <pagination
+          total-items="courses.$count"
+          ng-model="pageConf.currentPage"
+          items-per-page="pageConf.itemsPerPage"
+          class="pagination-sm bud"
+          boundary-links="true"
+          rotate="false"
+          ng-change="reload()"
+          max-size="pageConf.maxSize">
+        </pagination>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-lg-3 col-md-4">
         <recommend-courses>
         </recommend-courses>
-
+      </div>
+      <div class="col-lg-3 col-md-4">
         <recommend-users me="me">
         </recommend-users>
       </div>
-
-    </div>
-
+    </div> -->
   </div>
-
 </div>
 

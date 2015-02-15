@@ -70,7 +70,7 @@ angular.module('mauiApp')
         when 'all'
           return true
         when 'createdByMe'
-          return item.postBy._id is $scope.me._id
+          return item.postBy?._id is $scope.me._id
       return true
 
     scrollToEditor: ()->

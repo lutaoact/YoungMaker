@@ -5,9 +5,7 @@
 </search-input>
 
 <div class="user-view-header">
-  <span ng-if="articles.$count">
-    <i class="fa fa-file-text-o text-muted bigger"></i>&nbsp;&nbsp;{{articles.$count}} 篇文章
-  </span>
+  <i class="fa fa-file-text-o text-muted bigger"></i>&nbsp;&nbsp;{{articles.$count || 0}} 篇文章
   <span ng-if="user._id==me._id">
     <a href
        class="btn btn-sm btn-primary pull-right"
@@ -34,12 +32,8 @@
   </pagination>
 </div>
 
-<div ng-if="articles.$count == null"
-     class="text-center">
-  加载中...
-</div>
-
-<div ng-if="articles.$count == 0"
-     class="text-center">
-  暂无发表话题
-</div>
+<loading-tile data="articles"
+              loading-text="加载中..."
+              not-found-text="暂无发表文章"
+              not-found-icon="fa fa-file-text-o">
+</loading-tile>

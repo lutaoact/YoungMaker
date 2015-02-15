@@ -5,9 +5,7 @@
 </search-input>
 
 <div class="user-view-header">
-  <span ng-if="courses.$count">
-    <i class="fa fa-wrench text-muted bigger"></i>&nbsp;&nbsp;{{courses.$count}} 节趣课
-  </span>
+  <i class="fa fa-wrench text-muted bigger"></i>&nbsp;&nbsp;{{courses.$count || 0}} 节趣课
   <span ng-if="user._id==me._id">
     <a href
        class="btn btn-sm btn-primary pull-right"
@@ -34,12 +32,8 @@
   </pagination>
 </div>
 
-<div ng-if="courses.$count == null"
-     class="text-center">
-  加载中...
-</div>
-
-<div ng-if="courses.$count == 0"
-     class="text-center">
-  暂无发布趣课
-</div>
+<loading-tile data="courses"
+              loading-text="加载中..."
+              not-found-text="暂无创建趣课"
+              not-found-icon="fa fa-wrench">
+</loading-tile>

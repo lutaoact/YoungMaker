@@ -25,12 +25,8 @@
   </pagination>
 </div>
 
-<div ng-if="following.$count == null"
-     class="text-center">
-  加载中...
-</div>
-
-<div ng-if="following.$count == 0"
-     class="text-center">
-  暂无关注
-</div>
+<loading-state data="following"
+               loading-text="加载中..."
+               not-found-text="暂无关注"
+               not-found-icon="fa fa-meh-o">
+</loading-state>

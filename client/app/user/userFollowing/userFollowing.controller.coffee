@@ -12,7 +12,7 @@ angular.module 'mauiApp'
     pageConf:
       maxSize: 5
       currentPage: $state.params.page ? 1
-      itemsPerPage: 10
+      itemsPerPage: 20
 
     reload: ->
       $state.go $state.current,

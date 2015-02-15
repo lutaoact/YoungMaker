@@ -5,14 +5,8 @@
     <div class="col-md-9">
       <div class="panel panel-card">
         <article>
-          <h3>
+          <h3 class="text-center">
             {{article.title}}
-            <small ng-if="article.author._id == me._id" class="pull-right">
-              <a ng-show="$state.current.name=='articleDetail'"
-                 ui-sref="articleEditor({articleId: article._id})">编辑</a>
-              <a ng-show="$state.current.name=='groupArticleDetail'"
-                 ui-sref="groupArticleEditor({groupId: $state.params.groupId, articleId: article._id})">编辑</a>
-            </small>
           </h3>
           <hr/>
           <div class="article-content blog" ng-bind-html="article.content"></div>

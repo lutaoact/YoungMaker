@@ -9,12 +9,16 @@ angular.module('mauiApp')
   angular.extend $scope,
     article: null
 
-  Restangular.one('articles', $state.params.articleId)
-  .get()
-  .then (article) ->
-    $scope.article = article
-    if article.group
-      Restangular.one('groups',article.group._id).get()
-      .then (group)->
-        $scope.group = group
+  Restangular
+    .one('articles', $state.params.articleId)
+    .get()
+    .then (article) ->
+      $scope.article = article
+      # TODO why not populate?
+      if article.group
+        Restangular
+          .one('groups',article.group._id)
+          .get()
+          .then (group)->
+            $scope.group = group
 

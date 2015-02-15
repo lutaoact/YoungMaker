@@ -29,6 +29,8 @@ angular.module('mauiApp')
         .patch $scope.article
         .then (article) ->
           angular.extend $scope.article, article
+          console.log $state
+          #$state.go $state.previous
           notify
             message: $scope.articleType + '已保存'
             classes: 'alert-success'

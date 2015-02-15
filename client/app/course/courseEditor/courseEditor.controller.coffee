@@ -152,7 +152,7 @@ angular.module('mauiApp')
         $scope.course = course
         resolve $scope.course
     else
-      $scope.course.steps = [{title:'第一步',type:$scope.viewState.lastPlugin.type}]
+      $scope.course.steps = [{title:'',type:$scope.viewState.lastPlugin.type}]
       resolve $scope.course
   .then (course)->
     Restangular.all('categories').getList()

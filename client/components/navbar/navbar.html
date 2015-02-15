@@ -33,7 +33,10 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li ng-if="!isLoggedIn()">
-          <button type="button" class="login-btn btn btn-xs btn-danger btn-outline navbar-btn" login-window>登录</button>
+          <button type="button" class="login-btn btn btn-sm btn-warning btn-outline navbar-btn" login-window mode="signup">注册</button>
+        </li>
+        <li ng-if="!isLoggedIn()">
+          <button type="button" class="login-btn btn btn-sm btn-primary btn-outline navbar-btn" login-window>登录</button>
         </li>
         <li ng-if="isLoggedIn()"
             dropdown

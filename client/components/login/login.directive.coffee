@@ -9,6 +9,7 @@ angular.module('maui.components')
 
   scope:
     loginSuccess: '&'
+    mode: '@'
 
   link: (scope, element)->
     element.bind 'click', ()->
@@ -17,6 +18,8 @@ angular.module('maui.components')
           templateUrl: 'components/login/loginModal.html'
           controller: 'loginModalCtrl'
           windowClass: 'login-window-modal'
+          resolve:
+            mode: -> scope.mode ? 'login'
         .result.then ->
           scope.loginSuccess?()
       else

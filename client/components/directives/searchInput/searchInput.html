@@ -1,9 +1,11 @@
-<label class="search-input-group" for="search-input">
+<label class="search-input-group" ng-class="{'focused':viewState.focused}" for="search-input">
   <input type="text"
          id="search-input"
          class="form-control"
          placeholder="{{placeholder}}"
          ng-model="keyword"
+         ng-focus="viewState.focused=true"
+         ng-blur="viewState.focused=false"
          ng-keyup="$event.keyCode==13 && submit()">
   <i class="fa fa-search search-hint"></i>
   <i class="fa fa-times clear" ng-show="keyword" ng-click="clear()"></i>

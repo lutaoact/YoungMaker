@@ -20,3 +20,5 @@ angular.module('maui.components')
         $scope.keyword = ''
         $timeout $scope.submit
 
+      viewState: {}
+

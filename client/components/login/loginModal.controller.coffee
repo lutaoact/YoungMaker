@@ -11,13 +11,14 @@ angular.module('maui.components')
   $timeout
   Restangular
   $modalInstance
+  mode
 ) ->
 
   checkEmailPromise = null
 
   angular.extend $scope,
     user: {}
-    currentPage: "login"
+    currentPage: mode ? 'login'
     viewState:
       posting: false
       errors: null

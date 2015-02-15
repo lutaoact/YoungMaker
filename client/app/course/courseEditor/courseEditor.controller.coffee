@@ -13,6 +13,7 @@ angular.module('mauiApp')
   $q
   $timeout
   messageModal
+  $document
 ) ->
 
   angular.extend $scope,
@@ -108,7 +109,13 @@ angular.module('mauiApp')
     addStep: (plugin, index)->
       @viewState.lastPlugin = plugin
       index = $scope.course.steps.length - 1 if index is undefined
-      $scope.course.steps.splice index+1, 0, {title:'请输入标题', type:plugin.type}
+      $scope.course.steps.splice index+1, 0, {title:'', type:plugin.type}
+      $timeout ->
+        targetElement = angular.element('#step'+(index+2))
+        windowHeight = $(window).height()
+        $document.scrollToElement(targetElement, 100, 500)
+        targetElement.find('input').focus()
+      , 100
 
     aceOption:
       useWrapMode : true

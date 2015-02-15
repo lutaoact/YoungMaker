@@ -43,6 +43,7 @@ angular.module('mauiApp')
       $scope.saveCourse()
 
     saveCourse: () ->
+      $scope.saving = true
       # compile content todo: may not need this. Client can decide how to display according to steps
       $scope.course.content = ''
       $scope.course.steps.forEach (step, index)->
@@ -66,6 +67,7 @@ angular.module('mauiApp')
       if !$scope.course._id
         Restangular.all('courses').post($scope.course)
         .then (course)->
+          $scope.saving = false
           messageModal.open
             title: -> '保存成功'
             message: -> '您可以继续编辑或者查看该文章'
@@ -83,6 +85,7 @@ angular.module('mauiApp')
       else
         $scope.course.put()
         .then (course)->
+          $scope.saving = false
           angular.extend $scope.course, course
           messageModal.open
             title: ->

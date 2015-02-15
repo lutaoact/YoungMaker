@@ -65,11 +65,13 @@ angular.module 'mauiApp', [
   RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: "_id")
   RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
-    if operation is "getList" and data.results
-      data.results.$count = data.count
-      data.results
-    else
-      data
+    if operation is "getList" && data?.results
+      count = data.count
+      data = data.results
+      data.$count = count
+    else if data
+      data.$count = data.length ? 1 # for check loadingState
+    return data
 
 .factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
   # Add authorization token to headers

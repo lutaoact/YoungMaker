@@ -1,12 +1,9 @@
-<div ng-if="activities.$count == null"
-     class="text-center">
-  加载中...
-</div>
+<loading-state data="activities"
+               loading-text="加载中..."
+               not-found-text="暂无新动态"
+               not-found-icon="fa fa-meh-o">
+</loading-state>
 
-<div ng-if="activities.$count == 0"
-     class="text-center">
-  暂无新动态
-</div>
 <div class="col-md-12 activity-tile"
      ng-repeat="activity in activities">
   <ul>

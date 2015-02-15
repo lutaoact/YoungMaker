@@ -1,0 +1,11 @@
+<div class="loading-state text-center text-muted"
+     ng-if="data.$count == 0 || data.$count == null">
+  <span ng-if="data.$count == null">
+    <i class="fa fa-spinner fa-spin loading-state-icon"></i>&nbsp;
+    {{loadingText}}
+  </span>
+  <span ng-if="data.$count == 0">
+    <i class="loading-state-icon" ng-class="notFoundIcon"></i>&nbsp;
+    {{notFoundText}}, <a ui-sref="{}" ui-sref-opts="{reload: true}" class="link-base-color">刷新一下</a>
+  </span>
+</div>

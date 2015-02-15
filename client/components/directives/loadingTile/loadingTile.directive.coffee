@@ -1,10 +1,10 @@
 angular.module 'maui.components'
 
-.directive 'loadingState', ->
+.directive 'loadingTile', ->
 
   restrict: 'EA'
 
-  templateUrl: 'components/directives/loadingState/loadingState.html'
+  templateUrl: 'components/directives/loadingTile/loadingTile.html'
 
   scope:
     data: '='

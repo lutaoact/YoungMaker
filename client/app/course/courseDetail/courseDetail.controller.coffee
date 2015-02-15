@@ -7,6 +7,9 @@ angular.module('mauiApp')
   Restangular
   notify
   $filter
+  $document
+  $window
+  mediaHelper
 ) ->
 
   angular.extend $scope,
@@ -18,7 +21,7 @@ angular.module('mauiApp')
 
     viewState:
       stepIndex: 0
-      stepThumbs: 3
+      stepThumbs: 8
       stepDots: 3
 
     submitComment: ()->
@@ -50,6 +53,24 @@ angular.module('mauiApp')
   $scope.$on 'duScrollspy:becameActive', ($event, $element)->
     $scope.viewState.selectedStep = $element.scope().step
     $scope.viewState.stepIndex = $scope.course.steps.indexOf($scope.viewState.selectedStep) + 1
+
+  resizeHandle = ->
+    if mediaHelper.isLg()
+      $scope.viewState.stepThumbs = 8
+    else if mediaHelper.isMd()
+      $scope.viewState.stepThumbs = 6
+    else if mediaHelper.isSm()
+      $scope.viewState.stepThumbs = 5
+    else
+      $scope.viewState.stepThumbs = 3
+
+  resizeHandle()
+
+  $(window).bind 'resize', resizeHandle
+
+  $scope.$on '$destroy', ->
+    $(window).unbind 'resize', resizeHandle
+
 
 
 

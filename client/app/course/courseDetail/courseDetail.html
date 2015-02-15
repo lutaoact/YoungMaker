@@ -1,20 +1,18 @@
 <div class="course-detail">
   <div class="course-steps-nav" ng-class="{'active':root.navbarVisible==false}">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-5 col-xs-5">
-          <h3 title="{{viewState.selectedStep.title}}" class="step-title"><small>{{course.steps.length}}步骤</small>&nbsp;{{viewState.selectedStep.title}}</h3>
-        </div>
-        <div class="col-lg-6 col-md-5 col-sm-7 col-xs-7">
-          <ul class="ul-steps">
-            <li ng-repeat="step in course.steps" ng-class="{'small':$index > viewState.stepIndex+viewState.stepThumbs ||$index < viewState.stepIndex-viewState.stepThumbs }" ng-hide="$index > viewState.stepIndex+viewState.stepThumbs+viewState.stepDots ||$index < viewState.stepIndex-viewState.stepThumbs-viewState.stepDots">
-              <a href="#step{{$index+1}}" tooltip="{{step.title}}" tooltip-placement="bottom" class="step-dot" du-smooth-scroll du-scrollspy offset="10"><i class="fa fa-circle"></i></a>
-            </li>
-          </ul>
-          <a href="#step{{viewState.stepIndex==course.steps.length?1:viewState.stepIndex+1}}" offset="10" class="pull-right btn btn-rounded btn-primary btn-outline btn-sm next-step-btn" du-smooth-scroll>{{viewState.stepIndex==course.steps.length?'第一步':'下一步'}}&nbsp;<i class="fa" ng-class="{'fa-long-arrow-up':viewState.stepIndex==course.steps.length,'fa-long-arrow-right':viewState.stepIndex!=course.steps.length}"></i></a>
+        <div class="row">
+          <div class="col-lg-9 col-md-8 col-sm-12">
+            <h3 title="{{viewState.selectedStep.title}}" class="step-title pull-left">{{viewState.stepIndex||1}}/{{course.steps.length}}</h3>
+            <ul class="ul-steps pull-left">
+              <li ng-repeat="step in course.steps" ng-class="{'small':$index > viewState.stepIndex+viewState.stepThumbs-1 ||$index < viewState.stepIndex-viewState.stepThumbs-1 }" ng-hide="$index > viewState.stepIndex+viewState.stepThumbs+viewState.stepDots-1 ||$index < viewState.stepIndex-viewState.stepThumbs-viewState.stepDots-1">
+                <a href="#step{{$index+1}}" tooltip="{{step.title}}" tooltip-placement="bottom" class="step-dot" du-smooth-scroll du-scrollspy offset="58"><i class="fa fa-circle"></i></a>
+              </li>
+            </ul>
+            <a href="#step{{viewState.stepIndex==course.steps.length?1:viewState.stepIndex+1}}" offset="58" class="pull-right btn btn-rounded btn-primary btn-outline btn-sm next-step-btn" du-smooth-scroll>{{viewState.stepIndex==course.steps.length?'第一步':'下一步'}}&nbsp;<i class="fa" ng-class="{'fa-long-arrow-up':viewState.stepIndex==course.steps.length,'fa-long-arrow-right':viewState.stepIndex!=course.steps.length}"></i></a>
+          </div>
         </div>
       </div>
-    </div>
   </div>
   <div class="container">
     <div class="row">

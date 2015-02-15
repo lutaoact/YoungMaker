@@ -1,6 +1,14 @@
 angular.module 'maui.components'
 .config ($provide)->
   imgOnSelectAction = (event, $element, editorScope)->
+    editorScope.hidePopover = ()->
+      doneCb = ->
+        editorScope.displayElements.popover.css('display', '')
+        editorScope.displayElements.popoverContainer.attr('style', '')
+        editorScope.displayElements.popoverContainer.attr('class', 'popover-content')
+      editorScope.displayElements.popover.removeClass('in')
+      doneCb()
+
     finishEdit = ()->
       editorScope.updateTaBindtaTextElement()
       editorScope.hidePopover()

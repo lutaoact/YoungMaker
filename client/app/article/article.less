@@ -52,6 +52,25 @@ article {
   .article-content {
     min-height: 350px;
     margin-left: auto;
+    &.fixed{
+      padding-top: 50px;
+      .ta-toolbar {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        margin-left: 0;
+        top: 0;
+        z-index: 100;
+        padding-left: ~"calc(16.66% + 100px)";
+        padding-right: 0;
+        @media screen and (max-width: @screen-lg-min){
+          padding-left: 100px;
+        }
+        @media screen and (max-width: @screen-md-min){
+          padding-left: 15px;
+        }
+      }
+    }
     .ta-editor,
     textarea {
       border: none;

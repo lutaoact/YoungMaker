@@ -45,7 +45,9 @@
       </ul>
       <ul ng-if="isLoggedIn()" class="nav navbar-nav navbar-right">
         <li>
-          <a ui-sref="user.home({userId:me._id})" class="clearfix">
+          <a ui-sref="user.home({userId:me._id})"
+             ng-class="{active: isUserHomeActive()}"
+             class="clearfix">
             <span class="avatar-sm inline-block-middle"
                   ng-src="{{me.avatar|trusted:'url'}}">
             </span>

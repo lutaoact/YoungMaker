@@ -34,6 +34,11 @@ angular.module 'maui.components'
       else
         false
 
+    isUserHomeActive: ->
+      regex = new RegExp('^/users/' + $scope.me._id)
+      url = $state.href($state.current, $state.params)
+      regex.test url
+
   $scope.$watch 'me', (me)->
     if me._id?
       Msg.init()

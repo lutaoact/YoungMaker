@@ -1,10 +1,9 @@
-
 <div class="user-view-header">
-  <i class="fa fa-wrench text-muted bigger"></i>&nbsp;&nbsp;{{courses.$count || 0}} 节趣课
+  <i class="fa fa-group text-muted bigger"></i>&nbsp;&nbsp;{{groups.$count || 0}} 个小组
   <span ng-if="user._id==me._id">
     <a href
        class="btn btn-sm btn-primary pull-right"
-       ui-sref="courseEditor">创建趣课</a>
+       ng-click="createGroup()">新建小组</a>
   </span>
   <search-input placeholder="关键字搜索"
                 class="search-input"
@@ -14,14 +13,14 @@
   <hr>
 </div>
 
-<div class="col-lg-4 col-sm-6" ng-repeat="course in courses">
-  <course-tile course="course" me="me"></course-tile>
+<div class="col-lg-4 col-sm-6" ng-repeat="group in groups">
+  <group-tile group="group" me="me"></group-tile>
 </div>
 
 <div class="pagination-row"
-     ng-if="courses.$count"
-     ng-show="courses.$count > pageConf.itemsPerPage">
-  <pagination total-items="courses.$count"
+     ng-if="groups.$count"
+     ng-show="groups.$count > pageConf.itemsPerPage">
+  <pagination total-items="groups.$count"
               ng-model="pageConf.currentPage"
               items-per-page="pageConf.itemsPerPage"
               class="pagination-sm bud"
@@ -32,8 +31,8 @@
   </pagination>
 </div>
 
-<loading-tile data="courses"
+<loading-tile data="groups"
               loading-text="加载中..."
-              not-found-text="暂无创建趣课"
-              not-found-icon="fa fa-wrench">
+              not-found-text="暂无加入小组"
+              not-found-icon="fa fa-group">
 </loading-tile>

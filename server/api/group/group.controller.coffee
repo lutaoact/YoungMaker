@@ -7,7 +7,7 @@ exports.index = (req, res, next) ->
   conditions = {}
   conditions.creator = req.query.creator if req.query.creator
   conditions.featured = {'$ne':null} if req.query.featured
-
+  conditions.members = req.query.member if req.query.member
   if req.query.keyword
     keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
     conditions.$or = [

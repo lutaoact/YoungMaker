@@ -14,6 +14,8 @@ angular.module('mauiApp')
     .get()
     .then (article) ->
       $scope.article = article
+      if article.group && $state.is("articleDetail")
+        $state.go 'groupArticleDetail', articleId: $state.params.articleId
       # TODO why not populate?
       if article.group
         Restangular

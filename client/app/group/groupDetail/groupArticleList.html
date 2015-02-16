@@ -19,6 +19,13 @@
   </ul>
 
   <div class="panel panel-card">
+
+    <loading-tile data="groupArticles"
+                  loading-text="加载中..."
+                  not-found-text="该小组暂无话题"
+                  not-found-icon="fa fa-wrench">
+    </loading-tile>
+
     <article-tile article="article" me="me" ng-repeat="article in groupArticles"></article-tile>
     <div class="pagination-row text-center"
          ng-if="groupArticles.$count > pageConf.itemsPerPage">

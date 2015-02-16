@@ -98,6 +98,7 @@ angular.module('mauiApp').controller 'MainCtrl', (
   .then (courses)->
     $scope.courses = courses
     Restangular.all('groups').getList
+      featured   : 'true'
       from       : 0
       limit      : 6
   .then (groups)->

@@ -69,6 +69,7 @@
   <div ng-if="articles" class="user-articles">
     <p class="list-title text-muted">
       {{'#mine#' | mine:user._id==me._id:'我最新的文章':'作者最新的文章'}}
+      <small><a ui-sref="user.articles({userId:user._id})" class="pull-right link-base-color">更多</a></small>
     </p>
     <p ng-repeat="article in articles" class="list-item">
       <a ui-sref="articleDetail({articleId: article._id})">{{article.title}}</a>
@@ -82,6 +83,7 @@
   <div ng-if="courses" class="user-courses">
     <p class="list-title text-muted">
       {{'#mine#' | mine:user._id==me._id:'我最新的趣课':'作者最新的趣课'}}
+      <small><a ui-sref="user.courses({userId:user._id})" class="pull-right link-base-color">更多</a></small>
     </p>
     <p ng-repeat="course in courses" class="list-item">
       <a ui-sref="courseDetail({courseId: course._id})">{{course.title}}</a>

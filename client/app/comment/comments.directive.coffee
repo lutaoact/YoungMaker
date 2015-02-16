@@ -30,6 +30,11 @@ angular.module('mauiApp')
     newComment: {}
     commenting: false
 
+    pageConf:
+      maxSize      : 5
+      currentPage  : $state.params.page ? 1
+      itemsPerPage : 10
+
     createComment: ()->
       # validate
       @commenting = true
@@ -79,12 +84,18 @@ angular.module('mauiApp')
         windowHeight = $(window).height()
         $document.scrollToElement(targetElement, windowHeight/2, 500)
 
-  $scope.$watch 'belongTo', (value)->
-    if value
-      Restangular.all('comments').getList(belongTo:$scope.belongTo)
+    reload: ->
+      Restangular.all('comments').getList
+        belongTo:$scope.belongTo
+        from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
+        limit      : $scope.pageConf.itemsPerPage
       .then (comments)->
         $scope.comments = comments
         $scope.$emit 'comments.number', comments.length
+
+  $scope.$watch 'belongTo', (value)->
+    if value
+      $scope.reload()
 
   $scope.$watch 'activeComment', (value)->
     if value

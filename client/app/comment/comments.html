@@ -49,7 +49,7 @@
     <div ng-if="!comments.length" class="col-md-12">
       <h4 class="text-muted">还没有人评论，赶快抢个沙发!</h4>
     </div>
-    <li class="bud thumbnail media col-md-12 comment"
+    <li class="bud thumbnail media col-md-12 comment fade-repeat"
         ng-repeat="comment in comments|orderBy: viewState.orderBy|filter: commentsFilter" id="{{comment._id}}" >
       <a href ng-if="comment.postBy._id == me._id" class="close pull-right" ng-click="deleteComment(comment)">&times;</a>
       <div class="pull-left">
@@ -82,5 +82,18 @@
      ng-click="scrollToEditor()">
     发表回复
   </a>
+  <div class="pagination-row text-center"
+       ng-if="comments.$count > pageConf.itemsPerPage">
+    <pagination
+      total-items="comments.$count"
+      ng-model="pageConf.currentPage"
+      items-per-page="pageConf.itemsPerPage"
+      class="pagination-sm bud"
+      boundary-links="true"
+      rotate="false"
+      ng-change="reload()"
+      max-size="pageConf.maxSize">
+    </pagination>
+  </div>
 </div>
 

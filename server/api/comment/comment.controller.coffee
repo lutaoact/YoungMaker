@@ -11,7 +11,7 @@ exports.index = (req, res, next) ->
   conditions = {}
   conditions.type = req.query.type if req.query.type
   conditions.belongTo = req.query.belongTo
-  WrapRequest.wrapIndex req, res, next, conditions
+  WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->
   user = req.user

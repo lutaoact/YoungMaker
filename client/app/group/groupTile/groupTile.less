@@ -4,13 +4,17 @@
   cursor: pointer;
   border: 1px solid #eee;
   position: relative;
-  width: 400px;
-  margin: 10px auto;
+  width: 100%;
+  margin: 10px 0;
   border-radius: 2px;
-  .box-shadow(none);
+  background-color: #FFF;
+  .panel-card;
   .transition(all .13s linear);
+  border-radius: 2px;
   .group-logo{
-    height: 183px;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-bottom: -10px;
     width:45%;
     background-color: @gray-lighter;
     background-position: center;
@@ -18,33 +22,37 @@
     background-size: cover;
     border-radius: 2px 0 0 2px;
     display: inline-block;
+    .transition(all .13s linear);
+    &:hover{
+      opacity: 0.7;
+    }
   }
   .group-body{
     vertical-align: top;
+    margin-top: -10px;
     width: 55%;
-    padding: 0 5%;
+    margin-left: 10px;
     display: inline-block;
+    hr{
+      margin: 0 0 10px 0;
+    }
     .group-stat{
       margin-top: 15px;
     }
     .group-info{
       font-size: 12px;
-      height: 40px;
       .text-overflow();
     }
     h4{
       margin: 15px 0;
     }
-    hr{
-      margin: 15px 0;
-    }
   }
   .group-btn-pos{
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 10px;
+    right: 10px;
   }
   &:hover{
-    .box-shadow(0 0 4px 2px rgba(red(@base-color),green(@base-color),blue(@base-color),0.5));
+    .box-shadow(1px 1px 4px 1px rgba(0, 0, 0, 0.12));
   }
 }

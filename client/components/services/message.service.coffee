@@ -15,10 +15,13 @@ angular.module 'maui.components'
         msg.title = '赞了你的回复：' + raw.data.articleId.title
         msg.link = "articleDetail({articleId:'#{raw.data.articleId._id}'})"
       when Const.NoticeType.CourseComment
-        msg.title = '回复了你的课程：' + raw.data.courseId.title
+        msg.title = '回复了你的趣课：' + raw.data.courseId.title
+        msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"
+      when Const.NoticeType.LikeCourse
+        msg.title = '赞了你的趣课：' + raw.data.courseId.title
         msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"
       when Const.NoticeType.LikeCourseComment
-        msg.title = '赞了你的课程：' + raw.data.courseId.title
+        msg.title = '赞了你的回复：' + raw.data.courseId.title
         msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"
       when Const.NoticeType.FollowUser
         msg.title = '关注了你'

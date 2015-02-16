@@ -47,7 +47,7 @@
                   {{message.raw.fromWhom.name}}
                   <small>|&nbsp;{{message.raw.created|moment: "fromNow"}}</small>
                 </h6>
-                <div class="text-muted">{{message.title}}</div>
+                <div class="text-muted" ui-sref="{{message.link}}">{{message.title}}</div>
               </div>
             </li>
           </ul>

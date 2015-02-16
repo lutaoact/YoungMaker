@@ -34,7 +34,8 @@ class LikeUtils extends BaseUtils
 
     switch targetName
       when 'Article', 'Course'
-        data.articleId = doc._id
+        console.log doc
+        data[targetName.toLowerCase()+"Id"] = doc._id
         targetUserId = doc.author
         noticeType = Const.NoticeType["Like#{targetName}"]
 

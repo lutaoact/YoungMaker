@@ -10,10 +10,10 @@
   </button>
 
   <ul class="nav-tab" ng-click="reload()">
-    <li ui-sref="{sort:'created'}" ui-sref-active="active">
+    <li ng-click="pageConf.sort='created'" ng-class="{'active':pageConf.sort!='heat'}">
       <a>最新贴</a>
     </li>
-    <li ui-sref="{sort:'heat'}" ui-sref-active="active">
+    <li ng-click="pageConf.sort='heat'" ng-class="{'active':pageConf.sort=='heat'}">
       <a>最热帖</a>
     </li>
   </ul>

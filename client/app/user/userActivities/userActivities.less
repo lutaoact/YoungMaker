@@ -3,22 +3,16 @@
   + .activity-tile {
     margin-top: 0;
   }
+  .activity-icon {
+    position: absolute;
+    top: 10px;
+    background: white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    z-index: 1;
+  }
   .fa {
     margin-right: 17px;
-    &:after {
-      content: '';
-      position: absolute;
-      border-left: 1px solid #D8D8D8;
-      width: 1px;
-      height: 30px;
-      left: 8px;
-      top: 30px;
-    }
-    &.last {
-      &:after {
-        display: none;
-      }
-    }
   }
   hr {
     margin-top: 10px;
@@ -32,6 +26,21 @@
   ul {
     padding-top: 15px;
     padding-left: 0px;
+    margin-left: 40px;
+    display: block;
+    &:before {
+      content: '';
+      position: absolute;
+      border-left: 1px solid #D8D8D8;
+      width: 1px;
+      height: 100%;
+      left: 23px;
+    }
+    &.last {
+      &:before {
+        display: none;
+      }
+    }
   }
   ul, li {
     display: inline-block;

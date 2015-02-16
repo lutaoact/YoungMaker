@@ -64,7 +64,7 @@ angular.module('mauiApp').controller 'MainCtrl', (
 
     currentTrendPage: 1
     trendsPages: 1
-    trendPageSize: 3
+    trendPageSize: 5
 
     prevTrends: ->
       $scope.currentTrendPage--

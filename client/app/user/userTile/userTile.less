@@ -3,8 +3,10 @@
   text-align: center;
   .user-name {
     .text-overflow();
+    text-align: left;
     font-size: 18px;
     a {
+      text-align: center;
       .text-overflow();
       text-decoration: none;
       color: #333;
@@ -15,6 +17,9 @@
       &:hover {
         color: @base-color;
       }
+    }
+    small {
+      white-space: normal;
     }
   }
   .follow-btn-group {

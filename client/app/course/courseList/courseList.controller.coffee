@@ -20,8 +20,6 @@ angular.module('mauiApp')
   angular.extend $scope,
     courses: null
 
-    loading: true
-
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
@@ -63,9 +61,6 @@ angular.module('mauiApp')
       .then (courses)->
         $scope.courses = courses
         $scope.courseTotalCount = courses.$count
-        $scope.loading = false
-      , ->
-        $scope.loading = false
 
     getCategoryName: (category)->
       if $scope.categories

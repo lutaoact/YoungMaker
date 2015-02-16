@@ -30,6 +30,8 @@ exports.create = (req, res, next) ->
   data.members = [req.user._id]
   WrapRequest.wrapCreate req, res, next, data
 
+
+#TODO: only admin can update
 exports.update = (req, res, next) ->
   pickedUpdatedKeys = ['name', 'info', 'logo']
   if req.user.role is 'admin'
@@ -91,5 +93,18 @@ exports.showMembers = (req, res, next) ->
   .execQ()
   .then (doc) ->
     res.send doc.members
+  .catch next
+  .done()
+
+
+exports.getRole = (req, res, next) ->
+  userId = req.user._id
+  groupId = req.params.id
+  Group.findByIdQ groupId
+  .then (group) ->
+    if group.members.indexOf(userId) > -1
+      res.send role: 'member'
+    else
+      res.send role: 'passerby'
   .catch next
   .done()

@@ -22,21 +22,11 @@ angular.module('mauiApp').directive 'groupJoinBtn', ()->
         .result.then (newGroup) ->
           angular.extend $scope.group, newGroup
 
-      getRole: ->
-        if !$scope.me._id?
-          return 'passerby'
-        if $scope.me._id == $scope.group?.creator?._id
-          return 'creator'
-        else if ($scope.group?.members.indexOf $scope.me._id) >= 0
-          return 'member'
-        else
-          return 'passerby'
-
       joinGroup: ->
         Restangular.one('groups', $scope.group._id).one('join')
         .post()
         .then (data)->
-          $scope.group.members = data.members
+          $scope.role = 'member'
           notify
             message: '已加入小组'
             classes: 'alert-success'
@@ -48,9 +38,26 @@ angular.module('mauiApp').directive 'groupJoinBtn', ()->
         Restangular.one('groups', $scope.group._id).one('leave')
         .post()
         .then (data)->
-          $scope.group.members = data.members
+          $scope.role = 'passerby'
           notify
             message: '已退出小组'
             classes: 'alert-success'
         .catch (error) ->
           $scope.errors = error?.data?.errors
+
+
+    getRole = ->
+      if !$scope.me._id?
+        $scope.role =  'passerby'
+      if $scope.me._id == $scope.group?.creator?._id
+        $scope.role = 'creator'
+      else
+        Restangular.one('groups', $scope.group._id).one('getRole').get()
+        .then (data)->
+          console.log data
+          $scope.role = data.role
+
+
+    $scope.$watch 'group', (group)->
+      if group
+        getRole()

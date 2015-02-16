@@ -2,7 +2,7 @@
   <div class="image-btn-group">
     <div class="course-cover-image" whr="1.5" ng-src="{{course.image}}" ui-sref="courseDetail({courseId:course._id})">
     </div>
-    <div class="btn-group">
+    <div class="btn-group" ng-if="user._id==me._id">
       <a class="btn btn-primary" ui-sref="courseEditor({courseId: course._id})">编辑</a>
       <a class="btn btn-primary" ng-click="removeCourse(course)">删除</a>
     </div>

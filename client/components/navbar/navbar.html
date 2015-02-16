@@ -46,14 +46,14 @@
       <ul ng-if="isLoggedIn()" class="nav navbar-nav navbar-right">
         <li>
           <a ui-sref="user.home({userId:me._id})" class="clearfix">
-            <span class="avatar-xs navbar-avatar pull-left"
+            <span class="avatar-sm inline-block-middle"
                   ng-src="{{me.avatar|trusted:'url'}}">
             </span>
-            <span class="user-name pull-left">{{me.name}}</span>
+            {{me.name}}
           </a>
         </li>
         <li>
-          <a ui-sref="notices.unread">
+          <a ui-sref="notices.unread" ng-class="{active:isActive('^notices')}">
             <i class="fa fa-bell" tooltip="消息" tooltip-placement="bottom"></i>
             <span class="badge"
                   ng-show="getMsgCount()">
@@ -62,7 +62,7 @@
           </a>
         </li>
         <li>
-          <a a ui-sref="user.settings">
+          <a a ui-sref="user.settings" ng-class="{active:isActive('^user.settings')}">
             <i class="fa fa-gear" tooltip="设置" tooltip-placement="bottom"></i>
           </a>
         </li>

@@ -39,7 +39,9 @@ class Notice extends BaseModel
       commentId:
         type : ObjectId
         ref : 'comment'
-    status: Number
+    status:
+      type: Number #0: unread, 1: read
+      default: 0
 
 exports.Class = Notice
 exports.Instance = new Notice()

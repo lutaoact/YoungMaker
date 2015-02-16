@@ -9,8 +9,7 @@ exports.index = (req, res, next) ->
 
   conditions = {}
   conditions.userId = userId
-  if !req.query.all
-    conditions.status = 0
+  conditions.status = +req.query.status if req.query.status
 
   WrapRequest.wrapPageIndex req, res, next, conditions
 

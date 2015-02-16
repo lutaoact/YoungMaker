@@ -16,6 +16,8 @@ angular.module('mauiApp')
       read: $state.params.read
       maxSize: 5
 
+    noticeStatus: if $state.is('notices.read') then 1 else 0
+
     messages: []
 
     markAsRead: (message, $event)->
@@ -33,11 +35,11 @@ angular.module('mauiApp')
         page: $scope.pageConf.currentPage
         read: if $state.params.read then true else false
 
-  # TODO get unread notices
   Restangular.all('notices').getList(
     all: true
     from   : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
     limit  : $scope.pageConf.itemsPerPage
+    status : $scope.noticeStatus
   )
   .then (notices)->
     $scope.messages = []

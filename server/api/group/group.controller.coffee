@@ -6,6 +6,8 @@ WrapRequest = new (require '../../utils/WrapRequest')(Group)
 exports.index = (req, res, next) ->
   conditions = {}
   conditions.creator = req.query.creator if req.query.creator
+  conditions.featured = {'$ne':null} if req.query.featured
+
   if req.query.keyword
     keyword = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
     conditions.$or = [
@@ -19,18 +21,21 @@ exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions
 
-pickedKeys = ['name', 'info','logo']
 exports.create = (req, res, next) ->
+  pickedKeys = ['name', 'info','logo']
+  if req.user.role is 'admin'
+    pickedKeys.push 'featured'
   data = _.pick req.body, pickedKeys
   data.creator = req.user._id
   data.members = [req.user._id]
   WrapRequest.wrapCreate req, res, next, data
 
-pickedUpdatedKeys = ['name', 'info', 'logo']
 exports.update = (req, res, next) ->
+  pickedUpdatedKeys = ['name', 'info', 'logo']
+  if req.user.role is 'admin'
+    pickedUpdatedKeys.push 'featured'
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
-
 
 exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}

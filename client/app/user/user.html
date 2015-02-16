@@ -9,12 +9,7 @@
     <!--user activities, courses, articles-->
     <div class="col-md-9">
       <!--user nav menu-->
-      <ul class="nav-tab"
-          ng-show="
-            $state.includes('user.articles') ||
-            $state.includes('user.courses') ||
-            $state.includes('user.home')
-          ">
+      <ul class="nav-tab">
         <li ui-sref-active="active">
           <a ui-sref="user.home({userId:user._id})">
             {{'#mine#' | mine:me._id==user._id:'最新动态':'Ta的动态'}}
@@ -29,6 +24,12 @@
           <a ui-sref="user.articles({userId:user._id})">
             {{'#mine#文章' | mine:me._id==user._id}}
           </a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="user.following({userId:user._id})">关注</a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="user.followers({userId:user._id})">粉丝</a>
         </li>
       </ul>
       <div ui-view class="row user-ui-view"></div>

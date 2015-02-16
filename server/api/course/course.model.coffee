@@ -80,6 +80,8 @@ class Course extends BaseModel
     deleteFlag:
       type: Boolean
       default: false
+    featured:
+      type: Date
 
 exports.Class = Course
 exports.Instance = new Course()

@@ -162,6 +162,7 @@ class WrapRequest
     else
       data = _.pick req.body, pickedUpdatedKeys
 
+    console.log conditions
     @Model.findOneQ conditions
     .then (doc) ->
       updated = _.extend doc, data

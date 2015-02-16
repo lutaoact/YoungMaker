@@ -6,30 +6,24 @@
 
 <div class="col-md-12 activity-tile"
      ng-repeat="activity in activities">
-  <ul>
-    <li ng-switch="activity.action">
-      <i ng-switch-when="create_article"
-         class="fa fa-file-text-o text-muted bigger"
-         ng-class="{'last':$last}"></i>
-      <i ng-switch-when="create_course"
-         class="fa fa-wrench text-muted bigger"
-         ng-class="{'last':$last}"></i>
-      <i ng-switch-when="create_follow"
-         class="fa fa-user-plus text-muted bigger"
-         ng-class="{'last':$last}"></i>
-      <i ng-switch-when="like_course"
-         class="fa fa-heart text-muted bigger"
-         ng-class="{'last':$last}"></i>
-      <i ng-switch-when="like_article"
-         class="fa fa-heart text-muted bigger"
-         ng-class="{'last':$last}"></i>
-      <i ng-switch-when="create_group"
-         class="fa fa-group text-muted bigger"
-         ng-class="{'last':$last}"></i>
-      <i ng-switch-when="join_group"
-         class="fa fa-group text-muted bigger"
-         ng-class="{'last':$last}"></i>
-    </li>
+  <div class="activity-icon" ng-switch="activity.action">
+    <i ng-switch-when="create_article"
+       class="fa fa-file-text-o text-muted bigger"
+       ></i>
+    <i ng-switch-when="create_course"
+       class="fa fa-wrench text-muted bigger"></i>
+    <i ng-switch-when="create_follow"
+       class="fa fa-user-plus text-muted bigger"></i>
+    <i ng-switch-when="like_course"
+       class="fa fa-heart text-muted bigger"></i>
+    <i ng-switch-when="like_article"
+       class="fa fa-heart text-muted bigger"></i>
+    <i ng-switch-when="create_group"
+       class="fa fa-group text-muted bigger"></i>
+    <i ng-switch-when="join_group"
+       class="fa fa-group text-muted bigger"></i>
+  </div>
+  <ul ng-class="{'last':$last}">
     <li>
       <a class="user-info" ui-sref="user.home({userId: activity.userId._id})">
         <div class="avatar-sm inline-block-middle"

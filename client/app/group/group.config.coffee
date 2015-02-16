@@ -31,6 +31,11 @@ angular.module('mauiApp')
     controller: 'ArticleEditorCtrl'
     authenticate: true
 
+  .state 'groupArticleDetail',
+    url: '/groups/articles/:articleId'
+    templateUrl: 'app/article/articleDetail/articleDetail.html'
+    controller: 'ArticleDetailCtrl'
+
   .state 'groupList',
     url: '/groups?page&keyword&sort=postsCount'
     templateUrl: 'app/group/groupList/groupList.html'

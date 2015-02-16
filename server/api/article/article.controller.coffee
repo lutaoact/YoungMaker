@@ -9,6 +9,7 @@ exports.index = (req, res, next) ->
   conditions = {}
   conditions.author = req.query.author if req.query.author
   conditions.group = req.query.group if req.query.group
+  conditions.featured = {'$ne':null} if req.query.featured
   # filter by keyword
   if req.query.keyword
     regex = new RegExp(_u.escapeRegex(req.query.keyword), 'i')
@@ -23,8 +24,10 @@ exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions
 
-pickedKeys = ['title', 'image', 'content', 'tags', 'group']
 exports.create = (req, res, next) ->
+  pickedKeys = ['title', 'image', 'content', 'tags', 'group']
+  if req.user.role is 'admin'
+    pickedKeys.push 'featured'
   #TODO: check if user is group number
   data = _.pick req.body, pickedKeys
   data.author = req.user._id
@@ -34,8 +37,10 @@ exports.create = (req, res, next) ->
 
   WrapRequest.wrapCreateAndUpdate req, res, next, data, Group, updateConds, update
 
-pickedUpdatedKeys = ['title', 'image', 'content', 'tags', 'isPublished']
 exports.update = (req, res, next) ->
+  pickedUpdatedKeys = ['title', 'image', 'content', 'tags', 'isPublished']
+  if req.user.role is 'admin'
+    pickedUpdatedKeys.push 'featured'
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 

@@ -76,6 +76,7 @@ angular.module('mauiApp').controller 'MainCtrl', (
 
   searchArticles = ->
     Restangular.all('articles').getList
+      featured   : 'true'
       from       : ($scope.currentTrendPage - 1) * $scope.trendPageSize
       limit      : $scope.trendPageSize
     .then (articles)->
@@ -85,6 +86,7 @@ angular.module('mauiApp').controller 'MainCtrl', (
   searchArticles()
 
   Restangular.all('courses').getList
+    featured   : 'true'
     from: 0
     limit: 12
   .then (courses)->

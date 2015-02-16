@@ -65,6 +65,8 @@ class Article extends BaseModel
     deleteFlag:
       type: Boolean
       default: false
+    featured:
+      type: Date
 
 exports.Class = Article
 exports.Instance = new Article()

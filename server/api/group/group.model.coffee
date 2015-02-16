@@ -44,6 +44,8 @@ class Group extends BaseModel
       type: Number
       required: true
       default: 0
+    featured:
+      type: Date
 
 exports.Class = Group
 exports.Instance = new Group()

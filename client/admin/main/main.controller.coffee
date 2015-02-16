@@ -19,32 +19,18 @@ angular.module 'mauidmin'
   .then (categories)->
     $scope.categories = categories
 
+  Restangular.all('articles').getList()
+  .then (articles)->
+    $scope.articles = articles
+
+  Restangular.all('groups').getList()
+  .then (groups)->
+    $scope.groups = groups
+
   angular.extend $scope,
     courses: undefined
     gradeSubjects: undefined
     newGradeSubject: {}
-
-    createGradeSubject: ()->
-      Restangular.all('grade_subjects').post $scope.newGradeSubject
-      .then (newGradeSubject)->
-        $scope.gradeSubjects?.push newGradeSubject
-        $scope.newGradeSubject = {}
-        notify
-          message: newGradeSubject
-
-    deleteGradeSubject: (gradeSubject)->
-      gradeSubject.remove()
-      .then (data)->
-        $scope.gradeSubjects?.splice $scope.gradeSubjects.indexOf(gradeSubject), 1
-        notify
-          message: data
-
-    updateGradeSubject: (gradeSubject)->
-      gradeSubject.put()
-      .then (data)->
-        angular.extend gradeSubject, data
-        notify
-          message: data
 
     onImageUploaded: ($data, entity, field)->
       entity[field] = $data
@@ -56,6 +42,26 @@ angular.module 'mauidmin'
       .then (data)->
         $scope.categories?.push data
         $scope.newCategory = {}
+
+    saveCategory: (category)->
+      if category and category.logo and category.name
+        category.put()
+        .then (data)->
+          notify
+            message: data
+
+    removeEntity: (entity, entities)->
+      entity.remove()
+      .then (data)->
+        entities?.splice entities.indexOf(entity), 1
+        notify
+          message: data
+
+    toggleFeatured: (entity)->
+      entity.patch
+        featured: if entity.featured then null else new Date()
+      .then (data)->
+        angular.extend entity, data
 
 
 

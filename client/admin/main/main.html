@@ -1,44 +1,36 @@
 <div class="main">
   <div class="container">
-    <div class="panel panel-info course-panel">
-      <div class="panel-heading">
-        课程
-        <a ui-sref="course" class="btn btn-xs pull-right"><i class="fa fa-plus"></i></a>
-      </div>
-      <div class="panel-body">
-        <ul class="media-list">
-          <li class="media" ng-repeat="course in courses">
-            <a class="media-left" href="#">
-              <img holder-src="" ng-src="{{course.thumbnail}}">
-            </a>
-            <div class="media-body">
-              <h4 class="media-heading">{{course.title}}</h4>
-              <p>{{course.content}}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
 
     <div class="panel panel-info">
       <div class="panel-heading">
         类别
       </div>
       <div class="panel-body">
-        <ul class="media-list">
-          <li class="media" ng-repeat="categorie in categories">
-            <a class="media-left" href="#">
-              <img holder-src="" ng-src="{{categorie.logo}}">
-            </a>
-            <div class="media-body">
-              <h4 class="media-heading">{{categorie.name}}</h4>
-            </div>
+        <ul class="media-list clearfix">
+          <li class="col-md-4" ng-repeat="categorie in categories">
+            <form class="media form" ng-submit="saveCategory(categorie)">
+              <div class="media-left">
+                <uploader class="btn"
+                      on-complete="onImageUploaded($data, categorie, 'logo')"
+                      accept-type="image"
+                      crop="true"
+                      crop-ratio="1"
+                      max-width="64">
+                  <div class="img sm" whr="1" ng-src="{{categorie.logo}}"></div>
+                </uploader>
+              </div>
+              <div class="media-body form-group">
+                <input class="media-heading form-control" ng-model="categorie.name" type="text" required>
+                <button class="btn xs btn-primary" type="submit">确定</button>
+                <a class="btn xs btn-danger" ng-click="removeEntity(categorie, categories)">删除</a>
+              </div>
+            </form>
           </li>
         </ul>
         <form name="form" ng-submit="createCategory()">
           <div class="form-group">
             <label>
-              名称
+              新类别
               <input type="text" class="form-control" ng-model="newCategory.name" required>
             </label>
           </div>
@@ -58,14 +50,72 @@
       </div>
     </div>
 
-    <div class="panel panel-info">
+    <div class="panel panel-info course-panel">
       <div class="panel-heading">
         课程
       </div>
       <div class="panel-body">
-
+        <ul class="media-list">
+          <li class="col-md-4" ng-repeat="course in courses">
+            <div class="media">
+              <a class="media-left" href="#">
+                <div class="img" ng-src="{{course.image}}"></div>
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{course.title}}</h4>
+                <p>{{course.info}}</p>
+                <a class="btn btn-xs btn-default" ng-class="{'btn-primary':course.featured}" ng-click="toggleFeatured(course)">{{course.featured?'减精':'加精'}}</a>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
+
+    <div class="panel panel-info article-panel">
+      <div class="panel-heading">
+        文章
+      </div>
+      <div class="panel-body">
+        <ul class="media-list">
+          <li class="col-md-4" ng-repeat="article in articles">
+            <div class="media">
+              <a class="media-left" href="#">
+                <div class="img" ng-src="{{article.image}}"></div>
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{article.title}}</h4>
+                <p>{{article.info}}</p>
+                <a class="btn btn-xs btn-default" ng-class="{'btn-primary':article.featured}" ng-click="toggleFeatured(article)">{{article.featured?'减精':'加精'}}</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel panel-info group-panel">
+      <div class="panel-heading">
+        小组
+      </div>
+      <div class="panel-body">
+        <ul class="media-list">
+          <li class="col-md-4" ng-repeat="group in groups">
+            <div class="media">
+              <a class="media-left" href="#">
+                <div class="img" ng-src="{{group.logo}}"></div>
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{group.name}}</h4>
+                <p>{{group.info}}</p>
+                <a class="btn btn-xs btn-default" ng-class="{'btn-primary':group.featured}" ng-click="toggleFeatured(group)">{{group.featured?'减精':'加精'}}</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
 
   </div>
 </div>

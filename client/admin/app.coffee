@@ -21,7 +21,6 @@ angular.module 'mauidmin', ['maui.components']
   RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: '_id')
   RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
-    console.log operation
     if operation is "getList" and data.results
       extractedData = data.results
     else

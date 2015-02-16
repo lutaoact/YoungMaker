@@ -35,6 +35,11 @@ angular.module('mauiApp')
     templateUrl: 'app/user/userArticles/userArticles.html'
     controller: 'UserArticlesCtrl'
 
+  .state 'user.groups',
+    url: '/groups?page&keyword'
+    templateUrl: 'app/user/userGroups/userGroups.html'
+    controller: 'UserGroupsCtrl'
+
   .state 'user.following',
     url: '/following?page'
     templateUrl: 'app/user/userFollowing/userFollowing.html'

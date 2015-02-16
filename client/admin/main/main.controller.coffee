@@ -27,6 +27,16 @@ angular.module 'mauidmin'
   .then (groups)->
     $scope.groups = groups
 
+  Restangular.all('banners').getList
+    type: 'carousel'
+  .then (carouselBanners)->
+    $scope.carouselBanners = carouselBanners
+
+  Restangular.all('banners').getList
+    type: 'slide'
+  .then (slideBanners)->
+    $scope.slideBanners = slideBanners
+
   angular.extend $scope,
     courses: undefined
     gradeSubjects: undefined

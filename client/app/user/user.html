@@ -9,7 +9,7 @@
     <!--user activities, courses, articles-->
     <div class="col-md-9">
       <!--user nav menu-->
-      <ul class="nav-tab">
+      <ul class="nav-tab" ng-hide="$state.includes('user.settings')">
         <li ui-sref-active="active">
           <a ui-sref="user.home({userId:user._id})">
             {{'#mine#' | mine:me._id==user._id:'最新动态':'Ta的动态'}}
@@ -23,6 +23,11 @@
         <li ui-sref-active="active">
           <a ui-sref="user.articles({userId:user._id})">
             {{'#mine#文章' | mine:me._id==user._id}}
+          </a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="user.groups({userId:user._id})">
+            {{'#mine#小组' | mine:me._id==user._id}}
           </a>
         </li>
         <li ui-sref-active="active">

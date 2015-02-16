@@ -3,6 +3,106 @@
 
     <div class="panel panel-info">
       <div class="panel-heading">
+        横幅
+      </div>
+      <div class="panel-body">
+        <ul class="media-list clearfix">
+          <li class="col-md-6" ng-repeat="banner in carouselBanners">
+            <form class="media form" ng-submit="saveBanner(banner)">
+              <div class="media-left">
+                <uploader class="btn"
+                      on-complete="onImageUploaded($data, banner, 'image')"
+                      accept-type="image"
+                      crop="true"
+                      crop-ratio="2.5"
+                      max-width="1920">
+                  <div class="img sm" whr="1" ng-src="{{banner.image}}"></div>
+                </uploader>
+              </div>
+              <div class="media-body form-group">
+                <input class="media-heading form-control" ng-model="banner.text" type="text" required>
+                <input class="media-heading form-control" ng-model="banner.link" type="text" required>
+                <button class="btn xs btn-primary" type="submit">确定</button>
+                <a class="btn xs btn-danger" ng-click="removeEntity(banner, carouselBanners)">删除</a>
+              </div>
+            </form>
+          </li>
+        </ul>
+        <form name="form" ng-submit="createCategory()">
+          <div class="form-group">
+            <label>
+              新横幅
+              <input type="text" class="form-control" ng-model="newBanner.text" required placeholder="标题">
+              <input type="text" class="form-control" ng-model="newBanner.link" required placeholder="链接">
+            </label>
+          </div>
+          <div class="form-group">
+            <uploader class="btn"
+                      on-complete="onImageUploaded($data, newBanner, 'image')"
+                      accept-type="image"
+                      crop="true"
+                      crop-ratio="1"
+                      max-width="64">
+              <img ng-src="{{newBanner.image}}" alt="" src="/assets/images/empty.jpg">
+            </uploader>
+          </div>
+          <input type="submit" class="btn btn-danger">
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        幻灯片
+      </div>
+      <div class="panel-body">
+        <ul class="media-list clearfix">
+          <li class="col-md-6" ng-repeat="banner in slideBanners">
+            <form class="media form" ng-submit="saveBanner(banner)">
+              <div class="media-left">
+                <uploader class="btn"
+                      on-complete="onImageUploaded($data, banner, 'image')"
+                      accept-type="image"
+                      crop="true"
+                      crop-ratio="2.5"
+                      max-width="1920">
+                  <div class="img sm" whr="1" ng-src="{{banner.image}}"></div>
+                </uploader>
+              </div>
+              <div class="media-body form-group">
+                <input class="media-heading form-control" ng-model="banner.text" type="text" required>
+                <input class="media-heading form-control" ng-model="banner.link" type="text" required>
+                <button class="btn xs btn-primary" type="submit">确定</button>
+                <a class="btn xs btn-danger" ng-click="removeEntity(banner, slideBanners)">删除</a>
+              </div>
+            </form>
+          </li>
+        </ul>
+        <form name="form" ng-submit="createCategory()">
+          <div class="form-group">
+            <label>
+              新幻灯片
+              <input type="text" class="form-control" ng-model="newBanner.text" required placeholder="标题">
+              <input type="text" class="form-control" ng-model="newBanner.link" required placeholder="链接">
+            </label>
+          </div>
+          <div class="form-group">
+            <uploader class="btn"
+                      on-complete="onImageUploaded($data, newBanner, 'image')"
+                      accept-type="image"
+                      crop="true"
+                      crop-ratio="1"
+                      max-width="64">
+              <img ng-src="{{newBanner.image}}" alt="" src="/assets/images/empty.jpg">
+            </uploader>
+          </div>
+          <input type="submit" class="btn btn-danger">
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
         类别
       </div>
       <div class="panel-body">
@@ -35,14 +135,13 @@
             </label>
           </div>
           <div class="form-group">
-            <img ng-src="{{newCategory.logo}}" alt="" src="/assets/images/empty.jpg">
-            <uploader class="btn btn-danger"
+            <uploader class="btn"
                       on-complete="onImageUploaded($data, newCategory, 'logo')"
                       accept-type="image"
                       crop="true"
                       crop-ratio="1"
                       max-width="64">
-              logo
+              <img ng-src="{{newCategory.logo}}" style="height:64px" alt="" src="/assets/images/empty.jpg">
             </uploader>
           </div>
           <input type="submit" class="btn btn-danger">

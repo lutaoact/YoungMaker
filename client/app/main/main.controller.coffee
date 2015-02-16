@@ -58,6 +58,8 @@ angular.module('mauiApp').controller 'MainCtrl', (
 
     courses: null
 
+    loading: true
+
     carouselOpts: null
 
     slideOpts: null
@@ -88,33 +90,29 @@ angular.module('mauiApp').controller 'MainCtrl', (
       $scope.articles = articles
 
   searchArticles()
-
-  Restangular.all('courses').getList
-    featured   : 'true'
-    from: 0
-    limit: 12
+  .then ->
+    Restangular.all('courses').getList
+      featured   : 'true'
+      from: 0
+      limit: 12
   .then (courses)->
     $scope.courses = courses
-
-  Restangular.all('groups').getList
-    from       : 0
-    limit      : 6
+    Restangular.all('groups').getList
+      from       : 0
+      limit      : 6
   .then (groups)->
     $scope.groups = groups
-
-  Restangular.all('banners').getList
-    type: 'carousel'
+    Restangular.all('banners').getList
+      type: 'carousel'
   .then (carouselBanners)->
     $scope.carouselBanners = carouselBanners
-    $timeout ->
-      $scope.carouselOpts = {}
-    , 100
-
-  Restangular.all('banners').getList
-    type: 'slide'
+    Restangular.all('banners').getList
+      type: 'slide'
   .then (slideBanners)->
     $scope.slideBanners = slideBanners
     $timeout ->
       $scope.slideOpts = slideOpts
+      $scope.carouselOpts = {}
+      $scope.loading = false
     , 100
 

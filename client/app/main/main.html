@@ -11,15 +11,10 @@
     </div>
     <!-- Slides Container -->
     <div u="slides" class="slides">
-      <div>
-        <img u="image" src="http://lorempixel.com/1400/600/?r=1">
-      </div>
+
       <div ng-href="{{banner.link}}" target="blank" ng-repeat="banner in carouselBanners">
         <img u="image" alt="" ng-src="{{banner.image}}">
         <h1 class="carousel-caption"><a ng-href="{{banner.link}}" target="blank">{{banner.text}}</a></h1>
-      </div>
-      <div>
-        <img u="image" src="http://lorempixel.com/1400/600/?r=6">
       </div>
 
       <!-- static content -->
@@ -67,17 +62,14 @@
               </div>
               <!-- Slides Container -->
               <div u="slides" class="slides">
-                <div>
-                  <img u="image" src="http://lorempixel.com/700/400/?r=7">
-                  <div u="thumb">
-                    <h4>Do you notice arrow responses when click? <a href="" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
-                    <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
-                  </div>
-                </div>
                 <div ng-repeat="banner in slideBanners">
                   <img u="image" ng-src="{{banner.image}}">
                   <div u="thumb">
-                    <h4>{{banner.text}}<a ng-href="{{banner.link}}" target="blank" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                    <h4>{{banner.text}}
+                      <a ng-href="{{banner.link}}" target="blank" class="btn btn-xs btn-outline btn-primary">
+                        了解更多
+                      </a>
+                    </h4>
                   </div>
                 </div>
               </div>
@@ -178,5 +170,12 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="loading-mask text-center fadeIn" ng-show="loading">
+    <h3>
+      精彩马上就来
+      <i class="fa fa-spin fa-spinner"></i>
+    </h3>
   </div>
 </div>

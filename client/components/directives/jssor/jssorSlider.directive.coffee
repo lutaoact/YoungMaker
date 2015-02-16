@@ -4,6 +4,7 @@ angular.module('maui.components')
   restrict: 'A'
   scope:
     jSlider: '='
+  priority: 1001
   link: (scope, element, attrs) ->
     if not element.attr 'id'
       element.attr 'id', getRandomStr(8)

@@ -1,6 +1,6 @@
 <div class="discover">
 
-  <div j-slider="carouselOpts" class="j-carousels">
+  <div j-slider="carouselOpts" class="j-carousels" >
     <div u="loading" class="carousels-loading" style="">
       <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
       top: 0px; left: 0px; width: 100%; height: 100%;">
@@ -14,17 +14,9 @@
       <div>
         <img u="image" src="http://lorempixel.com/1400/600/?r=1">
       </div>
-      <div>
-        <img u="image" src="http://lorempixel.com/1400/600/?r=2">
-      </div>
-      <div>
-        <img u="image" src="http://lorempixel.com/1400/600/?r=3">
-      </div>
-      <div>
-        <img u="image" src="http://lorempixel.com/1400/600/?r=4">
-      </div>
-      <div>
-        <img u="image" src="http://lorempixel.com/1400/600/?r=5">
+      <div ng-href="{{banner.link}}" target="blank" ng-repeat="banner in carouselBanners">
+        <img u="image" alt="" ng-src="{{banner.image}}">
+        <h1 class="carousel-caption"><a ng-href="{{banner.link}}" target="blank">{{banner.text}}</a></h1>
       </div>
       <div>
         <img u="image" src="http://lorempixel.com/1400/600/?r=6">
@@ -64,7 +56,7 @@
       <div class="row">
         <div class="col-md-7 clearfix">
           <div>
-            <div j-slider="slideOpts" class="j-slides">
+            <div j-slider="slideOpts" class="j-slides" >
               <div u="loading" class="carousels-loading" style="">
                 <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
                 top: 0px; left: 0px; width: 100%; height: 100%;">
@@ -82,6 +74,12 @@
                     <h6>我们搜罗了城中可以买到进口时尚类书籍的店铺，不仅仅是单纯的书店，一些有格调的买手店和咖啡馆也囊括其中。</h6>
                   </div>
                 </div>
+                <div ng-repeat="banner in slideBanners">
+                  <img u="image" ng-src="{{banner.image}}">
+                  <div u="thumb">
+                    <h4>{{banner.text}}<a ng-href="{{banner.link}}" target="blank" class="btn btn-xs btn-outline btn-primary">了解更多</a></h4>
+                  </div>
+                </div>
               </div>
 
               <!-- ThumbnailNavigator Skin Begin -->
@@ -92,7 +90,7 @@
                 <!-- Thumbnail Item Skin Begin -->
                 <div u="slides">
                   <div u="prototype" style="POSITION: absolute; WIDTH: 750px; HEIGHT: 83px; TOP: 0; LEFT: 0;">
-                      <div u="thumbnailtemplate" style="font-family: verdana; font-weight: normal; POSITION: absolute; WIDTH: 100%; HEIGHT: 100%; TOP: 0; LEFT: 0; color:#fff; font-size:16px; padding-left:10px;"></div>
+                    <div u="thumbnailtemplate" style="font-family: verdana; font-weight: normal; POSITION: absolute; WIDTH: 100%; HEIGHT: 100%; TOP: 0; LEFT: 0; color:#fff; font-size:16px; padding-left:10px;"></div>
                   </div>
                 </div>
                 <!-- Thumbnail Item Skin End -->
@@ -108,22 +106,21 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5 activities-news">
 
-          <div class="text-primary trend-flip">
-            <div class="pull-right">
-              <button class="btn btn-xs btn-link" ng-click="prevTrends()" ng-disabled="currentTrendPage==1"><i class="fa fa-chevron-left"></i></button>
-              <button class="btn btn-xs btn-link" ng-click="nextTrends()" ng-disabled="currentTrendPage==trendsPages"><i class="fa fa-chevron-right"></i></button>
-            </div>
-          </div>
-          <div class="panel panel-card">
+        <div class="col-md-5 activities-news">
+          <div class="panel">
             <article-tile ng-repeat="article in articles"
                           article="article"
                           type="simple"
                           me="me">
             </article-tile>
           </div>
-
+          <div class="clearfix">
+            <div class="pull-right">
+              <button class="btn btn-xs btn-link" ng-click="prevTrends()" ng-disabled="currentTrendPage==1"><i class="fa fa-chevron-left"></i></button>
+              <button class="btn btn-xs btn-link" ng-click="nextTrends()" ng-disabled="currentTrendPage==trendsPages"><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -11,6 +11,8 @@ class Banner extends BaseModel
     text: String
     image: String
     link: String
+    type: String
+    seq: Number
 
 exports.Class = Banner
 exports.Instance = new Banner()

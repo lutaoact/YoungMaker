@@ -9,13 +9,18 @@
   }
 
   .search-form{
-    @searh-form-width: 700px;
+    @searh-form-width: 50%;
     position: absolute;
     display: block;
     bottom: 140px;
     left: 50%;
     margin-left: -@searh-form-width/2;
     width: @searh-form-width;
+    @media screen and (max-width: @screen-md-min) {
+      @searh-form-width: 75%;
+      margin-left: -@searh-form-width/2;
+      width: @searh-form-width;
+    }
     height: 45px;
     .search-input-group {
       width: 100%;
@@ -46,10 +51,6 @@
   }
 
   .activities-news {
-    margin-top: -55px;
-    .trend-flip {
-      min-height: 30px;
-    }
   }
 
   .discover-news{

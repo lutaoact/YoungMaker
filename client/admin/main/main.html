@@ -8,17 +8,15 @@
       <div class="panel-body">
         <ul class="media-list clearfix">
           <li class="col-md-6" ng-repeat="banner in carouselBanners">
-            <form class="media form" ng-submit="saveBanner(banner)">
-              <div class="media-left">
-                <uploader class="btn"
-                      on-complete="onImageUploaded($data, banner, 'image')"
-                      accept-type="image"
-                      crop="true"
-                      crop-ratio="2.5"
-                      max-width="1920">
-                  <div class="img sm" whr="1" ng-src="{{banner.image}}"></div>
-                </uploader>
-              </div>
+            <form class="media form" ng-submit="saveEntity(banner)">
+              <uploader class="btn"
+                    on-complete="onImageUploaded($data, banner, 'image')"
+                    accept-type="image"
+                    crop="true"
+                    crop-ratio="2.5"
+                    max-width="1920">
+                <div class="banner-img" whr="2.5" ng-src="{{banner.image}}"></div>
+              </uploader>
               <div class="media-body form-group">
                 <input class="media-heading form-control" ng-model="banner.text" type="text" required>
                 <input class="media-heading form-control" ng-model="banner.link" type="text" required>
@@ -28,7 +26,7 @@
             </form>
           </li>
         </ul>
-        <form name="form" ng-submit="createCategory()">
+        <form name="form" ng-submit="createEntity(newBanner, carouselBanners, {type:'carousel'});newBanner=null;">
           <div class="form-group">
             <label>
               新横幅
@@ -41,9 +39,9 @@
                       on-complete="onImageUploaded($data, newBanner, 'image')"
                       accept-type="image"
                       crop="true"
-                      crop-ratio="1"
-                      max-width="64">
-              <img ng-src="{{newBanner.image}}" alt="" src="/assets/images/empty.jpg">
+                      crop-ratio="2.5"
+                      max-width="1920">
+              <img ng-src="{{newBanner.image}}" whr="2.5" alt="" src="/assets/images/empty.jpg">
             </uploader>
           </div>
           <input type="submit" class="btn btn-danger">
@@ -58,17 +56,15 @@
       <div class="panel-body">
         <ul class="media-list clearfix">
           <li class="col-md-6" ng-repeat="banner in slideBanners">
-            <form class="media form" ng-submit="saveBanner(banner)">
-              <div class="media-left">
-                <uploader class="btn"
-                      on-complete="onImageUploaded($data, banner, 'image')"
-                      accept-type="image"
-                      crop="true"
-                      crop-ratio="2.5"
-                      max-width="1920">
-                  <div class="img sm" whr="1" ng-src="{{banner.image}}"></div>
-                </uploader>
-              </div>
+            <form class="media form" ng-submit="saveEntity(banner)">
+              <uploader class="btn"
+                    on-complete="onImageUploaded($data, banner, 'image')"
+                    accept-type="image"
+                    crop="true"
+                    crop-ratio="1.5"
+                    max-width="720">
+                <div class="banner-img" whr="1.5" ng-src="{{banner.image}}"></div>
+              </uploader>
               <div class="media-body form-group">
                 <input class="media-heading form-control" ng-model="banner.text" type="text" required>
                 <input class="media-heading form-control" ng-model="banner.link" type="text" required>
@@ -78,22 +74,22 @@
             </form>
           </li>
         </ul>
-        <form name="form" ng-submit="createCategory()">
+        <form name="form" ng-submit="createEntity(newSlide, slideBanners, {type:'slide'});newSlide=null;">
           <div class="form-group">
             <label>
               新幻灯片
-              <input type="text" class="form-control" ng-model="newBanner.text" required placeholder="标题">
-              <input type="text" class="form-control" ng-model="newBanner.link" required placeholder="链接">
+              <input type="text" class="form-control" ng-model="newSlide.text" required placeholder="标题">
+              <input type="text" class="form-control" ng-model="newSlide.link" required placeholder="链接">
             </label>
           </div>
           <div class="form-group">
             <uploader class="btn"
-                      on-complete="onImageUploaded($data, newBanner, 'image')"
+                      on-complete="onImageUploaded($data, newSlide, 'image')"
                       accept-type="image"
                       crop="true"
-                      crop-ratio="1"
-                      max-width="64">
-              <img ng-src="{{newBanner.image}}" alt="" src="/assets/images/empty.jpg">
+                      crop-ratio="1.5"
+                      max-width="720">
+              <img ng-src="{{newSlide.image}}" whr="1.5" alt="" src="/assets/images/empty.jpg">
             </uploader>
           </div>
           <input type="submit" class="btn btn-danger">

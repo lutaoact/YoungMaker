@@ -73,6 +73,21 @@ angular.module 'mauidmin'
       .then (data)->
         angular.extend entity, data
 
+    createEntity: (entity, collection, defaults)->
+      entity = angular.extend entity, defaults if defaults
+      collection.post entity
+      .then (data)->
+        collection.push data
+
+    saveEntity: (entity)->
+      if entity
+        entity.put()
+        .then (data)->
+          notify
+            message: data
+
+
+
 
 
 

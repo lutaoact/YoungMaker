@@ -23,32 +23,39 @@
     <div class="navbar-collapse collapse"
          collapse="viewState.isCollapsed">
       <ul class="nav navbar-nav navbar-left">
-        <li ng-class="{active:isActive('course')}">
+        <li ng-class="{active:isActive('^course')}">
           <a ui-sref="courseList">趣课</a>
         </li>
-        <li ng-class="{active:isActive('group')}">
+        <li ng-class="{active:isActive('^group')}">
           <a ui-sref="groupList">小组</a>
         </li>
       </ul>
 
       <ul ng-if="!isLoggedIn()" class="nav navbar-nav navbar-right">
         <li >
-          <button type="button" class="login-btn btn btn-sm btn-warning btn-outline navbar-btn" login-window mode="signup">注册</button>
+          <button type="button"
+                  class="login-btn btn btn-sm btn-warning btn-outline navbar-btn"
+                  login-window mode="signup">注册</button>
         </li>
         <li>
-          <button type="button" class="login-btn btn btn-sm btn-primary btn-outline navbar-btn" login-window>登录</button>
+          <button type="button"
+                  class="login-btn btn btn-sm btn-primary btn-outline navbar-btn"
+                  login-window>登录</button>
         </li>
       </ul>
       <ul ng-if="isLoggedIn()" class="nav navbar-nav navbar-right">
         <li>
-          <a ui-sref="user.home({userId:me._id})" class="clearfix">
-            <span class="avatar-xs navbar-avatar pull-left" ng-src="{{me.avatar|trusted:'url'}}">
+          <a ui-sref="user.home({userId:me._id})"
+             ng-class="{active: isUserHomeActive()}"
+             class="clearfix">
+            <span class="avatar-sm inline-block-middle"
+                  ng-src="{{me.avatar|trusted:'url'}}">
             </span>
-            <span class="user-name pull-left">{{me.name}}</span>
+            {{me.name}}
           </a>
         </li>
         <li>
-          <a ui-sref="notices.unread">
+          <a ui-sref="notices.unread" ng-class="{active:isActive('^notices')}">
             <i class="fa fa-bell" tooltip="消息" tooltip-placement="bottom"></i>
             <span class="badge"
                   ng-show="getMsgCount()">
@@ -57,7 +64,7 @@
           </a>
         </li>
         <li>
-          <a a ui-sref="user.settings">
+          <a a ui-sref="user.settings" ng-class="{active:isActive('^user.settings')}">
             <i class="fa fa-gear" tooltip="设置" tooltip-placement="bottom"></i>
           </a>
         </li>

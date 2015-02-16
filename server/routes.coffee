@@ -33,6 +33,7 @@ module.exports = (app) ->
   app.use '/api/azure_encode_tasks', require './api/azure_encode_task'
   app.use '/api/aodianyuns', require './api/aodianyun'
   app.use '/api/loggers', require './api/logger'
+  app.use '/api/banners', require './api/banner'
   app.use errorHandler
 
   # All undefined asset or api routes should return a 404

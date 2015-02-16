@@ -22,10 +22,11 @@
       <div class="panel-body" style="position: relative;">
         <div ui-view class="fadeIn notice-view">
 
-          <div class="text-muted text-center empty-notice"
-               ng-if="!messages.length">
-            暂无消息
-          </div>
+          <loading-tile data="messages"
+                        loading-text="加载中..."
+                        not-found-icon="fa fa-envelope-o"
+                        not-found-text="暂无消息">
+          </loading-tile>
 
           <ul class="media-list message-list"
               ng-if="messages.length > 0">

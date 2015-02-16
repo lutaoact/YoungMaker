@@ -20,36 +20,20 @@
         <li  ng-if="!isLoggedIn()">
           <button type="button" class="login-btn btn btn-xs btn-danger btn-outline navbar-btn" login-window>登录</button>
         </li>
-        <li ng-if="isLoggedIn()"
-            dropdown
-            class="profile-dropdown">
-          <span dropdown-toggle>
-             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar|trusted:'url'}}">
-             </span>
-             <span>{{me.name}}</span>
-          </span>
-          <ul class="dropdown-menu profile-menu" role="menu">
-            <li><a ui-sref="user.home({userId:me._id})">
-              我的主页</a></li>
-            <li><a ui-sref="user.settings">
-              个人设置</a></li>
-            <li><a href="/" data-no-turbolink="true">
-              我的收藏</a></li>
-            <li><a href="/">
-            通知中心</a></li>
-            <li>
-              <a href ng-click="logout()"
-                 class="dropdown_login_out_link"
-                 data-method="delete"
-                 rel="nofollow">
-                注销登录
-              </a>
-            </li>
-          </ul>
-            <span class="badge"
-                  ng-show="getMsgCount()">
-              {{getMsgCount()||'0'}}
+      </ul>
+      <ul ng-if="isLoggedIn()" class="nav navbar-nav navbar-right">
+        <li>
+          <a ng-href="/users/{{me._id}}" class="clearfix">
+            <span class="avatar-xs navbar-avatar pull-left" ng-src="{{me.avatar|trusted:'url'}}">
             </span>
+            <span class="user-name pull-left">{{me.name}}</span>
+          </a>
+        </li>
+
+        <li>
+          <a ng-click="logout()">
+            <i class="fa fa-sign-out" tooltip="登出" tooltip-placement="bottom"></i>
+          </a>
         </li>
         <li>
           <div class="btn-group" dropdown>

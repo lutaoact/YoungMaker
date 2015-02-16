@@ -26,11 +26,14 @@ angular.module 'mauidmin'
   $scope.isActive = (route) ->
     route is $location.path()
 
+  $scope.logout = ->
+    Auth.logout()
+
   $scope.isLoggedIn = Auth.isLoggedIn
 
   $scope.$on 'network.error', (event, data)->
     console.log data
-    $scope.errors.push data.data
+    # $scope.errors.push data.data
     notify
       message: data.data
       classes:'alert-danger'

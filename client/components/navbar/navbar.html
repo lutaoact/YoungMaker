@@ -31,44 +31,42 @@
         </li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li ng-if="!isLoggedIn()">
+      <ul ng-if="!isLoggedIn()" class="nav navbar-nav navbar-right">
+        <li >
           <button type="button" class="login-btn btn btn-sm btn-warning btn-outline navbar-btn" login-window mode="signup">注册</button>
         </li>
-        <li ng-if="!isLoggedIn()">
+        <li>
           <button type="button" class="login-btn btn btn-sm btn-primary btn-outline navbar-btn" login-window>登录</button>
         </li>
-        <li ng-if="isLoggedIn()"
-            dropdown
-            class="profile-dropdown">
-          <div dropdown-toggle class="navbar-avatar-name">
-             <span class="avatar-sm navbar-avatar dropdown-toggle" ng-src="{{me.avatar|trusted:'url'}}">
-             </span>
-            <span class="user-name">{{me.name}}</span>
-          </div>
-          <ul class="dropdown-menu profile-menu" role="menu">
-            <li><a ui-sref="user.home({userId:me._id})">
-              我的主页</a></li>
-            <li><a ui-sref="user.settings">
-              个人设置</a></li>
-            <li>
-              <a ui-sref="notices.unread">
-                我的消息
-              </a>
-            </li>
-            <li>
-              <a href ng-click="logout()"
-                 class="dropdown_login_out_link"
-                 data-method="delete"
-                 rel="nofollow">
-                注销登录
-              </a>
-            </li>
-          </ul>
-          <span class="badge"
-                ng-show="getMsgCount()">
-            {{getMsgCount()||'0'}}
-          </span>
+      </ul>
+      <ul ng-if="isLoggedIn()" class="nav navbar-nav navbar-right">
+        <li>
+          <a ui-sref="user.home({userId:me._id})" class="clearfix">
+            <span class="avatar-xs navbar-avatar pull-left" ng-src="{{me.avatar|trusted:'url'}}">
+            </span>
+            <span class="user-name pull-left">{{me.name}}</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="notices.unread">
+            <i class="fa fa-bell" tooltip="消息" tooltip-placement="bottom"></i>
+            <span class="badge"
+                  ng-show="getMsgCount()">
+              {{getMsgCount()||'0'}}
+            </span>
+          </a>
+        </li>
+        <li>
+          <a a ui-sref="user.settings">
+            <i class="fa fa-gear" tooltip="设置" tooltip-placement="bottom"></i>
+          </a>
+        </li>
+        <li>
+          <a href ng-click="logout()"
+             data-method="delete"
+             rel="nofollow">
+            <i class="fa fa-sign-out" tooltip="登出" tooltip-placement="bottom"></i>
+          </a>
         </li>
       </ul>
 

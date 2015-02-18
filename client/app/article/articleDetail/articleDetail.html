@@ -10,7 +10,9 @@
               <i class="fa fa-chevron-left"></i>&nbsp;返回
             </a>
             {{article.title}}
-            <a class="btn-right btn btn-link" ui-sref="articleEditor({articleId:article._id})">
+            <a class="btn-right btn btn-link"
+               ng-if="me._id == article.author._id"
+               ui-sref="articleEditor({articleId:article._id})">
               编辑
             </a>
           </h3>

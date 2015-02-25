@@ -49,7 +49,7 @@ angular.module('mauiApp').directive 'groupJoinBtn', ()->
     getRole = ->
       if !$scope.me._id?
         $scope.role =  'passerby'
-      if $scope.me._id == $scope.group?.creator?._id
+      else if $scope.me._id == $scope.group?.creator?._id
         $scope.role = 'creator'
       else
         Restangular.one('groups', $scope.group._id).one('getRole').get()
@@ -58,6 +58,7 @@ angular.module('mauiApp').directive 'groupJoinBtn', ()->
           $scope.role = data.role
 
 
-    $scope.$watch 'group', (group)->
-      if group
+    $scope.$watchGroup ['group','me'], ->
+      if $scope.group
+        console.log 'wtssf'
         getRole()

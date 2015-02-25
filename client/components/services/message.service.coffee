@@ -7,7 +7,6 @@ angular.module 'maui.components'
       raw: raw
       type: 'message'
 
-    console.log raw.data
     switch raw.type
       when Const.NoticeType.LikeArticle
         msg.title = '赞了你的文章：' + raw.data.articleId.title

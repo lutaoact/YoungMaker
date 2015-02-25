@@ -19,7 +19,6 @@ angular.module('maui.components')
     beatTime = 5 * 60 * 1000 #server 10 分钟检查一次
 
     doBeat = (type = 'beat') ->
-#      console.log 'socket.' + type
       socket.send JSON.stringify
         type: type
         token: $cookieStore.get('token') if $cookieStore.get('token')
@@ -29,7 +28,6 @@ angular.module('maui.components')
       heartbeat = $interval doBeat, beatTime
 
     socket.onmessage = (event) -> $timeout ->
-      console.log 'Receive socket message', event
       result = angular.fromJson(event.data)
       type = result.type
       payload = result.payload
@@ -37,7 +35,6 @@ angular.module('maui.components')
 
     socket.onclose = ( (event) ->
       @close()
-      console.log 'socket connection close', event
     ).bind @
 
   setHandler: (type, callback) ->

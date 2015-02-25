@@ -82,7 +82,7 @@ angular.module('mauiApp')
           , ->
             $state.go 'courseDetail', {courseId: course._id}
         .catch (error) ->
-          console.log 'error', error
+          console.remote? 'error', error
       else
         $scope.course.put()
         .then (course)->
@@ -104,7 +104,7 @@ angular.module('mauiApp')
             else
               $state.go 'courseEditor', {courseId: course._id}
         .catch (error) ->
-          console.log 'error', error
+          console.remote? 'error', error
 
     addStep: (plugin, index)->
       @viewState.lastPlugin = plugin

@@ -44,6 +44,7 @@
                   id="title"
                   ng-maxlength="20"
                   required
+                  placeholder="请输入趣课名称..."
                   ng-model="course.title"
                   class="form-control input-md">
                 <p class="text-danger" ng-show="form.title.$error.required && submitted">
@@ -71,7 +72,7 @@
             <div class="form-group">
               <label class="col-md-3" for="info">趣课简介</label>
               <div class="col-md-9">
-                <input type="text" placeholder="请输入趣课简介。。。" required id="info" name="info" ng-model="course.info" class="form-control input-md">
+                <input type="text" placeholder="请输入趣课简介..." required id="info" name="info" ng-model="course.info" class="form-control input-md">
                 <p class="text-danger" ng-show="form.info.$error.required && submitted">
                   请输入趣课简介
                 </p>

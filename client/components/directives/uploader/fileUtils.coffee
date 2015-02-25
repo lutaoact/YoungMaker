@@ -76,7 +76,7 @@ angular.module 'maui.components'
             success: (data, status) ->
               deferred.resolve data
             error: (xhr, desc, err) ->
-              console.log(err)
+              console.remote? err
           deferred.promise
 
 
@@ -179,7 +179,7 @@ angular.module 'maui.components'
               thumb: strategy.prefix + pic.replace('-lg.jpg', '-sm.jpg')
           opts.success?(result)
         .error (error) ->
-          console.log 'error', error
+          console.remote? 'error', error
       .error opts.fail
     , opts.fail
 
@@ -241,7 +241,7 @@ angular.module 'maui.components'
           .error (response)->
             deferred.reject()
         , (error)->
-          console.log error
+          console.remote? error
           deferred.reject()
 
     $q.all(promises).then (result)->

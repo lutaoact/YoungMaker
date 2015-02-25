@@ -20,9 +20,6 @@ angular.module('maui.components')
   require: 'ngModel'
   link: (scope, element, attr, ngModel)->
     penEl = element.find('.pen')
-    imgHandle = (e)->
-      # should fire img edit plugin
-      # console.log this
 
     ngModel.$render = ()->
       if ngModel.$viewValue
@@ -31,8 +28,6 @@ angular.module('maui.components')
         penEl.html('')
       penEl.off 'keyup', extractContent
       penEl.on 'keyup', extractContent
-      element.find("img").off 'click', imgHandle
-      element.find("img").on 'click', imgHandle
     extractContent = ()->
       ngModel.$setViewValue(penEl.html())
     config = angular.copy(scope.pen ? defaults)

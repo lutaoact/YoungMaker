@@ -267,7 +267,7 @@ angular.module 'maui.components'
         $scope.keypointStats.loading = false
         result
       , (err)->
-        console.log err
+        console.remote? err
 
     loadKeypoints = ()->
       Restangular.all('key_points').getList(courseId: courseId)

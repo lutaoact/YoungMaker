@@ -35,7 +35,7 @@ angular.module('mauiApp')
             classes: 'alert-success'
           $window.history.back()
         .catch (error) ->
-          console.log error
+          console.remote? error
           notify
             message: '出错啦：' + error
             classes: 'alert-danger'

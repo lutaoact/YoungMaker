@@ -17,14 +17,12 @@ angular.module('mauiApp')
     group: group
     imageSizeLimitation: configs.imageSizeLimitation
     onLogoUpload: ($data)->
-      console.log $data
       group.logo = $data
 
     cancel: ->
       $modalInstance.dismiss('cancel')
 
     confirm: (form) ->
-      console.log $scope.group
       $scope.submitted = true
       if !form.$valid then return
       $scope.group.logo
@@ -37,6 +35,5 @@ angular.module('mauiApp')
       .then $modalInstance.close
       .catch (error) ->
         angular.forEach error?.data?.errors, (error, field) ->
-          console.log field
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message

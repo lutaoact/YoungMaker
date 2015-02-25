@@ -5,7 +5,10 @@
        class="article-image pull-right">
   </div>
   <h4 class="article-title">
-    <a ui-sref="articleDetail({articleId: article._id})">
+    <a ng-if="!article.group" ui-sref="articleDetail({articleId: article._id})">
+      {{article.title}}
+    </a>
+    <a ng-if="article.group" ui-sref="groupArticleDetail({articleId: article._id})">
       {{article.title}}
     </a>
   </h4>

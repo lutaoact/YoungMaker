@@ -8,7 +8,7 @@ BaseModel = require '../../common/BaseModel'
 populateCommon = [
   path: 'fromWhom', select: 'avatar name'
 ,
-  path: 'data.articleId', select: 'title'
+  path: 'data.articleId', select: 'title group'
 ,
   path: 'data.courseId', select: 'title'
 ,

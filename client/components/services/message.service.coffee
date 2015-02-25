@@ -7,13 +7,20 @@ angular.module 'maui.components'
       raw: raw
       type: 'message'
 
+    console.log raw.data
     switch raw.type
+      when Const.NoticeType.LikeArticle
+        msg.title = '赞了你的文章：' + raw.data.articleId.title
+        stateName = if raw.data.articleId.group then "groupArticleDetail" else "articleDetail"
+        msg.link = "#{stateName}({articleId:'#{raw.data.articleId._id}'})"
       when Const.NoticeType.ArticleComment
         msg.title = '回复了你的文章：' + raw.data.articleId.title
-        msg.link = "articleDetail({articleId:'#{raw.data.articleId._id}'})"
+        stateName = if raw.data.articleId.group then "groupArticleDetail" else "articleDetail"
+        msg.link = "#{stateName}({articleId:'#{raw.data.articleId._id}'})"
       when Const.NoticeType.LikeArticleComment
         msg.title = '赞了你的回复：' + raw.data.articleId.title
-        msg.link = "articleDetail({articleId:'#{raw.data.articleId._id}'})"
+        stateName = if raw.data.articleId.group then "groupArticleDetail" else "articleDetail"
+        msg.link = "#{stateName}({articleId:'#{raw.data.articleId._id}'})"
       when Const.NoticeType.CourseComment
         msg.title = '回复了你的趣课：' + raw.data.courseId.title
         msg.link = "courseDetail({courseId:'#{raw.data.courseId._id}'})"

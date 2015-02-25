@@ -6,7 +6,7 @@
             class="article-form panel panel-card"
             ng-submit="">
         <h4 class="text-center">
-          <a class="btn btn-link" onclick="javascript:history.back()">
+          <a class="btn btn-link" back-button>
             <i class="fa fa-chevron-left"></i>&nbsp;返回
           </a>
           {{articleAction + articleType}}
@@ -33,10 +33,9 @@
           </div>
         </div>
         <div class="save-button text-center">
-          <a class="btn btn-default" onclick="javascript:history.back()">取消</a>
+          <a class="btn btn-default" back-button>取消</a>
           <button type="submit"
                   ng-click="saveArticle(articleForm)"
-                  onclick="javascript:history.back()"
                   class="btn btn-primary">
             {{articleAction=='编辑'?'保存':articleAction}}{{articleType}}
           </button>

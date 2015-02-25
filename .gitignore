@@ -26,3 +26,4 @@ npm-debug.log
 /server/test/**/*.js
 /server/utils/*.js
 /server/auth/passport.js
+nohup.out

@@ -42,11 +42,13 @@ exports.update = (req, res, next) ->
   if req.user.role is 'admin'
     pickedUpdatedKeys.push 'featured'
   conditions = {_id: req.params.id}
+  conditions.author = req.user._id if req.user.role isnt 'admin'
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
 
 exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}
+  conditions.author = req.user._id if req.user.role isnt 'admin'
   WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.like = WrapRequest.wrapLike.bind WrapRequest

@@ -69,8 +69,8 @@ angular.module 'mauiApp', [
       count = data.count
       data = data.results
       data.$count = count
-    else if data
-      data.$count = data.length ? 1 # for check loadingState
+#    else if data
+#      data.$count = data.length ? 1 # for check loadingState
     return data
 
 .factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->

@@ -17,7 +17,6 @@ ObjectId = Schema.ObjectId
 UserUtils = _u.getUtils 'user'
 crypto = require 'crypto'
 #Organization = _u.getModel "organization"
-sendActivationMail = require('../../common/mail').sendActivationMail
 sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 setTokenCookie = require('../../auth/auth.service').setTokenCookie
 

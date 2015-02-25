@@ -41,6 +41,7 @@ exports.update = (req, res, next) ->
 
 exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}
+  conditions.creator = req.user._id if req.user.role isnt 'admin'
   WrapRequest.wrapDestroy req, res, next, conditions
 
 exports.joinOrLeave = (req, res, next) ->

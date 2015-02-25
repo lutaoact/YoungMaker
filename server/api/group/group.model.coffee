@@ -37,9 +37,6 @@ class Group extends BaseModel
       type: ObjectId
       ref: 'user'
     ]
-    deleteFlag:
-      type: Boolean
-      default: false
     postsCount:
       type: Number
       required: true

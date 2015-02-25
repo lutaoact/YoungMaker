@@ -15,7 +15,7 @@ angular.module('mauiApp')
     .get()
     .then (article) ->
       $scope.article = article
-      if article.group._id
+      if article.group?._id
         Restangular
           .one('groups', article.group._id)
           .get()

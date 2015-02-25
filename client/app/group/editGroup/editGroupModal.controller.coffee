@@ -4,7 +4,9 @@ angular.module('mauiApp')
 
 .controller 'EditGroupModalCtrl', (
   $scope
+  $state
   notify
+  messageModal
   Restangular
   $modalInstance
   group
@@ -40,3 +42,15 @@ angular.module('mauiApp')
           console.log field
           form[field].$setValidity 'mongoose', false
           $scope.errors[field] = error.message
+
+    removeGroup: ->
+      messageModal.open
+        title: -> '删除小组'
+        message: -> "确定要删除该小组吗？"
+      .result.then ->
+        $scope.group.remove().then ->
+          notify
+            message: '小组已经删除'
+            classes: 'alert-success'
+          $modalInstance.dismiss('cancel')
+          $state.go 'groupList', {}, {reload: true}

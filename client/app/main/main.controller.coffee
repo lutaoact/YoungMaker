@@ -2,8 +2,9 @@
 
 angular.module('mauiApp').controller 'MainCtrl', (
   $scope
-  Restangular
+  $state
   $timeout
+  Restangular
 ) ->
   _SlideshowTransitions = [
     # Fade in R

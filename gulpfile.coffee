@@ -311,7 +311,7 @@ gulp.task 'uglify', ->
 
 gulp.task 'iconfont', ->
   gulp.src ['client/assets/images/vectors/*.svg']
-  .pipe $.iconfont({fontName: 'bud-font', appendCodepoints: false})
+  .pipe $.iconfont({fontName: 'bud-font', appendCodepoints: false, normalize: true})
   .on('codepoints', (codepoints, options) ->
     gulp.src('client/assets/fonts/font-template.less')
     .pipe($.consolidate('lodash',
@@ -321,6 +321,7 @@ gulp.task 'iconfont', ->
         className: 'budon'
       )
     )
+    .pipe $.rename('bud-font.less')
     .pipe(gulp.dest('client/components/theme/'))
   )
   .pipe(gulp.dest('client/assets/fonts/bud-font'))

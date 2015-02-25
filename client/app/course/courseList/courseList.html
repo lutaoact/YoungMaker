@@ -4,7 +4,7 @@
       <div class="pull-left category-dropdown" dropdown style="position:relative;">
         <a class="btn dropdown-toggle panel panel-card" dropdown-toggle>
           <div class="category-logo" ng-if="!pageConf.category">
-            <i class="budon budon-course"></i>
+            <i class="iconfont icon-course"></i>
           </div>
           <div class="category-logo" ng-if="pageConf.category" ng-src="{{getCategoryById(pageConf.category).logo}}">
           </div>
@@ -15,7 +15,7 @@
           <li ng-if="pageConf.category" >
             <a href="" ng-click="pageConf.category='';reload(true)">
               <div class="category-logo">
-                <i class="budon budon-course"></i>
+                <i class="iconfont icon-course"></i>
               </div>
               全部
             </a>

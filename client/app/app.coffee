@@ -211,4 +211,8 @@ angular.module 'mauiApp', [
       loginRedirector.apply()
     else
       checkState($state.current, $state.params)
+  if initUser
+    _hmt?.push(['_setCustomVar', 1, 'login', initUser._id, 2])
+  else
+    _hmt?.push(['_setCustomVar', 0, 'login', false, 2])
   Auth.refreshCurrentUser() if initUser?

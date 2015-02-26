@@ -31,7 +31,7 @@ module.exports =
 
   redis :
     port : 6379
-    host : process.env.MONGOLAB_URI or '192.168.100.3'
+    host : process.env.MONGOLAB_URI or 'vm4redis.wckvrx.pek2.qingcloud.com'
 
   prerenderServiceUrl: 'http://192.168.100.3:3000'
 

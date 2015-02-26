@@ -33,6 +33,8 @@ module.exports =
     port : 6379
     host : process.env.MONGOLAB_URI or 'vm4redis.wckvrx.pek2.qingcloud.com'
 
+  prerenderServiceUrl: 'http://vm4redis.wckvrx.pek2.qingcloud.com:3000'
+
 # Qiniu access_key and secret_key
   qiniu:
     access_key : '_NXt69baB3oKUcLaHfgV5Li-W_LQ-lhJPhavHIc_'

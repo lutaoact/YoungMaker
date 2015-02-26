@@ -12,7 +12,7 @@ angular.module('mauiApp')
     pageConf:
       maxSize      : 5
       currentPage  : $state.params.page ? 1
-      itemsPerPage : 1
+      itemsPerPage : 10
       sort         : $state.params.sort
 
     viewState:

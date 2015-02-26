@@ -42,6 +42,10 @@ angular.module('mauiApp')
   if $state.params.courseId
       Restangular.one('courses', $state.params.courseId).get()
       .then (course)->
+        if !course
+          $state.go '404', url : $state.href($state.current, $state.params),
+            location:'replace'
+          return
         $scope.course = course
 
       Restangular.all('comments').getList({type:Const.CommentType.Course,belongTo:$state.params.courseId})

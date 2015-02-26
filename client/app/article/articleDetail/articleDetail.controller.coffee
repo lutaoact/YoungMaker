@@ -14,8 +14,12 @@ angular.module('mauiApp')
     .one('articles', $state.params.articleId)
     .get()
     .then (article) ->
+      if !article
+        $state.go '404', url : $state.href($state.current, $state.params),
+          location:'replace'
+        return
       $scope.article = article
-      if article.group?._id
+      if article?.group?._id
         Restangular
           .one('groups', article.group._id)
           .get()

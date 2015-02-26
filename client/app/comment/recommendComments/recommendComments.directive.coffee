@@ -21,7 +21,6 @@ angular.module('mauiApp')
       self.loading = true
       reload()
       .then (comments)->
-        console.log comments
         self.suggests = comments
         if currentPage is Math.ceil(comments.$count / itemsPerPage)
           currentPage = 1

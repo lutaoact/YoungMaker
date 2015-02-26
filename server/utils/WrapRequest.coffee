@@ -81,6 +81,8 @@ class WrapRequest
 
 
   wrapShow: (req, res, next, conditions, update) ->
+    conditions.deleteFlag = {$ne: true}
+
     logger.info 'show conditions:', conditions
     mongoQuery = (
       if _.isEmpty update

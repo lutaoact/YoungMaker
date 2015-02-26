@@ -32,4 +32,8 @@ angular.module('mauiApp')
       $state.go 'groupArticleNew', {groupId: $scope.group._id}
 
   groupAPI.get().then (group) ->
+    if !group
+      $state.go '404', url : $state.href($state.current, $state.params),
+        location:'replace'
+      return
     $scope.group = group

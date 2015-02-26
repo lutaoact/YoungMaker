@@ -1,15 +1,15 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    <i class="iconfont icon-cut"></i>
+    <i class="iconfont icon-cut text-primary"></i>
     调整图片的位置和尺寸
     <small>支持png, jpg, gif等</small>
+    <a class="close" ng-click="cancel()">&times;</a>
   </h4>
-  <a class="close" ng-click="cancel()">&times;</a>
 </div>
 <div class="modal-body">
   <div class="row">
     <div class="col-md-12">
-      <div class="bud thumbnail">
+      <div class="thumbnail">
         <img
         ng-src="{{viewState.previewUrl}}"
         ng-show="viewState.previewUrl"

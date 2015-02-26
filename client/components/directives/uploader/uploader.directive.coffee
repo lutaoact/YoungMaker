@@ -57,6 +57,7 @@ angular.module('maui.components')
           templateUrl: 'components/modals/imageCrop/imageCropPopup.html'
           controller: 'ImageCropPopupCtrl'
           backdrop: 'static'
+          windowClass: 'image-crop-modal'
           resolve:
             files: -> files
             options: ->

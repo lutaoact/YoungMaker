@@ -155,6 +155,26 @@ class WrapRequest
     .done()
 
 
+  wrapDestroyAndUpdate: (req, res, next, conditions, updateModel, updateConds, update) ->
+    logger.info "wrapDestroyAndUpdate =>
+                destroy conditions:", conditions,
+                "||| updateModel: #{updateModel?.constructor.name}
+                ||| updateConds:", updateConds,
+                "||| update:", update
+
+    (if @Model.schema.paths.deleteFlag
+      @Model.updateQ conditions, {deleteFlag: true}
+    else
+      @Model.removeQ conditions
+    ).then () ->
+      if updateModel
+        updateModel.updateQ updateConds, update
+    .then () ->
+      res.send 204
+    .catch next
+    .done()
+
+
   wrapUpdate: (req, res, next, conditions, pickedUpdatedKeys) ->
     data = {}
     if pickedUpdatedKeys.omit

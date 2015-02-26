@@ -1,13 +1,17 @@
 'use strict'
 
 angular.module('mauiApp').directive 'commentTile', ->
-  templateUrl: 'app/comment/commentTile/commentTile.html'
   restrict: 'EA'
   replace: true
   scope:
     me: '='
     comment: '='
-  link: (scope, element, attrs) ->
+  templateUrl: (element, attrs) ->
+    switch attrs.type
+      when 'simple'
+        'app/comment/commentTile/commentTileSimple.html'
+      else
+        'app/comment/commentTile/commentTile.html'
 
   controller: ($scope, Restangular, Auth, messageModal, notify, $state)->
     angular.extend $scope,
@@ -35,5 +39,11 @@ angular.module('mauiApp').directive 'commentTile', ->
               message:'删除成功!'
               classes: 'alert-success'
             $state.reload()
+
+    $scope.$watch 'comment', (value)->
+      if value and $scope.comment.belongTo
+        Restangular.one(Const.CommentRef[$scope.comment.type]+'s', $scope.comment.belongTo).get()
+        .then (data)->
+          $scope.comment.$belongTo = data
 
 

@@ -11,7 +11,6 @@ angular.module('mauiApp')
     me: '='
     belongTo: '='
     extra: '='
-#    activeComment: '='
     type: '@'
 
 .controller 'CommentsCtrl', (
@@ -90,8 +89,10 @@ angular.module('mauiApp')
         from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
         limit      : $scope.pageConf.itemsPerPage
       .then (comments)->
-        $scope.comments = comments
         $scope.$emit 'comments.number', comments.length
+        if $state.params.commentId
+          $scope.activeComment = $state.params.commentId
+        $scope.comments = comments
 
   $scope.$watch 'belongTo', (value)->
     if value

@@ -1,15 +1,7 @@
 <div class="container article-list">
   <div class="row">
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-hidden">
-      featured tags
-      <hr>
-      订阅
-      <hr>
-      邮件订阅
-      <hr>
-      二维码
-    </div>
-    <div class="col-lg-6 col-md-7 col-sm-8 col-xs-12">
+
+    <div class="col-md-8">
       <search-input keyword="viewState.keyword"
                     on-submit="reload(true)"
                     placeholder="帖子关键字搜索"
@@ -53,11 +45,11 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-12">
-      <recommend-articles>
+    <div class="col-md-4">
+      <recommend-articles me="me">
       </recommend-articles>
-      <hr>
-      优质评论
+      <recommend-comments>
+      </recommend-comments>
     </div>
   </div>
 </div>

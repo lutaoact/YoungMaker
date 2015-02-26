@@ -37,7 +37,8 @@ angular.module('mauiApp')
   templateUrl: 'app/article/recommendArticles/recommendArticles.html'
   restrict: 'EA'
   replace: true
-  link: (scope, element, attrs) ->
+  scope:
+    me: '='
 
   controller: ($scope, Restangular, Auth)->
     angular.extend $scope,

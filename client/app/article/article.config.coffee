@@ -11,7 +11,7 @@ angular.module('mauiApp')
     authenticate: true
 
   .state 'articleDetail',
-    url: '/articles/:articleId'
+    url: '/articles/:articleId?commentId'
     templateUrl: 'app/article/articleDetail/articleDetail.html'
     controller: 'ArticleDetailCtrl'
 

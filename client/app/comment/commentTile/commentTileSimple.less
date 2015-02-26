@@ -1,0 +1,27 @@
+.comment-tile-simple {
+  position: relative;
+  background: #FFF;
+  padding: 10px 2px;
+  width: 100%;
+  +.comment-tile-simple {
+    border-top: 1px dashed @tile-border;
+  }
+
+  .comment-image {
+    height: 60px;
+    width: 94px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .comment-title {
+    margin-top: 5px;
+    margin-bottom: 14px;
+    .text-overflow();
+  }
+  .comment-summary {
+    max-height: 40px;
+    .text-overflow();
+  }
+}
+

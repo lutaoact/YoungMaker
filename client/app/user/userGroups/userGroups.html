@@ -1,15 +1,16 @@
 <div class="user-view-header">
   <i class="fa fa-group text-muted bigger"></i>&nbsp;&nbsp;{{groups.$count || 0}} 个小组
-  <span ng-if="user._id==me._id">
-    <a href
-       class="btn btn-sm btn-primary pull-right"
-       ng-click="createGroup()">新建小组</a>
-  </span>
-  <search-input placeholder="关键字搜索"
-                class="search-input"
-                keyword="pageConf.keyword"
-                on-submit="reload()">
-  </search-input>
+  <div class="pull-right">
+    <search-input placeholder="搜索小组"
+                  class="search-input"
+                  keyword="pageConf.keyword"
+                  on-submit="reload()">
+    </search-input>
+    <span ng-if="user._id==me._id">
+      <a class="btn btn-sm btn-primary"
+         ng-click="createGroup()">新建小组</a>
+    </span>
+  </div>
   <hr>
 </div>
 

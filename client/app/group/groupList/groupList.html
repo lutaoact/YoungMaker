@@ -4,15 +4,17 @@
       <i class="iconfont icon-group"></i>
     </div>
     <span>全部小组</span>
-    <search-input keyword="viewState.keyword"
-                  on-submit="reload(true)"
-                  placeholder="讨论组关键字搜索"
-                  class="group-search pull-right">
-    </search-input>
-    <button class="group-create btn btn-sm btn-primary pull-right"
-            ng-click="createGroup()">
-      新建小组
-    </button>
+    <div class="pull-right">
+      <search-input keyword="viewState.keyword"
+                    on-submit="reload(true)"
+                    placeholder="搜索小组">
+      </search-input>
+      <button class="btn btn-sm btn-primary"
+              login-window
+              login-success="createGroup()">
+        新建小组
+      </button>
+    </div>
   </div>
   <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="group in groups">

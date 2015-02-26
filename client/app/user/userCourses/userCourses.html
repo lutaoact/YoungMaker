@@ -1,16 +1,16 @@
 
 <div class="user-view-header">
   <i class="fa fa-wrench text-muted bigger"></i>&nbsp;&nbsp;{{courses.$count || 0}} 节趣课
-  <span ng-if="user._id==me._id">
-    <a href
-       class="btn btn-sm btn-primary pull-right"
-       ui-sref="courseEditor">创建趣课</a>
-  </span>
-  <search-input placeholder="关键字搜索"
-                class="search-input"
-                keyword="pageConf.keyword"
-                on-submit="reload()">
-  </search-input>
+  <div class="pull-right">
+    <search-input placeholder="搜索趣课"
+                  keyword="pageConf.keyword"
+                  on-submit="reload()">
+    </search-input>
+    <span ng-if="user._id==me._id">
+      <a class="btn btn-sm btn-primary"
+         ui-sref="courseEditor">创建趣课</a>
+    </span>
+  </div>
   <hr>
 </div>
 

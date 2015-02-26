@@ -19,7 +19,7 @@ angular.module('mauiApp')
     viewState:
       keyword: $state.params.keyword ? ''
 
-    createGroup: ()->
+    createGroup: ->
       $modal.open
         templateUrl: 'app/group/editGroup/editGroupModal.html'
         controller: 'EditGroupModalCtrl'

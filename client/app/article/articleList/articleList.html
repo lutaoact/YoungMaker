@@ -12,11 +12,11 @@
         发表新帖
       </button> -->
 
-      <ul class="nav-tab" ng-click="reload()">
-        <li ng-click="pageConf.sort='created'" ng-class="{'active':pageConf.sort!='heat'}">
+      <ul class="nav-tab">
+        <li ui-sref="{sort: null}" ui-sref-active="active">
           <a>最新文章</a>
         </li>
-        <li ng-click="pageConf.sort='heat'" ng-class="{'active':pageConf.sort=='heat'}">
+        <li ui-sref="{sort: 'heat'}" ui-sref-active="active">
           <a>最热文章</a>
         </li>
       </ul>

@@ -19,3 +19,8 @@ angular.module('mauiApp')
     url: '/articles/:articleId/edit'
     templateUrl: 'app/article/articleEditor/articleEditor.html'
     controller: 'ArticleEditorCtrl'
+
+  .state 'articleList',
+    url: '/articles?page&keyword&sort'
+    templateUrl: 'app/article/articleList/articleList.html'
+    controller: 'ArticleListCtrl'

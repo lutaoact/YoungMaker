@@ -40,7 +40,7 @@
   }
   .navbar-nav.navbar-left{
     > li > a {
-      min-width: 100px;
+      width: 80px;
       text-align: center;
       &:hover {
         .show-triangle();
@@ -72,9 +72,15 @@
         background-color: #F96545;
       }
     }
+    .logout-btn{
+      margin-right: -15px;
+    }
   }
   .navbar-header{
     margin-left: 15px;
+    @media (max-width: @screen-sm-min){
+      margin-left: -15px;
+    }
   }
   .navbar-brand {
     background: @base-color;

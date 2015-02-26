@@ -1,17 +1,11 @@
-<div class="recommend-comments clearfix">
-  <div class="clearfix">
-    <ul class="nav-tab">
-      <li class="active">
-        <a>优质回复</a>
-      </li>
-    </ul>
-    <div class="panel panel-card">
+<div class="recommend-comments">
+  <div class="panel panel-card clearfix">
+    <div class="col-md-12">
+      <h4>
+        优质回复
+        <small><a href="" ng-disable="RecommendComments.loading" class="pull-right swap" ng-click="RecommendComments.change()">换一批</a></small>
+      </h4>
       <comment-tile comment="comment" type="simple" me="me" ng-repeat="comment in RecommendComments.suggests"></comment-tile>
-      <div class="clearfix">
-        <div class="pull-right">
-          <a href="" ng-disable="RecommendComments.loading" class="pull-right swap" ng-click="RecommendComments.change()">换一批</a>
-        </div>
-      </div>
     </div>
   </div>
 </div>

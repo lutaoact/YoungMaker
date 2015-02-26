@@ -17,9 +17,6 @@
       <li>
         {{comment.created | moment: 'fromNow'}}
       </li>
-      <li ng-if="comment.$belongTo">
-        评论于&nbsp;<a ui-sref="articleDetail({articleId: comment.$belongTo._id})">{{comment.$belongTo.title}}</a>
-      </li>
       <li>
         <i class="fa fa-heart"></i>
         {{comment.likeUsers.length||0}}
@@ -31,5 +28,8 @@
       {{comment.content|htmlToPlaintext}}
     </p>
   </a>
+  <small class="text-muted" ng-if="comment.$belongTo">
+    评论于&nbsp;<a ui-sref="articleDetail({articleId: comment.$belongTo._id})">{{comment.$belongTo.title}}</a>
+  </small>
 
 </div>

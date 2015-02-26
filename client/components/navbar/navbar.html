@@ -17,7 +17,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">STEAM</a>
+      <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo-with-title@2x.png" alt="logo">
+      </a>
     </div>
 
     <div class="navbar-collapse collapse"
@@ -51,7 +53,7 @@
           <a ui-sref="user.home({userId:me._id})"
              ng-class="{active: isUserHomeActive()}"
              class="clearfix">
-            <span class="avatar-sm inline-block-middle"
+            <span class="avatar-xs inline-block-middle"
                   ng-src="{{me.avatar|trusted:'url'}}">
             </span>
             {{me.name}}
@@ -59,7 +61,7 @@
         </li>
         <li>
           <a ui-sref="notices.unread" ng-class="{active:isActive('^notices')}">
-            <i class="iconfont icon-bell-o" tooltip="消息" tooltip-placement="bottom"></i>
+            <i class="iconfont icon-message" tooltip="消息" tooltip-placement="bottom"></i>
             <span class="badge"
                   ng-show="getMsgCount()">
               {{getMsgCount()||'0'}}

@@ -1,17 +1,11 @@
-<div class="recommend-articles clearfix">
-  <div class="clearfix">
-    <ul class="nav-tab">
-      <li class="active">
-        <a>推荐文章</a>
-      </li>
-    </ul>
-    <div class="panel panel-card">
+<div class="recommend-articles">
+  <div class="panel panel-card clearfix">
+    <div class="col-md-12">
+      <h4>
+        推荐文章
+        <small><a href="" ng-disable="RecommendArticles.loading" class="pull-right swap" ng-click="RecommendArticles.change()">换一批</a></small>
+      </h4>
       <article-tile article="article" type="simple" me="me" ng-repeat="article in RecommendArticles.suggests"></article-tile>
-      <div class="clearfix">
-        <div class="pull-right">
-          <a href="" ng-disable="RecommendArticles.loading" class="pull-right swap" ng-click="RecommendArticles.change()">换一批</a>
-        </div>
-      </div>
     </div>
   </div>
 </div>

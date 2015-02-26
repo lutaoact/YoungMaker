@@ -55,7 +55,7 @@
   .navbar-nav.navbar-right{
     > li > a{
       i{
-        font-size: 20px;
+        font-size: 24px;
         padding-left: 4px;
       }
       &:hover, &.active{
@@ -65,10 +65,11 @@
       padding-top: 0;
       padding-bottom: 0;
       line-height: 50px;
+      height: 50px;
       .badge {
         position: absolute;
-        top: 9px;
-        left: 26px;
+        top: 7px;
+        left: 32px;
         background-color: #F96545;
       }
     }
@@ -76,22 +77,17 @@
       margin-right: -15px;
     }
   }
-  .navbar-header{
-    margin-left: 15px;
-    @media (max-width: @screen-sm-min){
-      margin-left: -15px;
-    }
-  }
   .navbar-brand {
-    background: @base-color;
     color: #FFF;
     position: relative;
     overflow: visible;
     width: 150px;
     text-align: center;
     &:hover, &:focus {
-      color: #FFF;
-      background: @base-color;
+    }
+    img{
+      margin-top: -6px;
+      height: 32px;
     }
   }
   .navbar-toggle {

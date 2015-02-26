@@ -1,0 +1,19 @@
+<div class="comment-tile">
+
+  <div ng-if="comment.image"
+       ng-src="{{comment.image | trusted:'url'}}"
+       class="comment-image pull-right">
+  </div>
+  <h4 class="comment-title">
+    <a ng-if="!comment.group" ui-sref="commentDetail({commentId: comment._id})">
+      {{comment.title}}
+    </a>
+    <a ng-if="comment.group" ui-sref="groupArticleDetail({commentId: comment._id})">
+      {{comment.title}}
+    </a>
+  </h4>
+  <p class="comment-summary text-muted">
+    {{comment.content|htmlToPlaintext}}
+  </p>
+
+</div>

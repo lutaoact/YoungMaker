@@ -1,0 +1,55 @@
+<div class="container article-list">
+  <div class="row">
+
+    <div class="col-md-8">
+      <search-input keyword="viewState.keyword"
+                    on-submit="reload(true)"
+                    placeholder="帖子关键字搜索"
+                    class="article-search pull-right">
+      </search-input>
+      <!-- <button class="article-create btn btn-sm btn-primary pull-right"
+              login-window ui-sref="articleNew">
+        发表新帖
+      </button> -->
+
+      <ul class="nav-tab" ng-click="reload()">
+        <li ng-click="pageConf.sort='created'" ng-class="{'active':pageConf.sort!='heat'}">
+          <a>最新文章</a>
+        </li>
+        <li ng-click="pageConf.sort='heat'" ng-class="{'active':pageConf.sort=='heat'}">
+          <a>最热文章</a>
+        </li>
+      </ul>
+
+      <div class="panel panel-card">
+
+        <loading-tile data="articles"
+                      loading-text="加载中..."
+                      not-found-text="该小组暂无话题"
+                      not-found-icon="fa fa-comments-o">
+        </loading-tile>
+
+        <article-tile article="article" me="me" ng-repeat="article in articles"></article-tile>
+        <div class="pagination-row text-center"
+             ng-if="articles.$count > pageConf.itemsPerPage">
+          <pagination
+            total-items="articles.$count"
+            ng-model="pageConf.currentPage"
+            items-per-page="pageConf.itemsPerPage"
+            class="pagination-sm bud"
+            boundary-links="true"
+            rotate="false"
+            ng-change="reload()"
+            max-size="pageConf.maxSize">
+          </pagination>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <recommend-articles me="me">
+      </recommend-articles>
+      <recommend-comments>
+      </recommend-comments>
+    </div>
+  </div>
+</div>

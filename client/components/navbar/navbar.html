@@ -26,6 +26,9 @@
         <li ng-class="{active:isActive('^course')}">
           <a ui-sref="courseList">趣课</a>
         </li>
+        <li ng-class="{active:isActive('^article')}">
+          <a ui-sref="articleList">资讯</a>
+        </li>
         <li ng-class="{active:isActive('^group')}">
           <a ui-sref="groupList">小组</a>
         </li>
@@ -69,9 +72,7 @@
           </a>
         </li>
         <li>
-          <a href ng-click="logout()"
-             data-method="delete"
-             rel="nofollow">
+          <a href ng-click="logout()" class="logout-btn">
             <i class="iconfont icon-exit-door" tooltip="登出" tooltip-placement="bottom"></i>
           </a>
         </li>

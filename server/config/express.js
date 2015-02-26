@@ -30,6 +30,25 @@ module.exports = function(app) {
   app.use(passport.initialize());
 
   if ('production' === env || 'online_test' === env) {
+    //for prerender
+    var prerender = require('prerender-node');
+    var redisClient = require('../common/redisClient');
+
+    prerender.prerenderServiceUrl = config.prerenderServiceUrl;
+
+    prerender.set('beforeRender', function(req, done) {
+      redisClient.get(req.url, done);
+    }).set('afterRender', function(req, prerender_res) {
+      redisClient.set(req.url, prerender_res.body)
+    });
+
+    prerender.extensionsToIgnore = _.union(prerender.extensionsToIgnore, ['.woff', '.ttf'])
+    var moreCrawlerUserAgents = ['Slurp!','MSNBot','YoudaoBot','JikeSpider','Sosospider','360Spider','Sogou web spider','Sogou inst spider'];
+    prerender.crawlerUserAgents = _.union(prerender.crawlerUserAgents, moreCrawlerUserAgents);
+
+    app.use(prerender);
+    //for prerender end
+
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public'), {index: 'index'}));
     app.set('appPath', config.root + '/public');

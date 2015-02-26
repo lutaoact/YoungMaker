@@ -48,5 +48,9 @@ class Comment extends BaseModel
   getByTypeAndBelongTo: (type, belongTo) ->
     return @findQ {type: type, belongTo: belongTo, deleteFlag: {$ne: true}}, '-deleteFlag'
 
+
+  removeByBelongTo: (belongTo) ->
+    return @updateQ {belongTo: belongTo}, {deleteFlag: true}, {multi: true}
+
 exports.Class = Comment
 exports.Instance = new Comment()

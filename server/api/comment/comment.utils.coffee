@@ -3,6 +3,7 @@ Course = _u.getModel 'course'
 Article = _u.getModel 'article'
 NoticeUtils = _u.getUtils 'notice'
 SocketUtils = _u.getUtils 'socket'
+Notice = _u.getModel 'notice'
 
 
 getMoreData = (data) ->
@@ -40,6 +41,7 @@ addCommentNotice = (targetUser, data)->
         articleId: data.article._id
       NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.ArticleComment, noticeData
 
+
     when Const.CommentType.Course
       noticeData =
         courseId: data.course._id
@@ -65,7 +67,15 @@ class CommentUtils extends BaseUtils
       # TODO: for mobile app
       #DeviceUtils.pushToUser notice for notice in notices
 
-      
+  removeCommentsAndNotices: (objectId) ->
+    Q.all [
+      Notice.removeByObjectId objectId
+      Comment.removeByBelongTo objectId
+    ]
+    .then () ->
+      console.log 'notices and comments are removed'
+
+
 exports.Instance = new CommentUtils()
 exports.Class = CommentUtils
 exports.CommentUtils = CommentUtils

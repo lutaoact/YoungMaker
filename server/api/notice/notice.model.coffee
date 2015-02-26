@@ -43,5 +43,9 @@ class Notice extends BaseModel
       type: Number #0: unread, 1: read
       default: 0
 
+  removeByObjectId: (objectId) ->
+    @removeQ {$or: [{'data.courseId': objectId}, {'data.articleId': objectId}, {'data.commentId': objectId}]}
+
+
 exports.Class = Notice
 exports.Instance = new Notice()

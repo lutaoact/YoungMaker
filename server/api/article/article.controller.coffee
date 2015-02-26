@@ -49,7 +49,18 @@ exports.update = (req, res, next) ->
 exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}
   conditions.author = req.user._id if req.user.role isnt 'admin'
-  WrapRequest.wrapDestroy req, res, next, conditions
+  Article.findOneQ conditions
+  .then (doc) ->
+    if doc
+      CommentUtils = _u.getUtils 'comment'
+      Q.all [
+        doc.updateQ {deleteFlag: true}
+        CommentUtils.removeCommentsAndNotices(req.params.id)
+      ]
+  .then () ->
+    res.send 204
+  .catch next
+  .done()
+
 
 exports.like = WrapRequest.wrapLike.bind WrapRequest
-

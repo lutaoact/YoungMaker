@@ -44,7 +44,11 @@ angular.module('mauiApp')
   .then (notices)->
     $scope.messages = []
     notices.forEach (notice)->
-      $scope.messages.push Msg.genMessage(notice)
+      if notice.data?
+        if notice.data.articleId? or notice.data.courseId? or notice.data.commentId?
+          $scope.messages.push Msg.genMessage(notice)
+      else
+        $scope.messages.push Msg.genMessage(notice)
     $scope.messages.$count = notices.$count
 
 

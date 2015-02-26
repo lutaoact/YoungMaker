@@ -11,6 +11,7 @@ angular.module('mauiApp')
   $window
   mediaHelper
   messageModal
+  $timeout
 ) ->
 
   angular.extend $scope,
@@ -48,8 +49,9 @@ angular.module('mauiApp')
         $scope.comments = comments
 
   $scope.$on 'duScrollspy:becameActive', ($event, $element)->
-    $scope.viewState.selectedStep = $element.scope().step
-    $scope.viewState.stepIndex = $scope.course.steps.indexOf($scope.viewState.selectedStep) + 1
+    $timeout ->
+      $scope.viewState.selectedStep = $element.scope().step
+      $scope.viewState.stepIndex = $scope.course.steps.indexOf($scope.viewState.selectedStep) + 1
 
   resizeHandle = ->
     if mediaHelper.isLg()

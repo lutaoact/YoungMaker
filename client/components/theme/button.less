@@ -12,6 +12,17 @@
   }
 }
 
+.ui-select-multiple {
+  &.open{
+    outline: none;
+    border-color: @base-color;
+    .box-shadow(none);
+    > .btn-default{
+      border: 1px solid @base-color;
+    }
+  }
+}
+
 .btn-default-focus{
   outline: none;
   border-color: @base-color;

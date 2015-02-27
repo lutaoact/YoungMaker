@@ -1,7 +1,13 @@
 <div class="article-tile">
-  <div ng-if="article.image"
+  <div ng-if="article.image && !article.group"
        ng-src="{{article.image | trusted:'url'}}"
-       class="article-image pull-right">
+       ui-sref="articleDetail({articleId: article._id})"
+       class="article-image pull-right image-hover pointer">
+  </div>
+  <div ng-if="article.image && article.group"
+       ng-src="{{article.image | trusted:'url'}}"
+       ui-sref="groupArticleDetail({articleId: article._id})"
+       class="article-image pull-right image-hover pointer">
   </div>
   <h4 class="article-title">
     <a ng-if="!article.group" ui-sref="articleDetail({articleId: article._id})">
@@ -16,7 +22,8 @@
   </p>
   <ul class="ul-inline">
     <li class="user-info">
-      <div class="avatar-xs inline-block-middle"
+      <div class="avatar-xs inline-block-middle pointer"
+           ui-sref="user.home({userId: article.author._id})"
            ng-src="{{article.author.avatar|trusted:'url'}}">
       </div>
       <a ui-sref="user.home({userId: article.author._id})">

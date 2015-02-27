@@ -1,8 +1,14 @@
 <div class="article-tile-simple">
 
-  <div ng-if="article.image"
+  <div ng-if="article.image && !article.group"
        ng-src="{{article.image | trusted:'url'}}"
-       class="article-image pull-right">
+       ui-sref="articleDetail({articleId: article._id})"
+       class="article-image pull-right image-hover pointer">
+  </div>
+  <div ng-if="article.image && article.group"
+       ng-src="{{article.image | trusted:'url'}}"
+       ui-sref="groupArticleDetail({articleId: article._id})"
+       class="article-image pull-right image-hover pointer">
   </div>
   <h4 class="article-title">
     <a ng-if="!article.group" ui-sref="articleDetail({articleId: article._id})">

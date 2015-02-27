@@ -9,6 +9,7 @@
   margin: 0;
   padding-bottom: 0;
   .user-view-header {
+    position: relative;
     padding: 10px;
     padding-bottom: 0;
     hr {
@@ -18,8 +19,22 @@
       margin: 0;
       padding: 0 5px;
     }
+    .title {
+      display: inline-block;
+      padding-top: 5px;
+      font-size: 15px;
+    }
     .btn-primary {
       margin-left: 15px;
+      float: right;
+    }
+    .search-input-group {
+      float: right;
+      @media screen and (max-width: 550px) {
+        float: none;
+        width: 100%;
+        margin-top: 10px;
+      }
     }
   }
   .user-info-list {

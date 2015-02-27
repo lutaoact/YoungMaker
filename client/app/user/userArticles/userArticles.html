@@ -1,15 +1,15 @@
 <div class="user-view-header">
-  <i class="fa fa-file-text-o text-muted bigger"></i>&nbsp;&nbsp;{{articles.$count || 0}} 篇文章
-  <div class="pull-right">
-    <search-input placeholder="搜索文章"
-                  keyword="pageConf.keyword"
-                  on-submit="reload()">
-    </search-input>
-    <span ng-if="user._id==me._id">
-      <a class="btn btn-sm btn-primary"
-         ui-sref="articleNew">创建文章</a>
-    </span>
-  </div>
+  <span class="title">
+    <i class="fa fa-file-text-o text-muted bigger"></i>&nbsp;&nbsp;{{articles.$count || 0}} 篇文章
+  </span>
+  <span ng-if="user._id==me._id">
+    <a class="btn btn-sm btn-primary"
+       ui-sref="articleNew">创建文章</a>
+  </span>
+  <search-input placeholder="搜索文章"
+                keyword="pageConf.keyword"
+                on-submit="reload()">
+  </search-input>
   <hr>
 </div>
 

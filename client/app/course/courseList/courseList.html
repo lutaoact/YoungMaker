@@ -29,17 +29,15 @@
           </li>
         </ul>
       </div>
-      <div class="pull-right">
-        <search-input placeholder="搜索趣课"
-                      keyword="pageConf.keyword"
-                      on-submit="pageConf.keyword=$keyword;reload(true)">
-        </search-input>
-        <a ui-sref="courseEditor"
-           login-window
-           class="btn btn-primary btn-sm new-course-btn">
-          创建课程
-        </a>
-      </div>
+      <a ui-sref="courseEditor"
+         login-window
+         class="btn btn-primary btn-sm new-course-btn">
+        创建课程
+      </a>
+      <search-input placeholder="搜索趣课"
+                    keyword="pageConf.keyword"
+                    on-submit="pageConf.keyword=$keyword;reload(true)">
+      </search-input>
     </div>
     <div class="row">
       <loading-tile data="courses"

@@ -1,34 +1,45 @@
 .nav-tab {
   .nav;
   .nav-pills;
+  .nav-stacked;
+  margin-bottom: 15px;
   li {
-    border: 1px solid rgba(0, 0, 0, 0);
-    margin-bottom: -1px;
     a {
       padding-left: 20px;
       padding-right: 20px;
       font-size: 16px;
-      border-radius: 0;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
+      border-radius: 2px;
     }
-    &.active {
-      .box-shadow(@tile-shadow);
-      border: 1px solid @tile-border;
-      a,
-      a:hover,
-      a:focus {
-        color: #414141;
-        background-color: white;
+  }
+  @media screen and (min-width: 640px) {
+    margin-bottom: 0;
+    li {
+      float: left;
+      border: 1px solid rgba(0, 0, 0, 0);
+      margin-bottom: -1px;
+      a {
+        border-radius: 0;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
       }
-      &:after {
-        content: '';
-        position: absolute;
-        border-bottom: 5px solid white;
-        width: 100%;
-        height: 10px;
-        bottom: -5px;
-        z-index: 1;
+      &.active {
+        .box-shadow(@tile-shadow);
+        border: 1px solid @tile-border;
+        a,
+        a:hover,
+        a:focus {
+          color: #414141;
+          background-color: white;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          border-bottom: 5px solid white;
+          width: 100%;
+          height: 10px;
+          bottom: -5px;
+          z-index: 1;
+        }
       }
     }
   }

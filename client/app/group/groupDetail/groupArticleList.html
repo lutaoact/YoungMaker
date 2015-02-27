@@ -1,15 +1,15 @@
 <div class="group-article-list">
-  <div class="pull-right">
-    <search-input keyword="viewState.keyword"
-                  on-submit="reload(true)"
-                  placeholder="搜索小组帖子" >
-    </search-input>
-    <button class="btn btn-sm btn-primary"
-            login-window
-            login-success="createGroupArticle()">
-      发表新帖
-    </button>
-  </div>
+
+  <button class="btn btn-sm btn-primary pull-right"
+          login-window
+          login-success="createGroupArticle()">
+    发表新帖
+  </button>
+
+  <search-input keyword="viewState.keyword"
+                on-submit="reload(true)"
+                placeholder="搜索小组帖子" >
+  </search-input>
 
   <ul class="nav-tab">
     <li ui-sref="{sort: null}" ui-sref-active="active">

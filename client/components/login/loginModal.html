@@ -1,11 +1,11 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    <i class="fa fa-user primary"></i>
+    <i class="iconfont icon-logo logo"></i>
     <span ng-if="currentPage == 'login'">
-      登录杨梅客账户
+      杨梅客 - 登录
     </span>
     <span ng-if="currentPage == 'signup'">
-      注册杨梅客账户
+      杨梅客 - 注册新账户
     </span>
   </h4>
   <a class="close" ng-click="cancel()">&times;</a>
@@ -50,8 +50,7 @@
       {{viewState.errors.message}}
     </span>
     <div class="text-left forgot-pwd">
-      <a ng-click="changePage('forget')"
-         class="login-forget" href>
+      <a ng-click="changePage('forget')" href>
          忘记密码
          <i class="fa fa-question-circle"></i>
       </a>

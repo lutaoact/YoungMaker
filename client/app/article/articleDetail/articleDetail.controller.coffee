@@ -12,7 +12,7 @@ angular.module('mauiApp')
 
   Restangular
     .one('articles', $state.params.articleId)
-    .get()
+    .get(viewer: true)
     .then (article) ->
       if !article
         $state.go '404', url : $state.href($state.current, $state.params),

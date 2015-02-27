@@ -5,10 +5,7 @@
     <div class="col-md-9">
       <div class="panel panel-card">
         <article>
-          <h3 class="text-center">
-            <a class="btn-left btn btn-link" back-button>
-              <i class="fa fa-chevron-left"></i>&nbsp;返回
-            </a>
+          <h3 class="article-title">
             {{article.title}}
             <a class="btn-right btn btn-link"
                ng-if="me._id == article.author._id"
@@ -16,8 +13,43 @@
               编辑
             </a>
           </h3>
-          <hr/>
-          <div class="article-content blog" compile-html="article.content"></div>
+          <div class="article-info">
+            <ul class="ul-inline">
+              <li class="user-info">
+                <a ui-sref="user.home({userId: article.author._id})"
+                   class="link-base-color">
+                  {{article.author.name}}
+                </a>
+              </li>
+              <li ng-if="article.column">
+                专栏－{{article.column.name}}
+              </li>
+              <li ng-if="article.group">
+                发布于
+                <a ui-sref="groupDetail.articleList({groupId: article.group._id})">
+                  {{article.group.name}}
+                </a>
+              </li>
+              <li>
+                {{article.created | moment: 'fromNow'}}
+              </li>
+              <span class="pull-right text-muted">
+                <li>
+                  <i class="iconfont icon-discuss"></i>
+                  {{article.commentsNum||0}}
+                </li>
+                <li>
+                  <i class="iconfont icon-like"></i>
+                  {{article.likeUsers.length||0}}
+                </li>
+                <li>
+                  <i class="iconfont icon-look"></i>
+                  {{article.viewersNum||0}}
+                </li>
+              </span>
+            </ul>
+          </div>
+          <div class="blog" compile-html="article.content"></div>
         </article>
 
         <div class="article-like" ng-if="article">
@@ -28,10 +60,12 @@
         <div class="article-footer">
           <ul class="ul-inline">
             <li class="user-info">
-              <div class="avatar-xs inline-block-middle"
+              <div class="avatar-xs inline-block-middle pointer"
+                   ui-sref="user.home({userId: article.author._id})"
                    ng-src="{{article.author.avatar|trusted:'url'}}">
               </div>
-              <a href="" ui-sref="user.home({userId: article.author._id})">
+              <a ui-sref="user.home({userId: article.author._id})"
+                 class="link-base-color">
                 {{article.author.name}}
               </a>
             </li>
@@ -39,17 +73,29 @@
               专栏－{{article.column.name}}
             </li>
             <li ng-if="article.group">
-              发布于<a ui-sref="groupDetail.articleList({groupId: article.group._id})">
+              发布于
+              <a ui-sref="groupDetail.articleList({groupId: article.group._id})">
                 {{article.group.name}}
               </a>
             </li>
             <li>
               {{article.created | moment: 'fromNow'}}
             </li>
+            <span class="pull-right text-muted">
+              <li>
+                <i class="iconfont icon-discuss"></i>
+                {{article.commentsNum||0}}
+              </li>
+              <li>
+                <i class="iconfont icon-like"></i>
+                {{article.likeUsers.length||0}}
+              </li>
+              <li>
+                <i class="iconfont icon-look"></i>
+                {{article.viewersNum||0}}
+              </li>
+            </span>
           </ul>
-          <!--<small class="pull-right text-muted">-->
-            <!--{{article.viewersNum}}次查看-->
-          <!--</small>-->
         </div>
       </div>
 

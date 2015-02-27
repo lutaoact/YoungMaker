@@ -20,17 +20,42 @@
         <article class="panel panel-card course">
           <div class="course-header">
             <h1>{{course.title}}</h1>
-            <small class="text-muted">
-              <a class="text-primary"
-                 ui-sref="user.home({userId: course.author._id})">{{course.author.name}}</a>
-              &nbsp;在{{course.created | moment: 'fromNow'}}&nbsp;
-              发表于&nbsp;<a ui-sref="courseList({category:course.categoryId._id||null})">{{course.categoryId.name||'其他'}}</a>
-            </small>
-            <small class="text-muted stats">
-              <span><i class="iconfont icon-discuss"></i>{{course.commentsNum||0}}</span><span>
-              <i class="iconfont icon-like"></i>{{course.likeUsers.length||0}}</span><span>
-              <i class="iconfont icon-look"></i>{{course.viewersNum||0}}</span>
-            </small>
+            <div class="course-info">
+              <ul class="ul-inline">
+                <li class="user-info">
+                  <a ui-sref="user.home({userId: course.author._id})"
+                     class="link-base-color">
+                    {{course.author.name}}
+                  </a>
+                </li>
+                <li ng-if="course.column">
+                  专栏－{{course.column.name}}
+                </li>
+                <li>
+                  发布于
+                  <a ui-sref="courseList({category: course.categoryId._id || null})">
+                    {{course.categoryId.name || '默认类别'}}
+                  </a>
+                </li>
+                <li>
+                  {{course.created | moment: 'fromNow'}}
+                </li>
+                <span class="pull-right text-muted">
+                  <li>
+                    <i class="iconfont icon-discuss"></i>
+                    {{course.commentsNum||0}}
+                  </li>
+                  <li>
+                    <i class="iconfont icon-like"></i>
+                    {{course.likeUsers.length||0}}
+                  </li>
+                  <li>
+                    <i class="iconfont icon-look"></i>
+                    {{course.viewersNum||0}}
+                  </li>
+                </span>
+              </ul>
+            </div>
           </div>
 
           <div class="course-body blog" compile-html="course.content|trusted"></div>

@@ -40,7 +40,7 @@ angular.module('mauiApp')
           $state.go 'courseList'
 
   if $state.params.courseId
-      Restangular.one('courses', $state.params.courseId).get()
+      Restangular.one('courses', $state.params.courseId).get(viewer: true)
       .then (course)->
         if !course
           $state.go '404', url : $state.href($state.current, $state.params),

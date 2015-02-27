@@ -34,7 +34,8 @@ exports.index = (req, res, next) ->
 
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
-  WrapRequest.wrapShow req, res, next, conditions
+  update = $inc: {viewersNum: 1} if req.query.viewer?
+  WrapRequest.wrapShow req, res, next, conditions, update
 
 exports.create = (req, res, next) ->
   pickedKeys = ['title', 'cover', 'info', 'categoryId', 'image', 'videos', 'content', 'tags', 'steps']

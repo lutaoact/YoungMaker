@@ -1,22 +1,23 @@
 <div class="course-tile clearfix">
   <div class="image-btn-group">
-    <div class="course-cover-image" whr="1.5" ng-src="{{course.image}}" ui-sref="courseDetail({courseId:course._id})">
-    </div>
+    <a ui-sref="courseDetail({courseId:course._id})" target="_blank">
+      <div class="course-cover-image" whr="1.5" ng-src="{{course.image}}"></div>
+    </a>
     <div class="btn-group" ng-if="course.author._id==me._id">
       <a class="btn btn-primary" ui-sref="courseEditor({courseId: course._id})">编辑</a>
       <a class="btn btn-primary" ng-click="removeCourse(course)">删除</a>
     </div>
   </div>
   <vote-box class="pull-left" entity="course" me="me"></vote-box>
-  <div>
-    <h4 class="course-title" ui-sref="courseDetail({courseId:course._id})" title="{{course.title}}">
+  <a ui-sref="courseDetail({courseId:course._id})" title="{{course.title}}" target="_blank">
+    <h4 class="course-title">
       <small class="pull-right comments-count text-muted" style="font-size: 14px;">
         <i class="iconfont icon-discuss"></i>&nbsp;{{course.commentsNum||0}}
       </small>
       {{course.title}}
     </h4>
-    <p class="course-summary text-muted" ui-sref="courseDetail({courseId:course._id})" title="该课程有{{course.steps.length}}个步骤">
+    <div class="course-summary text-muted">
       {{course.content|htmlToPlaintext}}
-    </p>
-  </div>
+    </div>
+  </a>
 </div>

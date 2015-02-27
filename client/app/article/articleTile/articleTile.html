@@ -1,19 +1,23 @@
 <div class="article-tile">
-  <div ng-if="article.image && !article.group"
-       ng-src="{{article.image | trusted:'url'}}"
-       ui-sref="articleDetail({articleId: article._id})"
-       class="article-image pull-right image-hover pointer">
-  </div>
-  <div ng-if="article.image && article.group"
-       ng-src="{{article.image | trusted:'url'}}"
-       ui-sref="groupArticleDetail({articleId: article._id})"
-       class="article-image pull-right image-hover pointer">
-  </div>
+  <a ng-if="article.image && !article.group"
+     ui-sref="articleDetail({articleId: article._id})"
+     target="_blank">
+    <div ng-src="{{article.image | trusted:'url'}}"
+         class="article-image pull-right image-hover">
+    </div>
+  </a>
+  <a ng-if="article.image && article.group"
+     ui-sref="groupArticleDetail({articleId: article._id})"
+     target="_blank">
+    <div ng-src="{{article.image | trusted:'url'}}"
+         class="article-image pull-right image-hover">
+    </div>
+  </a>
   <h4 class="article-title">
-    <a ng-if="!article.group" ui-sref="articleDetail({articleId: article._id})">
+    <a ng-if="!article.group" ui-sref="articleDetail({articleId: article._id})" target="_blank">
       {{article.title}}
     </a>
-    <a ng-if="article.group" ui-sref="groupArticleDetail({articleId: article._id})">
+    <a ng-if="article.group" ui-sref="groupArticleDetail({articleId: article._id})" target="_blank">
       {{article.title}}
     </a>
   </h4>

@@ -39,7 +39,7 @@ module.exports = function(app) {
     prerender.set('beforeRender', function(req, done) {
       redisClient.get(req.url, done);
     }).set('afterRender', function(req, prerender_res) {
-      redisClient.set(req.url, prerender_res.body)
+      redisClient.set(req.url, prerender_res.body, 24*60*60)
     });
 
     prerender.extensionsToIgnore = _.union(prerender.extensionsToIgnore, ['.woff', '.ttf'])

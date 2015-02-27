@@ -32,6 +32,10 @@ angular.module 'maui.components'
       when Const.NoticeType.FollowUser
         msg.title = '关注了你'
         msg.link = "user.home({userId:'#{raw.fromWhom._id}'})"
+      when Const.NoticeType.ArticleCommentRefer
+        msg.title = '在回复 ' + raw.data.articleId.title + '时提到了你'
+        stateName = if raw.data.articleId.group then "groupArticleDetail" else "articleDetail"
+        msg.link = "#{stateName}({articleId:'#{raw.data.articleId._id}'})"
 
     return msg
 

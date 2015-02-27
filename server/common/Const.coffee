@@ -13,6 +13,9 @@ Const =
 
     FollowUser: 7
 
+    ArticleCommentRefer: 8
+    CourseComment: 9
+
   ActivityType:
     Article: 1
 

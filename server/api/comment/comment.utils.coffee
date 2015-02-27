@@ -48,17 +48,30 @@ addCommentNotice = (targetUser, data)->
       NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.CourseComment, noticeData
 
 
+addCommentReferNotice = (referUserId, data)->
+  switch data.type
+    when Const.CommentType.Article
+      noticeData =
+        articleId: data.article._id
+      NoticeUtils.addNotice referUserId, data.postBy, Const.NoticeType.ArticleCommentRefer, noticeData
+
+
 class CommentUtils extends BaseUtils
   getCommentRefByType: (type) ->
     return _u.getModel Const.CommentModelRef[type]
 
-  sendCommentNotices : (data)->
+  sendCommentNotices : (data, referUsers)->
     getMoreData(data)
     .then ()->
       getTargetUsers data
       notices = _.map data.targetUsers, (targetUser) ->
         addCommentNotice(
           targetUser
+          data
+        )
+      notices = _.union notices, _.map referUsers, (referUser)->
+        addCommentReferNotice(
+          referUser._id
           data
         )
       Q.all notices

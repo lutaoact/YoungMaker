@@ -29,19 +29,19 @@ exports.create = (req, res, next) ->
 
   userNameRe = /@(.*?) /g;
   matchArray = null
-  userNames = []
+  referUserNames = []
   while ((matchArray = userNameRe.exec(data.content)) != null)
     console.log 'Found user ' + matchArray[1];
-    userNames.push(matchArray[1])
+    referUserNames.push(matchArray[1])
 
-  userNames = _.uniq userNames
-  console.log userNames
+  referUserNames = _.uniq referUserNames
+  console.log referUserNames
 
-  Q.all _.map userNames, (userName)->
+  Q.all _.map referUserNames, (userName)->
     User.findOneQ name: userName
-  .then (users)->
-    users = _.without users, null
-    _.forEach users, (user)->
+  .then (referUsers)->
+    referUsers = _.without referUsers, null
+    _.forEach referUsers, (user)->
       re = new RegExp('@'+user.name, 'g');
       userLink = req.protocol+'://'+req.headers.host+'/users/'+user._id
       data.content = data.content.replace(re, "<a href=\"#{userLink}\">@#{user.name}</a>")
@@ -51,7 +51,7 @@ exports.create = (req, res, next) ->
     Model = CommentUtils.getCommentRefByType body.type
     Q.all [
       Model.updateQ {_id: data.belongTo}, {$inc: {commentsNum: 1}} #TODO: add commentsNum to every Commented model ?
-      CommentUtils.sendCommentNotices(data)
+      CommentUtils.sendCommentNotices(data, referUsers)
     ]
     .catch next #TODO: remove catch when release?
     .done()

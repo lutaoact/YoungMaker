@@ -52,21 +52,21 @@
               </li>
               <li ng-if="course.tags.length" class="tags">
                 标签：
-                <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index<3">
-                  #{{tag}}
-                </a>
                 <div class="dropdown pull-right more-tags-dropdown" dropdown>
                   <a title="点击显示全部" dropdown-toggle class="more" ng-if="course.tags.length>=3">
                     <i class="fa fa-ellipsis-h"></i>
                   </a>
                   <ul class="dropdown-menu" role="menu">
                     <li>
-                      <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index>4">
+                      <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index>=3">
                         #{{tag}}
                       </a>
                     </li>
                   </ul>
                 </div>
+                <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index<3">
+                  #{{tag}}
+                </a>
               </li>
             </ul>
           </div>

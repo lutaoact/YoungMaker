@@ -163,7 +163,7 @@ angular.module('mauiApp')
 
   Restangular.all('tags').getList()
   .then (tags)->
-    $scope.tags = _.pluck tags, 'text'
+    $scope.tags = _.uniq(_.pluck tags, 'text')
 
   $scope.viewState.lastPlugin = $scope.plugins[0]
 

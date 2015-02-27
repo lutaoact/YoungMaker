@@ -13,7 +13,8 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     title: null
-    article: null
+    article:
+      tags: []
 
     saveArticle: (form) ->
       if !form.$valid then return
@@ -51,6 +52,18 @@ angular.module('mauiApp')
           else
             $state.go 'user.articles', userId: $scope.me._id
 
+    addTag: ($item, search, $event)->
+      if $item and !$item._id
+        if ($scope.tags.filter (x) -> x is $item)?.length
+          return
+        # then add to tag library
+        Restangular.all('tags').post
+          text: $item
+
+  Restangular.all('tags').getList()
+  .then (tags)->
+    $scope.tags = _.uniq(_.pluck tags, 'text')
+
   $q (resolve, reject) ->
     if $state.params.articleId
       Restangular.one('articles', $state.params.articleId).get()
@@ -59,6 +72,7 @@ angular.module('mauiApp')
     else
       resolve group:$state.params.groupId
   .then (article) ->
+    article.tags ?= []
     $scope.articleType = if article.group then '帖子' else '文章'
     $scope.articleAction = if article._id then '编辑' else '发表'
     $scope.article = article

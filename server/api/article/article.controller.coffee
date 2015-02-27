@@ -10,6 +10,17 @@ exports.index = (req, res, next) ->
   conditions.author = req.query.author if req.query.author
   conditions.group = req.query.group if req.query.group
   conditions.featured = {'$ne':null} if req.query.featured
+
+  # filter by tags
+  queryTags = null
+  try
+    queryTags = JSON.parse(req.query.tags) if req.query.tags
+  catch e
+    queryTags = null
+
+  if queryTags?.length
+    conditions.tags = $in: queryTags
+
   # filter by keyword
   if req.query.keyword
     regex = new RegExp(_u.escapeRegex(req.query.keyword), 'i')

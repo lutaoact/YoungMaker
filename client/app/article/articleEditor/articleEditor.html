@@ -13,13 +13,37 @@
         </h4>
         <div class="title-group">
           <div class="title col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-            <span class="control-label">{{articleType}}标题</span>
-            <input type="text"
-                   class="form-control"
-                   ng-model="article.title"
-                   focus-on="articleTitle"
-                   placeholder="请输入{{articleType}}标题"
-                   required>
+            <span class="col-sm-2 control-label">{{articleType}}标题</span>
+            <div class="col-sm-10">
+              <input type="text"
+                     class="form-control"
+                     ng-model="article.title"
+                     focus-on="articleTitle"
+                     placeholder="请输入{{articleType}}标题"
+                     required>
+            </div>
+          </div>
+        </div>
+        <div class="title-group">
+          <div class="title col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+            <span class="col-sm-2 control-label">标签</span>
+            <div class="col-sm-10">
+              <ui-select multiple
+                         ng-model="article.tags"
+                         id="tag"
+                         sortable="true"
+                         tagging
+                         tagging-label=""
+                         on-select="addTag($item, $select.search, $event)"
+                         class="form-control">
+                <ui-select-match placeholder="请输入要添加的tag，然后按回车">
+                  {{$item}}
+                </ui-select-match>
+                <ui-select-choices repeat="tag in tags | filter:$select.search">
+                  {{tag}}
+                </ui-select-choices>
+              </ui-select>
+            </div>
           </div>
         </div>
         <div class="editor-group col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
@@ -28,7 +52,7 @@
                focus-on="articleContent"
                ng-model="article.content"
                fix-when-reach-top
-               offset="225"
+               offset="310"
                placeholder="请输入内容">
           </div>
         </div>

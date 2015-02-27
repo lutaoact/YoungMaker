@@ -4,7 +4,11 @@
   <div class="row">
     <div class="col-md-9">
       <div class="panel panel-card">
-        <article>
+        <loading-tile data="article"
+                      ng-if="!article"
+                      loading-text="加载中...">
+        </loading-tile>
+        <article ng-if="article">
           <h3 class="article-title">
             {{article.title}}
             <a class="btn-right btn btn-link"
@@ -57,7 +61,7 @@
           </vote-box>
         </div>
 
-        <div class="article-footer">
+        <div class="article-footer" ng-if="article">
           <ul class="ul-inline">
             <li class="user-info">
               <div class="avatar-xs inline-block-middle pointer"
@@ -100,9 +104,9 @@
       </div>
 
       <!-- article comments -->
-      <div class="panel panel-card comments-panel">
+      <div class="panel panel-card comments-panel"
+           ng-if="article">
         <comments belong-to="article._id"
-                  ng-if="article"
                   class="comments"
                   type="{{const.CommentType.Article}}"
                   me="me">

@@ -34,6 +34,7 @@ module.exports = (app) ->
   app.use '/api/aodianyuns', require './api/aodianyun'
   app.use '/api/loggers', require './api/logger'
   app.use '/api/banners', require './api/banner'
+  app.use '/api/tags', require './api/tag'
   app.use errorHandler
 
   # All undefined asset or api routes should return a 404

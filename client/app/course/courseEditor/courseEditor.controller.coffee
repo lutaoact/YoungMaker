@@ -37,6 +37,7 @@ angular.module('mauiApp')
 
     course:
       content: ''
+      tags: []
 
     submitCourse: (form)->
       $scope.submitted = true
@@ -78,7 +79,7 @@ angular.module('mauiApp')
                 label: '继续编辑' , code: 'ok'     , class: 'btn-danger'
               ]
           .result.then ->
-            $state.go 'courseEditor', {courseId: course._id}
+            $state.go 'courseEditor', {courseId: course._id}, {reload: true}
           , ->
             $state.go 'courseDetail', {courseId: course._id}
         .catch (error) ->
@@ -102,7 +103,9 @@ angular.module('mauiApp')
             if code is 'view'
               $state.go 'courseDetail', {courseId: course._id}
             else
-              $state.go 'courseEditor', {courseId: course._id}
+              $state.go 'courseEditor', {courseId: course._id}, {reload: true}
+          , ->
+            $state.go 'courseEditor', {courseId: course._id}, {reload: true}
         .catch (error) ->
           console.remote? 'error', error
 
@@ -150,6 +153,18 @@ angular.module('mauiApp')
       $scope.course.steps.splice index, 1
       $scope.course.steps.splice index+1, 0, step
 
+    addTag: ($item, search, $event)->
+      if $item and !$item._id
+        if ($scope.tags.filter (x) -> x is $item)?.length
+          return
+        # then add to tag library
+        Restangular.all('tags').post
+          text: $item
+
+  Restangular.all('tags').getList()
+  .then (tags)->
+    $scope.tags = _.pluck tags, 'text'
+
   $scope.viewState.lastPlugin = $scope.plugins[0]
 
   $q (resolve, reject)->
@@ -162,6 +177,7 @@ angular.module('mauiApp')
       $scope.course.steps = [{title:'',type:$scope.viewState.lastPlugin.type}]
       resolve $scope.course
   .then (course)->
+    course.tags ?= []
     Restangular.all('categories').getList()
   .then (categories) ->
     $scope.categories = categories

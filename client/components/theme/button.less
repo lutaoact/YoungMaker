@@ -1,3 +1,25 @@
+.outlined() {
+  outline: @base-color solid 1px;
+  outline-offset: 2px;
+}
+
+.btn{
+  &:focus{
+    .outlined();
+  }
+  &:active:focus{
+    .outlined();
+  }
+}
+
+.btn-default-focus{
+  outline: none;
+  border-color: @base-color;
+  .box-shadow(none);
+  .btn-default{
+    border: 1px solid @base-color;
+  }
+}
 
 .btn-outline{
   background: transparent;
@@ -28,12 +50,12 @@
   }
   @types: primary, warning, info, success, danger;
   .-(@i: length(@types)) when (@i > 0) {
-        @type: e(extract(@types, @i));
-        .outlined(@type);
-        .-((@i - 1));
+    @type: e(extract(@types, @i));
+    .outlined(@type);
+    .-((@i - 1));
     } .-;
-}
+  }
 
-.btn-rounded {
-  border-radius: 50px;
-}
+  .btn-rounded {
+    border-radius: 50px;
+  }

@@ -1,4 +1,4 @@
-<form class="course-editor" name="form" ng-submit="submitCourse(form)" novalidate>
+<form class="course-editor" name="form" novalidate>
   <div class="container">
     <div class="col-lg-10 col-lg-offset-1">
       <div class="panel panel-card clearfix" style="margin-bottom:0;">
@@ -79,6 +79,26 @@
                 <p class="text-danger" ng-show="form.info.$error.maxlength && submitted">
                   趣课简介不能超过20个字
                 </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3" for="tag">标签</label>
+              <div class="col-md-9">
+                <ui-select multiple
+                           ng-model="course.tags"
+                           id="tag"
+                           sortable="true"
+                           tagging
+                           tagging-label=""
+                           on-select="addTag($item, $select.search, $event)"
+                           class="tag-select">
+                  <ui-select-match placeholder="请输入要添加的tag，然后按回车">
+                    {{$item}}
+                  </ui-select-match>
+                  <ui-select-choices repeat="tag in tags | filter:$select.search">
+                    {{tag}}
+                  </ui-select-choices>
+                </ui-select>
               </div>
             </div>
           </div>
@@ -170,8 +190,8 @@
           </div>
         </div>
         <div class="row text-center editor-bottom">
-          <button type="submit" class="btn btn-primary">保存发布</button>
-          <a ng-click="cancelSave()" class="btn btn-default">取消</a>
+          <button type="button" class="btn btn-primary" ng-click="submitCourse(form)">保存发布</button>
+          <button type="button" ng-click="cancelSave()" class="btn btn-default">取消</button>
         </div>
       </div>
     </div>

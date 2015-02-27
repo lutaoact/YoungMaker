@@ -40,7 +40,7 @@
   }
   .navbar-nav.navbar-left{
     > li > a {
-      width: 80px;
+      min-width: 80px;
       text-align: center;
       &:hover {
         .show-triangle();
@@ -51,9 +51,19 @@
         .show-triangle();
       }
     }
+    @media screen and (max-width: @grid-float-breakpoint-max) {
+      float: left;
+      > li {
+        float: left;
+      }
+    }
+    @media screen and (max-width: 520px) {
+      float: none;
+    }
   }
   .navbar-nav.navbar-right{
     > li > a{
+      text-align: center;
       i{
         font-size: 24px;
         padding-left: 4px;
@@ -75,6 +85,17 @@
     }
     .logout-btn{
       margin-right: -15px;
+    }
+    @media screen and (max-width: @grid-float-breakpoint-max) {
+      margin-top: 3px;
+      margin-right: 5px;
+      float: right;
+      > li {
+        float: left;
+      }
+    }
+    @media screen and (max-width: 520px) {
+      float: none;
     }
   }
   .navbar-brand {

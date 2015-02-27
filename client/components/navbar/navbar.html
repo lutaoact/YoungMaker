@@ -24,6 +24,7 @@
 
     <div class="navbar-collapse collapse"
          collapse="viewState.isCollapsed">
+
       <ul class="nav navbar-nav navbar-left">
         <li ng-class="{active:isActive('^course')}">
           <a ui-sref="courseList">趣课</a>
@@ -35,7 +36,6 @@
           <a ui-sref="groupList">小组</a>
         </li>
       </ul>
-
       <ul ng-if="!isLoggedIn()" class="nav navbar-nav navbar-right">
         <li >
           <button type="button"
@@ -61,7 +61,10 @@
         </li>
         <li>
           <a ui-sref="notices.unread" ng-class="{active:isActive('^notices')}">
-            <i class="iconfont icon-message" tooltip="消息" tooltip-placement="bottom"></i>
+            <i class="iconfont icon-message"
+               tooltip="消息"
+               tooltip-placement="bottom"
+               tooltip-append-to-body="true"></i>
             <span class="badge"
                   ng-show="getMsgCount()">
               {{getMsgCount()||'0'}}
@@ -70,12 +73,18 @@
         </li>
         <li>
           <a a ui-sref="user.settings" ng-class="{active:isActive('^user.settings')}">
-            <i class="iconfont icon-gear-o" tooltip="设置" tooltip-placement="bottom"></i>
+            <i class="iconfont icon-gear-o"
+               tooltip="设置"
+               tooltip-placement="bottom"
+               tooltip-append-to-body="true"></i>
           </a>
         </li>
         <li>
           <a href ng-click="logout()" class="logout-btn">
-            <i class="iconfont icon-exit-door" tooltip="登出" tooltip-placement="bottom"></i>
+            <i class="iconfont icon-exit-door"
+               tooltip="登出"
+               tooltip-placement="bottom"
+               tooltip-append-to-body="true"></i>
           </a>
         </li>
       </ul>

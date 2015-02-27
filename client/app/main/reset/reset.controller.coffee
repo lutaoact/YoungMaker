@@ -3,6 +3,7 @@
 angular.module('mauiApp')
 
 .controller 'ResetCtrl', (
+  Auth
   $scope
   $state
   notify
@@ -15,6 +16,9 @@ angular.module('mauiApp')
       reseted: false
       errors: null
     password: ''
+
+    gotoUserHome: ->
+      $state.go 'user.home', userId: Auth.getCurrentUser()._id
 
     resetPassword: (form) ->
       if !form.$valid then return

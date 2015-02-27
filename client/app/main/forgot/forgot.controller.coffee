@@ -7,11 +7,12 @@ angular.module('mauiApp')
   $state
   $interval
   Restangular
+  $localStorage
 ) ->
 
   maxTimeout = 15
   angular.extend $scope,
-    email: null
+    email: $localStorage.user?.email
     errors: null
     timeout: maxTimeout
     viewState:

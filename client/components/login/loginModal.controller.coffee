@@ -4,12 +4,14 @@ angular.module('maui.components')
 
 .controller 'loginModalCtrl', (
   Auth
+  focus
   $state
   $scope
   notify
   $modal
   $timeout
   Restangular
+  $localStorage
   $modalInstance
   mode
 ) ->
@@ -17,7 +19,7 @@ angular.module('maui.components')
   checkEmailPromise = null
 
   angular.extend $scope,
-    user: {}
+    user: angular.copy($localStorage.user) ? {}
     currentPage: mode ? 'login'
     viewState:
       posting: false
@@ -32,6 +34,14 @@ angular.module('maui.components')
         $state.go('forgot')
         return
       $scope.currentPage = pageName
+      inputName =
+        if pageName isnt 'login'
+          'nameInput'
+        else if $scope.user.email
+          'passwordInput'
+        else
+          'emailInput'
+      focus inputName
 
     login: (form) ->
       if !form.$valid then return
@@ -84,3 +94,5 @@ angular.module('maui.components')
             email.$setValidity 'remote', false
             email.$remoteChecked = false
         , 800
+
+  $scope.changePage( mode ? 'login')

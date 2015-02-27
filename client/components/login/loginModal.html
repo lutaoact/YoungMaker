@@ -22,7 +22,7 @@
                type="text"
                placeholder="邮箱地址"
                ng-model="user.email"
-               focus-me
+               focus-on="emailInput"
                name="email"
                required>
         <div class="input-group-addon">
@@ -37,6 +37,7 @@
                placeholder="登录密码"
                name="password"
                ng-model="user.password"
+               focus-on="passwordInput"
                required>
         <div class="input-group-addon">
           <i class="iconfont icon-lock"></i>
@@ -80,6 +81,7 @@
                type="text"
                placeholder="用户名称"
                ng-model="user.name"
+               focus-on="nameInput"
                name="name"
                required>
         <div class="input-group-addon">

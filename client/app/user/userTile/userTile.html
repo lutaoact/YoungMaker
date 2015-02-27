@@ -1,9 +1,8 @@
 <div class="panel panel-card user-tile">
 
   <!--用户基本信息-->
-  <div class="avatar-lg"
+  <div class="avatar-lg pointer image-hover"
        ng-src="{{displayUser.avatar|trusted:'url'}}"
-       style="cursor: pointer"
        ui-sref="user.home({userId:user._id})"></div>
   <h4 class="user-name">
     <a ui-sref="user.home({userId: user._id})">{{displayUser.name}}</a>

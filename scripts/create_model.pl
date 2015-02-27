@@ -1,9 +1,9 @@
 use warnings;
 use strict;
 
-#die 'model name is needed' if @ARGV < 1;
+die 'model name is needed' if @ARGV < 1;
 
-my $name = "banner";
+my $name = $ARGV[0];
 my $model = ucfirst $name;
 
 my $API_DIR = "server/api";

@@ -1,31 +1,18 @@
 @modal-sm: 500px;
 @modal-md: 600px;
 
-.modal-content {
-  border-top-left-radius: 8px;
-}
-.modal-header-black {
-  border-top-left-radius: 5px;
-  padding: 8px;
-  margin: 0px;
-  background: #000000;
-  color: #FEFEFE;
-  text-align: center;
-  border: none;
-  .close {
-    color: #ffffff;
-    opacity: .7;
-  }
-}
-
-.modal-backdrop {
-  position: fixed;
-  bottom: 0;
-}
-
 .bud-modal {
   @bud-modal-padding: 40px;
   .modal-dialog {
+    a {
+      color: @gray;
+      &:hover,
+      &.active,
+      &:active {
+        color: @gray-light;
+        text-decoration: none;
+      }
+    }
     .modal-content {
       .form-horizontal .control-label {
         text-align: left;

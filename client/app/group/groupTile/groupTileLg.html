@@ -1,8 +1,12 @@
 <div class="panel panel-card group-tile-lg clearfix">
   <div class="col-md-12 clearfix">
-    <div class="group-logo" ng-src="{{group.logo}}"></div>
+    <div class="group-logo pointer image-hover"
+         ui-sref="groupDetail.articleList({groupId: group._id})"
+         ng-src="{{group.logo}}"></div>
     <p class="group-name">
-      {{group.name}}
+      <a ui-sref="groupDetail.articleList({groupId: group._id})">
+        {{group.name}}
+      </a>
     </p>
 
     <p class="group-info text-muted">

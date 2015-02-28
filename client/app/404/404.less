@@ -1,3 +1,34 @@
 .page-not-found{
-
+  background-color: rgb(53,73,93);
+  .container{
+    background-position: center;
+    background-size: cover;
+    background-color: rgb(53,73,93);
+    background-repeat: no-repeat;
+    background-image: url('/assets/images/404BG.jpg');
+    display: table;
+    min-height: 500px;
+    .center-content{
+      display: table-cell;
+      vertical-align: middle;
+      zoom: 1;
+      @media screen and (max-width: @screen-md-min) {
+        zoom: 0.7;
+      }
+      @media screen and (max-width: @screen-sm-min) {
+        zoom: 0.4;
+      }
+    }
+    h1{
+      margin-top: 350px;
+    }
+    h1, h3{
+      color: #FFF;
+    }
+    h3 a{
+      color: @base-color;
+    }
+  }
+  margin-top: -22px;
+  margin-bottom: -20px;
 }

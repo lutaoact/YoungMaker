@@ -22,6 +22,12 @@ angular.module('mauiApp')
         page: $scope.pageConf.currentPage
         keyword: $scope.pageConf.keyword
 
+  $scope.$emit 'updateTitle', ->
+    if $scope.user
+      $scope.user.name + '创建的所有趣课'
+    else
+      '创建的所有趣课'
+
   Restangular
     .all('courses')
     .getList(

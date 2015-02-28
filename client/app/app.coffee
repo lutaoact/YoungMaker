@@ -171,8 +171,11 @@ angular.module 'mauiApp', [
   initUser
   $timeout
   $rootScope
+  titleUpdater
   loginRedirector
 ) ->
+
+  titleUpdater.init()
 
   #set the default configuration options for angular-notify
   notify.config

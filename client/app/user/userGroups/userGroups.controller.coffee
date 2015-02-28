@@ -34,6 +34,12 @@ angular.module('mauiApp')
             name: ''
       .result.then $scope.reload
 
+  $scope.$emit 'updateTitle', ->
+    if $scope.user
+      $scope.user.name + '加入的小组'
+    else
+      '加入的小组'
+
   Restangular
     .all('groups')
     .getList(

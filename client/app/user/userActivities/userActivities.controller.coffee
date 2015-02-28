@@ -20,6 +20,12 @@ angular.module('mauiApp')
       $state.go $state.current,
         page: $scope.pageConf.currentPage
 
+  $scope.$emit 'updateTitle', ->
+    if $scope.user
+      $scope.user.name + '的最新动态'
+    else
+      '最新动态'
+
   $scope.$watch 'me', ->
     Restangular
       .all('activities')

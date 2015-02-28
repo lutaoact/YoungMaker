@@ -25,6 +25,7 @@ angular.module('mauiApp')
         $state.go '404', url : $state.href($state.current, $state.params),
           location:'replace'
         return
+      $scope.$emit 'updateTitle', article.title
       $scope.article = article
       wxShare.init
         shareTitle: article.title

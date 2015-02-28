@@ -54,6 +54,7 @@ angular.module('mauiApp')
             location:'replace'
           return
         $scope.course = course
+        $scope.$emit 'updateTitle', course.title
         wxShare.init
           shareTitle: course.title
           descContent: course.info
@@ -84,8 +85,3 @@ angular.module('mauiApp')
 
   $scope.$on '$destroy', ->
     $(window).unbind 'resize', resizeHandle
-
-
-
-
-

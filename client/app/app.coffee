@@ -36,6 +36,7 @@ angular.module 'mauiApp', [
   'monospaced.elastic'
   'angular-sortable-view'
   'ui.ace'
+  'monospaced.qrcode'
 ]
 
 .value('duScrollGreedy', true)

@@ -1,3 +1,12 @@
+<div class="article-detail">
+  <div class="social-share-section" fix-when-reach-top offset="70">
+    <div class="container">
+      <social-share>
+        分享
+      </social-share>
+    </div>
+  </div>
+</div>
 <div class="container has-header article-detail">
 
   <!-- article content -->
@@ -141,5 +150,7 @@
       </user-tile>
     </div>
   </div>
+
+  <a href="" class="weixin-share-btn" ng-if="showWechatShareBtn()" ng-click="wechatShare()">微信分享</a>
 
 </div>

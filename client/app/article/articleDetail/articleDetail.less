@@ -1,4 +1,29 @@
 .article-detail {
+  position: relative;
+  .social-share-section{
+    width: 100%;
+    height: 0;
+    .container{
+      position: relative;
+    }
+    .social-share{
+      position: absolute;
+      margin-top: 110px;
+      left: -35px;
+    }
+    &.fixed{
+      position: fixed;
+      top: 0px;
+      left: 0;
+      z-index: 1000;
+    }
+  }
+
+  .weixin-share-btn{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 
   .comments-panel {
     margin-top: 20px;

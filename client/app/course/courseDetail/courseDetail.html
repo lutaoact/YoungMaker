@@ -27,7 +27,6 @@
         <article class="panel panel-card course">
           <div class="course-header">
             <h1>{{course.title}}</h1>
-            <a href="" ng-if="showWechatShareBtn()" ng-click="wechatShare()">微信分享</a>
             <div class="course-info">
               <ul class="ul-inline">
                 <li class="user-info">
@@ -124,6 +123,8 @@
               </a>
             </div>
           </div>
+
+          <a href="" class="weixin-share-btn" ng-if="showWechatShareBtn()" ng-click="wechatShare()">微信分享</a>
 
           <div dropdown
                class="actions-dropdown"

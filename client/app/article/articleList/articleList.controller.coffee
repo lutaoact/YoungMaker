@@ -15,16 +15,19 @@ angular.module('mauiApp')
       itemsPerPage : 10
       sort         : $state.params.sort
       tags         : $filter('array')($state.params.tags)
+      keyword      : $state.params.keyword ? ''
 
-    viewState:
-      keyword: $state.params.keyword ? ''
+    removeTag: (tag) ->
+      $scope.pageConf.tags = _.without($scope.pageConf.tags, tag)
+      $scope.reload()
 
     reload: (resetPageIndex) ->
       $scope.pageConf.currentPage = 1 if resetPageIndex
       $state.go 'articleList',
         page: $scope.pageConf.currentPage
         sort: $scope.pageConf.sort
-        keyword: $scope.viewState?.keyword
+        tags: $scope.pageConf.tags
+        keyword: $scope.pageConf.keyword
 
     search: ()->
       sortObj = {}
@@ -39,8 +42,8 @@ angular.module('mauiApp')
       Restangular.all('articles').getList
         from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
         limit      : $scope.pageConf.itemsPerPage
-        keyword    : $scope.viewState?.keyword
-        tags       : JSON.stringify $scope.pageConf.tags if $scope.pageConf.tags?.length
+        keyword    : $scope.pageConf.keyword
+        tags       : JSON.stringify $scope.pageConf.tags if _.isArray($scope.pageConf.tags)
         sort       : JSON.stringify sortObj
       .then (articles)->
         $scope.articles = articles

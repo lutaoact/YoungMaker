@@ -2,8 +2,16 @@
   <div class="row">
 
     <div class="col-md-8">
+      <div class="tag-list">
+        <a class="tag-primary"
+           ng-click="removeTag(tag)"
+           ng-repeat="tag in pageConf.tags">
+          #{{tag}}
+          <span class="close">&times;</span>
+        </a>
+      </div>
 
-      <search-input keyword="viewState.keyword"
+      <search-input keyword="pageConf.keyword"
                     on-submit="reload(true)"
                     placeholder="搜索资讯">
       </search-input>

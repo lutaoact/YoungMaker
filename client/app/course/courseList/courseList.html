@@ -1,6 +1,14 @@
 <div class="course-list">
   <div class="container">
     <div class="clearfix">
+      <div class="tag-list">
+        <a class="tag-primary"
+           ng-click="removeTag(tag)"
+           ng-repeat="tag in pageConf.tags">
+          #{{tag}}
+          <span class="close">&times;</span>
+        </a>
+      </div>
       <div class="pull-left category-dropdown" dropdown style="position:relative;">
         <a class="btn dropdown-toggle panel panel-card" dropdown-toggle>
           <div class="category-logo" ng-if="!pageConf.category">

@@ -15,10 +15,14 @@ angular.module('mauiApp')
       currentPage  : $state.params.page ? 1
       itemsPerPage : 12
       sort         : $state.params.sort
-      keyword      : $state.params.keyword ? undefined
+      keyword      : $state.params.keyword ? ''
       tags         : $filter('array')($state.params.tags)
       createdBy    : $state.params.createdBy
       category     : $state.params.category
+
+    removeTag: (tag) ->
+      $scope.pageConf.tags = _.without($scope.pageConf.tags, tag)
+      $scope.reload()
 
     reload: (resetPageIndex) ->
       $scope.pageConf.currentPage = 1 if resetPageIndex
@@ -27,7 +31,7 @@ angular.module('mauiApp')
         keyword: $scope.pageConf.keyword
         category: $scope.pageConf.category
         sort: $scope.pageConf.sort
-        tags: JSON.stringify $scope.pageConf.tags if $scope.pageConf.tags?.length
+        tags: $scope.pageConf.tags
         createdBy: $scope.pageConf.createdBy
 
     search: ()->
@@ -45,7 +49,7 @@ angular.module('mauiApp')
         limit      : $scope.pageConf.itemsPerPage
         keyword    : $scope.pageConf.keyword
         sort       : JSON.stringify sortObj
-        tags       : JSON.stringify $scope.pageConf.tags if $scope.pageConf.tags?.length
+        tags       : JSON.stringify $scope.pageConf.tags if _.isArray($scope.pageConf.tags)
         category   : $scope.pageConf.category
         createdBy  : $scope.pageConf.createdBy
       .then (courses)->

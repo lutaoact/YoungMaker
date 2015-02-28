@@ -1,21 +1,11 @@
 angular.module('mauiApp')
 
 .controller 'CourseListCtrl', (
-  Auth
   $scope
   $state
+  $filter
   Restangular
-  notify
-  $timeout
 ) ->
-
-  getArray = (str)->
-    if str.indexOf('[') > -1
-      JSON.parse str
-    else if str.indexOf(',') > -1
-      str.split(',')
-    else
-      [str]
 
   angular.extend $scope,
     courses: null
@@ -26,7 +16,7 @@ angular.module('mauiApp')
       itemsPerPage : 12
       sort         : $state.params.sort
       keyword      : $state.params.keyword ? undefined
-      tags         : if $state.params.tags then getArray($state.params.tags) else []
+      tags         : $filter('array')($state.params.tags)
       createdBy    : $state.params.createdBy
       category     : $state.params.category
 

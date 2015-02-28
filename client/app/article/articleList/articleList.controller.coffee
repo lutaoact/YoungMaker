@@ -1,12 +1,12 @@
 angular.module('mauiApp')
 
 .controller 'ArticleListCtrl', (
-  Auth
   $scope
   $state
+  $filter
   Restangular
-  notify
 ) ->
+
   angular.extend $scope,
     articles: []
     pageConf:
@@ -14,6 +14,7 @@ angular.module('mauiApp')
       currentPage  : $state.params.page ? 1
       itemsPerPage : 10
       sort         : $state.params.sort
+      tags         : $filter('array')($state.params.tags)
 
     viewState:
       keyword: $state.params.keyword ? ''
@@ -39,6 +40,7 @@ angular.module('mauiApp')
         from       : ($scope.pageConf.currentPage - 1) * $scope.pageConf.itemsPerPage
         limit      : $scope.pageConf.itemsPerPage
         keyword    : $scope.viewState?.keyword
+        tags       : JSON.stringify $scope.pageConf.tags if $scope.pageConf.tags?.length
         sort       : JSON.stringify sortObj
       .then (articles)->
         $scope.articles = articles

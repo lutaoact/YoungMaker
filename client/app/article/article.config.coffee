@@ -21,6 +21,6 @@ angular.module('mauiApp')
     controller: 'ArticleEditorCtrl'
 
   .state 'articleList',
-    url: '/articles?page&keyword&sort'
+    url: '/articles?page&keyword&sort&tags'
     templateUrl: 'app/article/articleList/articleList.html'
     controller: 'ArticleListCtrl'

@@ -6,6 +6,16 @@ angular.module('mauiApp').directive 'socialShare', ($location) ->
   templateUrl: 'app/social/socialShare/socialShare.html'
 
   link: (scope, element, attrs) ->
+
+    getAbsolutePath = (path)->
+
+      if path.startsWith '/'
+        document.location.protocol + '//' + document.location.host + path
+      else if /^(?:\/|[a-z]+:\/\/)/.test path
+        path
+      else
+        document.location.protocol + '//' + document.location.host + '/' + path
+
     scope.entity =
       url: $location.$$absUrl
     if attrs.title
@@ -15,7 +25,7 @@ angular.module('mauiApp').directive 'socialShare', ($location) ->
     if attrs.summary
       scope.entity.summary = attrs.summary
     if attrs.image
-      scope.entity.image = attrs.image
+      scope.entity.image = getAbsolutePath(attrs.image)
 
     scope.getWeiboShareUrl = (url)->
       if url.indexOf('?') > 0
@@ -37,5 +47,5 @@ angular.module('mauiApp').directive 'socialShare', ($location) ->
       scope.entity.summary = attrs.summary
 
     attrs.$observe 'image', (value)->
-      scope.entity.image = attrs.image
+      scope.entity.image = getAbsolutePath(attrs.image)
 

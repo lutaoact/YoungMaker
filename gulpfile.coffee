@@ -453,6 +453,28 @@ gulp.task 'build', ->
     'upload' # should manually upload
   )
 
+gulp.task 'preBuild', ->
+  $.runSequence(
+    'clean'
+    'copy:index'
+    'copy:constJs'
+    'injector:less'
+    'compile'
+    'imagemin'
+    'injector:scripts'
+    'replace'
+    'ngtemplates' # may cause error
+    'processhtml'
+    'bower'
+    'autoprefixer'
+    'usemin'
+    'concat:template'
+    'ngmin' # may cause error
+    'copy:dist'
+    'cssmin' # may cause error
+    'uglify'
+  )
+
 gulp.task 'dev', ->
   $.runSequence(
     'clean:dev'

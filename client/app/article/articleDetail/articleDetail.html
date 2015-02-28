@@ -1,8 +1,7 @@
 <div class="article-detail">
   <div class="social-share-section" fix-when-reach-top offset="70">
     <div class="container">
-      <social-share>
-        分享
+      <social-share image="{{article.image}}" title="{{(article.title+' - '+article.content)|htmlToPlaintext|limitTo:120}}">
       </social-share>
     </div>
   </div>

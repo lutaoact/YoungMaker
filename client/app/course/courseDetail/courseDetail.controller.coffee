@@ -12,6 +12,7 @@ angular.module('mauiApp')
   mediaHelper
   messageModal
   $timeout
+  $location
 ) ->
 
   angular.extend $scope,
@@ -39,6 +40,12 @@ angular.module('mauiApp')
             classes: 'alert-success'
           $state.go 'courseList'
 
+    showWechatShareBtn: ()->
+      window.WeixinJSBridge?
+
+    wechatShare: ->
+      wxShare.shareTimeline()
+
   if $state.params.courseId
       Restangular.one('courses', $state.params.courseId).get(viewer: true)
       .then (course)->
@@ -47,6 +54,10 @@ angular.module('mauiApp')
             location:'replace'
           return
         $scope.course = course
+        wxShare.init
+          shareTitle: course.title
+          descContent: course.info
+          lineLink: $location.$$absUrl
 
       Restangular.all('comments').getList({type:Const.CommentType.Course,belongTo:$state.params.courseId})
       .then (comments)->

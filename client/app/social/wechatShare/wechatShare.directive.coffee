@@ -5,7 +5,7 @@ angular.module('mauiApp').directive 'wechatShare', ($modal, $location) ->
   link: (scope, element)->
     element.bind 'click', ()->
       url = $location.$$absUrl
-      if url.indexOf '?' > 0
+      if url.indexOf('?') > 0
         url += '&wechat'
       else
         url += '?wechat'

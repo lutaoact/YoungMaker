@@ -29,7 +29,6 @@
       }
     }
     .article-info {
-      line-height: 32px;
       border-bottom: solid 1px @tile-border;
       margin-top: 20px;
       margin-bottom: 25px;
@@ -37,24 +36,25 @@
       margin-right: -30px;
       padding-left: 30px;
       padding-right: 30px;
-      .tag-list {
-        margin-top: 5px;
-        margin-bottom: 5px;
+    }
+    .tag-list {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      line-height: 30px;
+    }
+    .article-like {
+      text-align: center;
+      padding-top: 30px;
+      padding-bottom: 40px;
+      .vote-box {
+        display: inline-block;
       }
     }
-  }
-  .article-like {
-    text-align: center;
-    padding-top: 30px;
-    padding-bottom: 40px;
-    .vote-box {
-      display: inline-block;
+    .article-footer {
+      border-top: 1px solid @tile-border;
+      margin: 0 -30px -10px;
+      padding: 20px 30px 10px;
+      background-color: rgba(142, 173, 170, .05);
     }
-  }
-  .article-footer {
-    border-top: 1px solid @tile-border;
-    margin: -11px;
-    padding: 20px;
-    background-color: rgba(142, 173, 170, .05);
   }
 }

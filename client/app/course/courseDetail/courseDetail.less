@@ -55,61 +55,36 @@
     }
   }
   .course{
-    padding: 15px 60px;
+    overflow: hidden;
+    padding: 15px 40px;
     position: relative;
     @media screen and (max-width: @screen-lg-min) {
       padding: 20px 30px;
     }
     .course-header{
       .course-info {
-        line-height: 32px;
         border-bottom: solid 1px @tile-border;
         margin-top: 20px;
         margin-bottom: 25px;
-        margin-left: -30px;
-        margin-right: -30px;
-        padding-left: 30px;
-        padding-right: 30px;
-        .tag-list {
-          margin-top: 5px;
-          margin-bottom: 5px;
-        }
+        margin-left: -40px;
+        margin-right: -40px;
+        padding-left: 40px;
+        padding-right: 40px;
       }
     }
+    .tag-list {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      line-height: 30px;
+    }
+    .course-like {
+      margin-bottom: 30px;
+    }
     .course-footer{
-      .user-info{
-        padding-left: 0;
-      }
-      .tags{
-        max-width: 50%;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        font-size: 14px;
-        .tag{
-          vertical-align: middle;
-          margin-top: 0;
-        }
-        .more-tags-dropdown{
-
-          .more{
-            display: inline-block;
-            color: @gray-light;
-            margin-left: 10px;
-          }
-          .dropdown-menu{
-            li{
-              padding: 0 10px;
-            }
-            a.tag{
-              display: inline-block;
-            }
-          }
-        }
-      }
-      hr{
-        margin-left: -60px;
-        margin-right: -60px;
-      }
+      border-top: 1px solid @tile-border;
+      margin: 0 -40px -20px;
+      padding: 20px 40px 10px;
+      background-color: rgba(142, 173, 170, .05);
     }
     .actions-dropdown {
       position: absolute;

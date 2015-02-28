@@ -61,53 +61,61 @@
             </div>
           </div>
           <div class="blog" compile-html="article.content"></div>
+
+          <div class="article-like" ng-if="article">
+            <vote-box entity="article" me="me">
+            </vote-box>
+          </div>
+
+          <div class="article-footer" ng-if="article">
+            <ul class="ul-inline">
+              <li class="user-info">
+                <div class="avatar-xs inline-block-middle pointer"
+                     ui-sref="user.home({userId: article.author._id})"
+                     ng-src="{{article.author.avatar|trusted:'url'}}">
+                </div>
+                <a ui-sref="user.home({userId: article.author._id})"
+                   class="link-base-color">
+                  {{article.author.name}}
+                </a>
+              </li>
+              <li ng-if="article.column">
+                专栏－{{article.column.name}}
+              </li>
+              <li ng-if="article.group">
+                发布于
+                <a ui-sref="groupDetail.articleList({groupId: article.group._id})">
+                  {{article.group.name}}
+                </a>
+              </li>
+              <li>
+                {{article.created | moment: 'calendar'}}
+              </li>
+              <span class="pull-right text-muted">
+                <li>
+                  <i class="iconfont icon-discuss"></i>
+                  {{article.commentsNum||0}}
+                </li>
+                <li>
+                  <i class="iconfont icon-like"></i>
+                  {{article.likeUsers.length||0}}
+                </li>
+                <li>
+                  <i class="iconfont icon-look"></i>
+                  {{article.viewersNum||0}}
+                </li>
+              </span>
+            </ul>
+            <div class="tag-list">
+              <a ui-sref="articleList({tags:tag})"
+                 class="tag"
+                 ng-repeat="tag in article.tags">
+                #{{tag}}
+              </a>
+            </div>
+          </div>
         </article>
 
-        <div class="article-like" ng-if="article">
-          <vote-box entity="article" me="me">
-          </vote-box>
-        </div>
-
-        <div class="article-footer" ng-if="article">
-          <ul class="ul-inline">
-            <li class="user-info">
-              <div class="avatar-xs inline-block-middle pointer"
-                   ui-sref="user.home({userId: article.author._id})"
-                   ng-src="{{article.author.avatar|trusted:'url'}}">
-              </div>
-              <a ui-sref="user.home({userId: article.author._id})"
-                 class="link-base-color">
-                {{article.author.name}}
-              </a>
-            </li>
-            <li ng-if="article.column">
-              专栏－{{article.column.name}}
-            </li>
-            <li ng-if="article.group">
-              发布于
-              <a ui-sref="groupDetail.articleList({groupId: article.group._id})">
-                {{article.group.name}}
-              </a>
-            </li>
-            <li>
-              {{article.created | moment: 'fromNow'}}
-            </li>
-            <span class="pull-right text-muted">
-              <li>
-                <i class="iconfont icon-discuss"></i>
-                {{article.commentsNum||0}}
-              </li>
-              <li>
-                <i class="iconfont icon-like"></i>
-                {{article.likeUsers.length||0}}
-              </li>
-              <li>
-                <i class="iconfont icon-look"></i>
-                {{article.viewersNum||0}}
-              </li>
-            </span>
-          </ul>
-        </div>
       </div>
 
       <!-- article comments -->

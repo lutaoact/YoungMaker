@@ -72,35 +72,49 @@
             </vote-box>
           </div>
 
-          <div class="course-footer">
-            <hr>
-            <ul class="ul-block">
+          <div class="course-footer" ng-if="course">
+            <ul class="ul-inline">
               <li class="user-info">
-                <user-tile me="me" user="course.author" type="small"></user-tile>
-              </li>
-              <li>
-                {{course.created | moment:'calendar'}} <br>
-                发表于 <a ui-sref="courseList({category:course.categoryId._id||null})">{{course.categoryId.name||'其他'}}</a>
-              </li>
-              <li ng-if="course.tags.length" class="tags">
-                标签：
-                <div class="dropdown pull-right more-tags-dropdown" dropdown>
-                  <a title="点击显示全部" dropdown-toggle class="more" ng-if="course.tags.length>=3">
-                    <i class="fa fa-ellipsis-h"></i>
-                  </a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index>=3">
-                        #{{tag}}
-                      </a>
-                    </li>
-                  </ul>
+                <div class="avatar-xs inline-block-middle pointer"
+                     ui-sref="user.home({userId: course.author._id})"
+                     ng-src="{{course.author.avatar|trusted:'url'}}">
                 </div>
-                <a ui-sref="courseList({tags:tag})" class="tag" ng-repeat="tag in course.tags" ng-if="$index<3">
-                  #{{tag}}
+                <a ui-sref="user.home({userId: course.author._id})"
+                   class="link-base-color">
+                  {{course.author.name}}
                 </a>
               </li>
+              <li>
+                {{course.created | moment: 'calendar'}}
+              </li>
+              <li>
+                发布于
+                <a ui-sref="courseList({category: course.categoryId._id || null})">
+                  {{course.categoryId.name || '其他'}}
+                </a>
+              </li>
+              <span class="pull-right text-muted">
+                <li>
+                  <i class="iconfont icon-discuss"></i>
+                  {{course.commentsNum||0}}
+                </li>
+                <li>
+                  <i class="iconfont icon-like"></i>
+                  {{course.likeUsers.length||0}}
+                </li>
+                <li>
+                  <i class="iconfont icon-look"></i>
+                  {{course.viewersNum||0}}
+                </li>
+              </span>
             </ul>
+            <div class="tag-list">
+              <a ui-sref="courseList({tags:tag})"
+                 class="tag"
+                 ng-repeat="tag in course.tags">
+                #{{tag}}
+              </a>
+            </div>
           </div>
 
           <div dropdown

@@ -55,6 +55,13 @@
                   </li>
                 </span>
               </ul>
+              <div class="tag-list">
+                <a ui-sref="courseList({tags:tag})"
+                   class="tag"
+                   ng-repeat="tag in course.tags">
+                  #{{tag}}
+                </a>
+              </div>
             </div>
           </div>
 

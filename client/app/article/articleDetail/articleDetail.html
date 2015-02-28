@@ -3,7 +3,7 @@
   <!-- article content -->
   <div class="row">
     <div class="col-md-9">
-      <div class="panel panel-card">
+      <div class="panel panel-card article-panel">
         <loading-tile data="article"
                       ng-if="!article"
                       loading-text="加载中...">
@@ -52,6 +52,13 @@
                 </li>
               </span>
             </ul>
+            <div class="tag-list">
+              <a ui-sref="articleList({tags:tag})"
+                 class="tag"
+                 ng-repeat="tag in article.tags">
+                #{{tag}}
+              </a>
+            </div>
           </div>
           <div class="blog" compile-html="article.content"></div>
         </article>

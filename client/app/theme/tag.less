@@ -1,15 +1,20 @@
 
-.tag(@background: @gray-lighter;@foreground: @gray-light){
-  margin: 2px;
-  max-width: 300px;
+.tag(@background: white; @foreground: @gray-light){
+  margin-right: 5px;
   .remove{
     cursor: pointer;
   }
-  .label();
+  .text-overflow();
+  vertical-align: top;
+  padding: 4px 6px;
+  line-height: 1;
+  max-width: 300px;
+  font-weight: normal;
   background: @background;
   color: @foreground;
-  .text-overflow();
   font-size: 14px;
+  border-radius: 2px;
+  border: 1px solid @tile-border;
   display: inline-block;
   .close{
     .transition();

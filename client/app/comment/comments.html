@@ -78,12 +78,14 @@
     </li>
   </ul>
 
-  <a class="btn form-control btn-primary btn-md back-to-editor"
-     style="margin: 20px 0;border-radius: 3px;"
-     ng-class="{'hide': viewState.newCommentVisible}"
-     ng-click="scrollToEditor()">
-    发表回复
-  </a>
+  <div class="back-to-editor-wrap">
+    <a class="btn form-control btn-primary btn-md back-to-editor fade-show-hide"
+       ng-show="!viewState.newCommentVisible"
+       ng-click="scrollToEditor()">
+      发表回复
+    </a>
+  </div>
+
   <div class="pagination-row text-center"
        ng-if="comments.$count > pageConf.itemsPerPage">
     <pagination

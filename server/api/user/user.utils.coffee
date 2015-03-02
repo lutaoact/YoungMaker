@@ -13,6 +13,15 @@ class UserUtils extends BaseUtils
           errCode : ErrCode.UserEmailInUsed
           errMsg : '该Email已被使用'
 
+  # 如果名字可用，则直接返回，否则，拼接时间戳
+  getAcceptName: (name) ->
+    User.findOneQ {name: name}
+    .then (doc) ->
+      if doc
+        return name + _u.time().toString()
+      else
+        return name
+
   multiDelete: (user, ids) ->
     if _.contains ids, user.id
       return Q.reject

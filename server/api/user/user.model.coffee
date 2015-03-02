@@ -24,6 +24,8 @@ class User extends BaseModel
       type: String
     name:#真实姓名
       type: String
+      unique: true
+      sparse: true
     role:
       type:String
       default: 'user'

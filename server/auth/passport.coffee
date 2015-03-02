@@ -104,20 +104,25 @@ passport.use(new WeixinStrategy({
     if err then return done err
 
     if dbUser
-      dbUser.weixin = weixin
+      dbUser.weixin.token = token
+      dbUser.weixin.other = profile
 
       dbUser.save (err) ->
         return done err, dbUser
     else
       if req.user
-        req.user.weixin = weixin
+        req.user.weixin.token = token
+        req.user.weixin.other = profile
         req.user.save (err) ->
           return done err, req.user
       else
-        data =
-          name: weixin.name
-          avatar: profile.profileUrl
-          weixin: weixin
-        User.create data, (err, user) ->
-          return done err, user
+        UserUtils = _u.getUtils 'user'
+        UserUtils.getAcceptName profile.displayName
+        .then (name) ->
+          data =
+            name: name
+            avatar: profile.profileUrl
+            weixin: weixin
+          User.create data, (err, user) ->
+            return done err, user
 ))

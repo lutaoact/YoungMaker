@@ -53,9 +53,11 @@ exports.create = (req, res, next) ->
   data =
     email   : body.email
     password: body.password
-    name    : body.name
 
-  User.createQ data
+  UserUtils.getAcceptName body.name
+  .then (name) ->
+    data.name = name
+    User.createQ data
   .then (user) ->
     token = jwt.sign
       _id: user._id,

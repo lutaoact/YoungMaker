@@ -22,3 +22,4 @@ db.courses.find().forEach(function(doc) {
   print(["courseId: " + doc._id, "part1: " + part1, "part2: " + part2, "heat: " + heat].join(', '));
   db.courses.update({_id: doc._id}, {$set: {heat: heat}});
 });
+//到scripts目录下，执行sh create_crontab_update_heat.sh来生成crontab的配置命令

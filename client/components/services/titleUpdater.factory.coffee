@@ -22,7 +22,6 @@ angular.module 'maui.components'
       scope = event.targetScope
       if _.isFunction(title)
         scope?.$watch title, (newTitle) ->
-          console.log 'newTitle', extra
           updateTitle(newTitle, extra)
       else
         updateTitle(title, extra)

@@ -11,7 +11,7 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     pageConf:
-      itemsPerPage: 5
+      itemsPerPage: 10
       currentPage : $state.params.page ? 1
       maxSize: 5
 

@@ -49,6 +49,6 @@ angular.module('mauiApp')
   $scope.$emit 'updateTitle', ->
     if $scope.group
       if $scope.pageConf.sort is 'heat'
-        '小组最热贴 - ' + $scope.group.name
+        '小组最热帖 - ' + $scope.group.name
       else
-        '小组最新贴 - ' + $scope.group.name
+        '小组最新帖 - ' + $scope.group.name

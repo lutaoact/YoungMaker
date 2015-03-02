@@ -49,3 +49,10 @@ angular.module('mauiApp')
         $scope.articles = articles
 
   $scope.search()
+
+  $scope.$emit 'updateTitle', ->
+    $scope.pageConf.tags.join('+') +
+      if $scope.pageConf.sort is 'heat'
+        '最热文章'
+      else
+        '最新文章'

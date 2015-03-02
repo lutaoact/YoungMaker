@@ -9,6 +9,8 @@ angular.module('mauiApp')
   Restangular
 ) ->
 
+  $scope.$emit 'updateTitle', '个人设置'
+
   angular.extend $scope,
 
     password:

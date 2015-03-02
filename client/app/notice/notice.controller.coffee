@@ -11,9 +11,8 @@ angular.module('mauiApp')
 
   angular.extend $scope,
     pageConf:
-      itemsPerPage: 5
+      itemsPerPage: 10
       currentPage : $state.params.page ? 1
-      read: $state.params.read
       maxSize: 5
 
     noticeStatus: if $state.is('notices.read') then 1 else 0
@@ -33,7 +32,6 @@ angular.module('mauiApp')
     changePage: ()->
       $state.go $state.current,
         page: $scope.pageConf.currentPage
-        read: if $state.params.read then true else false
 
   Restangular.all('notices').getList(
     all: true
@@ -50,5 +48,12 @@ angular.module('mauiApp')
       else
         $scope.messages.push Msg.genMessage(notice)
     $scope.messages.$count = notices.$count
+    $scope.$emit 'updateTitle', ->
+      count = $scope.messages.$count ? 0
+      if $state.is('notices.read')
+        '已读消息 (' + count + ')'
+      else
+        '未读消息 (' + count + ')'
+
 
 

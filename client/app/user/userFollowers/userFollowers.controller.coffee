@@ -21,8 +21,6 @@ angular.module 'mauiApp'
   $scope.$emit 'updateTitle', ->
     if $scope.user
       $scope.user.name + '的粉丝'
-    else
-      '粉丝'
 
   Restangular
     .all('follows')

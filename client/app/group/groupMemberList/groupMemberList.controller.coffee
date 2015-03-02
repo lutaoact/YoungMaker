@@ -15,3 +15,7 @@ angular.module('mauiApp')
   .get()
   .then (members)->
     $scope.groupMembers = members
+
+    $scope.$emit 'updateTitle', ->
+      if $scope.group
+        "小组全部成员(#{$scope.group.members.length}) - #{$scope.group.name}"

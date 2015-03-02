@@ -2,20 +2,28 @@ angular.module 'maui.components'
 
 .factory 'titleUpdater', ($rootScope, $window) ->
 
-  initTitle = ''
+  defaultTitle = ''
 
-  updateTitle = (title) ->
+  # extra = defaultTitle if extra is true
+  # extra = '杨梅客' if extra is null
+  # document.title = title | extra
+  updateTitle = (title, extra) ->
+    title ?= defaultTitle
+    title += ' | ' + extra if extra && extra isnt title
     $window.document.title = title
 
   resetTitle = ->
-    updateTitle initTitle
+    updateTitle defaultTitle
 
   init: ->
-    initTitle = $window.document.title
-    $rootScope.$on 'updateTitle', (event, title) ->
+    defaultTitle = $window.document.title
+    # note: $scope.$emit 'updateTitle', title:String/Function, extra:Boolean/String
+    $rootScope.$on 'updateTitle', (event, title, extra = '杨梅客') ->
       scope = event.targetScope
       if _.isFunction(title)
-        scope?.$watch title, updateTitle
+        scope?.$watch title, (newTitle) ->
+          console.log 'newTitle', extra
+          updateTitle(newTitle, extra)
       else
-        updateTitle(title)
+        updateTitle(title, extra)
       scope?.$on '$destroy', resetTitle

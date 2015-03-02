@@ -45,3 +45,10 @@ angular.module('mauiApp')
         $scope.groupArticles = articles
 
   $scope.search()
+
+  $scope.$emit 'updateTitle', ->
+    if $scope.group
+      if $scope.pageConf.sort is 'heat'
+        '小组最热贴 - ' + $scope.group.name
+      else
+        '小组最新贴 - ' + $scope.group.name

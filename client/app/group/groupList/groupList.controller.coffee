@@ -51,3 +51,5 @@ angular.module('mauiApp')
         $scope.groups = groups
 
   $scope.search()
+
+  $scope.$emit 'updateTitle', '全部小组'

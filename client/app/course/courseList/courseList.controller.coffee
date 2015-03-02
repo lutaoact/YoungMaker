@@ -70,7 +70,18 @@ angular.module('mauiApp')
   $scope.search()
 
   Restangular
-  .all('categories')
-  .getList()
-  .then (categories) ->
-    $scope.categories = categories
+    .all('categories')
+    .getList()
+    .then (categories) ->
+      $scope.categories = categories
+
+      $scope.$emit 'updateTitle', ->
+        category = _.find($scope.categories, _id:$scope.pageConf.category)?.name
+        title =
+          if category
+            "和#{category}相关的趣课"
+          else
+            '全部趣课'
+        $scope.pageConf.tags.join('+') + title
+
+

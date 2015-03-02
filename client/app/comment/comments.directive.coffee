@@ -94,6 +94,11 @@ angular.module('mauiApp')
           $scope.activeComment = $state.params.commentId
         $scope.comments = comments
 
+    replyComment: (userName)->
+      @newComment.content = '' if !@newComment.content
+      @newComment.content += '@'+userName+'&nbsp'
+      @scrollToEditor()
+
   $scope.$watch 'belongTo', (value)->
     if value
       $scope.reload()

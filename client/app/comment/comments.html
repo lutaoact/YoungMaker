@@ -70,6 +70,8 @@
             </i>
             {{comment.likeUsers.length||0}}
           </small>
+          <small>|</small>
+          <small class="reply-comment" ng-click="replyComment(comment.postBy.name)">回复</small>
         </h5>
         <div class="comment-body blog" compile-html="comment.content" ></div>
       </div>

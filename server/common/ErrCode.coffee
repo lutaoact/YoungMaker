@@ -13,3 +13,5 @@ module.exports =
   HasBeenHere: 20001
   HasNotBeenHere: 20002
   IllegalPath: 20003
+
+  InvalidContent: 30001

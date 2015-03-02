@@ -4,6 +4,7 @@ Comment = _u.getModel 'comment'
 AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
 User = _u.getModel 'user'
+testFilter = require '../../common/contentFilter'
 
 
 WrapRequest = new (require '../../utils/WrapRequest')(Comment)
@@ -15,6 +16,7 @@ exports.index = (req, res, next) ->
   WrapRequest.wrapPageIndex req, res, next, conditions
 
 exports.create = (req, res, next) ->
+  testFilter req.body.content
   user = req.user
   body = req.body
   data =

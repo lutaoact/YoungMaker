@@ -13,6 +13,8 @@ errorHandler = (err, req, res, next) ->
     name: err?.name
     message: err?.message
     errors: err?.errors
+    errCode: err?.errCode
+    errMsg: err?.errMsg
   res.json err.status || 500, result
 
 module.exports = (app) ->

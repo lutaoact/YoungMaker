@@ -4,6 +4,7 @@ Article = _u.getModel 'article'
 AdapterUtils = _u.getUtils 'adapter'
 Group = _u.getModel 'group'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
+testFilter = require '../../common/contentFilter'
 
 exports.index = (req, res, next) ->
   conditions = {}
@@ -44,6 +45,8 @@ exports.create = (req, res, next) ->
   data = _.pick req.body, pickedKeys
   data.author = req.user._id
 
+  testFilter(JSON.stringify data)
+
   updateConds = {_id: data.group}
   update = {$inc: {postsCount: 1}}
 
@@ -53,6 +56,10 @@ exports.update = (req, res, next) ->
   pickedUpdatedKeys = ['title', 'image', 'content', 'tags', 'isPublished']
   if req.user.role is 'admin'
     pickedUpdatedKeys.push 'featured'
+
+  data = _.pick req.body, pickedUpdatedKeys
+  testFilter(JSON.stringify data)
+
   conditions = {_id: req.params.id}
   conditions.author = req.user._id if req.user.role isnt 'admin'
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys

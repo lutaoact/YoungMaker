@@ -83,6 +83,10 @@ angular.module('mauiApp')
           , ->
             $state.go 'courseDetail', {courseId: course._id}
         .catch (error) ->
+          if error.data.errCode = 30001
+            notify
+              message: "发布失败，" + "包含敏感词汇：" + error.data.errMsg
+              classes: 'alert-danger'
           console.remote? 'error', error
       else
         $scope.course.put()
@@ -107,6 +111,10 @@ angular.module('mauiApp')
           , ->
             $state.go 'courseEditor', {courseId: course._id}, {reload: true}
         .catch (error) ->
+          if error.data.errCode = 30001
+            notify
+              message: "发布失败，" + "包含敏感词汇：" + error.data.errMsg
+              classes: 'alert-danger'
           console.remote? 'error', error
 
     addStep: (plugin, index)->

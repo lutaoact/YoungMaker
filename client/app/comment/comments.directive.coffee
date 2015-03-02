@@ -18,6 +18,7 @@ angular.module('mauiApp')
   $scope
   $state
   $modal
+  notify
   $timeout
   $document
   Restangular
@@ -49,6 +50,11 @@ angular.module('mauiApp')
         $scope.commenting = false
         $scope.activeComment = comment._id
         $scope.$emit 'comments.number', $scope.comments.length
+      .catch (err)->
+        if err.data.errCode = 30001
+          notify
+            message: "提交失败，" + "包含敏感词汇：" + err.data.errMsg
+            classes: 'alert-danger'
 
     initMyComment: ()->
       @newComment = {} if !@newComment

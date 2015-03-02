@@ -37,9 +37,14 @@ angular.module('mauiApp')
           $window.history.back()
         .catch (error) ->
           console.remote? error
-          notify
-            message: '出错啦：' + error
-            classes: 'alert-danger'
+          if error.data.errCode = 30001
+            notify
+              message: "保存失败，" + "包含敏感词汇：" + error.data.errMsg
+              classes: 'alert-danger'
+          else
+            notify
+              message: '出错啦：' + error
+              classes: 'alert-danger'
       else
         Restangular.all('articles')
         .post($scope.article)
@@ -51,6 +56,11 @@ angular.module('mauiApp')
             $state.go 'groupDetail.articleList', groupId: $state.params.groupId
           else
             $state.go 'user.articles', userId: $scope.me._id
+        .catch (error) ->
+          if error.data.errCode = 30001
+            notify
+              message: "发布失败，" + "包含敏感词汇：" + error.data.errMsg
+              classes: 'alert-danger'
 
     addTag: ($item, search, $event)->
       if $item and !$item._id

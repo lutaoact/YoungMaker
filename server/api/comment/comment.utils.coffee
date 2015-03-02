@@ -35,25 +35,17 @@ getTargetUsers = (data) ->
 
 
 addCommentNotice = (targetUser, data)->
-  switch data.type
-    when Const.CommentType.Article
-      noticeData =
-        articleId: data.article._id
-      NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.ArticleComment, noticeData
-
-
-    when Const.CommentType.Course
-      noticeData =
-        courseId: data.course._id
-      NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType.CourseComment, noticeData
+  typeStr = Const.CommentRef[data.type]
+  noticeData = {}
+  noticeData[typeStr+'Id'] = data[typeStr]._id
+  NoticeUtils.addNotice targetUser, data.postBy, Const.NoticeType[_s.capitalize(typeStr)+'Comment'], noticeData
 
 
 addCommentReferNotice = (referUserId, data)->
-  switch data.type
-    when Const.CommentType.Article
-      noticeData =
-        articleId: data.article._id
-      NoticeUtils.addNotice referUserId, data.postBy, Const.NoticeType.ArticleCommentRefer, noticeData
+  typeStr = Const.CommentRef[data.type]
+  noticeData = {}
+  noticeData[typeStr+'Id'] = data[typeStr]._id
+  NoticeUtils.addNotice referUserId, data.postBy, Const.NoticeType[_s.capitalize(typeStr)+'CommentRefer'], noticeData
 
 
 class CommentUtils extends BaseUtils
@@ -69,6 +61,11 @@ class CommentUtils extends BaseUtils
           targetUser
           data
         )
+
+      # remove duplicated notices if author is equal to referUser
+      _.remove referUsers, (referUser)->
+        _u.isEqual data[Const.CommentRef[data.type]].author, referUser._id
+
       notices = _.union notices, _.map referUsers, (referUser)->
         addCommentReferNotice(
           referUser._id

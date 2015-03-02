@@ -97,3 +97,8 @@ contains = (ids, target) ->
   return false
 
 exports.contains = contains
+
+isEqual = (aId, bId) ->
+  aId.toString() == bId.toString()
+
+exports.isEqual = isEqual

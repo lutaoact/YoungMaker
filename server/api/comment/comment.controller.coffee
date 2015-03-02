@@ -27,10 +27,9 @@ exports.create = (req, res, next) ->
   console.log 'postBy type ', typeof data.postBy
   console.log 'belongTo', typeof data.belongTo
 
-  userNameRe = /@(.*?)(\s|&nbsp)/g;
+  userNameRe = /@(.*?)(?=\s|&nbsp|$)/g;
   matchArray = null
   referUserNames = []
-  data.content += ' ' #For regex to get the last referred user
   while ((matchArray = userNameRe.exec(data.content)) != null)
     console.log 'Found user ' + matchArray[1];
     referUserNames.push(matchArray[1])

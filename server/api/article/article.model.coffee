@@ -55,6 +55,7 @@ class Article extends BaseModel
       type: ObjectId
       ref: 'user'
     ]
+    heat: Number
     tags: [
       type: String
     ]

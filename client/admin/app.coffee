@@ -27,7 +27,7 @@ angular.module 'mauidmin', ['maui.components']
       extractedData = data
     return extractedData
 
-.factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
+.factory 'urlInterceptor', ($rootScope, $q, $location,configs) ->
   # Add authorization token to headers
   request: (config) ->
     config.url = configs.baseUrl + config.url if /^(|\/)(api|auth)/.test config.url
@@ -46,14 +46,14 @@ angular.module 'mauidmin', ['maui.components']
     $rootScope.$broadcast 'network.error', response
     $q.reject response
 
-.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
+.factory 'authInterceptor', ($rootScope, $q, ipCookie, $location, loginRedirector) ->
   # Add authorization token to headers
   request: (config) ->
     # When not withCredentials, should not carry Authorization header either
     if config.withCredentials is false
       return config
     config.headers = config.headers or {}
-    config.headers.Authorization = 'Bearer ' + $cookieStore.get('token')  if $cookieStore.get('token')
+    config.headers.Authorization = 'Bearer ' + ipCookie('token')  if ipCookie('token')
     config
 
   # Intercept 401s and redirect you to login
@@ -61,7 +61,7 @@ angular.module 'mauidmin', ['maui.components']
     if response.status is 401
       loginRedirector.set($location.url())
       # remove any stale tokens
-      $cookieStore.remove 'token'
+      ipCookie.remove 'token'
       $q.reject response
     else
       $q.reject response

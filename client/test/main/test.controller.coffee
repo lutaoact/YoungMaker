@@ -8,7 +8,6 @@ angular.module 'mauiTestApp'
   $scope
   socket
   Restangular
-  $cookieStore
   $localStorage
 ) ->
 

@@ -3,9 +3,9 @@
 angular.module('maui.components')
 
 .service 'socket', (
+  ipCookie
   $timeout
   $interval
-  $cookieStore
 ) ->
 
   socket = null
@@ -21,7 +21,7 @@ angular.module('maui.components')
     doBeat = (type = 'beat') ->
       socket.send JSON.stringify
         type: type
-        token: $cookieStore.get('token') if $cookieStore.get('token')
+        token: ipCookie('token') if ipCookie('token')
 
     socket.onopen =  ->
       doBeat('login')
@@ -51,7 +51,7 @@ angular.module('maui.components')
     handler = {}
 
   send: (data) ->
-    data.token = $cookieStore.get('token') if $cookieStore.get('token')
+    data.token = ipCookie('token') if ipCookie('token')
     socket?.send(data)
 
   close: ->

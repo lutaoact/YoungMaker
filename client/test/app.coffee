@@ -22,7 +22,7 @@ angular.module 'mauiTestApp', ['maui.components']
       extractedData = data
     return extractedData
 
-.factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location) ->
+.factory 'urlInterceptor', ($rootScope, $q, $location) ->
   # Add authorization token to headers
   request: (config) ->
     config.url = config.url if /^(|\/)(api|auth)/.test config.url
@@ -34,21 +34,21 @@ angular.module 'mauiTestApp', ['maui.components']
     config.method = 'PUT' if config.method is 'PATCH'
     config
 
-.factory 'authInterceptor', ($rootScope, $q, $cookieStore) ->
+.factory 'authInterceptor', ($rootScope, $q, ipCookie) ->
   # Add authorization token to headers
   request: (config) ->
     # When not withCredentials, should not carry Authorization header either
     if config.withCredentials is false
       return config
     config.headers = config.headers or {}
-    config.headers.Authorization = 'Bearer ' + $cookieStore.get('token')  if $cookieStore.get('token')
+    config.headers.Authorization = 'Bearer ' + ipCookie('token')  if ipCookie('token')
     config
 
   # Intercept 401s and redirect you to login
   responseError: (response) ->
     if response.status is 401
       # remove any stale tokens
-      $cookieStore.remove 'token'
+      ipCookie.remove 'token'
       $q.reject response
     else
       $q.reject response

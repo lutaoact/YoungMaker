@@ -12,6 +12,9 @@ angular.module 'mauidmin'
   $scope.menu = [
       title: 'Home'
       link: 'main'
+    ,
+      title: 'User'
+      link: 'user'
   ]
   $scope.isCollapsed = true
 

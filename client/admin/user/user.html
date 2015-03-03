@@ -1,0 +1,25 @@
+<div class="user">
+  <div class="container">
+    <div class="panel panel-info user-panel">
+      <div class="panel-heading">
+        用户列表
+      </div>
+      <div class="panel-body">
+        <ul class="media-list">
+          <li class="col-lg-2 col-md-3 col-sm-4" ng-repeat="user in users">
+            <div class="media">
+              <a class="media-left" ng-href="/users/{{user._id}}">
+                <div class="img" style="width: 30px;height:30px;" ng-src="{{user.avatar|trusted:'url'}}"></div>
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{user.name}} <small>{{user.role}}</small><br><small>{{user._id}}</small></h4>
+                <p>{{user.info}}</p>
+                <a class="btn btn-xs btn-default" ng-class="{'btn-primary':user.blocked}" ng-click="toggleBlocked(user)">{{user.blocked?'启用':'禁用'}}</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

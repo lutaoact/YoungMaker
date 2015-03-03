@@ -83,12 +83,13 @@
                ng-model="user.name"
                focus-on="nameInput"
                name="name"
+               mongoose-error
                required>
         <div class="input-group-addon">
           <i class="iconfont icon-user"></i>
         </div>
       </div>
-      <p ng-if="viewState.errors.name">
+      <p ng-if="signupForm.name.$error.mongoose">
         <i class="fa fa-exclamation-triangle text-danger"></i>
         {{viewState.errors.name.message}}
       </p>
@@ -101,6 +102,7 @@
                ng-model="user.email"
                ng-change="checkEmail(signupForm.email)"
                name="email"
+               mongoose-error
                required>
         <div class="input-group-addon">
           <i class="iconfont icon-email"></i>
@@ -113,7 +115,7 @@
         或者
         <a href ng-click="changePage('forget')">密码找回</a>
       </p>
-      <p ng-if="viewState.errors.email">
+      <p ng-if="signupForm.email.$error.mongoose">
         <i class="fa fa-exclamation-triangle text-danger"></i>
         {{viewState.errors.email.message}}
       </p>
@@ -125,6 +127,7 @@
                placeholder="密码"
                name="password"
                ng-model="user.password"
+               mongoose-error
                required>
         <div class="input-group-addon">
           <i class="iconfont icon-lock"></i>

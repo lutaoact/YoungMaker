@@ -76,9 +76,8 @@ angular.module('maui.components')
         $scope.viewState.posting = false
         $scope.viewState.errors = err?.data?.errors
         # Update validity of form fields that match the mongoose errors
-        angular.forEach err.errors, (error, field) ->
+        angular.forEach err?.data?.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
-          $scope.errors[field] = error.message
 
     checkEmail: (email)->
       $timeout.cancel(checkEmailPromise)

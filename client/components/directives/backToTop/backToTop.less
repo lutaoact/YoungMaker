@@ -1,0 +1,62 @@
+.back-to-top-container{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  .container{
+    position: relative;
+  }
+  .back-to-top{
+    position: absolute;
+    bottom: 15px;
+    right: -26px;
+    @media screen and (max-width: @screen-sm) {
+      bottom: 0;
+      right: 50%;
+      .cell + .cell{
+        display: none;
+      }
+    }
+  }
+}
+.back-to-top{
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  .cell{
+    width: 36px;
+    height: 36px;
+    display: block;
+    font-size: 20px;
+    border: 1px solid @gray-lighter;
+    background-color: #FFF;
+    color: @gray-light;
+    text-align: center;
+    line-height: 36px;
+    transition: all .13s;
+    cursor: pointer;
+    & + .cell{
+      border-top: none;
+    }
+    &:hover{
+      color: @gray;
+    }
+    position: relative;
+  }
+  .qr-wrap{
+    width: 200px;
+    height: 230px;
+    cursor: initial;
+    position: absolute;
+    background-color: #FFF;
+    bottom: -1px;
+    right: 35px;
+    border: 1px solid @gray-lighter;
+    line-height: normal;
+    font-size: 14px;
+    .qrcode{
+      width: 100%;
+    }
+  }
+
+}

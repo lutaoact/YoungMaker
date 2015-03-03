@@ -1,0 +1,12 @@
+<div class="back-to-top fade-show-hide" ng-show="viewState.showBackToTop">
+  <a class="cell" href="#navbar" du-smooth-scroll>
+    <i class="fa fa-chevron-up"></i>
+  </a>
+  <div class="cell" ng-mouseenter="viewState.hover=true" ng-mouseleave="viewState.hover=false">
+    <i class="fa fa-qrcode"></i>
+    <div class="qr-wrap fade-show-hide" ng-show="viewState.hover==true">
+      <img src="/assets/images/QR.jpg" class="qrcode" alt="">
+      微信公众号
+    </div>
+  </div>
+</div>

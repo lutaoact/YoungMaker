@@ -184,7 +184,7 @@
               <a ng-click="addStep(plugins[0], $index)" class="btn btn-primary btn-outline" style="margin-top:5px;"><i class="fa fa-plus"></i>&nbsp;添加步骤方法</a>
               <a ng-click="addStep(plugins[1], $index)" ng-if="Auth.hasRole('admin')" class="btn btn-primary btn-outline" style="margin-top:5px;"><i class="fa fa-plus"></i>&nbsp;添加步骤方法(Markdown)</a>
               <a ng-click="addStep(plugins[2], $index)" ng-if="Auth.hasRole('admin')" class="btn btn-primary btn-outline" style="margin-top:5px;"><i class="fa fa-plus"></i>&nbsp;添加视频(优酷、腾讯)</a>
-              <a ng-click="addStep(plugins[3], $index)" ng-if="Auth.hasRole('admin')" class="btn btn-primary btn-outline" style="margin-top:5px;"><i class="fa fa-plus"></i>&nbsp;添加代码</a>
+              <!--<a ng-click="addStep(plugins[3], $index)" ng-if="Auth.hasRole('admin')" class="btn btn-primary btn-outline" style="margin-top:5px;"><i class="fa fa-plus"></i>&nbsp;添加代码</a>-->
               <hr>
             </div>
           </div>
@@ -207,9 +207,9 @@
         <p ng-switch-when="wysiwyg" ng-bind-html="step.content"></p>
         <div ng-switch-when="embed" compile-html="step.content|embed"></div>
         <div ng-switch-when="md" ng-bind-html="step.content|showdown"></div>
-        <div ng-switch-when="code">
-          <div ui-ace="aceOption" readonly ng-model="step.content"></div>
-        </div>
+        <!--<div ng-switch-when="code">-->
+          <!--<div ui-ace="aceOption" readonly ng-model="step.content"></div>-->
+        <!--</div>-->
         <p ng-switch-default ng-bind-html="step.content" ng-init="step.type='wysiwyg'"></p>
       </div>
       <hr ng-repeat-end>

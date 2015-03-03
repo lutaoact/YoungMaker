@@ -28,16 +28,16 @@
     preErrorHander?(m,u,l)
     console.remote 'error', 'onJSError', m, u, l
 )(window)
+
 angular.module 'mauiApp', [
   'duScroll'
   'ngAnimate'
   'ui.select'
   'maui.components'
   'monospaced.elastic'
-  'angular-sortable-view'
-  'ui.ace'
   'monospaced.qrcode'
   'ipCookie'
+  'angular-sortable-view'
 ]
 
 .value('duScrollGreedy', true)

@@ -301,6 +301,7 @@ gulp.task 'uglify', ->
   doUglify = (appPath) ->
     gulp.src "#{clientDistFolder}/#{appPath}/**/*.js"
     .pipe $.uglify()
+    .pipe $.size(showFiles: true)
     .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
   $.mergeStream [
@@ -475,3 +476,10 @@ gulp.task 'dev', ->
     'watch'
   )
 
+gulp.task 'debug:size', ->
+  gulp.src [
+      'client/bower_components/lodash*/**/*.js'
+    ]
+  , base: 'client'
+  .pipe $.uglify()
+  .pipe $.size(showFiles: true)

@@ -86,6 +86,7 @@
     "gulp-svgmin": "^0.4.7",
     "gulp-uglify": "^1.0.1",
     "gulp-notify": "^2.2.0",
+    "gulp-size": "^1.2.1",
     "gulp-wait": "0.0.2",
     "merge-stream": "~0.1.6",
     "jshint-stylish": "~0.1.5",

@@ -1,7 +1,7 @@
 <div class="course-list">
   <div class="container">
     <div class="clearfix">
-      <div class="tag-list">
+      <div class="tag-list" ng-if="pageConf.tags.length">
         <a class="tag-primary"
            ng-click="removeTag(tag)"
            ng-repeat="tag in pageConf.tags">

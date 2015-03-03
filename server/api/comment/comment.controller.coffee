@@ -29,11 +29,11 @@ exports.create = (req, res, next) ->
   console.log 'postBy type ', typeof data.postBy
   console.log 'belongTo', typeof data.belongTo
 
-  userNameRe = /@(.*?)(?=\s|&nbsp|$)/g;
+  userNameRe = /@(.*?)(?=\s|&nbsp|$)/g
   matchArray = null
   referUserNames = []
   while ((matchArray = userNameRe.exec(data.content)) != null)
-    console.log 'Found user ' + matchArray[1];
+    console.log 'Found user ' + matchArray[1]
     referUserNames.push(matchArray[1])
 
   referUserNames = _.uniq referUserNames
@@ -44,7 +44,7 @@ exports.create = (req, res, next) ->
   .then (referUsers)->
     referUsers = _.without referUsers, null
     _.forEach referUsers, (user)->
-      re = new RegExp('@'+user.name, 'g');
+      re = new RegExp('@'+user.name, 'g')
       userLink = req.protocol+'://'+req.headers.host+'/users/'+user._id
       data.content = data.content.replace(re, "<a href=\"#{userLink}\">@#{user.name}</a>")
 

@@ -34,29 +34,6 @@
     </div>
   </form>
   <br/>
-  <form class="form-horizontal input-group">
-    <span class="input-group-addon">
-      <b>Socket</b>
-    </span>
-    <input class="form-control"
-           ng-model="$storage.socketType"
-           placeholder="输入要测试的Socket Type，然后回车"/>
-    <div class="input-group-btn">
-      <button type="submit"
-              class="btn btn-default"
-              ng-click="toggleHandler()">
-        <span ng-show="!hasHandler()">Listen</span>
-        <span ng-show="hasHandler()">Listening</span>
-      </button>
-      <button type="button"
-              class="btn btn-default"
-              ng-click="toggleSocket()">
-        <span ng-show="!hasOpen()">Open</span>
-        <span ng-show="hasOpen()">Close</span>
-        Connection
-      </button>
-    </div>
-  </form>
   <hr/>
   <h3 ng-click="showRequestData=!showRequestData"
       ng-init="showRequestData=$storage.request.data!=null"

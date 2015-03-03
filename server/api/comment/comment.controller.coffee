@@ -1,7 +1,6 @@
 'use strict'
 
 Comment = _u.getModel 'comment'
-AdapterUtils = _u.getUtils 'adapter'
 CommentUtils = _u.getUtils 'comment'
 User = _u.getModel 'user'
 testFilter = require '../../common/contentFilter'

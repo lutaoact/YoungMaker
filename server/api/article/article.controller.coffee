@@ -1,7 +1,6 @@
 'use strict'
 
 Article = _u.getModel 'article'
-AdapterUtils = _u.getUtils 'adapter'
 Group = _u.getModel 'group'
 WrapRequest = new (require '../../utils/WrapRequest')(Article)
 testFilter = require '../../common/contentFilter'

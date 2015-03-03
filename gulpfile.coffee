@@ -301,6 +301,7 @@ gulp.task 'uglify', ->
   doUglify = (appPath) ->
     gulp.src "#{clientDistFolder}/#{appPath}/**/*.js"
     .pipe $.uglify()
+    .pipe $.size(showFiles: true)
     .pipe gulp.dest("#{clientDistFolder}/#{appPath}/")
 
   $.mergeStream [
@@ -308,23 +309,6 @@ gulp.task 'uglify', ->
     doUglify 'admin'
     doUglify 'test'
   ]
-
-gulp.task 'iconfont', ->
-  gulp.src ['client/assets/images/vectors/*.svg']
-  .pipe $.iconfont({fontName: 'bud-font', appendCodepoints: false, normalize: true})
-  .on('codepoints', (codepoints, options) ->
-    gulp.src('client/assets/fonts/font-template.less')
-    .pipe($.consolidate('lodash',
-        glyphs: codepoints,
-        fontName: 'bud-font' # required
-        fontPath: '../../assets/fonts/bud-font/'
-        className: 'budon'
-      )
-    )
-    .pipe $.rename('bud-font.less')
-    .pipe(gulp.dest('client/components/theme/'))
-  )
-  .pipe(gulp.dest('client/assets/fonts/bud-font'))
 
 gulp.task 'watch', ->
   $.livereload.listen()
@@ -458,20 +442,20 @@ gulp.task 'preBuild', ->
     'clean'
     'copy:index'
     'copy:constJs'
-    'injector:less'
+    #'injector:less'
     'compile'
-    'imagemin'
+    #'imagemin'
     'injector:scripts'
     'replace'
     'ngtemplates' # may cause error
-    'processhtml'
+    #'processhtml'
     'bower'
-    'autoprefixer'
+    #'autoprefixer'
     'usemin'
     'concat:template'
     'ngmin' # may cause error
     'copy:dist'
-    'cssmin' # may cause error
+    #'cssmin' # may cause error
     'uglify'
   )
 
@@ -492,3 +476,10 @@ gulp.task 'dev', ->
     'watch'
   )
 
+gulp.task 'debug:size', ->
+  gulp.src [
+      'client/bower_components/lodash*/**/*.js'
+    ]
+  , base: 'client'
+  .pipe $.uglify()
+  .pipe $.size(showFiles: true)

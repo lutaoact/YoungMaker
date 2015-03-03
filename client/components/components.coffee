@@ -1,9 +1,9 @@
 'use strict'
 
 angular.module 'maui.components', [
+  'ipCookie'
   'cgNotify'
   'ngStorage'
-  'ngCookies'
   'ngResource'
   'ngSanitize'
   'restangular'

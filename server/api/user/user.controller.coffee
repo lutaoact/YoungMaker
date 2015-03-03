@@ -316,7 +316,7 @@ exports.forgotPassword = (req, res, next) ->
     User.findOneAndUpdateQ conditions, fieldsToSet
   .then (user) ->
     return res.send(403, "该邮箱地址还未注册，请确认您输入的邮箱地址是否正确") if !user?
-    resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+user.email+'&token='+token
+    resetLink = req.protocol+'://'+req.headers.host+'/reset?email='+encodeURIComponent(user.email)+'&token='+token
     sendPwdResetMail user.name, user.email, resetLink
   .done () ->
     res.send 200
@@ -326,11 +326,13 @@ exports.forgotPassword = (req, res, next) ->
 exports.resetPassword = (req, res, next) ->
   if not req.body.password? then return res.send 400
 
-  User.findOneQ
+  conditions =
     email: req.body.email?.toLowerCase?()
     resetPasswordToken: req.body.token
     resetPasswordExpires:
       $gt: Date.now()
+
+  User.findOneQ conditions
   .then (user) ->
     return res.send(403, "重设密码链接已过时或者不合法") if !user?
     user.password = req.body.password

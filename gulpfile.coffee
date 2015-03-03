@@ -442,20 +442,20 @@ gulp.task 'preBuild', ->
     'clean'
     'copy:index'
     'copy:constJs'
-    'injector:less'
+    #'injector:less'
     'compile'
-    'imagemin'
+    #'imagemin'
     'injector:scripts'
     'replace'
     'ngtemplates' # may cause error
-    'processhtml'
+    #'processhtml'
     'bower'
-    'autoprefixer'
+    #'autoprefixer'
     'usemin'
     'concat:template'
     'ngmin' # may cause error
     'copy:dist'
-    'cssmin' # may cause error
+    #'cssmin' # may cause error
     'uglify'
   )
 

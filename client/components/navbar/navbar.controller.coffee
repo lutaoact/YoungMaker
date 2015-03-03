@@ -7,7 +7,6 @@ angular.module 'maui.components'
   Auth
   $scope
   $state
-  socket
 ) ->
 
   angular.extend $scope,
@@ -25,7 +24,6 @@ angular.module 'maui.components'
     logout: ->
       Msg.clearMsg()
       Auth.logout()
-      socket.close()
 
     isActive: (state) ->
       if state

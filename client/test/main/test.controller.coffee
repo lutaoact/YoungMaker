@@ -6,7 +6,6 @@ angular.module 'mauiTestApp'
   Auth
   $http
   $scope
-  socket
   Restangular
   $localStorage
 ) ->
@@ -24,25 +23,6 @@ angular.module 'mauiTestApp'
     token: 'empty'
     aceOptions:
       mode: 'json'
-
-    toggleHandler: ->
-      if $scope.hasHandler()
-        socket.resetHandler()
-      else
-        socket.setHandler $scope.$storage.socketType, (data) ->
-          $scope.response = data
-
-    hasHandler: ->
-      socket.hasHandler $scope.$storage.socketType
-
-    hasOpen: ->
-      socket.hasOpen()
-
-    toggleSocket: ->
-      if $scope.hasOpen()
-        socket.close()
-      else
-        Auth.getCurrentUser().$promise?.then socket.setup
 
     send: (method) ->
       $scope.methods.isOpen = false

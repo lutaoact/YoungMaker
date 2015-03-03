@@ -126,6 +126,24 @@ class User extends BaseModel
         respond notTaken
     , '该邮箱地址已经被占用，请选择其他邮箱'
 
+    UserSchema
+    .path 'name'
+    .validate (value, respond) ->
+      self = this
+      this.constructor.findOne
+        name: value
+      , (err, user) ->
+        throw err if err
+        notTaken = !user or user.id == self.id
+        respond notTaken
+    , '该昵称已被占用'
+
+    UserSchema
+    .path 'name'
+    .validate (value) ->
+      return not (/\s+/.test value)
+    , '用户昵称含有空格'
+
     validatePresenceOf = (value) ->
       value && value.length
 

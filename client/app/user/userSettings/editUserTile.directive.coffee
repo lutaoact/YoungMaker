@@ -60,8 +60,13 @@ angular.module('mauiApp')
           classes: 'alert-success'
         $scope.onUpdateUser?()
       .catch (error) ->
+        notify
+          message: '保存失败'
+          classes: 'alert-danger'
         $scope.viewState.saving = false
         $scope.errors = error?.data?.errors
+        angular.forEach error?.data?.errors, (error, field) ->
+          form[field].$setValidity 'mongoose', false
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

@@ -35,7 +35,7 @@
   </script>
 
 </head>
-<body ng-app="mauiAppDev">
+<body ng-app="mauiApp">
   <!--[if lt IE 9]>
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
@@ -62,11 +62,6 @@
   <!-- endbower -->
   <!-- endbuild -->
 
-  <!-- build:remove -->
-  <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-  <script src="app/mock.js"></script>
-  <!-- endbuild -->
-
   <!-- build:js({.tmp,client}) app/app.js -->
   <script src="app/app.js"></script>
   <script src="components/components.js"></script>
@@ -74,7 +69,7 @@
   <!-- endinjector -->
   <!-- endbuild -->
   <script>
-    angular.module('mauiAppDev')
+    angular.module('mauiApp')
       .constant('initUser', <%- initUser %>)
   </script>
 </body>

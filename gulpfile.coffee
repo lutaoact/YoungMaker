@@ -97,7 +97,7 @@ gulp.task 'injector:scripts', ->
     target = gulp.src 'client/' + indexPath + 'index.html'
     sources = gulp.src([
       "{.tmp,client}/{#{appPath},components}/**/*.js"
-      "!{.tmp,client}/{#{appPath},components}/{app,components,mock}.js"
+      "!{.tmp,client}/{#{appPath},components}/{app,components}.js"
       "!{.tmp,client}/{#{appPath},components}/**/*.spec.js"
       ]
     , read:false).pipe $.order()
@@ -191,11 +191,6 @@ gulp.task 'svgmin', ->
   gulp.src ['client/assets/images/{,*/}*.svg']
   .pipe $.svgmin()
   .pipe gulp.dest(clientDistFolder + '/assets/images/')
-
-gulp.task 'replace', ->
-  gulp.src(['client/index.html'])
-  .pipe($.replace(/mauiAppDev/g, 'mauiApp'))
-  .pipe(gulp.dest('client/'))
 
 # what does this do?
 gulp.task 'processhtml', ->
@@ -317,7 +312,6 @@ gulp.task 'watch', ->
   gulp.watch [
       "client/{#{watchPaths}}/**/*.coffee"
       "client/{#{watchPaths}}/**/*.spec.coffee"
-      "client/{#{watchPaths}}/**/*.mock.coffee"
       "client/{#{watchPaths}}/*.coffee"
     ]
   , ['coffee:client']
@@ -442,20 +436,20 @@ gulp.task 'preBuild', ->
     'clean'
     'copy:index'
     'copy:constJs'
-    #'injector:less'
+    'injector:less'
     'compile'
-    #'imagemin'
+    'imagemin'
     'injector:scripts'
     'replace'
     'ngtemplates' # may cause error
-    #'processhtml'
+    'processhtml'
     'bower'
-    #'autoprefixer'
+    'autoprefixer'
     'usemin'
     'concat:template'
     'ngmin' # may cause error
     'copy:dist'
-    #'cssmin' # may cause error
+    'cssmin' # may cause error
     'uglify'
   )
 
@@ -468,7 +462,6 @@ gulp.task 'dev', ->
     'injector:less'
     'compile'
     'injector:scripts'
-    'replace'
     'processhtml'
     'bower'
     'autoprefixer'
@@ -483,3 +476,24 @@ gulp.task 'debug:size', ->
   , base: 'client'
   .pipe $.uglify()
   .pipe $.size(showFiles: true)
+
+gulp.task 'test', ->
+  $.runSequence(
+    'clean'
+    'copy:index'
+    'copy:constJs'
+    'injector:less'
+    'compile'
+    'imagemin'
+    'injector:scripts'
+    'ngtemplates' # may cause error
+    'processhtml'
+    'bower'
+    'autoprefixer'
+    'usemin'
+    'concat:template'
+    'ngmin' # may cause error
+    'copy:dist'
+    'cssmin' # may cause error
+    'uglify'
+  )

@@ -64,7 +64,6 @@ angular.module('mauiApp')
         $scope.errors = error?.data?.errors
         angular.forEach error?.data?.errors, (error, field) ->
           form[field].$setValidity 'mongoose', false
-          $scope.errors[field] = error.message
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

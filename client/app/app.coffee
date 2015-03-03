@@ -66,7 +66,7 @@ angular.module 'mauiApp', [
   RestangularProvider.setBaseUrl('api')
   RestangularProvider.setRestangularFields(id: "_id")
   RestangularProvider.addResponseInterceptor (data, operation, what, url, response, deferred) ->
-    if operation is 'getList' && data?.results
+    if (operation is 'getList' or operation is 'get') && data?.results && data?.count!=undefined
       count = data.count
       data = data.results
       data.$count = count

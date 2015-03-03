@@ -50,6 +50,10 @@ Const =
     Course: 10
     Article: 10
     Group: 10
+    GroupMember: 20
+
+  MaxPageSize: 1000
+  MinSkipNum: 0
 
 module?.exports = Const
 window?.Const = Const

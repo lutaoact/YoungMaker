@@ -14,4 +14,17 @@
                user="member" me="me">
     </user-tile>
   </div>
+  <div class="pagination-row text-center"
+       ng-if="groupMembers.$count > pageConf.itemsPerPage">
+    <pagination
+      total-items="groupMembers.$count"
+      ng-model="pageConf.currentPage"
+      items-per-page="pageConf.itemsPerPage"
+      class="pagination-sm bud"
+      boundary-links="true"
+      rotate="false"
+      ng-change="reload()"
+      max-size="pageConf.maxSize">
+    </pagination>
+  </div>
 </div>

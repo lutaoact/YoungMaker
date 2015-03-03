@@ -17,9 +17,11 @@ exports.index = (req, res, next) ->
     ]
   WrapRequest.wrapPageIndex req, res, next, conditions
 
+
 exports.show = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapShow req, res, next, conditions
+
 
 exports.create = (req, res, next) ->
   pickedKeys = ['name', 'info','logo']
@@ -39,10 +41,12 @@ exports.update = (req, res, next) ->
   conditions = {_id: req.params.id}
   WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
 
+
 exports.destroy = (req, res, next) ->
   conditions = {_id: req.params.id}
   conditions.creator = req.user._id if req.user.role isnt 'admin'
   WrapRequest.wrapDestroy req, res, next, conditions
+
 
 exports.joinOrLeave = (req, res, next) ->
   console.log req.url
@@ -86,14 +90,27 @@ exports.joinOrLeave = (req, res, next) ->
   .done()
 
 
-# TODO: paginate this!
 exports.showMembers = (req, res, next) ->
   conditions = {_id: req.params.id}
+
+  options =
+    limit: req.query.limit
+    from : req.query.from
+
+  pageSize = options.limit ?
+    Const.PageSize['GroupMember'] ?
+    Const.PageSize.Default
+
+  begin = _.max [~~options.from, Const.MinSkipNum]
+  end = begin + _.min [~~pageSize, Const.MaxPageSize]
+
   Group.findOne conditions
   .populate 'members', 'name avatar'
   .execQ()
   .then (doc) ->
-    res.send doc.members
+    res.send
+      count: doc.members.length
+      results: doc.members.slice(begin, end)
   .catch next
   .done()
 

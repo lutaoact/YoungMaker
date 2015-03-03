@@ -2,7 +2,7 @@
   <div class="row">
 
     <div class="col-md-8">
-      <div class="tag-list">
+      <div class="tag-list" ng-if="pageConf.tags.length">
         <a class="tag-primary"
            ng-click="removeTag(tag)"
            ng-repeat="tag in pageConf.tags">

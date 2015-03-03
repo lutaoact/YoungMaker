@@ -14,7 +14,9 @@ angular.module('mauiApp').directive 'wechatShare', ($modal, $location) ->
         size: 'sm'
         resolve:
           url: -> url
-        controller: ($scope, url)->
+        controller: ($scope, url, $modalInstance)->
           $scope.url = url
+          $scope.close = ()->
+            $modalInstance.dismiss('cancel')
 
 

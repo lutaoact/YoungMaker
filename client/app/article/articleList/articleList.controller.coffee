@@ -32,7 +32,7 @@ angular.module('mauiApp')
     search: ()->
       sortObj = {}
       if $scope.pageConf.sort is 'heat'
-#        sortObj.heat = -1
+        sortObj.heat = -1
         sortObj.viewersNum = -1
         sortObj.commentsNum = -1
         sortObj.created = -1

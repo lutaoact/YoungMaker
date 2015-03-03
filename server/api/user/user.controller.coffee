@@ -21,6 +21,7 @@ sendPwdResetMail = require('../../common/mail').sendPwdResetMail
 setTokenCookie = require('../../auth/auth.service').setTokenCookie
 
 WrapRequest = new (require '../../utils/WrapRequest')(User)
+auth = require '../../auth/auth.service'
 ###
   Get list of users
   restriction: 'admin'
@@ -59,10 +60,8 @@ exports.create = (req, res, next) ->
     data.name = name
     User.createQ data
   .then (user) ->
-    token = jwt.sign
-      _id: user._id,
-      config.secrets.session,
-      expiresInMinutes: 60*5
+    token = auth.signToken(user._id)
+    res.cookie('token', JSON.stringify(token), {expires: new Date(Date.now() + config.tokenExpireTime*60000)})
     res.json
       _id: user._id
       token: token

@@ -66,7 +66,7 @@ angular.module('maui.components')
         email: $scope.user.email
         password: $scope.user.password
       .then (res)->
-        Auth.setToken res.token
+        Auth.refreshCurrentUser()
         $scope.viewState.posting = false
         notify
           message: "注册成功"

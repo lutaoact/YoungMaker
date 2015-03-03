@@ -192,18 +192,23 @@ exports.me = (req, res, next) ->
   Update user
 ###
 exports.update = (req, res, next) ->
-  body = req.body
-  body = _.omit body, ['_id', 'password', 'username']
-
-  User.findByIdQ req.params.id
-  .then (user) ->
+  pickedUpdatedKeys = ['avatar', 'info', 'name']
+  Q(
+    if req.user.role is 'admin'
+      pickedUpdatedKeys.push 'role'
+      User.findByIdQ req.params.id
+    else
+      User.findByIdQ req.user._id
+  ).then (user) ->
     return res.send 404 if not user?
 
-    updated = _.merge user , req.body
+    body = _.pick req.body, pickedUpdatedKeys
+    updated = _.merge user, body
     updated.saveQ()
   .then (result) ->
     res.send result[0]
-  , next
+  .catch next
+  .done()
 
 
 updateClasseStudents = (classeId, studentList) ->

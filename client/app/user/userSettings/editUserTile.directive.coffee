@@ -60,6 +60,9 @@ angular.module('mauiApp')
           classes: 'alert-success'
         $scope.onUpdateUser?()
       .catch (error) ->
+        notify
+          message: '保存失败'
+          classes: 'alert-danger'
         $scope.viewState.saving = false
         $scope.errors = error?.data?.errors
         angular.forEach error?.data?.errors, (error, field) ->

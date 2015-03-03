@@ -52,6 +52,9 @@ class User extends BaseModel
       type: String
     resetPasswordExpires:
       type: Date
+    blocked:
+      type: Date
+      default: null
 
   constructor: ->
     @setupUserSchema @schema

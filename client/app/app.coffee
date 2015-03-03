@@ -37,6 +37,7 @@ angular.module 'mauiApp', [
   'angular-sortable-view'
   'ui.ace'
   'monospaced.qrcode'
+  'ipCookie'
 ]
 
 .value('duScrollGreedy', true)
@@ -72,7 +73,7 @@ angular.module 'mauiApp', [
       data.$count = count
     return data
 
-.factory 'urlInterceptor', ($rootScope, $q, $cookieStore, $location,configs) ->
+.factory 'urlInterceptor', ($rootScope, $q, $location, configs) ->
   # Add authorization token to headers
   request: (config) ->
     config.url = configs.baseUrl + config.url if /^(|\/)(api|auth)/.test config.url
@@ -122,21 +123,21 @@ angular.module 'mauiApp', [
     $q.reject response
 
 
-.factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location, loginRedirector) ->
+.factory 'authInterceptor', ($rootScope, ipCookie, $q, $location, loginRedirector) ->
   # Add authorization token to headers
   request: (config) ->
     # When not withCredentials, should not carry Authorization header either
     if config.withCredentials is false
       return config
     config.headers = config.headers or {}
-    config.headers.Authorization = 'Bearer ' + $cookieStore.get('token')  if $cookieStore.get('token')
+    config.headers.Authorization = 'Bearer ' + ipCookie('token') if ipCookie('token')
     config
 
   # Intercept 401s and redirect you to login
   responseError: (response) ->
     if response.status is 401
       # remove any stale tokens
-      $cookieStore.remove 'token'
+      ipCookie.remove 'token'
       $q.reject response
     else
       $q.reject response

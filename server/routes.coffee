@@ -6,6 +6,7 @@ errors = require './components/errors'
 jwt = require 'jsonwebtoken'
 config = require './config/environment'
 ejs = require 'ejs'
+auth = require './auth/auth.service'
 
 errorHandler = (err, req, res, next) ->
   logger.error err
@@ -79,6 +80,8 @@ module.exports = (app) ->
         logger.info user
 
         unless err?
+          token = auth.signToken(user._id)
+          res.cookie('token', JSON.stringify(token), {expires: new Date(Date.now() + config.tokenExpireTime*60000)})
           locals.initUser = JSON.stringify  _id: user._id
 
         ejs.renderFile indexPath, locals, (err, htmlStr) ->

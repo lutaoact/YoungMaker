@@ -8,7 +8,6 @@ filterWords = _.uniq filterWords
 
 
 testFilter = (content)->
-  console.log  '--------------------ffffffffff---------------'
   for filterWord in filterWords
     if content.indexOf(filterWord) >= 0
       throw

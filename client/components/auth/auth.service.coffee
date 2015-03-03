@@ -7,7 +7,7 @@ angular.module('maui.components')
   $http
   $rootScope
   Restangular
-  $cookieStore
+  ipCookie
   $localStorage
 ) ->
 
@@ -23,7 +23,7 @@ angular.module('maui.components')
     deferred = $q.defer()
     $http.post('/auth/local', user).success ((data) ->
       $rootScope.$emit 'loginSuccess'
-      deferred.resolve @setToken(data.token)
+      deferred.resolve @refreshCurrentUser()
     ).bind(@)
     .error ((err) ->
       @logout()
@@ -32,19 +32,10 @@ angular.module('maui.components')
     deferred.promise
 
   ###
-  Save token and reset User
-
-  @param {String} token
-  ###
-  setToken: (token) ->
-    $cookieStore.put 'token', token
-    @refreshCurrentUser()
-
-  ###
   Delete access token and user info
   ###
   logout: ->
-    $cookieStore.remove 'token'
+    ipCookie.remove 'token'
     currentUser = {}
     $rootScope.$emit 'logoutSuccess'
     return
@@ -97,4 +88,5 @@ angular.module('maui.components')
   ###
   Get auth token
   ###
-  getToken: -> $cookieStore.get 'token'
+  getToken: ->
+    ipCookie 'token'

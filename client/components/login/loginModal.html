@@ -21,7 +21,7 @@
       <div class="input-group">
         <input class="form-control"
                type="text"
-               placeholder="邮箱地址"
+               placeholder="邮箱"
                ng-model="user.email"
                focus-on="emailInput"
                name="email"
@@ -35,7 +35,7 @@
       <div class="input-group">
         <input class="form-control"
                type="password"
-               placeholder="登录密码"
+               placeholder="密码"
                name="password"
                ng-model="user.password"
                focus-on="passwordInput"
@@ -79,7 +79,7 @@
       <div class="input-group">
         <input class="form-control"
                type="text"
-               placeholder="用户名称"
+               placeholder="昵称"
                ng-model="user.name"
                focus-on="nameInput"
                name="name"
@@ -88,12 +88,16 @@
           <i class="iconfont icon-user"></i>
         </div>
       </div>
+      <p ng-if="viewState.errors.name">
+        <i class="fa fa-exclamation-triangle text-danger"></i>
+        {{viewState.errors.name.message}}
+      </p>
     </div>
     <div class="form-group">
       <div class="input-group">
         <input class="form-control"
                type="email"
-               placeholder="邮箱地址"
+               placeholder="邮箱"
                ng-model="user.email"
                ng-change="checkEmail(signupForm.email)"
                name="email"
@@ -118,7 +122,7 @@
       <div class="input-group">
         <input class="form-control"
                type="password"
-               placeholder="登录密码"
+               placeholder="密码"
                name="password"
                ng-model="user.password"
                required>

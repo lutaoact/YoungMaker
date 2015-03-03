@@ -37,7 +37,9 @@
                  required
                  focus-me="nameInputFocus"
                  ng-init="nameInputFocus=true"
+                 mongoose-error
                  ng-model="editingInfo.name">
+          <small class="text-danger" ng-if="profileForm.name.$error.mongoose">{{ errors.name.message }}</small>
         </div>
       </div>
       <div class="form-group">

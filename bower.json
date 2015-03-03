@@ -15,7 +15,6 @@
     "moment": "~2.9.0",
     "utf8": "~2.0.0",
     "angular-elastic": "~2.4.2",
-    "angular-sortable-view": "~0.0.12",
     "Jcrop": "~0.9.12",
     "pen": "~0.0.3",
     "angular-scroll": "~0.6.2",
@@ -35,16 +34,16 @@
     "angular-cookie": "~4.0.6"
   },
   "devDependencies": {
-    "angular-mocks": ">=1.2.*",
     "angular-scenario": ">=1.2.*"
   },
   "overrides": {
-    "angular-sortable-view": {
-      "main": [
-        "src/angular-sortable-view.min.js"
-      ]
-    },
     "bootstrap": {
+      "ignore": true
+    },
+    "font-awesome": {
+      "ignore": true
+    },
+    "bootstrap-css-only": {
       "ignore": true
     },
     "Jcrop": {
@@ -52,17 +51,11 @@
         "js/jquery.Jcrop.min.js"
       ]
     },
-    "font-awesome": {
-      "ignore": true
-    },
     "moment": {
       "main": [
-        "moment.js",
+        "min/moment.min.js",
         "locale/zh-cn.js"
       ]
-    },
-    "bootstrap-css-only": {
-      "ignore": true
     },
     "pen": {
       "main": [
@@ -70,11 +63,29 @@
         "src/pen.css"
       ]
     },
-    "angular-scroll": {
-      "main": "angular-scroll.js"
+   "jquery": {
+     "main": "dist/jquery.min.js"
+   },
+   "angular": {
+     "main": "angular.min.js"
+   },
+   "angular-bootstrap": {
+      "main": "ui-bootstrap-tpls.min.js"
+    },
+   "angular-ui-router": {
+      "main": "release/angular-ui-router.min.js"
+    },
+   "angular-animate": {
+      "main": "angular-animate.min.js"
+    },
+   "angular-scroll": {
+      "main": "angular-scroll.min.js"
     },
     "angular-i18n": {
       "main": "angular-locale_zh-cn.js"
+    },
+    "lodash": {
+      "main": "dist/lodash.min.js"
     },
     "rangy": {
       "main": [
@@ -93,11 +104,6 @@
         "font-awesome": "^4.0.x",
         "rangy": "^1.2.0"
       }
-    },
-    "ace-builds": {
-      "main": [
-        "src-min-noconflict/ace.js"
-      ]
     }
   },
   "resolutions": {

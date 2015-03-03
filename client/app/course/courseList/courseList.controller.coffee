@@ -42,6 +42,7 @@ angular.module('mauiApp')
         sortObj.commentsNum = -1
         sortObj.created = -1
       else
+        sortObj.heat = -1
         sortObj.created = -1
 
       Restangular.all('courses').getList

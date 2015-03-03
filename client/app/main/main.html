@@ -18,10 +18,10 @@
       </div>
 
       <!-- static content -->
-      <div u="any" class="search-form">
+      <!-- <div u="any" class="search-form">
         <search-input placeholder="快来找您感兴趣的趣课…" keyword="viewState.keyword" on-submit="viewState.keyword=$keyword;search()"></search-input>
         <button class="btn btn-warning btn-search" ng-click="search()">搜索</button>
-      </div>
+      </div> -->
     </div>
 
     <!-- bullet navigator container -->
@@ -69,7 +69,9 @@
               <!-- Slides Container -->
               <div u="slides" class="slides">
                 <div ng-repeat="banner in slideBanners">
-                  <img u="image" ng-src="{{banner.image}}">
+                  <a ng-href="{{banner.link}}" target="blank">
+                    <img u="image" ng-src="{{banner.image}}">
+                  </a>
                   <div u="thumb">
                     <h4>{{banner.text}}
                       <a ng-href="{{banner.link}}" target="blank" class="btn btn-xs btn-outline btn-primary">

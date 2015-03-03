@@ -136,13 +136,13 @@ class User extends BaseModel
         throw err if err
         notTaken = !user or user.id == self.id
         respond notTaken
-    , '该名称已被占用'
+    , '该昵称已被占用'
 
     UserSchema
     .path 'name'
     .validate (value) ->
       return not (/\s+/.test value)
-    , '用户名称含有空格'
+    , '用户昵称含有空格'
 
     validatePresenceOf = (value) ->
       value && value.length

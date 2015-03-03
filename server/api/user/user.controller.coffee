@@ -54,11 +54,12 @@ exports.create = (req, res, next) ->
   data =
     email   : body.email
     password: body.password
+    name    : body.name
 
-  UserUtils.getAcceptName body.name
-  .then (name) ->
-    data.name = name
-    User.createQ data
+#  UserUtils.getAcceptName body.name
+#  .then (name) ->
+#    data.name = name
+  User.createQ data
   .then (user) ->
     token = auth.signToken(user._id)
     res.cookie('token', JSON.stringify(token), {expires: new Date(Date.now() + config.tokenExpireTime*60000)})

@@ -16,9 +16,9 @@ all =
   env: process.env.NODE_ENV
 
   weixinAuth:
-    appkey: 'wx0b867034fb0d7f4e'
-    secret: '7b88d10a6a284fc9dc3881e5d32396ed'
-    oauth_callback_url: 'http://cloud3edu.cloud3edu.cn/auth/weixin/callback'
+    appkey: 'wxda486048345cc138'
+    secret: '46c0c8a212792bb25fd42a1a995bafbd'
+    oauth_callback_url: 'http://youngmakers.cn/auth/weixin/callback'
 
   # Root path of server
   root: path.normalize __dirname + '/../../..'

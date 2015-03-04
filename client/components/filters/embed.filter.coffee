@@ -7,6 +7,15 @@ angular.module('maui.components').filter 'embed', ($sce)->
       when /^<iframe(.*)<\/iframe>*/.test url
         # iframe. TODO: Not safe, not sure if the content in iframe is a video.
         url
+      when /^<video(.*)<\/video>*/.test url
+        # iframe. TODO: Not safe, not sure if the content in iframe is a video.
+        url
+      when /^<embed(.*)>*/.test url
+        # iframe. TODO: Not safe, not sure if the content in iframe is a video.
+        url
+      when /^<object(.*)<\/object>*/.test url
+        # iframe. TODO: Not safe, not sure if the content in iframe is a video.
+        url
       when /v.youku.com\/(.*)id_(.*).html/.test url
         # youku video http://v.youku.com/v_show/id_XODIwMDU0MDg0.html?f=23035007&ev=4&from=y1.3-idx-grid-1519-9909.86808-86807.7-1
         '<iframe height=498 width=510 src="http://player.youku.com/embed/' + url.replace(/.*id_(.*).html.*/,'$1') + '" frameborder=0 allowfullscreen></iframe>'

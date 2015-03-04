@@ -24,6 +24,7 @@
     "gulp-cdnify": "^1.0.0",
     "gulp-iconfont": "^1.0.0",
     "gulp-qiniu": "git://github.com/cloud3edu/gulp-qiniu.git",
+    "gulp-replace": "^0.5.3",
     "gulp-util": "^3.0.3",
     "jade": "^1.6.0",
     "jsonwebtoken": "^0.3.0",

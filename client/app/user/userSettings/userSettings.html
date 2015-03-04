@@ -1,52 +1,112 @@
 <div class="user-settings-view">
 
-  <edit-user-tile user="me"></edit-user-tile>
+  <div class="row text-center">
+    <div class="form-horizontal col-sm-8 col-sm-offset-2" role="form">
+      <div class="form-group">
+        <div class="avatar-lg"
+             ng-src="{{editingInfo.avatar|trusted:'url'}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <uploader class="btn btn-danger btn-sm rounded"
+                  limit="2*1024*1024"
+                  on-complete="onAvatarUploaded($data)"
+                  crop="true"
+                  crop-ratio="1"
+                  max-width="128"
+                  accept-type="image">
+          修改头像
+        </uploader>
+      </div>
+    </div>
+  </div>
 
   <hr>
+
   <div class="row">
     <form class="form-horizontal col-sm-8 col-sm-offset-2"
-          name="form"
-          ng-submit="changePassword(form)">
-
+          role="form"
+          name="profileForm"
+          ng-submit="saveProfile(profileForm)">
       <div class="form-group">
-        <label for="inputOldPassword" class="col-xs-4 control-label">原密码</label>
+        <label for="inputEmail" class="col-xs-4 control-label">邮箱</label>
         <div class="col-xs-8">
-          <input type="password"
-                 id="inputOldPassword"
-                 name="password"
+          <button class="btn btn-default btn-sm"
+                  type="button"
+                  ng-click="addEmailAccount()"
+                  ng-if="!me.email">
+            点击添加邮箱账户
+          </button>
+          <span ng-if="me.email">
+            <span>{{me.email}}</span>
+            <button class="btn btn-link btn-sm"
+                    type="button"
+                    ng-click="changePassword()"
+                    target="_blank">修改登录密码</button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputEmail" class="col-xs-4 control-label">微信</label>
+        <div class="col-xs-8">
+          <a href="http://wx.qq.com"
+             target="_blank"
+             ng-if="me.weixin">{{me.weixin}}</a>
+          <button class="btn btn-sm"
+                  type="button"
+                  ng-class="{'btn-default':!me.weixin, 'btn-link':me.weixin}"
+                  ng-click="addWeixinLogin()"
+                  ng-disabled="me.weixin">
+            <span ng-if="me.weixin" class="text-muted">已绑定</span>
+            <span ng-if="!me.weixin">点击绑定微信账户</span>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputName" class="col-xs-4 control-label">姓名</label>
+        <div class="col-xs-8">
+          <input type="text"
                  class="form-control"
-                 ng-model="password.old"
+                 id="inputName"
+                 placeholder="请输入您的姓名"
+                 required
+                 name="name"
+                 focus-me="nameInputFocus"
+                 ng-init="nameInputFocus=true"
                  mongoose-error
-                 required/>
+                 ng-model="editingInfo.name">
+          <small class="text-danger" ng-if="profileForm.name.$error.mongoose">{{ errors.name.message }}</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputInfo" class="col-xs-4 control-label">简介</label>
+        <div class="col-xs-8">
+          <textarea type="text"
+                    class="form-control"
+                    id="inputInfo"
+                    name="info"
+                    placeholder="简单的介绍一下自己吧"
+                    ng-model="editingInfo.info"></textarea>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="inputNewPassword" class="col-xs-4 control-label">新密码</label>
-        <div class="col-xs-8">
-          <input id="inputNewPassword" 
-                 type="password"
-                 name="newPassword"
-                 class="form-control"
-                 ng-model="password.new"
-                 required/>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="inputNewPasswordAgain" class="col-xs-4 control-label">确认新密码</label>
-        <div class="col-xs-8">
-          <input id="inputNewPasswordAgain"
-                 type="password"
-                 name="newPasswordAgain"
-                 class="form-control"
-                 ng-model="password.again"
-                 required/>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-offset-4 col-xs-8">
-          <button class="btn btn-danger btn-sm rounded" type="submit">修改密码</button>
+        <div class="col-xs-8 col-xs-offset-4 text-left">
+          <button type="submit"
+                  ng-disabled="viewState.saved || viewState.saving"
+                  class="btn btn-danger btn-sm rounded" >
+            <span ng-if="!viewState.saving">
+              <span ng-if="!viewState.saved">保存</span>
+              <span ng-if="viewState.saved">已保存</span>
+            </span>
+            <span ng-if="viewState.saving">
+              <i class="fa fa-spinner fa-spin"></i>
+              保存中
+            </span>
+          </button>
+          &nbsp;&nbsp;
+          <a ui-sref="user.home({userId:me._id})"
+             class="btn btn-default btn-sm rounded">查看我的主页</a>
         </div>
       </div>
     </form>

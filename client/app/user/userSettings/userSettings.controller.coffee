@@ -3,45 +3,88 @@
 angular.module('mauiApp')
 
 .controller 'UserSettingsCtrl',(
-  Auth
+  $state
   $scope
+  $modal
   notify
   Restangular
 ) ->
 
-  $scope.$emit 'updateTitle', '个人设置'
+  $scope.$emit 'updateTitle', '账户设置'
+
+  # 能被编辑的字段
+  editableFields = [
+    'name'
+    'email'
+    'avatar'
+    'info'
+  ]
 
   angular.extend $scope,
+    $state: $state
+    errors: null
+    editingInfo: _.pick $scope.me, editableFields
+    viewState:
+      saved: true
+      saving: false
+      deleting: false
 
-    password:
-      old: ''
-      new: ''
-      again: ''
-
-    changePassword: (form) ->
-      if !form.$valid then return
-      if $scope.password.new.length < 6
-        notify
-          message:'新密码不能小于6位'
-          classes:'alert-danger'
-        return
-      if $scope.password.new isnt $scope.password.again
-        notify
-          message:'两次输入的密码不一致'
-          classes:'alert-danger'
-        return
-
-      Restangular.one('users', 'me')
-      .customPUT
-        oldPassword: $scope.password.old
-        newPassword: $scope.password.new
-      , 'password'
+    onAvatarUploaded: (key) ->
+      $scope.editingInfo.avatar = key
+      Restangular.one('users', $scope.me._id)
+      .patch avatar: key
       .then ->
+        $scope.me.avatar = key
         notify
-          message:'密码修改成功'
-          classes:'alert-success'
-          $scope.password = {}
-      .catch ->
+          message: '头像修改成功'
+          classes: 'alert-success'
+
+    saveProfile: (form) ->
+      if !form.$valid then return
+      $scope.viewState.saving = true
+      $scope.errors = null
+      Restangular.one('users', $scope.me._id)
+      .patch($scope.editingInfo)
+      .then ->
+        $scope.viewState.saving = false
+        angular.extend $scope.me, $scope.editingInfo
         notify
-          message:'原密码错误'
-          classes:'alert-danger'
+          message: '基本信息已保存'
+          classes: 'alert-success'
+        $scope.onUpdateUser?()
+      .catch (error) ->
+        notify
+          message: '保存失败'
+          classes: 'alert-danger'
+        $scope.viewState.saving = false
+        $scope.errors = error?.data?.errors
+        angular.forEach error?.data?.errors, (error, field) ->
+          form[field].$setValidity 'mongoose', false
+
+    addWeixinLogin: ->
+      $modal.open
+        templateUrl: 'app/user/userSettings/addWeixinModal.html'
+        windowClass: 'message-modal'
+        controller: 'AddWeixinModalCtrl'
+        size: 'sm'
+
+    changePassword: ->
+      $modal.open
+        templateUrl: 'app/user/userSettings/changePasswordModal.html'
+        windowClass: 'message-modal'
+        controller: 'ChangePasswordModalCtrl'
+        size: 'sm'
+
+    addEmailAccount: ->
+      $modal.open
+        templateUrl: 'app/user/userSettings/addEmailModal.html'
+        windowClass: 'message-modal'
+        controller: 'AddEmailModalCtrl'
+        size: 'sm'
+
+  # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
+  $scope.$watch ->
+    _.isEqual($scope.editingInfo, _.pick $scope.me, editableFields)
+  , (isEqual) ->
+    $scope.errors = null
+    $scope.viewState.saved = isEqual

@@ -188,11 +188,10 @@ exports.me = (req, res, next) ->
   User.findOne
     _id: userId
     '-salt -hashedPassword'
-  .populate 'subscriptions'
   .execQ()
   .then (user) -> # donnot ever give out the password or salt
     return res.send 401 if not user?
-    res.send user
+    res.send user.profile
   , next
 
 ###

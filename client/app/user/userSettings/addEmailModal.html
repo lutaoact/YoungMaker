@@ -1,0 +1,58 @@
+<form class="form-horizontal"
+      name="form"
+      ng-submit="addEmailAccount(form)">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fa fa-envelope-o primary"></i>
+      添加登录邮箱
+    </h4>
+    <a class="close" ng-click="close()">&times;</a>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="emailInput" class="col-xs-4 control-label">邮箱</label>
+      <div class="col-xs-8">
+        <input type="email"
+               name="email"
+               class="form-control"
+               ng-model="email"
+               placeholder="请设置您的登录邮箱"
+               mongoose-error
+               required/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword" class="col-xs-4 control-label">密码</label>
+      <div class="col-xs-8">
+        <input id="inputPassword"
+               type="password"
+               name="password"
+               class="form-control"
+               placeholder="请设置您的登录密码"
+               ng-model="password.new"
+               required/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPasswordAgain" class="col-xs-4 control-label">确认密码</label>
+      <div class="col-xs-8">
+        <input id="inputPasswordAgain"
+               type="password"
+               name="passwordAgain"
+               class="form-control"
+               placeholder="请再一次确认您的登录密码"
+               ng-model="password.again"
+               required/>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default btn-sm"
+            type="button"
+            ng-click="close()">取消</button>
+    <button class="btn btn-danger btn-sm"
+            type="submit">确认</button>
+  </div>
+</form>

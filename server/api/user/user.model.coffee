@@ -90,6 +90,7 @@ class User extends BaseModel
       'name': this.name
       'role': this.role
       'info': this.info
+      'weixin': this.weixin?.name
       'email': this.email
       'avatar': this.avatar
 

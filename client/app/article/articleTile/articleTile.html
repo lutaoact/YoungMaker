@@ -25,13 +25,8 @@
     {{article.content|htmlToPlaintext}}
   </p>
   <ul class="ul-inline">
-    <li class="user-info">
-      <a class="link-base-color" ui-sref="user.home({userId: activity.userId._id})">
-        <div class="avatar-xs inline-block-middle"
-             ng-src="{{article.author.avatar|trusted:'url'}}">
-        </div>
-        <span class="user-name">{{article.author.name}}</span>
-      </a>
+    <li>
+      <user-avatar-name user="article.author"></user-avatar-name>
     </li>
     <li ng-if="article.column">
       专栏－{{article.column.name}}

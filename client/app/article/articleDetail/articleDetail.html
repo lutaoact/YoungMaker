@@ -27,7 +27,7 @@
           </h3>
           <div class="article-info">
             <ul class="ul-inline">
-              <li class="user-info">
+              <li>
                 <a ui-sref="user.home({userId: article.author._id})"
                    class="link-base-color">
                   {{article.author.name}}
@@ -77,13 +77,8 @@
 
           <div class="article-footer" ng-if="article">
             <ul class="ul-inline">
-              <li class="user-info">
-                <a class="link-base-color" ui-sref="user.home({userId: article.author._id})">
-                  <div class="avatar-xs inline-block-middle"
-                       ng-src="{{article.author.avatar|trusted:'url'}}">
-                  </div>
-                  <span class="user-name">{{article.author.name}}</span>
-                </a>
+              <li>
+                <user-avatar-name user="article.author"></user-avatar-name>
               </li>
               <li ng-if="article.column">
                 专栏－{{article.column.name}}

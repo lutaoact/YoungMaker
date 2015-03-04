@@ -28,7 +28,7 @@
             <h1>{{course.title}}</h1>
             <div class="course-info">
               <ul class="ul-inline">
-                <li class="user-info">
+                <li>
                   <a ui-sref="user.home({userId: course.author._id})"
                      class="link-base-color">
                     {{course.author.name}}
@@ -80,15 +80,16 @@
 
           <div class="course-footer" ng-if="course">
             <ul class="ul-inline">
-              <li class="user-info">
-                <div class="avatar-xs inline-block-middle pointer"
-                     ui-sref="user.home({userId: course.author._id})"
-                     ng-src="{{course.author.avatar|trusted:'url'}}">
-                </div>
-                <a ui-sref="user.home({userId: course.author._id})"
-                   class="link-base-color">
-                  {{course.author.name}}
-                </a>
+              <li>
+                <!--<div class="avatar-xs inline-block-middle pointer"-->
+                     <!--ui-sref="user.home({userId: course.author._id})"-->
+                     <!--ng-src="{{course.author.avatar|trusted:'url'}}">-->
+                <!--</div>-->
+                <!--<a ui-sref="user.home({userId: course.author._id})"-->
+                   <!--class="link-base-color">-->
+                  <!--{{course.author.name}}-->
+                <!--</a>-->
+                <user-avatar-name user="course.author"></user-avatar-name>
               </li>
               <li>
                 {{course.created | moment: 'calendar'}}

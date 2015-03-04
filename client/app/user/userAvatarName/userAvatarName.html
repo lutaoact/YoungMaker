@@ -1,0 +1,6 @@
+<a class="link-base-color" ui-sref="user.home({userId: user._id})">
+  <div class="avatar-{{size}} inline-block-middle"
+       ng-src="{{user.avatar|trusted:'url'}}">
+  </div>
+  {{user.name}}
+</a>

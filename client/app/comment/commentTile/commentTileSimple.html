@@ -6,13 +6,8 @@
   </div>
   <h4>
     <ul class="ul-inline">
-      <li class="user-info">
-        <div class="avatar-xs inline-block-middle"
-             ng-src="{{comment.postBy.avatar|trusted:'url'}}">
-        </div>
-        <a ui-sref="user.home({userId: comment.postBy._id})">
-          {{comment.postBy.name}}
-        </a>
+      <li>
+        <user-avatar-name user="comment.postBy"></user-avatar-name>
       </li>
       <li>
         {{comment.created | moment: 'fromNow'}}

@@ -1,13 +1,7 @@
 <div class="user-tile-md">
 
   <!--用户基本信息-->
-  <a class="link-base-color" class="user-name" ui-sref="user.home({userId: user._id})">
-    <div class="avatar-sm inline-block-middle"
-         ng-src="{{displayUser.avatar|trusted:'url'}}"
-         style="cursor: pointer"
-         ui-sref="user.home({userId:user._id})"></div>
-    {{displayUser.name}}
-  </a>
+  <user-avatar-name user="user" size="sm"></user-avatar-name>
 
   <!--关注、编辑个人信息按钮-->
   <a ng-if="me._id == user._id"

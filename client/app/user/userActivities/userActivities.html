@@ -25,12 +25,7 @@
   </div>
   <ul ng-class="{'last':$last}">
     <li>
-      <a class="user-info link-base-color" ui-sref="user.home({userId: activity.userId._id})">
-        <div class="avatar-sm inline-block-middle"
-              ng-src="{{activity.userId.avatar|trusted:'url'}}">
-        </div>
-        <span class="user-name">{{activity.userId.name}}</span>
-      </a>
+      <user-avatar-name user="activity.userId"></user-avatar-name>
     </li>
     <li ng-switch="activity.action" class="text-muted">
       <span ng-switch-when="create_group">

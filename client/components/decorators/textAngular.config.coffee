@@ -141,12 +141,29 @@ angular.module 'maui.components'
           element: 'img'
           action: imgOnSelectAction
 
+      #embeded
+      taRegisterTool 'embeded',
+        iconclass: "fa fa-magic",
+        action: ($deferred)->
+          selection = rangy.saveSelection(window)
+          self = this
+          $modal.open
+            templateUrl: 'components/modals/magicPopup/magicPopup.html'
+            controller: 'MagicPopupCtrl'
+            backdrop: 'static'
+          .result.then (result)->
+            rangy.restoreSelection(selection)
+            embed = result
+            self.$editor().wrapSelection 'insertHTML', embed, true
+            $deferred.resolve()
+          false
+
       taOptions.toolbar = [
         ['h1', 'h2', 'h3'],
         ['bold', 'italics', 'clear'],
         ['justifyLeft','justifyCenter','justifyRight'],
         ['ul', 'ol','code', 'quote']
-        ['insertLink', 'upload']
+        ['insertLink', 'upload','embeded']
       ]
 
       taOptions.defaultFileDropHandler = (file, insertAction)->

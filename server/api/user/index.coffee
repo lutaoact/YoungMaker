@@ -14,9 +14,9 @@ router.get '/states', controller.states #?userId=xxx
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete
 router.post '/bindEmail', auth.isAuthenticated(), controller.bindEmail
+router.post '/changePassword', auth.isAuthenticated(), controller.changePassword
 router.post '/forgotPassword', controller.forgotPassword
 router.post '/resetPassword', controller.resetPassword
-router.put '/:id/password', auth.isAuthenticated(), controller.changePassword
 router.put '/:id', auth.isAuthenticated(), controller.update
 router.patch '/:id', auth.isAuthenticated(), controller.update
 router.get '/:id', controller.show

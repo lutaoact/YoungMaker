@@ -19,6 +19,7 @@
                placeholder="请设置您的登录邮箱"
                mongoose-error
                required/>
+        <small class="text-danger" ng-if="form.email.$error.mongoose">{{ form.email.errorMessage }}</small>
       </div>
     </div>
 
@@ -31,7 +32,9 @@
                class="form-control"
                placeholder="请设置您的登录密码"
                ng-model="password.new"
+               mongoose-error
                required/>
+        <small class="text-danger" ng-if="form.password.$error.mongoose">{{ form.password.errorMessage }}</small>
       </div>
     </div>
 

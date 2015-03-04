@@ -3,6 +3,7 @@
 angular.module('mauiApp')
 
 .controller 'UserSettingsCtrl',(
+  Auth
   $state
   $scope
   $modal
@@ -15,7 +16,6 @@ angular.module('mauiApp')
   # 能被编辑的字段
   editableFields = [
     'name'
-    'email'
     'avatar'
     'info'
   ]
@@ -81,6 +81,8 @@ angular.module('mauiApp')
         windowClass: 'message-modal'
         controller: 'AddEmailModalCtrl'
         size: 'sm'
+      .result.then ->
+        Auth.refreshCurrentUser()
 
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->

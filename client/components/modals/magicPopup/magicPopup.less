@@ -1,0 +1,29 @@
+.embeded{
+  padding: 10px;
+  text-align: center;
+  &.busy{
+    text-align: center;
+    &:after{
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: 20px;
+      color: @gray;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transform: translate(0, 0);
+      content: '\f110';
+      -webkit-animation: fa-spin 2s infinite linear;
+      animation: fa-spin 2s infinite linear;
+    }
+  }
+  &:empty{
+    background-color: @gray-lighter;
+    text-align: left;
+    &:before{
+      content: ~"attr(title)";
+      color: #999;
+      cursor: pointer;
+    }
+  }
+}

@@ -51,7 +51,7 @@ angular.module('mauiApp')
           .then refresh
 
   refresh = ->
-    if !$scope.me or !$scope.user then return
+    if !$scope.user then return
 
     # 要显示的用户信息
     $scope.displayUser =

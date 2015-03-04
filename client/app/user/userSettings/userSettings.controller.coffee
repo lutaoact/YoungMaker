@@ -11,19 +11,10 @@ angular.module('mauiApp')
   Restangular
 ) ->
 
-  $scope.$emit 'updateTitle', '账户设置'
-
-  # 能被编辑的字段
-  editableFields = [
-    'name'
-    'avatar'
-    'info'
-  ]
-
   angular.extend $scope,
     $state: $state
     errors: null
-    editingInfo: _.pick $scope.me, editableFields
+    editingInfo: null
     viewState:
       saved: true
       saving: false
@@ -42,7 +33,6 @@ angular.module('mauiApp')
     saveProfile: (form) ->
       if !form.$valid then return
       $scope.viewState.saving = true
-      $scope.errors = null
       Restangular.one('users', $scope.me._id)
       .patch($scope.editingInfo)
       .then ->
@@ -84,9 +74,20 @@ angular.module('mauiApp')
       .result.then ->
         Auth.refreshCurrentUser()
 
+  $scope.$emit 'updateTitle', '账户设置'
+
+  # 能被编辑的字段
+  editableFields = [
+    'name'
+    'avatar'
+    'info'
+  ]
+
+  $scope.$watch 'me', ->
+    $scope.editingInfo = _.pick $scope.me, editableFields
+
   # 检查正在编辑的信息 是否 等于已经保存好的信息，并设置 viewState
   $scope.$watch ->
     _.isEqual($scope.editingInfo, _.pick $scope.me, editableFields)
   , (isEqual) ->
-    $scope.errors = null
     $scope.viewState.saved = isEqual

@@ -22,4 +22,5 @@ angular.module('mauiApp')
         return
       $scope.user = user
   else
-    $scope.user = angular.copy($scope.me)
+    $scope.$watch 'me', ->
+      $scope.user = angular.copy($scope.me)

@@ -16,7 +16,9 @@ angular.module('mauiApp')
   .state 'notices.unread',
     url: '?page'
     controller: 'NoticeCtrl'
+    authenticate: true
 
   .state 'notices.read',
     url: '/read?page'
     controller: 'NoticeCtrl'
+    authenticate: true

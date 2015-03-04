@@ -154,6 +154,12 @@ exports.multiDelete = (req, res, next) ->
     res.send 204
   , next
 
+
+exports.bindEmail = (req, res, next) ->
+  conditions = {_id: req.user._id}
+  pickedUpdatedKeys = ['email', 'password']
+  WrapRequest.wrapUpdate req, res, next, conditions, pickedUpdatedKeys
+
 ###
   Change a users password
 ###

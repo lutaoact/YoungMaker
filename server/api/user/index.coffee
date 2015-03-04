@@ -13,6 +13,7 @@ router.get '/check', controller.check #?email=xxxxx
 router.get '/states', controller.states #?userId=xxx
 router.delete '/:id', auth.hasRole('admin'), controller.destroy
 router.post '/multiDelete', auth.hasRole('admin'), controller.multiDelete
+router.post '/bindEmail', auth.isAuthenticated(), controller.bindEmail
 router.post '/forgotPassword', controller.forgotPassword
 router.post '/resetPassword', controller.resetPassword
 router.put '/:id/password', auth.isAuthenticated(), controller.changePassword

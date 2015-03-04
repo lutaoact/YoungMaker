@@ -8,7 +8,6 @@ pwdResetTpl = require('fs').readFileSync(__dirname + '/views/pwdReset.jade', 'ut
 pwdResetFn = jade.compile pwdResetTpl, pretty: true
 
 config = require '../../config/environment'
-host = config.host
 emailConfig = config.emailConfig
 transporter = nodemailer.createTransport(scTransport(emailConfig))
 

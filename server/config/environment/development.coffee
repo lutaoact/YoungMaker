@@ -68,7 +68,6 @@ module.exports =
       accountName: 'trymedia'
       accountKey: 'HQVc3/yjrl8QDw7/NKvnbG2/jFmN7mJ++75xunlVD+M='
 
-  host: "http://localhost:9001"
   emailConfig:
     auth:
       api_user: 'cloud3edu'

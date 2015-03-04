@@ -18,7 +18,7 @@ angular.module 'maui.components'
   init: ->
     defaultTitle = $window.document.title
     # note: $scope.$emit 'updateTitle', title:String/Function, extra:Boolean/String
-    $rootScope.$on 'updateTitle', (event, title, extra = '杨梅客') ->
+    $rootScope.$on 'updateTitle', (event, title, extra = '杨梅客 youngmakers.cn') ->
       scope = event.targetScope
       if _.isFunction(title)
         scope?.$watch title, (newTitle) ->

@@ -1,0 +1,42 @@
+.footer {
+  color: #D7D4D4;
+  margin-top: 20px;
+  a{
+    color: #D7D4D4;
+    &:hover{
+      color: @brand-primary;
+    }
+  }
+  .logo{
+    a{
+      height: 32px;
+      width: 100px;
+      display: block;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('/assets/images/logo-with-title-white@2x.png');
+      &:hover{
+        background-image: url('/assets/images/logo-with-title@2x.png');
+      }
+    }
+    margin-bottom: 2em;
+  }
+  h4{
+    color: #FFF;
+    margin-bottom: 1.5em;
+  }
+  width: 100%;
+  background:#5C5454;
+  padding: 25px 0;
+  ul{
+    padding-left: 0;
+    li{
+      display: block;
+      margin: 0.75em 0;
+    }
+  }
+  @media screen and (max-width: @screen-xs-max) {
+    padding: 10px 0;
+  }
+}

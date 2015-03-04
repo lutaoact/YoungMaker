@@ -94,6 +94,7 @@ passport.use(new WeixinStrategy({
   scope       : 'snsapi_login'
   passReqToCallback: true
 }, (req, token, refreshToken, profile, done) ->
+  console.log profile
   weixin =
     id   : profile.id
     token: token
@@ -111,8 +112,7 @@ passport.use(new WeixinStrategy({
         return done err, dbUser
     else
       if req.user
-        req.user.weixin.token = token
-        req.user.weixin.other = profile
+        req.user.weixin = weixin
         req.user.save (err) ->
           return done err, req.user
       else

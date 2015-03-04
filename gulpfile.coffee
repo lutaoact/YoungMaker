@@ -415,7 +415,6 @@ gulp.task 'build', ->
     'compile'
     'imagemin'
     'injector:scripts'
-    'replace'
     'ngtemplates' # may cause error
     'processhtml'
     'bower'
@@ -440,7 +439,6 @@ gulp.task 'preBuild', ->
     'compile'
     'imagemin'
     'injector:scripts'
-    'replace'
     'ngtemplates' # may cause error
     'processhtml'
     'bower'

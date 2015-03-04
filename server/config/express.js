@@ -43,7 +43,7 @@ module.exports = function(app) {
     });
 
     prerender.extensionsToIgnore = _.union(prerender.extensionsToIgnore, ['.woff', '.ttf'])
-    var moreCrawlerUserAgents = ['Slurp!','MSNBot','YoudaoBot','JikeSpider','Sosospider','360Spider','Sogou web spider','Sogou inst spider'];
+    var moreCrawlerUserAgents = ['googlebot','yahoo','bingbot','Slurp!','MSNBot','YoudaoBot','JikeSpider','Sosospider','360Spider','Sogou web spider','Sogou inst spider'];
     prerender.crawlerUserAgents = _.union(prerender.crawlerUserAgents, moreCrawlerUserAgents);
 
     app.use(prerender);

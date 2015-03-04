@@ -42,6 +42,7 @@ gulp.task 'copy:dist', ->
         'client/bower_components/**/*'
         'client/assets/images/**/*'
         'client/assets/fonts/**/*'
+        'client/google848f988fc01a0a24.html'
       ]
     , base: 'client'
     .pipe gulp.dest(clientDistFolder)

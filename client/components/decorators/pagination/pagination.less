@@ -26,6 +26,11 @@
     }
   }
   li {
+    &.npage-btn {
+      @media screen and (max-width: 640px) {
+        display: none !important;
+      }
+    }
     &:not(.page-direction) {
       display: inline-block;
       margin: 0 2px;

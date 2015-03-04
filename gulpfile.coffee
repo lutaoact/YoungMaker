@@ -93,6 +93,29 @@ gulp.task 'injector:less', ->
     doInjectLess 'admin'
   ]
 
+gulp.task 'injector:baidu', ->
+  doInjectBaidu = (appPath, indexPath) ->
+    target = gulp.src 'client/' + indexPath + 'index.html'
+    target
+    .pipe($.replace('<!-- baidutongji -->',"""
+      <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cb0b49e781f34d1d96cc9f2fb489040a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+      </script>
+    """))
+    .pipe gulp.dest('client/' + indexPath)
+
+  $.mergeStream [
+    doInjectBaidu 'app'  , ''
+    doInjectBaidu 'test' , 'test/'
+    doInjectBaidu 'admin', 'admin/'
+  ]
+
 gulp.task 'injector:scripts', ->
   doInjectJs = (appPath, indexPath) ->
     target = gulp.src 'client/' + indexPath + 'index.html'
@@ -416,6 +439,7 @@ gulp.task 'build', ->
     'compile'
     'imagemin'
     'injector:scripts'
+    'injector:baidu'
     'ngtemplates' # may cause error
     'processhtml'
     'bower'
@@ -440,6 +464,7 @@ gulp.task 'preBuild', ->
     'compile'
     'imagemin'
     'injector:scripts'
+    'injector:baidu'
     'ngtemplates' # may cause error
     'processhtml'
     'bower'
@@ -485,6 +510,7 @@ gulp.task 'test', ->
     'compile'
     'imagemin'
     'injector:scripts'
+    'injector:baidu'
     'ngtemplates' # may cause error
     'processhtml'
     'bower'

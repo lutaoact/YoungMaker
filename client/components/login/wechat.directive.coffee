@@ -9,7 +9,7 @@ angular.module 'maui.components'
     baseUrl  = $location.protocol() + "://" + $location.host()
     new WxLogin
       id    : 'weixin-login'
-      appid : 'wx0b867034fb0d7f4e'
+      appid : 'wxda486048345cc138'
       scope : 'snsapi_login'
       state : 'STATE'
       style : 'black'

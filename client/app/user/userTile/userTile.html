@@ -5,7 +5,7 @@
        ng-src="{{displayUser.avatar|trusted:'url'}}"
        ui-sref="user.home({userId:user._id})"></div>
   <h4 class="user-name">
-    <a ui-sref="user.home({userId: user._id})">{{displayUser.name}}</a>
+    <a class="link-base-color" ui-sref="user.home({userId: user._id})">{{displayUser.name}}</a>
     <small>{{displayUser.info}}</small>
   </h4>
 

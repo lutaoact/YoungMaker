@@ -25,7 +25,7 @@
   </div>
   <ul ng-class="{'last':$last}">
     <li>
-      <a class="user-info" ui-sref="user.home({userId: activity.userId._id})">
+      <a class="user-info link-base-color" ui-sref="user.home({userId: activity.userId._id})">
         <div class="avatar-sm inline-block-middle"
               ng-src="{{activity.userId.avatar|trusted:'url'}}">
         </div>
@@ -35,37 +35,37 @@
     <li ng-switch="activity.action" class="text-muted">
       <span ng-switch-when="create_group">
         创建了小组
-        <a class="link-dark-color" ui-sref="groupDetail.articleList({groupId: activity.group._id})">
+        <a ui-sref="groupDetail.articleList({groupId: activity.group._id})">
           {{activity.group.name}}
         </a>
       </span>
       <span ng-switch-when="join_group">
         加入了小组
-        <a class="link-dark-color" ui-sref="groupDetail.articleList({groupId: activity.group._id})">
+        <a ui-sref="groupDetail.articleList({groupId: activity.group._id})">
           {{activity.group.name}}
         </a>
       </span>
       <span ng-switch-when="create_article">
         <span ng-if="activity.group">
           在小组
-          <a class="link-dark-color" ui-sref="groupDetail.articleList({groupId: activity.group._id})">
+          <a ui-sref="groupDetail.articleList({groupId: activity.group._id})">
             {{activity.group.name}}
           </a>
         </span>
         发布了文章
-        <a class="link-dark-color" ui-sref="articleDetail({articleId: activity.article._id})">
+        <a ui-sref="articleDetail({articleId: activity.article._id})">
           ‘{{activity.article.title}}’
         </a>
       </span>
       <span ng-switch-when="create_course">
         制作了趣课
-        <a class="link-dark-color" ui-sref="courseDetail({courseId: activity.course._id})">
+        <a ui-sref="courseDetail({courseId: activity.course._id})">
           ‘{{activity.course.title}}’
         </a>
       </span>
       <span ng-switch-when="create_follow">
         关注了
-        <a class="link-base-color" ui-sref="user.home({userId: activity.toUser._id})">
+        <a ui-sref="user.home({userId: activity.toUser._id})">
           {{activity.toUser.name}}
         </a>
       </span>
@@ -77,7 +77,7 @@
       </span>
       <span ng-switch-when="like_article">
         赞了文章
-        <a class="link-dark-color" ui-sref="articleDetail({articleId: activity.article._id})">
+        <a ui-sref="articleDetail({articleId: activity.article._id})">
           ‘{{activity.article.title}}’
         </a>
       </span>

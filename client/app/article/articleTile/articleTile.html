@@ -26,12 +26,11 @@
   </p>
   <ul class="ul-inline">
     <li class="user-info">
-      <div class="avatar-xs inline-block-middle pointer"
-           ui-sref="user.home({userId: article.author._id})"
-           ng-src="{{article.author.avatar|trusted:'url'}}">
-      </div>
-      <a ui-sref="user.home({userId: article.author._id})">
-        {{article.author.name}}
+      <a class="link-base-color" ui-sref="user.home({userId: activity.userId._id})">
+        <div class="avatar-xs inline-block-middle"
+             ng-src="{{article.author.avatar|trusted:'url'}}">
+        </div>
+        <span class="user-name">{{article.author.name}}</span>
       </a>
     </li>
     <li ng-if="article.column">
@@ -58,9 +57,9 @@
 
   <div ng-if="me._id==article.author._id"
        class="article-btn-group pull-right">
-    <a class="link-dark-color" ui-sref="articleEditor({articleId:article._id})">编辑</a>
+    <a class="link-base-color" ui-sref="articleEditor({articleId:article._id})">编辑</a>
     &nbsp;&nbsp;
-    <a class="link-dark-color" ng-click="removeArticle(article)">删除</a>
+    <a class="link-base-color" ng-click="removeArticle(article)">删除</a>
   </div>
 
 </div>

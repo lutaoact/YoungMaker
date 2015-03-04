@@ -19,18 +19,17 @@
   }
 }
 
-.link-dark-color {
-  .link;
-  &:hover {
-    text-decoration: underline;
-  }
-}
+//.link-dark-color {
+//  .link;
+//  color: @gray-dark !important;
+//}
 
 .link-base-color {
   .link;
   color: @base-color !important;
-  &:hover {
-    text-decoration: underline;
+  &:active {
+    color: @base-color-darker;
+    text-decoration: none;
   }
 }
 

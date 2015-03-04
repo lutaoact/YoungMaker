@@ -19,7 +19,7 @@
         <article ng-if="article">
           <h3 class="article-title">
             {{article.title}}
-            <a class="btn-right btn btn-link"
+            <a class="btn-right btn link-base-color"
                ng-if="me._id == article.author._id"
                ui-sref="articleEditor({articleId:article._id})">
               编辑
@@ -78,13 +78,11 @@
           <div class="article-footer" ng-if="article">
             <ul class="ul-inline">
               <li class="user-info">
-                <div class="avatar-xs inline-block-middle pointer"
-                     ui-sref="user.home({userId: article.author._id})"
-                     ng-src="{{article.author.avatar|trusted:'url'}}">
-                </div>
-                <a ui-sref="user.home({userId: article.author._id})"
-                   class="link-base-color">
-                  {{article.author.name}}
+                <a class="link-base-color" ui-sref="user.home({userId: article.author._id})">
+                  <div class="avatar-xs inline-block-middle"
+                       ng-src="{{article.author.avatar|trusted:'url'}}">
+                  </div>
+                  <span class="user-name">{{article.author.name}}</span>
                 </a>
               </li>
               <li ng-if="article.column">

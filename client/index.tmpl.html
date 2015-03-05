@@ -36,7 +36,7 @@
   <div id="navbar"
        ng-if="!webview"
        ng-include="'components/navbar/navbar.html'"></div>
-  <div ui-view class="fadeIn" style="min-height: 400px"></div>
+  <div ui-view class="fadeIn" style="min-height: 400px;min-height: calc(100vh - 270px);"></div>
   <div ng-if="!webview"
        ng-include="'components/footer/footer.html'"></div>
   <div class="back-to-top-container">

@@ -23,3 +23,4 @@ fi
 
 pkill node
 nohup /home/ubuntu/proj/tools/node-v0.10.33-linux-x64/bin/forever /home/ubuntu/maui/dist_online/server/app.js&
+nohup /home/ubuntu/proj/tools/node-v0.10.33-linux-x64/bin/http-server -p 8111 /data/blockly-games/&

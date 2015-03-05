@@ -68,7 +68,7 @@
               </a>
             </div>
           </div>
-          <div class="blog" compile-html="article.content"></div>
+          <div class="blog" compile-html="article.content|appendLink|trusted"></div>
 
           <div class="article-like" ng-if="article">
             <vote-box entity="article" me="me">

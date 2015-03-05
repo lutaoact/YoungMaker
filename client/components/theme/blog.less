@@ -17,11 +17,24 @@
     margin: 0 auto;
     padding: 0.6em 0;
   }
-  img.half{
-    max-width: 50%;
-  }
   .emoji{
     display: inline;
+  }
+  img{
+    max-width: 100%;
+    &.full{
+      width: 100%;
+    }
+    &.quarter{
+      width: 25%;
+    }
+    &.half{
+      width: 50%;
+    }
+    &.center{
+      display: block;
+      margin: auto;
+    }
   }
   img.sm{
     max-width: 300px;

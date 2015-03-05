@@ -9,7 +9,7 @@
     target
 
   initConfig =
-    appid: 'wx6c0c7d8c77eb802e'
+    appid: 'wxc4b8ccffaa02bfb2'
     imgUrl: undefined
     lineLink: undefined
     descContent: document.location.host
@@ -44,7 +44,8 @@
         'desc': wxShare.config.descContent
         'title': wxShare.config.shareTitle
       }, (res) ->
-        alert JSON.stringify(res)
+        console.remote?(JSON.stringify(res))
+        alert '请点击微信右上角按钮，在弹出菜单中选择分享'
       return
 
     shareWeibo: ->

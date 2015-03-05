@@ -10,7 +10,6 @@ angular.module('maui.components')
       element.addClass('busy')
       $timeout.cancel(timeoutPromise)
       if value
-        console.log value
         timeoutPromise = $timeout ()->
           element.removeClass('busy')
           content = $filter('embed')(value)?.toString() || ''

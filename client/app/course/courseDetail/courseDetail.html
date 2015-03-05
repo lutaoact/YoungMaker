@@ -25,7 +25,16 @@
       <div class="col-lg-9 col-md-8">
         <article class="panel panel-card course">
           <div class="course-header">
-            <h1>{{course.title}}</h1>
+            <h1>
+              <small class="pull-right">
+                <a class="btn link-base-color"
+                   ng-if="me._id==course.author._id"
+                   ui-sref="courseEditor({courseId:course._id})">
+                  编辑
+                </a>
+              </small>
+            {{course.title}}
+            </h1>
             <div class="course-info">
               <ul class="ul-inline">
                 <li>
@@ -126,21 +135,6 @@
 
           <a href="" class="weixin-share-btn" ng-if="showWechatShareBtn()" ng-click="wechatShare()">微信分享</a>
 
-          <div dropdown
-               class="actions-dropdown"
-               ng-if="me._id==course.author._id">
-            <a class="dropdown-toggle btn btn-md" dropdown-toggle>
-              <i class="fa fa-angle-down"></i>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="" ui-sref="courseEditor({courseId:course._id})">编辑</a>
-              </li>
-              <li>
-                <a href="" ng-click="removeCourse(course)">删除</a>
-              </li>
-            </ul>
-          </div>
         </article>
         <div class="panel panel-card comments-panel">
           <comments belong-to="course._id" type="{{const.CommentType.Course}}" me="me"></comments>

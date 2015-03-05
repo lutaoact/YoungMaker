@@ -12,9 +12,12 @@
   .course-title{
     margin-top: 15px;
     margin-bottom: 7px;
+    .text-overflow();
+    @indicator-width: 35px;
+    padding-right: @indicator-width;
     .comments-count{
+      margin-right: -@indicator-width;
       font-size: 14px;
-      margin-right: -50px;
     }
   }
   .vote-box{
